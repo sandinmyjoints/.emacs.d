@@ -4,6 +4,8 @@
 ;;;; See: https://github.com/sandinmyjoints/.emacs.d
 
 ;;; TODO:
+;;; * Directory local variables. See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
+;;; * find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 ;;; * Coffee-script etags.
 ;;; * Coffee-script compile and flymake.
 ;;; * swank.js:
@@ -11,7 +13,7 @@
 ;;; * Model structure after/fork: https://github.com/magnars/.emacs.d
 ;;; * Make into a full repo with submodules.
 ;;; * Use ELPA.
-;;; * Stripped down version for text terminals/new machines.
+;;; * Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
 ;;; * Review for ideas:
 ;;;   * http://news.ycombinator.com/item?id=1654164
 ;;;   * https://github.com/technomancy/emacs-starter-kit
