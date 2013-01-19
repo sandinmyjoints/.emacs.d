@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 ;;;; init.el
-;;;; See: https://gist.github.com/3743892
+;;;; See: https://github.com/sandinmyjoints/.emacs.d
 
 ;;; TODO:
 ;;; * Coffee-script etags.
@@ -32,8 +32,9 @@
 ;;; Definitions.
 ;;; ========================================
 
-;; Emacs Lisp package base directory.
-(setq site-lisp-dir "~/.emacs.d/elisp/")
+;;; Set Emacs Lisp directory.
+(setq site-lisp-dir
+      (expand-file-name "elisp" user-emacs-directory))
 (byte-recompile-directory site-lisp-dir 0)
 
 ;;; Directories to open in dirtree on start.
@@ -102,7 +103,8 @@
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
-    '(("." . "~/.saves"))    ; don't litter my fs tree
+   `(("." . ,(expand-file-name
+              (concat user-emacs-directory "backups"))))
    delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
@@ -123,7 +125,7 @@
 
 (put 'downcase-region 'disabled nil)
 
-;;; Set Emacs Lisp directory.
+;;; Set load-path.
 ;;; TODO: put vendor code in /vendor.
 (add-to-list 'load-path site-lisp-dir)
 ;;; For magit:
