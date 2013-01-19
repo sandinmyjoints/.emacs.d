@@ -33,8 +33,8 @@
 ;;; ========================================
 
 ;; Emacs Lisp package base directory.
-(setq local-elisp "~/.emacs.d/elisp/")
-(byte-recompile-directory local-elisp 0)
+(setq site-lisp-dir "~/.emacs.d/elisp/")
+(byte-recompile-directory site-lisp-dir 0)
 
 ;;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
@@ -125,11 +125,11 @@
 
 ;;; Set Emacs Lisp directory.
 ;;; TODO: put vendor code in /vendor.
-(add-to-list 'load-path local-elisp)
+(add-to-list 'load-path site-lisp-dir)
 ;;; For magit:
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
-;;; Add all subdirs of local-elisp.
-(let ((default-directory local-elisp))
+;;; Add all subdirs of site-lisp-dir.
+(let ((default-directory site-lisp-dir))
       (normal-top-level-add-subdirs-to-load-path))
 
 (custom-set-variables
