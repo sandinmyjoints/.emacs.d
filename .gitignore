@@ -1,0 +1,14 @@
+auto-save-list
+backups
+elisp
+.org-id-locations
+.mc-lists.el
+*~
+.places
+session.*
+tramp
+elpa
+emms
+*.elc
+.DS_Store
+.yas-compiled-snippets.el
