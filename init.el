@@ -269,7 +269,7 @@
 (setq-default indicate-empty-lines t)
 
 ;;; ========================================
-;;; Packages.
+;;; Package management.
 ;;; ========================================
 (require 'package)
 (add-to-list 'package-archives
@@ -301,7 +301,7 @@
 
 
 ;;; ========================================
-;;; Packages.
+;;; Require and config packages.
 ;;; ========================================
 
 ;;; Uniquify buffer names.
