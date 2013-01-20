@@ -153,6 +153,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
+ '(safe-local-variable-values (quote ((find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
@@ -219,13 +220,12 @@
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
-;;; Custom grep-find.
-(setq fluensa-base "~/scm/sd/fluensa/"
-      src-find-cmd (concat "find " fluensa-base find-args))
+;;; Custom grep-find via find-in-project.
+(setq find-in-project-dir ".")
 
-(defun find-in-fluensa (path grep-string)
-  "rgrep in fluensa-base src dir."
-  (interactive (list (read-directory-name "path: " (concat fluensa-base "src"))
+(defun find-in-project (path grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "path: " find-in-project-dir)
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
     (grep-find
@@ -689,7 +689,7 @@
 (global-set-key "u" 'uncomment-region)
 (global-set-key "" 're-builder)
 (global-set-key "g" 'grep-find)
-(global-set-key "i" 'find-in-fluensa)  ; Clobbers insert-file.
+(global-set-key "i" 'find-in-project)  ; Clobbers insert-file.
 (global-set-key (kbd "C-c f i") 'find-in-fluensa)
 (global-set-key "j" 'journal)
 (global-set-key "t" 'toggle-window-dedicated)
