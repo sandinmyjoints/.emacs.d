@@ -42,7 +42,8 @@
 ;;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
       '("~/scm/sd/fluensa"
-        "~/scm/sd/ops"))
+        "~/scm/sd/ops"
+        "~/.emacs.d"))
 
 ;;; Set custom markers.
 ;;; Args:
