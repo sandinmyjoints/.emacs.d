@@ -153,7 +153,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
+ '(safe-local-variable-values (quote ((find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform") (grep-base-dir . "~/scm/sd/fluensa/src") (grep-base-dir . "~/scm/sd/database-platform") (grep-base-dir . "~/.emacs.d") (grep-base-dir . "~/scm/sd/fluensa") (grep-base-dir . ~/scm/sd/fluensa))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
@@ -452,8 +452,10 @@
 
 (autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t)
 
-;;; Egg.
-;;; (require 'egg) ; Maybe later.
+;;; Lua mode.
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;;; Text and fill modes.
 (defun textful-settings ()
