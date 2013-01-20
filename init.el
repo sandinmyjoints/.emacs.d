@@ -79,7 +79,7 @@
 (server-start)
 
 ;;; Save desktop.
-(desktop-save-mode 1)
+;(desktop-save-mode 1)
 
 ;;; Prevent extraneous tabs.
 (setq-default indent-tabs-mode nil)
