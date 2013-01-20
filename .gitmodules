@@ -1,0 +1,3 @@
+[submodule "elisp/lua-mode"]
+	path = elisp/lua-mode
+	url = git://github.com/immerrr/lua-mode.git
