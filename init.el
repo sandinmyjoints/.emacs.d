@@ -659,7 +659,12 @@
 
 (add-hook 'ido-setup-hook 'wjb-ido-keys)
 
-(defun get-marker-replacer (marker)
+
+;; ========================================
+;; Custom defuns.
+;; ========================================
+
+(defun wjb-get-marker-replacer (marker)
   "Returns a marker-replacer function for `marker`."
   (lambda ()
     (interactive)
@@ -707,7 +712,7 @@
       (unless (null handle-in-current-buffer)
         ;; Get a marker-replacer and use it in this buffer.
         (command-execute
-         (get-marker-replacer marker))
+         (wjb-get-marker-replacer marker))
         (save-buffer))
       ;; Turn off the marker in test config.
       (wjb-toggle-marker-in-buffer t marker)
