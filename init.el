@@ -481,7 +481,6 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Rainbow-mode.
 (require 'rainbow-mode)
-(rainbow-mode 1)
 
 ;; Anything.
 ;(require 'helm-config)
@@ -592,6 +591,10 @@ and overlay is highlighted between MK and END-MK."
   (interactive)
   (ido-goto-symbol (thing-at-point 'symbol)))
 
+
+;; Map files to modes
+(require 'mode-mappings)
+
 ;; Dirtree.
 (require 'dirtree)
 
@@ -695,24 +698,6 @@ and overlay is highlighted between MK and END-MK."
 ;; json
 (require 'json)
 (require 'json-pretty-print)
-
-;; log mode
-(autoload 'log4j-mode "log4j-mode" "Major mode for viewing log files." t)
-(add-to-list 'auto-mode-alist '("\\.log\\'" . log4j-mode))
-
-;; php
-(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-
-;; less-css-mode
-(autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
-(add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
-
-;; jade
-(require 'sws-mode)
-(require 'jade-mode)
-(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 (require 'smart-tab)
@@ -825,3 +810,6 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
+
+
+(add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
