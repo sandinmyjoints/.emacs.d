@@ -211,6 +211,10 @@
   (packages-install
    (cons 'rainbow-mode melpa)
    (cons 'exec-path-from-shell melpa)
+   (cons 'git-commit-mode marmalade)
+   (cons 'gitconfig-mode marmalade)
+   (cons 'gitignore-mode marmalade)
+   (cons 'ido-ubiquitous marmalade)
    ;(cons 'magit melpa)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
@@ -219,12 +223,6 @@
    ;(cons 'elisp-slime-nav melpa)
    ;;(cons 'elnode marmalade)
    ;(cons 'slime-js marmalade)
-   (cons 'git-commit-mode marmalade)
-   (cons 'gitconfig-mode marmalade)
-   (cons 'gitignore-mode marmalade)
-   ;(cons 'clojure-mode melpa)
-   ;(cons 'clojure-test-mode melpa)
-   ;(cons 'nrepl melpa)
    ))
 
 (condition-case nil
@@ -385,16 +383,6 @@ and overlay is highlighted between MK and END-MK."
 
        (switch-to-buffer (marker-buffer mk))
 
-       ;; was
-       ;; (if from-compilation-buffer
-       ;;     ;; If the compilation buffer window was selected,
-       ;;     ;; keep the compilation buffer in this window;
-       ;;     ;; display the source in another window.
-       ;;     (let ((pop-up-windows t))
-       ;;       (pop-to-buffer (marker-buffer mk) 'other-window))
-       ;;   (if (window-dedicated-p (selected-window))
-       ;;       (pop-to-buffer (marker-buffer mk))
-       ;;     (switch-to-buffer (marker-buffer mk))))
        ;; If narrowing gets in the way of going to the right place, widen.
        (unless (eq (goto-char mk) (point))
          (widen)
@@ -452,7 +440,6 @@ and overlay is highlighted between MK and END-MK."
 (defun journal ()
 	"Start journaling"
 	(interactive)
-
 	(switch-to-buffer "journal")
 	(text-mode)
 	(auto-fill-mode 1)
@@ -475,7 +462,8 @@ and overlay is highlighted between MK and END-MK."
 ;; ========================================
 
 ;; Setup extensions
-;(eval-after-load 'ido '(require 'setup-ido))
+(require 'ido)
+(eval-after-load 'ido '(require 'setup-ido))
 ;(eval-after-load 'org '(require 'setup-org))
 (eval-after-load 'dired+ '(require 'setup-dired+))
 ;(eval-after-load 'magit '(require 'setup-magit))
@@ -496,23 +484,16 @@ and overlay is highlighted between MK and END-MK."
 ;(require 'helm-config)
 ;(helm-mode 1)
 
-;; Ido.
-(require 'ido)
-(ido-mode t)
-(setq ido-enable-flex-matching t)
-(ido-everywhere t)
-(setq ido-create-new-buffer 'always)
-(setq confirm-nonexistent-file-or-buffer nil)
-
-;; TODO: extensions order, ignore
-;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
-
 ;; Imenu.
 (require 'imenu)
 (autoload 'idomenu "idomenu" nil t)
 
 (defadvice ido-imenu (before push-mark activate)
     (push-mark))
+
+;; Always rescan buffer for imenu
+(set-default 'imenu-auto-rescan t)
+
 
 ;; TODO: Fix this to work with lexical binding.
 ;; See: http://www.delorie.com/gnu/docs/emacs/cl_22.html
