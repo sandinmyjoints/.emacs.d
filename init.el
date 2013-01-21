@@ -458,15 +458,18 @@ and overlay is highlighted between MK and END-MK."
 
 
 ;; ========================================
-;; Require and config packages.
+;; Require/autoload and config packages.
 ;; ========================================
 
-;; Setup extensions
 (require 'ido)
+
+(autoload 'magit-status "magit")
+
+;; Setup packages.
 (eval-after-load 'ido '(require 'setup-ido))
 ;(eval-after-load 'org '(require 'setup-org))
 (eval-after-load 'dired+ '(require 'setup-dired+))
-;(eval-after-load 'magit '(require 'setup-magit))
+(eval-after-load 'magit '(require 'setup-magit))
 ;(eval-after-load 'grep '(require 'setup-rgrep))
 ;(eval-after-load 'shell '(require 'setup-shell))
 ;(require 'setup-hippie)
@@ -595,19 +598,6 @@ and overlay is highlighted between MK and END-MK."
 ;; Markdown.
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-;; Magit.
-(require 'magit)
-;; change magit diff colors
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")
-     (set-face-background 'magit-item-highlight "#141413")
-     (when (not window-system)
-       (set-face-background 'magit-item-highlight "black"))))
-
-(autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t)
 
 ;; Lua mode.
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
