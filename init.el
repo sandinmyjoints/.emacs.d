@@ -249,7 +249,7 @@
 (defun init--install-packages ()
   (packages-install
    (cons 'rainbow-mode melpa)
-   ;(cons 'exec-path-from-shell melpa)
+   (cons 'exec-path-from-shell melpa)
    ;(cons 'magit melpa)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
@@ -279,6 +279,12 @@
 ;; From:
 ;; https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el
 (require 'sane-defaults)
+
+;; Are we on a mac?
+(setq is-mac (equal system-type 'darwin))
+
+;; Setup environment variables from the user's shell.
+(when is-mac (exec-path-from-shell-initialize))
 
 ;; ========================================
 ;; Some hooks.
