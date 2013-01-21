@@ -93,7 +93,9 @@
 (require 'cl)
 
 ;; Use server.
-(server-start)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;; Save desktop.
 ;(desktop-save-mode 1)
@@ -120,6 +122,7 @@
 (setenv "PAGER" "cat")
 (setenv "EDITOR" "emacsclient")
 
+;; Allow downcasing regions.
 (put 'downcase-region 'disabled nil)
 
 (custom-set-variables
@@ -298,22 +301,17 @@
            (lambda ()
              (setq css-indent-offset 2))))
 
-;; grab-first-string -- copies the first "-delimited string on a line to the kill ring
-(fset 'grab-first-string
-   [?\C-s ?\" ?\C-b ?\C-  ?\C-s ?\" ?\C-s ?\M-w ?\C-a ?\C-n])
-
-
 ;; ========================================
 ;; Require and config packages.
 ;; ========================================
 
+;; Rainbow-mode.
+(require 'rainbow-mode)
+(rainbow-mode 1)
+
 ;; Diredplus.
 (require 'dired+)
 (toggle-diredp-find-file-reuse-dir 1)
-
-;; Auto-install.
-(require 'auto-install)
-(setq auto-install-directory "~/.emacs.d/elisp/auto-install/")
 
 ;; Anything.
 ;(require 'helm-config)
