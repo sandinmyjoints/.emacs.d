@@ -68,8 +68,6 @@
 ;; Set up load-path.
 ;; ========================================
 
-;; TODO: put vendor code in /vendor.
-
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
@@ -729,10 +727,6 @@
             (global-set-key marker-key (lambda (arg)
                                           (interactive "P")
                                           (wjb-toggle-marker arg marker handle-in-current-buffer))))))
-
-;; ========================================
-;; Misc.
-;; ========================================
 
 ;; Open grep results in the same frame. See:
 ;; http://stackoverflow.com/questions/2299133/emacs-grep-find-link-in-same-window/2299261#2299261
