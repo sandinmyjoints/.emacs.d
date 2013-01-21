@@ -82,9 +82,6 @@
 ;;; Save desktop.
 ;(desktop-save-mode 1)
 
-;;; Prevent extraneous tabs.
-(setq-default indent-tabs-mode nil)
-
 ;;; Pair parens and other delimiters.
 (electric-pair-mode t)
 
@@ -135,6 +132,7 @@
 
 ;;; Set load-path.
 ;;; TODO: put vendor code in /vendor.
+(add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 ;;; For magit:
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
@@ -165,15 +163,11 @@
  )
 
 ;;; Keyboard for Macs.
-;;; TODO: Figure out how to use cmd as meta in Terminal.
-(set-keyboard-coding-system nil)
-;(setq-default mac-option-key-is-meta nil)
 (setq-default mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 
 ;;; Face and fonts.
 ;;; TODO: Use (null window-system) to conditionally execute.
-(global-font-lock-mode t)
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
 (if (functionp 'set-fontset-font) ; nil in Terminal
     (set-fontset-font "fontset-default" 'unicode "Anonymous"))
@@ -232,10 +226,6 @@
     (grep-find
      (concat "find . " find-args grep-string))))
 
-;;; Kill to system clipboard.
-(setq x-select-enable-clipboard t)
-;(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
 (defun toggle-window-dedicated ()
   "Toggle whether the current active window is dedicated or not"
   (interactive)
@@ -264,11 +254,6 @@
   (sgml-pretty-print (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
-;;; Show beyond fill column.
-;;; TODO:
-; (setq whitespace-style '(face empty tabs lines-tail trailing))
-(setq-default indicate-empty-lines t)
-
 ;;; ========================================
 ;;; Package management.
 ;;; ========================================
@@ -276,6 +261,14 @@
 (add-to-list 'package-archives
   '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
+
+;;; ========================================
+;;; Sane defaults.
+;;; ========================================
+
+;; From:
+;; https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el
+(require 'sane-defaults)
 
 ;;; ========================================
 ;;; Some hooks.
@@ -304,10 +297,6 @@
 ;;; ========================================
 ;;; Require and config packages.
 ;;; ========================================
-
-;;; Uniquify buffer names.
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward)
 
 ;;; Diredplus.
 (require 'dired+)
@@ -466,9 +455,6 @@
 (add-hook 'markdown-mode-hook 'textful-settings)
 (add-hook 'rst-mode-hook 'textful-settings)
 (add-hook 'text-mode-hook 'textful-settings)
-
-;;; Default fill column.
-(set-fill-column 80)
 
 ;;; Fill column indicator.
 ;;; See: https://github.com/alpaker/Fill-Column-Indicator
@@ -883,6 +869,3 @@ and overlay is highlighted between MK and END-MK."
 ;;; ========================================
 ;;; Final.
 ;;; ========================================
-
-;;; Save initial window configuration.
-(window-configuration-to-register ?w)
