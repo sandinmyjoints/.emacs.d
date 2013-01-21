@@ -642,41 +642,12 @@
 (require 'epa-file)
 (epa-file-enable)
 
+
 ;; ========================================
 ;; Key bindings.
 ;; ========================================
 
-(global-set-key "\C-x\C-b" 'electric-buffer-list)
-(global-set-key "\C-xp" 'bury-buffer)
-(global-set-key "\M-/" 'hippie-expand)
-(global-set-key "\M- " 'hippie-expand)
-(global-set-key "\C-cs" 'ansi-term)
-(global-set-key "\C-cr" 'query-replace-regexp)
-(global-set-key "\C-cq" 'query-replace)
-(global-set-key "\C-cb" 'rename-buffer)
-(global-set-key "\C-cp" 'python-mode)
-(global-set-key "\C-cv" 'describe-variable)
-(global-set-key "\C-cw" 'whitespace-mode)
-(global-set-key "\C-ci" 'indent-relative)
-(global-set-key "\C-cd" 'dirtree)
-(global-set-key "\C-c " 'just-one-space)
-(global-set-key "\C-ch" 'whack-whitespace)
-(global-set-key "\C-ce" 'delete-trailing-whitespace)
-(global-set-key "\C-cc" 'comment-region)
-(global-set-key "\C-cu" 'uncomment-region)
-(global-set-key "\C-c\C-r" 're-builder)
-(global-set-key "\C-cg" 'grep-find)
-(global-set-key "\C-xi" 'find-in-project)  ; Clobbers insert-file.
-(global-set-key "\C-cj" 'journal)
-(global-set-key "\C-ct" 'toggle-window-dedicated)
-(global-set-key "\C-xg" 'magit-status)
-(global-set-key "\C-xj" 'magit-status)
-(global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
-(global-set-key (kbd "C-0") 'idomenu)
-(global-set-key (kbd "C-c 0") 'idomenu)
-(global-set-key (kbd "C-c C-0") 'idomenu)
-;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
-;; Available to use: C-z, C-,, C-., C-', C-c 0
+(require 'key-bindings)
 
 ;; Ido keymap.
 (defun wjb-ido-keys ()
