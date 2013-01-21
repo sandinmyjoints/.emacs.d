@@ -37,7 +37,6 @@
 ;; Set Emacs Lisp directory.
 (setq site-lisp-dir
       (expand-file-name "elisp" user-emacs-directory))
-(byte-recompile-directory site-lisp-dir 0)
 
 ;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
@@ -844,3 +843,5 @@ and overlay is highlighted between MK and END-MK."
     ;; TODO: Resize more intelligently.
     (adjust-window-trailing-edge window -5 t)))
 
+;; Byte-recompile everything.
+(byte-recompile-directory site-lisp-dir 0)
