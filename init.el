@@ -60,6 +60,9 @@
 
 (setq wjb-test-config-buffer "test.coffee")
 
+;; Custom grep-find via find-in-project.
+(setq find-in-project-default-dir ".")
+
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
 
@@ -197,54 +200,13 @@
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
-;; Custom grep-find via find-in-project.
-(setq find-in-project-dir ".")
-
-(defun find-in-project (path grep-string)
-  "rgrep in current project dir."
-  (interactive (list (read-directory-name "path: " find-in-project-dir)
-                     (read-from-minibuffer "find: ")))
-  (let ((default-directory path))
-    (grep-find
-     (concat "find . " find-args grep-string))))
-
-(defun toggle-window-dedicated ()
-  "Toggle whether the current active window is dedicated or not"
-  (interactive)
-  (message
-   (if (let (window (get-buffer-window (current-buffer)))
-         (set-window-dedicated-p window
-                                 (not (window-dedicated-p window))))
-       "'%s' is dedicated"
-     "'%s' is normal")
-   (current-buffer)))
-
-(defun whack-whitespace (arg)
-  "Delete all white space from point to the next word.  With prefix ARG
-    delete across newlines as well.  The only danger in this is that you
-    don't have to actually be at the end of a word to make it work.  It
-    skips over to the next whitespace and then whacks it all to the next
-    word."
-  (interactive "P")
-  (let ((regexp (if arg "[ \t\n]+" "[ \t]+")))
-    (re-search-forward regexp nil t)
-    (replace-match "" nil nil)))
-
-(defun fix-html ()
-  "Fix HTML."
-  (interactive)
-  (sgml-pretty-print (point-min) (point-max))
-  (indent-region (point-min) (point-max)))
-
 ;; ========================================
 ;; Package management.
 ;; ========================================
 
-;; From:
-;; https://github.com/magnars/.emacs.d/blob/master/setup-package.el
 (require 'setup-package)
 
-;; Install extensions if they're missing
+;; Install packages if they're missing.
 (defun init--install-packages ()
   (packages-install
    (cons 'rainbow-mode melpa)
@@ -286,6 +248,218 @@
 (when is-mac (exec-path-from-shell-initialize))
 
 ;; ========================================
+;; Custom defuns.
+;; ========================================
+
+(defun find-in-project (path grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "path: " find-in-project-default-dir)
+                     (read-from-minibuffer "find: ")))
+  (let ((default-directory path))
+    (grep-find
+     (concat "find . " find-args grep-string))))
+
+(defun toggle-window-dedicated ()
+  "Toggle whether the current active window is dedicated or not"
+  (interactive)
+  (message
+   (if (let (window (get-buffer-window (current-buffer)))
+         (set-window-dedicated-p window
+                                 (not (window-dedicated-p window))))
+       "'%s' is dedicated"
+     "'%s' is normal")
+   (current-buffer)))
+
+(defun whack-whitespace (arg)
+  "Delete all white space from point to the next word.  With prefix ARG
+    delete across newlines as well.  The only danger in this is that you
+    don't have to actually be at the end of a word to make it work.  It
+    skips over to the next whitespace and then whacks it all to the next
+    word."
+  (interactive "P")
+  (let ((regexp (if arg "[ \t\n]+" "[ \t]+")))
+    (re-search-forward regexp nil t)
+    (replace-match "" nil nil)))
+
+(defun fix-html ()
+  "Fix HTML."
+  (interactive)
+  (sgml-pretty-print (point-min) (point-max))
+  (indent-region (point-min) (point-max)))
+
+(defun wjb-get-marker-replacer (marker)
+  "Returns a marker-replacer function for `marker`."
+  (lambda ()
+    (interactive)
+    (save-excursion
+      (while (search-forward marker nil t)
+        (replace-match "" nil t)))))
+
+;; Shortcut to clear marker from test config file.  TODO: When
+;; turning on, if grep is unsuccessful, insert new grep under all
+;; greps (most specific).
+;;;
+(defun wjb-toggle-marker-in-buffer (arg marker)
+  "Toggle `marker` on or off in `wjb-test-config-buffer`."
+  (interactive "P\nsMarker: ")
+  (with-current-buffer wjb-test-config-buffer
+    (let ((commented (concat " grep: \"" marker "\""))
+          (uncommented (concat " #grep: \"" marker "\"")))
+      (progn
+        (beginning-of-buffer)
+        (cond ((null arg)
+               ;; Null arg. Turn on.
+               (unless (null (re-search-forward uncommented (point-max) t))
+                 (replace-match commented)))
+              (t
+               ;; Non-null arg. Turn off.
+               (unless (null (re-search-forward commented (point-max) t))
+                 (replace-match uncommented))))
+        (back-to-indentation)
+        (save-buffer)))))
+
+(defun wjb-toggle-marker (arg marker &optional handle-in-current-buffer)
+  (interactive "P\nsMarker: ")
+  (cond
+   ((null arg)  ;; Turn on marker.
+    (progn
+      ;; Insert marker in this buffer.
+      (unless (null handle-in-current-buffer)
+        (insert marker)
+        (save-buffer))
+      ;; Turn on marker in test config.
+      (wjb-toggle-marker-in-buffer nil marker)
+      (message (concat marker " tests on."))))
+   (t           ;; Turn off marker.
+    (progn
+      (unless (null handle-in-current-buffer)
+        ;; Get a marker-replacer and use it in this buffer.
+        (command-execute
+         (wjb-get-marker-replacer marker))
+        (save-buffer))
+      ;; Turn off the marker in test config.
+      (wjb-toggle-marker-in-buffer t marker)
+      (message (concat marker " tests off."))))))
+
+;; Set shortcuts to clear custom markers. Requires lexical binding.
+(dolist (marker-data wjb-custom-markers)
+        (let ((marker (pop marker-data))
+              (marker-register (pop marker-data))
+              (marker-key (pop marker-data))
+              (handle-in-current-buffer (pop marker-data)))
+          (progn
+            (set-register marker-register marker)
+            (global-set-key marker-key (lambda (arg)
+                                          (interactive "P")
+                                          (wjb-toggle-marker arg marker handle-in-current-buffer))))))
+
+;; Open grep results in the same frame. See:
+;; http://stackoverflow.com/questions/2299133/emacs-grep-find-link-in-same-window/2299261#2299261
+(eval-after-load "compile"
+  '(defun compilation-goto-locus (msg mk end-mk)
+     "Jump to an error corresponding to MSG at MK.
+All arguments are markers.  If END-MK is non-nil, mark is set there
+and overlay is highlighted between MK and END-MK."
+     ;; Show compilation buffer in other window, scrolled to this error.
+     (let* ((from-compilation-buffer (eq (window-buffer (selected-window))
+                                         (marker-buffer msg)))
+            ;; Use an existing window if it is in a visible frame.
+            (pre-existing (get-buffer-window (marker-buffer msg) 0))
+            (w (if (and from-compilation-buffer pre-existing)
+                   ;; Calling display-buffer here may end up (partly) hiding
+                   ;; the error location if the two buffers are in two
+                   ;; different frames.  So don't do it if it's not necessary.
+                   pre-existing
+                 (let ((display-buffer-reuse-frames t)
+                       (pop-up-windows t))
+                   ;; Pop up a window.
+                   (display-buffer (marker-buffer msg)))))
+            (highlight-regexp (with-current-buffer (marker-buffer msg)
+                                ;; also do this while we change buffer
+                                (compilation-set-window w msg)
+                                compilation-highlight-regexp)))
+       ;; Ideally, the window-size should be passed to `display-buffer' (via
+       ;; something like special-display-buffer) so it's only used when
+       ;; creating a new window.
+       (unless pre-existing (compilation-set-window-height w))
+
+       (switch-to-buffer (marker-buffer mk))
+
+       ;; was
+       ;; (if from-compilation-buffer
+       ;;     ;; If the compilation buffer window was selected,
+       ;;     ;; keep the compilation buffer in this window;
+       ;;     ;; display the source in another window.
+       ;;     (let ((pop-up-windows t))
+       ;;       (pop-to-buffer (marker-buffer mk) 'other-window))
+       ;;   (if (window-dedicated-p (selected-window))
+       ;;       (pop-to-buffer (marker-buffer mk))
+       ;;     (switch-to-buffer (marker-buffer mk))))
+       ;; If narrowing gets in the way of going to the right place, widen.
+       (unless (eq (goto-char mk) (point))
+         (widen)
+         (goto-char mk))
+       (if end-mk
+           (push-mark end-mk t)
+         (if mark-active (setq mark-active)))
+       ;; If hideshow got in the way of
+       ;; seeing the right place, open permanently.
+       (dolist (ov (overlays-at (point)))
+         (when (eq 'hs (overlay-get ov 'invisible))
+           (delete-overlay ov)
+           (goto-char mk)))
+
+       (when highlight-regexp
+         (if (timerp next-error-highlight-timer)
+             (cancel-timer next-error-highlight-timer))
+         (unless compilation-highlight-overlay
+           (setq compilation-highlight-overlay
+                 (make-overlay (point-min) (point-min)))
+           (overlay-put compilation-highlight-overlay 'face 'next-error))
+         (with-current-buffer (marker-buffer mk)
+           (save-excursion
+             (if end-mk (goto-char end-mk) (end-of-line))
+             (let ((end (point)))
+               (if mk (goto-char mk) (beginning-of-line))
+               (if (and (stringp highlight-regexp)
+                        (re-search-forward highlight-regexp end t))
+                   (progn
+                     (goto-char (match-beginning 0))
+                     (move-overlay compilation-highlight-overlay
+                                   (match-beginning 0) (match-end 0)
+                                   (current-buffer)))
+                 (move-overlay compilation-highlight-overlay
+                               (point) end (current-buffer)))
+               (if (or (eq next-error-highlight t)
+                       (numberp next-error-highlight))
+                   ;; We want highlighting: delete overlay on next input.
+                   (add-hook 'pre-command-hook
+                             'compilation-goto-locus-delete-o)
+                 ;; We don't want highlighting: delete overlay now.
+                 (delete-overlay compilation-highlight-overlay))
+               ;; We want highlighting for a limited time:
+               ;; set up a timer to delete it.
+               (when (numberp next-error-highlight)
+                 (setq next-error-highlight-timer
+                       (run-at-time next-error-highlight nil
+                                    'compilation-goto-locus-delete-o)))))))
+       (when (and (eq next-error-highlight 'fringe-arrow))
+         ;; We want a fringe arrow (instead of highlighting).
+         (setq next-error-overlay-arrow-position
+               (copy-marker (line-beginning-position)))))))
+
+;; Journal command.
+(defun journal ()
+	"Start journaling"
+	(interactive)
+
+	(switch-to-buffer "journal")
+	(text-mode)
+	(auto-fill-mode 1)
+	(set-fill-column 80))
+
+
+;; ========================================
 ;; Some hooks.
 ;; ========================================
 
@@ -294,6 +468,7 @@
           (function
            (lambda ()
              (setq css-indent-offset 2))))
+
 
 ;; ========================================
 ;; Require and config packages.
@@ -510,16 +685,6 @@
 ;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 ;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;; Journal command.
-(defun journal ()
-	"Start journaling"
-	(interactive)
-
-	(switch-to-buffer "journal")
-	(text-mode)
-	(auto-fill-mode 1)
-	(set-fill-column 80))
-
 ;; Coffee-mode.
 ;;;
 ;; Want to change the regex when loading files from
@@ -671,172 +836,6 @@
     (kbd "C-p") 'ido-prev-match))
 
 (add-hook 'ido-setup-hook 'wjb-ido-keys)
-
-
-;; ========================================
-;; Custom defuns.
-;; ========================================
-
-(defun wjb-get-marker-replacer (marker)
-  "Returns a marker-replacer function for `marker`."
-  (lambda ()
-    (interactive)
-    (save-excursion
-      (while (search-forward marker nil t)
-        (replace-match "" nil t)))))
-
-;; Shortcut to clear marker from test config file.  TODO: When
-;; turning on, if grep is unsuccessful, insert new grep under all
-;; greps (most specific).
-;;;
-(defun wjb-toggle-marker-in-buffer (arg marker)
-  "Toggle `marker` on or off in `wjb-test-config-buffer`."
-  (interactive "P\nsMarker: ")
-  (with-current-buffer wjb-test-config-buffer
-    (let ((commented (concat " grep: \"" marker "\""))
-          (uncommented (concat " #grep: \"" marker "\"")))
-      (progn
-        (beginning-of-buffer)
-        (cond ((null arg)
-               ;; Null arg. Turn on.
-               (unless (null (re-search-forward uncommented (point-max) t))
-                 (replace-match commented)))
-              (t
-               ;; Non-null arg. Turn off.
-               (unless (null (re-search-forward commented (point-max) t))
-                 (replace-match uncommented))))
-        (back-to-indentation)
-        (save-buffer)))))
-
-(defun wjb-toggle-marker (arg marker &optional handle-in-current-buffer)
-  (interactive "P\nsMarker: ")
-  (cond
-   ((null arg)  ;; Turn on marker.
-    (progn
-      ;; Insert marker in this buffer.
-      (unless (null handle-in-current-buffer)
-        (insert marker)
-        (save-buffer))
-      ;; Turn on marker in test config.
-      (wjb-toggle-marker-in-buffer nil marker)
-      (message (concat marker " tests on."))))
-   (t           ;; Turn off marker.
-    (progn
-      (unless (null handle-in-current-buffer)
-        ;; Get a marker-replacer and use it in this buffer.
-        (command-execute
-         (wjb-get-marker-replacer marker))
-        (save-buffer))
-      ;; Turn off the marker in test config.
-      (wjb-toggle-marker-in-buffer t marker)
-      (message (concat marker " tests off."))))))
-
-;; Set shortcuts to clear custom markers. Requires lexical binding.
-(dolist (marker-data wjb-custom-markers)
-        (let ((marker (pop marker-data))
-              (marker-register (pop marker-data))
-              (marker-key (pop marker-data))
-              (handle-in-current-buffer (pop marker-data)))
-          (progn
-            (set-register marker-register marker)
-            (global-set-key marker-key (lambda (arg)
-                                          (interactive "P")
-                                          (wjb-toggle-marker arg marker handle-in-current-buffer))))))
-
-;; Open grep results in the same frame. See:
-;; http://stackoverflow.com/questions/2299133/emacs-grep-find-link-in-same-window/2299261#2299261
-(eval-after-load "compile"
-  '(defun compilation-goto-locus (msg mk end-mk)
-     "Jump to an error corresponding to MSG at MK.
-All arguments are markers.  If END-MK is non-nil, mark is set there
-and overlay is highlighted between MK and END-MK."
-     ;; Show compilation buffer in other window, scrolled to this error.
-     (let* ((from-compilation-buffer (eq (window-buffer (selected-window))
-                                         (marker-buffer msg)))
-            ;; Use an existing window if it is in a visible frame.
-            (pre-existing (get-buffer-window (marker-buffer msg) 0))
-            (w (if (and from-compilation-buffer pre-existing)
-                   ;; Calling display-buffer here may end up (partly) hiding
-                   ;; the error location if the two buffers are in two
-                   ;; different frames.  So don't do it if it's not necessary.
-                   pre-existing
-                 (let ((display-buffer-reuse-frames t)
-                       (pop-up-windows t))
-                   ;; Pop up a window.
-                   (display-buffer (marker-buffer msg)))))
-            (highlight-regexp (with-current-buffer (marker-buffer msg)
-                                ;; also do this while we change buffer
-                                (compilation-set-window w msg)
-                                compilation-highlight-regexp)))
-       ;; Ideally, the window-size should be passed to `display-buffer' (via
-       ;; something like special-display-buffer) so it's only used when
-       ;; creating a new window.
-       (unless pre-existing (compilation-set-window-height w))
-
-       (switch-to-buffer (marker-buffer mk))
-
-       ;; was
-       ;; (if from-compilation-buffer
-       ;;     ;; If the compilation buffer window was selected,
-       ;;     ;; keep the compilation buffer in this window;
-       ;;     ;; display the source in another window.
-       ;;     (let ((pop-up-windows t))
-       ;;       (pop-to-buffer (marker-buffer mk) 'other-window))
-       ;;   (if (window-dedicated-p (selected-window))
-       ;;       (pop-to-buffer (marker-buffer mk))
-       ;;     (switch-to-buffer (marker-buffer mk))))
-       ;; If narrowing gets in the way of going to the right place, widen.
-       (unless (eq (goto-char mk) (point))
-         (widen)
-         (goto-char mk))
-       (if end-mk
-           (push-mark end-mk t)
-         (if mark-active (setq mark-active)))
-       ;; If hideshow got in the way of
-       ;; seeing the right place, open permanently.
-       (dolist (ov (overlays-at (point)))
-         (when (eq 'hs (overlay-get ov 'invisible))
-           (delete-overlay ov)
-           (goto-char mk)))
-
-       (when highlight-regexp
-         (if (timerp next-error-highlight-timer)
-             (cancel-timer next-error-highlight-timer))
-         (unless compilation-highlight-overlay
-           (setq compilation-highlight-overlay
-                 (make-overlay (point-min) (point-min)))
-           (overlay-put compilation-highlight-overlay 'face 'next-error))
-         (with-current-buffer (marker-buffer mk)
-           (save-excursion
-             (if end-mk (goto-char end-mk) (end-of-line))
-             (let ((end (point)))
-               (if mk (goto-char mk) (beginning-of-line))
-               (if (and (stringp highlight-regexp)
-                        (re-search-forward highlight-regexp end t))
-                   (progn
-                     (goto-char (match-beginning 0))
-                     (move-overlay compilation-highlight-overlay
-                                   (match-beginning 0) (match-end 0)
-                                   (current-buffer)))
-                 (move-overlay compilation-highlight-overlay
-                               (point) end (current-buffer)))
-               (if (or (eq next-error-highlight t)
-                       (numberp next-error-highlight))
-                   ;; We want highlighting: delete overlay on next input.
-                   (add-hook 'pre-command-hook
-                             'compilation-goto-locus-delete-o)
-                 ;; We don't want highlighting: delete overlay now.
-                 (delete-overlay compilation-highlight-overlay))
-               ;; We want highlighting for a limited time:
-               ;; set up a timer to delete it.
-               (when (numberp next-error-highlight)
-                 (setq next-error-highlight-timer
-                       (run-at-time next-error-highlight nil
-                                    'compilation-goto-locus-delete-o)))))))
-       (when (and (eq next-error-highlight 'fringe-arrow))
-         ;; We want a fringe arrow (instead of highlighting).
-         (setq next-error-overlay-arrow-position
-               (copy-marker (line-beginning-position)))))))
 
 
 ;; ========================================
