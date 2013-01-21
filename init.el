@@ -286,16 +286,7 @@
 ;; Some hooks.
 ;; ========================================
 
-;; Fix junk characters in shell-mode
-(add-hook 'shell-mode-hook
-          'ansi-color-for-comint-mode-on)
-
-;; Don't want to see garbage in term-mode.
-(add-hook 'term-exec-hook
-          (function
-           (lambda ()
-             (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
-
+;; Force 2-space indentation in css-mode.
 (add-hook 'css-mode-hook
           (function
            (lambda ()
@@ -577,16 +568,6 @@
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 (require 'smart-tab)
 (global-smart-tab-mode 1)
-
-;; Open up some dirs in dirtree.
-(let ((dirtree-buffer "*dirtree*"))
-  (dolist (dir initial-dirs-to-open)
-    (dirtree dir dirtree-buffer))
-  ;; Dedicate window and resize.
-  (let ((window (get-buffer-window dirtree-buffer)))
-    (set-window-dedicated-p window 'true)
-    ;; TODO: Resize more intelligently.
-    (adjust-window-trailing-edge window -5 t)))
 
 ;; multiple-cursors.
 ;; See: https://github.com/magnars/multiple-cursors.el
@@ -876,3 +857,14 @@ and overlay is highlighted between MK and END-MK."
 ;; ========================================
 ;; Final.
 ;; ========================================
+
+;; Open up some dirs in dirtree.
+(let ((dirtree-buffer "*dirtree*"))
+  (dolist (dir initial-dirs-to-open)
+    (dirtree dir dirtree-buffer))
+  ;; Dedicate window and resize.
+  (let ((window (get-buffer-window dirtree-buffer)))
+    (set-window-dedicated-p window 'true)
+    ;; TODO: Resize more intelligently.
+    (adjust-window-trailing-edge window -5 t)))
+

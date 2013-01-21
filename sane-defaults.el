@@ -21,6 +21,10 @@
 ;; Answering just 'y' or 'n' will do
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; Fix junk characters in shell-mode
+(add-hook 'shell-mode-hook
+          'ansi-color-for-comint-mode-on)
+
 ;; UTF-8 please
 (setq locale-coding-system 'utf-8) ; pretty
 (set-terminal-coding-system 'utf-8) ; pretty
@@ -28,14 +32,17 @@
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
 
+;; Don't want to see garbage in term-mode.
+(add-hook 'term-exec-hook
+          (function
+           (lambda ()
+             (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
+
 ;; Show active region
 (transient-mark-mode 1)
 (make-variable-buffer-local 'transient-mark-mode)
 (put 'transient-mark-mode 'permanent-local t)
 (setq-default transient-mark-mode t)
-
-;; Remove text in active region if inserting text
-(delete-selection-mode 1)
 
 ;; Always display line and column numbers
 (setq line-number-mode t)
