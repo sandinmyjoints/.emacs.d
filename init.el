@@ -239,10 +239,37 @@
 ;; ========================================
 ;; Package management.
 ;; ========================================
-(require 'package)
-(add-to-list 'package-archives
-  '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+
+;; From:
+;; https://github.com/magnars/.emacs.d/blob/master/setup-package.el
+(require 'setup-package)
+
+;; Install extensions if they're missing
+(defun init--install-packages ()
+  (packages-install
+   (cons 'rainbow-mode melpa)
+   ;(cons 'exec-path-from-shell melpa)
+   ;(cons 'magit melpa)
+   ;(cons 'paredit melpa)
+   ;(cons 'move-text melpa)
+   ;(cons 'gist melpa)
+   ;(cons 'htmlize melpa)
+   ;(cons 'elisp-slime-nav melpa)
+   ;;(cons 'elnode marmalade)
+   ;(cons 'slime-js marmalade)
+   ;(cons 'git-commit-mode melpa)
+   ;(cons 'gitconfig-mode melpa)
+   ;(cons 'gitignore-mode melpa)
+   ;(cons 'clojure-mode melpa)
+   ;(cons 'clojure-test-mode melpa)
+   ;(cons 'nrepl melpa)
+   ))
+
+(condition-case nil
+    (init--install-packages)
+  (error
+   (package-refresh-contents)
+   (init--install-packages)))
 
 ;; ========================================
 ;; Sane defaults.
