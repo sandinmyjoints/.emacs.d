@@ -52,7 +52,12 @@
 (winner-mode 1)
 
 ;; Never insert tabs
-(set-default 'indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+
+;; Set up 4-space tabs.
+;; See: http://stackoverflow.com/a/1819405/599258
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
 
 ;; Show me empty lines after buffer end
 (set-default 'indicate-empty-lines t)
@@ -96,4 +101,20 @@
     (dotimes (i 10)
       (when (= p (point)) ad-do-it))))
 
+;;; Visible bell.
+(setq-default visible-bell t)
+
+;;; Pair parens and other delimiters.
+(electric-pair-mode t)
+
+;;; Fewer pop-up windows.
+(setq pop-up-windows nil)
+
+;;; Default for new buffers.
+(setq-default major-mode 'text-mode)
+
+;;; Avoid backslash madness.
+(setq reb-re-syntax 'string)
+
 (provide 'sane-defaults)
+

@@ -1,56 +1,56 @@
 ;; -*- lexical-binding: t -*-
 
-;;;; init.el
-;;;; See: https://github.com/sandinmyjoints/.emacs.d
+;;; init.el
+;;; See: https://github.com/sandinmyjoints/.emacs.d
 
-;;; TODO:
-;;; * Directory local variables. See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
-;;; * find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-;;; * Coffee-script etags.
-;;; * Coffee-script compile and flymake.
-;;; * swank.js:
-;;;   * https://github.com/Gozala/swank-js
-;;; * Model structure after/fork: https://github.com/magnars/.emacs.d
-;;; * Make into a full repo with submodules.
-;;; * Use ELPA.
-;;; * Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
-;;; * Review for ideas:
-;;;   * http://news.ycombinator.com/item?id=1654164
-;;;   * https://github.com/technomancy/emacs-starter-kit
-;;; * Window and frame restore. See:
-;;; http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
-;;; http://www.emacswiki.org/emacs/LayoutRestore
-;;; http://www.emacswiki.org/emacs/FrameConfig
-;;; http://www.emacswiki.org/emacs/SessionManagement
-;;; http://www.gentei.org/~yuuji/software/windows.el
-;;; http://www.gentei.org/~yuuji/software/revive.el
-;;; * Try out:
-;;;   * yasnippets
-;;;   * iy go to char
-;;; * Files to visit on startup in non-dirtree window.
-;;;   * E.g.: (find-file "~/emacs/gist-3743892/init.el")
+;; TODO:
+;; * Directory local variables. See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
+;; * find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
+;; * Coffee-script etags.
+;; * Coffee-script compile and flymake.
+;; * swank.js:
+;;   * https://github.com/Gozala/swank-js
+;; * Model structure after/fork: https://github.com/magnars/.emacs.d
+;; * Make into a full repo with submodules.
+;; * Use ELPA.
+;; * Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
+;; * Review for ideas:
+;;   * http://news.ycombinator.com/item?id=1654164
+;;   * https://github.com/technomancy/emacs-starter-kit
+;; * Window and frame restore. See:
+;; http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
+;; http://www.emacswiki.org/emacs/LayoutRestore
+;; http://www.emacswiki.org/emacs/FrameConfig
+;; http://www.emacswiki.org/emacs/SessionManagement
+;; http://www.gentei.org/~yuuji/software/windows.el
+;; http://www.gentei.org/~yuuji/software/revive.el
+;; * Try out:
+;;   * yasnippets
+;;   * iy go to char
+;; * Files to visit on startup in non-dirtree window.
+;;   * E.g.: (find-file "~/emacs/gist-3743892/init.el")
 
-;;; ========================================
-;;; Definitions.
-;;; ========================================
+;; ========================================
+;; Definitions.
+;; ========================================
 
-;;; Set Emacs Lisp directory.
+;; Set Emacs Lisp directory.
 (setq site-lisp-dir
       (expand-file-name "elisp" user-emacs-directory))
 (byte-recompile-directory site-lisp-dir 0)
 
-;;; Directories to open in dirtree on start.
+;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
       '("~/scm/sd/fluensa"
         "~/scm/sd/ops"
         "~/.emacs.d"))
 
-;;; Set custom markers.
-;;; Args:
-;;; 1. Marker.
-;;; 2. Register to store.
-;;; 3. Key bindings to set/clear marker.
-;;; 4. Insert/remove marker from current buffer?
+;; Set custom markers.
+;; Args:
+;; 1. Marker.
+;; 2. Register to store.
+;; 3. Key bindings to set/clear marker.
+;; 4. Insert/remove marker from current buffer?
 ;;;
 (setq wjb-custom-markers
       '(("NNN" ?n "" t)
@@ -64,47 +64,42 @@
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
 
-;;; ========================================
-;;; Settings.
-;;; ========================================
+;; ========================================
+;; Set up load-path.
+;; ========================================
 
-;;; Unused graphical elements.
+;; TODO: put vendor code in /vendor.
+
+(add-to-list 'load-path user-emacs-directory)
+(add-to-list 'load-path site-lisp-dir)
+
+;; For magit:
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+
+;; Add all subdirs of site-lisp-dir.
+(let ((default-directory site-lisp-dir))
+      (normal-top-level-add-subdirs-to-load-path))
+
+;; ========================================
+;; Settings.
+;; ========================================
+
+;; Unused graphical elements.
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;;; Require common lisp.
+;; Require common lisp.
 (require 'cl)
 
-;;; Use server.
+;; Use server.
 (server-start)
 
-;;; Save desktop.
+;; Save desktop.
 ;(desktop-save-mode 1)
 
-;;; Pair parens and other delimiters.
-(electric-pair-mode t)
-
-;;; Fewer pop-up windows.
-(setq pop-up-windows nil)
-
-;;; Help with syntax.
-(flymake-mode t)
-
-;;; Default for new buffers.
-(setq-default major-mode 'text-mode)
-
-;;; Avoid backslash madness.
-(setq reb-re-syntax 'string)
-
-;;; Set up 4-space tabs.
-;;; See: http://stackoverflow.com/a/1819405/599258
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
-
-;;; Sane backup files.
-;;; See: http://www.emacswiki.org/emacs/BackupDirectory
+;; Sane backup files.
+;; See: http://www.emacswiki.org/emacs/BackupDirectory
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
@@ -115,30 +110,17 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
-;;; Keep auto-save files out of the filesystem.
-;;; See: http://emacswiki.org/emacs/AutoSave
+;; Keep auto-save files out of the filesystem.
+;; See: http://emacswiki.org/emacs/AutoSave
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;;; Visible bell.
-(setq-default visible-bell t)
-
-;;; Set PAGER and EDITOR so git doesn't complain: "terminal is not
-;;; fully functional".
+;; Set PAGER and EDITOR so git doesn't complain: "terminal is not
+;; fully functional".
 (setenv "PAGER" "cat")
 (setenv "EDITOR" "emacsclient")
 
 (put 'downcase-region 'disabled nil)
-
-;;; Set load-path.
-;;; TODO: put vendor code in /vendor.
-(add-to-list 'load-path user-emacs-directory)
-(add-to-list 'load-path site-lisp-dir)
-;;; For magit:
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
-;;; Add all subdirs of site-lisp-dir.
-(let ((default-directory site-lisp-dir))
-      (normal-top-level-add-subdirs-to-load-path))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -162,12 +144,12 @@
  ;; If there is more than one, they won't work right.
  )
 
-;;; Keyboard for Macs.
+;; Keyboard for Macs.
 (setq-default mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 
-;;; Face and fonts.
-;;; TODO: Use (null window-system) to conditionally execute.
+;; Face and fonts.
+;; TODO: Use (null window-system) to conditionally execute.
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
 (if (functionp 'set-fontset-font) ; nil in Terminal
     (set-fontset-font "fontset-default" 'unicode "Anonymous"))
@@ -181,10 +163,10 @@
 (set-foreground-color "white")
 (set-cursor-color "#469")
 
-;;; Nice sizing.  See:
-;;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
-;;; TODO: Replace window-system (dep) with display-graphic-p. See:
-;;; http://stackoverflow.com/questions/5795451/how-to-detect-that-emacs-is-in-terminal-mode
+;; Nice sizing.  See:
+;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
+;; TODO: Replace window-system (dep) with display-graphic-p. See:
+;; http://stackoverflow.com/questions/5795451/how-to-detect-that-emacs-is-in-terminal-mode
 (defun set-frame-size-according-to-resolution ()
   (interactive)
   (if window-system
@@ -209,13 +191,13 @@
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
 
-;;; Make grep-find more helpful.
+;; Make grep-find more helpful.
 (setq find-args "! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
       default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
-;;; Custom grep-find via find-in-project.
+;; Custom grep-find via find-in-project.
 (setq find-in-project-dir ".")
 
 (defun find-in-project (path grep-string)
@@ -254,31 +236,31 @@
   (sgml-pretty-print (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
-;;; ========================================
-;;; Package management.
-;;; ========================================
+;; ========================================
+;; Package management.
+;; ========================================
 (require 'package)
 (add-to-list 'package-archives
   '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-;;; ========================================
-;;; Sane defaults.
-;;; ========================================
+;; ========================================
+;; Sane defaults.
+;; ========================================
 
 ;; From:
 ;; https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el
 (require 'sane-defaults)
 
-;;; ========================================
-;;; Some hooks.
-;;; ========================================
+;; ========================================
+;; Some hooks.
+;; ========================================
 
-;;; Fix junk characters in shell-mode
+;; Fix junk characters in shell-mode
 (add-hook 'shell-mode-hook
           'ansi-color-for-comint-mode-on)
 
-;;; Don't want to see garbage in term-mode.
+;; Don't want to see garbage in term-mode.
 (add-hook 'term-exec-hook
           (function
            (lambda ()
@@ -289,28 +271,28 @@
            (lambda ()
              (setq css-indent-offset 2))))
 
-;;; grab-first-string -- copies the first "-delimited string on a line to the kill ring
+;; grab-first-string -- copies the first "-delimited string on a line to the kill ring
 (fset 'grab-first-string
    [?\C-s ?\" ?\C-b ?\C-  ?\C-s ?\" ?\C-s ?\M-w ?\C-a ?\C-n])
 
 
-;;; ========================================
-;;; Require and config packages.
-;;; ========================================
+;; ========================================
+;; Require and config packages.
+;; ========================================
 
-;;; Diredplus.
+;; Diredplus.
 (require 'dired+)
 (toggle-diredp-find-file-reuse-dir 1)
 
-;;; Auto-install.
+;; Auto-install.
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/elisp/auto-install/")
 
-;;; Anything.
+;; Anything.
 ;(require 'helm-config)
 ;(helm-mode 1)
 
-;;; Ido.
+;; Ido.
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -318,19 +300,19 @@
 (setq ido-create-new-buffer 'always)
 (setq confirm-nonexistent-file-or-buffer nil)
 
-;;; TODO: extensions order, ignore
-;;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
+;; TODO: extensions order, ignore
+;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 
-;;; Imenu.
+;; Imenu.
 (require 'imenu)
 (autoload 'idomenu "idomenu" nil t)
 
 (defadvice ido-imenu (before push-mark activate)
     (push-mark))
 
-;;; TODO: Fix this to work with lexical binding.
-;;; See: http://www.delorie.com/gnu/docs/emacs/cl_22.html
-;;; See: https://gist.github.com/2360578
+;; TODO: Fix this to work with lexical binding.
+;; See: http://www.delorie.com/gnu/docs/emacs/cl_22.html
+;; See: https://gist.github.com/2360578
 ;; (defun ido-goto-symbol (&optional a-symbol)
 ;;   "Will update the imenu index and then use ido to select a symbol to navigate to"
 ;;   (interactive)
@@ -368,7 +350,7 @@
 ;;        (t
 ;;         (goto-char position))))))
 
-;;; Alternative that doesn't use `flet` but doesn't seem to work, either:
+;; Alternative that doesn't use `flet` but doesn't seem to work, either:
 ;; (defun ido-goto-symbol (&optional symbol-list)
 ;;   "Refresh imenu and jump to a place in the buffer using Ido."
 ;;   (interactive)
@@ -422,14 +404,14 @@
   (interactive)
   (ido-goto-symbol (thing-at-point 'symbol)))
 
-;;; Dirtree.
+;; Dirtree.
 (require 'dirtree)
 
-;;; Markdown.
+;; Markdown.
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;;; Magit.
+;; Magit.
 (require 'magit)
 ;; change magit diff colors
 (eval-after-load 'magit
@@ -442,12 +424,12 @@
 
 (autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t)
 
-;;; Lua mode.
+;; Lua mode.
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-;;; Text and fill modes.
+;; Text and fill modes.
 (defun textful-settings ()
         (goto-address-mode 1)
         (auto-fill-mode 1)
@@ -456,23 +438,23 @@
 (add-hook 'rst-mode-hook 'textful-settings)
 (add-hook 'text-mode-hook 'textful-settings)
 
-;;; Fill column indicator.
-;;; See: https://github.com/alpaker/Fill-Column-Indicator
+;; Fill column indicator.
+;; See: https://github.com/alpaker/Fill-Column-Indicator
 (require 'fill-column-indicator)
 
-;;; Make fci-mode global...
+;; Make fci-mode global...
 (define-globalized-minor-mode global-fci-mode fci-mode
   (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 
-;;; ...except for these modes.
+;; ...except for these modes.
 (defun no-fci ()
   (fci-mode -1))
 (add-hook 'dirtree-mode-hook 'no-fci)
 (add-hook 'dired-mode-hook 'no-fci)
 (add-hook 'dired+-mode-hook 'no-fci)
 
-;;; Org-mode.
+;; Org-mode.
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
@@ -490,8 +472,8 @@
 (add-hook 'org-mode-hook
 	  (lambda () (auto-fill-mode 1) (set-fill-column 80)))
 
-;;; Python
-;;; TODO: Fix ipython for use in emacs.
+;; Python
+;; TODO: Fix ipython for use in emacs.
 ;(setq py-install-directory "~/emacs/")
 ;(require 'python-mode)
 ;(setq py-shell-name "ipython")
@@ -499,7 +481,7 @@
 ;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 ;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;;; Journal command.
+;; Journal command.
 (defun journal ()
 	"Start journaling"
 	(interactive)
@@ -509,11 +491,11 @@
 	(auto-fill-mode 1)
 	(set-fill-column 80))
 
-;;; Coffee-mode.
+;; Coffee-mode.
 ;;;
-;;; Want to change the regex when loading files from
-;;; fixtures directory. Some kind of hook or advice.
-;;; Or, could somehow fix the regex.
+;; Want to change the regex when loading files from
+;; fixtures directory. Some kind of hook or advice.
+;; Or, could somehow fix the regex.
 ;;;
 (require 'coffee-mode)
 (defun coffee-custom ()
@@ -534,10 +516,10 @@
           (lambda ()
             (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
-;;; TODO: coffee-beginning-of-defun. Search backward to -> not in
-;;; string or comment.
+;; TODO: coffee-beginning-of-defun. Search backward to -> not in
+;; string or comment.
 
-;;; Catch common typo.
+;; Catch common typo.
 (add-hook 'coffee-mode-hook
           (lambda()
             (add-hook 'local-write-file-hooks
@@ -545,33 +527,33 @@
                          (save-excursion
                            (perform-replace "commong" "common" nil nil nil nil nil (point-min) (point-max)))))))
 
-;;; json
+;; json
 (require 'json)
 (require 'json-pretty-print)
 
-;;; log mode
+;; log mode
 (autoload 'log4j-mode "log4j-mode" "Major mode for viewing log files." t)
 (add-to-list 'auto-mode-alist '("\\.log\\'" . log4j-mode))
 
-;;; php
+;; php
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
-;;; less-css-mode
+;; less-css-mode
 (autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
-;;; jade
+;; jade
 (require 'sws-mode)
 (require 'jade-mode)
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
-;;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 
-;;; Open up some dirs in dirtree.
+;; Open up some dirs in dirtree.
 (let ((dirtree-buffer "*dirtree*"))
   (dolist (dir initial-dirs-to-open)
     (dirtree dir dirtree-buffer))
@@ -581,8 +563,8 @@
     ;; TODO: Resize more intelligently.
     (adjust-window-trailing-edge window -5 t)))
 
-;;; multiple-cursors.
-;;; See: https://github.com/magnars/multiple-cursors.el
+;; multiple-cursors.
+;; See: https://github.com/magnars/multiple-cursors.el
 (require 'multiple-cursors)
 (defun create-cursor ()
   (interactive)
@@ -598,65 +580,65 @@
 (global-set-key (kbd "C-c .") 'multiple-cursors-mode)
 (global-set-key (kbd "C-c C-.") 'multiple-cursors-mode)
 
-;;; expand-region.
-;;; See: https://github.com/magnars/expand-region.el
+;; expand-region.
+;; See: https://github.com/magnars/expand-region.el
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;;; smart-forward
-;;; See: https://github.com/magnars/smart-forward.el
+;; smart-forward
+;; See: https://github.com/magnars/smart-forward.el
 (require 'smart-forward)
 (global-set-key (kbd "M-<up>") 'smart-up)
 (global-set-key (kbd "M-<down>") 'smart-down)
 (global-set-key (kbd "M-<left>") 'smart-backward)
 (global-set-key (kbd "M-<right>") 'smart-forward)
 
-;;; js2-mode
+;; js2-mode
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-;;; add buffer-local indicator for whether prog-mode-hook has run.
-;;; See:
-;;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
+;; add buffer-local indicator for whether prog-mode-hook has run.
+;; See:
+;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
 (defun my-set-pmh-ran ()
   (set (make-local-variable 'my-pmh-ran) t))
 
 (add-hook 'prog-mode-hook 'my-set-pmh-ran)
 
-;;; Ensure js2-mode runs prog-mode-hook.
+;; Ensure js2-mode runs prog-mode-hook.
 (add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
 (defun my-run-pmh-if-not-ran ()
   (unless (bound-and-true-p my-pmh-ran)
     (run-hooks 'prog-mode-hook)))
 
-;;; Handlebars mode.
+;; Handlebars mode.
 (autoload 'handlebars-mode "handlebars-mode"
   "Major mode for editing Handlebars")
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . js2-mode))
 
-;;; Scheme.
+;; Scheme.
 (setq scheme-program-name
       "/usr/local/bin/racket")
 
-;;; Common Lisp.
-;;; Inferior Lisp.
+;; Common Lisp.
+;; Inferior Lisp.
 (set-variable 'inferior-lisp-program "/usr/local/bin/clisp")
 
-;;; SLIME.
+;; SLIME.
 (add-to-list 'load-path "~/scm/slime/")
-;;; Autoload on use. See: http://ambience.info.ucl.ac.be/slime.html
+;; Autoload on use. See: http://ambience.info.ucl.ac.be/slime.html
 (when (load "slime-autoloads" t)
   (setq slime-auto-connect 'always)
   (slime-setup '(slime-fancy inferior-slime)))
 ;(require 'slime-autoloads)
 ;(slime-setup '(slime-fancy))
 
-;;; EPG.
+;; EPG.
 (require 'epa-file)
 (epa-file-enable)
 
-;;; ========================================
-;;; Key bindings.
-;;; ========================================
+;; ========================================
+;; Key bindings.
+;; ========================================
 
 (global-set-key "\C-x\C-b" 'electric-buffer-list)
 (global-set-key "\C-xp" 'bury-buffer)
@@ -688,9 +670,9 @@
 (global-set-key (kbd "C-c 0") 'idomenu)
 (global-set-key (kbd "C-c C-0") 'idomenu)
 ;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
-;;; Available to use: C-z, C-,, C-., C-', C-c 0
+;; Available to use: C-z, C-,, C-., C-', C-c 0
 
-;;; Ido keymap.
+;; Ido keymap.
 (defun wjb-ido-keys ()
   "Add my keybindings for ido."
   (define-key ido-completion-map
@@ -708,9 +690,9 @@
       (while (search-forward marker nil t)
         (replace-match "" nil t)))))
 
-;;; Shortcut to clear marker from test config file.  TODO: When
-;;; turning on, if grep is unsuccessful, insert new grep under all
-;;; greps (most specific).
+;; Shortcut to clear marker from test config file.  TODO: When
+;; turning on, if grep is unsuccessful, insert new grep under all
+;; greps (most specific).
 ;;;
 (defun wjb-toggle-marker-in-buffer (arg marker)
   "Toggle `marker` on or off in `wjb-test-config-buffer`."
@@ -754,7 +736,7 @@
       (wjb-toggle-marker-in-buffer t marker)
       (message (concat marker " tests off."))))))
 
-;;; Set shortcuts to clear custom markers. Requires lexical binding.
+;; Set shortcuts to clear custom markers. Requires lexical binding.
 (dolist (marker-data wjb-custom-markers)
         (let ((marker (pop marker-data))
               (marker-register (pop marker-data))
@@ -766,12 +748,12 @@
                                           (interactive "P")
                                           (wjb-toggle-marker arg marker handle-in-current-buffer))))))
 
-;;; ========================================
-;;; Misc.
-;;; ========================================
+;; ========================================
+;; Misc.
+;; ========================================
 
-;;; Open grep results in the same frame. See:
-;;; http://stackoverflow.com/questions/2299133/emacs-grep-find-link-in-same-window/2299261#2299261
+;; Open grep results in the same frame. See:
+;; http://stackoverflow.com/questions/2299133/emacs-grep-find-link-in-same-window/2299261#2299261
 (eval-after-load "compile"
   '(defun compilation-goto-locus (msg mk end-mk)
      "Jump to an error corresponding to MSG at MK.
@@ -866,6 +848,6 @@ and overlay is highlighted between MK and END-MK."
                (copy-marker (line-beginning-position)))))))
 
 
-;;; ========================================
-;;; Final.
-;;; ========================================
+;; ========================================
+;; Final.
+;; ========================================
