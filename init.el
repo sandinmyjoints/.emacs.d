@@ -299,13 +299,23 @@
 ;; Require and config packages.
 ;; ========================================
 
+;; Setup extensions
+;(eval-after-load 'ido '(require 'setup-ido))
+;(eval-after-load 'org '(require 'setup-org))
+(eval-after-load 'dired+ '(require 'setup-dired+))
+;(eval-after-load 'magit '(require 'setup-magit))
+;(eval-after-load 'grep '(require 'setup-rgrep))
+;(eval-after-load 'shell '(require 'setup-shell))
+;(require 'setup-hippie)
+;(require 'setup-yasnippet)
+;(require 'setup-perspective)
+;(require 'setup-ffip)
+;(require 'setup-html-mode)
+;(require 'setup-paredit)
+
 ;; Rainbow-mode.
 (require 'rainbow-mode)
 (rainbow-mode 1)
-
-;; Diredplus.
-(require 'dired+)
-(toggle-diredp-find-file-reuse-dir 1)
 
 ;; Anything.
 ;(require 'helm-config)
