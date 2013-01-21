@@ -386,8 +386,13 @@ and overlay is highlighted between MK and END-MK."
 ;(require 'setup-html-mode)
 ;(require 'setup-paredit)
 
-;; Rainbow-mode.
+;; Rainbow mode.
 (require 'rainbow-mode)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+(add-hook 'coffee-mode-hook 'rainbow-mode)
+(add-hook 'less-css-mode-hook 'rainbow-mode)
+(add-hook 'css-mode-hook 'rainbow-mode)
+(add-hook 'html-mode-hook 'rainbow-mode)
 
 ;; Anything.
 ;(require 'helm-config)
@@ -503,11 +508,7 @@ and overlay is highlighted between MK and END-MK."
 (require 'mode-mappings)
 
 ;; Dirtree.
-(require 'dirtree)
-
-;; Markdown.
-(require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(autoload 'dirtree "dirtree" "Dirtree." t)
 
 ;; Lua mode.
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
@@ -566,42 +567,6 @@ and overlay is highlighted between MK and END-MK."
 ;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 ;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;; Coffee-mode.
-;;;
-;; Want to change the regex when loading files from
-;; fixtures directory. Some kind of hook or advice.
-;; Or, could somehow fix the regex.
-;;;
-(require 'coffee-mode)
-(defun coffee-custom ()
-  "coffee-mode-hook"
-
-  (make-local-variable 'tab-width)
-  (set 'tab-width 2)
-  (set 'coffee-tab-width 2)
-  (set-fill-column 80)
-  ;; TODO: figure out how to point this to the active environment.
-  ;; Is there a way to set it in an environment variable?
-  ; (setq coffee-command "~/dev/coffee")
-
-)
-(add-hook 'coffee-mode-hook 'coffee-custom)
-
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-
-;; TODO: coffee-beginning-of-defun. Search backward to -> not in
-;; string or comment.
-
-;; Catch common typo.
-(add-hook 'coffee-mode-hook
-          (lambda()
-            (add-hook 'local-write-file-hooks
-                      '(lambda()
-                         (save-excursion
-                           (perform-replace "commong" "common" nil nil nil nil nil (point-min) (point-max)))))))
-
 ;; json
 (require 'json)
 (require 'json-pretty-print)
@@ -639,28 +604,6 @@ and overlay is highlighted between MK and END-MK."
 (global-set-key (kbd "M-<down>") 'smart-down)
 (global-set-key (kbd "M-<left>") 'smart-backward)
 (global-set-key (kbd "M-<right>") 'smart-forward)
-
-;; js2-mode
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-;; add buffer-local indicator for whether prog-mode-hook has run.
-;; See:
-;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
-(defun my-set-pmh-ran ()
-  (set (make-local-variable 'my-pmh-ran) t))
-
-(add-hook 'prog-mode-hook 'my-set-pmh-ran)
-
-;; Ensure js2-mode runs prog-mode-hook.
-(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
-(defun my-run-pmh-if-not-ran ()
-  (unless (bound-and-true-p my-pmh-ran)
-    (run-hooks 'prog-mode-hook)))
-
-;; Handlebars mode.
-(autoload 'handlebars-mode "handlebars-mode"
-  "Major mode for editing Handlebars")
-(add-to-list 'auto-mode-alist '("\\.handlebars$" . js2-mode))
 
 ;; Scheme.
 (setq scheme-program-name
@@ -717,6 +660,3 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
-
-
-(add-hook 'emacs-lisp-mode-hook 'rainbow-mode)

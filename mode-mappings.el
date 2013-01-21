@@ -37,6 +37,25 @@
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 ;(add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
 
+;; Add buffer-local indicator for whether prog-mode-hook has run.
+;; See:
+;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
+(defun my-set-pmh-ran ()
+  (set (make-local-variable 'my-pmh-ran) t))
+
+(add-hook 'prog-mode-hook 'my-set-pmh-ran)
+
+;; Ensure js2-mode runs prog-mode-hook.
+(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
+(defun my-run-pmh-if-not-ran ()
+  (unless (bound-and-true-p my-pmh-ran)
+    (run-hooks 'prog-mode-hook)))
+
+;; Handlebars mode.
+(autoload 'handlebars-mode "handlebars-mode"
+  "Major mode for editing Handlebars")
+(add-to-list 'auto-mode-alist '("\\.handlebars$" . js2-mode))
+
 ;; Snippets
 (add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
 (add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
@@ -60,6 +79,39 @@
 ;; less-css-mode
 (autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
+
+;; Coffee-mode.
+;;;
+;; Want to change the regex when loading files from
+;; fixtures directory. Some kind of hook or advice.
+;; Or, could somehow fix the regex.
+;;;
+(autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (make-local-variable 'tab-width)
+  (set 'tab-width 2)
+  (set 'coffee-tab-width 2)
+  (set-fill-column 80))
+
+(add-hook 'coffee-mode-hook 'coffee-custom)
+
+(add-hook 'coffee-mode-hook
+          (lambda ()
+            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
+;; TODO: coffee-beginning-of-defun. Search backward to -> not in
+;; string or comment.
+
+;; Catch common typo.
+(add-hook 'coffee-mode-hook
+          (lambda()
+            (add-hook 'local-write-file-hooks
+                      '(lambda()
+                         (save-excursion
+                           (perform-replace "commong" "common" nil nil nil nil nil (point-min) (point-max)))))))
 
 
 (provide 'mode-mappings)
