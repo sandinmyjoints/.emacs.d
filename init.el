@@ -645,7 +645,7 @@
 (global-set-key "\M-/" 'hippie-expand)
 (global-set-key "\M- " 'hippie-expand)
 (global-set-key "\C-cs" 'ansi-term)
-(global-set-key "\C-cr" 'replace-regexp)
+(global-set-key "\C-cr" 'query-replace-regexp)
 (global-set-key "\C-cq" 'query-replace)
 (global-set-key "\C-cb" 'rename-buffer)
 (global-set-key "\C-cp" 'python-mode)
