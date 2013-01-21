@@ -138,3 +138,12 @@
 (global-set-key (kbd "C-c f i") 'find-in-fluensa)
 (global-set-key "\C-ct" 'toggle-window-dedicated)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
+
+;; TODO: Add anything that needs Emacs>=24.
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (electric-pair-mode t)
+  )
+
