@@ -219,9 +219,9 @@
    ;(cons 'elisp-slime-nav melpa)
    ;;(cons 'elnode marmalade)
    ;(cons 'slime-js marmalade)
-   ;(cons 'git-commit-mode melpa)
-   ;(cons 'gitconfig-mode melpa)
-   ;(cons 'gitignore-mode melpa)
+   (cons 'git-commit-mode marmalade)
+   (cons 'gitconfig-mode marmalade)
+   (cons 'gitignore-mode marmalade)
    ;(cons 'clojure-mode melpa)
    ;(cons 'clojure-test-mode melpa)
    ;(cons 'nrepl melpa)
@@ -852,5 +852,5 @@ and overlay is highlighted between MK and END-MK."
     ;; TODO: Resize more intelligently.
     (adjust-window-trailing-edge window -5 t)))
 
-;; Byte-recompile everything.
+;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)

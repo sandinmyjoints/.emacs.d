@@ -1,3 +1,6 @@
+;; Based on:
+;; https://github.com/magnars/.emacs.d/blob/master/setup-package.el
+
 (require 'package)
 
 (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
