@@ -122,6 +122,18 @@
 ;; Allow downcasing regions.
 (put 'downcase-region 'disabled nil)
 
+;; Keyboard for Macs.
+(setq-default mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+
+;; Make grep-find more helpful.
+(setq find-args "! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+      default-find-cmd (concat "find " ". " find-args))
+(grep-compute-defaults)
+(grep-apply-setting 'grep-find-command default-find-cmd)
+
+;; TODO: ignore .git and node_modules
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -144,58 +156,11 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Keyboard for Macs.
-(setq-default mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
+;; ========================================
+;; Appearance.
+;; ========================================
 
-;; Face and fonts.
-;; TODO: Use (null window-system) to conditionally execute.
-(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
-(if (functionp 'set-fontset-font) ; nil in Terminal
-    (set-fontset-font "fontset-default" 'unicode "Anonymous"))
-(setq-default line-spacing 1)
-
-(set-background-color "black")
-(set-face-background 'default "black")
-(set-face-background 'region "#444")
-(set-face-foreground 'default "white")
-(set-face-foreground 'region "gray60")
-(set-foreground-color "white")
-(set-cursor-color "#469")
-
-;; Nice sizing.  See:
-;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
-;; TODO: Replace window-system (dep) with display-graphic-p. See:
-;; http://stackoverflow.com/questions/5795451/how-to-detect-that-emacs-is-in-terminal-mode
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (if window-system
-      (progn
-        ;; use 120 char wide window for largeish displays
-        ;; and smaller 80 column windows for smaller displays
-        ;; pick whatever numbers make sense for you
-        (if (> (x-display-pixel-width) 1280)
-            (add-to-list 'default-frame-alist (cons 'width 140))
-          (add-to-list 'default-frame-alist (cons 'width 80)))
-        ;; for the height, subtract a couple hundred pixels
-        ;; from the screen height (for panels, menubars and
-        ;; whatnot), then divide by the height of a char to
-        ;; get the height we want
-        (add-to-list 'default-frame-alist
-                     (cons 'height (/ (- (x-display-pixel-height) 200)
-                                      (frame-char-height)))))))
-
-(set-frame-size-according-to-resolution)
-
-(defadvice split-window-vertically
-    (after my-window-splitting-advice first () activate)
-    (set-window-buffer (next-window) (other-buffer)))
-
-;; Make grep-find more helpful.
-(setq find-args "! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-      default-find-cmd (concat "find " ". " find-args))
-(grep-compute-defaults)
-(grep-apply-setting 'grep-find-command default-find-cmd)
+(require 'appearance)
 
 ;; ========================================
 ;; Package management.
@@ -366,15 +331,17 @@ and overlay is highlighted between MK and END-MK."
 ;; ========================================
 
 (require 'ido)
-
-(autoload 'magit-status "magit")
-
-;; Setup packages.
 (eval-after-load 'ido '(require 'setup-ido))
+
 ;(eval-after-load 'org '(require 'setup-org))
+
 (require 'dired+)
 (eval-after-load 'dired+ '(require 'setup-dired+))
+
+(autoload 'magit-status "magit")
+(autoload 'magit-log "magit")
 (eval-after-load 'magit '(require 'setup-magit))
+
 ;(eval-after-load 'grep '(require 'setup-rgrep))
 ;(eval-after-load 'shell '(require 'setup-shell))
 ;(require 'setup-hippie)
