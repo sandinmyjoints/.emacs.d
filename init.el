@@ -625,3 +625,7 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
+
+;; Workaround for a bug in emacs' http fetching. See:
+;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
+(setq url-http-attempt-keepalives nil)
