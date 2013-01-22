@@ -8,13 +8,13 @@
 ;(global-hl-line-mode 1)
 
 ;; Customize background color of highlighted line
-(set-face-background 'hl-line "#222222")
+;(set-face-background 'hl-line "#222222")
 
 (set-face-foreground 'font-lock-warning-face "#ff6666")
 
 ;; Highlight matching parentheses when the point is on them.
-(show-paren-mode 1)
 (setq show-paren-delay 0)
+(show-paren-mode 1)
 
 ;; No menu bars
 (menu-bar-mode -1)
@@ -26,9 +26,6 @@
 
 ;; Ditch them scrollbars
 (scroll-bar-mode -1)
-
-;; Make zooming affect frame instead of buffers
-(require 'zoom-frm)
 
 ;; TODO: Use (null window-system) to conditionally execute.
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
