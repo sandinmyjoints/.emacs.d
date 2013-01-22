@@ -4,11 +4,10 @@
 ;;; No splash screen, thanks.
 (setq inhibit-splash-screen t)
 
-;;; Use server.
-(server-start)
-
-;;; Use server.
-(server-start)
+;; Use server.
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;;; Prevent extraneous tabs.
 (setq-default indent-tabs-mode nil)
@@ -56,7 +55,6 @@
 (put 'downcase-region 'disabled nil)
 
 ;;; Keyboard for Macs.
-;;; TODO: Figure out how to use cmd as meta in Terminal.
 (set-keyboard-coding-system nil)
 ;(setq-default mac-option-key-is-meta nil)
 (setq-default mac-command-key-is-meta t)
@@ -117,33 +115,33 @@
 ;;; Key bindings.
 ;;; ========================================
 
-(global-set-key "\C-x\C-b" 'electric-buffer-list)
-(global-set-key "\C-xp" 'bury-buffer)
-(global-set-key "\M-/" 'hippie-expand)
-(global-set-key "\M- " 'hippie-expand)
-(global-set-key "\C-cs" 'ansi-term)
-(global-set-key "\C-cr" 'query-replace-regexp)
-(global-set-key "\C-cq" 'query-replace)
-(global-set-key "\C-cb" 'rename-buffer)
-(global-set-key "\C-cv" 'describe-variable)
-(global-set-key "\C-cw" 'whitespace-mode)
-(global-set-key "\C-ci" 'indent-relative)
-(global-set-key "\C-c " 'just-one-space)
-(global-set-key "\C-ch" 'whack-whitespace)
-(global-set-key "\C-ce" 'delete-trailing-whitespace)
-(global-set-key "\C-cc" 'comment-region)
-(global-set-key "\C-cu" 'uncomment-region)
-(global-set-key "\C-c\C-r" 're-builder)
-(global-set-key "\C-cg" 'grep-find)
-(global-set-key (kbd "C-c f i") 'find-in-fluensa)
-(global-set-key "\C-ct" 'toggle-window-dedicated)
+(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+(global-set-key (kbd "C-x p") 'bury-buffer)
+(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-c s") 'ansi-term)
+(global-set-key (kbd "C-c r") 'query-replace-regexp)
+(global-set-key (kbd "C-c q") 'query-replace)
+(global-set-key (kbd "C-c b") 'rename-buffer)
+(global-set-key (kbd "C-c v") 'describe-variable)
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+(global-set-key (kbd "C-c i") 'indent-relative)
+(global-set-key (kbd "C-c SPC") 'just-one-space)
+(global-set-key (kbd "C-c h") 'whack-whitespace)
+(global-set-key (kbd "C-c e") 'delete-trailing-whitespace)
+(global-set-key (kbd "C-c c") 'comment-region)
+(global-set-key (kbd "C-c u") 'uncomment-region)
+(global-set-key (kbd "C-c C-r") 're-builder)
+(global-set-key (kbd "C-c g") 'grep-find)
+(global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
+(global-set-key (kbd "C-x f") 'recentf-open-files)
 
 ;; TODO: Add anything that needs Emacs>=24.
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (electric-pair-mode t)
   )
 
