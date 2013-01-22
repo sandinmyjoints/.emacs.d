@@ -134,7 +134,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform") (grep-base-dir . "~/scm/sd/fluensa/src") (grep-base-dir . "~/scm/sd/database-platform") (grep-base-dir . "~/.emacs.d") (grep-base-dir . "~/scm/sd/fluensa") (grep-base-dir . ~/scm/sd/fluensa))))
+ '(safe-local-variable-values (quote ((find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
@@ -372,6 +372,7 @@ and overlay is highlighted between MK and END-MK."
 ;; Setup packages.
 (eval-after-load 'ido '(require 'setup-ido))
 ;(eval-after-load 'org '(require 'setup-org))
+(require 'dired+)
 (eval-after-load 'dired+ '(require 'setup-dired+))
 (eval-after-load 'magit '(require 'setup-magit))
 ;(eval-after-load 'grep '(require 'setup-rgrep))
