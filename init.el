@@ -73,9 +73,6 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
-;; For magit:
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
-
 ;; Add all subdirs of site-lisp-dir.
 (let ((default-directory site-lisp-dir))
       (normal-top-level-add-subdirs-to-load-path))
@@ -209,13 +206,13 @@
 ;; Install packages if they're missing.
 (defun init--install-packages ()
   (packages-install
-   (cons 'rainbow-mode melpa)
    (cons 'exec-path-from-shell melpa)
    (cons 'git-commit-mode marmalade)
    (cons 'gitconfig-mode marmalade)
    (cons 'gitignore-mode marmalade)
    (cons 'ido-ubiquitous marmalade)
-   ;(cons 'magit melpa)
+   (cons 'magit melpa)
+   (cons 'rainbow-mode melpa)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
