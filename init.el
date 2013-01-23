@@ -177,7 +177,7 @@
    (cons 'gitconfig-mode marmalade)
    (cons 'gitignore-mode marmalade)
    (cons 'ido-ubiquitous marmalade)
-   (cons 'magit melpa)
+   (cons 'magit marmalade)
    (cons 'rainbow-mode melpa)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
