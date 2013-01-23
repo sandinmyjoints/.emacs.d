@@ -127,7 +127,8 @@
 (setq mac-command-modifier 'meta)
 
 ;; Make grep-find more helpful.
-(setq find-args "! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+;; TODO: dir-local list of paths to exclude from grep-find.
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
       default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
