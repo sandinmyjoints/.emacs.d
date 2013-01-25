@@ -98,6 +98,7 @@
 
 (add-hook 'coffee-mode-hook 'coffee-custom)
 
+;; TODO: write-file-functions is global, so this is a pretty dumb hook. Fix it.
 (add-hook 'coffee-mode-hook
           (lambda ()
             (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
