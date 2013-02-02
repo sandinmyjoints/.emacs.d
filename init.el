@@ -506,6 +506,7 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'dired-mode-hook 'no-fci)
 (add-hook 'dired+-mode-hook 'no-fci)
 (add-hook 'org-mode-hook 'no-fci)
+(add-hook 'magit-mode-hook 'no-fci)
 
 ;; Org-mode.
 (require 'org-install)
