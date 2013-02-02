@@ -584,9 +584,22 @@ and overlay is highlighted between MK and END-MK."
 ;; Autoload on use. See: http://ambience.info.ucl.ac.be/slime.html
 (when (load "slime-autoloads" t)
   (setq slime-auto-connect 'always)
-  (slime-setup '(slime-fancy inferior-slime)))
-;(require 'slime-autoloads)
-;(slime-setup '(slime-fancy))
+  (slime-setup '(slime-fancy inferior-slime swank-js)))
+
+;; Swank-js.
+(global-set-key (kbd "H-r") 'slime-js-reload)
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (slime-js-minor-mode 1)))
+
+;; Load slime-js when asked for
+(autoload 'slime-js-jack-in-browser "setup-slime-js" nil t)
+(autoload 'slime-js-jack-in-node "setup-slime-js" nil t)
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (when (locate-library "slime-js")
+                (require 'setup-slime-js))))
+
 
 ;; EPG.
 (require 'epa-file)
