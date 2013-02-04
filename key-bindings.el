@@ -18,6 +18,7 @@
 (global-set-key (kbd "C-c i") 'indent-relative)
 (global-set-key (kbd "C-c d") 'dirtree)
 (global-set-key (kbd "C-c SPC") 'just-one-space)
+(global-set-key (kbd "C-c C-SPC") 'just-one-space)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
 (global-set-key (kbd "C-c e") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c c") 'comment-region)
