@@ -172,6 +172,7 @@
 ;; Install packages if they're missing.
 (defun init--install-packages ()
   (packages-install
+   (cons 'edit-server melpa)
    (cons 'exec-path-from-shell melpa)
    (cons 'git-commit-mode marmalade)
    (cons 'gitconfig-mode marmalade)
@@ -595,6 +596,10 @@ and overlay is highlighted between MK and END-MK."
 ;; EPG.
 (require 'epa-file)
 (epa-file-enable)
+
+;; Edit-server for Edit-in-Emacs Chrome extension.
+(require 'edit-server)
+(edit-server-start)
 
 
 ;; ========================================
