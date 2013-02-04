@@ -506,6 +506,7 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'dired-mode-hook 'no-fci)
 (add-hook 'dired+-mode-hook 'no-fci)
 (add-hook 'org-mode-hook 'no-fci)
+(add-hook 'magit-mode-hook 'no-fci)
 
 ;; Org-mode.
 (require 'org-install)
@@ -633,3 +634,5 @@ and overlay is highlighted between MK and END-MK."
 ;; Workaround for a bug in emacs' http fetching. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
 (setq url-http-attempt-keepalives nil)
+
+(when is-mac (require 'mac))
