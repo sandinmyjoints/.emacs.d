@@ -147,7 +147,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
+ '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluensa-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir . /Users/william/scm/sd/fluensa/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
@@ -172,6 +172,7 @@
 ;; Install packages if they're missing.
 (defun init--install-packages ()
   (packages-install
+   (cons 'edit-server melpa)
    (cons 'exec-path-from-shell melpa)
    (cons 'git-commit-mode marmalade)
    (cons 'gitconfig-mode marmalade)
@@ -596,6 +597,10 @@ and overlay is highlighted between MK and END-MK."
 ;; EPG.
 (require 'epa-file)
 (epa-file-enable)
+
+;; Edit-server for Edit-in-Emacs Chrome extension.
+(require 'edit-server)
+(edit-server-start)
 
 
 ;; ========================================
