@@ -4,7 +4,10 @@
 ;; * C-.
 ;; * C-'
 ;; * C-c 0
-
+;; * C-x C-c
+;;
+(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-x C-c") nil)
 (global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 (global-set-key (kbd "C-x p") 'bury-buffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
