@@ -135,6 +135,7 @@
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 (global-set-key (kbd "C-x f") 'recentf-open-files)
+(global-set-key (kbd "C-c 0") 'kill-ring-save)
 
 ;; TODO: Add anything that needs Emacs>=24.
 (when (>= emacs-major-version 24)
@@ -144,4 +145,3 @@
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (electric-pair-mode t)
   )
-
