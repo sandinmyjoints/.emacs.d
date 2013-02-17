@@ -4,14 +4,9 @@
 ;;; See: https://github.com/sandinmyjoints/.emacs.d
 
 ;; TODO:
-;; * Directory local variables. See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
 ;; * find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 ;; * Coffee-script etags.
 ;; * Coffee-script compile and flymake.
-;; * swank.js:
-;;   * https://github.com/Gozala/swank-js
-;; * Model structure after/fork: https://github.com/magnars/.emacs.d
-;; * Make into a full repo with submodules.
 ;; * Use ELPA.
 ;; * Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
 ;; * Review for ideas:
@@ -127,13 +122,15 @@
 (setq mac-command-modifier 'meta)
 
 ;; Make grep-find more helpful.
-;; TODO: dir-local list of paths to exclude from grep-find.
-(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules)
+;;
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename
+      \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0
+      | xargs -0 grep -E -C 5 -niH -e "
       default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
-;; TODO: ignore .git and node_modules
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -142,14 +139,20 @@
  ;; If there is more than one, they won't work right.
  '(dired-isearch-filenames (quote dwim))
  '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin" "/usr/local/bin")))
- '(inhibit-startup-screen t)
- '(inverse-video t)
+ '(inhibit-startup-screen t) '(inverse-video t)
  '(markdown-command "/Users/william/bin/markdown")
- '(ns-command-modifier (quote meta))
- '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluensa-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir . /Users/william/scm/sd/fluensa/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluensa/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
- '(tool-bar-mode nil)
- '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
+ '(ns-command-modifier (quote meta)) '(rst-level-face-base-light
+ 51)
+ '(safe-local-variable-values (quote ((find-in-project-default-dir
+ . "/Users/william/scm/sd/fluensa-clean/src") (find-in-project-default-dir
+ . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir
+ . "/Users/william/scm/sd/fluensa/src") (find-in-project-dir .
+ /Users/william/scm/sd/fluensa/src) (find-in-project-dir
+ . "~/.emacs.d") (find-in-project-dir
+ . "~/scm/sd/fluensa/src") (find-in-project-dir
+ . "~/scm/sd/database-platform")))) '(tool-bar-mode nil)
+ '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch
+ Git))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
