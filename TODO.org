@@ -12,14 +12,30 @@
 
   - [X] Fixed some compile errors.
   - [ ] Still getting other errors from espuds.
-  - [ ] mark next like this errors: 
+  - [ ] mark next like this errors:
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-* TODO Coffee-script ctags.
+* DONE Coffee-script ctags.
+  CLOSED: [2013-02-18 Mon 16:51]
   - https://gist.github.com/mads379/907245
+  - trying: ctags -e -R --exclude=*.js --exclude=node_modules .
+    but it doesn't do coffee, despite putting coffee definitions in .ctags and .etags
+  - this command worked:
+ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
+--langdef=coffee \
+--langmap=coffee:.coffee \
+--regex-coffee="/^class ([A-Za-z.]+)( extends [A-Za-z.]+)?$/\1/c,class/" \
+--regex-coffee="/^[ \t]*@?([A-Za-z.]+):.*[-=]>.*$/\1/f,function/" \
+--regex-coffee="/^[ \t]*([A-Za-z.]+)[ \t]+=.*[-=]>.*$/\1/f,function/" \
+--regex-coffee="/^[ \t]*([A-Za-z.]+)[ \t]+=[^->\n]*$/\1/v,variable/" \
+.
+
+  - but only sort of. the definitions don't really work across modules and such.
 * TODO Coffee-script compile and flymake.
+
+  - Way to use coffee-watch?
 * TODO Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
   - [X] bare.el.
-  - [ ] 
+  - [ ]
 * TODO Window and frame restore. See:
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
   - http://www.emacswiki.org/emacs/LayoutRestore
@@ -35,3 +51,11 @@
   - https://github.com/technomancy/emacs-starter-kit
 * TODO Files to visit on startup in non-dirtree window.
    - E.g.: (find-file "~/emacs/gist-3743892/init.el")
+
+* TODO Test out full install on virgin Emacs 24
+
+* TODO Try anything and/or Helm
+
+* TODO Versioning of packages--how to pin?
+
+* TODO Keep magit from slowing down after being open for a while.
