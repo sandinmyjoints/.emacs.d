@@ -9,6 +9,7 @@ elisp/
 !elisp/fill-column-indicator/
 !elisp/dirtree/
 !elisp/handlebars-mode/
+!elisp/jade-mode/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el
