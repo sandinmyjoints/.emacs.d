@@ -1,30 +1,36 @@
-* TODO
-** DONE Use ELPA.
+#+STARTUP: overview
+* DONE Use ELPA.
    CLOSED: [2013-02-18 Mon 14:51]
-** DONE Make into repo.
+* DONE Make into repo.
    CLOSED: [2013-02-18 Mon 14:52]
-** DONE Use submodules where possible.
+* DONE Use submodules where possible.
    CLOSED: [2013-02-18 Mon 14:52]
 
-** TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-** TODO Coffee-script ctags.
-   - https://gist.github.com/mads379/907245
-** TODO Coffee-script compile and flymake.
-** TODO Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
-   - [X] bare.el.
-   - [ ] 
-** TODO Window and frame restore. See:
-   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
-   - http://www.emacswiki.org/emacs/LayoutRestore
-   - http://www.emacswiki.org/emacs/FrameConfig
-   - http://www.emacswiki.org/emacs/SessionManagement
-   - http://www.gentei.org/~yuuji/software/windows.el
-   - http://www.gentei.org/~yuuji/software/revive.el
-** TODO Try out:
-   - yasnippets
-   - iy go to char
-** TODO Review for ideas:
-   - http://news.ycombinator.com/item?id=1654164
-   - https://github.com/technomancy/emacs-starter-kit
-** TODO Files to visit on startup in non-dirtree window.
+
+* TODO Fix multiple-cursors and expand-region
+
+  - [X] Fixed some compile errors.
+  - [ ] Still getting other errors from espuds.
+  - [ ] mark next like this errors: 
+* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
+* TODO Coffee-script ctags.
+  - https://gist.github.com/mads379/907245
+* TODO Coffee-script compile and flymake.
+* TODO Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
+  - [X] bare.el.
+  - [ ] 
+* TODO Window and frame restore. See:
+  - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
+  - http://www.emacswiki.org/emacs/LayoutRestore
+  - http://www.emacswiki.org/emacs/FrameConfig
+  - http://www.emacswiki.org/emacs/SessionManagement
+  - http://www.gentei.org/~yuuji/software/windows.el
+  - http://www.gentei.org/~yuuji/software/revive.el
+* TODO Try out:
+  - yasnippets
+  - iy go to char
+* TODO Review for ideas:
+  - http://news.ycombinator.com/item?id=1654164
+  - https://github.com/technomancy/emacs-starter-kit
+* TODO Files to visit on startup in non-dirtree window.
    - E.g.: (find-file "~/emacs/gist-3743892/init.el")
