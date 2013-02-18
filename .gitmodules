@@ -40,3 +40,6 @@
 [submodule "elisp/less-css-mode"]
 	path = elisp/less-css-mode
 	url = git://github.com/purcell/less-css-mode.git
+[submodule "elisp/log4j-mode"]
+	path = elisp/log4j-mode
+	url = https://github.com/emacsmirror/log4j-mode.git

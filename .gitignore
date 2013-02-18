@@ -14,6 +14,7 @@ elisp/
 !elisp/json/
 !elisp/json-pretty-print/
 !elisp/less-css-mode/
+!elisp/log4j-mode/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el
