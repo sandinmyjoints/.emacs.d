@@ -584,9 +584,10 @@ and overlay is highlighted between MK and END-MK."
 (global-set-key (kbd "M-<right>") 'smart-forward)
 
 ;; Scheme.
+;; (setq scheme-program-name
+;;       "/usr/local/bin/racket")
 (setq scheme-program-name
-      "/usr/local/bin/racket")
-
+      "/Applications/MIT-GNUScheme.app/Contents/Resources/mit-scheme")
 ;; Common Lisp.
 ;; Inferior Lisp.
 (set-variable 'inferior-lisp-program "/usr/local/bin/clisp")
