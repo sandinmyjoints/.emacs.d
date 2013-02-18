@@ -161,6 +161,7 @@
    (cons 'rainbow-mode melpa)
    (cons 'dired+ marmalade)
    (cons 'tree-mode melpa) ; dirtree requirement.
+   (cons 'auto-install marmalade)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
@@ -175,6 +176,10 @@
   (error
    (package-refresh-contents)
    (init--install-packages)))
+
+;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
+(require 'auto-install)
+(setq auto-install-directory "~/.emacs.d/elisp/")
 
 ;; ========================================
 ;; Sane defaults.

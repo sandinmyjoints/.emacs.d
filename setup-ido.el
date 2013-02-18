@@ -12,6 +12,8 @@
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
+(add-to-list 'ido-ignore-directories "node_modules")
+
 ;; TODO: extensions order, ignore
 ;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 
