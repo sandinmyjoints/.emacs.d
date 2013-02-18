@@ -1,6 +1,7 @@
 auto-save-list/
 backups/
 elisp/
+!elisp/smart-tab/
 !elisp/lua-mode/
 !elisp/coffee-mode/
 !elisp/expand-region/

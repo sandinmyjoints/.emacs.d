@@ -46,3 +46,6 @@
 [submodule "elisp/markdown-mode"]
 	path = elisp/markdown-mode
 	url = git://github.com/defunkt/markdown-mode.git
+[submodule "elisp/smart-tab"]
+	path = elisp/smart-tab
+	url = git://github.com/genehack/smart-tab.git
