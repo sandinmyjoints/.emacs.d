@@ -10,3 +10,6 @@
 [submodule "elisp/multiple-cursors"]
 	path = elisp/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el.git
+[submodule "elisp/smart-forward"]
+	path = elisp/smart-forward
+	url = git://github.com/magnars/smart-forward.el.git
