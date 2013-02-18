@@ -49,3 +49,6 @@
 [submodule "elisp/smart-tab"]
 	path = elisp/smart-tab
 	url = git://github.com/genehack/smart-tab.git
+[submodule "elisp/magithub"]
+	path = elisp/magithub
+	url = git://github.com/nex3/magithub.git
