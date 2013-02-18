@@ -161,7 +161,7 @@
    (cons 'rainbow-mode melpa)
    (cons 'dired+ marmalade)
    (cons 'tree-mode melpa) ; dirtree requirement.
-   (cons 'auto-install marmalade)
+   (cons 'auto-install melpa)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
