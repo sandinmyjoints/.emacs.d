@@ -313,6 +313,9 @@ and overlay is highlighted between MK and END-MK."
 ;; Require/autoload and config packages.
 ;; ========================================
 
+(require 'smex)
+(smex-initialize)
+
 (require 'ido)
 (eval-after-load 'ido '(require 'setup-ido))
 
