@@ -10,6 +10,7 @@ elisp/
 !elisp/dirtree/
 !elisp/handlebars-mode/
 !elisp/jade-mode/
+!elisp/idomenu/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el

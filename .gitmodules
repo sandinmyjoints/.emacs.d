@@ -28,3 +28,6 @@
 [submodule "elisp/jade-mode"]
 	path = elisp/jade-mode
 	url = git://github.com/brianc/jade-mode.git
+[submodule "elisp/idomenu"]
+	path = elisp/idomenu
+	url = git://github.com/emacsmirror/idomenu.git
