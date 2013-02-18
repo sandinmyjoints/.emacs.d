@@ -33,6 +33,9 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Coffee-script compile and flymake.
 
   - Way to use coffee-watch?
+  - https://github.com/purcell/flymake-coffee
+  - Need to specify coffee binary in dir-locals, per project
+  - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
 * TODO Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
   - [X] bare.el.
   - [ ]
@@ -58,10 +61,13 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
 * TODO Versioning of packages--how to pin?
 
-* TODO Keep magit from slowing down after being open for a while.
+* TODO Keep Magit from slowing down after being open for a while.
+
+  - Try profiling: http://stackoverflow.com/a/6732810
 
 * TODO Don't error out init.el if some package isn't installed.
 
 * TODO Try perspectives.
 
   - https://github.com/nex3/perspective-el
+* TODO Fix the submodule -dirty caused by .elc files    
