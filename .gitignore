@@ -13,6 +13,7 @@ elisp/
 !elisp/idomenu/
 !elisp/json/
 !elisp/json-pretty-print/
+!elisp/less-css-mode/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el
