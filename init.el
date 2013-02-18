@@ -103,10 +103,7 @@
 ;; Make grep-find more helpful.
 ;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules)
 ;;
-(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename
-      \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0
-      | xargs -0 grep -E -C 5 -niH -e "
-      default-find-cmd (concat "find " ". " find-args))
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e " default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
