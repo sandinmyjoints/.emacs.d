@@ -31,6 +31,7 @@
 (defun fix-html ()
   "Fix HTML."
   (interactive)
+  (html-mode)
   (sgml-pretty-print (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
