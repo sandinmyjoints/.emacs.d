@@ -11,6 +11,8 @@ elisp/
 !elisp/handlebars-mode/
 !elisp/jade-mode/
 !elisp/idomenu/
+!elisp/json/
+!elisp/json-pretty-print/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el

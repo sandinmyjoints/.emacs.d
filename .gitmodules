@@ -31,3 +31,9 @@
 [submodule "elisp/idomenu"]
 	path = elisp/idomenu
 	url = git://github.com/emacsmirror/idomenu.git
+[submodule "elisp/json"]
+	path = elisp/json
+	url = git://github.com/thorstadt/json.el.git
+[submodule "elisp/json-pretty-print"]
+	path = elisp/json-pretty-print
+	url = git://github.com/thorstadt/json-pretty-print.el.git
