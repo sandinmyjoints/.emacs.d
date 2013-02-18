@@ -3,6 +3,8 @@ backups/
 elisp/
 !elisp/lua-mode/
 !elisp/coffee-mode/
+!elisp/expand-region/
+!elisp/multiple-cursors/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el
