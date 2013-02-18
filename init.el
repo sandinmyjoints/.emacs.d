@@ -24,7 +24,7 @@
 ;; 2. Register to store.
 ;; 3. Key bindings to set/clear marker.
 ;; 4. Insert/remove marker from current buffer?
-;;;
+;;
 (setq wjb-custom-markers
       '(("NNN" ?n "" t)
         ("MMM" ?m "" t)
@@ -163,6 +163,7 @@
    (cons 'magit marmalade)
    (cons 'rainbow-mode melpa)
    (cons 'dired+ marmalade)
+   (cons 'tree-mode marmalade) ; dirtree requirement.
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
