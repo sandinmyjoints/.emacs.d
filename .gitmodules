@@ -43,3 +43,6 @@
 [submodule "elisp/log4j-mode"]
 	path = elisp/log4j-mode
 	url = https://github.com/emacsmirror/log4j-mode.git
+[submodule "elisp/markdown-mode"]
+	path = elisp/markdown-mode
+	url = git://github.com/defunkt/markdown-mode.git
