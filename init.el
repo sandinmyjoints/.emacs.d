@@ -3,27 +3,6 @@
 ;;; init.el
 ;;; See: https://github.com/sandinmyjoints/.emacs.d
 
-;; TODO:
-;; * find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-;; * Coffee-script etags.
-;; * Coffee-script compile and flymake.
-;; * Use ELPA.
-;; * Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
-;; * Review for ideas:
-;;   * http://news.ycombinator.com/item?id=1654164
-;;   * https://github.com/technomancy/emacs-starter-kit
-;; * Window and frame restore. See:
-;; http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
-;; http://www.emacswiki.org/emacs/LayoutRestore
-;; http://www.emacswiki.org/emacs/FrameConfig
-;; http://www.emacswiki.org/emacs/SessionManagement
-;; http://www.gentei.org/~yuuji/software/windows.el
-;; http://www.gentei.org/~yuuji/software/revive.el
-;; * Try out:
-;;   * yasnippets
-;;   * iy go to char
-;; * Files to visit on startup in non-dirtree window.
-;;   * E.g.: (find-file "~/emacs/gist-3743892/init.el")
 
 ;; ========================================
 ;; Definitions.
