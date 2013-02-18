@@ -7,3 +7,6 @@
 [submodule "elisp/expand-region"]
 	path = elisp/expand-region
 	url = https://github.com/magnars/expand-region.el.git
+[submodule "elisp/multiple-cursors"]
+	path = elisp/multiple-cursors
+	url = https://github.com/magnars/multiple-cursors.el.git
