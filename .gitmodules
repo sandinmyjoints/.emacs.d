@@ -26,5 +26,5 @@
 	path = elisp/handlebars-mode
 	url = git://github.com/danielevans/handlebars-mode.git
 [submodule "jade-mode"]
-	path = jade-mode
+	path = elisp/jade-mode
 	url = git://github.com/brianc/jade-mode.git
