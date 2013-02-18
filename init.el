@@ -160,7 +160,7 @@
    (cons 'magit marmalade)
    (cons 'rainbow-mode melpa)
    (cons 'dired+ marmalade)
-   (cons 'tree-mode marmalade) ; dirtree requirement.
+   (cons 'tree-mode melpa) ; dirtree requirement.
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
