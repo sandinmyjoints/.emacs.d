@@ -22,3 +22,6 @@
 [submodule "elisp/dirtree"]
 	path = elisp/dirtree
 	url = git://github.com/zkim/emacs-dirtree.git
+[submodule "elisp/handlebars-mode"]
+	path = elisp/handlebars-mode
+	url = git://github.com/danielevans/handlebars-mode.git

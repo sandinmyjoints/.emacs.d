@@ -8,6 +8,7 @@ elisp/
 !elisp/smart-forward/
 !elisp/fill-column-indicator/
 !elisp/dirtree/
+!elisp/handlebars-mode/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el
