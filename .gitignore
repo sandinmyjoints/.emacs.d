@@ -7,6 +7,7 @@ elisp/
 !elisp/multiple-cursors/
 !elisp/smart-forward/
 !elisp/fill-column-indicator/
+!elisp/dirtree/
 .org-id-locations
 org-clock-save.el
 .mc-lists.el

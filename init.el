@@ -183,6 +183,7 @@
    (cons 'ido-ubiquitous marmalade)
    (cons 'magit marmalade)
    (cons 'rainbow-mode melpa)
+   (cons 'dired+ marmalade)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
