@@ -20,4 +20,12 @@
 ;; Don't open files from the workspace in a new frame
 (setq ns-pop-up-frames nil)
 
+;; Darwin/OS X ls doesn't support --dired out of the box.
+;; First option: emulate ls via ls-lisp.
+;(setq ls-lisp-use-insert-directory-program nil)
+;(require 'ls-lisp)
+;; Second options: if GNU coreutils is installed, use gls.
+(setq ls-lisp-use-insert-directory-program t)
+(setq insert-directory-program "gls")
+
 (provide 'mac)
