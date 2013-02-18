@@ -59,3 +59,9 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Versioning of packages--how to pin?
 
 * TODO Keep magit from slowing down after being open for a while.
+
+* TODO Don't error out init.el if some package isn't installed.
+
+* TODO Try perspectives.
+
+  - https://github.com/nex3/perspective-el
