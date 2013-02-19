@@ -1,6 +1,11 @@
 ;;; Bare-bones Emacs init.el.
 ;;; Works with Emacs >=23.3.3.
 
+;;; Tramp syntax:
+;;; C-x C-f /sudo:root@localhost:/etc/hosts
+;;; C-x C-f /sudo::/etc/hosts
+(setq tramp-default-method "ssh")
+
 ;;; No splash screen, thanks.
 (setq inhibit-splash-screen t)
 

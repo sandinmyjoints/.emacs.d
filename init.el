@@ -71,6 +71,12 @@
 ;; Save desktop.
 ;(desktop-save-mode 1)
 
+;; Allow the very useful set-goal-column.
+(put 'set-goal-column 'disabled nil)
+
+(setq tramp-default-method "ssh")
+
+
 ;; Sane backup files.
 ;; See: http://www.emacswiki.org/emacs/BackupDirectory
 (setq
