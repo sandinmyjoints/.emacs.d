@@ -551,7 +551,7 @@ and overlay is highlighted between MK and END-MK."
 (require 'multiple-cursors)
 
 (defun create-cursor (arg)
-  "Create fake cusor. If called with prefix, turn on
+  "Create fake cursor. If called with prefix, turn on
 mc/maybe-multiple-cursors-mode."
   (interactive "P")
   (cond

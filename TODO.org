@@ -109,7 +109,26 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Org-mode (C-c C-n/p; C-c C-f/b)
 
+  - sorting
+
+    - sort-lines
+
+    - reverse-region
+
+    - sort-fields and sort-numeric-fields
+
+    - sort-regexp-fields
+
+    - org-sort-entries
+
+  - view-lossage
+
+  - highlight-lines-matching-regexp
+
 
 * TODO Emacs golf
 
 * TODO Host windata.el on github
+* DONE Try Emacs Mac Port
+  CLOSED: [2013-02-19 Tue 22:02]
+  - https://github.com/railwaycat/emacs-mac-port
