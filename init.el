@@ -539,6 +539,9 @@ and overlay is highlighted between MK and END-MK."
 ;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 ;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
+;; js2-mode
+(eval-after-load 'js2-mode '(require 'setup-js2-mode))
+
 ;; json
 (require 'json)
 (require 'json-pretty-print)
