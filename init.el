@@ -74,6 +74,9 @@
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
 
+;; Scroll up without warning the first time.
+(setq scroll-error-top-bottom t)
+
 (setq tramp-default-method "ssh")
 
 
@@ -546,19 +549,29 @@ and overlay is highlighted between MK and END-MK."
 ;; multiple-cursors.
 ;; See: https://github.com/magnars/multiple-cursors.el
 (require 'multiple-cursors)
-(defun create-cursor ()
-  (interactive)
-  (mc/create-fake-cursor-at-point))
+
+(defun create-cursor (arg)
+  "Create fake cusor. If called with prefix, turn on
+mc/maybe-multiple-cursors-mode."
+  (interactive "P")
+  (cond
+   ((null arg)
+      (mc/create-fake-cursor-at-point))
+  (t
+    (mc/maybe-multiple-cursors-mode))))
 
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 (global-set-key (kbd "C-x r t") 'set-rectangular-region-anchor)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-M-<") 'mc/edit-beginnings-of-lines)
+(global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines)
 (global-set-key (kbd "C-c ,") 'create-cursor)
 (global-set-key (kbd "C-c C-,") 'create-cursor)
-(global-set-key (kbd "C-c .") 'multiple-cursors-mode)
-(global-set-key (kbd "C-c C-.") 'multiple-cursors-mode)
+(global-set-key (kbd "C-c .") '(lambda () 
+                                 (interactive) 
+                                 (mc/maybe-multiple-cursors-mode)))
 
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el

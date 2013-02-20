@@ -78,7 +78,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell 
-* Use:
+* TODO Use:
 
   - Smex (M-x, M-X)
 
@@ -102,6 +102,13 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Tramp: C-x C-f /sudo:root@localhost:/etc/hosts  *or*  C-x C-f /sudo::/etc/hosts
 
   - join-line
+
+  - terminal-mode for ssh
+
+  - rectangle-number-lines (C-x r N)
+
+  - Org-mode (C-c C-n/p; C-c C-f/b)
+
 
 * TODO Emacs golf
 
