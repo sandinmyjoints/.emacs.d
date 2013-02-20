@@ -1,3 +1,10 @@
+(defun toggle-fullscreen ()
+  "Toggle full screen. Especially useful on laptops."
+  (interactive)
+  (set-frame-parameter
+     nil 'fullscreen
+     (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
   (interactive (list (read-directory-name "path: " find-in-project-default-dir)
