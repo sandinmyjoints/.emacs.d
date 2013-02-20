@@ -77,14 +77,14 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Shell in Emacs
 
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
-  - ansi-term vs shell vs eshell 
+  - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO Use:
 
   - Smex (M-x, M-X)
 
   - Magithub
 
-  - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers 
+  - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers
 
   - Keyboard macros
     - counters: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html

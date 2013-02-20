@@ -171,6 +171,7 @@
    (cons 'dired+ marmalade)
    (cons 'tree-mode melpa) ; dirtree requirement.
    (cons 'auto-install melpa)
+   (cons 'json-mode marmalade)
    ;(cons 'paredit melpa)
    ;(cons 'move-text melpa)
    ;(cons 'gist melpa)
@@ -569,8 +570,8 @@ mc/maybe-multiple-cursors-mode."
 (global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines)
 (global-set-key (kbd "C-c ,") 'create-cursor)
 (global-set-key (kbd "C-c C-,") 'create-cursor)
-(global-set-key (kbd "C-c .") '(lambda () 
-                                 (interactive) 
+(global-set-key (kbd "C-c .") '(lambda ()
+                                 (interactive)
                                  (mc/maybe-multiple-cursors-mode)))
 
 ;; expand-region.
