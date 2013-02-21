@@ -70,5 +70,11 @@
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
 
+;; TODO investigate for putting a left margin on dirtree window in fullscreen
+;; mode. See:
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Margins.html
+;(add-hook 'window-configuration-change-hook
+;          (lambda ()
+;            (set-window-margins (car (get-buffer-window-list (current-buffer) nil t)) 8 0)))
 
 (provide 'appearance)

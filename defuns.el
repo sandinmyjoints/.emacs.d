@@ -13,6 +13,10 @@
   (set-window-margins
    (get-buffer-window (current-buffer)) 8 0))
 
+(defun other-window-reverse ()
+  (interactive)
+  (other-window -1))
+
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
   (interactive (list (read-directory-name "path: " find-in-project-default-dir)
