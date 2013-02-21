@@ -16,16 +16,17 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-;; No menu bars
-(menu-bar-mode -1)
-
 (when window-system
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))
   (tooltip-mode -1)
   (blink-cursor-mode 1))
 
-;; Ditch them scrollbars
-(scroll-bar-mode -1)
+;; Unused graphical elements.
+(if (display-graphic-p)
+    (progn
+      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
 
 ;; TODO: Use (null window-system) to conditionally execute.
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 160)

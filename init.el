@@ -55,11 +55,6 @@
 ;; Settings.
 ;; ========================================
 
-;; Unused graphical elements.
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
 ;; Require common lisp.
 (require 'cl)
 
@@ -509,6 +504,8 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'dired+-mode-hook 'no-fci)
 (add-hook 'org-mode-hook 'no-fci)
 (add-hook 'magit-mode-hook 'no-fci)
+(add-hook 'term-mode-hook 'no-fci)
+(add-hook 'shell-mode-hook 'no-fci)
 
 ;; Org-mode.
 (require 'org-install)
