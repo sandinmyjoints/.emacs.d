@@ -1,3 +1,5 @@
+;; Useful in fullscreen:
+;; http://osxdaily.com/2012/03/27/remove-auto-hide-dock-delay-mac-os-x/
 (defun toggle-fullscreen ()
   "Toggle full screen. Especially useful on laptops."
   (interactive)
