@@ -129,6 +129,13 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Emacs golf
 
 * TODO Host windata.el on github
+* DONE Emacs in Chrome
+  CLOSED: [2013-02-20 Wed 21:27]
+
+  - via SSH in Chrome: https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo
+  - some discussion: http://lists.gnu.org/archive/html/emacs-devel/2012-01/msg00421.html
 * DONE Try Emacs Mac Port
   CLOSED: [2013-02-19 Tue 22:02]
   - https://github.com/railwaycat/emacs-mac-port
+* DONE Fullscreen Emacs
+  CLOSED: [2013-02-20 Wed 21:28]
