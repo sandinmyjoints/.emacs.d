@@ -7,6 +7,12 @@
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
 
+(defun margin-eight ()
+  "Give current window a left margin of 8 columns."
+  (interactive)
+  (set-window-margins
+   (get-buffer-window (current-buffer)) 8 0))
+
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
   (interactive (list (read-directory-name "path: " find-in-project-default-dir)
