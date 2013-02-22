@@ -7,11 +7,11 @@
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
 
-(defun margin-eight ()
-  "Give current window a left margin of 8 columns."
+(defun margin-x ()
+  "Give current window a left margin of x columns."
   (interactive)
   (set-window-margins
-   (get-buffer-window (current-buffer)) 8 0))
+   (get-buffer-window (current-buffer)) 12 0))
 
 (defun other-window-reverse ()
   (interactive)
