@@ -67,11 +67,25 @@
 
 (global-font-lock-mode t)
 
-;;; Make grep-find more helpful.
-(setq find-args "! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-      default-find-cmd (concat "find " ". " find-args))
+
+;; Allow the very useful set-goal-column.
+(put 'set-goal-column 'disabled nil)
+
+;; Make grep-find more helpful.
+;;
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e " default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
+
+(defun margin-x ()
+  "Give current window a left margin of x columns."
+  (interactive)
+  (set-window-margins
+   (get-buffer-window (current-buffer)) 12 0))
+
+(defun other-window-reverse ()
+  (interactive)
+  (other-window -1))
 
 (defun toggle-window-dedicated ()
   "Toggle whether the current active window is dedicated or not"
@@ -120,6 +134,15 @@
 ;;; Key bindings.
 ;;; ========================================
 
+(global-set-key (kbd "C-x C-c") nil)
+(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+(global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
+(global-set-key (kbd "C-|") 'align-regexp)
+;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
+;; TODO: bind something to align-regexp with a regexp that aligns based on :
+(global-set-key (kbd "C-x p") 'other-window)
+(global-set-key (kbd "C-x o") 'other-window-reverse)
+(global-set-key (kbd "C-c p") 'bury-buffer)
 (global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 (global-set-key (kbd "C-x p") 'bury-buffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -149,4 +172,5 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (electric-pair-mode t)
-  )
+  ;; Scroll up without warning the first time.
+  (setq scroll-error-top-bottom t))
