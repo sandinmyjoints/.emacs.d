@@ -7,11 +7,12 @@
 ;; * C-x C-c
 ;; * C-z
 ;;
+(global-set-key (kbd "C-x C-c") nil)
+(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
 (global-set-key (kbd "C-|") 'align-regexp)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
-(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
-(global-set-key (kbd "C-x C-c") nil)
+;; TODO: bind something to align-regexp with a regexp that aligns based on :
 (global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 (global-set-key (kbd "C-x p") 'other-window)
 (global-set-key (kbd "C-x o") 'other-window-reverse)
