@@ -109,6 +109,12 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Org-mode (C-c C-n/p; C-c C-f/b)
 
+  - org-table (convert-region, transpose, etc)
+
+  - color-themes
+
+    - save current as?
+
   - sorting
 
     - sort-lines
