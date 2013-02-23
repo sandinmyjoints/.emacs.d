@@ -84,6 +84,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Magithub
 
+  - Occur
+
   - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers
 
   - Keyboard macros
@@ -145,3 +147,5 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - https://github.com/railwaycat/emacs-mac-port
 * DONE Fullscreen Emacs
   CLOSED: [2013-02-20 Wed 21:28]
+
+* TODO Master regexp syntax

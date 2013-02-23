@@ -72,8 +72,8 @@
 ;; Scroll up without warning the first time.
 (setq scroll-error-top-bottom t)
 
+;; Tramp.
 (setq tramp-default-method "ssh")
-
 
 ;; Sane backup files.
 ;; See: http://www.emacswiki.org/emacs/BackupDirectory

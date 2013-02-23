@@ -7,6 +7,16 @@
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
 
+(defun margin-x ()
+  "Give current window a left margin of x columns."
+  (interactive)
+  (set-window-margins
+   (get-buffer-window (current-buffer)) 12 0))
+
+(defun other-window-reverse ()
+  (interactive)
+  (other-window -1))
+
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
   (interactive (list (read-directory-name "path: " find-in-project-default-dir)
