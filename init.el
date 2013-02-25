@@ -525,7 +525,11 @@ and overlay is highlighted between MK and END-MK."
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
 (add-hook 'org-mode-hook
-	  (lambda () (auto-fill-mode 1) (set-fill-column 80)))
+	  (lambda ()
+        (auto-fill-mode 1)
+        (set-fill-column 80)
+        (local-set-key (kbd "S-up") 'outline-previous-visible-heading)
+        (local-set-key (kbd "S-down") 'outline-next-visible-heading)))
 
 ;; Python
 ;; TODO: Fix ipython for use in emacs.
