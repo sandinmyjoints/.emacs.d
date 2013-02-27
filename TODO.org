@@ -135,6 +135,10 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - highlight-lines-matching-regexp
 
+  - tumme
+
+  - what-cursor-position (C-x =, also C-u C-x =)
+
 
 * TODO Emacs golf
 
@@ -151,3 +155,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   CLOSED: [2013-02-20 Wed 21:28]
 
 * TODO Master regexp syntax
+* TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+  - useful for set-rectangular-region-anchor
