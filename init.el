@@ -517,7 +517,7 @@ and overlay is highlighted between MK and END-MK."
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
+;(org-clock-persistence-insinuate)
 (setq org-blank-before-new-entry
       '((heading . t) (plain-list-item . auto)))
 
