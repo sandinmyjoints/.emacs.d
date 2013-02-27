@@ -131,6 +131,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - view-lossage
 
+  - repeat (C-x z)
+
   - highlight-lines-matching-regexp
 
 
