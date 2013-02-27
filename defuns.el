@@ -3,9 +3,17 @@
 (defun toggle-fullscreen ()
   "Toggle full screen. Especially useful on laptops."
   (interactive)
-  (set-frame-parameter
-     nil 'fullscreen
-     (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+  (let ((fs (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+    (set-frame-parameter nil 'fullscreen fs)
+    (if (equal fs 'fullboth)
+        (display-time-mode)
+      (display-time-mode -1))))
+
+(defun margin-0 ()
+  "Give current window a left margin of 0 columns."
+  (interactive)
+  (set-window-margins
+   (get-buffer-window (current-buffer)) 0 0))
 
 (defun margin-x ()
   "Give current window a left margin of x columns."
