@@ -160,6 +160,7 @@
 (global-set-key (kbd "C-c u") 'uncomment-region)
 (global-set-key (kbd "C-c C-r") 're-builder)
 (global-set-key (kbd "C-c g") 'grep-find)
+(global-set-key (kbd "C-c j") 'join-line)
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 (global-set-key (kbd "C-x f") 'recentf-open-files)
