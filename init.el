@@ -555,8 +555,12 @@ and overlay is highlighted between MK and END-MK."
 (global-smart-tab-mode 1)
 
 ;; multiple-cursors.
+;;
 ;; See: https://github.com/magnars/multiple-cursors.el
-(require 'multiple-cursors)
+;;
+;; Temporarily moved to sane-defaults to overcome
+;; https://github.com/magnars/multiple-cursors.el/issues/39
+;; (require 'multiple-cursors)
 
 (defun create-cursor (arg)
   "Create fake cursor. If called with prefix, turn on
