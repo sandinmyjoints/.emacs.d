@@ -37,6 +37,7 @@
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 (global-set-key (kbd "C-c j") 'join-line)
+(global-set-key (kbd "C-c C-j") 'join-line)
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x j") 'magit-status)
