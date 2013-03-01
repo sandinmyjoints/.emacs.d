@@ -123,10 +123,4 @@
 ;;; Avoid backslash madness.
 (setq reb-re-syntax 'string)
 
-;; multiple-cursors.
-;; See: https://github.com/magnars/multiple-cursors.el
-;; Temporarily moved here to overcome
-;; https://github.com/magnars/multiple-cursors.el/issues/39
-(require 'multiple-cursors)
-
 (provide 'sane-defaults)
