@@ -125,4 +125,8 @@
 	(auto-fill-mode 1)
 	(set-fill-column 80))
 
+(defun sudo-find-file (file-name)
+  (interactive "Find file (sudo): ")
+  (find-file (concat "/sudo::" file-name)))
+
 (provide 'defuns)
