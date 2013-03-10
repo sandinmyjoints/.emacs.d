@@ -186,8 +186,8 @@
    (init--install-packages)))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
-(require 'auto-install)
-(setq auto-install-directory "~/.emacs.d/elisp/")
+(when (require 'auto-install nil t)
+  (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 ;; ========================================
 ;; Sane defaults.
@@ -326,18 +326,18 @@ and overlay is highlighted between MK and END-MK."
 ;; Require/autoload and config packages.
 ;; ========================================
 
-(require 'smex)
-(smex-initialize)
+(when (require 'smex nil t)
+  (smex-initialize))
 
-(require 'ido)
-(eval-after-load 'ido '(require 'setup-ido))
+(when (require 'ido nil t)
+  (eval-after-load 'ido '(require 'setup-ido)))
 
 ;; Org-mode.
 (require 'org-install)
 (eval-after-load 'org '(require 'setup-org))
 
-(require 'dired+)
-(eval-after-load 'dired+ '(require 'setup-dired+))
+(when (require 'dired+ nil t)
+  (eval-after-load 'dired+ '(require 'setup-dired+)))
 
 (autoload 'magit-status "magit")
 (autoload 'magit-log "magit")
@@ -353,20 +353,20 @@ and overlay is highlighted between MK and END-MK."
 ;(require 'setup-paredit)
 
 ;; Rainbow mode.
-(require 'rainbow-mode)
-(add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
-(add-hook 'coffee-mode-hook 'rainbow-mode)
-(add-hook 'less-css-mode-hook 'rainbow-mode)
-(add-hook 'css-mode-hook 'rainbow-mode)
-(add-hook 'html-mode-hook 'rainbow-mode)
+(when (require 'rainbow-mode nil t)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+  (add-hook 'coffee-mode-hook 'rainbow-mode)
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'html-mode-hook 'rainbow-mode))
 
 ;; Anything.
 ;(require 'helm-config)
 ;(helm-mode 1)
 
 ;; Imenu.
-(require 'imenu)
-(autoload 'idomenu "idomenu" nil t)
+(when (require 'imenu nil t)
+  (autoload 'idomenu "idomenu" nil t))
 
 (defadvice ido-imenu (before push-mark activate)
     (push-mark))
@@ -526,12 +526,12 @@ and overlay is highlighted between MK and END-MK."
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 ;; json
-(require 'json)
-(require 'json-pretty-print)
+(require 'json nil t)
+(require 'json-pretty-print nil t)
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
-(require 'smart-tab)
-(global-smart-tab-mode 1)
+(when (require 'smart-tab nil t)
+  (global-smart-tab-mode 1))
 
 ;; multiple-cursors.
 ;;
@@ -600,8 +600,8 @@ mc/maybe-multiple-cursors-mode."
 (epa-file-enable)
 
 ;; Edit-server for Edit-in-Emacs Chrome extension.
-(require 'edit-server)
-(edit-server-start)
+(when (require 'edit-server nil t)
+  (edit-server-start))
 
 
 ;; ========================================
