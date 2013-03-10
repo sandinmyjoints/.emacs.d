@@ -4,15 +4,6 @@
 [submodule "elisp/coffee-mode"]
 	path = elisp/coffee-mode
 	url = git://github.com/defunkt/coffee-mode.git
-[submodule "elisp/expand-region"]
-	path = elisp/expand-region
-	url = https://github.com/magnars/expand-region.el.git
-[submodule "elisp/multiple-cursors"]
-	path = elisp/multiple-cursors
-	url = https://github.com/magnars/multiple-cursors.el.git
-[submodule "elisp/smart-forward"]
-	path = elisp/smart-forward
-	url = git://github.com/magnars/smart-forward.el.git
 [submodule "elisp/js2-mode"]
 	path = elisp/js2-mode
 	url = git://github.com/mooz/js2-mode.git
