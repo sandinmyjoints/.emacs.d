@@ -9,8 +9,8 @@
   (ido-everywhere t)
 
   ;; Really use ido everywhere.
-  (require 'ido-ubiquitous)
-  (ido-ubiquitous-mode 1)
+  (when (require 'ido-ubiquitous nil t)
+    (ido-ubiquitous-mode 1))
 
   (add-to-list 'ido-ignore-directories "node_modules")
 
