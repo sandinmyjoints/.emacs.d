@@ -123,4 +123,6 @@
 ;;; Avoid backslash madness.
 (setq reb-re-syntax 'string)
 
+(put 'upcase-region 'disabled nil)
+
 (provide 'sane-defaults)
