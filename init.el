@@ -156,34 +156,35 @@
 (require 'setup-package)
 
 ;; Install packages if they're missing.
-(defun init--install-packages ()
-  (packages-install
-   (cons 'edit-server melpa)
-   (cons 'exec-path-from-shell melpa)
-   (cons 'git-commit-mode marmalade)
-   (cons 'gitconfig-mode marmalade)
-   (cons 'gitignore-mode marmalade)
-   (cons 'ido-ubiquitous marmalade)
-   (cons 'magit marmalade)
-   (cons 'rainbow-mode melpa)
-   (cons 'dired+ marmalade)
-   (cons 'tree-mode melpa) ; dirtree requirement.
-   (cons 'auto-install melpa)
-   (cons 'json-mode marmalade)
-   ;(cons 'paredit melpa)
-   ;(cons 'move-text melpa)
-   ;(cons 'gist melpa)
-   ;(cons 'htmlize melpa)
-   ;(cons 'elisp-slime-nav melpa)
-   ;;(cons 'elnode marmalade)
-   ;(cons 'slime-js marmalade)
+(when (require 'package nil t)
+  (defun init--install-packages ()
+    (packages-install
+     (cons 'edit-server melpa)
+     (cons 'exec-path-from-shell melpa)
+     (cons 'git-commit-mode marmalade)
+     (cons 'gitconfig-mode marmalade)
+     (cons 'gitignore-mode marmalade)
+     (cons 'ido-ubiquitous marmalade)
+     (cons 'magit marmalade)
+     (cons 'rainbow-mode melpa)
+     (cons 'dired+ marmalade)
+     (cons 'tree-mode melpa) ; dirtree requirement.
+     (cons 'auto-install melpa)
+     (cons 'json-mode marmalade)
+     ;(cons 'paredit melpa)
+     ;(cons 'move-text melpa)
+     ;(cons 'gist melpa)
+     ;(cons 'htmlize melpa)
+     ;(cons 'elisp-slime-nav melpa)
+     ;;(cons 'elnode marmalade)
+     ;(cons 'slime-js marmalade)
    ))
 
-(condition-case nil
-    (init--install-packages)
-  (error
-   (package-refresh-contents)
-   (init--install-packages)))
+  (condition-case nil
+      (init--install-packages)
+    (error
+     (package-refresh-contents)
+     (init--install-packages))))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
 (when (require 'auto-install nil t)
