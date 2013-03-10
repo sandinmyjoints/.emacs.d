@@ -175,3 +175,17 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - useful for set-rectangular-region-anchor
 
 * TODO Diff Colors in Magit
+
+* TODO Sometimes C-p and C-n skip a line
+
+  - May only happen in Emacs-mac? yes
+  - Repro: use C-n to move past, main-config.coffee line 21, then use C-p to
+    move back, it will skip line 21
+  - Repro: C-p skips first non-blank line after a blank line. See example.
+  - Happens in Emacs-mac, both 24.2 and 24.3-rc1
+  - Does not happen in Cocoa Emacs
+  - Happens both when line-move-visual is nil and t
+  - Happens in all modes
+  - Happens with -nw from console
+  - Does not happen with -nw -q from console. So what is causing it?
+    - Not multiple-cursors, expand-region, or smart-forward

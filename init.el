@@ -537,9 +537,7 @@ and overlay is highlighted between MK and END-MK."
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
-;; Temporarily moved to sane-defaults to overcome
-;; https://github.com/magnars/multiple-cursors.el/issues/39
-;; (require 'multiple-cursors)
+;;(require 'multiple-cursors)
 
 (defun create-cursor (arg)
   "Create fake cursor. If called with prefix, turn on
@@ -569,8 +567,8 @@ mc/maybe-multiple-cursors-mode."
 (when (require 'expand-region nil t)
   (global-set-key (kbd "C-=") 'er/expand-region))
 
-;; ;; smart-forward
-;; ;; See: https://github.com/magnars/smart-forward.el
+;; smart-forward
+;; See: https://github.com/magnars/smart-forward.el
 (when (require 'smart-forward nil t)
   (global-set-key (kbd "M-<up>") 'smart-up)
   (global-set-key (kbd "M-<down>") 'smart-down)
