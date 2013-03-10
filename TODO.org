@@ -77,7 +77,11 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Files to visit on startup in non-dirtree window.
    - E.g.: (find-file "~/emacs/gist-3743892/init.el")
 
-* TODO Test out full install on virgin Emacs 24
+* TODO Test out full install on virgin Emacs
+
+** TODO Emacs 23
+
+** TODO Emacs 24
 
 * TODO Try anything and/or Helm
 
