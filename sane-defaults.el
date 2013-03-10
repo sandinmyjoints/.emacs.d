@@ -111,9 +111,6 @@
 ;;; Visible bell.
 (setq-default visible-bell t)
 
-;;; Pair parens and other delimiters.
-(electric-pair-mode t)
-
 ;;; Fewer pop-up windows.
 (setq pop-up-windows nil)
 
@@ -124,5 +121,12 @@
 (setq reb-re-syntax 'string)
 
 (put 'upcase-region 'disabled nil)
+
+;;; Emacs 24 and up.
+(when (>= emacs-major-version 24)
+  ;; Pair parens and other delimiters.
+  (electric-pair-mode t)
+  ;; Scroll up without warning the first time.
+  (setq scroll-error-top-bottom t))
 
 (provide 'sane-defaults)

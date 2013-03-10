@@ -69,9 +69,6 @@
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
 
-;; Scroll up without warning the first time.
-(setq scroll-error-top-bottom t)
-
 ;; 24-hour time.
 (setq display-time-24hr-format t)
 
