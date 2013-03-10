@@ -8,12 +8,6 @@
 
 * DONE Don't ignore all of elisp dir
   CLOSED: [2013-02-18 Mon 15:52]
-* TODO Fix multiple-cursors and expand-region
-
-  - [X] Fixed some compile errors.
-  - [ ] Still getting other errors from espuds.
-  - [ ] mark next like this errors:
-* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * DONE Coffee-script ctags.
   CLOSED: [2013-02-18 Mon 16:51]
   - https://gist.github.com/mads379/907245
@@ -30,6 +24,29 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 .
 
   - but only sort of. the definitions don't really work across modules and such.
+* DONE Emacs in Chrome
+  CLOSED: [2013-02-20 Wed 21:27]
+
+  - via SSH in Chrome: https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo
+  - some discussion: http://lists.gnu.org/archive/html/emacs-devel/2012-01/msg00421.html
+* DONE Try Emacs Mac Port
+  CLOSED: [2013-02-19 Tue 22:02]
+  - https://github.com/railwaycat/emacs-mac-port
+* DONE Fullscreen Emacs
+  CLOSED: [2013-02-20 Wed 21:28]
+
+* TODO Use safer require / don't error out if package isn't installed
+  - (when (require 'foo nil t) ...) ;; last argument to require means to simply
+    return nil but not signal an error in the event that a feature cannot be
+    loaded.
+* TODO Fix multiple-cursors and expand-region
+
+  - [X] Fixed some compile errors.
+  - [ ] Still getting other errors from espuds.
+  - [ ] mark next like this errors:
+  - https://github.com/magnars/multiple-cursors.el/issues/39
+  - supposedly fixed in emacs trunk, but 24.3-rc1 not working
+* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Coffee-script compile and flymake.
 
   - Way to use coffee-watch?
@@ -66,8 +83,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Try profiling: http://stackoverflow.com/a/6732810
 
-* TODO Don't error out init.el if some package isn't installed.
-
 * TODO Try perspectives.
 
   - https://github.com/nex3/perspective-el
@@ -85,6 +100,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Magithub
 
   - Occur
+
+  - subword-backward-kill C-backspace
 
   - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers
 
@@ -143,16 +160,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Emacs golf
 
 * TODO Host windata.el on github
-* DONE Emacs in Chrome
-  CLOSED: [2013-02-20 Wed 21:27]
-
-  - via SSH in Chrome: https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo
-  - some discussion: http://lists.gnu.org/archive/html/emacs-devel/2012-01/msg00421.html
-* DONE Try Emacs Mac Port
-  CLOSED: [2013-02-19 Tue 22:02]
-  - https://github.com/railwaycat/emacs-mac-port
-* DONE Fullscreen Emacs
-  CLOSED: [2013-02-20 Wed 21:28]
 
 * TODO Master regexp syntax
 * TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
