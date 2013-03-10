@@ -129,4 +129,12 @@
   (interactive "Find file (sudo): ")
   (find-file (concat "/sudo::" file-name)))
 
+(defun go-to-doc (base-url)
+    (let ((default (symbol-name (symbol-at-point))))
+      (browse-url (concat base-url (read-string "Search term: " nil nil default)))))
+
+ (defun search-so ()
+    (interactive)
+    (go-to-doc "http://stackoverflow.com/search?q="))
+
 (provide 'defuns)
