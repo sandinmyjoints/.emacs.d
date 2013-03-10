@@ -1,5 +1,5 @@
 ;; Diredplus.
-(require 'dired+)
-(toggle-diredp-find-file-reuse-dir 1)
+(when (require 'dired+ nil t)
+  (toggle-diredp-find-file-reuse-dir 1))
 
 (provide 'setup-dired+)
