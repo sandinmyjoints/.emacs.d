@@ -46,6 +46,9 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * DONE S-up and S-down in org-mode
   CLOSED: [2013-03-10 Sun 13:18]
 
+* DONE Diff Colors in Magit
+  CLOSED: [2013-03-10 Sun 18:51]
+
 * TODO Use safer require / don't error out if package isn't installed
   - (when (require 'foo nil t) ...) ;; last argument to require means to simply
     return nil but not signal an error in the event that a feature cannot be
@@ -96,6 +99,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - https://github.com/nex3/perspective-el
 * TODO Fix the submodule -dirty caused by .elc files
 
+  - Maybe just use more packages and fewer submodules
 
 * TODO Shell in Emacs
 
@@ -173,8 +177,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
 
   - useful for set-rectangular-region-anchor
-
-* TODO Diff Colors in Magit
 
 * TODO Sometimes C-p and C-n skip a line
 
