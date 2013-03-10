@@ -43,6 +43,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
     - https://github.com/magnars/multiple-cursors.el/issues/39
     - supposedly fixed in emacs trunk, but 24.3-rc1 not working
     - upgraded, moved to packages instead of submods
+* DONE S-up and S-down in org-mode
+  CLOSED: [2013-03-10 Sun 13:18]
 
 * TODO Use safer require / don't error out if package isn't installed
   - (when (require 'foo nil t) ...) ;; last argument to require means to simply
@@ -167,6 +169,5 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
 
   - useful for set-rectangular-region-anchor
-* TODO S-up and S-down in org-mode
 
 * TODO Diff Colors in Magit

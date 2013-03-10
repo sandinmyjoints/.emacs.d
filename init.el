@@ -332,7 +332,9 @@ and overlay is highlighted between MK and END-MK."
 (require 'ido)
 (eval-after-load 'ido '(require 'setup-ido))
 
-;(eval-after-load 'org '(require 'setup-org))
+;; Org-mode.
+(require 'org-install)
+(eval-after-load 'org '(require 'setup-org))
 
 (require 'dired+)
 (eval-after-load 'dired+ '(require 'setup-dired+))
@@ -510,29 +512,6 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'term-mode-hook 'no-fci)
 (add-hook 'shell-mode-hook 'no-fci)
 
-;; Org-mode.
-(require 'org-install)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-(setq org-clock-persist 'history)
-;(org-clock-persistence-insinuate)
-(setq org-blank-before-new-entry
-      '((heading . t) (plain-list-item . auto)))
-
-;; Set to the location of your Org files on your local system
-(setq org-directory "~/org")
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/org/flagged.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
-(add-hook 'org-mode-hook
-	  (lambda ()
-        (auto-fill-mode 1)
-        (set-fill-column 80)
-        (local-set-key (kbd "S-up") 'outline-previous-visible-heading)
-        (local-set-key (kbd "S-down") 'outline-next-visible-heading)))
 
 ;; Python
 ;; TODO: Fix ipython for use in emacs.
