@@ -168,6 +168,7 @@
      (cons 'tree-mode melpa) ; dirtree requirement.
      (cons 'auto-install melpa)
      (cons 'json-mode marmalade)
+     (cons 'fill-column-indicator melpa)
      ;(cons 'paredit melpa)
      ;(cons 'move-text melpa)
      ;(cons 'gist melpa)
