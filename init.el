@@ -587,16 +587,16 @@ mc/maybe-multiple-cursors-mode."
 
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(when (require 'expand-region nil t)
+  (global-set-key (kbd "C-=") 'er/expand-region))
 
-;; smart-forward
-;; See: https://github.com/magnars/smart-forward.el
-(require 'smart-forward)
-(global-set-key (kbd "M-<up>") 'smart-up)
-(global-set-key (kbd "M-<down>") 'smart-down)
-(global-set-key (kbd "M-<left>") 'smart-backward)
-(global-set-key (kbd "M-<right>") 'smart-forward)
+;; ;; smart-forward
+;; ;; See: https://github.com/magnars/smart-forward.el
+(when (require 'smart-forward nil t)
+  (global-set-key (kbd "M-<up>") 'smart-up)
+  (global-set-key (kbd "M-<down>") 'smart-down)
+  (global-set-key (kbd "M-<left>") 'smart-backward)
+  (global-set-key (kbd "M-<right>") 'smart-forward))
 
 ;; Scheme.
 ;; (setq scheme-program-name
