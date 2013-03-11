@@ -8,7 +8,7 @@
        (set-face-background 'magit-diff-add "black")
        (set-face-background 'magit-diff-del "black")
        (set-face-background 'magit-item-highlight "#121616")
-       (when (not window-system)
+       (unless (display-graphic-p)
          (set-face-background 'magit-item-highlight "black"))))
 
   (autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t))

@@ -166,7 +166,7 @@
      (cons 'gitignore-mode marmalade)
      (cons 'ido-ubiquitous marmalade)
      (cons 'magit marmalade)
-     (cons 'rainbow-mode melpa)
+     (cons 'rainbow-mode melpa) ;; Emacs >=24 only
      (cons 'dired+ marmalade)
      (cons 'tree-mode melpa) ; dirtree requirement.
      (cons 'auto-install melpa)
