@@ -204,4 +204,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Does not happen with -nw -q from console. So what is causing it?
     - Not multiple-cursors, expand-region, or smart-forward
 
-* TODO Background face on transparent terminals is awful
+* TODO Colors on Emacs 23 on a console
+
+  - Background face on transparent terminals is awful
+  - install color-theme and choose one
+  - magit is messed up
