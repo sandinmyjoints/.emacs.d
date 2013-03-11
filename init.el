@@ -623,8 +623,8 @@ mc/maybe-multiple-cursors-mode."
 ;; Final.
 ;; ========================================
 
-;; Open up some dirs in dirtree.
-(when (require 'dirtree nil t)
+;; Open up some dirs in dirtree if it's available.
+(when (and (require 'tree-mode nil t) (require 'dirtree nil t))
   (let ((dirtree-buffer "*dirtree*"))
     (dolist (dir initial-dirs-to-open)
       (dirtree dir dirtree-buffer))
