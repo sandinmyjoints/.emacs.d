@@ -209,3 +209,10 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Background face on transparent terminals is awful
   - install color-theme and choose one
   - magit is messed up
+  - Revisit appearance.el and make sensible settings for a windowed display vs a
+    terminal display
+  - Is it better/easier not to use transparent background in Terminal?
+* TODO conditionally add packages to package list
+
+  - .e.g, rainbow-mode only if Emacs >=24
+  - 
