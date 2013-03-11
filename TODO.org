@@ -49,10 +49,23 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * DONE Diff Colors in Magit
   CLOSED: [2013-03-10 Sun 18:51]
 
-* TODO Use safer require / don't error out if package isn't installed
+* DONE Use safer require / don't error out if package isn't installed
+  CLOSED: [2013-03-10 Sun 21:05]
   - (when (require 'foo nil t) ...) ;; last argument to require means to simply
     return nil but not signal an error in the event that a feature cannot be
     loaded.
+
+* DONE Test out full install on virgin Emacs
+  CLOSED: [2013-03-10 Sun 21:20]
+
+** DONE Emacs 23
+   CLOSED: [2013-03-10 Sun 21:20]
+
+** DONE Emacs 24
+   CLOSED: [2013-03-10 Sun 21:20]
+* DONE Files to visit on startup in non-dirtree window.
+  CLOSED: [2013-03-10 Sun 21:21]
+   - E.g.: (find-file "~/emacs/gist-3743892/init.el")
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Coffee-script compile and flymake.
 
@@ -70,6 +83,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - http://www.emacswiki.org/emacs/SessionManagement
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
+  - https://github.com/rolandwalker/minimal-session-saver
 * TODO Try out:
   - yasnippets
   - iy go to char
@@ -77,14 +91,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
-* TODO Files to visit on startup in non-dirtree window.
-   - E.g.: (find-file "~/emacs/gist-3743892/init.el")
-
-* TODO Test out full install on virgin Emacs
-
-** TODO Emacs 23
-
-** TODO Emacs 24
 
 * TODO Try anything and/or Helm
 
@@ -191,3 +197,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Happens with -nw from console
   - Does not happen with -nw -q from console. So what is causing it?
     - Not multiple-cursors, expand-region, or smart-forward
+* TODO Command as meta in Terminal
+  - https://github.com/aim-stuff/cmd-key-happy
+  - Collision between M-v/Cmd-v. Bind scroll-down-command to <M-up> as well.
