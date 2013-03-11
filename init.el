@@ -630,7 +630,8 @@ mc/maybe-multiple-cursors-mode."
 (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
   (let ((dirtree-buffer "*dirtree*"))
     (dolist (dir initial-dirs-to-open)
-      (dirtree dir dirtree-buffer))
+      (when (file-accessible-directory-p dir)
+        (dirtree dir dirtree-buffer)))
     ;; Dedicate window and resize.
     (let ((window (get-buffer-window dirtree-buffer)))
       (set-window-dedicated-p window t)
