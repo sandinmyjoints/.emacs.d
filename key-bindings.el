@@ -48,8 +48,10 @@
 (global-set-key (kbd "C-x f") 'recentf-open-files)
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
 (global-set-key (kbd "M-]") 'switch-to-next-buffer)
-(global-set-key (kbd "<M-up>") 'scroll-down-command)
-(global-set-key (kbd "<M-down>") 'scroll-up-command)
+(global-set-key (kbd "<M-up>") 'scroll-down)
+(global-set-key (kbd "<M-down>") 'scroll-up)
+(global-set-key (kbd "ESC <up>") 'scroll-down)
+(global-set-key (kbd "ESC <down>") 'scroll-up)
 ;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
 
 

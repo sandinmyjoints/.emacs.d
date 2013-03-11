@@ -66,6 +66,17 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * DONE Files to visit on startup in non-dirtree window.
   CLOSED: [2013-03-10 Sun 21:21]
    - E.g.: (find-file "~/emacs/gist-3743892/init.el")
+* DONE Command as meta in Terminal
+  CLOSED: [2013-03-10 Sun 21:44]
+  - https://github.com/aim-stuff/cmd-key-happy
+  - Collision between M-v/Cmd-v. Bind scroll-down-command to <M-up> as well.
+
+* DONE Host windata.el on github
+  CLOSED: [2013-03-10 Sun 21:49]
+* DONE Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
+  CLOSED: [2013-03-10 Sun 21:51]
+  - [X] bare.el.
+  - [ ]
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Coffee-script compile and flymake.
 
@@ -73,9 +84,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-* TODO Stripped down version for text terminals/new machines, or infer what libraries are installed/exist, or install them automatically.
-  - [X] bare.el.
-  - [ ]
 * TODO Window and frame restore. See:
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
   - http://www.emacswiki.org/emacs/LayoutRestore
@@ -177,8 +185,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
 * TODO Emacs golf
 
-* TODO Host windata.el on github
-
 * TODO Master regexp syntax
 * TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
 
@@ -197,6 +203,5 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Happens with -nw from console
   - Does not happen with -nw -q from console. So what is causing it?
     - Not multiple-cursors, expand-region, or smart-forward
-* TODO Command as meta in Terminal
-  - https://github.com/aim-stuff/cmd-key-happy
-  - Collision between M-v/Cmd-v. Bind scroll-down-command to <M-up> as well.
+
+* TODO Background face on transparent terminals is awful
