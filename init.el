@@ -18,6 +18,9 @@
         "~/scm/sd/ops"
         "~/.emacs.d"))
 
+;; An initial file to open if it exists.
+(setq initial-file "~/.emacs.d/init.el")
+
 ;; Set custom markers.
 ;; Args:
 ;; 1. Marker.
@@ -630,7 +633,7 @@ mc/maybe-multiple-cursors-mode."
       (dirtree dir dirtree-buffer))
     ;; Dedicate window and resize.
     (let ((window (get-buffer-window dirtree-buffer)))
-      (set-window-dedicated-p window 'true)
+      (set-window-dedicated-p window t)
       ;; TODO: Resize more intelligently.
       (adjust-window-trailing-edge window -5 t))))
 
@@ -642,3 +645,7 @@ mc/maybe-multiple-cursors-mode."
 (setq url-http-attempt-keepalives nil)
 
 (when is-mac (require 'mac))
+
+;; Load something that might be useful.
+(when (file-readable-p initial-file)
+  (setq initial-buffer-choice initial-file))
