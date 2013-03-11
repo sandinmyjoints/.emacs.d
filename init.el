@@ -473,7 +473,8 @@ and overlay is highlighted between MK and END-MK."
 (require 'mode-mappings)
 
 ;; Dirtree.
-(autoload 'dirtree "dirtree" "Dirtree." t)
+;;(autoload 'dirtree "dirtree" "Dirtree." t)
+
 
 ;; Lua mode.
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
@@ -623,14 +624,15 @@ mc/maybe-multiple-cursors-mode."
 ;; ========================================
 
 ;; Open up some dirs in dirtree.
-(let ((dirtree-buffer "*dirtree*"))
-  (dolist (dir initial-dirs-to-open)
-    (dirtree dir dirtree-buffer))
-  ;; Dedicate window and resize.
-  (let ((window (get-buffer-window dirtree-buffer)))
-    (set-window-dedicated-p window 'true)
-    ;; TODO: Resize more intelligently.
-    (adjust-window-trailing-edge window -5 t)))
+(when (require 'dirtree nil t)
+  (let ((dirtree-buffer "*dirtree*"))
+    (dolist (dir initial-dirs-to-open)
+      (dirtree dir dirtree-buffer))
+    ;; Dedicate window and resize.
+    (let ((window (get-buffer-window dirtree-buffer)))
+      (set-window-dedicated-p window 'true)
+      ;; TODO: Resize more intelligently.
+      (adjust-window-trailing-edge window -5 t))))
 
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
