@@ -137,4 +137,9 @@
     (interactive)
     (go-to-doc "http://stackoverflow.com/search?q="))
 
+ (defun search-mdn ()
+    (interactive)
+    (go-to-doc "https://developer.mozilla.org/en-US/search?q="))
+
+
 (provide 'defuns)
