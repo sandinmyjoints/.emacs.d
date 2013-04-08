@@ -14,7 +14,7 @@
 
 ;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
-      '("~/scm/sd/fluensa"
+      '("~/scm/sd/fluencia"
         "~/scm/sd/ops"
         "~/.emacs.d"))
 
