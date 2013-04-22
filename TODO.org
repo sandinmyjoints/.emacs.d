@@ -123,7 +123,11 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Smex (M-x, M-X)
 
-  - Magithub
+  - align-regexp
+
+  - join-line
+
+  - Org-mode (C-c C-n/p; C-c C-f/b)
 
   - Occur
 
@@ -131,34 +135,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers
 
-  - Keyboard macros
-    - counters: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
-
-    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
-
-    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
-
-  - align-regexp
-
-  - set-goal-column (C-x C-n)
-
-  - zap-to-char (M-z)
-
-  - Tramp: C-x C-f /sudo:root@localhost:/etc/hosts  *or*  C-x C-f /sudo::/etc/hosts
-
-  - join-line
-
-  - terminal-mode for ssh
-
-  - rectangle-number-lines (C-x r N)
-
-  - Org-mode (C-c C-n/p; C-c C-f/b)
-
   - org-table (convert-region, transpose, etc)
-
-  - color-themes
-
-    - save current as?
 
   - sorting
 
@@ -172,15 +149,40 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
     - org-sort-entries
 
+  - rectangle-number-lines (C-x r N)
+
+  - Keyboard macros
+    - counters: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
+
+    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
+
+    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
+
+  - set-goal-column (C-x C-n)
+
+  - zap-to-char (M-z)
+
+  - Tramp: C-x C-f /sudo:root@localhost:/etc/hosts  *or*  C-x C-f /sudo::/etc/hosts
+
+  - terminal-mode for ssh
+
+  - color-themes
+
+    - save current as?
+
   - view-lossage
 
   - repeat (C-x z)
 
   - highlight-lines-matching-regexp
 
-  - tumme
+  - tumme (images)
 
   - what-cursor-position (C-x =, also C-u C-x =)
+
+  - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
+
+  - eval-and-replace (C-e C-e)
 
 
 * TODO Emacs golf
@@ -215,4 +217,22 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO conditionally add packages to package list
 
   - .e.g, rainbow-mode only if Emacs >=24
-  - 
+  -
+* TODO Fix client test marker in coffee files
+
+  - C-c C-l
+  - (define-key map (kbd "C-c C-l") 'coffee-send-line) in coffee-mode.el
+  - Currently fixing this by commenting out the key binding in coffee-mode.
+    Better to override the key-map, but because of the way I'm setting up the
+    custom marker functions, that is not straightforward.
+  - look at set-temporary-overlay-map
+* TODO Fix save mark to register
+
+  - what is breaking this?
+  - broken everywhere?
+* TODO w3m
+
+  - try for gmail
+* TODO dired: edit with, / shell commands
+
+  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html

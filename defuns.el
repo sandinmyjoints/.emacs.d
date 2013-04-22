@@ -141,5 +141,18 @@
     (interactive)
     (go-to-doc "https://developer.mozilla.org/en-US/search?q="))
 
+(defun shell-command-on-buffer (command)
+  (interactive "sShell command on buffer: ")
+  (shell-command-on-region (point-min) (point-max) command t))
+
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
 
 (provide 'defuns)
