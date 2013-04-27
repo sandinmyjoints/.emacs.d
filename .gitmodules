@@ -3,7 +3,7 @@
 	url = git://github.com/immerrr/lua-mode.git
 [submodule "elisp/coffee-mode"]
 	path = elisp/coffee-mode
-	url = git://github.com/defunkt/coffee-mode.git
+	url = git://github.com/sandinmyjoints/coffee-mode.git
 [submodule "elisp/js2-mode"]
 	path = elisp/js2-mode
 	url = git://github.com/mooz/js2-mode.git
