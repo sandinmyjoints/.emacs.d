@@ -184,6 +184,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - eval-and-replace (C-e C-e)
 
+  - eval-expression (M-:, also eval and insert: C-u M-:)
+
 
 * TODO Emacs golf
 
@@ -226,7 +228,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
     Better to override the key-map, but because of the way I'm setting up the
     custom marker functions, that is not straightforward.
   - look at set-temporary-overlay-map
-* TODO Fix save mark to register
+* TODO Fix save mark to register/jump to register
 
   - what is breaking this?
   - broken everywhere?
@@ -236,3 +238,4 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO dired: edit with, / shell commands
 
   - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html
+* TODO flycheck mode
