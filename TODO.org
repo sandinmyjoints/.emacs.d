@@ -123,17 +123,23 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - Smex (M-x, M-X)
 
-  - align-regexp
+  - align-regexp (C-|)
 
-  - join-line
+  - join-line (C-c C-j)
 
   - Org-mode (C-c C-n/p; C-c C-f/b)
 
   - Occur
 
-  - subword-backward-kill C-backspace
+  - subword-backward-kill (C-backspace)
 
-  - mc/edit-lines, mc/beginnings-of-lines, mc/endings-of-lines, mc/all-words-like-this, mc/insert-numbers
+  - mc/
+    - mc/edit-lines
+    - mc/beginnings-of-lines (C-M-<)
+    - mc/endings-of-lines (C-M->)
+    - mc/mark-all-like-this (C-*)
+    - mc/mark-all-words-like-this
+    - mc/insert-numbers
 
   - org-table (convert-region, transpose, etc)
 
