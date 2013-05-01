@@ -133,13 +133,17 @@
     (let ((default (symbol-name (symbol-at-point))))
       (browse-url (concat base-url (read-string "Search term: " nil nil default)))))
 
- (defun search-so ()
-    (interactive)
-    (go-to-doc "http://stackoverflow.com/search?q="))
+(defun search-so ()
+  (interactive)
+  (go-to-doc "http://stackoverflow.com/search?q="))
 
- (defun search-mdn ()
-    (interactive)
-    (go-to-doc "https://developer.mozilla.org/en-US/search?q="))
+(defun search-mdn ()
+  (interactive)
+  (go-to-doc "https://developer.mozilla.org/en-US/search?q="))
+
+(defun search-npm ()
+  (interactive)
+  (go-to-doc "https://npmjs.org/search?q="))
 
 (defun shell-command-on-buffer (command)
   (interactive "sShell command on buffer: ")
