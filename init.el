@@ -58,8 +58,15 @@
 ;; Settings.
 ;; ========================================
 
-;; Require common lisp.
-(require 'cl)
+;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
+(if (require 'cl-lib nil t)
+  ;; Madness: cl-block-wrapper was an alias for identity in 24.2, then it was
+  ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
+  ;; wants cl-block-wrapper when running 24.3 (though my 10.8.3 machine has no
+  ;; such problem), so help it out.
+  (defalias 'cl-block-wrapper 'identity)
+  ;; Else we're on an older version so require cl.
+  (require 'cl))
 
 ;; Use server.
 (require 'server)
