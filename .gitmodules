@@ -40,3 +40,6 @@
 [submodule "elisp/magithub"]
 	path = elisp/magithub
 	url = git://github.com/nex3/magithub.git
+[submodule "elisp/magit"]
+	path = elisp/magit
+	url = git://github.com/magit/magit.git
