@@ -34,7 +34,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - https://github.com/railwaycat/emacs-mac-port
 * DONE Fullscreen Emacs
   CLOSED: [2013-02-20 Wed 21:28]
-* DONE Fix multiple-cursors and expand-region
+* DONE Fix multiple-cursors and expand-region                           :bug:
   CLOSED: [2013-03-10 Sun 13:08]
 
   - [X] Fixed some compile errors.
@@ -192,6 +192,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - ispell
 
+  - list-faces-display
+
 * TODO Twittering mode
   - https://github.com/hayamiz/twittering-mode
 * TODO Emacs golf
@@ -235,7 +237,7 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
     Better to override the key-map, but because of the way I'm setting up the
     custom marker functions, that is not straightforward.
   - look at set-temporary-overlay-map
-* TODO Fix save mark to register/jump to register
+* TODO Fix save mark to register/jump to register                       :bug:
 
   - what is breaking this?
   - broken everywhere?
@@ -252,3 +254,17 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
+* TODO magit log crashes
+
+  - repro: open a git repo (did it with both fluencia and .emacs.d) in
+    magit-status. magit-log. quit out of log. quit out of magit-status. repeat a few
+    times until it crashes.
+  - crashes in draw_glyphs
+  - repro from emacs -Q
+  - (add-to-list 'load-path "./elisp/magit")
+  - (load-file 'magit)
+  - Open a file that is in a git repo.
+  - magit-status
+  - l for magit-log
+  - l for short log
+  - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
