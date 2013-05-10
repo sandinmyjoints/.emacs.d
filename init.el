@@ -652,3 +652,5 @@ mc/maybe-multiple-cursors-mode."
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+(recentf-open-files)

@@ -78,12 +78,6 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - [X] bare.el.
   - [ ]
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-* TODO Coffee-script compile and flymake.
-
-  - Way to use coffee-watch?
-  - https://github.com/purcell/flymake-coffee
-  - Need to specify coffee binary in dir-locals, per project
-  - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
 * TODO Window and frame restore. See:
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
   - http://www.emacswiki.org/emacs/LayoutRestore
@@ -158,7 +152,9 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - rectangle-number-lines (C-x r N)
 
   - Keyboard macros
-    - counters: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
+    - counters:
+      http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
+      (C-x C-k C-i)
 
     - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
 
@@ -176,6 +172,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
     - save current as?
 
+    - use one that works for terminals
+
   - view-lossage
 
   - repeat (C-x z)
@@ -192,7 +190,10 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - eval-expression (M-:, also eval and insert: C-u M-:)
 
+  - ispell
 
+* TODO Twittering mode
+  - https://github.com/hayamiz/twittering-mode
 * TODO Emacs golf
 
 * TODO Master regexp syntax
@@ -245,3 +246,9 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html
 * TODO flycheck mode
+** TODO Coffee-script compile and flymake.
+
+  - Way to use coffee-watch?
+  - https://github.com/purcell/flymake-coffee
+  - Need to specify coffee binary in dir-locals, per project
+  - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/

@@ -129,4 +129,6 @@
   ;; Scroll up without warning the first time.
   (setq scroll-error-top-bottom t))
 
+(setq ispell-dictionary "american")
+
 (provide 'sane-defaults)

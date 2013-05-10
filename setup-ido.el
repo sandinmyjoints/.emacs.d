@@ -4,7 +4,8 @@
 
   (setq ido-enable-flex-matching t
         ido-create-new-buffer 'always
-        confirm-nonexistent-file-or-buffer nil)
+        confirm-nonexistent-file-or-buffer nil
+        ido-auto-merge-work-directories-length -1)
 
   (ido-everywhere t)
 
