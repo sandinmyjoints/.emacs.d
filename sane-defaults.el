@@ -131,4 +131,8 @@
 
 (setq ispell-dictionary "american")
 
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name "saved-places" user-emacs-directory))
+
 (provide 'sane-defaults)
