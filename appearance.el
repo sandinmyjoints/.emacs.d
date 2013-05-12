@@ -2,6 +2,8 @@
       font-lock-maximum-decoration t
       truncate-partial-width-windows nil)
 
+;; Note: Use list-faces-display to examine all faces.
+
 (set-face-background 'region "#464740")
 
 ;; Highlight current line

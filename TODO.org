@@ -283,7 +283,7 @@ EOF
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-* TODO magit log crashes
+* TODO magit log crashes                                                :bug:
 
   - repro: open a git repo (did it with both fluencia and .emacs.d) in
     magit-status. magit-log. quit out of log. quit out of magit-status. repeat a few
@@ -297,3 +297,5 @@ EOF
   - l for magit-log
   - l for short log
   - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
+  - severity 14378 important
+* TODO make ` a paired char
