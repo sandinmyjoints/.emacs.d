@@ -499,23 +499,29 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
-(when (require 'fill-column-indicator nil t)
+;;
+;; Commenting out for now due to bug in Emacs 24.3 that causes C-p to skip a
+;; line. See: https://github.com/alpaker/Fill-Column-Indicator/issues/31
+;;
+;; TODO: Uncomment for Emacs 24.4.
+;;
+;; (when (require 'fill-column-indicator nil t)
 
-  ;; Make fci-mode global...
-  (define-globalized-minor-mode global-fci-mode fci-mode
-    (lambda () (fci-mode 1)))
-  (global-fci-mode 1)
+;;   ;; Make fci-mode global...
+;;   (define-globalized-minor-mode global-fci-mode fci-mode
+;;     (lambda () (fci-mode 1)))
+;;   (global-fci-mode 1)
 
-  ;; ...except for these modes.
-  (defun no-fci ()
-    (fci-mode -1))
-  (add-hook 'dirtree-mode-hook 'no-fci)
-  (add-hook 'dired-mode-hook 'no-fci)
-  (add-hook 'dired+-mode-hook 'no-fci)
-  (add-hook 'org-mode-hook 'no-fci)
-  (add-hook 'magit-mode-hook 'no-fci)
-  (add-hook 'term-mode-hook 'no-fci)
-  (add-hook 'shell-mode-hook 'no-fci))
+;;   ;; ...except for these modes.
+;;   (defun no-fci ()
+;;     (fci-mode -1))
+;;   (add-hook 'dirtree-mode-hook 'no-fci)
+;;   (add-hook 'dired-mode-hook 'no-fci)
+;;   (add-hook 'dired+-mode-hook 'no-fci)
+;;   (add-hook 'org-mode-hook 'no-fci)
+;;   (add-hook 'magit-mode-hook 'no-fci)
+;;   (add-hook 'term-mode-hook 'no-fci)
+;;   (add-hook 'shell-mode-hook 'no-fci))
 
 
 ;; Python

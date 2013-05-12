@@ -203,19 +203,47 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
   - useful for set-rectangular-region-anchor
 
-* TODO Sometimes C-p and C-n skip a line
+* TODO Sometimes C-p and C-n skip a line                                :bug:
 
-  - May only happen in Emacs-mac? yes
-  - Repro: use C-n to move past, main-config.coffee line 21, then use C-p to
-    move back, it will skip line 21
+  - May only happen in Emacs-Mac-24.3? no, now also happens in Emacs-24.3
+    - Happens in Emacs-Mac, both 24.2 and 24.3-rc1 and 24.3
+    - Does not happen in Cocoa Emacs
+    - Happens in emacsforosx.com 24.3
   - Repro: C-p skips first non-blank line after a blank line. See example.
-  - Happens in Emacs-mac, both 24.2 and 24.3-rc1
-  - Does not happen in Cocoa Emacs
-  - Happens both when line-move-visual is nil and t
-  - Happens in all modes
-  - Happens with -nw from console
-  - Does not happen with -nw -q from console. So what is causing it?
+    - Repro: use C-n to move past, main-config.coffee line 21, then use C-p to
+    move back, it will skip line 21
+    - Easiest: ./Emacs -Q, then visit ~/emacs-ctl-p-skip-lines-example
+  - Conditions
+    - Happens both when line-move-visual is nil and t
+    - Happens in all modes
+    - Happens with -nw from console
+    - Does not happen with -Q from console
+    - Does not happen with -nw -q from console. So what is causing it?
+    - 
     - Not multiple-cursors, expand-region, or smart-forward
+    - it's fill-column-indicator
+    - Happens with Emacs 24.3 from emacsforosx.com both -nw and windowed.
+    - repro from -Q:
+  - Obtain fill-column-indicator. I'm using version 20130126.1540 from Melpa.      
+  - (add-to-list 'load-path "/Users/william/.emacs.d/elpa/fill-column-indicator-20130126.1540/")      
+  - (require 'fill-column-indicator nil t)
+  - Create new buffer in fundamental mode
+  - M-x turn-on-fci-mode
+  - Type the following until EOF, preserving newlines:
+
+C-p will skip
+
+C-p will land here
+C-p will skip
+
+Start here
+EOF
+
+1. Place cursor on "Start here" line, then hit C-p. Behavior will match what
+   the text says. 
+2. describe-variable line-move-visual is nil
+   - filed a bug https://github.com/alpaker/Fill-Column-Indicator/issues/32
+   - dup of https://github.com/alpaker/Fill-Column-Indicator/issues/31
 
 * TODO Colors on Emacs 23 on a console
 
@@ -225,7 +253,8 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   - Revisit appearance.el and make sensible settings for a windowed display vs a
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
-* TODO conditionally add packages to package list
+* DONE conditionally add packages to package list
+  CLOSED: [2013-05-12 Sun 12:54]
 
   - .e.g, rainbow-mode only if Emacs >=24
   -
