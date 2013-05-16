@@ -298,4 +298,5 @@ EOF
   - l for short log
   - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
   - severity 14378 important
+  - maybe track magit maint branch instead?
 * TODO make ` a paired char
