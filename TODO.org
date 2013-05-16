@@ -219,13 +219,13 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
     - Happens with -nw from console
     - Does not happen with -Q from console
     - Does not happen with -nw -q from console. So what is causing it?
-    - 
+    -
     - Not multiple-cursors, expand-region, or smart-forward
     - it's fill-column-indicator
     - Happens with Emacs 24.3 from emacsforosx.com both -nw and windowed.
     - repro from -Q:
-  - Obtain fill-column-indicator. I'm using version 20130126.1540 from Melpa.      
-  - (add-to-list 'load-path "/Users/william/.emacs.d/elpa/fill-column-indicator-20130126.1540/")      
+  - Obtain fill-column-indicator. I'm using version 20130126.1540 from Melpa.
+  - (add-to-list 'load-path "/Users/william/.emacs.d/elpa/fill-column-indicator-20130126.1540/")
   - (require 'fill-column-indicator nil t)
   - Create new buffer in fundamental mode
   - M-x turn-on-fci-mode
@@ -240,7 +240,7 @@ Start here
 EOF
 
 1. Place cursor on "Start here" line, then hit C-p. Behavior will match what
-   the text says. 
+   the text says.
 2. describe-variable line-move-visual is nil
    - filed a bug https://github.com/alpaker/Fill-Column-Indicator/issues/32
    - dup of https://github.com/alpaker/Fill-Column-Indicator/issues/31
@@ -300,3 +300,26 @@ EOF
   - severity 14378 important
   - maybe track magit maint branch instead?
 * TODO make ` a paired char
+* TODO Octopress and Emacs
+
+  - Want to:
+    - create new write post with command
+    - write post in MD or org
+    - publish with Emacs command
+  - Octopress installation:
+    - git clone git@github.com:sandinmyjoints/williamjohnbert.com.git
+    - `gem install bundler` && `bundle install`
+    - Config Heroku: http://octopress.org/docs/deploying/heroku/
+  - Octopress on Emacs options
+    + https://github.com/jhelwig/octomacs
+    + https://github.com/yoshinari-nomura/org-octopress
+  - Heroku
+    - upgrade to heroku toolbelt
+    - install heroku accounts plugin
+    - spanishdict / wjb accounts
+    -
+
+* TODO incremental-search breaks                                        :bug:
+
+  - Maybe related to org-mode?
+  - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
