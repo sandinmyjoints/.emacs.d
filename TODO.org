@@ -322,4 +322,5 @@ EOF
 * TODO incremental-search breaks                                        :bug:
 
   - Maybe related to org-mode?
+  - Maybe related to recursive editing
   - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
