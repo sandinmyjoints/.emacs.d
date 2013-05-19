@@ -64,9 +64,10 @@
   ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
   ;; wants cl-block-wrapper when running 24.3 (though my 10.8.3 machine has no
   ;; such problem), so help it out.
-  (defalias 'cl-block-wrapper 'identity)
-  (defalias 'member* 'cl-member)
-  (defalias 'adjoin 'cl-adjoin)
+  (progn
+    (defalias 'cl-block-wrapper 'identity)
+    (defalias 'member* 'cl-member)
+    (defalias 'adjoin 'cl-adjoin))
   ;; Else we're on an older version so require cl.
   (require 'cl))
 
