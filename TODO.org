@@ -305,6 +305,7 @@ EOF
 
   - Try profiling: http://stackoverflow.com/a/6732810
   - Likely due to use of magit-log
+  - maybe track magit maint branch instead?
 * TODO Octopress and Emacs
 
   - Want to:
