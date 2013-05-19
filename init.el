@@ -500,6 +500,12 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 
+;; Paired tick is useful in some modes.
+(modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
+(modify-syntax-entry ?\` "$" text-mode-syntax-table)
+(modify-syntax-entry ?\` "$" rst-mode-syntax-table)
+(modify-syntax-entry ?\` "$" org-mode-syntax-table)
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
@@ -661,3 +667,10 @@ mc/maybe-multiple-cursors-mode."
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+;; Spaces around line numbers.
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))

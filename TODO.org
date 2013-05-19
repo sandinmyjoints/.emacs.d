@@ -77,6 +77,59 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
   CLOSED: [2013-03-10 Sun 21:51]
   - [X] bare.el.
   - [ ]
+
+* DONE Sometimes C-p and C-n skip a line                                :bug:
+  CLOSED: [2013-05-19 Sun 15:13]
+
+  - May only happen in Emacs-Mac-24.3? no, now also happens in Emacs-24.3
+    - Happens in Emacs-Mac, both 24.2 and 24.3-rc1 and 24.3
+    - Does not happen in Cocoa Emacs
+    - Happens in emacsforosx.com 24.3
+  - Repro: C-p skips first non-blank line after a blank line. See example.
+    - Repro: use C-n to move past, main-config.coffee line 21, then use C-p to
+    move back, it will skip line 21
+    - Easiest: ./Emacs -Q, then visit ~/emacs-ctl-p-skip-lines-example
+  - Conditions
+    - Happens both when line-move-visual is nil and t
+    - Happens in all modes
+    - Happens with -nw from console
+    - Does not happen with -Q from console
+    - Does not happen with -nw -q from console. So what is causing it?
+    -
+    - Not multiple-cursors, expand-region, or smart-forward
+    - it's fill-column-indicator
+    - Happens with Emacs 24.3 from emacsforosx.com both -nw and windowed.
+    - repro from -Q:
+  - Obtain fill-column-indicator. I'm using version 20130126.1540 from Melpa.
+  - (add-to-list 'load-path "/Users/william/.emacs.d/elpa/fill-column-indicator-20130126.1540/")
+  - (require 'fill-column-indicator nil t)
+  - Create new buffer in fundamental mode
+  - M-x turn-on-fci-mode
+  - Type the following until EOF, preserving newlines:
+
+C-p will skip
+
+C-p will land here
+C-p will skip
+
+Start here
+EOF
+
+1. Place cursor on "Start here" line, then hit C-p. Behavior will match what
+   the text says.
+2. describe-variable line-move-visual is nil
+   - filed a bug https://github.com/alpaker/Fill-Column-Indicator/issues/32
+   - dup of https://github.com/alpaker/Fill-Column-Indicator/issues/31
+* DONE conditionally add packages to package list
+  CLOSED: [2013-05-12 Sun 12:54]
+
+  - .e.g, rainbow-mode only if Emacs >=24
+  -
+
+* DONE make ` a paired char
+  CLOSED: [2013-05-19 Sun 15:36]
+* DONE linum
+  CLOSED: [2013-05-19 Sun 15:44]
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Window and frame restore. See:
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
@@ -98,16 +151,14 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 
 * TODO Versioning of packages--how to pin?
 
-* TODO Keep Magit from slowing down after being open for a while.
-
-  - Try profiling: http://stackoverflow.com/a/6732810
-
 * TODO Try perspectives.
 
   - https://github.com/nex3/perspective-el
 * TODO Fix the submodule -dirty caused by .elc files
 
   - Maybe just use more packages and fewer submodules
+  - git status --ignore-submodules=untracked
+  - http://stackoverflow.com/questions/3240881/git-can-i-suppress-listing-of-modified-content-dirty-submodule-entries-in-sta
 
 * TODO Shell in Emacs
 
@@ -197,53 +248,10 @@ ctags -e -R --exclude=*.js --exclude=node_modules --exclude=local_notes \
 * TODO Twittering mode
   - https://github.com/hayamiz/twittering-mode
 * TODO Emacs golf
-
 * TODO Master regexp syntax
 * TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
 
   - useful for set-rectangular-region-anchor
-
-* TODO Sometimes C-p and C-n skip a line                                :bug:
-
-  - May only happen in Emacs-Mac-24.3? no, now also happens in Emacs-24.3
-    - Happens in Emacs-Mac, both 24.2 and 24.3-rc1 and 24.3
-    - Does not happen in Cocoa Emacs
-    - Happens in emacsforosx.com 24.3
-  - Repro: C-p skips first non-blank line after a blank line. See example.
-    - Repro: use C-n to move past, main-config.coffee line 21, then use C-p to
-    move back, it will skip line 21
-    - Easiest: ./Emacs -Q, then visit ~/emacs-ctl-p-skip-lines-example
-  - Conditions
-    - Happens both when line-move-visual is nil and t
-    - Happens in all modes
-    - Happens with -nw from console
-    - Does not happen with -Q from console
-    - Does not happen with -nw -q from console. So what is causing it?
-    -
-    - Not multiple-cursors, expand-region, or smart-forward
-    - it's fill-column-indicator
-    - Happens with Emacs 24.3 from emacsforosx.com both -nw and windowed.
-    - repro from -Q:
-  - Obtain fill-column-indicator. I'm using version 20130126.1540 from Melpa.
-  - (add-to-list 'load-path "/Users/william/.emacs.d/elpa/fill-column-indicator-20130126.1540/")
-  - (require 'fill-column-indicator nil t)
-  - Create new buffer in fundamental mode
-  - M-x turn-on-fci-mode
-  - Type the following until EOF, preserving newlines:
-
-C-p will skip
-
-C-p will land here
-C-p will skip
-
-Start here
-EOF
-
-1. Place cursor on "Start here" line, then hit C-p. Behavior will match what
-   the text says.
-2. describe-variable line-move-visual is nil
-   - filed a bug https://github.com/alpaker/Fill-Column-Indicator/issues/32
-   - dup of https://github.com/alpaker/Fill-Column-Indicator/issues/31
 
 * TODO Colors on Emacs 23 on a console
 
@@ -253,11 +261,6 @@ EOF
   - Revisit appearance.el and make sensible settings for a windowed display vs a
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
-* DONE conditionally add packages to package list
-  CLOSED: [2013-05-12 Sun 12:54]
-
-  - .e.g, rainbow-mode only if Emacs >=24
-  -
 * TODO Fix client test marker in coffee files
 
   - C-c C-l
@@ -267,9 +270,9 @@ EOF
     custom marker functions, that is not straightforward.
   - look at set-temporary-overlay-map
 * TODO Fix save mark to register/jump to register                       :bug:
-
   - what is breaking this?
   - broken everywhere?
+  - repro?
 * TODO w3m
 
   - try for gmail
@@ -298,14 +301,29 @@ EOF
   - l for short log
   - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
   - severity 14378 important
+** TODO Keep Magit from slowing down after being open for a while.
+
+  - Try profiling: http://stackoverflow.com/a/6732810
+  - Likely due to use of magit-log
   - maybe track magit maint branch instead?
-* TODO make ` a paired char
 * TODO Octopress and Emacs
 
   - Want to:
-    - create new write post with command
-    - write post in MD or org
-    - publish with Emacs command
+    - [ ] create new write post
+      - rake new_post[title]
+      - ec filename
+    - [ ] write post in MD
+    - [ ] write post in org
+    - [ ] preview
+      - rake generate
+      - rake preview
+    - [ ] publish
+      - rake generate
+      - git commit -am
+      - git push origin master
+      - git push heroku master
+    - watch
+      - rake watch
   - Octopress installation:
     - git clone git@github.com:sandinmyjoints/williamjohnbert.com.git
     - `gem install bundler` && `bundle install`
@@ -313,14 +331,17 @@ EOF
   - Octopress on Emacs options
     + https://github.com/jhelwig/octomacs
     + https://github.com/yoshinari-nomura/org-octopress
-  - Heroku
-    - upgrade to heroku toolbelt
-    - install heroku accounts plugin
-    - spanishdict / wjb accounts
-    -
+  - Heroku [3/3]
+    - [X] upgrade to heroku toolbelt
+    - [X] install heroku accounts plugin
+    - [X] spanishdict / wjb accounts
 
 * TODO incremental-search breaks                                        :bug:
 
   - Maybe related to org-mode?
   - Maybe related to recursive editing
   - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
+* TODO powerline
+
+  - need to figure out how not to show the entire git branch name in modeline.
+    or truncate it at n characters.
