@@ -666,3 +666,10 @@ mc/maybe-multiple-cursors-mode."
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+;; Spaces around line numbers.
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
