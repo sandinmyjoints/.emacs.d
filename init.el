@@ -499,6 +499,12 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 
+;; Paired tick is useful in some modes.
+(modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
+(modify-syntax-entry ?\` "$" text-mode-syntax-table)
+(modify-syntax-entry ?\` "$" rst-mode-syntax-table)
+(modify-syntax-entry ?\` "$" org-mode-syntax-table)
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
