@@ -504,6 +504,7 @@ and overlay is highlighted between MK and END-MK."
 (modify-syntax-entry ?\` "$" text-mode-syntax-table)
 (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 (modify-syntax-entry ?\` "$" org-mode-syntax-table)
+(modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
