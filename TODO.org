@@ -309,27 +309,36 @@ EOF
 * TODO Octopress and Emacs
 
   - Want to:
-    - [ ] create new write post
-      - rake new_post[title]
-      - ec filename
-    - [ ] write post in MD
-    - [ ] write post in org
+    - [-] create new write post
+      - wrapper around rake new_post[title]
+      - [X] octomacs-new-post
+      - [X] write post in MD
+      - [ ] write post in org
     - [ ] preview
+      - temporary: could open a new shell and run rvm
+        - (ansi-term explicit-shell-file-name (concat "*" 'project "-term" "*"))
       - rake generate
       - rake preview
+    - [-] start watch
+      - [X] octopress-shell
+      - [ ] start in a new shell: rake watch
     - [ ] publish
       - rake generate
       - git commit -am
       - git push origin master
       - git push heroku master
-    - watch
-      - rake watch
-  - Octopress installation:
+  - Octopress installation instructions:
     - git clone git@github.com:sandinmyjoints/williamjohnbert.com.git
+    - rvm use 1.9.3@octopress
     - `gem install bundler` && `bundle install`
+    - edit .rvmrc to be rvm use 1.9.3@octopress
+      - additional:
+        http://www.moncefbelyamani.com/how-to-install-and-configure-octopress-on-a-mac/
+        and http://www.moncefbelyamani.com/enhance-your-ruby-development-with-rvm-gemsets-and-rvmrc/
     - Config Heroku: http://octopress.org/docs/deploying/heroku/
   - Octopress on Emacs options
     + https://github.com/jhelwig/octomacs
+      + rvm.el
     + https://github.com/yoshinari-nomura/org-octopress
   - Heroku [3/3]
     - [X] upgrade to heroku toolbelt
