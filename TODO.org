@@ -344,3 +344,6 @@ EOF
 
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
+* TODO Appearance
+** TODO Set window position.
+** TODO Toggle on fullscreen.
