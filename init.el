@@ -669,3 +669,6 @@ mc/maybe-multiple-cursors-mode."
                      (count-lines (point-min) (point-max)))))
          (linum-format (concat " %" (number-to-string w) "d ")))
     ad-do-it))
+
+(when (require 'rvm nil t)
+  (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
