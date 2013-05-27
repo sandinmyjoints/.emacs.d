@@ -14,9 +14,10 @@
 
 ;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
-      '("~/scm/sd/fluencia"
-        "~/scm/sd/ops"
-        "~/.emacs.d"))
+      '("~/scm/wjb"
+        "~/.emacs.d"
+        "~/scm/sd/fluencia"
+        "~/scm/sd/ops"))
 
 ;; An initial file to open if it exists.
 (setq initial-file "~/.emacs.d/init.el")
@@ -64,9 +65,10 @@
   ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
   ;; wants cl-block-wrapper when running 24.3 (though my 10.8.3 machine has no
   ;; such problem), so help it out.
-  (defalias 'cl-block-wrapper 'identity)
-  (defalias 'member* 'cl-member)
-  (defalias 'adjoin 'cl-adjoin)
+  (progn
+    (defalias 'cl-block-wrapper 'identity)
+    (defalias 'member* 'cl-member)
+    (defalias 'adjoin 'cl-adjoin))
   ;; Else we're on an older version so require cl.
   (require 'cl))
 
@@ -140,12 +142,6 @@
  '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluensa-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;; ========================================
 ;; Appearance.
@@ -674,3 +670,6 @@ mc/maybe-multiple-cursors-mode."
                      (count-lines (point-min) (point-max)))))
          (linum-format (concat " %" (number-to-string w) "d ")))
     ad-do-it))
+
+(when (require 'rvm nil t)
+  (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session

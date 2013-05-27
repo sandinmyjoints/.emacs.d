@@ -58,3 +58,6 @@
 	path = elisp/magit
 	url = git://github.com/magit/magit.git
     ignore = untracked
+[submodule "elisp/octomacs"]
+	path = elisp/octomacs
+	url = git@github.com:sandinmyjoints/octomacs.git
