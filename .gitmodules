@@ -61,3 +61,6 @@
 [submodule "elisp/octomacs"]
 	path = elisp/octomacs
 	url = git@github.com:sandinmyjoints/octomacs.git
+[submodule "elisp/yasnippet-coffee-script-snippets"]
+	path = elisp/yasnippet-coffee-script-snippets
+	url = https://github.com/jarrelcobb/yasnippet-coffee-script-snippets
