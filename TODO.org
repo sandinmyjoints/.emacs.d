@@ -151,10 +151,11 @@ EOF
 
 * TODO Versioning of packages--how to pin?
 
-* TODO Try perspectives.
-
+* TODO Try perspectives or eproject
   - https://github.com/nex3/perspective-el
-* TODO Fix the submodule -dirty caused by .elc files
+  - https://github.com/jrockway/eproject
+* DONE Fix the submodule -dirty caused by .elc files
+  CLOSED: [2013-06-30 Sun 15:10]
 
   - Maybe just use more packages and fewer submodules
   - git status --ignore-submodules=untracked
@@ -213,7 +214,7 @@ EOF
 
   - set-goal-column (C-x C-n)
 
-  - zap-to-char (M-z)
+  - zap-to-char (M-z and M-Z)
 
   - Tramp: C-x C-f /sudo:root@localhost:/etc/hosts  *or*  C-x C-f /sudo::/etc/hosts
 
