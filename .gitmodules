@@ -61,3 +61,4 @@
 [submodule "elisp/octomacs"]
 	path = elisp/octomacs
 	url = git@github.com:sandinmyjoints/octomacs.git
+    ignore = untracked
