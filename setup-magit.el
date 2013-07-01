@@ -11,7 +11,10 @@
        (set-face-background 'magit-item-highlight "#101212")
        (set-face-background 'magit-diff-none "black") ;; Black by default.
        (unless (display-graphic-p)
-         (set-face-background 'magit-item-highlight "black"))))
+         (set-face-background 'magit-item-highlight "black"))
+
+       (set-face-attribute 'magit-item-highlight nil
+                           :weight 'normal)))
 
   (autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t))
 

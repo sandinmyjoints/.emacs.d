@@ -56,6 +56,7 @@
 (global-set-key (kbd "ESC <up>") 'scroll-down)
 (global-set-key (kbd "ESC <down>") 'scroll-up)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+(global-set-key (kbd "M-Z") 'zap-up-to-char)
 ;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
 
 

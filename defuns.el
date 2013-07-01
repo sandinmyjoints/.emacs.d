@@ -62,6 +62,13 @@
   (sgml-pretty-print (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
+(defun fix-json ()
+  "Fix JSON."
+  ;; TODO: Strip leading and trailing quotes.
+  (interactive)
+  (json-mode)
+  (json-pretty-print-buffer))
+
 (defun wjb-get-marker-replacer (marker)
   "Returns a marker-replacer function for `marker`."
   (lambda ()

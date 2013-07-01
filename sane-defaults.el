@@ -135,4 +135,10 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name "saved-places" user-emacs-directory))
 
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.
+
+  \(fn arg char)"
+  'interactive)
+
 (provide 'sane-defaults)

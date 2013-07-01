@@ -172,6 +172,7 @@
      (cons 'auto-install melpa)
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa)
+     (cons 'yasnippet marmalada)
      ;(cons 'paredit melpa)
      ;(cons 'move-text melpa)
      ;(cons 'gist melpa)
@@ -500,6 +501,7 @@ and overlay is highlighted between MK and END-MK."
 (modify-syntax-entry ?\` "$" text-mode-syntax-table)
 (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 (modify-syntax-entry ?\` "$" org-mode-syntax-table)
+(modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
@@ -616,6 +618,11 @@ mc/maybe-multiple-cursors-mode."
 (when (require 'edit-server nil t)
   (edit-server-start))
 
+;; TODO: add this to list of packages to install
+;; TODO: figure out how to handle adding coffee-mode
+(require 'yasnippet)
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/")
+(yas-global-mode 1)
 
 ;; ========================================
 ;; Key bindings.
