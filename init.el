@@ -139,7 +139,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluensa-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluensa/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
+ '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
