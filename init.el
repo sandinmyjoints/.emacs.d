@@ -172,7 +172,7 @@
      (cons 'auto-install melpa)
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa)
-     (cons 'yasnippet marmalada)
+     (cons 'yasnippet marmalade)
      ;(cons 'paredit melpa)
      ;(cons 'move-text melpa)
      ;(cons 'gist melpa)
