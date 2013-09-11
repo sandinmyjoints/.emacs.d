@@ -123,6 +123,52 @@
       (wjb-toggle-marker-in-buffer t marker)
       (message (concat marker " tests off."))))))
 
+(defun wjb-toggle-invert-in-buffer (arg)
+  "Toggle `invert` on or off in `wjb-test-config-buffer`."
+  (interactive "P")
+  (with-current-buffer wjb-test-config-buffer
+    (let ((verted "invert: true")
+          (inverted "invert: false"))
+      (progn
+        (beginning-of-buffer)
+        (cond ((null arg)
+               ;; Null arg. Turn on.
+               (unless (null (re-search-forward inverted (point-max) t))
+                 (progn
+                   (replace-match verted)
+                   (setq msg "Tests inverted."))))
+              (t
+               ;; Non-null arg. Turn off.
+               (unless (null (re-search-forward verted (point-max) t))
+                 (progn
+                   (replace-match inverted)
+                   (setq msg "Tests un-inverted.")))))
+        (save-buffer)
+        (message msg)
+        (back-to-indentation)))))
+
+(defun wjb-toggle-it-only (arg)
+  "Toggle `only` on / off for the current test."
+  (interactive "P")
+  (let ((onlyed "it.only \"")
+        (unonlyed "it \""))
+    (save-excursion
+      (progn
+        (cond ((null arg)
+               ;; Null arg. Turn on.
+               (unless (null (re-search-backward unonlyed (point-min) t))
+                 (progn
+                   (replace-match onlyed)
+                   (setq msg "Test only'ed."))))
+              (t
+               ;; Non-null arg. Turn off.
+               (unless (null (re-search-backward onlyed (point-min) t))
+                 (progn
+                   (replace-match unonlyed)
+                   (setq msg "Tests un-only'ed.")))))))
+    (save-buffer)
+    (message msg)))
+
 ;; Journal command.
 (defun journal ()
 	"Start journaling"

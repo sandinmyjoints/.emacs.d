@@ -140,8 +140,8 @@ EOF
   - http://www.gentei.org/~yuuji/software/revive.el
   - https://github.com/rolandwalker/minimal-session-saver
 * TODO Try out:
-  - yasnippets
-  - iy go to char
+  - [X] yasnippets
+  - [ ] iy go to char
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
@@ -150,7 +150,6 @@ EOF
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
-
 * TODO Try perspectives or eproject
   - https://github.com/nex3/perspective-el
   - https://github.com/jrockway/eproject
@@ -177,7 +176,7 @@ EOF
 
   - Occur
 
-  - subword-backward-kill (C-backspace)
+  - subword-backward-kill (C-backspace, or M-backspace)
 
   - mc/
     - mc/edit-lines
@@ -216,7 +215,7 @@ EOF
 
   - zap-to-char (M-z and M-Z)
 
-  - Tramp: C-x C-f /sudo:root@localhost:/etc/hosts  *or*  C-x C-f /sudo::/etc/hosts
+  - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
 
   - terminal-mode for ssh
 
@@ -226,11 +225,11 @@ EOF
 
     - use one that works for terminals
 
-  - view-lossage
+  - view-lossage (C-h l)
 
   - repeat (C-x z)
 
-  - highlight-lines-matching-regexp
+  - highlight-lines-matching-regexp (M-s h l)
 
   - tumme (images)
 
@@ -238,9 +237,11 @@ EOF
 
   - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
 
-  - eval-and-replace (C-e C-e)
+  - eval
 
-  - eval-expression (M-:, also eval and insert: C-u M-:)
+    - eval-and-replace (C-e C-e)
+
+    - eval-expression (M-:, also eval and insert: C-u M-:)
 
   - ispell
 
@@ -262,7 +263,8 @@ EOF
   - Revisit appearance.el and make sensible settings for a windowed display vs a
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
-* TODO Fix client test marker in coffee files
+* DONE Fix client test marker in coffee files
+  CLOSED: [2013-08-11 Sun 18:18]
 
   - C-c C-l
   - (define-key map (kbd "C-c C-l") 'coffee-send-line) in coffee-mode.el
@@ -270,15 +272,17 @@ EOF
     Better to override the key-map, but because of the way I'm setting up the
     custom marker functions, that is not straightforward.
   - look at set-temporary-overlay-map
-* TODO Fix save mark to register/jump to register                       :bug:
+* DONE Fix save mark to register/jump to register                       :bug:
+  CLOSED: [2013-07-03 Wed 12:45]
   - what is breaking this?
   - broken everywhere?
   - repro?
 * TODO w3m
 
   - try for gmail
-* TODO dired: edit with, / shell commands
-
+* DONE dired: edit with, shell commands
+  CLOSED: [2013-07-03 Wed 12:46]
+  - C-x C-q to start editing, C-c C-c to finish
   - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html
 * TODO flycheck mode
 ** TODO Coffee-script compile and flymake.
@@ -287,7 +291,8 @@ EOF
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-* TODO magit log crashes                                                :bug:
+* DONE magit log crashes                                                :bug:
+  CLOSED: [2013-07-03 Wed 12:47]
 
   - repro: open a git repo (did it with both fluencia and .emacs.d) in
     magit-status. magit-log. quit out of log. quit out of magit-status. repeat a few
@@ -349,8 +354,12 @@ EOF
 * TODO incremental-search breaks                                        :bug:
 
   - Maybe related to org-mode?
+  - One time, broke in everything but org-mode.
   - Maybe related to recursive editing
   - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
+  - Got out of it by 1) C-g several times or 2) ESC several times. or 3) Doing
+    C-s and immediately backspace.
+  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Error-in-Isearch.html#Error-in-Isearch
 * TODO powerline
 
   - need to figure out how not to show the entire git branch name in modeline.
