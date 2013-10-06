@@ -141,6 +141,10 @@ EOF
   - https://github.com/rolandwalker/minimal-session-saver
 * TODO Try out:
   - [X] yasnippets
+    - remember that yasnippets wants snippets in a directory named after the
+      mode they are used in -- that is why coffee-mode didn't work when it was
+      in a directory named yasnippet-coffee-script-snippets, and why js
+      snippets didn't work in js2-mode (Javascript IDE) when they were in js-mode.
   - [ ] iy go to char
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164

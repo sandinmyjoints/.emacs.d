@@ -355,7 +355,14 @@ and overlay is highlighted between MK and END-MK."
 ;(eval-after-load 'grep '(require 'setup-rgrep))
 ;(eval-after-load 'shell '(require 'setup-shell))
 ;(require 'setup-hippie)
+
+;; Yasnippet.
 ;(require 'setup-yasnippet)
+;; Work-around for tab complaining when yas is active in ansi-term. See:
+;; https://github.com/capitaomorte/yasnippet/issues/289
+(add-hook 'term-mode-hook (lambda()
+                (yas-minor-mode -1)))
+
 ;(require 'setup-perspective)
 ;(require 'setup-ffip)
 ;(require 'setup-html-mode)
