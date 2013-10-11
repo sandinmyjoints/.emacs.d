@@ -243,13 +243,17 @@ EOF
 
   - eval
 
-    - eval-and-replace (C-e C-e)
+    - eval-and-replace (C-c C-e)
 
     - eval-expression (M-:, also eval and insert: C-u M-:)
 
   - ispell
 
   - list-faces-display
+
+  - dired-jump
+
+  - list-processes 
 
 * TODO Twittering mode
   - https://github.com/hayamiz/twittering-mode

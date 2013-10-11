@@ -319,6 +319,8 @@ and overlay is highlighted between MK and END-MK."
          (setq next-error-overlay-arrow-position
                (copy-marker (line-beginning-position)))))))
 
+;; dired-jump is useful.
+(require 'dired-x)
 
 ;; ========================================
 ;; Some hooks.
