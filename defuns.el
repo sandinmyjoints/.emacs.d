@@ -218,11 +218,47 @@
 
 ;; In json-mode, prettifies one line and leaves cursor at beginning of next.
 (fset 'json-prettify-one-line
-   [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
+      [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
 
 ;; Inserts a log of "test " on newline after "test:"
 (fset 'insert-test-counter
-   "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
+      "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
+
+;; Search and delete a console.log statement.
+(fset 'remove-console-log
+   "\C-sconsole.log\C-a\C-k\C-k")
+
+(defun mapcar-head (fn-head fn-rest list)
+  "Like MAPCAR, but applies a different function to the first element."
+  (if list
+      (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
+
+(defun camelize (s)
+  "Convert under_score string S to CamelCase string."
+  (mapconcat 'identity (mapcar
+                        '(lambda (word) (capitalize (downcase word)))
+                        (split-string s "_")) ""))
+
+(defun camelize-method (s)
+  "Convert under_score string S to camelCase string."
+  (mapconcat 'identity (mapcar-head
+                        '(lambda (word) (downcase word))
+                        '(lambda (word) (capitalize (downcase word)))
+                        (split-string s "_")) ""))
+
+(defun camelize-thing-at-point ()
+  "Camelize thing at point."
+  (interactive)
+  (let ((thing (thing-at-point 'word)))
+    (setq bounds (bounds-of-thing-at-point 'word))
+    (setq pos1 (car bounds))
+    (setq pos2 (cdr bounds))
+    (save-excursion
+      (delete-region pos1 pos2)
+      (goto-char pos1)
+      (insert (camelize-method thing)))))
+
+;; TODO: camelize-all-like-thing-at-point
 
 
 (provide 'defuns)
