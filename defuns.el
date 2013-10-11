@@ -216,4 +216,13 @@
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
+;; In json-mode, prettifies one line and leaves cursor at beginning of next.
+(fset 'json-prettify-one-line
+   [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
+
+;; Inserts a log of "test " on newline after "test:"
+(fset 'insert-test-counter
+   "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
+
+
 (provide 'defuns)
