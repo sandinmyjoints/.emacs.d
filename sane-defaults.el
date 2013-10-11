@@ -141,4 +141,7 @@
   \(fn arg char)"
   'interactive)
 
+;; Narrow to region is useful.
+(put 'narrow-to-region 'disabled nil)
+
 (provide 'sane-defaults)
