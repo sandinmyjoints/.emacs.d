@@ -171,20 +171,20 @@
 
 ;; Journal command.
 (defun journal ()
-	"Start journaling"
-	(interactive)
-	(switch-to-buffer "journal")
-	(text-mode)
-	(auto-fill-mode 1)
-	(set-fill-column 80))
+  "Start journaling"
+  (interactive)
+  (switch-to-buffer "journal")
+  (text-mode)
+  (auto-fill-mode 1)
+  (set-fill-column 80))
 
 (defun sudo-find-file (file-name)
   (interactive "Find file (sudo): ")
   (find-file (concat "/sudo::" file-name)))
 
 (defun go-to-doc (base-url)
-    (let ((default (symbol-name (symbol-at-point))))
-      (browse-url (concat base-url (read-string "Search term: " nil nil default)))))
+  (let ((default (symbol-name (symbol-at-point))))
+    (browse-url (concat base-url (read-string "Search term: " nil nil default)))))
 
 (defun search-so ()
   (interactive)
