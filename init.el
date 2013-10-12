@@ -186,6 +186,7 @@
      ;(cons 'elisp-slime-nav melpa)
      ;;(cons 'elnode marmalade)
      ;(cons 'slime-js marmalade)
+     (cons 'anzu melpa)
    ))
 
   (condition-case nil
@@ -695,3 +696,5 @@ mc/maybe-multiple-cursors-mode."
 
 (when (require 'rvm nil t)
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
+
+(global-anzu-mode 1)
