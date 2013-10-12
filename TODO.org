@@ -253,7 +253,9 @@ EOF
 
   - dired-jump
 
-  - list-processes 
+  - list-processes
+
+  - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
 
 * TODO Twittering mode
   - https://github.com/hayamiz/twittering-mode
