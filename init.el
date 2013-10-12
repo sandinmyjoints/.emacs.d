@@ -698,3 +698,11 @@ mc/maybe-multiple-cursors-mode."
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
 (global-anzu-mode 1)
+
+;; Paired tick is useful in some modes.
+;; TODO: Probably Can't run these until the mode has been loaded or something.
+;; (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
