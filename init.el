@@ -187,6 +187,7 @@
      ;;(cons 'elnode marmalade)
      ;(cons 'slime-js marmalade)
      (cons 'anzu melpa)
+     (cons 's melpa)
    ))
 
   (condition-case nil

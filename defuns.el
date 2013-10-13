@@ -261,4 +261,54 @@
 ;; TODO: camelize-all-like-thing-at-point
 
 
+(defun wjb-query-chef-handle-line (line)
+  (if (s-starts-with? "aws-" line)
+      (let* ((parts (s-split " " line))
+             (node (pop parts))
+             (info (cons (first parts) (second parts))))
+        ;; Save parts as node-name, public-hostname, public-ipv4
+        (list node info))))
+
+(defun wjb-query-chef-callback (process content)
+  "Callback for data from chef node queries.
+
+Puts results in plist (node-name (hostname . ip))"
+  ;; Split on newline.
+  (let* ((splits (s-split "\n" content)))
+    (-each (-remove 'null (-map 'wjb-query-chef-handle-line splits))
+           (lambda (item)
+             (setq wjb-chef-node-plist (lax-plist-put wjb-chef-node-plist (car item) (second item)))))))
+
+(defun wjb-query-chef-ips (&optional node-pattern &optional env-pattern)
+  (let ((process-connection-type nil) ;; Use a pipe.
+        (node-pattern (if node-pattern node-pattern "*"))
+        (env-pattern (if env-pattern env-pattern "*")))
+    (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip.sh" node-pattern env-pattern))
+    ;; Attach filter function as process output callback.
+    (set-process-filter wjb-process 'wjb-query-chef-callback)))
+
+;; TODO: Could use a sentinel to get notified when process status changes.
+;; (when (not (process-live-p wjb-process))
+;;   (message "Process not live")
+;;   (with-current-buffer (process-buffer wjb-process)
+;;     (let* ((start (search-backward "Using"))
+;;            (results (buffer-substring start (process-mark wjb-process))))
+;;       (message (concat "Results: " results))
+;;       (setq results-perm results))))
+
+(defun wjb-query-chef-refresh-all ()
+  (setq wjb-chef-node-plist ())
+  (wjb-query-chef-ips))
+
+(defun wjb-chef-node-ip (node-name)
+  (cdr (lax-plist-get wjb-chef-node-plist node-name)))
+
+(defun wjb-chef-node-hostname (node-name)
+  (car (lax-plist-get wjb-chef-node-plist node-name)))
+
+(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
+(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
+
+;;(wjb-query-chef-refresh-all)
+
 (provide 'defuns)
