@@ -334,6 +334,8 @@ and overlay is highlighted between MK and END-MK."
            (lambda ()
              (setq css-indent-offset 2))))
 
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; ========================================
 ;; Require/autoload and config packages.
@@ -568,6 +570,8 @@ and overlay is highlighted between MK and END-MK."
 (when (require 'smart-tab nil t)
   (global-smart-tab-mode 1))
 
+(global-anzu-mode 1)
+
 ;; multiple-cursors.
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
@@ -697,8 +701,6 @@ mc/maybe-multiple-cursors-mode."
 
 (when (require 'rvm nil t)
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
-
-(global-anzu-mode 1)
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.

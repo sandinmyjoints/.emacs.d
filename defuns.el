@@ -306,8 +306,8 @@ Puts results in plist (node-name (hostname . ip))"
 (defun wjb-chef-node-hostname (node-name)
   (car (lax-plist-get wjb-chef-node-plist node-name)))
 
-(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
-(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
+;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
+;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
 
 ;;(wjb-query-chef-refresh-all)
 
