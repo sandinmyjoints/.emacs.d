@@ -377,3 +377,24 @@ EOF
 * TODO Appearance
 ** TODO Set window position.
 ** TODO Toggle on fullscreen.
+* TODO elfeed http://nullprogram.com/blog/2013/09/04/
+
+* TODO map chef node names to aws ips
+  - goal -- map instance name to ipv4, public_hostname
+  - use tramp with chef node name
+  - emacs overlays to replace ipv4 or public_hostname with chef node name: http://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html
+  - inverse: when I input aws-*, emacs looks up public_hostname or IP.
+  - knife list nodes| knife xargs show
+  - ec2.public_ipv4 and ec2.public_hostname
+  - gem install knife-essential
+  - brew install jq
+  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2'
+  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2.public_ipv4'
+  - [X] look up values from knife commands. cache values. ability to force refresh.
+  - [X] new rake command: rake query_ip[*,*] does all. How to get emacs to be able
+    to run? rvm_use 1.9.3@ops && cd ~/scm/sd/ops/chef && rake query_ip[*,*]
+  - [ ] need to parse input to tramp
+    - look at tramp-file-name-host in tramp.el. do advice for it?
+    - it was tramp-dissect-file-name that needed advice.
+  - or could make a fn that takes (node name, file) and then calls tramp fn to open
+    file on node name

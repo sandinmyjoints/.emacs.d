@@ -283,6 +283,7 @@ Puts results in plist (node-name (hostname . ip))"
   (let ((process-connection-type nil) ;; Use a pipe.
         (node-pattern (if node-pattern node-pattern "*"))
         (env-pattern (if env-pattern env-pattern "*")))
+    ;; TODO: Short-circuit return if the shell script doesn't exist.
     (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip.sh" node-pattern env-pattern))
     ;; Attach filter function as process output callback.
     (set-process-filter wjb-process 'wjb-query-chef-callback)))
@@ -300,15 +301,28 @@ Puts results in plist (node-name (hostname . ip))"
   (setq wjb-chef-node-plist ())
   (wjb-query-chef-ips))
 
+;;(wjb-query-chef-refresh-all)
+
 (defun wjb-chef-node-ip (node-name)
   (cdr (lax-plist-get wjb-chef-node-plist node-name)))
 
 (defun wjb-chef-node-hostname (node-name)
   (car (lax-plist-get wjb-chef-node-plist node-name)))
 
+(defadvice tramp-dissect-file-name (after lookup-chef-hostnames)
+  "Lookup and replace Chef nodes with their hostnames."
+  ;; If ad-return-value is a property in the plist, return its public hostname.
+  ;;(message "Checking %s, got %s" (aref ad-return-value 2) (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2)))
+  (if (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))
+      (aset ad-return-value 2 (first (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))))
+      ad-return-value))
+
+;; TODO: activate this automatically.
+;;(ad-activate 'tramp-dissect-file-name)
+;;(ad-update 'tramp-dissect-file-name)
+
+
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
-
-;;(wjb-query-chef-refresh-all)
 
 (provide 'defuns)
