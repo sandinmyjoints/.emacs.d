@@ -321,6 +321,8 @@ Puts results in plist (node-name (hostname . ip))"
 ;;(ad-activate 'tramp-dissect-file-name)
 ;;(ad-update 'tramp-dissect-file-name)
 
+(unless (boundp 'wjb-chef-node-plist)
+  (setq wjb-chef-node-plist ()))
 
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
