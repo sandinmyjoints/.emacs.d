@@ -643,9 +643,9 @@ mc/maybe-multiple-cursors-mode."
 
 ;; TODO: add this to list of packages to install
 ;; TODO: figure out how to handle adding coffee-mode
-(require 'yasnippet)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/")
-(yas-global-mode 1)
+(when (require 'yasnippet nil t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/")
+  (yas-global-mode 1))
 
 ;; ========================================
 ;; Key bindings.
