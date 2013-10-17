@@ -570,7 +570,8 @@ and overlay is highlighted between MK and END-MK."
 (when (require 'smart-tab nil t)
   (global-smart-tab-mode 1))
 
-(global-anzu-mode 1)
+(when (require 'anzu-mode nil t)
+  (global-anzu-mode 1))
 
 ;; multiple-cursors.
 ;;
