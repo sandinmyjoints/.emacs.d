@@ -69,3 +69,6 @@
 [submodule "elisp/emacs-kv"]
 	path = elisp/emacs-kv
 	url = git@github.com:nicferrier/emacs-kv.git
+[submodule "elisp/inf-mongo"]
+	path = elisp/inf-mongo
+	url = git://github.com/tobiassvn/inf-mongo.git
