@@ -62,10 +62,9 @@
 	path = elisp/octomacs
 	url = git@github.com:sandinmyjoints/octomacs.git
     ignore = untracked
-[submodule "elisp/yasnippet-coffee-script-snippets"]
-	path = elisp/yasnippet-coffee-script-snippets
-	url = https://github.com/jarrelcobb/yasnippet-coffee-script-snippets
-    ignore = untracked
 [submodule "elisp/inf-mongo"]
 	path = elisp/inf-mongo
 	url = git://github.com/tobiassvn/inf-mongo.git
+[submodule "yasnippet-coffee-script-snippets"]
+	path = yasnippet-coffee-script-snippets
+	url = git@github.com:sandinmyjoints/yasnippet-coffee-script-snippets.git
