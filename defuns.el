@@ -216,6 +216,12 @@
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
+;; Useful kbd macros.
+
+;; HOWTO add a named kbd macro to the kmacro-ring
+;;(kmacro-push-ring (list 'remove-api-version-log 0 "%d"))
+;;(kmacro-pop-ring)
+
 ;; In json-mode, prettifies one line and leaves cursor at beginning of next.
 (fset 'json-prettify-one-line
       [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
@@ -227,6 +233,10 @@
 ;; Search and delete a console.log statement.
 (fset 'remove-console-log
    "\C-sconsole.log\C-a\C-k\C-k")
+
+;; Remove a log entry for /api/version.
+(fset 'remove-api-version-log
+   "\C-s/api/version\C-a\C-k\C-k")
 
 (defun mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."

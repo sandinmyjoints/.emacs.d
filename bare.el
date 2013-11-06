@@ -167,6 +167,25 @@
 (global-set-key (kbd "C-x f") 'recentf-open-files)
 (global-set-key (kbd "C-c 0") 'kill-ring-save)
 
+;; Useful kbd macros.
+
+;; In json-mode, prettifies one line and leaves cursor at beginning of next.
+(fset 'json-prettify-one-line
+      [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
+
+;; Inserts a log of "test " on newline after "test:"
+(fset 'insert-test-counter
+      "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
+
+;; Search and delete a console.log statement.
+(fset 'remove-console-log
+   "\C-sconsole.log\C-a\C-k\C-k")
+
+;; Remove a log entry for /api/version.
+(fset 'remove-api-version-log
+   "\C-s/api/version\C-a\C-k\C-k")
+
+
 ;; TODO: Add anything that needs Emacs>=24.
 (when (>= emacs-major-version 24)
   (require 'package)
