@@ -171,7 +171,7 @@
      (cons 'gitconfig-mode marmalade)
      (cons 'gitignore-mode marmalade)
      (cons 'ido-ubiquitous marmalade)
-     ;(cons 'magit marmalade)
+     ;(cons 'magit marmalade) ;; Should be ok, because tracks maint branch.
      (cons 'rainbow-mode melpa) ;; Emacs >=24 only
      (cons 'dired+ marmalade)
      (cons 'tree-mode melpa) ; dirtree requirement.
