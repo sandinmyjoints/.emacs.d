@@ -232,7 +232,8 @@
 
 ;; Search and delete a console.log statement.
 (fset 'remove-console-log
-   "\C-sconsole.log\C-a\C-k\C-k")
+   "\C-sconsole.log \"DEBUG:\C-a\C-k\C-k\C-x\C-s")
+
 
 ;; Remove a log entry for /api/version.
 (fset 'remove-api-version-log

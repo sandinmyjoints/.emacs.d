@@ -378,7 +378,7 @@ EOF
 ** TODO Set window position.
 ** TODO Toggle on fullscreen.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
-
+* TODO rearrange trees in dirtree mode
 * TODO map chef node names to aws ips
   - goal -- map instance name to ipv4, public_hostname
   - use tramp with chef node name
@@ -398,3 +398,5 @@ EOF
     - it was tramp-dissect-file-name that needed advice.
   - or could make a fn that takes (node name, file) and then calls tramp fn to open
     file on node name
+* TODO multi-term
+* TODO tern / ac-js2 / skewer

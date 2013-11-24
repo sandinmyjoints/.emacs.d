@@ -139,7 +139,7 @@
  '(markdown-command "/Users/william/bin/markdown")
  '(ns-command-modifier (quote meta))
  '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
+ '(safe-local-variable-values (quote ((find-in-project-dir . "~/src/sd/neodarwin/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
  '(tool-bar-mode nil)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
 (custom-set-faces
@@ -337,6 +337,8 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (abbrev-mode 1))))
 ;; ========================================
 ;; Require/autoload and config packages.
 ;; ========================================
