@@ -13,7 +13,7 @@
 (global-set-key (kbd "C-|") 'align-regexp)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
 ;; TODO: bind something to align-regexp with a regexp that aligns based on :
-(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x l") 'other-window-reverse)
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 ;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.

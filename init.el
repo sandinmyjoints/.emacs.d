@@ -361,6 +361,8 @@ and overlay is highlighted between MK and END-MK."
 (eval-after-load 'magit '(require 'setup-magit))
 (eval-after-load 'magit '(require 'rebase-mode))
 
+(autoload 'ibuffer "ibuffer" "List buffers." t)
+
 ;(eval-after-load 'grep '(require 'setup-rgrep))
 ;(eval-after-load 'shell '(require 'setup-shell))
 ;(require 'setup-hippie)
