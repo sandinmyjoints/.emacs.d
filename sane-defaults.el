@@ -163,4 +163,7 @@
 ;; Narrow to region is useful.
 (put 'narrow-to-region 'disabled nil)
 
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
 (provide 'sane-defaults)
