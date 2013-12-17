@@ -24,7 +24,6 @@
 (global-set-key (kbd "C-c r") 'query-replace-regexp)
 (global-set-key (kbd "C-c q") 'query-replace)
 (global-set-key (kbd "C-c b") 'rename-buffer)
-(global-set-key (kbd "C-c p") 'python-mode)
 (global-set-key (kbd "C-c v") 'describe-variable)
 (global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-c i") 'indent-relative)
