@@ -154,9 +154,11 @@ EOF
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
-* TODO Try perspectives or eproject
+* TODO Try perspectives or eproject or...
   - https://github.com/nex3/perspective-el
   - https://github.com/jrockway/eproject
+  - https://github.com/rdallasgray/project-persist
+  - https://github.com/bbatsov/projectile
 * DONE Fix the submodule -dirty caused by .elc files
   CLOSED: [2013-06-30 Sun 15:10]
 
