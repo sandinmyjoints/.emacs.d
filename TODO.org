@@ -408,3 +408,6 @@ EOF
   - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
   - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
   - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+* TODO init-local for machine-specific configs
+  - eg, initial files to open
+  - not under source control

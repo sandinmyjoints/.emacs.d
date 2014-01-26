@@ -14,10 +14,13 @@
 
 ;; Directories to open in dirtree on start.
 (setq initial-dirs-to-open
-      '("~/scm/wjb"
-        "~/.emacs.d"
+      '("~/.emacs.d"
+        "~/scm/wjb"
+        "~/scm/sd/ops"
         "~/scm/sd/fluencia"
-        "~/scm/sd/ops"))
+        "~/scm/sd/fluencia-clean"
+        "~/scm/sd/neodarwin"
+        "~/scm/sd/neodarwin-clean"))
 
 ;; An initial file to open if it exists.
 (setq initial-file "~/.emacs.d/init.el")
@@ -188,6 +191,7 @@
      ;(cons 'slime-js marmalade)
      (cons 'anzu melpa)
      (cons 's melpa)
+     (cons 'virtualenvwrapper)
    ))
 
   (condition-case nil
