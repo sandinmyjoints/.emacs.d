@@ -139,13 +139,13 @@ EOF
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
   - https://github.com/rolandwalker/minimal-session-saver
-* TODO Try out:
-  - [X] yasnippets
-    - remember that yasnippets wants snippets in a directory named after the
-      mode they are used in -- that is why coffee-mode didn't work when it was
-      in a directory named yasnippet-coffee-script-snippets, and why js
-      snippets didn't work in js2-mode (Javascript IDE) when they were in js-mode.
-  - [ ] iy go to char
+* DONE Try out yasnippets
+  CLOSED: [2014-01-26 Sun 14:50]
+  - remember that yasnippets wants snippets in a directory named after the
+    mode they are used in -- that is why coffee-mode didn't work when it was
+    in a directory named yasnippet-coffee-script-snippets, and why js
+    snippets didn't work in js2-mode (Javascript IDE) when they were in js-mode.
+* TODO try iy go to char
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
@@ -167,7 +167,6 @@ EOF
   - http://stackoverflow.com/questions/3240881/git-can-i-suppress-listing-of-modified-content-dirty-submodule-entries-in-sta
 
 * TODO Shell in Emacs
-
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO Use:
@@ -324,6 +323,16 @@ EOF
   - Try profiling: http://stackoverflow.com/a/6732810
   - Likely due to use of magit-log
   - maybe track magit maint branch instead?
+* DONE incremental-search breaks                                        :bug:
+  CLOSED: [2014-01-26 Sun 14:50]
+
+  - Maybe related to org-mode?
+  - One time, broke in everything but org-mode.
+  - Maybe related to recursive editing
+  - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
+  - Got out of it by 1) C-g several times or 2) ESC several times. or 3) Doing
+    C-s and immediately backspace.
+  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Error-in-Isearch.html#Error-in-Isearch
 * TODO Octopress and Emacs
 
   - Want to:
@@ -362,16 +371,6 @@ EOF
     - [X] upgrade to heroku toolbelt
     - [X] install heroku accounts plugin
     - [X] spanishdict / wjb accounts
-
-* TODO incremental-search breaks                                        :bug:
-
-  - Maybe related to org-mode?
-  - One time, broke in everything but org-mode.
-  - Maybe related to recursive editing
-  - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
-  - Got out of it by 1) C-g several times or 2) ESC several times. or 3) Doing
-    C-s and immediately backspace.
-  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Error-in-Isearch.html#Error-in-Isearch
 * TODO powerline
 
   - need to figure out how not to show the entire git branch name in modeline.
@@ -381,7 +380,8 @@ EOF
 ** TODO Toggle on fullscreen.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO rearrange trees in dirtree mode
-* TODO map chef node names to aws ips
+* DONE map chef node names to aws ips
+  CLOSED: [2014-01-26 Sun 14:51]
   - goal -- map instance name to ipv4, public_hostname
   - use tramp with chef node name
   - emacs overlays to replace ipv4 or public_hostname with chef node name: http://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html
@@ -402,3 +402,9 @@ EOF
     file on node name
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
+* TODO recognize virtualenvs
+  - https://github.com/porterjamesj/virtualenvwrapper.el
+* TODO ipython in emacs
+  - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
+  - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
+  - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
