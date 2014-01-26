@@ -338,4 +338,23 @@ Puts results in plist (node-name (hostname . ip))"
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
 
+;; TODO:
+;; * fill-region with prefix
+;; * copy whatever is filled to kill ring for convenient pasting
+;;
+(defun fill-for-email ()
+  "Fill paragraph with very long fill-column."
+  (interactive)
+  (let ((fill-column-stashed fill-column))
+    (setq fill-column 10000)
+    (fill-paragraph)
+    (setq fill-column fill-column-stashed)))
+
+(fset 'prepare-for-email
+   [?\C-x ?h ?\M-x ?s ?e ?t return ?1 ?0 ?0 ?0 ?0 return ?\M-q ?\C-x ?h])
+
+(fset 'fix-js-indent
+   [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])
+
+
 (provide 'defuns)
