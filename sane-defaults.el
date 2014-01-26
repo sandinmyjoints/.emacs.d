@@ -91,7 +91,7 @@
 ;; A saner ediff
 (setq ediff-diff-options "-w")
 (setq ediff-split-window-function 'split-window-horizontally)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+;(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; Nic says eval-expression-print-level needs to be set to nil (turned off) so
 ;; that you can always see what's happening.
@@ -174,5 +174,8 @@
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
+;; Set js-mode's indent level (it seems to ignore tab-width).
+(setq js-indent-level 2)
 
 (provide 'sane-defaults)
