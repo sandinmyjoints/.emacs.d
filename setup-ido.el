@@ -15,6 +15,8 @@
 
   (add-to-list 'ido-ignore-directories "node_modules")
 
+  (add-to-list 'ido-ignore-buffers "*Ibuffer*")
+
   ;; TODO: extensions order, ignore
   ;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
   )
