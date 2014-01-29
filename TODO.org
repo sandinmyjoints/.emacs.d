@@ -150,6 +150,7 @@ EOF
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
+  - https://github.com/purcell/emacs.d
 
 * TODO Try anything and/or Helm
 
@@ -402,6 +403,8 @@ EOF
     file on node name
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
+* DONE node and coffee repls
+  CLOSED: [2014-01-28 Tue 23:23]
 * TODO recognize virtualenvs
   - https://github.com/porterjamesj/virtualenvwrapper.el
 * TODO ipython in emacs
