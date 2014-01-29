@@ -405,12 +405,17 @@ EOF
 * TODO tern / ac-js2 / skewer
 * DONE node and coffee repls
   CLOSED: [2014-01-28 Tue 23:23]
-* TODO recognize virtualenvs
+* DONE recognize virtualenvs
+  CLOSED: [2014-01-28 Tue 23:41]
   - https://github.com/porterjamesj/virtualenvwrapper.el
 * TODO ipython in emacs
   - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
   - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
   - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+  - [ ] put activated venv in buffer name when call run-python and venv is active
+  - [ ] fix ^A in prompts
+  - readline-complete? https://github.com/monsanto/readline-complete.el/blob/master/readline-complete.el
+  -
 * TODO init-local for machine-specific configs
   - eg, initial files to open
   - not under source control
