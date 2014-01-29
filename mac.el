@@ -1,3 +1,6 @@
+(require-package 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+
 ;; change command to meta, and ignore option to use weird Norwegian keyboard
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)

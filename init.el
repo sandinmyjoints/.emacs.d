@@ -712,6 +712,12 @@ mc/maybe-multiple-cursors-mode."
 (when (require 'rvm nil t)
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
+(defmacro after-load (feature &rest body)
+  "After FEATURE is loaded, evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,feature
+     '(progn ,@body)))
+
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
 ;; (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
