@@ -87,30 +87,4 @@
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (make-local-variable 'tab-width)
-  (set 'tab-width 2)
-  (set 'coffee-tab-width 2)
-  (set-fill-column 80))
-
-(add-hook 'coffee-mode-hook 'coffee-custom)
-
-;; TODO: write-file-functions is global, so this is a pretty dumb hook. Fix it.
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-
-;; TODO: coffee-beginning-of-defun. Search backward to -> not in
-;; string or comment.
-
-;; Catch common typo.
-(add-hook 'coffee-mode-hook
-          (lambda()
-            (add-hook 'local-write-file-hooks
-                      '(lambda()
-                         (save-excursion
-                           (perform-replace "commong" "common" nil nil nil nil nil (point-min) (point-max)))))))
-
-
 (provide 'mode-mappings)

@@ -191,7 +191,11 @@
      ;(cons 'slime-js marmalade)
      (cons 'anzu melpa)
      (cons 's melpa)
-     (cons 'virtualenvwrapper)
+     (cons 'f melpa)
+     (cons 'dash melpa)
+     (cons 'nvm melpa)
+     (cons 'virtualenvwrapper melpa)
+     (cons 'rainbow-delimiters melpa)
    ))
 
   (condition-case nil

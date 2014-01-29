@@ -175,7 +175,4 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
-;; Set js-mode's indent level (it seems to ignore tab-width).
-(setq js-indent-level 2)
-
 (provide 'sane-defaults)
