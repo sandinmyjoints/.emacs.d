@@ -113,11 +113,14 @@
   (nvm-use version)
   (exec-path-from-shell-copy-env "PATH"))
 
-(defun run-node ()
-  (interactive)
+(defun run-node (cwd)
+  (interactive "DDirectory: ")
   (unless (executable-find "node")
     (call-interactively 'do-nvm-use))
-  (pop-to-buffer (make-comint "node-repl" "node" nil "--interactive")))
+  (let ((default-directory cwd))
+        (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
+
+;; TODO: Something similar for coffee, by wrapping coffee-repl.
 
 ;; ---------------------------------------------------------------------------
 ;; Alternatively, use skewer-mode
