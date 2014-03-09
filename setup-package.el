@@ -6,9 +6,11 @@
   (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
   (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/"))
   (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (defvar org '("org" . "http://orgmode.org/elpa/"))
 
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives marmalade)
+  (add-to-list 'package-archives org)
 
   (package-initialize)
 
