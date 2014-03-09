@@ -359,5 +359,20 @@ Puts results in plist (node-name (hostname . ip))"
 (fset 'fix-js-indent
    [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])
 
+(defun copy-and-comment ()
+  "Comment active region and paste uncommented text on the
+following line."
+  (interactive)
+  (kill-new
+   (buffer-substring
+    (region-beginning)
+    (region-end)))
+  (comment-region (region-beginning)
+                  (region-end))
+  (goto-char (region-end))
+  (delete-blank-lines)
+  (yank)
+  (newline 1)
+  (set-mark-command t))
 
 (provide 'defuns)
