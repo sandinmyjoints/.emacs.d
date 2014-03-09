@@ -130,6 +130,11 @@ EOF
   CLOSED: [2013-05-19 Sun 15:36]
 * DONE linum
   CLOSED: [2013-05-19 Sun 15:44]
+* TODO Try perspectives or eproject or...
+  - https://github.com/nex3/perspective-el
+  - https://github.com/jrockway/eproject
+  - https://github.com/rdallasgray/project-persist
+  - https://github.com/bbatsov/projectile
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Window and frame restore. See:
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
@@ -151,15 +156,9 @@ EOF
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
   - https://github.com/purcell/emacs.d
-
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
-* TODO Try perspectives or eproject or...
-  - https://github.com/nex3/perspective-el
-  - https://github.com/jrockway/eproject
-  - https://github.com/rdallasgray/project-persist
-  - https://github.com/bbatsov/projectile
 * DONE Fix the submodule -dirty caused by .elc files
   CLOSED: [2013-06-30 Sun 15:10]
 
@@ -171,19 +170,12 @@ EOF
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO Use:
-
   - Smex (M-x, M-X)
-
   - align-regexp (C-|)
-
   - join-line (C-c C-j)
-
   - Org-mode (C-c C-n/p; C-c C-f/b)
-
   - Occur
-
   - subword-backward-kill (C-backspace, or M-backspace)
-
   - mc/
     - mc/edit-lines
     - mc/beginnings-of-lines (C-M-<)
@@ -191,72 +183,40 @@ EOF
     - mc/mark-all-like-this (C-*)
     - mc/mark-all-words-like-this
     - mc/insert-numbers
-
   - org-table (convert-region, transpose, etc)
-
   - sorting
-
     - sort-lines
-
     - reverse-region
-
     - sort-fields and sort-numeric-fields
-
     - sort-regexp-fields
-
     - org-sort-entries
-
   - rectangle-number-lines (C-x r N)
-
   - Keyboard macros
     - counters:
       http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
       (C-x C-k C-i)
-
     - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
-
     - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
-
   - set-goal-column (C-x C-n)
-
   - zap-to-char (M-z and M-Z)
-
   - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
-
   - terminal-mode for ssh
-
   - color-themes
-
     - save current as?
-
     - use one that works for terminals
-
   - view-lossage (C-h l)
-
   - repeat (C-x z)
-
   - highlight-lines-matching-regexp (M-s h l)
-
   - tumme (images)
-
   - what-cursor-position (C-x =, also C-u C-x =)
-
   - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
-
   - eval
-
     - eval-and-replace (C-c C-e)
-
     - eval-expression (M-:, also eval and insert: C-u M-:)
-
   - ispell
-
   - list-faces-display
-
   - dired-jump
-
   - list-processes
-
   - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
 
 * TODO Twittering mode
@@ -415,7 +375,10 @@ EOF
   - [ ] put activated venv in buffer name when call run-python and venv is active
   - [ ] fix ^A in prompts
   - readline-complete? https://github.com/monsanto/readline-complete.el/blob/master/readline-complete.el
-  -
+  - ipython.el?
+  - elpy?
 * TODO init-local for machine-specific configs
   - eg, initial files to open
   - not under source control
+* TODO try Cask
+  - cask.github.io
