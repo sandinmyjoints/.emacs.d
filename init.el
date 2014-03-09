@@ -109,6 +109,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; Disable interlocking files (interferes with watches).
+;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Interlocking.html
+;; http://stackoverflow.com/questions/5738170/
+(setq create-lockfiles nil)
+
 ;; Set PAGER and EDITOR so git doesn't complain: "terminal is not
 ;; fully functional".
 (setenv "PAGER" "cat")
@@ -196,6 +201,7 @@
      (cons 'nvm melpa)
      (cons 'virtualenvwrapper melpa)
      (cons 'rainbow-delimiters melpa)
+     (cons 'yaml-mode melpa)
    ))
 
   (condition-case nil

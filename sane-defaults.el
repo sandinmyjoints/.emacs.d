@@ -61,10 +61,11 @@
 ;; Never insert tabs
 (setq-default indent-tabs-mode nil)
 
-;; Set up 4-space tabs.
+;; Set up 2-space tabs.
 ;; See: http://stackoverflow.com/a/1819405/599258
-(setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
+(setq-default tab-width 2)
+;(setq indent-line-function 'insert-tab)
+(setq indent-line-function 'indent-relative-maybe)
 
 ;; Show me empty lines after buffer end
 (set-default 'indicate-empty-lines t)

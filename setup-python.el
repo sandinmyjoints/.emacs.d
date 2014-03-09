@@ -2,7 +2,7 @@
 (require-package 'virtualenvwrapper)
 
 ;; if you want interactive shell support
-(venv-initialize-interactive-shells)
+;;(venv-initialize-interactive-shells)
 
 ;; if you want eshell support
 ;;(venv-initialize-eshell)
@@ -14,7 +14,8 @@
   (if (executable-find "ipython")
       (setq
        python-shell-interpreter "ipython"
-       python-shell-interpreter-args ""
+       ;;python-shell-interpreter-args ""
+       python-shell-interpreter-args "--pylab"
        python-shell-prompt-regexp "In \\[[0-9]+\\]: "
        python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
        python-shell-completion-setup-code
