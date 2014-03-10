@@ -134,28 +134,10 @@
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "36a309985a0f9ed1a0c3a69625802f87dee940767c9e200b89cdebdb737e5b29" default)))
- '(dired-isearch-filenames (quote dwim))
- '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin" "/usr/local/bin")))
- '(inhibit-startup-screen t)
- '(inverse-video t)
- '(markdown-command "/Users/william/bin/markdown")
- '(ns-command-modifier (quote meta))
- '(rst-level-face-base-light 51)
- '(safe-local-variable-values (quote ((find-in-project-dir . "~/src/sd/neodarwin/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia-clean/src") (find-in-project-default-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . "/Users/william/scm/sd/fluencia/src") (find-in-project-dir . /Users/william/scm/sd/fluencia/src) (find-in-project-dir . "~/.emacs.d") (find-in-project-dir . "~/scm/sd/fluencia/src") (find-in-project-dir . "~/scm/sd/database-platform"))))
- '(tool-bar-mode nil)
- '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Mtn Arch Git))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Custom.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t t)
+
 
 ;; ========================================
 ;; Appearance.
