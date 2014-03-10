@@ -154,47 +154,6 @@ user-emacs-directory))
 
 (require 'setup-package)
 
-;; Install packages if they're missing.
-(when (require 'package nil t)
-  (defun init--install-packages ()
-    (packages-install
-     (cons 'edit-server melpa)
-     (cons 'exec-path-from-shell melpa)
-     ;(cons 'git-commit-mode marmalade)
-     (cons 'gitconfig-mode marmalade)
-     (cons 'gitignore-mode marmalade)
-     (cons 'ido-ubiquitous marmalade)
-     ;(cons 'magit marmalade) ;; Should be ok, because tracks maint branch.
-     (cons 'rainbow-mode melpa) ;; Emacs >=24 only
-     (cons 'dired+ marmalade)
-     (cons 'tree-mode melpa) ; dirtree requirement.
-     (cons 'auto-install melpa)
-     (cons 'json-mode marmalade)
-     (cons 'fill-column-indicator melpa)
-     (cons 'yasnippet marmalade)
-     ;(cons 'paredit melpa)
-     ;(cons 'move-text melpa)
-     ;(cons 'gist melpa)
-     ;(cons 'htmlize melpa)
-     ;(cons 'elisp-slime-nav melpa)
-     ;;(cons 'elnode marmalade)
-     ;(cons 'slime-js marmalade)
-     (cons 'anzu melpa)
-     (cons 's melpa)
-     (cons 'f melpa)
-     (cons 'dash melpa)
-     (cons 'nvm melpa)
-     (cons 'virtualenvwrapper melpa)
-     (cons 'rainbow-delimiters melpa)
-     (cons 'yaml-mode melpa)
-   ))
-
-  (condition-case nil
-      (init--install-packages)
-    (error
-     (package-refresh-contents)
-     (init--install-packages))))
-
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
 (when (require 'auto-install nil t)
   (setq auto-install-directory "~/.emacs.d/elisp/"))
