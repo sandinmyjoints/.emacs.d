@@ -73,6 +73,10 @@
 
 (set-frame-size-according-to-resolution)
 
+;; Set to always be fullscreen.
+(set-frame-parameter nil 'fullscreen 'fullboth)
+
+
 ;; TODO: Set window position.
 ;; TODO: Toggle on fullscreen.
 
