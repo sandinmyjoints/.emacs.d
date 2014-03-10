@@ -28,6 +28,9 @@
 (setq initial-file (expand-file-name "init.el"
 user-emacs-directory))
 
+;; Are we on a mac?
+(setq is-mac (equal system-type 'darwin))
+
 ;; Set custom markers.
 ;; Args:
 ;; 1. Marker.
@@ -166,9 +169,6 @@ user-emacs-directory))
 ;; https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el
 (require 'sane-defaults)
 
-;; Are we on a mac?
-(setq is-mac (equal system-type 'darwin))
-
 ;; ========================================
 ;; Custom defuns.
 ;; ========================================
@@ -276,9 +276,6 @@ and overlay is highlighted between MK and END-MK."
          (setq next-error-overlay-arrow-position
                (copy-marker (line-beginning-position)))))))
 
-;; dired-jump is useful.
-(require 'dired-x)
-
 ;; ========================================
 ;; Some hooks.
 ;; ========================================
@@ -294,9 +291,13 @@ and overlay is highlighted between MK and END-MK."
 
 (dolist (hook '(text-mode-hook))
   (add-hook hook (lambda () (abbrev-mode 1))))
+
 ;; ========================================
 ;; Require/autoload and config packages.
 ;; ========================================
+
+;; dired-jump is useful.
+(require 'dired-x)
 
 (when (require 'smex nil t)
   (smex-initialize))
@@ -455,10 +456,6 @@ and overlay is highlighted between MK and END-MK."
 ;; Map files to modes
 (require 'mode-mappings)
 
-;; Dirtree.
-;;(autoload 'dirtree "dirtree" "Dirtree." t)
-
-
 ;; Lua mode.
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
@@ -509,15 +506,6 @@ and overlay is highlighted between MK and END-MK."
 ;;   (add-hook 'term-mode-hook 'no-fci)
 ;;   (add-hook 'shell-mode-hook 'no-fci))
 
-
-;; Python
-;; TODO: Fix ipython for use in emacs.
-;(setq py-install-directory "~/emacs/")
-;(require 'python-mode)
-;(setq py-shell-name "ipython")
-
-;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
@@ -676,3 +664,6 @@ mc/maybe-multiple-cursors-mode."
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
+
+(message "exec-path is: %s" exec-path)
+(message "load-path is: %s" load-path)
