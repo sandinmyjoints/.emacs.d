@@ -525,30 +525,13 @@ and overlay is highlighted between MK and END-MK."
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
-;;(require 'multiple-cursors)
 
-(defun create-cursor (arg)
-  "Create fake cursor. If called with prefix, turn on
-mc/maybe-multiple-cursors-mode."
-  (interactive "P")
-  (cond
-   ((null arg)
-      (mc/create-fake-cursor-at-point))
-  (t
-    (mc/maybe-multiple-cursors-mode))))
-
-;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 (global-set-key (kbd "C-x r t") 'set-rectangular-region-anchor)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-M-<") 'mc/edit-beginnings-of-lines)
 (global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines)
-(global-set-key (kbd "C-c ,") 'create-cursor)
-(global-set-key (kbd "C-c C-,") 'create-cursor)
-(global-set-key (kbd "C-c .") '(lambda ()
-                                 (interactive)
-                                 (mc/maybe-multiple-cursors-mode)))
 
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
