@@ -20,10 +20,13 @@
         "~/scm/sd/fluencia"
         "~/scm/sd/fluencia-clean"
         "~/scm/sd/neodarwin"
-        "~/scm/sd/neodarwin-clean"))
+        "~/scm/sd/neodarwin-clean"
+        "~/scm/sd/darwin"
+        "~/scm/sd/recruiting"))
 
 ;; An initial file to open if it exists.
-(setq initial-file "~/.emacs.d/init.el")
+(setq initial-file (expand-file-name "init.el"
+user-emacs-directory))
 
 ;; Set custom markers.
 ;; Args:
@@ -206,9 +209,6 @@
 
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
-
-;; Setup environment variables from the user's shell.
-(when is-mac (exec-path-from-shell-initialize))
 
 ;; ========================================
 ;; Custom defuns.
