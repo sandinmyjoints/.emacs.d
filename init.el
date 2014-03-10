@@ -31,6 +31,10 @@ user-emacs-directory))
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
 
+;; Set file containing machine-local customized settings.
+(setq custom-file (expand-file-name "custom.el"
+user-emacs-directory))
+
 ;; Set custom markers.
 ;; Args:
 ;; 1. Marker.
@@ -134,15 +138,22 @@ user-emacs-directory))
 
 ;; Make grep-find more helpful.
 ;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules)
+;; TODO: Document this better.
 ;;
 (setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e " default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
+;; Workaround for a bug in emacs' http fetching. See:
+;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
+(setq url-http-attempt-keepalives nil)
 
-;; Custom.
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file t t)
+;; From purcell.
+(defmacro after-load (feature &rest body)
+  "After FEATURE is loaded, evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,feature
+     '(progn ,@body)))
 
 
 ;; ========================================
@@ -572,11 +583,22 @@ and overlay is highlighted between MK and END-MK."
 (when (require 'edit-server nil t)
   (edit-server-start))
 
-;; TODO: add this to list of packages to install
-;; TODO: figure out how to handle adding coffee-mode
+;; Yasnippet.
 (when (require 'yasnippet nil t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/")
   (yas-global-mode 1))
+
+;; Linum: put spaces around line numbers.
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
+
+;; RVM.
+(when (require 'rvm nil t)
+  (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
+
 
 ;; ========================================
 ;; Key bindings.
@@ -614,31 +636,11 @@ and overlay is highlighted between MK and END-MK."
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
 
-;; Workaround for a bug in emacs' http fetching. See:
-;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
-(setq url-http-attempt-keepalives nil)
-
 (when is-mac (require 'mac))
 
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
-
-;; Spaces around line numbers.
-(defadvice linum-update-window (around linum-dynamic activate)
-  (let* ((w (length (number-to-string
-                     (count-lines (point-min) (point-max)))))
-         (linum-format (concat " %" (number-to-string w) "d ")))
-    ad-do-it))
-
-(when (require 'rvm nil t)
-  (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
-
-(defmacro after-load (feature &rest body)
-  "After FEATURE is loaded, evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,feature
-     '(progn ,@body)))
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
@@ -650,3 +652,9 @@ and overlay is highlighted between MK and END-MK."
 
 (message "exec-path is: %s" exec-path)
 (message "load-path is: %s" load-path)
+
+;; ========================================
+;; Machine-local custom configuration.
+;; ========================================
+
+(load custom-file t t)
