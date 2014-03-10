@@ -130,6 +130,93 @@ EOF
   CLOSED: [2013-05-19 Sun 15:36]
 * DONE linum
   CLOSED: [2013-05-19 Sun 15:44]
+* DONE Try out yasnippets
+  CLOSED: [2014-01-26 Sun 14:50]
+  - remember that yasnippets wants snippets in a directory named after the
+    mode they are used in -- that is why coffee-mode didn't work when it was
+    in a directory named yasnippet-coffee-script-snippets, and why js
+    snippets didn't work in js2-mode (Javascript IDE) when they were in js-mode.
+* DONE Fix the submodule -dirty caused by .elc files
+  CLOSED: [2013-06-30 Sun 15:10]
+
+  - Maybe just use more packages and fewer submodules
+  - git status --ignore-submodules=untracked
+  - http://stackoverflow.com/questions/3240881/git-can-i-suppress-listing-of-modified-content-dirty-submodule-entries-in-sta
+
+* DONE Fix client test marker in coffee files
+  CLOSED: [2013-08-11 Sun 18:18]
+
+  - C-c C-l
+  - (define-key map (kbd "C-c C-l") 'coffee-send-line) in coffee-mode.el
+  - Currently fixing this by commenting out the key binding in coffee-mode.
+    Better to override the key-map, but because of the way I'm setting up the
+    custom marker functions, that is not straightforward.
+  - look at set-temporary-overlay-map
+* DONE Fix save mark to register/jump to register                       :bug:
+  CLOSED: [2013-07-03 Wed 12:45]
+  - what is breaking this?
+  - broken everywhere?
+  - repro?
+* DONE dired: edit with, shell commands
+  CLOSED: [2013-07-03 Wed 12:46]
+  - C-x C-q to start editing, C-c C-c to finish
+  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html
+* DONE magit log crashes                                                :bug:
+  CLOSED: [2013-07-03 Wed 12:47]
+
+  - repro: open a git repo (did it with both fluencia and .emacs.d) in
+    magit-status. magit-log. quit out of log. quit out of magit-status. repeat a few
+    times until it crashes.
+  - crashes in draw_glyphs
+  - repro from emacs -Q
+  - (add-to-list 'load-path "./elisp/magit")
+  - (load-file 'magit)
+  - Open a file that is in a git repo.
+  - magit-status
+  - l for magit-log
+  - l for short log
+  - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
+  - severity 14378 important
+** TODO Keep Magit from slowing down after being open for a while.
+
+  - Try profiling: http://stackoverflow.com/a/6732810
+  - Likely due to use of magit-log
+  - maybe track magit maint branch instead?
+* DONE incremental-search breaks                                        :bug:
+  CLOSED: [2014-01-26 Sun 14:50]
+
+  - Maybe related to org-mode?
+  - One time, broke in everything but org-mode.
+  - Maybe related to recursive editing
+  - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
+  - Got out of it by 1) C-g several times or 2) ESC several times. or 3) Doing
+    C-s and immediately backspace.
+  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Error-in-Isearch.html#Error-in-Isearch
+* DONE map chef node names to aws ips
+  CLOSED: [2014-01-26 Sun 14:51]
+  - goal -- map instance name to ipv4, public_hostname
+  - use tramp with chef node name
+  - emacs overlays to replace ipv4 or public_hostname with chef node name: http://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html
+  - inverse: when I input aws-*, emacs looks up public_hostname or IP.
+  - knife list nodes| knife xargs show
+  - ec2.public_ipv4 and ec2.public_hostname
+  - gem install knife-essential
+  - brew install jq
+  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2'
+  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2.public_ipv4'
+  - [X] look up values from knife commands. cache values. ability to force refresh.
+  - [X] new rake command: rake query_ip[*,*] does all. How to get emacs to be able
+    to run? rvm_use 1.9.3@ops && cd ~/scm/sd/ops/chef && rake query_ip[*,*]
+  - [ ] need to parse input to tramp
+    - look at tramp-file-name-host in tramp.el. do advice for it?
+    - it was tramp-dissect-file-name that needed advice.
+  - or could make a fn that takes (node name, file) and then calls tramp fn to open
+    file on node name
+* DONE node repl
+  CLOSED: [2014-01-28 Tue 23:23]
+* DONE recognize virtualenvs
+  CLOSED: [2014-01-28 Tue 23:41]
+  - https://github.com/porterjamesj/virtualenvwrapper.el
 * TODO Try perspectives or eproject or...
   - https://github.com/nex3/perspective-el
   - https://github.com/jrockway/eproject
@@ -144,12 +231,6 @@ EOF
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
   - https://github.com/rolandwalker/minimal-session-saver
-* DONE Try out yasnippets
-  CLOSED: [2014-01-26 Sun 14:50]
-  - remember that yasnippets wants snippets in a directory named after the
-    mode they are used in -- that is why coffee-mode didn't work when it was
-    in a directory named yasnippet-coffee-script-snippets, and why js
-    snippets didn't work in js2-mode (Javascript IDE) when they were in js-mode.
 * TODO try iy go to char
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
@@ -159,13 +240,6 @@ EOF
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
-* DONE Fix the submodule -dirty caused by .elc files
-  CLOSED: [2013-06-30 Sun 15:10]
-
-  - Maybe just use more packages and fewer submodules
-  - git status --ignore-submodules=untracked
-  - http://stackoverflow.com/questions/3240881/git-can-i-suppress-listing-of-modified-content-dirty-submodule-entries-in-sta
-
 * TODO Shell in Emacs
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell vs terminal-emulator
@@ -235,27 +309,9 @@ EOF
   - Revisit appearance.el and make sensible settings for a windowed display vs a
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
-* DONE Fix client test marker in coffee files
-  CLOSED: [2013-08-11 Sun 18:18]
-
-  - C-c C-l
-  - (define-key map (kbd "C-c C-l") 'coffee-send-line) in coffee-mode.el
-  - Currently fixing this by commenting out the key binding in coffee-mode.
-    Better to override the key-map, but because of the way I'm setting up the
-    custom marker functions, that is not straightforward.
-  - look at set-temporary-overlay-map
-* DONE Fix save mark to register/jump to register                       :bug:
-  CLOSED: [2013-07-03 Wed 12:45]
-  - what is breaking this?
-  - broken everywhere?
-  - repro?
 * TODO w3m
 
   - try for gmail
-* DONE dired: edit with, shell commands
-  CLOSED: [2013-07-03 Wed 12:46]
-  - C-x C-q to start editing, C-c C-c to finish
-  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Shell-Commands-in-Dired.html
 * TODO flycheck mode
 ** TODO Coffee-script compile and flymake.
 
@@ -263,37 +319,6 @@ EOF
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-* DONE magit log crashes                                                :bug:
-  CLOSED: [2013-07-03 Wed 12:47]
-
-  - repro: open a git repo (did it with both fluencia and .emacs.d) in
-    magit-status. magit-log. quit out of log. quit out of magit-status. repeat a few
-    times until it crashes.
-  - crashes in draw_glyphs
-  - repro from emacs -Q
-  - (add-to-list 'load-path "./elisp/magit")
-  - (load-file 'magit)
-  - Open a file that is in a git repo.
-  - magit-status
-  - l for magit-log
-  - l for short log
-  - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
-  - severity 14378 important
-** TODO Keep Magit from slowing down after being open for a while.
-
-  - Try profiling: http://stackoverflow.com/a/6732810
-  - Likely due to use of magit-log
-  - maybe track magit maint branch instead?
-* DONE incremental-search breaks                                        :bug:
-  CLOSED: [2014-01-26 Sun 14:50]
-
-  - Maybe related to org-mode?
-  - One time, broke in everything but org-mode.
-  - Maybe related to recursive editing
-  - In emacs-lisp-mode, get (wrong-type-argument stringp nil)
-  - Got out of it by 1) C-g several times or 2) ESC several times. or 3) Doing
-    C-s and immediately backspace.
-  - http://www.gnu.org/software/emacs/manual/html_node/emacs/Error-in-Isearch.html#Error-in-Isearch
 * TODO Octopress and Emacs
 
   - Want to:
@@ -337,37 +362,14 @@ EOF
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO Appearance
-** TODO Set window position.
-** TODO Toggle on fullscreen.
+** TODO Set window position on startup.
+** DONE Toggle on fullscreen.
+   CLOSED: [2014-03-10 Mon 09:43]
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO rearrange trees in dirtree mode
-* DONE map chef node names to aws ips
-  CLOSED: [2014-01-26 Sun 14:51]
-  - goal -- map instance name to ipv4, public_hostname
-  - use tramp with chef node name
-  - emacs overlays to replace ipv4 or public_hostname with chef node name: http://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html
-  - inverse: when I input aws-*, emacs looks up public_hostname or IP.
-  - knife list nodes| knife xargs show
-  - ec2.public_ipv4 and ec2.public_hostname
-  - gem install knife-essential
-  - brew install jq
-  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2'
-  - knife show nodes/aws-staging-wordpop-oneiric-m1s-00.json|sed "1 d"|jq '.automatic.ec2.public_ipv4'
-  - [X] look up values from knife commands. cache values. ability to force refresh.
-  - [X] new rake command: rake query_ip[*,*] does all. How to get emacs to be able
-    to run? rvm_use 1.9.3@ops && cd ~/scm/sd/ops/chef && rake query_ip[*,*]
-  - [ ] need to parse input to tramp
-    - look at tramp-file-name-host in tramp.el. do advice for it?
-    - it was tramp-dissect-file-name that needed advice.
-  - or could make a fn that takes (node name, file) and then calls tramp fn to open
-    file on node name
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
-* DONE node and coffee repls
-  CLOSED: [2014-01-28 Tue 23:23]
-* DONE recognize virtualenvs
-  CLOSED: [2014-01-28 Tue 23:41]
-  - https://github.com/porterjamesj/virtualenvwrapper.el
+* TODO Coffee repl and coffee compile
 * TODO ipython in emacs
   - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
   - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
@@ -380,5 +382,10 @@ EOF
 * TODO init-local for machine-specific configs
   - eg, initial files to open
   - not under source control
+  - -> use custom.el
+  - [ ] move stuff into it
 * TODO try Cask
   - cask.github.io
+* TODO coffee-mode sourcemap
+  - https://github.com/syohex/emacs-sourcemap
+  - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
