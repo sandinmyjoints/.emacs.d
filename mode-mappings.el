@@ -79,11 +79,6 @@
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; Coffee-mode.
-;;;
-;; Want to change the regex when loading files from
-;; fixtures directory. Some kind of hook or advice.
-;; Or, could somehow fix the regex.
-;;;
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 

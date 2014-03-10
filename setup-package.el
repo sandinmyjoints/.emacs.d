@@ -42,6 +42,8 @@
      (cons 'gitignore-mode marmalade)
      (cons 'ido-ubiquitous marmalade)
      ;(cons 'magit marmalade) ;; Should be ok, because tracks maint branch.
+     ;However, https://github.com/magit/magit#installing-from-marmalade says it
+     ;is way outdated, so sticking with installing from git for now.
      (cons 'rainbow-mode melpa) ;; Emacs >=24 only
      (cons 'dired+ marmalade)
      (cons 'tree-mode melpa) ; dirtree requirement.
