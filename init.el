@@ -307,6 +307,8 @@ and overlay is highlighted between MK and END-MK."
 ;; Require/autoload and config packages.
 ;; ========================================
 
+(require 'setup-python)
+
 ;; dired-jump is useful.
 (require 'dired-x)
 

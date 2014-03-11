@@ -1,13 +1,14 @@
 ;; Python.
 (require-package 'virtualenvwrapper)
 
+;; To use, put the following into custom.el:
+;; (setq venv-location "path/to/virtualenvs/")
+
 ;; if you want interactive shell support
 ;;(venv-initialize-interactive-shells)
 
 ;; if you want eshell support
 ;;(venv-initialize-eshell)
-
-(setq venv-location "~/env/")
 
 (defadvice run-python (before setup-repl ())
   "Use IPython if available."
@@ -40,6 +41,6 @@
 
 (defun ipython ()
   (interactive)
-  (term "ipython")
+  (term "ipython"))
 
 (provide 'setup-python)
