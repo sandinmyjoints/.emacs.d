@@ -176,4 +176,6 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
+(display-time-mode 1)
+
 (provide 'sane-defaults)
