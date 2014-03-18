@@ -389,3 +389,13 @@ EOF
 * TODO coffee-mode sourcemap
   - https://github.com/syohex/emacs-sourcemap
   - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
+* TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
+* TODO get better at org-mode
+** TODO rename from *-todo.org to *.org
+** TODO combine into one file?
+** TODO share over dropbox
+** TODO use tags home work etc
+** TODO use agenda
+** TODO set dates
+** TODO use archiving
+** TODO mobileorg
