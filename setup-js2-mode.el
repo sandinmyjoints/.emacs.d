@@ -107,6 +107,7 @@
   (add-hook hook 'inferior-js-keys-mode))
 
 (require-package 'nvm)
+(require 'nvm)
 
 (defun do-nvm-use (version)
   (interactive "sVersion: ")
