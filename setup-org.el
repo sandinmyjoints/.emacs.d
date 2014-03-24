@@ -9,6 +9,10 @@
 (setq org-blank-before-new-entry
       '((heading . t) (plain-list-item . auto)))
 
+
+(setq org-todo-keywords
+      '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE")))
+
 ;; Set to the location of your Org files on your local system
 (setq org-directory "~/org")
 ;; Set to the name of the file where new notes will be stored
@@ -24,4 +28,4 @@
         (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
         (local-set-key (kbd "<S-down>") 'outline-next-visible-heading)))
 
-(provide 'setup-org)        
+(provide 'setup-org)

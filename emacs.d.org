@@ -390,12 +390,14 @@ EOF
   - https://github.com/syohex/emacs-sourcemap
   - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
-* TODO get better at org-mode
-** TODO rename from *-todo.org to *.org
-** TODO combine into one file?
+* ACTIVE get better at org-mode
+** DONE rename from *-todo.org to *.org
+   CLOSED: [2014-03-18 Tue 10:21]
+** TODO want to see what is ACTIVE and what was recently DONE
 ** TODO share over dropbox
 ** TODO use tags home work etc
 ** TODO use agenda
 ** TODO set dates
 ** TODO use archiving
 ** TODO mobileorg
+** TODO combine into one file?
