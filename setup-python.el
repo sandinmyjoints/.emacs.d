@@ -10,6 +10,8 @@
 ;; if you want eshell support
 ;;(venv-initialize-eshell)
 
+(setq python-indent-offset 2)
+
 (defadvice run-python (before setup-repl ())
   "Use IPython if available."
   (if (executable-find "ipython")
