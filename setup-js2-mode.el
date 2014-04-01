@@ -121,7 +121,31 @@
   (let ((default-directory cwd))
         (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
 
-;; TODO: Something similar for coffee, by wrapping coffee-repl.
+(defalias 'node-repl 'run-node)
+
+(defun run-coffee (cwd)
+  (interactive "DDirectory: ")
+  (unless (and (executable-find "node") (executable-find "coffee"))
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+    (coffee-repl-defun)))
+
+(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
+
+;; Needs Node to really honor NODE_NO_READLINE. See:
+;; https://github.com/joyent/node/issues/5344
+(defun run-coffee-someday (cwd)
+  (interactive "DDirectory: ")
+  (unless (and (executable-find "node") (executable-find "coffee"))
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+        (pop-to-buffer
+         (apply 'make-comint (format "coffee-repl-%s" cwd)
+                              "env"
+                              nil
+                              "NODE_NO_READLINE=1"
+                              "coffee"
+                              (list "--interactive")))))
 
 ;; ---------------------------------------------------------------------------
 ;; Alternatively, use skewer-mode
