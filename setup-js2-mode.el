@@ -171,5 +171,8 @@
               (0 (progn (compose-region (match-beginning 1)
                                         (match-end 1) "\u2190")
                         nil)))))
+;; TODO: implement recommendations from
+;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
+(setq-default js2-basic-offset 2)
 
 (provide 'setup-js2-mode)
