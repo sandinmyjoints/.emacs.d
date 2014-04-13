@@ -370,9 +370,48 @@ following line."
   (comment-region (region-beginning)
                   (region-end))
   (goto-char (region-end))
-  (delete-blank-lines)
   (yank)
-  (newline 1)
+  ;(delete-blank-lines)
+  ;(newline 1)
+  (goto-char (point-at-eol)) ;; why doesn't this work?
   (set-mark-command t))
+
+;; Swap region/lines of text. See:
+;; https://groups.google.com/forum/#!msg/gnu.emacs.help/dd2R_UV0LVQ/F06ihLb7hKcJ
+(defun move-text-internal (arg)
+   (cond
+    ((and mark-active transient-mark-mode)
+     (if (> (point) (mark))
+            (exchange-point-and-mark))
+     (let ((column (current-column))
+              (text (delete-and-extract-region (point) (mark))))
+       (forward-line arg)
+       (move-to-column column t)
+       (set-mark (point))
+       (insert text)
+       (exchange-point-and-mark)
+       (setq deactivate-mark nil)))
+    (t
+     (beginning-of-line)
+     (when (or (> arg 0) (not (bobp)))
+       (forward-line)
+       (when (or (< arg 0) (not (eobp)))
+            (transpose-lines arg))
+       (forward-line -1)))))
+
+(defun move-text-down (arg)
+   "Move region (transient-mark-mode active) or current line
+  arg lines down."
+   (interactive "*p")
+   (move-text-internal arg))
+
+(defun move-text-up (arg)
+   "Move region (transient-mark-mode active) or current line
+  arg lines up."
+   (interactive "*p")
+   (move-text-internal (- arg)))
+
+(global-set-key [\M-down] 'move-text-down)
+(global-set-key [\M-up] 'move-text-up)
 
 (provide 'defuns)
