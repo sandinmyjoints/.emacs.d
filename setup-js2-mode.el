@@ -128,9 +128,9 @@
   (unless (and (executable-find "node") (executable-find "coffee"))
     (call-interactively 'do-nvm-use))
   (let ((default-directory cwd))
-    (coffee-repl-defun)))
+    (call-interactively 'coffee-repl)))
 
-(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
+;(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
 
 ;; Needs Node to really honor NODE_NO_READLINE. See:
 ;; https://github.com/joyent/node/issues/5344
