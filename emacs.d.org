@@ -293,15 +293,12 @@ EOF
   - dired-jump
   - list-processes
   - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
+  - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
 
-* TODO Twittering mode
-  - https://github.com/hayamiz/twittering-mode
 * TODO Emacs golf
 * TODO Master regexp syntax
-* TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
-
-  - useful for set-rectangular-region-anchor
-
+  - use rx: http://www.emacswiki.org/emacs/rx to build regexps
+  - pcre2el: https://github.com/joddie/pcre2el
 * TODO Colors on Emacs 23 on a console
 
   - Background face on transparent terminals is awful
@@ -370,7 +367,14 @@ EOF
 * TODO rearrange trees in dirtree mode
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
-* TODO Coffee repl and coffee compile
+* TODO coffe-mode
+** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+   - useful for set-rectangular-region-anchor
+
+** DONE Coffee repl
+   CLOSED: [2014-04-13 Sun 18:12]
+** TODO coffee compile
 * TODO ipython in emacs
   - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
   - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
@@ -391,7 +395,7 @@ EOF
   - https://github.com/syohex/emacs-sourcemap
   - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
-* ACTIVE get better at org-mode
+* TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
 ** TODO want to see what is ACTIVE and what was recently DONE
