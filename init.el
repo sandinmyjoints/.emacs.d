@@ -22,6 +22,8 @@
         "~/scm/sd/neodarwin"
         "~/scm/sd/neodarwin-clean"
         "~/scm/sd/darwin"
+        "~/scm/sd/qa-e2e"
+        "~/scm/sd/fluencia-qa-e2e"
         "~/scm/sd/recruiting"))
 
 ;; An initial file to open if it exists.
