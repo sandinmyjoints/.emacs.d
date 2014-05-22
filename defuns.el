@@ -417,7 +417,4 @@ following line."
    (interactive "*p")
    (move-text-internal (- arg)))
 
-(global-set-key [\M-down] 'move-text-down)
-(global-set-key [\M-up] 'move-text-up)
-
 (provide 'defuns)

@@ -7,6 +7,8 @@
 ;; * C-x C-c
 ;; * C-z
 ;;
+;;; Code:
+
 (global-set-key (kbd "C-x C-c") nil)
 (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
@@ -60,7 +62,8 @@
 (global-set-key (kbd "C-c C-v") 'wjb-toggle-invert-in-buffer)
 (global-set-key (kbd "C-c C-y") 'wjb-toggle-it-only)
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-
+(global-set-key [\M-down] 'move-text-down)
+(global-set-key [\M-up] 'move-text-up)
 
 ;; Smex.
 (when (fboundp 'smex)
