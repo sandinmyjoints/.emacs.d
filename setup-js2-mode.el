@@ -186,4 +186,10 @@
 
 (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
 
+;; Flycheck works only if jshint is installed globally.
+(require 'flycheck)
+(add-hook 'js-mode-hook
+          (lambda () (flycheck-mode t)))
+
 (provide 'setup-js2-mode)
+;;; setup-js2-mode ends here

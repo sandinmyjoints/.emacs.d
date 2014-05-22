@@ -654,8 +654,7 @@ and overlay is highlighted between MK and END-MK."
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
-(message "exec-path is: %s" exec-path)
-(message "load-path is: %s" load-path)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; ========================================
 ;; Machine-local custom configuration.

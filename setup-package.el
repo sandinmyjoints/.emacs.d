@@ -66,6 +66,7 @@
      (cons 'virtualenvwrapper melpa)
      (cons 'rainbow-delimiters melpa)
      (cons 'yaml-mode melpa)
+     (cons 'flycheck melpa)
    ))
 
   (condition-case nil
