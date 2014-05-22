@@ -367,7 +367,7 @@ EOF
 * TODO rearrange trees in dirtree mode
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
-* TODO coffe-mode
+* TODO coffee-mode
 ** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
 
    - useful for set-rectangular-region-anchor
@@ -375,7 +375,15 @@ EOF
 ** DONE Coffee repl
    CLOSED: [2014-04-13 Sun 18:12]
 ** TODO coffee compile
-* TODO ipython in emacs
+* TODO python in emacs
+** python-mode
+  - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
+  - [ ] bind Enter to newline-and-indent
+  - [ ] jedi: http://tkf.github.io/emacs-jedi/latest/
+  - https://github.com/jhamrick/emacs/blob/master/.emacs.d/settings/python-settings.el
+  - http://wikemacs.org/index.php/Python
+  - https://github.com/tkf/emacs-python-environment vs the venv thing I have installed
+** ipython
   - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
   - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
   - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
@@ -384,6 +392,10 @@ EOF
   - readline-complete? https://github.com/monsanto/readline-complete.el/blob/master/readline-complete.el
   - ipython.el?
   - elpy?
+** django
+
+   - https://code.djangoproject.com/wiki/Emacs
+   -
 * TODO init-local for machine-specific configs
   - eg, initial files to open
   - not under source control
@@ -395,6 +407,11 @@ EOF
   - https://github.com/syohex/emacs-sourcemap
   - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
+  - grep-find vs rgrep vs find-in-project
+  - find-in-project is grep-find with find-args
+  - find-args is my default find arguments
+  - default-find-cmd is set to be (find . find-args) by maybe it gets changed
+  - do I need to run grep-compute-defaults at all? What does it do?
 * TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
@@ -406,3 +423,5 @@ EOF
 ** TODO use archiving
 ** TODO mobileorg
 ** TODO combine into one file?
+* TODO js-comint https://github.com/redguardtoo/js-comint
+* TODO maybe try https://github.com/capitaomorte/autopair
