@@ -134,7 +134,8 @@
   (interactive "P")
   (with-current-buffer wjb-test-config-buffer
     (let ((verted "invert: true")
-          (inverted "invert: false"))
+          (inverted "invert: false")
+          (msg "Not found"))
       (progn
         (beginning-of-buffer)
         (cond ((null arg)
@@ -156,22 +157,26 @@
 (defun wjb-toggle-it-only (arg)
   "Toggle `only` on / off for the current test."
   (interactive "P")
-  (let ((onlyed "it.only \"")
-        (unonlyed "it \""))
+  (let ((onlyed-re "it\.only \\([\"']\\)")
+        (unonlyed-re "it \\([\"']\\)")
+        (onlyed "it.only \\1")
+        (unonlyed "it \\1")
+        (msg "No test found"))
     (save-excursion
       (progn
         (cond ((null arg)
                ;; Null arg. Turn on.
-               (unless (null (re-search-backward unonlyed (point-min) t))
+               (unless (null (re-search-backward unonlyed-re (point-min) t))
                  (progn
-                   (replace-match onlyed)
+                   (replace-match onlyed nil nil)
                    (setq msg "Test only'ed."))))
               (t
                ;; Non-null arg. Turn off.
-               (unless (null (re-search-backward onlyed (point-min) t))
+               (unless (null (re-search-backward onlyed-re (point-min) t))
                  (progn
-                   (replace-match unonlyed)
+                   (replace-match unonlyed nil nil)
                    (setq msg "Tests un-only'ed.")))))))
+
     (save-buffer)
     (message msg)))
 
