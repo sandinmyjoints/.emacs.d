@@ -175,4 +175,15 @@
 ;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
 (setq-default js2-basic-offset 2)
 
+;; js2-mode steals TAB, let's steal it back for yasnippet
+(defun js2-tab-properly ()
+  (interactive)
+  (let ((yas/fallback-behavior 'return-nil))
+    (unless (yas/expand)
+      (indent-for-tab-command)
+      (if (looking-back "^\s+")
+          (back-to-indentation)))))
+
+(define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
+
 (provide 'setup-js2-mode)
