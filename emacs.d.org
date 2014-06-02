@@ -237,6 +237,7 @@ EOF
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
   - https://github.com/purcell/emacs.d
+  - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
