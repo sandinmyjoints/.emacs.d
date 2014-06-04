@@ -12,19 +12,24 @@
 (setq site-lisp-dir
       (expand-file-name "elisp" user-emacs-directory))
 
-;; Directories to open in dirtree on start.
+;; Directories to open in dirtree on start. TODO This should be in custom.el,
+;; but probably need to move when dirtree starts up to happen following init.el
+;; being processed because custom.el isn't loaded until the very end.
 (setq initial-dirs-to-open
       '("~/.emacs.d"
         "~/scm/wjb"
         "~/scm/sd/ops"
         "~/scm/sd/fluencia"
         "~/scm/sd/fluencia-clean"
+        "~/scm/sd/fluencia-qa-e2e"
         "~/scm/sd/neodarwin"
         "~/scm/sd/neodarwin-clean"
+        "~/scm/sd/atalanta"
+        "~/scm/sd/hegemone"
         "~/scm/sd/darwin"
         "~/scm/sd/qa-e2e"
-        "~/scm/sd/fluencia-qa-e2e"
-        "~/scm/sd/recruiting"))
+        "~/scm/sd/recruiting"
+        ))
 
 ;; An initial file to open if it exists.
 (setq initial-file (expand-file-name "init.el"
@@ -661,3 +666,6 @@ and overlay is highlighted between MK and END-MK."
 ;; ========================================
 
 (load custom-file t t)
+
+(provide 'init)
+;;; init.el ends here

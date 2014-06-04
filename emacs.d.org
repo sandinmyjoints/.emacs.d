@@ -294,6 +294,8 @@ EOF
   - list-processes
   - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
   - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
+  - multi-occur-in-matching-buffers
+  - other-frame reverse: C-- C-x 5 o
 
 * TODO Emacs golf
 * TODO Master regexp syntax
@@ -311,12 +313,23 @@ EOF
 
   - try for gmail
 * TODO flycheck mode
+** DONE flycheck with coffeelint
+  - In Ataltana, it uses coffeelint that is on the exec-path due to
+    ./node_modules/.bin being on the execpath and due to installing coffeelint in
+    package.json directly. It errors out, probably an old version.
+  - Most of the time, we don't have coffeelint in package.json, but rather
+    grunt-coffeelint. So I am installing coffeelint globally so that its always
+    available. That works!
 ** TODO Coffee-script compile and flymake.
-
   - Way to use coffee-watch?
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
+** TODO rst / sphinx
+
+   - it is using the version of sphinx that is on the exec-path due to venv-activate
+   - in eng-docs or hegemone, it errors out because sphinx is too old for the
+     checker.
 * TODO Octopress and Emacs
 
   - Want to:
@@ -412,6 +425,7 @@ EOF
   - find-args is my default find arguments
   - default-find-cmd is set to be (find . find-args) by maybe it gets changed
   - do I need to run grep-compute-defaults at all? What does it do?
+  - META-! find . -name "models.py" | xargs grep -niEH -C 5
 * TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
