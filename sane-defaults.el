@@ -116,7 +116,7 @@
 (setq pop-up-windows nil)
 
 ;;; Default for new buffers.
-(setq-default major-mode 'text-mode)
+(setq-default major-mode 'markdown-mode)
 
 ;;; Avoid backslash madness.
 (setq reb-re-syntax 'string)
