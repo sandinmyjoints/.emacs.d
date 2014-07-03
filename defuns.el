@@ -349,6 +349,36 @@ Puts results in plist (node-name (hostname . ip))"
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
 
+(defun prepare-for-email (beg end)
+  "Unfills the current region or buffer, kills it, restores."
+  (interactive "*r")
+  (save-excursion
+   (if (use-region-p)
+       (progn
+         (call-interactively 'unfill-region)
+         (kill-ring-save (region-beginning) (region-end))
+         (undo))
+     (progn
+       (mark-whole-buffer)
+       (call-interactively 'unfill-region)
+       (kill-ring-save (point-min) (point-max))
+       (undo)))))
+
+;; From http://www.emacswiki.org/emacs/UnfillParagraph
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun unfill-region (beg end)
+  "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode'."
+  (interactive "*r")
+  (let ((fill-column (point-max)))
+    (fill-region beg end)))
+
 ;; TODO:
 ;; * fill-region with prefix
 ;; * copy whatever is filled to kill ring for convenient pasting
@@ -361,10 +391,11 @@ Puts results in plist (node-name (hostname . ip))"
     (fill-paragraph)
     (setq fill-column fill-column-stashed)))
 
-(fset 'prepare-for-email
+;; This only works for an entire buffer
+(fset 'prepare-for-email-old
    [?\C-x ?h ?\M-x ?s ?e ?t ?- ?f ?i ?l ?l ?- ?c ?o ?l ?u ?m ?n return ?1 ?0 ?0 ?0 ?0 return ?\M-q ?\C-x ?h ?\M-x ?k ?i ?l ?l ?- ?r ?i ?n ?g ?- ?s ?a ?v ?e return])
 
-(fset 'unprepare-for-email
+(fset 'unprepare-for-email-old
    [?\M-x ?s ?e ?t ?- ?f ?i ?l ?l ?- ?c ?o ?l ?u ?m ?n return ?8 ?0 return ?\C-  ?\C-  ?\C-x ?h ?\M-q ?\C-u ?\C-  ?\C-u ?\C- ])
 
 (fset 'fix-js-indent

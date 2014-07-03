@@ -64,6 +64,7 @@
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 (global-set-key [\M-down] 'move-text-down)
 (global-set-key [\M-up] 'move-text-up)
+(global-set-key (kbd "C-x w") 'prepare-for-email)
 
 ;; Smex.
 (when (fboundp 'smex)
