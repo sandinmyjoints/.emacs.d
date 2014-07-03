@@ -4,8 +4,8 @@
 (when (require 'package nil t)
 
   (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
-  (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/")) ;; tracks upstream
+  (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/")) ;; up to developer when to push
   (defvar org '("org" . "http://orgmode.org/elpa/"))
 
   (add-to-list 'package-archives melpa)
@@ -67,6 +67,7 @@
      (cons 'rainbow-delimiters melpa)
      (cons 'yaml-mode melpa)
      (cons 'flycheck melpa)
+     (cons 'web-mode melpa)
    ))
 
   (condition-case nil
