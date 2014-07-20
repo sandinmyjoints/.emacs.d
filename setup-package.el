@@ -5,10 +5,12 @@
 
   (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
   (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/")) ;; tracks upstream
+  (defvar melpa-stable '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
   (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/")) ;; up to developer when to push
   (defvar org '("org" . "http://orgmode.org/elpa/"))
 
   (add-to-list 'package-archives melpa)
+  (add-to-list 'package-archives melpa-stable)
   (add-to-list 'package-archives marmalade)
   (add-to-list 'package-archives org)
 
@@ -41,7 +43,8 @@
      (cons 'gitconfig-mode marmalade)
      (cons 'gitignore-mode marmalade)
      (cons 'ido-ubiquitous marmalade)
-     ;(cons 'magit marmalade) ;; Should be ok, because tracks maint branch.
+     (cons 'magit melpa-stable)
+     ;(cons 'magit marmable) ;; Should be ok, because tracks maint branch.
      ;However, https://github.com/magit/magit#installing-from-marmalade says it
      ;is way outdated, so sticking with installing from git for now.
      (cons 'rainbow-mode melpa) ;; Emacs >=24 only

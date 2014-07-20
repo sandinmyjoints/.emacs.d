@@ -1,4 +1,6 @@
 ;; Magit.
+
+;;; Code:
 (when (require 'magit nil t)
   ;; change magit diff colors
   (eval-after-load 'magit
