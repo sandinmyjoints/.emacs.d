@@ -349,20 +349,27 @@ Puts results in plist (node-name (hostname . ip))"
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
 
+;; TODO: Doesn't work well in org-mode.
+;;
+;; TODO: Could do org-to-md that kills region and puts it in a new markdown
+;; buffer.
+;;
+;; TODO: Sometimes undoes the last thing that you did, instead of the fill.
+;;
 (defun prepare-for-email (beg end)
   "Unfills the current region or buffer, kills it, restores."
   (interactive "*r")
   (save-excursion
-   (if (use-region-p)
-       (progn
-         (call-interactively 'unfill-region)
-         (kill-ring-save (region-beginning) (region-end))
-         (undo))
-     (progn
-       (mark-whole-buffer)
-       (call-interactively 'unfill-region)
-       (kill-ring-save (point-min) (point-max))
-       (undo)))))
+    (if (use-region-p)
+        (progn
+          (call-interactively 'unfill-region)
+          (kill-ring-save (region-beginning) (region-end))
+          (undo))
+      (progn
+        (mark-whole-buffer)
+        (call-interactively 'unfill-region)
+        (kill-ring-save (point-min) (point-max))
+        (undo)))))
 
 ;; From http://www.emacswiki.org/emacs/UnfillParagraph
 (defun unfill-paragraph ()
