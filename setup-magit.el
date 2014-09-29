@@ -20,4 +20,6 @@
 
   (autoload 'magit-blame "magit-blame-mode" "Minor mode for blaming." t))
 
+(setq magit-completing-read-function 'magit-ido-completing-read)
+
 (provide 'setup-magit)
