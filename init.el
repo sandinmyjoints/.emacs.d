@@ -98,7 +98,8 @@ user-emacs-directory))
   (server-start))
 
 ;; Save desktop.
-;(desktop-save-mode 1)
+(desktop-save-mode 1)
+(setq desktop-restore-eager 16)
 
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
