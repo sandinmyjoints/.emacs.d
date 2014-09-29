@@ -283,6 +283,10 @@
 ;; TODO: camelize-all-like-thing-at-point
 
 
+;;; Chef / tramp stuff.
+;;; To get started: M-: (wjb-query-chef-refresh-all)
+;;; Then open a file with tramp: /william@aws-whatever:/path
+
 (defun wjb-query-chef-handle-line (line)
   (if (s-starts-with? "aws-" line)
       (let* ((parts (s-split " " line))
@@ -306,7 +310,7 @@ Puts results in plist (node-name (hostname . ip))"
         (node-pattern (if node-pattern node-pattern "*"))
         (env-pattern (if env-pattern env-pattern "*")))
     ;; TODO: Short-circuit return if the shell script doesn't exist.
-    (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip.sh" node-pattern env-pattern))
+    (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip" node-pattern env-pattern))
     ;; Attach filter function as process output callback.
     (set-process-filter wjb-process 'wjb-query-chef-callback)))
 
