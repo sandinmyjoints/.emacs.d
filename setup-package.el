@@ -38,8 +38,8 @@
 (when (require 'package nil t)
   (defun init--install-packages ()
     (packages-install
-     (cons 'edit-server melpa)
-     (cons 'exec-path-from-shell melpa)
+     (cons 'edit-server melpa-stable)
+     (cons 'exec-path-from-shell melpa-stable)
      (cons 'gitconfig-mode marmalade)
      (cons 'gitignore-mode marmalade)
      (cons 'ido-ubiquitous marmalade)
@@ -48,30 +48,30 @@
      ;(cons 'magit marmable) ;; Should be ok, because tracks maint branch.
      ;However, https://github.com/magit/magit#installing-from-marmalade says it
      ;is way outdated, so sticking with installing from git for now.
-     (cons 'rainbow-mode melpa) ;; Emacs >=24 only
+     (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
      (cons 'dired+ marmalade)
-     (cons 'tree-mode melpa) ; dirtree requirement.
-     (cons 'auto-install melpa)
+     (cons 'tree-mode melpa-stable) ; dirtree requirement.
+     (cons 'auto-install melpa-stable)
      (cons 'json-mode marmalade)
-     (cons 'fill-column-indicator melpa)
+     (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet marmalade)
-     ;(cons 'paredit melpa)
-     ;(cons 'move-text melpa)
-     ;(cons 'gist melpa)
-     ;(cons 'htmlize melpa)
-     ;(cons 'elisp-slime-nav melpa)
+     ;(cons 'paredit melpa-stable)
+     ;(cons 'move-text melpa-stable)
+     ;(cons 'gist melpa-stable)
+     ;(cons 'htmlize melpa-stable)
+     ;(cons 'elisp-slime-nav melpa-stable)
      ;(cons 'elnode marmalade)
      ;(cons 'slime-js marmalade)
-     (cons 'anzu melpa)
-     (cons 's melpa)
-     (cons 'f melpa)
-     (cons 'dash melpa)
-     (cons 'nvm melpa)
-     (cons 'virtualenvwrapper melpa)
-     (cons 'rainbow-delimiters melpa)
-     (cons 'yaml-mode melpa)
-     (cons 'flycheck melpa)
-     (cons 'web-mode melpa)
+     (cons 'anzu melpa-stable)
+     (cons 's melpa-stable)
+     (cons 'f melpa-stable)
+     (cons 'dash melpa-stable)
+     (cons 'nvm melpa-stable)
+     (cons 'virtualenvwrapper melpa-stable)
+     (cons 'rainbow-delimiters melpa-stable)
+     (cons 'yaml-mode melpa-stable)
+     (cons 'flycheck melpa-stable)
+     (cons 'web-mode melpa-stable)
    ))
 
   (condition-case nil
