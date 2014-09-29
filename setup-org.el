@@ -7,7 +7,7 @@
 (setq org-clock-persist 'history)
 ;(org-clock-persistence-insinuate)
 (setq org-blank-before-new-entry
-      '((heading . t) (plain-list-item . auto)))
+      '((heading . nil) (plain-list-item . nil))) ;; can switch back to auto soon
 
 
 (setq org-todo-keywords
@@ -27,5 +27,9 @@
         (fci-mode -1)
         (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
         (local-set-key (kbd "<S-down>") 'outline-next-visible-heading)))
+
+(setq org-outline-path-complete-in-steps nil)
+(setq org-completion-use-ido t)
+(setq org-return-follows-link t)
 
 (provide 'setup-org)
