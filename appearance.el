@@ -45,17 +45,17 @@
 (set-face-background 'default "black")
 (set-face-foreground 'region "gray60")
 (set-face-background 'region "#464740")
+(set-face-foreground 'font-lock-warning-face "#ff6666")
 (set-cursor-color "#CCD")
 
-(set-face-foreground 'font-lock-warning-face "#ff6666")
+;; Set to always be fullscreen.
+(set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; Nice sizing.  See:
 ;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
-;; TODO: Replace window-system (dep) with display-graphic-p. See:
-;; http://stackoverflow.com/questions/5795451/how-to-detect-that-emacs-is-in-terminal-mode
 (defun set-frame-size-according-to-resolution ()
   (interactive)
-  (if window-system
+  (if (display-graphic-p)
       (progn
         ;; use 120 char wide window for largeish displays
         ;; and smaller 80 column windows for smaller displays
@@ -73,12 +73,7 @@
 
 (set-frame-size-according-to-resolution)
 
-;; Set to always be fullscreen.
-(set-frame-parameter nil 'fullscreen 'fullboth)
-
-
 ;; TODO: Set window position.
-;; TODO: Toggle on fullscreen.
 
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
