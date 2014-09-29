@@ -217,33 +217,25 @@ EOF
 * DONE recognize virtualenvs
   CLOSED: [2014-01-28 Tue 23:41]
   - https://github.com/porterjamesj/virtualenvwrapper.el
-* TODO Try perspectives or eproject or...
-  - https://github.com/nex3/perspective-el
-  - https://github.com/jrockway/eproject
-  - https://github.com/rdallasgray/project-persist
-  - https://github.com/bbatsov/projectile
-* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-* TODO Window and frame restore. See:
+* DONE Emacs golf
+  CLOSED: [2014-09-29 Mon 19:36]
+* DONE try flx / flx-ido
+  CLOSED: [2014-09-29 Mon 19:37]
+* DONE session save / restore
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
+* TODO Window and frame restore. See:
   - http://www.emacswiki.org/emacs/LayoutRestore
   - http://www.emacswiki.org/emacs/FrameConfig
   - http://www.emacswiki.org/emacs/SessionManagement
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
   - https://github.com/rolandwalker/minimal-session-saver
-* TODO try iy go to char
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
   - https://github.com/purcell/emacs.d
   - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
-* TODO Try anything and/or Helm
-
-* TODO Versioning of packages--how to pin?
-* TODO Shell in Emacs
-  - See: http://snarfed.org/why_i_run_shells_inside_emacs
-  - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO Use:
   - Smex (M-x, M-X)
   - align-regexp (C-|)
@@ -297,7 +289,19 @@ EOF
   - multi-occur-in-matching-buffers
   - other-frame reverse: C-- C-x 5 o
 
-* TODO Emacs golf
+* TODO Try perspectives or eproject or...
+  - https://github.com/nex3/perspective-el
+  - https://github.com/jrockway/eproject
+  - https://github.com/rdallasgray/project-persist
+  - https://github.com/bbatsov/projectile
+* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
+* TODO try iy go to char
+* TODO Try anything and/or Helm
+
+* TODO Versioning of packages--how to pin?
+* TODO Shell in Emacs
+  - See: http://snarfed.org/why_i_run_shells_inside_emacs
+  - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO Master regexp syntax
   - use rx: http://www.emacswiki.org/emacs/rx to build regexps
   - pcre2el: https://github.com/joddie/pcre2el
@@ -330,6 +334,17 @@ EOF
    - it is using the version of sphinx that is on the exec-path due to venv-activate
    - in eng-docs or hegemone, it errors out because sphinx is too old for the
      checker.
+* TODO coffee-mode
+** DONE Coffee repl
+   CLOSED: [2014-04-13 Sun 18:12]
+** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+   - useful for set-rectangular-region-anchor
+
+** TODO coffee compile
+* TODO coffee-mode sourcemap
+  - https://github.com/syohex/emacs-sourcemap
+  - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO Octopress and Emacs
 
   - Want to:
@@ -369,25 +384,16 @@ EOF
     - [X] install heroku accounts plugin
     - [X] spanishdict / wjb accounts
 * TODO powerline
-
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO Appearance
-** TODO Set window position on startup.
 ** DONE Toggle on fullscreen.
    CLOSED: [2014-03-10 Mon 09:43]
+** TODO Set window position on startup.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO rearrange trees in dirtree mode
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
-* TODO coffee-mode
-** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
-
-   - useful for set-rectangular-region-anchor
-
-** DONE Coffee repl
-   CLOSED: [2014-04-13 Sun 18:12]
-** TODO coffee compile
 * TODO python in emacs
 ** python-mode
   - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
@@ -416,9 +422,6 @@ EOF
   - [ ] move stuff into it
 * TODO try Cask
   - cask.github.io
-* TODO coffee-mode sourcemap
-  - https://github.com/syohex/emacs-sourcemap
-  - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
   - grep-find vs rgrep vs find-in-project
   - find-in-project is grep-find with find-args
