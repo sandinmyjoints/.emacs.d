@@ -130,6 +130,13 @@
   (let ((default-directory cwd))
     (call-interactively 'coffee-repl)))
 
+(defun run-nesh (cwd)
+  (interactive "DDirectory: ")
+  (unless (and (executable-find "node") (executable-find "nesh"))
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+        (pop-to-buffer (make-comint (format "nesh-repl-%s" cwd) "nesh" nil "--interactive"))))
+
 ;(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
 
 ;; Needs Node to really honor NODE_NO_READLINE. See:
