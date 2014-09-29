@@ -72,6 +72,7 @@
      (cons 'yaml-mode melpa-stable)
      (cons 'flycheck melpa-stable)
      (cons 'web-mode melpa-stable)
+     (cons 'flx-ido melpa-stable)
    ))
 
   (condition-case nil
