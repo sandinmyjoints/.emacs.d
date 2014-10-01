@@ -73,6 +73,7 @@
      (cons 'flycheck melpa-stable)
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
+     (cons 'header2 melpa-stable)
    ))
 
   (condition-case nil
