@@ -86,7 +86,8 @@
 (when (require 'package nil t)
   (defun init--install-packages ()
     (packages-install
-     (cons 'edit-server melpa-stable)
+     (cons 'edit-server melpa)
+     (cons 'edit-server-htmlize melpa)
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'gitconfig-mode marmalade)
      (cons 'gitignore-mode marmalade)
@@ -121,7 +122,14 @@
      (cons 'flycheck melpa-stable)
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
-     (cons 'header2 melpa-stable)
+     (cons 'header2 melpa)
+     (cons 'js-doc melpa)
+     (cons 'js2-refactor melpa-stable)
+     (cons 'discover-js2-refactor melpa)
+     (cons 'json-reformat melpa)
+     (cons 'json-snatcher melpa)
+     (cons 'gh melpa)
+     (cons 'discover-my-major melpa)
    ))
 
   (condition-case nil
