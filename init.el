@@ -488,11 +488,13 @@ and overlay is highlighted between MK and END-MK."
         (goto-address-mode 1)
         (auto-fill-mode 1)
         (set-fill-column 80))
+
 (add-hook 'markdown-mode-hook 'textful-settings)
 (add-hook 'rst-mode-hook 'textful-settings)
 (add-hook 'text-mode-hook 'textful-settings)
 
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
+(add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
 
 ;; Paired tick is useful in some modes.
 ;; TODO: This throws errors if run here. Probably needs to go into mode hooks.
