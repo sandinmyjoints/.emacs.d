@@ -51,7 +51,7 @@ user-emacs-directory))
 ;;
 (setq wjb-custom-markers
       '(("NNN" ?n "" t)
-        ("MMM" ?m "" t)
+        ;("MMM" ?m "" t)
         ("Server" ?s "" nil)
         ("Quiz View" ?q "" nil)
         ("Client" ?c "" nil)))
