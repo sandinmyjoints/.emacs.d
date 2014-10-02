@@ -592,7 +592,12 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Edit-server for Edit-in-Emacs Chrome extension.
 (when (require 'edit-server nil t)
-  (edit-server-start))
+  (setq edit-server-new-frame nil)
+  (edit-server-start)
+  (autoload 'edit-server-maybe-dehtmlize-buffer "edit-server-htmlize" "edit-server-htmlize" t)
+  (autoload 'edit-server-maybe-htmlize-buffer   "edit-server-htmlize" "edit-server-htmlize" t)
+  (add-hook 'edit-server-start-hook 'edit-server-maybe-dehtmlize-buffer)
+  (add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer))
 
 ;; Yasnippet.
 (when (require 'yasnippet nil t)
