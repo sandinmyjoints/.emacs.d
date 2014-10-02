@@ -670,6 +670,23 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+(autoload 'auto-make-header "header2")
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+
+(require 'discover)
+(global-discover-mode 1)
+
+;; ------ ;;
+;; Rebox. ;;
+;; ------ ;;
+(setq rebox-style-loop '(23 25 243 245))
+(require 'rebox2)
+(add-hook 'prog-mode-hook (lambda ()
+                            (rebox-mode 1)))
+
+(global-set-key [(meta q)] 'rebox-dwim)
+(global-set-key [(shift meta q)] 'rebox-cycle)
+
 ;; ========================================
 ;; Machine-local custom configuration.
 ;; ========================================
