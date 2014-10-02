@@ -22,4 +22,10 @@
 
 (setq magit-completing-read-function 'magit-ido-completing-read)
 
+;; magit-gh-pulls
+;; This was useful: https://github.com/sigma/magit-gh-pulls/issues/5
+;; Tokens are stored in ~/.gitconfig.
+;;(require 'magit-gh-pulls)
+;;(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+
 (provide 'setup-magit)
