@@ -37,7 +37,7 @@
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
 (global-set-key (kbd "C-c c") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
-(global-set-key (kbd "C-c C-r") 're-builder)
+(global-set-key (kbd "C-c C-b") 're-builder)
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 (global-set-key (kbd "C-c j") 'join-line)
@@ -65,6 +65,7 @@
 (global-set-key [\M-down] 'move-text-down)
 (global-set-key [\M-up] 'move-text-up)
 (global-set-key (kbd "C-x w") 'prepare-for-email)
+(global-set-key (kbd "C-h C-m") 'discover-my-major)
 
 ;; Smex.
 (when (fboundp 'smex)
