@@ -223,19 +223,62 @@ EOF
   CLOSED: [2014-09-29 Mon 19:37]
 * DONE session save / restore
   - http://www.gnu.org/savannah-checkouts/gnu/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html
+* DONE Appearance
+  CLOSED: [2014-09-29 Mon 20:10]
+** INACTIVE Set window position on startup.
+   CLOSED: [2014-09-29 Mon 20:09]
+   - not needed since it's fullscreen
+** DONE Toggle on fullscreen.
+   CLOSED: [2014-03-10 Mon 09:43]
+* DONE better comment box
+  CLOSED: [2014-10-02 Thu 08:19]
+   - http://www.emacswiki.org/emacs/rebox2
+** TODO customize for js
+** TODO customize for coffee
+* TODO flycheck mode
+** DONE flycheck with coffeelint
+  - In Ataltana, it uses coffeelint that is on the exec-path due to
+    ./node_modules/.bin being on the execpath and due to installing coffeelint in
+    package.json directly. It errors out, probably an old version.
+  - Most of the time, we don't have coffeelint in package.json, but rather
+    grunt-coffeelint. So I am installing coffeelint globally so that its always
+    available. That works!
+** TODO Coffee-script compile and flymake.
+  - Way to use coffee-watch?
+  - https://github.com/purcell/flymake-coffee
+  - Need to specify coffee binary in dir-locals, per project
+  - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
+** TODO rst / sphinx
+
+   - it is using the version of sphinx that is on the exec-path due to venv-activate
+   - in eng-docs or hegemone, it errors out because sphinx is too old for the
+     checker.
+* TODO coffee-mode
+** DONE Coffee repl
+   CLOSED: [2014-04-13 Sun 18:12]
+** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+   - useful for set-rectangular-region-anchor
+
+** TODO coffee compile
+* TODO coffee-mode sourcemap
+  - https://github.com/syohex/emacs-sourcemap
+  - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO Window and frame restore. See:
+  - Seems
+  - https://github.com/emacs-mirror/emacs/blob/master/lisp/frameset.el in Emacs 24.4
   - http://www.emacswiki.org/emacs/LayoutRestore
   - http://www.emacswiki.org/emacs/FrameConfig
   - http://www.emacswiki.org/emacs/SessionManagement
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
-  - https://github.com/rolandwalker/minimal-session-saver
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
   - https://github.com/bbatsov/prelude
   - https://github.com/purcell/emacs.d
   - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
+  - https://github.com/kaushalmodi/.emacs.d
 * TODO Use:
   - Smex (M-x, M-X)
   - align-regexp (C-|)
@@ -294,6 +337,7 @@ EOF
   - https://github.com/jrockway/eproject
   - https://github.com/rdallasgray/project-persist
   - https://github.com/bbatsov/projectile
+    - https://github.com/sabof/project-explorer instead of dirtree
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO try iy go to char
 * TODO Try anything and/or Helm
@@ -316,35 +360,6 @@ EOF
 * TODO w3m
 
   - try for gmail
-* TODO flycheck mode
-** DONE flycheck with coffeelint
-  - In Ataltana, it uses coffeelint that is on the exec-path due to
-    ./node_modules/.bin being on the execpath and due to installing coffeelint in
-    package.json directly. It errors out, probably an old version.
-  - Most of the time, we don't have coffeelint in package.json, but rather
-    grunt-coffeelint. So I am installing coffeelint globally so that its always
-    available. That works!
-** TODO Coffee-script compile and flymake.
-  - Way to use coffee-watch?
-  - https://github.com/purcell/flymake-coffee
-  - Need to specify coffee binary in dir-locals, per project
-  - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-** TODO rst / sphinx
-
-   - it is using the version of sphinx that is on the exec-path due to venv-activate
-   - in eng-docs or hegemone, it errors out because sphinx is too old for the
-     checker.
-* TODO coffee-mode
-** DONE Coffee repl
-   CLOSED: [2014-04-13 Sun 18:12]
-** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
-
-   - useful for set-rectangular-region-anchor
-
-** TODO coffee compile
-* TODO coffee-mode sourcemap
-  - https://github.com/syohex/emacs-sourcemap
-  - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
 * TODO Octopress and Emacs
 
   - Want to:
@@ -386,14 +401,12 @@ EOF
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
-* TODO Appearance
-** DONE Toggle on fullscreen.
-   CLOSED: [2014-03-10 Mon 09:43]
-** TODO Set window position on startup.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO rearrange trees in dirtree mode
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
+* TODO js-comint https://github.com/redguardtoo/js-comint
+* TODO js3-mode https://github.com/thomblake/js3-mode
 * TODO python in emacs
 ** python-mode
   - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
@@ -429,6 +442,7 @@ EOF
   - default-find-cmd is set to be (find . find-args) by maybe it gets changed
   - do I need to run grep-compute-defaults at all? What does it do?
   - META-! find . -name "models.py" | xargs grep -niEH -C 5
+  - maybe the solution is to use a project mode that will search automatically.
 * TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
@@ -440,5 +454,5 @@ EOF
 ** TODO use archiving
 ** TODO mobileorg
 ** TODO combine into one file?
-* TODO js-comint https://github.com/redguardtoo/js-comint
 * TODO maybe try https://github.com/capitaomorte/autopair
+* TODO try https://github.com/jxa/pivotal-tracker
