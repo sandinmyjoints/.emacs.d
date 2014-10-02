@@ -5,6 +5,7 @@
   (require-package 'ac-js2)
   (require-package 'coffee-mode))
 
+(add-hook 'js2-mode-hook 'ac-js2-mode)
 (require-package 'js-comint)
 
 (after-load 'js2-mode
@@ -66,6 +67,15 @@
 (dolist (hook '(js2-mode-hook js-mode-hook json-mode-hook))
   (add-hook hook 'rainbow-delimiters-mode))
 
+;; js-doc
+(setq js-doc-mail-address "william.bert@gmail.com"
+      js-doc-author (format "William Bert <%s>" js-doc-mail-address)
+      js-doc-url "www.williamjohnbert.com"
+      js-doc-license "MIT")
+
+(add-hook 'js2-mode-hook
+          #'(lambda ()
+              (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
 
 ;;; Coffeescript
 
@@ -197,6 +207,8 @@
 (require 'flycheck)
 (add-hook 'js-mode-hook
           (lambda () (flycheck-mode t)))
+
+(js2r-add-keybindings-with-prefix "C-c C-r")
 
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode ends here
