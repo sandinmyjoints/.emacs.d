@@ -335,7 +335,7 @@ and overlay is highlighted between MK and END-MK."
 (autoload 'magit-status "magit")
 (autoload 'magit-log "magit")
 (eval-after-load 'magit '(require 'setup-magit))
-(eval-after-load 'magit '(require 'rebase-mode))
+(eval-after-load 'magit '(require 'git-rebase-mode))
 (eval-after-load 'magit '(require 'magit-blame))
 
 (autoload 'ibuffer "ibuffer" "List buffers." t)
