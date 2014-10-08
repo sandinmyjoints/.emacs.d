@@ -724,11 +724,11 @@ and overlay is highlighted between MK and END-MK."
 ;; ------ ;;
 (setq rebox-style-loop '(23 25 243 245))
 (require 'rebox2)
-(add-hook 'prog-mode-hook (lambda ()
-                            (rebox-mode 1)))
+;;(add-hook 'prog-mode-hook (lambda ()
+;;                            (rebox-mode 1)))
 
-(global-set-key [(meta q)] 'rebox-dwim)
-(global-set-key [(shift meta q)] 'rebox-cycle)
+(define-key prog-mode-map [(meta q)] 'rebox-dwim)
+(define-key prog-mode-map [(shift meta q)] 'rebox-cycle)
 
 ;; ========================================
 ;; Machine-local custom configuration.
