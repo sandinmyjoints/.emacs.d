@@ -456,3 +456,6 @@ EOF
 ** TODO combine into one file?
 * TODO maybe try https://github.com/capitaomorte/autopair
 * TODO try https://github.com/jxa/pivotal-tracker
+* TODO save ssl password for slack not in source control
+  - read from a file not under git
+* TODO separate frame for irc so i can scan it?
