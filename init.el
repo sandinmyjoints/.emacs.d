@@ -595,7 +595,7 @@ and overlay is highlighted between MK and END-MK."
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
 
-(global-set-key (kbd "C-x r t") 'set-rectangular-region-anchor)
+(global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
