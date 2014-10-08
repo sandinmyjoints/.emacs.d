@@ -76,14 +76,14 @@
 
 ;; An initial file to open if it exists.
 (setq initial-file (expand-file-name "init.el"
-user-emacs-directory))
+                                     user-emacs-directory))
 
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
 
 ;; Set file containing machine-local customized settings.
 (setq custom-file (expand-file-name "custom.el"
-user-emacs-directory))
+                                    user-emacs-directory))
 
 ;; Set custom markers.
 ;; Args:
@@ -240,6 +240,8 @@ user-emacs-directory))
 ;; ========================================
 ;; Misc.
 ;; ========================================
+
+(require 'setup-flycheck)
 
 ;; Set shortcuts to clear custom markers. Requires lexical binding.
 (dolist (marker-data wjb-custom-markers)
@@ -710,8 +712,6 @@ and overlay is highlighted between MK and END-MK."
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
