@@ -458,4 +458,5 @@ EOF
 * TODO try https://github.com/jxa/pivotal-tracker
 * TODO save ssl password for slack not in source control
   - read from a file not under git
+  - add setup-secrets.el
 * TODO separate frame for irc so i can scan it?
