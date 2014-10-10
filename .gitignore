@@ -2,7 +2,6 @@ auto-save-list/
 backups/
 .org-id-locations
 org-clock-save.el
-.mc-lists.el
 *~
 .places
 session.*
