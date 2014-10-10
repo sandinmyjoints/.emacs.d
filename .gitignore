@@ -15,3 +15,6 @@ emms
 url/cookies
 saved-places
 custom.el
+/.achievements
+/var/
+/bookmarks
