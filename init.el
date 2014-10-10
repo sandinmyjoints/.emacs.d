@@ -22,6 +22,8 @@
 ;;
 ;; See: https://github.com/sandinmyjoints/.emacs.d
 ;;
+;; This file bootstraps initialization.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Change Log:
@@ -46,6 +48,11 @@
 ;;
 ;;; Code:
 
+(let ((minver 23))
+  (unless (>= emacs-major-version minver)
+    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
+
+(add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory))
 
 ;; ========================================
 ;; Definitions.
