@@ -48,13 +48,14 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-(setq flycheck-checkers (delq 'html-tidy flycheck-checkers))
 
 ;; flycheck errors on a tooltip (doesnt work on console)
 (when (display-graphic-p (selected-frame))
   (eval-after-load 'flycheck
-    '(custom-set-variables
-      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
+    '(progn
+       (custom-set-variables
+        '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+       (setq flycheck-checkers (delq 'html-tidy flycheck-checkers)))))
 
 (setq flycheck-display-errors-function #'flycheck-display-error-messages)
 ;;(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages) ;; tooltip
