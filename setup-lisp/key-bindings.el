@@ -10,7 +10,7 @@
 ;;; Code:
 
 (global-set-key (kbd "C-x C-c") nil)
-(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-x C-q") 'save-buffers-kill-terminal)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
 (global-set-key (kbd "C-|") 'align-regexp)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
