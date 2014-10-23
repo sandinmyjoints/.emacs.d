@@ -130,6 +130,7 @@
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
+     (cons 'diminish melpa-stable)
    ))
 
   (condition-case nil
