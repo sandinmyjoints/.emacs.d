@@ -131,6 +131,7 @@
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
      (cons 'diminish melpa-stable)
+     (cons 'less-css-mode melpa-stable)
    ))
 
   (condition-case nil
