@@ -210,5 +210,6 @@
 
 (js2r-add-keybindings-with-prefix "C-c C-r")
 
+(add-hook 'js2-mode-hook (lambda () (electric-indent-local-mode -1)))
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode ends here
