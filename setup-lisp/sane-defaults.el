@@ -190,4 +190,6 @@
 (after-load 'rainbow-mode (diminish 'rainbow-mode))
 (after-load 'smart-tab-mode (diminish 'smart-tab-mode))
 
+(defalias 'exit-emacs 'save-buffers-kill-terminal)
+
 (provide 'sane-defaults)
