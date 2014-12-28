@@ -588,7 +588,6 @@ and overlay is highlighted between MK and END-MK."
 
 ;; json
 (require 'json nil t)
-(require 'json-pretty-print nil t)
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 (when (require 'smart-tab nil t)
