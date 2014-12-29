@@ -221,5 +221,8 @@
 (js2r-add-keybindings-with-prefix "C-c C-r")
 
 (add-hook 'js2-mode-hook (lambda () (electric-indent-local-mode -1)))
+
+(add-hook 'json-mode 'flymake-json-load)
+
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode ends here

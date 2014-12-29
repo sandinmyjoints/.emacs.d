@@ -126,6 +126,7 @@
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'discover-js2-refactor melpa)
+     (cons 'flymake-json melpa-stable)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
