@@ -52,8 +52,6 @@
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
-(add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory))
-
 ;; ========================================
 ;; Definitions.
 ;; ========================================
@@ -117,9 +115,10 @@
 ;; ========================================
 ;; Set up load-path.
 ;; ========================================
-
-(add-to-list 'load-path user-emacs-directory)
-(add-to-list 'load-path site-lisp-dir)
+(add-to-list 'load-path site-lisp-dir t)
+(add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory) t)
+;(add-to-list 'load-path user-emacs-directory t) ;; Probably not needed, but
+;commented out for now until known for sure.
 
 ;; Add all subdirs of site-lisp-dir.
 (let ((default-directory site-lisp-dir))
