@@ -460,3 +460,15 @@ EOF
   - read from a file not under git
   - add setup-secrets.el
 * TODO separate frame for irc so i can scan it?
+* TODO node-inspector plus swank or something to inspect running node process in emacs
+  - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
+  - https://github.com/jscheid/kite/blob/master/kite.md
+  - https://github.com/segv/jss
+  - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
+* TODO smart-parens
+  - It's "grander" than paredit-everywhere.
+  - Don't use it with electric-pair-mode, which may now be on by default, so
+    disable it.
+  - Docs are on the wiki: https://github.com/Fuco1/smartparens/wiki
+  - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
+  - Use C-- to do backwards version of forwards command.
