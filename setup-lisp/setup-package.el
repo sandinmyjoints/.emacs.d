@@ -104,7 +104,6 @@
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet marmalade)
-     ;(cons 'paredit melpa-stable)
      ;(cons 'move-text melpa-stable)
      ;(cons 'gist melpa-stable)
      ;(cons 'htmlize melpa-stable)
@@ -133,6 +132,9 @@
      (cons 'discover-my-major melpa)
      (cons 'diminish melpa-stable)
      (cons 'less-css-mode melpa-stable)
+     (cons 'smart-parens melpa-stable)
+     ;; Uninstalled, but consider:
+     ;; (cons 'smart-forward)
    ))
 
   (condition-case nil

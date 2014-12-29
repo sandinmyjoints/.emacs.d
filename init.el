@@ -747,3 +747,4 @@ and overlay is highlighted between MK and END-MK."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
+(load setup-smartparens)

@@ -127,7 +127,7 @@
 ;;; Emacs 24 and up.
 (when (>= emacs-major-version 24)
   ;; Pair parens and other delimiters.
-  (electric-pair-mode t)
+  ;;(electric-pair-mode t) ;; try using smart-parens
   ;; Scroll up without warning the first time.
   (setq scroll-error-top-bottom t))
 
