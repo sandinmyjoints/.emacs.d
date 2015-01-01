@@ -65,10 +65,11 @@
 ;; being processed because custom.el isn't loaded until the very end.
 (setq initial-dirs-to-open
       '("~/.emacs.d"
+        "~/dotfiles"
         "~/scm/wjb"
         "~/scm/sd/ops"
         "~/scm/sd/fluencia"
-        "~/scm/sd/fluencia-clean"
+        ;;"~/scm/sd/fluencia-clean"
         "~/scm/sd/fluencia-qa-e2e"
         "~/scm/sd/neodarwin"
         "~/scm/sd/neodarwin-clean"
@@ -76,7 +77,7 @@
         "~/scm/sd/hegemone"
         "~/scm/sd/darwin"
         "~/scm/sd/qa-e2e"
-        "~/scm/sd/recruiting"
+        ;;"~/scm/sd/recruiting"
         ))
 
 ;; An initial file to open if it exists.
