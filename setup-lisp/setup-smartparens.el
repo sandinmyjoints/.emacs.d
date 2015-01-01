@@ -50,5 +50,43 @@
 (smartparens-global-mode t) ;; TODO: not in dirtree
 (show-smartparens-global-mode t)
 
+
+;; This does not appear to work -- it still escapes quotes in coffee-mode...
+(dolist (mode '(coffee-mode shell-mode))
+  (add-to-list 'sp-autoescape-string-quote-if-empty mode))
+
+;; ...so turn off all autoescaping.
+(setq sp-autoescape-string-quote nil)
+
+
+;; Add smartparens-strict-mode to all sp--lisp-modes hooks. C-h v sp--lisp-modes
+;; to customize/view this list.
+(mapc (lambda (mode)
+        (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-strict-mode))
+      sp--lisp-modes)
+
+;; make web-mode play nice with smartparens
+(setq web-mode-enable-auto-pairing nil)
+
+;; The difference between parens and quotes is that quotes smart and end with
+;; the same char.
+
+;; For coffee-mode (and possibly other modes):
+;; * make sp-autoskip-opening-pair nil (the default) or t
+;; * make sp-autoskip-closing-pair always (instead of default always-end) --
+;;   seems likely it is unable to tell when it's at the end in quoted strings.
+;; * and add coffee-mode to sp-navigate-consider-stringlike-sexp
+;; to get the string-closing behavior I want.
+;; This variable is buffer-local, so must be set by customize.
+(setq sp-autoskip-closing-pair 'always)
+
+;; A string-like sexp is an expression where opening and closing delimeter is
+;; the same sequence of characters. For example: *...*, $...$.
+(dolist (mode '(coffee-mode text-mode))
+  (add-to-list 'sp-navigate-consider-stringlike-sexp mode))
+
+
+(setq sp-cancel-autoskip-on-backward-movement nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-smartparens.el ends here

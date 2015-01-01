@@ -743,8 +743,9 @@ and overlay is highlighted between MK and END-MK."
 (load custom-file t t)
 
 (provide 'init)
-;;; init.el ends here
+
+(load setup-smartparens)
+(load setup-coffee)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
-(load setup-smartparens)
