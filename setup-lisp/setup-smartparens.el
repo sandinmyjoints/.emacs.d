@@ -47,9 +47,12 @@
 
 
 (require 'smartparens-config)
-(smartparens-global-mode t) ;; TODO: not in dirtree
+
+(smartparens-global-mode t)
 (show-smartparens-global-mode t)
 
+(dolist (mode '(dirtree-mode))
+  (add-to-list 'sp-ignore-modes-list mode))
 
 ;; This does not appear to work -- it still escapes quotes in coffee-mode...
 (dolist (mode '(coffee-mode shell-mode))
