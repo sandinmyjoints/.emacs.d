@@ -49,7 +49,7 @@
 (require 'smartparens-config)
 
 (smartparens-global-mode t)
-(show-smartparens-global-mode t)
+(show-smartparens-global-mode nil)
 
 (dolist (mode '(dirtree-mode))
   (add-to-list 'sp-ignore-modes-list mode))
