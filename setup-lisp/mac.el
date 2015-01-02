@@ -1,17 +1,28 @@
 (require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;; change command to meta, and ignore option to use weird Norwegian keyboard
-(setq mac-option-modifier 'super)
+;; The mac- prefix is specific to the Mac port. Cocoa Emacs uses variables
+;; starting with ns-.
+;;
 (setq mac-command-modifier 'meta)
-(setq ns-function-modifier 'hyper)
+
+;; With Seil, I can map capslock to arbitrary keys, such as fn (keycode 63) or
+;; L-option (keycode 58). Then I can set mac-option-modifier or
+;; mac-function-modifier to super or hyper, and capslock will do super or hyper.
+;; But it's tradeoff: I either lose the ability to use fn keys or to use option
+;; to insert OS X extended characters.
+;;
+;; I sometimes use extended characters but almost never use fn keys in Emacs, so
+;; am mapping to fn/hyper for now.
+(setq mac-option-modifier nil)
+(setq mac-function-modifier 'hyper)
 
 ;; make sure path is correct when launched as application
 (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 (push "/usr/local/bin" exec-path)
 
-;; keybinding to toggle full screen mode
-(global-set-key (quote [M-f10]) (quote ns-toggle-fullscreen))
+;; Toggle fullscreen.
+(global-set-key (quote [M-f10]) (quote toggle-fullscreen))
 
 ;; Move to trash when deleting stuff
 (setq delete-by-moving-to-trash t
