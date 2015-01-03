@@ -49,7 +49,9 @@
 (require 'smartparens-config)
 
 (smartparens-global-mode t)
-(show-smartparens-global-mode nil)
+
+;; Not sure if I want this or not.
+(show-smartparens-global-mode t)
 
 (dolist (mode '(dirtree-mode))
   (add-to-list 'sp-ignore-modes-list mode))
