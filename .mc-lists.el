@@ -46,6 +46,8 @@
         set-rectangular-region-anchor
         sgml-slash
         smart-tab
+        sp--self-insert-command
+        sp-delete-char
         whack-whitespace
         wjb-toggle-it-only
         yank-rectangle
