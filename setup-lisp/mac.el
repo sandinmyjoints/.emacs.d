@@ -1,3 +1,51 @@
+;;; mac.el --- Customizations for OS X.
+;;
+;; Filename: mac.el
+;; Description:
+;; Author: William
+;; Maintainer:
+;; Created: Fri Jan  2 17:59:40 2015 (-0800)
+;; Version:
+;; Package-Requires: ()
+;; Last-Updated:
+;;           By:
+;;     Update #: 0
+;; URL:
+;; Doc URL:
+;; Keywords:
+;; Compatibility:
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Commentary:
+;;
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Change Log:
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Code:
+
+
 (require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
@@ -31,7 +79,8 @@
 ;; Ignore .DS_Store files with ido mode
 (add-to-list 'ido-ignore-files "\\.DS_Store")
 
-;; Don't open files from the workspace in a new frame
+;; Don't open files from the workspace in a new frame.
+;; Only works on Cocoa Emacs.
 (setq ns-pop-up-frames nil)
 
 ;; Darwin/OS X ls doesn't support --dired out of the box.
@@ -43,3 +92,6 @@
 (setq insert-directory-program "gls")
 
 (provide 'mac)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; mac.el ends here
