@@ -1,6 +1,6 @@
-;;; mac.el --- Customizations for OS X.
+;;; setup-mac.el --- Customizations for OS X.
 ;;
-;; Filename: mac.el
+;; Filename: setup-mac.el
 ;; Description:
 ;; Author: William
 ;; Maintainer:
@@ -46,9 +46,6 @@
 ;;; Code:
 
 
-(require-package 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
-
 ;; The mac- prefix is specific to the Mac port. Cocoa Emacs uses variables
 ;; starting with ns-.
 ;;
@@ -64,6 +61,9 @@
 ;; am mapping to fn/hyper for now.
 (setq mac-option-modifier nil)
 (setq mac-function-modifier 'hyper)
+
+(require-package 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 
 ;; make sure path is correct when launched as application
 (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
@@ -93,7 +93,7 @@
 
 (require 'osx-plist nil t)
 
-(provide 'mac)
+(provide 'setup-mac)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; mac.el ends here
+;;; setup-mac.el ends here

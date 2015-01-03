@@ -694,7 +694,7 @@ and overlay is highlighted between MK and END-MK."
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
 
-(when is-mac (require 'mac t))
+(when is-mac (require 'setup-mac))
 
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
