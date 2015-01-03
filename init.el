@@ -691,18 +691,6 @@ and overlay is highlighted between MK and END-MK."
 ;; Final.
 ;; ========================================
 
-;; Open up some dirs in dirtree if it's available.
-(when (and (require 'tree-mode nil t) (require 'dirtree nil t))
-  (let ((dirtree-buffer "*dirtree*"))
-    (dolist (dir initial-dirs-to-open)
-      (when (file-accessible-directory-p dir)
-        (dirtree dir dirtree-buffer)))
-    ;; Dedicate window and resize.
-    (let ((window (get-buffer-window dirtree-buffer)))
-      (set-window-dedicated-p window t)
-      ;; TODO: Resize more intelligently.
-      (adjust-window-trailing-edge window -5 t))))
-
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
 
@@ -711,6 +699,21 @@ and overlay is highlighted between MK and END-MK."
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+;; Open up some dirs in dirtree if it's available.
+(defun do-setup-dirtree ()
+  (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
+    (let ((dirtree-buffer "*dirtree*"))
+      (dolist (dir initial-dirs-to-open)
+        (when (file-accessible-directory-p dir)
+          (dirtree dir dirtree-buffer)))
+      ;; Dedicate window and resize.
+      (let ((window (get-buffer-window dirtree-buffer)))
+        (set-window-dedicated-p window t)
+        ;; TODO: Resize more intelligently.
+        (adjust-window-trailing-edge window -5 t)))))
+;(do-setup-dirtree)
+;(add-hook 'after-init-hook (lambda () (do-setup-dirtree)))
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
