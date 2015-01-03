@@ -65,8 +65,8 @@
   (package-initialize)
 
   (unless (and (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa"))
-    (file-exists-p "~/.emacs.d/elpa/archives/gnu")
+               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+               (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
     (package-refresh-contents))
 
   (defun packages-install (&rest packages)
@@ -80,7 +80,8 @@
                       (package-install name))))))
           packages)
     (package-initialize)
-    (delete-other-windows)))
+    ;(delete-other-windows) ;; Why was this here? Trying it commented out.
+))
 
 ;; Install packages if they're missing.
 (when (require 'package nil t)
@@ -132,7 +133,7 @@
      (cons 'discover-my-major melpa)
      (cons 'diminish melpa-stable)
      (cons 'less-css-mode melpa-stable)
-     (cons 'smart-parens melpa-stable)
+     (cons 'smartparens melpa-stable)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))
