@@ -63,20 +63,21 @@
 ;; Directories to open in dirtree on start. TODO This should be in custom.el,
 ;; but probably need to move when dirtree starts up to happen following init.el
 ;; being processed because custom.el isn't loaded until the very end.
+;; TODO: Would be nice to start these closed instead of expanded.
 (setq initial-dirs-to-open
       '("~/.emacs.d"
         "~/dotfiles"
         "~/scm/wjb"
         "~/scm/sd/ops"
-        "~/scm/sd/fluencia"
-        ;;"~/scm/sd/fluencia-clean"
-        "~/scm/sd/fluencia-qa-e2e"
         "~/scm/sd/neodarwin"
         "~/scm/sd/neodarwin-clean"
         "~/scm/sd/atalanta"
         "~/scm/sd/hegemone"
         "~/scm/sd/darwin"
         "~/scm/sd/qa-e2e"
+        "~/scm/sd/fluencia"
+        ;;"~/scm/sd/fluencia-clean"
+        ;;"~/scm/sd/fluencia-qa-e2e"
         ;;"~/scm/sd/recruiting"
         ))
 
