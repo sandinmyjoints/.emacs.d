@@ -90,8 +90,28 @@
 (dolist (mode '(coffee-mode text-mode))
   (add-to-list 'sp-navigate-consider-stringlike-sexp mode))
 
-
 (setq sp-cancel-autoskip-on-backward-movement nil)
+
+;; Based off of https://github.com/Fuco1/smartparens/wiki/Example-configuration
+;; but using H instead of C-M.
+(define-key sp-keymap (kbd "H-f") 'sp-forward-sexp)
+(define-key sp-keymap (kbd "H-b") 'sp-backward-sexp)
+
+(define-key sp-keymap (kbd "H-d") 'sp-down-sexp)
+(define-key sp-keymap (kbd "H-a") 'sp-backward-down-sexp)
+(define-key sp-keymap (kbd "H-M-a") 'sp-beginning-of-sexp)
+(define-key sp-keymap (kbd "H-M-d") 'sp-end-of-sexp)
+
+(define-key sp-keymap (kbd "H-e") 'sp-up-sexp)
+(define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
+(define-key sp-keymap (kbd "H-u") 'sp-backward-up-sexp)
+(define-key sp-keymap (kbd "H-t") 'sp-transpose-sexp)
+
+(define-key sp-keymap (kbd "H-n") 'sp-next-sexp)
+(define-key sp-keymap (kbd "H-p") 'sp-previous-sexp)
+
+(define-key sp-keymap (kbd "H-k") 'sp-kill-sexp)
+(define-key sp-keymap (kbd "H-w") 'sp-copy-sexp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-smartparens.el ends here
