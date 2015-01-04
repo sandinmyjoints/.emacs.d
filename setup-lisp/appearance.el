@@ -51,30 +51,6 @@
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
-;; Nice sizing.  See:
-;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-        ;; use 120 char wide window for largeish displays
-        ;; and smaller 80 column windows for smaller displays
-        ;; pick whatever numbers make sense for you
-        (if (> (x-display-pixel-width) 1280)
-            (add-to-list 'default-frame-alist (cons 'width 140))
-          (add-to-list 'default-frame-alist (cons 'width 80)))
-        ;; for the height, subtract a couple hundred pixels
-        ;; from the screen height (for panels, menubars and
-        ;; whatnot), then divide by the height of a char to
-        ;; get the height we want
-        (add-to-list 'default-frame-alist
-                     (cons 'height (/ (- (x-display-pixel-height) 200)
-                                      (frame-char-height)))))))
-
-(set-frame-size-according-to-resolution)
-
-;; TODO: Set window position.
-
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))

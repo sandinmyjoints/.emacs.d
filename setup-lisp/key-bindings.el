@@ -9,12 +9,29 @@
 ;;
 ;;; Code:
 
+;; From https://gist.github.com/cataska/b1875754128853bfb139
+(defmacro defkbalias (old new)
+  `(define-key (current-global-map) ,new
+     (lookup-key (current-global-map) ,old)))
+
+;; Set up prefix keys. Now "H-x" does the same thing as "C-x".
+(defkbalias (kbd "C-x") (kbd "H-x"))
+(defkbalias (kbd "C-c") (kbd "H-c"))
+(defkbalias (kbd "C-h") (kbd "H-h"))
+
+(global-set-key (kbd "H-_") 'undo)
+;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
+;; that consists of C-g, so when I hit it, I get the message related to quitting
+;; after using a keyboard macro.
+(global-set-key (kbd "H-g") (kbd "C-g"))
+
 (global-set-key (kbd "C-x C-c") nil)
-(global-set-key (kbd "C-x C-q") 'save-buffers-kill-terminal)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
+
 (global-set-key (kbd "C-|") 'align-regexp)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
 ;; TODO: bind something to align-regexp with a regexp that aligns based on :
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x l") 'other-window-reverse)
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.

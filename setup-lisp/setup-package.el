@@ -65,8 +65,8 @@
   (package-initialize)
 
   (unless (and (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa"))
-    (file-exists-p "~/.emacs.d/elpa/archives/gnu")
+               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+               (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
     (package-refresh-contents))
 
   (defun packages-install (&rest packages)
@@ -80,7 +80,8 @@
                       (package-install name))))))
           packages)
     (package-initialize)
-    (delete-other-windows)))
+    ;(delete-other-windows) ;; Why was this here? Trying it commented out.
+))
 
 ;; Install packages if they're missing.
 (when (require 'package nil t)
@@ -104,7 +105,6 @@
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet marmalade)
-     ;(cons 'paredit melpa-stable)
      ;(cons 'move-text melpa-stable)
      ;(cons 'gist melpa-stable)
      ;(cons 'htmlize melpa-stable)
@@ -126,12 +126,18 @@
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'discover-js2-refactor melpa)
+     (cons 'flymake-json melpa-stable)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
      (cons 'rebox2 melpa)
      (cons 'markdown-mode melpa-stable)
+     (cons 'diminish melpa-stable)
+     (cons 'less-css-mode melpa-stable)
+     (cons 'smartparens melpa-stable)
+     ;; Uninstalled, but consider:
+     ;; (cons 'smart-forward)
    ))
 
   (condition-case nil

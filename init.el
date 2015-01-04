@@ -52,8 +52,6 @@
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
-(add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory))
-
 ;; ========================================
 ;; Definitions.
 ;; ========================================
@@ -65,20 +63,22 @@
 ;; Directories to open in dirtree on start. TODO This should be in custom.el,
 ;; but probably need to move when dirtree starts up to happen following init.el
 ;; being processed because custom.el isn't loaded until the very end.
+;; TODO: Would be nice to start these closed instead of expanded.
 (setq initial-dirs-to-open
       '("~/.emacs.d"
+        "~/dotfiles"
         "~/scm/wjb"
         "~/scm/sd/ops"
-        "~/scm/sd/fluencia"
-        "~/scm/sd/fluencia-clean"
-        "~/scm/sd/fluencia-qa-e2e"
         "~/scm/sd/neodarwin"
         "~/scm/sd/neodarwin-clean"
         "~/scm/sd/atalanta"
         "~/scm/sd/hegemone"
         "~/scm/sd/darwin"
         "~/scm/sd/qa-e2e"
-        "~/scm/sd/recruiting"
+        "~/scm/sd/fluencia"
+        ;;"~/scm/sd/fluencia-clean"
+        ;;"~/scm/sd/fluencia-qa-e2e"
+        ;;"~/scm/sd/recruiting"
         ))
 
 ;; An initial file to open if it exists.
@@ -117,9 +117,10 @@
 ;; ========================================
 ;; Set up load-path.
 ;; ========================================
-
-(add-to-list 'load-path user-emacs-directory)
-(add-to-list 'load-path site-lisp-dir)
+(add-to-list 'load-path site-lisp-dir t)
+(add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory) t)
+;(add-to-list 'load-path user-emacs-directory t) ;; Probably not needed, but
+;commented out for now until known for sure.
 
 ;; Add all subdirs of site-lisp-dir.
 (let ((default-directory site-lisp-dir))
@@ -588,7 +589,6 @@ and overlay is highlighted between MK and END-MK."
 
 ;; json
 (require 'json nil t)
-(require 'json-pretty-print nil t)
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 (when (require 'smart-tab nil t)
@@ -691,26 +691,29 @@ and overlay is highlighted between MK and END-MK."
 ;; Final.
 ;; ========================================
 
-;; Open up some dirs in dirtree if it's available.
-(when (and (require 'tree-mode nil t) (require 'dirtree nil t))
-  (let ((dirtree-buffer "*dirtree*"))
-    (dolist (dir initial-dirs-to-open)
-      (when (file-accessible-directory-p dir)
-        (dirtree dir dirtree-buffer)))
-    ;; Dedicate window and resize.
-    (let ((window (get-buffer-window dirtree-buffer)))
-      (set-window-dedicated-p window t)
-      ;; TODO: Resize more intelligently.
-      (adjust-window-trailing-edge window -5 t))))
-
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
 
-(when is-mac (require 'mac))
+(when is-mac (require 'setup-mac))
 
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+;; Open up some dirs in dirtree if it's available.
+(defun do-setup-dirtree ()
+  (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
+    (let ((dirtree-buffer "*dirtree*"))
+      (dolist (dir initial-dirs-to-open)
+        (when (file-accessible-directory-p dir)
+          (dirtree dir dirtree-buffer)))
+      ;; Dedicate window and resize.
+      (let ((window (get-buffer-window dirtree-buffer)))
+        (set-window-dedicated-p window t)
+        ;; TODO: Resize more intelligently.
+        (adjust-window-trailing-edge window -5 t)))))
+;(do-setup-dirtree)
+;(add-hook 'after-init-hook (lambda () (do-setup-dirtree)))
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
@@ -743,8 +746,10 @@ and overlay is highlighted between MK and END-MK."
 
 (load custom-file t t)
 
+(load "setup-smartparens")
+(load "setup-coffee")
+
 (provide 'init)
-;;; init.el ends here
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here

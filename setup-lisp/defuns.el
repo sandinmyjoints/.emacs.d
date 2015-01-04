@@ -334,6 +334,9 @@
 ;;; Chef / tramp stuff.
 ;;; To get started: M-: (wjb-query-chef-refresh-all)
 ;;; Then open a file with tramp: /william@aws-whatever:/path
+;;; If get ControlPath too long, then do:
+;;; before starting Tramp: M-x setenv TMPDIR /tmp.
+;;; see https://trac.macports.org/ticket/29794
 
 (defun wjb-query-chef-handle-line (line)
   (if (s-starts-with? "aws-" line)

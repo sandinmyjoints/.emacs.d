@@ -119,10 +119,20 @@
 (require-package 'nvm)
 (require 'nvm)
 
+(defun exec-path-from-PATH ()
+  (setq exec-path (parse-colon-path (getenv "PATH"))))
+
 (defun do-nvm-use (version)
   (interactive "sVersion: ")
   (nvm-use version)
-  (exec-path-from-shell-copy-env "PATH"))
+  ;; exec-path-from-shell is going to make a new login shell and get the value from that.
+  ;; but nvm-use does setenv "PATH". so we want to make exec-path respect the PATH in the Emacs process, not
+  ;; a new shell.
+  ;(exec-path-from-shell-copy-env "PATH")
+  ;; need an exec-path-from-PATH defun.
+  (exec-path-from-PATH)
+  )
+
 
 (defun run-node (cwd)
   (interactive "DDirectory: ")
@@ -209,6 +219,10 @@
           (lambda () (flycheck-mode t)))
 
 (js2r-add-keybindings-with-prefix "C-c C-r")
+
+(add-hook 'js2-mode-hook (lambda () (electric-indent-local-mode -1)))
+
+(add-hook 'json-mode 'flymake-json-load)
 
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode ends here

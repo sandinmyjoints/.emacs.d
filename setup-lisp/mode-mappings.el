@@ -5,9 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
 ;; HTML
-(add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.tag$" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.vm$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ;; Ruby
 (autoload 'rhtml-mode "rhtml-mode")
