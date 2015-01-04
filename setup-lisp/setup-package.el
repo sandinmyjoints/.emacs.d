@@ -130,6 +130,8 @@
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
+     (cons 'rebox2 melpa)
+     (cons 'markdown-mode melpa-stable)
    ))
 
   (condition-case nil
