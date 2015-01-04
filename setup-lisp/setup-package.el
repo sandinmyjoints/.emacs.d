@@ -87,6 +87,7 @@
 (when (require 'package nil t)
   (defun init--install-packages ()
     (packages-install
+     (cons 'dash melpa-stable)
      (cons 'edit-server melpa)
      (cons 'edit-server-htmlize melpa)
      (cons 'exec-path-from-shell melpa-stable)
