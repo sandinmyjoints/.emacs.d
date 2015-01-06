@@ -57,10 +57,11 @@
 ;; But it's tradeoff: I either lose the ability to use fn keys or to use option
 ;; to insert OS X extended characters.
 ;;
-;; I sometimes use extended characters but almost never use fn keys in Emacs, so
-;; am mapping to fn/hyper for now.
+;; For now, I'm not modifying fn so I can use it regularly. I'm using
+;; right-command as hyper. I use hyper a lot of smartparens bindings.
 (setq mac-option-modifier nil)
-(setq mac-function-modifier 'hyper)
+(setq mac-function-modifier nil)
+(setq mac-right-command-modifier 'hyper)
 
 (require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
