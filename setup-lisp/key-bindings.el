@@ -19,11 +19,19 @@
 (defkbalias (kbd "C-c") (kbd "H-c"))
 (defkbalias (kbd "C-h") (kbd "H-h"))
 
+(global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
+
 (global-set-key (kbd "H-_") 'undo)
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
+(global-set-key (kbd "H-s") (kbd "C-s"))
+
+(global-set-key [H-up] 'beginning-of-defun)
+(global-set-key (kbd "H-1") 'beginning-of-defun)
+(global-set-key [H-down] 'end-of-defun)
+(global-set-key (kbd "H-2") 'end-of-defun)
 
 (global-set-key (kbd "C-x C-c") nil)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
