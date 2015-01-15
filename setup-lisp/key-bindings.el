@@ -22,11 +22,14 @@
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
 (global-set-key (kbd "H-_") 'undo)
+(global-set-key (kbd "H-s") 'save-buffer)
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
-(global-set-key (kbd "H-s") (kbd "C-s"))
+
+;; Why won't anything bind to C-s?
+(global-set-key (kbd "C-;") (kbd "C-s"))
 
 (global-set-key [H-up] 'beginning-of-defun)
 (global-set-key (kbd "H-1") 'beginning-of-defun)
