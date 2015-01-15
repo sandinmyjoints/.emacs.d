@@ -68,3 +68,6 @@
 [submodule "elisp/yasnippet-coffee-script-snippets"]
 	path = elisp/yasnippet-coffee-script-snippets
 	url = git@github.com:sandinmyjoints/yasnippet-coffee-script-snippets.git
+[submodule "elisp/js-snippets"]
+	path = elisp/js-snippets
+	url = git@github.com:sandinmyjoints/js-snippets.git
