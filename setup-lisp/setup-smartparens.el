@@ -87,7 +87,7 @@
 
 ;; A string-like sexp is an expression where opening and closing delimeter is
 ;; the same sequence of characters. For example: *...*, $...$.
-(dolist (mode '(coffee-mode text-mode))
+(dolist (mode '(coffee-mode text-mode js2-mode))
   (add-to-list 'sp-navigate-consider-stringlike-sexp mode))
 
 (setq sp-cancel-autoskip-on-backward-movement nil)
