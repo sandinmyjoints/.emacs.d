@@ -13,6 +13,7 @@
         coffee-dedent-line-backspace
         coffee-newline-and-indent
         dired-next-line
+        electric-newline-and-maybe-indent
         eval-last-sexp
         fill-paragraph
         goto-line
@@ -47,7 +48,10 @@
         sgml-slash
         smart-tab
         sp--self-insert-command
+        sp-backward-sexp
         sp-delete-char
+        sp-kill-sexp
+        sp-kill-word
         whack-whitespace
         wjb-toggle-it-only
         yank-rectangle
@@ -64,6 +68,7 @@
         dired-unmark-all-marks
         electric-buffer-list
         end-of-buffer
+        ido-find-file
         ido-switch-buffer
         markdown-demote
         other-window-reverse
