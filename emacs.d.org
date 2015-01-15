@@ -331,6 +331,7 @@ EOF
   - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
   - multi-occur-in-matching-buffers
   - other-frame reverse: C-- C-x 5 o
+  - org-mode C-c C-u: outline-up-heading
 
 * TODO Try perspectives or eproject or...
   - https://github.com/nex3/perspective-el
@@ -472,3 +473,7 @@ EOF
   - Docs are on the wiki: https://github.com/Fuco1/smartparens/wiki
   - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
   - Use C-- to do backwards version of forwards command.
+  - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
+* How to recover a frozen Emacs process
+  - kill -USR2
+  - Then set debug-on-quit back to nil
