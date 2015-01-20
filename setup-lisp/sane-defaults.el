@@ -179,6 +179,9 @@
 
 (setq ispell-dictionary "american")
 
+;; Blink forever.
+(setq blink-cursor-blinks 0)
+
 (require 'saveplace)
 (setq-default save-place t)
 (setq save-place-file (expand-file-name "saved-places" user-emacs-directory))

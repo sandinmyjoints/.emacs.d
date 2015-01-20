@@ -150,7 +150,7 @@
 
 ;; Save desktop.
 (desktop-save-mode 1)
-(setq desktop-restore-eager 16)
+(setq desktop-restore-eager 32)
 
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
@@ -717,6 +717,7 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
+;; TODO: Could use smartparens for this instead.
 ;; (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
