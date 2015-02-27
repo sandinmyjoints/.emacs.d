@@ -80,6 +80,8 @@
         "~/scm/sd/pn-reporter"
         "~/scm/sd/pn-intake"
         "~/scm/sd/pn-processing"
+        "~/scm/sd/pn-complaint"
+        "~/scm/sd/pn-front"
         "~/scm/sd/harrap-hijinks"
         ;;"~/scm/sd/fluencia"
         ;;"~/scm/sd/fluencia-clean"
