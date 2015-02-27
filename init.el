@@ -207,9 +207,15 @@
 ;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules)
 ;; TODO: Document this better.
 ;;
-(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e " default-find-cmd (concat "find " ". " find-args))
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+      default-find-cmd (concat "find " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
+
+;; Ways to do my find in project from the command line:
+;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
+;; grep -E --color=auto -Iin -r -C 3 --exclude *~ <query> <dir>
+;; alias fin='grep -E --color=auto -Iin -r -C 3 --exclude *~'
 
 ;; Workaround for a bug in emacs' http fetching. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
