@@ -33,6 +33,29 @@
 
 ;; js2-mode
 (after-load 'js2-mode
+  ;; Disable js2 mode's syntax error highlighting by default...
+  (setq-default js2-mode-show-parse-errors nil
+                js2-mode-show-strict-warnings nil)
+  ;; ... but enable it if flycheck can't handle javascript
+  (autoload 'flycheck-get-checker-for-buffer "flycheck")
+  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
+    (unless (flycheck-get-checker-for-buffer)
+      (set (make-local-variable 'js2-mode-show-parse-errors) t)
+      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
+  (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active))
+
+;; Flycheck works only if jshint is installed globally.
+;; Flycheck can slow things down quite a bit.
+;; (require 'flycheck)
+;; (add-hook 'js-mode-hook
+;;           (lambda () (flycheck-mode t)))
+
+;; (setq js2-mode-show-parse-errors nil) ;; Make js2-mode faster
+;; (setq js2-mode-show-strict-warnings nil)
+(setq js2-dynamic-idle-timer-adjust 40000)
+
+
+(after-load 'js2-mode
   (add-hook 'js2-mode-hook '(lambda () (setq mode-name "JS2"))))
 
 (setq js2-use-font-lock-faces t
@@ -212,11 +235,6 @@
           (back-to-indentation)))))
 
 (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
-
-;; Flycheck works only if jshint is installed globally.
-(require 'flycheck)
-(add-hook 'js-mode-hook
-          (lambda () (flycheck-mode t)))
 
 (js2r-add-keybindings-with-prefix "C-c C-r")
 
