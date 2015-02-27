@@ -6,6 +6,7 @@
 
 ;; HTML
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.hbs?\\'" . web-mode))
 
 ;; Ruby
 (autoload 'rhtml-mode "rhtml-mode")
@@ -79,5 +80,7 @@
 ;; Coffee-mode.
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+
+(setq-default web-mode-markup-indent-offset 2)
 
 (provide 'mode-mappings)
