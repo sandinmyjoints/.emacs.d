@@ -64,30 +64,7 @@
 ;; but probably need to move when dirtree starts up to happen following init.el
 ;; being processed because custom.el isn't loaded until the very end.
 ;; TODO: Would be nice to start these closed instead of expanded.
-(setq initial-dirs-to-open
-      '("~/.emacs.d"
-        "~/dotfiles"
-        ;;"~/scm/wjb"
-        "~/scm/sd/ops"
-        "~/scm/sd/neodarwin"
-        "~/scm/sd/neodarwin-clean"
-        "~/scm/sd/atalanta"
-        "~/scm/sd/hegemone"
-        ;;"~/scm/sd/darwin"
-        "~/scm/sd/qa-e2e"
-        ;;"~/scm/sd/pn-planning"
-        ;;"~/scm/sd/pn-snippet"
-        "~/scm/sd/pn-reporter"
-        "~/scm/sd/pn-intake"
-        "~/scm/sd/pn-processing"
-        "~/scm/sd/pn-complaint"
-        "~/scm/sd/pn-front"
-        "~/scm/sd/harrap-hijinks"
-        ;;"~/scm/sd/fluencia"
-        ;;"~/scm/sd/fluencia-clean"
-        ;;"~/scm/sd/fluencia-qa-e2e"
-        ;;"~/scm/sd/recruiting"
-        ))
+(setq initial-dirs-to-open '())
 
 ;; An initial file to open if it exists.
 (setq initial-file (expand-file-name "init.el"
@@ -766,5 +743,6 @@ and overlay is highlighted between MK and END-MK."
 
 (provide 'init)
 
+;(do-setup-dirtree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
