@@ -742,8 +742,10 @@ and overlay is highlighted between MK and END-MK."
 (load "setup-coffee")
 
 ;; engine-mode
-(defengine github
-  "https://github.com/search?ref=simplesearch&q=%s")
+(when (require 'engine-mode nil t)
+  (engine-mode t)
+  (defengine github
+    "https://github.com/search?ref=simplesearch&q=%s"))
 
 (provide 'init)
 
