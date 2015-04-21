@@ -741,6 +741,10 @@ and overlay is highlighted between MK and END-MK."
 (load "setup-smartparens")
 (load "setup-coffee")
 
+;; engine-mode
+(defengine github
+  "https://github.com/search?ref=simplesearch&q=%s")
+
 (provide 'init)
 
 ;(do-setup-dirtree)
