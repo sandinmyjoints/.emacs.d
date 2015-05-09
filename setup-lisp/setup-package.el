@@ -132,7 +132,6 @@
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
-     (cons 'rebox2 melpa)
      (cons 'markdown-mode melpa-stable)
      (cons 'diminish melpa-stable)
      (cons 'less-css-mode melpa-stable)
