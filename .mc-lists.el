@@ -39,6 +39,7 @@
         org-return-indent
         org-self-insert-command
         org-yank
+        orgtbl-self-insert-command
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         rebox-backspace
@@ -52,6 +53,7 @@
         sp-delete-char
         sp-kill-sexp
         sp-kill-word
+        sp-wrap-tag-done
         whack-whitespace
         wjb-toggle-it-only
         yank-rectangle
