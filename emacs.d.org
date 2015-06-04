@@ -294,6 +294,7 @@ EOF
     - mc/mark-all-words-like-this
     - mc/insert-numbers
   - org-table (convert-region, transpose, etc)
+    - orgtbl-mode minor mode for working with tables
   - sorting
     - sort-lines
     - reverse-region
@@ -404,6 +405,11 @@ EOF
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO rearrange trees in dirtree mode
+  - Or replace dirtree.
+  - Would be nice to have one modeline
+  - http://stackoverflow.com/questions/843645/a-good-project-tree-browser-for-emacs/26705877
+  - Better project tree browser
+  - http://www.emacswiki.org/emacs/sr-speedbar.el, speedbar
 * TODO multi-term
 * TODO tern / ac-js2 / skewer
 * TODO js-comint https://github.com/redguardtoo/js-comint
@@ -477,3 +483,4 @@ EOF
 * How to recover a frozen Emacs process
   - kill -USR2
   - Then set debug-on-quit back to nil
+* TODO Make it.only / unonly work in js2-mode
