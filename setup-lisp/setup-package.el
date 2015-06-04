@@ -62,6 +62,9 @@
   (add-to-list 'package-archives marmalade)
   (add-to-list 'package-archives org)
 
+  ;; TODO: See http://www.lonecpluspluscoder.com/2014/11/using-elpa-pinned-packages-gnu-emacs-24-4/
+  ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
+
   (package-initialize)
 
   (unless (and (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
@@ -137,6 +140,9 @@
      (cons 'less-css-mode melpa-stable)
      (cons 'smartparens melpa-stable)
      (cons 'engine-mode melpa-stable)
+     ;; (cons 'powerline melpa-stable)
+     (cons 'smart-mode-line melpa-stable)
+     (cons 'smart-mode-line-powerline-theme melpa-stable)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))
