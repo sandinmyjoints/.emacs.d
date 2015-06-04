@@ -687,6 +687,9 @@ and overlay is highlighted between MK and END-MK."
 
 (when is-mac (require 'setup-mac))
 
+(load "setup-smartparens")
+(load "setup-coffee")
+
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
@@ -700,11 +703,40 @@ and overlay is highlighted between MK and END-MK."
           (dirtree dir dirtree-buffer)))
       ;; Dedicate window and resize.
       (let ((window (get-buffer-window dirtree-buffer)))
+        (set-window-fringes window 0 0 nil)
         (set-window-dedicated-p window t)
         ;; TODO: Resize more intelligently.
         (adjust-window-trailing-edge window -5 t)))))
-;(do-setup-dirtree)
+
+;; from http://bzg.fr/emacs-hide-mode-line.html
+(defvar-local hidden-mode-line-mode nil)
+
+(define-minor-mode hidden-mode-line-mode
+  "Minor mode to hide the mode-line in the current buffer."
+  :init-value nil
+  :global t
+  :variable hidden-mode-line-mode
+  :group 'editing-basics
+  (if hidden-mode-line-mode
+      (setq hide-mode-line mode-line-format
+            mode-line-format nil)
+    (setq mode-line-format hide-mode-line
+          hide-mode-line nil))
+  (force-mode-line-update)
+  ;; Apparently force-mode-line-update is not always enough to
+  ;; redisplay the mode-line
+  (redraw-display)
+  (when (and (called-interactively-p 'interactive)
+             hidden-mode-line-mode)
+    (run-with-idle-timer
+     0 nil 'message
+     (concat "Hidden Mode Line Mode enabled.  "
+             "Use M-x hidden-mode-line-mode to make the mode-line appear."))))
+
+(add-hook 'dirtree-mode-hook 'hidden-mode-line-mode)
+
 ;(add-hook 'after-init-hook (lambda () (do-setup-dirtree)))
+;(do-setup-dirtree)
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
