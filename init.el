@@ -380,6 +380,7 @@ and overlay is highlighted between MK and END-MK."
 (autoload 'magit-status "magit")
 (autoload 'magit-log "magit")
 (eval-after-load 'magit '(require 'setup-magit))
+(setq magit-last-seen-setup-instructions "1.4.0")
 (eval-after-load 'magit '(require 'git-rebase-mode))
 (eval-after-load 'magit '(require 'magit-blame))
 
