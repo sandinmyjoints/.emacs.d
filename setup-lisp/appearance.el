@@ -46,7 +46,7 @@
 (set-face-foreground 'region "gray60")
 (set-face-background 'region "#464740")
 (set-face-foreground 'font-lock-warning-face "#ff6666")
-(set-cursor-color "#CCD")
+(set-cursor-color "#FEFA29") ;; 254, 250, 41
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
