@@ -5,7 +5,7 @@
 ;; (setq venv-location "path/to/virtualenvs/")
 
 ;; if you want interactive shell support
-;;(venv-initialize-interactive-shells)
+(venv-initialize-interactive-shells)
 
 ;; if you want eshell support
 ;;(venv-initialize-eshell)
@@ -17,8 +17,7 @@
   (if (executable-find "ipython")
       (setq
        python-shell-interpreter "ipython"
-       ;;python-shell-interpreter-args ""
-       python-shell-interpreter-args "--pylab"
+       ;;python-shell-interpreter-args "--no-banner --gui=osx"
        python-shell-prompt-regexp "In \\[[0-9]+\\]: "
        python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
        python-shell-completion-setup-code
@@ -35,8 +34,7 @@
      python-shell-completion-setup-code
      "try:\n    import readline\nexcept ImportError:\n    def __COMPLETER_all_completions(text): []\nelse:\n    import rlcompleter\n    readline.set_completer(rlcompleter.Completer().complete)\n    def __COMPLETER_all_completions(text):\n        import sys\n        completions = []\n        try:\n            i = 0\n            while True:\n                res = readline.get_completer()(text, i)\n                if not res: break\n                i += 1\n                completions.append(res)\n        except NameError:\n            pass\n        return completions"
      python-shell-completion-module-string-code ""
-     python-shell-completion-string-code "';'.join(__COMPLETER_all_completions('''%s'''))
-"
+     python-shell-completion-string-code "';'.join(__COMPLETER_all_completions('''%s'''))"
      )))
 (ad-activate 'run-python)
 
@@ -45,4 +43,12 @@
   (interactive)
   (term "ipython"))
 
+;; TODO: Make this put it in a better place than at the very beginning. Also,
+;; make it blue like terminal.
+(setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
+
+(add-hook 'python-mode-hook (lambda ()
+                              (hack-local-variables)
+                              (when (boundp 'project-venv-name)
+                                (venv-workon project-venv-name))))
 (provide 'setup-python)
