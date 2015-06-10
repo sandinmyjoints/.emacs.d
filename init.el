@@ -754,23 +754,20 @@ and overlay is highlighted between MK and END-MK."
 (require 'discover)
 (global-discover-mode 1)
 
+(sml/setup)
+
+;; Any good?
+;; (set-face-attribute 'mode-line nil  :height 180)
+
 ;; ========================================
 ;; Machine-local custom configuration.
 ;; ========================================
 
 (load custom-file t t)
 
-(load "setup-smartparens")
-(load "setup-coffee")
-
-;; engine-mode
-(when (require 'engine-mode nil t)
-  (engine-mode t)
-  (defengine github
-    "https://github.com/search?ref=simplesearch&q=%s"))
-
 (provide 'init)
 
 ;(do-setup-dirtree)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
