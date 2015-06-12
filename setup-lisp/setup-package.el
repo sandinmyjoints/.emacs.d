@@ -139,10 +139,7 @@
      (cons 'diminish melpa-stable)
      (cons 'less-css-mode melpa-stable)
      (cons 'smartparens melpa-stable)
-     ;; (cons 'engine-mode melpa-stable)
-     ;; (cons 'powerline melpa-stable)
      (cons 'smart-mode-line melpa-stable)
-     (cons 'smart-mode-line-powerline-theme melpa-stable)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))
