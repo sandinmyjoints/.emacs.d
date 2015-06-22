@@ -754,7 +754,7 @@ and overlay is highlighted between MK and END-MK."
 (require 'discover)
 (global-discover-mode 1)
 
-(sml/setup)
+(add-hook 'after-init-hook 'sml/setup)
 
 ;; Any good?
 ;; (set-face-attribute 'mode-line nil  :height 180)
