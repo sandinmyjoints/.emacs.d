@@ -661,6 +661,15 @@ and overlay is highlighted between MK and END-MK."
 (when (require 'rvm nil t)
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
+;; From http://emacs.stackexchange.com/a/11064
+(defun my-keyboard-quit-advice (fn &rest args)
+  (let ((region-was-active (region-active-p)))
+    (unwind-protect
+         (apply fn args)
+      (when region-was-active
+        (activate-mark t)))))
+
+(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 
 ;; ========================================
 ;; Key bindings.
