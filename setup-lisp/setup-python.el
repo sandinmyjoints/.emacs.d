@@ -43,10 +43,6 @@
   (interactive)
   (term "ipython"))
 
-;; TODO: Make this put it in a better place than at the very beginning. Also,
-;; make it blue like terminal.
-(setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
-
 (add-hook 'python-mode-hook (lambda ()
                               (hack-local-variables)
                               (when (boundp 'project-venv-name)

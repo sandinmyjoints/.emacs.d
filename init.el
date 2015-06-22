@@ -756,6 +756,8 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'after-init-hook 'sml/setup)
 
+(load "setup-modeline")
+
 ;; Any good?
 ;; (set-face-attribute 'mode-line nil  :height 180)
 
