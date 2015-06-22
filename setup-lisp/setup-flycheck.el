@@ -45,7 +45,8 @@
 ;;
 ;;; Code:
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; Let's only turn on flycheck manually.
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
 
