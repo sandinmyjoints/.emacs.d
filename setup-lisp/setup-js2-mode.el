@@ -8,8 +8,15 @@
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 (require-package 'js-comint)
 
+(require 'js2-refactor)
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "H-c")
+
 (after-load 'js2-mode
-  (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command))
+  (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
+  (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
+  (define-key js2-mode-map (kbd "H-r") 'js2r-rename-var)
+  )
 
 ;; Don't redefine C-a for me please, js2-mode
 ;(define-key js2-mode-map (kbd "C-a") nil)
