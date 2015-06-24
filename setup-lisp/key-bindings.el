@@ -97,6 +97,9 @@
 (global-set-key (kbd "C-x w") 'prepare-for-email)
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 
+(global-set-key (kbd "H-x n e") 'next-error)
+(global-set-key (kbd "H-x p e") 'previous-error)
+
 ;; Smex.
 (when (fboundp 'smex)
   (global-set-key (kbd "M-x") 'smex)

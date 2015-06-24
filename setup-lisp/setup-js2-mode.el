@@ -16,6 +16,7 @@
   (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
   (define-key js2-mode-map (kbd "H-r") 'js2r-rename-var)
+  (define-key js2-mode-map (kbd "H-c r m") 'remove-console-log-js)
   )
 
 ;; Don't redefine C-a for me please, js2-mode

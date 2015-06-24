@@ -49,5 +49,9 @@
 (eval-after-load 'coffee-mode
   '(define-key coffee-mode-map [(control j)] 'coffee-newline-and-indent))
 
+(after-load 'coffee-mode
+  (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-coffee.el ends here
