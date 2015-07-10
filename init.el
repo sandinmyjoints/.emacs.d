@@ -552,28 +552,36 @@ and overlay is highlighted between MK and END-MK."
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
-;; Commenting out for now due to bug in Emacs 24.3 that causes C-p to skip a
-;; line. See: https://github.com/alpaker/Fill-Column-Indicator/issues/31
-;;
-;; TODO: Uncomment for Emacs 24.4.
-;;
 (when (require 'fill-column-indicator nil t)
 
+  (defun turn-on-fci ()
+    (fci-mode 1))
+
+  (add-hook 'coffee-mode-hook 'turn-on-fci)
+  (add-hook 'js2-mode-hook 'turn-on-fci)
+  (add-hook 'python-mode-hook 'turn-on-fci)
+
   ;; Make fci-mode global...
-  (define-globalized-minor-mode global-fci-mode fci-mode
-    (lambda () (fci-mode 1)))
-  (global-fci-mode 1)
+  ;; (define-globalized-minor-mode global-fci-mode fci-mode
+  ;;   (lambda () (fci-mode 1)))
+  ;; (global-fci-mode 1)
 
   ;; ...except for these modes.
   (defun no-fci ()
     (fci-mode -1))
-  (add-hook 'dirtree-mode-hook 'no-fci)
-  (add-hook 'dired-mode-hook 'no-fci)
-  (add-hook 'dired+-mode-hook 'no-fci)
-  (add-hook 'org-mode-hook 'no-fci)
-  (add-hook 'magit-mode-hook 'no-fci)
-  (add-hook 'term-mode-hook 'no-fci)
-  (add-hook 'shell-mode-hook 'no-fci))
+
+  ;; (add-hook 'dirtree-mode-hook 'no-fci)
+  ;; (add-hook 'dired-mode-hook 'no-fci)
+  ;; (add-hook 'dired+-mode-hook 'no-fci)
+  ;; (add-hook 'org-mode-hook 'no-fci)
+  ;; (add-hook 'magit-mode-hook 'no-fci)
+  ;; (add-hook 'term-mode-hook 'no-fci)
+  ;; (add-hook 'shell-mode-hook 'no-fci)
+  ;; (add-hook 'dired-mode-hook 'no-fci)
+  ;; (add-hook 'edit-server-start-hook 'no-fci)
+  ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
+  ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
+  )
 
 
 ;; js2-mode
