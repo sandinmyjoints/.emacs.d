@@ -294,11 +294,15 @@
       "\C-sconsole.log \"DEBUG:\C-a\C-k\C-k\C-x\C-s")
 
 (fset 'remove-console-log-js
-      "\C-sconsole.log('DEBUG:\C-a\C-a\C-k\C-k")
+      "\C-sconsole.log('DEBUG:\C-a\C-a\C-k\C-k\C-x\C-s")
 
 ;; Remove a log entry for /api/version.
 (fset 'remove-api-version-log
-   "\C-s/api/version\C-a\C-k\C-k")
+      "\C-s/api/version\C-a\C-k\C-k")
+
+(defun long-lines ()
+  (interactive)
+  (setq fill-column 10000))
 
 (defun mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."
@@ -465,6 +469,11 @@ Puts results in plist (node-name (hostname . ip))"
 (fset 'fix-js-indent
    [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])
 
+;; The regexp for this is:
+;; .*?:\(\s-*\)
+(fset 'align-on-colon
+   [?\C-u ?\C-| ?\C-a ?. ?* ?? ?: ?\C-e return return return ?y])
+
 (defun copy-and-comment ()
   "Comment active region and paste uncommented text on the
 following line."
@@ -531,7 +540,6 @@ following line."
   (shell-command
    (format "%s -f %s/tags -eR %s" path-to-ctags
            (directory-file-name dir-name) (directory-file-name dir-name))))
-
 
 (provide 'defuns)
 

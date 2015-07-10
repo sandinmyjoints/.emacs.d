@@ -10,14 +10,12 @@
 ;;; Code:
 
 ;; From https://gist.github.com/cataska/b1875754128853bfb139
+;; Enables doing something like this, so H-x does the same thing as C-x:
+;; (defkbalias (kbd "C-x") (kbd "H-x"))
+;; But in practice, it turned out I didn't really use that...
 (defmacro defkbalias (old new)
   `(define-key (current-global-map) ,new
      (lookup-key (current-global-map) ,old)))
-
-;; Set up prefix keys. Now "H-x" does the same thing as "C-x".
-(defkbalias (kbd "C-x") (kbd "H-x"))
-(defkbalias (kbd "C-c") (kbd "H-c"))
-(defkbalias (kbd "C-h") (kbd "H-h"))
 
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
@@ -99,6 +97,8 @@
 
 (global-set-key (kbd "H-x n e") 'next-error)
 (global-set-key (kbd "H-x p e") 'previous-error)
+
+(global-set-key (kbd "C-x C-|") 'align-on-colon)
 
 ;; Smex.
 (when (fboundp 'smex)
