@@ -784,6 +784,8 @@ and overlay is highlighted between MK and END-MK."
 
 (load custom-file t t)
 
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
 (provide 'init)
 
 ;(do-setup-dirtree)
