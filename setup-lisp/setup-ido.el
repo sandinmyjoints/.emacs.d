@@ -81,6 +81,16 @@
   ;; per https://github.com/lewang/flx
   (setq gc-cons-threshold 20000000)
 
+  ;; Ido keymap.
+  (defun wjb-ido-keys ()
+    "Add my keybindings for ido."
+    (define-key ido-completion-map
+      (kbd "C-n") 'ido-next-match)
+    (define-key ido-completion-map
+      (kbd "C-p") 'ido-prev-match))
+
+  (add-hook 'ido-setup-hook 'wjb-ido-keys)
+
   )
 
 (provide 'setup-ido)

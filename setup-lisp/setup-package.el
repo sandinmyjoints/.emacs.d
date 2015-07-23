@@ -96,9 +96,8 @@
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'gitconfig-mode marmalade)
      (cons 'gitignore-mode marmalade)
-     (cons 'ido-ubiquitous marmalade)
+     (cons 'ido-ubiquitous melpa-stable)
      (cons 'magit melpa-stable)
-     (cons 'git-rebase-mode melpa)
      ;(cons 'magit marmable) ;; Should be ok, because tracks maint branch.
      ;However, https://github.com/magit/magit#installing-from-marmalade says it
      ;is way outdated, so sticking with installing from git for now.

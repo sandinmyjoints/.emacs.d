@@ -685,15 +685,6 @@ and overlay is highlighted between MK and END-MK."
 
 (require 'key-bindings)
 
-;; Ido keymap.
-(defun wjb-ido-keys ()
-  "Add my keybindings for ido."
-  (define-key ido-completion-map
-    (kbd "C-n") 'ido-next-match)
-  (define-key ido-completion-map
-    (kbd "C-p") 'ido-prev-match))
-
-(add-hook 'ido-setup-hook 'wjb-ido-keys)
 
 
 ;; ========================================
