@@ -35,7 +35,7 @@
 (if (functionp 'set-fontset-font) ; nil in Terminal
     (set-fontset-font "fontset-default" 'unicode "Anonymous"))
 
-(setq-default line-spacing 1)
+(setq-default line-spacing 2)
 
 ;; Colors.
 ;;
