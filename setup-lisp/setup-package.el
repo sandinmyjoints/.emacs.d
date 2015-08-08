@@ -141,6 +141,7 @@
      (cons 'smart-mode-line melpa-stable)
      (cons 'smart-indent-rigidly melpa)
      (cons 'ace-window melpa-stable)
+     (cons 'ht melpa)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))
