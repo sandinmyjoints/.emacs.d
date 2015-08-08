@@ -541,6 +541,53 @@ following line."
    (format "%s -f %s/tags -eR %s" path-to-ctags
            (directory-file-name dir-name) (directory-file-name dir-name))))
 
+(require 'ht)
+(defun select-current-line ()
+  "Select the current line"
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+
+;; var a = true;
+;; { a: false }
+;; False;
+;; yo
+(defun toggle-boolean ()
+  "Toggle any booleans found on the current line."
+  (interactive)
+  (let ((booleans (ht ("true" "false")
+                      ("false" "true")
+                      ("True" "False")
+                      ("False" "True"))))
+    (save-excursion
+      (save-restriction
+        (call-interactively 'select-current-line)
+        (call-interactively 'narrow-to-region)
+        (setq toggle-boolean-re (-reduce (lambda (memo item) (format "%s\\|%s" memo item)) (ht-keys booleans)))
+        (goto-char (point-min))
+        (re-search-forward toggle-boolean-re nil t))
+      (let* ((thing2 (thing-at-point 'word))
+             (bounds (bounds-of-thing-at-point 'word))
+             (pos1 (car bounds))
+             (pos2 (cdr bounds)))
+        (setq replacement (ht-get booleans thing2 nil))
+        (when replacement
+          (delete-region pos1 pos2)
+          (insert replacement))))))
+
+(defun comment-box-better (b e)
+  "Draw a box comment around the region but arrange for the region
+to extend to at least the fill column. Place the point after the
+comment box."
+  (interactive "r")
+  (let ((e (copy-marker e t)))
+    (goto-char b)
+    (end-of-line)
+    (insert-char ?  (- fill-column (current-column)))
+    (comment-box b e 1)
+    (goto-char e)
+    (set-marker e nil)))
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

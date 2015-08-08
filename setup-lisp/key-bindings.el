@@ -77,6 +77,8 @@
 (global-set-key (kbd "C-0") 'idomenu)
 (global-set-key (kbd "C-c 0") 'idomenu)
 (global-set-key (kbd "C-c C-0") 'idomenu)
+(global-set-key (kbd "H-b") 'toggle-boolean)
+(global-set-key (kbd "H-c t b") 'toggle-boolean)
 ;(global-set-key (kbd "C-x f") 'recentf-open-files)
 ;(global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
