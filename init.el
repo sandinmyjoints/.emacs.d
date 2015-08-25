@@ -762,6 +762,7 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'after-init-hook 'sml/setup)
 
 (load "setup-modeline")
+(load "setup-ediff")
 
 ;; Any good?
 ;; (set-face-attribute 'mode-line nil  :height 180)
