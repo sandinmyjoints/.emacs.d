@@ -244,12 +244,12 @@ EOF
     grunt-coffeelint. So I am installing coffeelint globally so that its always
     available. That works!
 ** TODO Coffee-script compile and flymake.
+   CLOSED: [2015-07-10 Fri 16:59]
   - Way to use coffee-watch?
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
 ** TODO rst / sphinx
-
    - it is using the version of sphinx that is on the exec-path due to venv-activate
    - in eng-docs or hegemone, it errors out because sphinx is too old for the
      checker.
@@ -435,7 +435,8 @@ EOF
 
    - https://code.djangoproject.com/wiki/Emacs
    -
-* TODO init-local for machine-specific configs
+* DONE init-local for machine-specific configs
+  CLOSED: [2015-07-10 Fri 17:01]
   - eg, initial files to open
   - not under source control
   - -> use custom.el
@@ -472,7 +473,8 @@ EOF
   - https://github.com/jscheid/kite/blob/master/kite.md
   - https://github.com/segv/jss
   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
-* TODO smart-parens
+* DONE smart-parens
+  CLOSED: [2015-07-10 Fri 17:00]
   - It's "grander" than paredit-everywhere.
   - Don't use it with electric-pair-mode, which may now be on by default, so
     disable it.
@@ -483,4 +485,7 @@ EOF
 * How to recover a frozen Emacs process
   - kill -USR2
   - Then set debug-on-quit back to nil
-* TODO Make it.only / unonly work in js2-mode
+* ACTIVE Make it.only / unonly work in js2-mode
+* Magit 2 annoyances
+  - [X] can't yank from diffs
+  - can't yank commit hash when viewing git log
