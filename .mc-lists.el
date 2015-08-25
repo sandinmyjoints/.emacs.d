@@ -6,6 +6,7 @@
         align-regexp
         backward-kill-sentence
         beginning-of-buffer
+        beginning-of-visual-line
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
@@ -63,6 +64,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        ace-window
         create-cursor
         dired-create-directory
         dired-do-copy
