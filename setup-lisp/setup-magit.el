@@ -29,7 +29,9 @@
 
 (define-key magit-status-mode-map (kbd "M-u") 'magit-section-up)
 
-(setq magit-completing-read-function 'magit-ido-completing-read)
+(setq magit-completing-read-function 'magit-ido-completing-read
+      magit-push-always-verify nil
+      magit-branch-read-upstream-first nil)
 
 ;; magit-gh-pulls
 ;; This was useful: https://github.com/sigma/magit-gh-pulls/issues/5
