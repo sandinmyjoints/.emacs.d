@@ -474,6 +474,9 @@ Puts results in plist (node-name (hostname . ip))"
 (fset 'align-on-colon
    [?\C-u ?\C-| ?\C-a ?. ?* ?? ?: ?\C-e return return return ?y])
 
+(fset 'align-on-equal
+   [?\C-| ?  ?= return])
+
 (defun copy-and-comment ()
   "Comment active region and paste uncommented text on the
 following line."

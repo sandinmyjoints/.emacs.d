@@ -38,6 +38,8 @@
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
 
 (global-set-key (kbd "C-|") 'align-regexp)
+(global-set-key (kbd "C-:") 'align-on-colon)
+(global-set-key (kbd "C-+") 'align-on-equal)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
 ;; TODO: bind something to align-regexp with a regexp that aligns based on :
 
@@ -79,6 +81,7 @@
 (global-set-key (kbd "C-c C-0") 'idomenu)
 (global-set-key (kbd "H-b") 'toggle-boolean)
 (global-set-key (kbd "H-c t b") 'toggle-boolean)
+(global-set-key (kbd "C-c !") 'toggle-boolean)
 ;(global-set-key (kbd "C-x f") 'recentf-open-files)
 ;(global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
