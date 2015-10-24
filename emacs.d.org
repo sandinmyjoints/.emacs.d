@@ -489,3 +489,7 @@ EOF
 * Magit 2 annoyances
   - [X] can't yank from diffs
   - can't yank commit hash when viewing git log
+* DONE GFM tables
+  CLOSED: [2015-09-11 Fri 16:09]
+  - http://emacs.stackexchange.com/a/5319/2163
+  - http://stackoverflow.com/a/20912535/599258
