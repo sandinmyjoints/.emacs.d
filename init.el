@@ -343,6 +343,8 @@ and overlay is highlighted between MK and END-MK."
 ;; Some hooks.
 ;; ========================================
 
+;;(add-hook 'coffee-mode-hook 'smart-indent-rigidly-mode) ;; clobbers TAB for yasnippet/expand
+
 ;; Force 2-space indentation in css-mode.
 (add-hook 'css-mode-hook
           (function
@@ -773,7 +775,7 @@ and overlay is highlighted between MK and END-MK."
 
 (load custom-file t t)
 
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-keys '(?a ?f ?j ?l))
 
 (provide 'init)
 
