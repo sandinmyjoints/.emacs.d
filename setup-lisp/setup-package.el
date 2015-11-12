@@ -142,6 +142,7 @@
      (cons 'smart-indent-rigidly melpa)
      (cons 'ace-window melpa-stable)
      (cons 'ht melpa)
+     (cons 'markdown-toc melpa)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))

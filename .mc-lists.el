@@ -15,6 +15,7 @@
         coffee-newline-and-indent
         dired-next-line
         electric-newline-and-maybe-indent
+        end-of-visual-line
         eval-last-sexp
         fill-paragraph
         goto-line
