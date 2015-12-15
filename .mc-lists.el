@@ -58,8 +58,10 @@
         sp-wrap-tag-done
         whack-whitespace
         wjb-toggle-it-only
+        yaml-electric-dash-and-dot
         yank-rectangle
         yas-expand
+        yaml-electric-backspace
         zap-up-to-char
         ))
 
@@ -80,5 +82,4 @@
         revert-buffer
         smex
         wdired-finish-edit
-        yaml-electric-backspace
         ))

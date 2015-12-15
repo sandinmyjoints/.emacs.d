@@ -6,6 +6,7 @@
   (require-package 'coffee-mode))
 
 (add-hook 'js2-mode-hook 'ac-js2-mode)
+
 (require-package 'js-comint)
 
 (require 'js2-refactor)
@@ -85,8 +86,9 @@
 (setq-default js2-global-externs
 '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
 
-(after-load 'js2-mode
-  (js2-imenu-extras-setup))
+;; This might slow things down when loading large files?
+;; (after-load 'js2-mode
+;;   (js2-imenu-extras-setup))
 
 ;; Set js-mode's indent level (it seems to ignore tab-width).
 (setq js-indent-level preferred-javascript-indent-level)

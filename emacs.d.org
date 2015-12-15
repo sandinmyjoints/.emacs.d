@@ -333,7 +333,8 @@ EOF
   - multi-occur-in-matching-buffers
   - other-frame reverse: C-- C-x 5 o
   - org-mode C-c C-u: outline-up-heading
-
+  - C-0 (imenu)
+  - clean-buffer-list
 * TODO Try perspectives or eproject or...
   - https://github.com/nex3/perspective-el
   - https://github.com/jrockway/eproject
@@ -341,7 +342,6 @@ EOF
   - https://github.com/bbatsov/projectile
     - https://github.com/sabof/project-explorer instead of dirtree
 * TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
-* TODO try iy go to char
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?

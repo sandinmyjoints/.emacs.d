@@ -40,8 +40,6 @@
 (global-set-key (kbd "C-|") 'align-regexp)
 (global-set-key (kbd "C-:") 'align-on-colon)
 (global-set-key (kbd "C-+") 'align-on-equal)
-;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
-;; TODO: bind something to align-regexp with a regexp that aligns based on :
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
