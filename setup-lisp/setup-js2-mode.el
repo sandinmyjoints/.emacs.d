@@ -252,5 +252,7 @@
 
 (add-hook 'json-mode 'flymake-json-load)
 
+(set-face-foreground 'js2-object-property "light goldenrod")
+
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode ends here
