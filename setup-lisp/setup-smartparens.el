@@ -60,6 +60,10 @@
 (dolist (mode '(coffee-mode shell-mode))
   (add-to-list 'sp-autoescape-string-quote-if-empty mode))
 
+(sp-local-pair '(markdown-mode gfm-mode) "*" "*"
+               :unless '(sp-in-string-p)
+               :actions '(insert wrap))
+
 ;; ...so turn off all autoescaping.
 (setq sp-autoescape-string-quote nil)
 
@@ -102,6 +106,7 @@
 (define-key sp-keymap (kbd "H-M-a") 'sp-beginning-of-sexp)
 (define-key sp-keymap (kbd "H-M-d") 'sp-end-of-sexp)
 
+;; For some reason, any combos with H and e seem not to work. Why?
 (define-key sp-keymap (kbd "H-e") 'sp-up-sexp)
 (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
 (define-key sp-keymap (kbd "H-u") 'sp-backward-up-sexp)
