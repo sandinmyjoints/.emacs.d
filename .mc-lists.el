@@ -23,6 +23,7 @@
         insert-register
         kill-rectangle
         kill-region
+        kill-visual-line
         magit-status
         makey-key-mode-popup-rectangles
         mark-sexp
@@ -58,10 +59,10 @@
         sp-wrap-tag-done
         whack-whitespace
         wjb-toggle-it-only
+        yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle
         yas-expand
-        yaml-electric-backspace
         zap-up-to-char
         ))
 
