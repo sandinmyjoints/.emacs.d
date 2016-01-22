@@ -143,6 +143,7 @@
      (cons 'ace-window melpa-stable)
      (cons 'ht melpa)
      (cons 'markdown-toc melpa)
+     (cons 'nginx-mode melpa)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))
