@@ -181,18 +181,52 @@
 (setq mac-command-modifier 'meta)
 
 ;; Make grep-find more helpful.
-;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules)
+;; TODO: custom grep and find, so can use ggrep and gfind if installed.
+;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules, dist, _tmp, minified files)
 ;; TODO: Document this better.
+;; See also find-in-project in defuns.el.
+;; http://stackoverflow.com/a/2148754
+;; comparison with ag: https://www.reddit.com/r/programming/comments/16bvah/the_silver_searcher_is_a_35x_faster_drop_in/
+;; find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+;; find-args for GNU find:
 ;;
-(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-      default-find-cmd (concat "find " ". " find-args))
+;; -wholename = -path
+;; -path = pathname
+;; -name = last part of pathname
+;;
+;; Consider ignoring:
+;; *[-.]min[.-]*
+;; *.gz.js
+;;
+;; Consider having two commands: one that ignores everything I might want
+;; ignored, and one that ignores conservatively.
+
+(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 ggrep --line-buffered -E -C 5 -niH -e "
+      default-find-cmd (concat "gfind " ". " find-args))
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
+
+;; make rgrep behave how I want, like my own find-in-project command.
+(add-to-list 'grep-find-ignored-directories "node_modules")
+(grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
+
+;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
 
 ;; Ways to do my find in project from the command line:
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
 ;; grep -E --color=auto -Iin -r -C 3 --exclude *~ <query> <dir>
 ;; alias fin='grep -E --color=auto -Iin -r -C 3 --exclude *~'
+
+;(eval-after-load 'grep '(require 'setup-rgrep))
+
+
+;; ag
+;;(when (executable-find "ag")
+;;  (require-package 'ag)
+;;  (require-package 'wgrep-ag)
+;;  (setq-default ag-highlight-search t)
+;;  (add-to-list 'ag-arguments "-C 5")
+;;  (global-set-key (kbd "C-x 9") 'ag-project))
 
 ;; Workaround for a bug in emacs' http fetching. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
@@ -385,7 +419,6 @@ and overlay is highlighted between MK and END-MK."
 
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
-;(eval-after-load 'grep '(require 'setup-rgrep))
 ;(eval-after-load 'shell '(require 'setup-shell))
 ;(require 'setup-hippie)
 
