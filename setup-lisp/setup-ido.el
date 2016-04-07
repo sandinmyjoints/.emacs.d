@@ -61,6 +61,8 @@
   (when (require 'ido-ubiquitous nil t)
     (ido-ubiquitous-mode 1))
 
+  (add-to-list 'ido-ubiquitous-command-overrides '(disable exact "rgrep"))
+
   (add-to-list 'ido-ignore-directories "node_modules")
 
   (add-to-list 'ido-ignore-buffers "*Ibuffer*")
