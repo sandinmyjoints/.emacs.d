@@ -747,7 +747,8 @@ and overlay is highlighted between MK and END-MK."
         (set-window-fringes window 0 0 nil)
         (set-window-dedicated-p window t)
         ;; TODO: Resize more intelligently.
-        (adjust-window-trailing-edge window -5 t)))))
+        (adjust-window-trailing-edge window -5 t)
+        (cd "~/scm/sd")))))
 
 ;; from http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
