@@ -45,18 +45,42 @@
 ;;
 ;;; Code:
 
-
-;; TODO: Make this put it in a better place than at the very beginning. Also,
-;; make it blue like terminal.
-;; TODO: Modeline should show %s mode-line-front-space venv-current-name + " " if set, nvm-current-version + " " if set
-
 ;; Original value was
 ;; (setq-default mode-line-format '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
 ;;        (vc-mode vc-mode)
 ;;        "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
-(setq-default mode-line-format (cons " " (cons '(:exec nvm-current-version) mode-line-format)))
-(setq-default mode-line-format (cons " " (cons '(:exec venv-current-name) mode-line-format)))
+;; Helpful reading:
+;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
+;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html
+
+(setq-default mode-line-format
+      (list  '(
+               ;; Leave these in front.
+               "%e"
+               "%n"
+               mode-line-front-space
+
+               " "
+               (:exec venv-current-name)
+               " "
+               (:eval (car nvm-current-version))
+
+               mode-line-mule-info
+               mode-line-client
+               mode-line-modified
+               mode-line-remote
+               mode-line-frame-identification
+               mode-line-buffer-identification
+               sml/pos-id-separator
+               mode-line-position
+               (vc-mode vc-mode)
+               sml/pre-modes-separator
+               mode-line-modes
+               mode-line-misc-info
+               mode-line-end-spaces)))
+
+(add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-modeline.el ends here
