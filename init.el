@@ -239,6 +239,11 @@
   `(eval-after-load ,feature
      '(progn ,@body)))
 
+;; ========================================
+;; Machine-local custom configuration.
+;; ========================================
+
+(load custom-file t t)
 
 ;; ========================================
 ;; Appearance.
@@ -802,12 +807,6 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Any good?
 ;; (set-face-attribute 'mode-line nil  :height 180)
-
-;; ========================================
-;; Machine-local custom configuration.
-;; ========================================
-
-(load custom-file t t)
 
 (setq aw-keys '(?a ?f ?j ?l))
 
