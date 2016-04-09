@@ -801,12 +801,9 @@ and overlay is highlighted between MK and END-MK."
 (global-discover-mode 1)
 
 (add-hook 'after-init-hook 'sml/setup)
-(add-hook 'after-init-hook '(lambda () (load "setup-modeline")))
+(eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
 
 (load "setup-ediff")
-
-;; Any good?
-;; (set-face-attribute 'mode-line nil  :height 180)
 
 (setq aw-keys '(?a ?f ?j ?l))
 
