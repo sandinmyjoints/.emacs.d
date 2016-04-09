@@ -801,8 +801,8 @@ and overlay is highlighted between MK and END-MK."
 (global-discover-mode 1)
 
 (add-hook 'after-init-hook 'sml/setup)
+(add-hook 'after-init-hook '(lambda () (load "setup-modeline")))
 
-(load "setup-modeline")
 (load "setup-ediff")
 
 ;; Any good?
