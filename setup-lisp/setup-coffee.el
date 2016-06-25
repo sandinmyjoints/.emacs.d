@@ -53,5 +53,7 @@
   (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
   )
 
+(provide 'setup-coffee)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-coffee.el ends here

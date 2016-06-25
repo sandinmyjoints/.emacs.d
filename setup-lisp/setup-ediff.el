@@ -62,5 +62,7 @@
                                   (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
                                   (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)))))
 
+(provide 'setup-ediff)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-ediff.el ends here

@@ -539,6 +539,8 @@ and overlay is highlighted between MK and END-MK."
   ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
   )
 
+(require-package 'nvm)
+(require 'nvm)
 
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
@@ -642,8 +644,6 @@ and overlay is highlighted between MK and END-MK."
 
 (require 'key-bindings)
 
-
-
 ;; ========================================
 ;; Final.
 ;; ========================================
@@ -653,8 +653,8 @@ and overlay is highlighted between MK and END-MK."
 
 (when is-mac (require 'setup-mac))
 
-(load "setup-smartparens")
-(load "setup-coffee")
+(eval-after-load 'smart-parens-mode '(require 'setup-smartparens))
+(eval-after-load 'coffee-mode '(require 'setup-coffee))
 
 ;; Load something that might be useful.
 (when (file-readable-p initial-file)
@@ -723,8 +723,8 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'after-init-hook 'sml/setup)
 (eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
 
-(load "setup-ediff")
-(load "setup-docker")
+(require "setup-ediff")
+(require "setup-docker")
 
 (setq aw-keys '(?a ?f ?j ?l))
 
