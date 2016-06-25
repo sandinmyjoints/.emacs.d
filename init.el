@@ -609,7 +609,8 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Yasnippet.
 (when (require 'yasnippet nil t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/")
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (yas-global-mode 1))
 
 ;; Linum: put spaces around line numbers.

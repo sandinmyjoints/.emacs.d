@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# key: spect
+# contributor: wjb
+# name: inspect depth null
+## condition: "
+# --
+var spect = _.partialRight(require('util').inspect, {depth: null})$0
