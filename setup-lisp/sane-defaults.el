@@ -249,6 +249,8 @@
 ;; Based on https://github.com/lewang/flx#gc-optimization
 (setq gc-cons-threshold 20000000)
 
+(setq message-log-max t)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
