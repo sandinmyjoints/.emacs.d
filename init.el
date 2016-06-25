@@ -400,56 +400,16 @@ and overlay is highlighted between MK and END-MK."
 ;; Require/autoload and config packages.
 ;; ========================================
 
-(require 'setup-python)
+;; ibuffer.
+(autoload 'ibuffer "ibuffer" "List buffers." t)
 
-;; dired-jump is useful.
-(require 'dired-x)
-
+;; Smex.
 (when (require 'smex nil t)
   (smex-initialize))
 
+;; Ido.
 (when (require 'ido nil t)
   (eval-after-load 'ido '(require 'setup-ido)))
-
-;; Org-mode.
-(require 'org-install)
-(eval-after-load 'org '(require 'setup-org))
-
-(when (require 'dired+ nil t)
-  (eval-after-load 'dired+ '(require 'setup-dired+)))
-
-(autoload 'magit-status "magit")
-(autoload 'magit-log "magit")
-(eval-after-load 'magit '(require 'setup-magit))
-
-(autoload 'ibuffer "ibuffer" "List buffers." t)
-
-;(eval-after-load 'shell '(require 'setup-shell))
-;(require 'setup-hippie)
-
-;; Yasnippet.
-;(require 'setup-yasnippet)
-;; Work-around for tab complaining when yas is active in ansi-term. See:
-;; https://github.com/capitaomorte/yasnippet/issues/289
-(add-hook 'term-mode-hook (lambda()
-                (yas-minor-mode -1)))
-
-;(require 'setup-perspective)
-;(require 'setup-ffip)
-;(require 'setup-html-mode)
-;(require 'setup-paredit)
-
-;; Rainbow mode.
-(when (require 'rainbow-mode nil t)
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
-  (add-hook 'coffee-mode-hook 'rainbow-mode)
-  (add-hook 'less-css-mode-hook 'rainbow-mode)
-  (add-hook 'css-mode-hook 'rainbow-mode)
-  (add-hook 'html-mode-hook 'rainbow-mode))
-
-;; Anything.
-;(require 'helm-config)
-;(helm-mode 1)
 
 ;; Imenu.
 (when (require 'imenu nil t)
@@ -461,101 +421,58 @@ and overlay is highlighted between MK and END-MK."
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
+;; Dired.
+;; dired-jump is useful.
+(require 'dired-x)
 
-;; TODO: Fix this to work with lexical binding.
-;; See: http://www.delorie.com/gnu/docs/emacs/cl_22.html
-;; See: https://gist.github.com/2360578
-;; (defun ido-goto-symbol (&optional a-symbol)
-;;   "Will update the imenu index and then use ido to select a symbol to navigate to"
-;;   (interactive)
-;;   (imenu--make-index-alist)
-;;   (let ((name-and-pos '())
-;;         (mine-symbol-names '()))
-;;     (flet ((addsymbols (symbol-list)
-;;                        (when (listp symbol-list)
-;;                          (dolist (symbol symbol-list)
-;;                            (let ((name nil) (position nil))
-;;                              (cond
-;;                               ((and (listp symbol) (imenu--subalist-p symbol))
-;;                                (addsymbols symbol))
+(when (require 'dired+ nil t)
+  (eval-after-load 'dired+ '(require 'setup-dired+)))
 
-;;                               ((listp symbol)
-;;                                (setq name (car symbol))
-;;                                (setq position (cdr symbol)))
+;; Org-mode.
+(require 'org-install)
+(eval-after-load 'org '(require 'setup-org))
 
-;;                               ((stringp symbol)
-;;                                (setq name symbol)
-;;                                (setq position (get-text-property 1 'org-imenu-marker symbol))))
+;; Magit.
+(autoload 'magit-status "magit")
+(autoload 'magit-log "magit")
+(eval-after-load 'magit '(require 'setup-magit))
 
-;;                              (unless (or (null position) (null name))
-;;                                (add-to-list 'mine-symbol-names name)
-;;                                (add-to-list 'name-and-pos (cons name position))))))))
-;;       (addsymbols imenu--index-alist))
-;;     (let* ((selected-symbol
-;;             (if (null a-symbol)
-;;                 (ido-completing-read "Symbol? " mine-symbol-names)
-;;               a-symbol))
-;;            (position (cdr (assoc selected-symbol name-and-pos))))
-;;       (cond
-;;        ((overlayp position)
-;;         (goto-char (overlay-start position)))
-;;        (t
-;;         (goto-char position))))))
+;; Python.
+(require 'setup-python)
 
-;; Alternative that doesn't use `flet` but doesn't seem to work, either:
-;; (defun ido-goto-symbol (&optional symbol-list)
-;;   "Refresh imenu and jump to a place in the buffer using Ido."
-;;   (interactive)
-;;   (unless (featurep 'imenu)
-;;     (require 'imenu nil t))
-;;   (cond
-;;    ((not symbol-list)
-;;     (let ((ido-mode ido-mode)
-;;           (ido-enable-flex-matching
-;;            (if (boundp 'ido-enable-flex-matching)
-;;                ido-enable-flex-matching t))
-;;           name-and-pos symbol-names position)
-;;       (unless ido-mode
-;;         (ido-mode 1)
-;;         (setq ido-enable-flex-matching t))
-;;       (while (progn
-;;                (imenu--cleanup)
-;;                (setq imenu--index-alist nil)
-;;                (ido-goto-symbol (imenu--make-index-alist))
-;;                (setq selected-symbol
-;;                      (ido-completing-read "Symbol? " symbol-names))
-;;                (string= (car imenu--rescan-item) selected-symbol)))
-;;       (unless (and (boundp 'mark-active) mark-active)
-;;         (push-mark nil t nil))
-;;       (setq position (cdr (assoc selected-symbol name-and-pos)))
-;;       (cond
-;;        ((overlayp position)
-;;         (goto-char (overlay-start position)))
-;;        (t
-;;         (goto-char position)))))
-;;    ((listp symbol-list)
-;;     (dolist (symbol symbol-list)
-;;       (let (name position)
-;;         (cond
-;;          ((and (listp symbol) (imenu--subalist-p symbol))
-;;           (ido-goto-symbol symbol))
-;;          ((listp symbol)
-;;           (setq name (car symbol))
-;;           (setq position (cdr symbol)))
-;;          ((stringp symbol)
-;;           (setq name symbol)
-;;           (setq position
-;;                 (get-text-property 1 'org-imenu-marker symbol))))
-;;         (unless (or (null position) (null name)
-;;                     (string= (car imenu--rescan-item) name))
-;;           (add-to-list 'symbol-names name)
-;;           (add-to-list 'name-and-pos (cons name position))))))))
+;; Shell.
+;(eval-after-load 'shell '(require 'setup-shell))
+
+;(require 'setup-hippie)
+
+;; Yasnippet.
+;(require 'setup-yasnippet)
+;; Work-around for tab complaining when yas is active in ansi-term. See:
+;; https://github.com/capitaomorte/yasnippet/issues/289
+(add-hook 'term-mode-hook (lambda()
+                (yas-minor-mode -1)))
+
+;; Rainbow mode.
+(when (require 'rainbow-mode nil t)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+  (add-hook 'coffee-mode-hook 'rainbow-mode)
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'html-mode-hook 'rainbow-mode))
+
+;(require 'setup-perspective)
+;(require 'setup-ffip)
+;(require 'setup-html-mode)
+;(require 'setup-paredit)
+
+;; Anything.
+;(require 'helm-config)
+;(helm-mode 1)
 
 (defun mine-goto-symbol-at-point ()
   "Will navigate to the symbol at the current point of the cursor"
   (interactive)
   (ido-goto-symbol (thing-at-point 'symbol)))
-
 
 ;; Map files to modes
 (require 'mode-mappings)
@@ -804,6 +721,7 @@ and overlay is highlighted between MK and END-MK."
 (eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
 
 (load "setup-ediff")
+(load "setup-docker")
 
 (setq aw-keys '(?a ?f ?j ?l))
 
