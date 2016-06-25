@@ -85,7 +85,7 @@
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
     (grep-find
-     (concat "find . " find-args grep-string))))
+     (concat "gfind . " find-args grep-string))))
 
 (defun toggle-window-dedicated ()
   "Toggle whether the current active window is dedicated or not"

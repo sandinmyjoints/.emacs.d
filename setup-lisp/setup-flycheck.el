@@ -58,7 +58,8 @@
         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
        (setq flycheck-checkers (delq 'html-tidy flycheck-checkers)))))
 
-(setq flycheck-display-errors-function #'flycheck-display-error-messages)
+(setq flycheck-display-errors-function #'flycheck-display-error-messages
+      flycheck-temp-prefix ".flycheck")
 ;;(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages) ;; tooltip
 
 (provide 'setup-flycheck)

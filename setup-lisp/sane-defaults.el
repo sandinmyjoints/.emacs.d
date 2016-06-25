@@ -246,6 +246,9 @@
 ;; the previous result
 (define-key isearch-mode-map [remap isearch-delete-char] #'isearch-del-char)
 
+;; Based on https://github.com/lewang/flx#gc-optimization
+(setq gc-cons-threshold 20000000)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
