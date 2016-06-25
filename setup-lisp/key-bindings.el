@@ -41,13 +41,24 @@
 (global-set-key (kbd "C-:") 'align-on-colon)
 (global-set-key (kbd "C-+") 'align-on-equal)
 
+(global-set-key (kbd "C-c f") 'find-file-at-point)
+
+;; projectile-mode keymap
+;; C-c p b 'projectile-switch-to-buffer
+;; C-x b
+;;
+;; C-c p g 'projectile-find-file-dwim
+;; C-c f
+;;
+;; C-c p f 'projectile-find-file
+;;
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-x l") 'ace-window)
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 ;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.
-(global-set-key (kbd "C-c p") 'bury-buffer)
 (global-set-key (kbd "C-x p") 'bury-buffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-c s") 'ansi-term)

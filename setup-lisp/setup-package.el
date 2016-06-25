@@ -150,6 +150,7 @@
      (cons 'ht melpa)
      (cons 'markdown-toc melpa)
      (cons 'nginx-mode melpa)
+     (cons 'projectile melpa)
      ;; Uninstalled, but consider:
      ;; (cons 'smart-forward)
    ))

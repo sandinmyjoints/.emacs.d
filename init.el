@@ -460,6 +460,8 @@ and overlay is highlighted between MK and END-MK."
   (add-hook 'css-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
+(require 'setup-projectile)
+
 ;(require 'setup-perspective)
 ;(require 'setup-ffip)
 ;(require 'setup-html-mode)
