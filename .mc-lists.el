@@ -52,10 +52,12 @@
         sgml-slash
         smart-tab
         sp--self-insert-command
+        sp-backward-delete-char
         sp-backward-sexp
         sp-delete-char
         sp-kill-sexp
         sp-kill-word
+        sp-remove-active-pair-overlay
         sp-wrap-tag-done
         whack-whitespace
         wjb-toggle-it-only
@@ -78,6 +80,7 @@
         end-of-buffer
         ido-find-file
         ido-switch-buffer
+        mark-whole-buffer
         markdown-demote
         other-window-reverse
         revert-buffer
