@@ -149,11 +149,12 @@
 (dolist (hook '(js2-mode-hook js-mode-hook))
   (add-hook hook 'inferior-js-keys-mode))
 
+;;;;;;;;;
+;; nvm ;;
+;;;;;;;;;
+
 (require-package 'nvm)
 (require 'nvm)
-
-(defun exec-path-from-PATH ()
-  (setq exec-path (parse-colon-path (getenv "PATH"))))
 
 (defun do-nvm-use (version)
   (interactive "sVersion: ")
