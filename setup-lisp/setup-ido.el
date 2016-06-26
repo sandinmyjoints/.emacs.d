@@ -86,9 +86,6 @@
 
   (setq flx-ido-threshold 8192)
 
-  ;; per https://github.com/lewang/flx
-  (setq gc-cons-threshold 20000000)
-
   ;; Ido keymap.
   (defun wjb-ido-keys ()
     "Add my keybindings for ido."
