@@ -67,8 +67,17 @@
 ;; Consider having two commands: one that ignores everything I might want
 ;; ignored, and one that ignores conservatively.
 
-(setq find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 ggrep --line-buffered -E -C 5 -niH -e "
-      default-find-cmd (concat "gfind " ". " find-args))
+(setq grep-name "grep")
+(when (executable-find "ggrep")
+  (setq grep-name "ggrep"))
+
+(setq find-name "find")
+(when (executable-find "gfind")
+  (setq find-name "gfind"))
+
+(setq find-args (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e " grep-name)
+      default-find-cmd (concat find-name " . " find-args))
+
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
