@@ -64,6 +64,7 @@
 (setq mac-right-command-modifier 'hyper)
 
 (require-package 'exec-path-from-shell)
+;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
 (exec-path-from-shell-initialize)
 
 ;; make sure path is correct when launched as application
