@@ -723,8 +723,8 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'after-init-hook 'sml/setup)
 (eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
 
-(require "setup-ediff")
-(require "setup-docker")
+(require 'setup-ediff)
+(require 'setup-docker)
 
 (setq aw-keys '(?a ?f ?j ?l))
 
