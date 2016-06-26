@@ -158,13 +158,12 @@
 (defun do-nvm-use (version)
   (interactive "sVersion: ")
   (nvm-use version)
-  ;; exec-path-from-shell makes a new login shell and gets the value from that.
-  ;; But nvm-use does setenv "PATH". So we want to make exec-path respect the
-  ;; PATH in the Emacs process, not a new shell.
-  ;(exec-path-from-shell-copy-env "PATH")
-  ;; need an exec-path-from-PATH defun.
-  (exec-path-from-PATH)
-  ;; TODO: Could use setenv with no argument to remove node from path.
+  ;; exec-path-from-shell made a new login shell at startup and imported values,
+  ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
+  ;; update exec-path to the current PATH in the Emacs process.
+  (exec-path-from-shell-copy-env "PATH")
+  ;; TODO: Unset a Node. Remove node from PATH. Could use setenv with no
+  ;; argument.
   )
 
 (defun run-node (cwd)
