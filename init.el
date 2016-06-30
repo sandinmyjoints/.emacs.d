@@ -679,6 +679,7 @@ and overlay is highlighted between MK and END-MK."
 
 (require 'setup-ediff)
 (require 'setup-docker)
+(require 'setup-webmode)
 
 (setq aw-keys '(?a ?f ?j ?l))
 
