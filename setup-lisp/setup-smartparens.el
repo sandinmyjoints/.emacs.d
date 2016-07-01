@@ -98,25 +98,27 @@
 
 ;; Based off of https://github.com/Fuco1/smartparens/wiki/Example-configuration
 ;; but using H instead of C-M.
-(define-key sp-keymap (kbd "H-f") 'sp-forward-sexp)
-(define-key sp-keymap (kbd "H-b") 'sp-backward-sexp)
+(define-key smartparens-mode-map (kbd "H-f") 'sp-forward-sexp)
+(define-key smartparens-mode-map (kbd "H-b") 'sp-backward-sexp)
 
-(define-key sp-keymap (kbd "H-d") 'sp-down-sexp)
-(define-key sp-keymap (kbd "H-a") 'sp-backward-down-sexp)
-(define-key sp-keymap (kbd "H-M-a") 'sp-beginning-of-sexp)
-(define-key sp-keymap (kbd "H-M-d") 'sp-end-of-sexp)
+(define-key smartparens-mode-map (kbd "H-d") 'sp-down-sexp)
+(define-key smartparens-mode-map (kbd "H-a") 'sp-backward-down-sexp)
+(define-key smartparens-mode-map (kbd "H-M-a") 'sp-beginning-of-sexp)
+(define-key smartparens-mode-map (kbd "H-M-d") 'sp-end-of-sexp)
 
 ;; For some reason, any combos with H and e seem not to work. Why?
-(define-key sp-keymap (kbd "H-e") 'sp-up-sexp)
-(define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
-(define-key sp-keymap (kbd "H-u") 'sp-backward-up-sexp)
-(define-key sp-keymap (kbd "H-t") 'sp-transpose-sexp)
+(define-key smartparens-mode-map (kbd "H-e") 'sp-up-sexp)
+(define-key emacs-lisp-mode-map (kbd "H-)") 'sp-up-sexp)
+(define-key smartparens-mode-map (kbd "H-u") 'sp-backward-up-sexp)
+(define-key smartparens-mode-map (kbd "H-t") 'sp-transpose-sexp)
 
-(define-key sp-keymap (kbd "H-n") 'sp-next-sexp)
-(define-key sp-keymap (kbd "H-p") 'sp-previous-sexp)
+(define-key smartparens-mode-map (kbd "H-n") 'sp-next-sexp)
+(define-key smartparens-mode-map (kbd "H-p") 'sp-previous-sexp)
 
-(define-key sp-keymap (kbd "H-k") 'sp-kill-sexp)
-(define-key sp-keymap (kbd "H-w") 'sp-copy-sexp)
+(define-key smartparens-mode-map (kbd "H-k") 'sp-kill-sexp)
+(define-key smartparens-mode-map (kbd "H-w") 'sp-copy-sexp)
+
+(provide 'setup-smartparens)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-smartparens.el ends here
