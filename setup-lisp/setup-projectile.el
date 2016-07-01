@@ -54,7 +54,8 @@
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
 (setq projectile-find-dir-includes-top-level t)
-(setq projectile-switch-project-action 'projectile-dired)
+;(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-switch-project-action 'projectile-vc)
 
 (defalias 'find-file-in-project 'projectile-find-file)
 
