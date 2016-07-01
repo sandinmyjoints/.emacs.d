@@ -607,7 +607,7 @@ and overlay is highlighted between MK and END-MK."
 
 (when is-mac (require 'setup-mac))
 
-(eval-after-load 'smart-parens-mode '(require 'setup-smartparens))
+(eval-after-load 'smartparens-mode '(require 'setup-smartparens))
 (eval-after-load 'coffee-mode '(require 'setup-coffee))
 
 ;; Load something that might be useful.
