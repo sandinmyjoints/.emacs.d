@@ -52,6 +52,9 @@
 
 (setq dired-listing-switches "-lah")
 
+;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
+(setq diredp-hide-details-initially-flag nil)
+
 (provide 'setup-dired+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
