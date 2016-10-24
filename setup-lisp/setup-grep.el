@@ -78,6 +78,9 @@
 (setq find-args (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e " grep-name)
       default-find-cmd (concat find-name " . " find-args))
 
+
+;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
+
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command default-find-cmd)
 
