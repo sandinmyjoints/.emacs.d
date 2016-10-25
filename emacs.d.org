@@ -493,3 +493,11 @@ EOF
   CLOSED: [2015-09-11 Fri 16:09]
   - http://emacs.stackexchange.com/a/5319/2163
   - http://stackoverflow.com/a/20912535/599258
+* Magit variables
+magit-branch-prefer-remote-upstream
+magit-remote-add-set-remote.pushDefault
+magit-auto-revert-mode
+* TODO use use-package
+  - https://github.com/jwiegley/use-package
+* TODO magithub
+  - https://github.com/vermiculus/magithub/blob/master/README.md
