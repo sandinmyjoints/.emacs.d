@@ -31,9 +31,17 @@
 ;; TODO: Use (null window-system) or (display-graphic-p)) to conditionally
 ;; execute.
 ;;
-(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
+;; Too wide!
+;;(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
+;;
+;; Too thick!
+;; (set-face-attribute 'default nil :family "Menlo" :height 140)
+;;
+;; Just right.
+(set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
+
 (if (functionp 'set-fontset-font) ; nil in Terminal
-    (set-fontset-font "fontset-default" 'unicode "Anonymous"))
+    (set-fontset-font "fontset-default" 'unicode "Menlo"))
 
 (setq-default line-spacing 2)
 
