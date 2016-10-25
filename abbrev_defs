@@ -60,6 +60,8 @@
 
 (define-abbrev-table 'display-time-world-mode-abbrev-table '())
 
+(define-abbrev-table 'dockerfile-mode-abbrev-table '())
+
 (define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
 
 (define-abbrev-table 'electric-buffer-menu-mode-abbrev-table '())
@@ -90,12 +92,15 @@
 
 (define-abbrev-table 'git-rebase-mode-abbrev-table '())
 
+(define-abbrev-table 'gitconfig-mode-abbrev-table '())
+
 (define-abbrev-table 'gitignore-mode-abbrev-table '())
 
 (define-abbrev-table 'global-abbrev-table
   '(
     ("dar" "Darwin" nil 12)
-    ("neod" "Neodarwin" nil 7)
+    ("dardwin" "darwin" nil 0)
+    ("neod" "Neodarwin" nil 8)
    ))
 
 (define-abbrev-table 'grep-mode-abbrev-table '())
@@ -118,6 +123,8 @@
 
 (define-abbrev-table 'js-mode-abbrev-table '())
 
+(define-abbrev-table 'js2-jsx-mode-abbrev-table '())
+
 (define-abbrev-table 'js2-mode-abbrev-table '())
 
 (define-abbrev-table 'json-mode-abbrev-table '())
@@ -136,17 +143,31 @@
 
 (define-abbrev-table 'magit-diff-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-gh-pulls-editor-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-log-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-log-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-log-select-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-merge-preview-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-popup-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-process-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-reflog-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-refs-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-revision-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-stash-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-stashes-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-status-mode-abbrev-table '())
 
@@ -235,6 +256,10 @@
 
 (define-abbrev-table 'speedbar-mode-abbrev-table '())
 
+(define-abbrev-table 'sql-mode-abbrev-table
+  '(
+   ))
+
 (define-abbrev-table 'sws-mode-abbrev-table '())
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
@@ -250,6 +275,8 @@
 (define-abbrev-table 'vc-git-log-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
+
+(define-abbrev-table 'web-mode-abbrev-table '())
 
 (define-abbrev-table 'yaml-mode-abbrev-table '())
 
