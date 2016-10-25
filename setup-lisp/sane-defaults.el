@@ -251,6 +251,18 @@
 
 (setq message-log-max t)
 
+(setq suggest-key-bindings nil)
+
+(if (fboundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode -1))
+
+(if (fboundp 'global-prettify-symbols-mode)
+    (progn  (global-prettify-symbols-mode 1)
+            (setq prettify-symbols-unprettify-at-point 'right-edge)))
+
+(setq text-quoting-style 'straight
+      search-default-mode #'character-fold-to-regexp)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
