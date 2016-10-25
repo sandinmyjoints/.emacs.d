@@ -17,6 +17,8 @@
   `(define-key (current-global-map) ,new
      (lookup-key (current-global-map) ,old)))
 
+(global-unset-key (kbd "C-x ."))  ;; unset set-fill-prefix
+
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
 (global-set-key (kbd "H-_") 'undo)
@@ -26,8 +28,10 @@
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
 
-;; Why won't anything bind to C-s?
-(global-set-key (kbd "C-;") (kbd "C-s"))
+;; Only works in Emacs >=25.1. Default for this is C-x C-;.
+(global-set-key (kbd "C-;") #'comment-line)
+
+(global-set-key (kbd "C-x 7") #'describe-char)
 
 (global-set-key [H-up] 'beginning-of-defun)
 (global-set-key (kbd "H-1") 'beginning-of-defun)
@@ -72,7 +76,7 @@
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c C-SPC") 'just-one-space)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
-(global-set-key (kbd "C-c !") 'shell-command-on-buffer)
+(global-set-key (kbd "C-!") 'shell-command-on-buffer)
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
 (global-set-key (kbd "C-c c") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
@@ -89,9 +93,8 @@
 (global-set-key (kbd "C-0") 'idomenu)
 (global-set-key (kbd "C-c 0") 'idomenu)
 (global-set-key (kbd "C-c C-0") 'idomenu)
-(global-set-key (kbd "H-b") 'toggle-boolean)
-(global-set-key (kbd "H-c t b") 'toggle-boolean)
-(global-set-key (kbd "C-c !") 'toggle-boolean)
+(global-set-key (kbd "H-t") 'toggle-boolean)
+(global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !
 ;(global-set-key (kbd "C-x f") 'recentf-open-files)
 ;(global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
