@@ -52,8 +52,8 @@
 (when (require 'package nil t)
 
   (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
-  (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/")) ;; tracks upstream
-  (defvar melpa-stable '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+  (defvar melpa '("melpa" . "http://melpa.org/packages/")) ;; tracks upstream
+  (defvar melpa-stable '("melpa-stable" . "http://stable.melpa.org/packages/"))
   (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/")) ;; up to developer when to push
   (defvar org '("org" . "http://orgmode.org/elpa/"))
 
@@ -100,14 +100,15 @@
      (cons 'magit melpa-stable)
      ;(cons 'magit marmable) ;; Should be ok, because tracks maint branch.
      ;However, https://github.com/magit/magit#installing-from-marmalade says it
-     ;is way outdated, so sticking with installing from git for now.
+                                        ;is way outdated, so sticking with installing from git for now.
+     ;;(cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
      (cons 'dired+ marmalade)
      (cons 'tree-mode melpa-stable) ; dirtree requirement.
      (cons 'auto-install melpa-stable)
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
-     (cons 'yasnippet marmalade)
+     (cons 'yasnippet melpa)
      ;(cons 'move-text melpa-stable)
      ;(cons 'gist melpa-stable)
      ;(cons 'htmlize melpa-stable)
@@ -123,6 +124,7 @@
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'yaml-mode melpa-stable)
      (cons 'flycheck melpa-stable)
+     (cons 'flycheck-pos-tip melpa)
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
@@ -148,10 +150,14 @@
      (cons 'smart-tab melpa)
      (cons 'ace-window melpa-stable)
      (cons 'ht melpa)
-     (cons 'markdown-toc melpa)
      (cons 'nginx-mode melpa)
      (cons 'projectile melpa)
+
+     (cons 'apu melpa)
+     (cons 'unicode-troll-stopper melpa)
+
      ;; Uninstalled, but consider:
+     ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
    ))
 
