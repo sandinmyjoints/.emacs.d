@@ -12,7 +12,9 @@
         c-electric-semi&comma
         c-electric-slash
         coffee-dedent-line-backspace
+        coffee-indent-shift-left
         coffee-newline-and-indent
+        comment-region
         dired-next-line
         electric-newline-and-maybe-indent
         end-of-visual-line
@@ -45,11 +47,13 @@
         orgtbl-self-insert-command
         python-indent-dedent-line-backspace
         python-indent-electric-colon
+        query-replace
         rebox-backspace
         rebox-end-of-line
         rebox-space
         set-rectangular-region-anchor
         sgml-slash
+        sh-assignment
         smart-tab
         sp--self-insert-command
         sp-backward-delete-char
