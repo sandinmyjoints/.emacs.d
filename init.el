@@ -359,7 +359,13 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Smex.
 (when (require 'smex nil t)
-  (smex-initialize))
+  (smex-initialize)
+  (setq smex-auto-update nil)
+  (smex-auto-update 10))
+
+(when (require 'beacon nil t)
+  (setq beacon-blink-duration 0.1)
+  (beacon-mode 1))
 
 ;; Ido.
 (when (require 'ido nil t)
