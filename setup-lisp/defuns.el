@@ -475,6 +475,11 @@ Puts results in plist (node-name (hostname . ip))"
 (fset 'do-standup
    [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\M-b ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\C-s ?# ?\S-  ?b ?l ?\C-p ?# ?\S-  ?T ?o ?d ?a ?y return ?- return ?\C-p ?\C-e ? ])
 
+(fset 'insert-shebang
+      "#!/usr/bin/env ")
+
+(defalias 'insert-hashbang 'insert-shebang)
+
 ;; The regexp for this is:
 ;; .*?:\(\s-*\)
 (fset 'align-on-colon
