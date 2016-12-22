@@ -48,7 +48,8 @@
 
 ;; Diredplus.
 (when (require 'dired+ nil t)
-  (toggle-diredp-find-file-reuse-dir 1))
+  (toggle-diredp-find-file-reuse-dir 1)
+  (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o")))
 
 (setq dired-listing-switches "-lah"
       ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
