@@ -54,9 +54,15 @@
 (when (display-graphic-p (selected-frame))
   (eval-after-load 'flycheck
     '(progn
-       (custom-set-variables
-        '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-       (setq flycheck-checkers (delq 'html-tidy flycheck-checkers)))))
+       (flycheck-pos-tip-mode)
+       ;; (custom-set-variables
+       ;;  '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+       ;;(setq flycheck-checkers (delq 'html-tidy flycheck-checkers))
+       ;; disable jshint since we prefer eslint checking
+       (append flycheck-disabled-checkers '(javascript-jshint html-tidy))
+       ;; use eslint with web-mode for jsx files
+       (flycheck-add-mode 'javascript-eslint 'web-mode)
+       )))
 
 (setq flycheck-display-errors-function #'flycheck-display-error-messages
       flycheck-temp-prefix ".flycheck")
