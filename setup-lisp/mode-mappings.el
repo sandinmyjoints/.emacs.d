@@ -21,9 +21,9 @@
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 
 (add-to-list 'auto-mode-alist '("capfile" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\neodarwin-site.erb$" . nginx-mode))
-
 (add-to-list 'auto-mode-alist '("\\.erb$" . rhtml-mode))
+
+(add-to-list 'auto-mode-alist '("\\neodarwin-site.erb$" . nginx-mode))
 
 ;; Clojure
 (autoload 'clojure-mode "clojure-mode")
