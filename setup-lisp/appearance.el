@@ -56,6 +56,8 @@
 (set-face-foreground 'font-lock-warning-face "#ff6666")
 (set-face-foreground 'font-lock-comment-face "tan1")
 
+(setq fci-rule-color "gray50")
+
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
@@ -72,9 +74,14 @@
 ;            (set-window-margins (car (get-buffer-window-list (current-buffer) nil t)) 8 0)))
 
 ;; Highlight current line
-;(global-hl-line-mode 1)
+(global-hl-line-mode 1)
 
 ;; Customize background color of highlighted line
-;(set-face-background 'hl-line "#1A1A1A")
+(set-face-background 'hl-line "#1A1A1A")
+
+;; themes I like
+;; 1. afternoon
+;; 2. ample
+;; but with face-background set to black
 
 (provide 'appearance)
