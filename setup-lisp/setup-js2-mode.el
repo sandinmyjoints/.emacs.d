@@ -99,18 +99,23 @@
     (unless (flycheck-get-checker-for-buffer)
       (set (make-local-variable 'js2-mode-show-parse-errors) t)
       (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
-  (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active))
+  ;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
+  )
 
-;; Flycheck works only if jshint is installed globally.
-;; Flycheck can slow things down quite a bit.
-;; (require 'flycheck)
-;; (add-hook 'js-mode-hook
-;;           (lambda () (flycheck-mode t)))
+;; from http://emacs.stackexchange.com/a/21207
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (file-executable-p eslint)
+      (setq-local flycheck-javascript-eslint-executable eslint))))
 
-;; (setq js2-mode-show-parse-errors nil) ;; Make js2-mode faster
-;; (setq js2-mode-show-strict-warnings nil)
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
 (setq js2-dynamic-idle-timer-adjust 40000)
-
 
 (after-load 'js2-mode
   (add-hook 'js2-mode-hook '(lambda () (setq mode-name "JS2"))))
@@ -132,7 +137,7 @@
       )
 
 (setq-default js2-global-externs
-'("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
 
 ;; This might slow things down when loading large files?
 ;; (after-load 'js2-mode
@@ -151,7 +156,7 @@
 ;; js-doc
 (setq js-doc-mail-address "william.bert@gmail.com"
       js-doc-author (format "William Bert <%s>" js-doc-mail-address)
-      js-doc-url "www.williamjohnbert.com"
+      js-doc-url "williambert.online"
       js-doc-license "MIT")
 
 (add-hook 'js2-mode-hook
@@ -186,9 +191,9 @@
 (defvar inferior-js-minor-mode-map (make-sparse-keymap))
 (define-key inferior-js-minor-mode-map "\C-x\C-e" 'js-send-last-sexp)
 (define-key inferior-js-minor-mode-map "\C-\M-x" 'js-send-last-sexp-and-go)
-;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
-;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
-;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
+                                        ;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
+                                        ;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
+                                        ;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
 
 (define-minor-mode inferior-js-keys-mode
   "Bindings for communicating with an inferior js interpreter."
@@ -220,7 +225,7 @@
   (unless (executable-find "node")
     (call-interactively 'do-nvm-use))
   (let ((default-directory cwd))
-        (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
+    (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
 
 (defalias 'node-repl 'run-node)
 
@@ -232,28 +237,30 @@
     (call-interactively 'coffee-repl)))
 
 (defun run-nesh (cwd)
+  "Run Nesh."
   (interactive "DDirectory: ")
   (unless (and (executable-find "node") (executable-find "nesh"))
     (call-interactively 'do-nvm-use))
   (let ((default-directory cwd))
-        (pop-to-buffer (make-comint (format "nesh-repl-%s" cwd) "nesh" nil "--interactive"))))
+    (pop-to-buffer (make-comint (format "nesh-repl-%s" cwd) "nesh" nil "--interactive"))))
 
-;(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
+                                        ;(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
 
 ;; Needs Node to really honor NODE_NO_READLINE. See:
 ;; https://github.com/joyent/node/issues/5344
 (defun run-coffee-someday (cwd)
+  "Run Coffeescript."
   (interactive "DDirectory: ")
   (unless (and (executable-find "node") (executable-find "coffee"))
     (call-interactively 'do-nvm-use))
   (let ((default-directory cwd))
-        (pop-to-buffer
-         (apply 'make-comint (format "coffee-repl-%s" cwd)
-                              "env"
-                              nil
-                              "NODE_NO_READLINE=1"
-                              "coffee"
-                              (list "--interactive")))))
+    (pop-to-buffer
+     (apply 'make-comint (format "coffee-repl-%s" cwd)
+            "env"
+            nil
+            "NODE_NO_READLINE=1"
+            "coffee"
+            (list "--interactive")))))
 
 ;; ---------------------------------------------------------------------------
 ;; Alternatively, use skewer-mode
@@ -279,15 +286,17 @@
               (0 (progn (compose-region (match-beginning 1)
                                         (match-end 1) "\u2190")
                         nil)))))
+
 ;; TODO: implement recommendations from
 ;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
 (setq-default js2-basic-offset 2)
 
 ;; js2-mode steals TAB, let's steal it back for yasnippet
 (defun js2-tab-properly ()
+  "Tab properly."
   (interactive)
-  (let ((yas/fallback-behavior 'return-nil))
-    (unless (yas/expand)
+  (let ((yas-fallback-behavior 'return-nil))
+    (unless (yas-expand)
       (indent-for-tab-command)
       (if (looking-back "^\s+")
           (back-to-indentation)))))
@@ -295,8 +304,6 @@
 (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
 
 (js2r-add-keybindings-with-prefix "C-c C-r")
-
-(add-hook 'js2-mode-hook (lambda () (electric-indent-local-mode -1)))
 
 (add-hook 'json-mode 'flymake-json-load)
 
