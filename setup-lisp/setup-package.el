@@ -151,6 +151,7 @@
      (cons 'ace-window melpa-stable)
      (cons 'ht melpa)
      (cons 'nginx-mode melpa)
+     (cons 'browse-at-remote melpa)
      (cons 'projectile melpa)
 
      (cons 'apu melpa)
