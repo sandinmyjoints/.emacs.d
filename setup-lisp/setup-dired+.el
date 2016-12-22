@@ -50,10 +50,10 @@
 (when (require 'dired+ nil t)
   (toggle-diredp-find-file-reuse-dir 1))
 
-(setq dired-listing-switches "-lah")
-
-;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
-(setq diredp-hide-details-initially-flag nil)
+(setq dired-listing-switches "-lah"
+      ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
+      diredp-hide-details-initially-flag nil
+      diredp-hide-details-propagate-flag t)
 
 (provide 'setup-dired+)
 
