@@ -57,8 +57,8 @@
   (add-to-list 'sp-ignore-modes-list mode))
 
 ;; This does not appear to work -- it still escapes quotes in coffee-mode...
-(dolist (mode '(coffee-mode shell-mode))
-  (add-to-list 'sp-autoescape-string-quote-if-empty mode))
+;; (dolist (mode '(coffee-mode shell-mode))
+;;   (add-to-list 'sp-autoescape-string-quote-if-empty mode))
 
 (sp-local-pair '(markdown-mode gfm-mode) "*" "*"
                :unless '(sp-in-string-p)
