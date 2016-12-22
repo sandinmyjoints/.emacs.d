@@ -263,6 +263,12 @@
 (setq text-quoting-style 'straight
       search-default-mode #'character-fold-to-regexp)
 
+;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
+(defadvice load-theme (before theme-dont-propagate activate)
+  (mapcar #'disable-theme custom-enabled-themes))
+
+(setq split-width-threshold 300)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
