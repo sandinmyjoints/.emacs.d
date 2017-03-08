@@ -436,7 +436,7 @@ and overlay is highlighted between MK and END-MK."
   (interactive)
   (ido-goto-symbol (thing-at-point 'symbol)))
 
-;; Map files to modes
+;; Map files to modes.
 (require 'mode-mappings)
 
 ;; Lua mode.
@@ -456,14 +456,6 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
-
-;; Paired tick is useful in some modes.
-;; TODO: This throws errors if run here. Probably needs to go into mode hooks.
-;; (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
@@ -668,7 +660,7 @@ and overlay is highlighted between MK and END-MK."
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
 ;; TODO: Could use smartparens for this instead.
-;; (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
+(modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
