@@ -690,9 +690,13 @@ and overlay is highlighted between MK and END-MK."
 
 (setq aw-keys '(?a ?f ?j ?l))
 
+(setq nginx-indent-level 2)
+
 (provide 'init)
 
-;(do-setup-dirtree)
+;(start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
+
+;(setq debug-on-quit nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
