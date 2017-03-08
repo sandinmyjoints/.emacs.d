@@ -662,8 +662,8 @@ and overlay is highlighted between MK and END-MK."
 
 (add-hook 'dirtree-mode-hook 'hidden-mode-line-mode)
 
-;(add-hook 'after-init-hook (lambda () (do-setup-dirtree)))
-;(do-setup-dirtree)
+(autoload 'dirtree "dirtree" "Add directory to tree view")
+(do-setup-dirtree)
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
