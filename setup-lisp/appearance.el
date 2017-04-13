@@ -55,8 +55,24 @@
 (set-face-background 'region "#464740")
 (set-face-foreground 'font-lock-warning-face "#ff6666")
 (set-face-foreground 'font-lock-comment-face "tan1")
+(setq fci-rule-color "#666")
 
-(setq fci-rule-color "gray50")
+;; Themes.
+;;
+;; Themes I like:
+;; 1. afternoon
+;; 2. ample
+(defun theme-it () ""
+       (progn
+	 (load-theme 'afternoon)
+	 ;; but with face-background set to black
+	 (set-face-background 'default "#020202")
+	 ;; (set-face-background 'auto-dim-other-buffers-face "#202020") ;; is this making it slow to switch back to Emacs?
+	 ;; (require 'hiwin)
+	 ;; (hiwin-deactivate)                           ;; hiwin-modeを有効化
+	 ;; (set-face-background 'hiwin-face "#fff") ;; 非アクティブウィンドウの背景色を設定
+	 ))
+;;(theme-it)
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
@@ -75,13 +91,8 @@
 
 ;; Highlight current line
 (global-hl-line-mode 1)
-
 ;; Customize background color of highlighted line
-(set-face-background 'hl-line "#1A1A1A")
-
-;; themes I like
-;; 1. afternoon
-;; 2. ample
-;; but with face-background set to black
+;;(set-face-background 'hl-line "#1A1A1A")
+(set-face-background 'hl-line "#202020")
 
 (provide 'appearance)
