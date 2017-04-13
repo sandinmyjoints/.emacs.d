@@ -58,4 +58,8 @@
   '(define-key magit-mode-map "v"
      #'endless/visit-pull-request-url))
 
+;; https://magit.vc/manual/magit/Performance.html
+(remove-hook 'server-switch-hook 'magit-commit-diff)
+(setq vc-handled-backends (delq 'Git vc-handled-backends))
+
 (provide 'setup-magit)
