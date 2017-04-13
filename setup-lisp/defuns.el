@@ -425,12 +425,12 @@ Puts results in plist (node-name (hostname . ip))"
         (progn
           (call-interactively 'unfill-region)
           (kill-ring-save (region-beginning) (region-end))
-          (undo))
+          (call-interactively 'fill-region))
       (progn
         (mark-whole-buffer)
         (call-interactively 'unfill-region)
         (kill-ring-save (point-min) (point-max))
-        (undo)))))
+        (call-interactively 'fill-region)))))
 
 ;; From http://www.emacswiki.org/emacs/UnfillParagraph
 (defun unfill-paragraph ()
