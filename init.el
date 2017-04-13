@@ -680,7 +680,7 @@ and overlay is highlighted between MK and END-MK."
 (require 'setup-webmode)
 (require 'setup-markdown)
 
-(setq aw-keys '(?a ?f ?j ?l))
+(setq aw-keys '(?1 ?2 ?3 ?4))
 
 (setq nginx-indent-level 2)
 
