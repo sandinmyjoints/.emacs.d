@@ -6,6 +6,8 @@
 ;; * C-c 0
 ;; * C-x C-c
 ;; * C-z
+;; * C-x C-|
+;; * C-x j
 ;;
 ;;; Code:
 
@@ -89,7 +91,7 @@
 (global-set-key (kbd "C-c C-j") 'join-line)
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x j") 'magit-status)
+(global-set-key (kbd "C-x C-g") 'magit-status)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 (global-set-key (kbd "C-0") 'idomenu)
 (global-set-key (kbd "C-c 0") 'idomenu)
@@ -98,27 +100,31 @@
 (global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !
 ;(global-set-key (kbd "C-x f") 'recentf-open-files)
 ;(global-set-key (kbd "C-x f") 'find-file-in-project)
-(global-set-key (kbd "M-[") 'switch-to-prev-buffer)
-(global-set-key (kbd "M-]") 'switch-to-next-buffer)
-(global-set-key (kbd "<M-up>") 'scroll-down)
-(global-set-key (kbd "<M-down>") 'scroll-up)
-(global-set-key (kbd "ESC <up>") 'scroll-down)
-(global-set-key (kbd "ESC <down>") 'scroll-up)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 ;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
 (global-set-key (kbd "C-c C-v") 'wjb-toggle-invert-in-buffer)
 (global-set-key (kbd "C-c C-y") 'wjb-toggle-it-only)
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-(global-set-key [\M-down] 'move-text-down)
-(global-set-key [\M-up] 'move-text-up)
 (global-set-key (kbd "C-x w") 'prepare-for-email)
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 
 (global-set-key (kbd "H-x n e") 'next-error)
 (global-set-key (kbd "H-x p e") 'previous-error)
 
-(global-set-key (kbd "C-x C-|") 'align-on-colon)
+(global-set-key (kbd "M-[") 'switch-to-prev-buffer)
+(global-set-key (kbd "M-]") 'switch-to-next-buffer)
+(global-set-key (kbd "M-{") 'windmove-left) ;; from Shift-left arrow
+(global-set-key (kbd "M-}") 'windmove-right) ;; from Shift-right arrow
+(global-set-key (kbd "M-<up>") 'windmove-up) ;; from S-<up>
+(global-set-key (kbd "M-<down>") 'windmove-down) ;; from S-<down>
+;; (global-set-key (kbd "<M-up>") 'scroll-down)
+;; (global-set-key (kbd "<M-down>") 'scroll-up)
+(global-set-key (kbd "ESC <up>") 'scroll-down)
+(global-set-key (kbd "ESC <down>") 'scroll-up)
+
+(global-set-key (kbd "S-<up>") 'move-text-up)
+(global-set-key (kbd "S-<down>") 'move-text-down)
 
 ;; Smex.
 (when (fboundp 'smex)
