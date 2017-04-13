@@ -53,6 +53,8 @@
   (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
   )
 
+(setq coffee-indent-like-python-mode nil)
+
 (provide 'setup-coffee)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
