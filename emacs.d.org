@@ -335,7 +335,8 @@ EOF
   - org-mode C-c C-u: outline-up-heading
   - C-0 (imenu)
   - clean-buffer-list
-* TODO Try perspectives or eproject or...
+* DONE Try perspectives or eproject or...
+  CLOSED: [2017-03-09 Thu 21:57]
   - https://github.com/nex3/perspective-el
   - https://github.com/jrockway/eproject
   - https://github.com/rdallasgray/project-persist
@@ -360,7 +361,6 @@ EOF
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
 * TODO w3m
-
   - try for gmail
 * TODO Octopress and Emacs
 
@@ -486,9 +486,9 @@ EOF
   - kill -USR2
   - Then set debug-on-quit back to nil
 * ACTIVE Make it.only / unonly work in js2-mode
-* Magit 2 annoyances
+* DONE Magit 2 annoyances
   - [X] can't yank from diffs
-  - can't yank commit hash when viewing git log
+  - [X] can't yank commit hash when viewing git log
 * DONE GFM tables
   CLOSED: [2015-09-11 Fri 16:09]
   - http://emacs.stackexchange.com/a/5319/2163
@@ -499,5 +499,12 @@ magit-remote-add-set-remote.pushDefault
 magit-auto-revert-mode
 * TODO use use-package
   - https://github.com/jwiegley/use-package
-* TODO magithub
+* TODO magithub / gh package
   - https://github.com/vermiculus/magithub/blob/master/README.md
+* TODO fix yasnippet smart-tab coffee-mode
+  - after expanding a snippet, I don't want to indent
+  - yas-expand -> yas-expand-from-trigger-key
+  - smart-tab
+  - minor modes: smart-tab and yas
+* cl- functions such as first/cl-first
+  - https://github.com/purcell/emacs.d/blob/effd06ad39f73cf84bdfde082d986827547ee00e/lisp/init-lisp.el#L285
