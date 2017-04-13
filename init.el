@@ -501,6 +501,7 @@ and overlay is highlighted between MK and END-MK."
 (require 'json nil t)
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
 (when (require 'smart-tab nil t)
   (global-smart-tab-mode 1))
 
@@ -511,7 +512,6 @@ and overlay is highlighted between MK and END-MK."
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
-
 (global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
