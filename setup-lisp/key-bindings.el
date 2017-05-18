@@ -24,6 +24,7 @@
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
 (global-set-key (kbd "H-_") 'undo)
+(global-set-key (kbd "H-k") 'kill-sexp)
 (global-set-key (kbd "H-s") 'save-buffer)
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
@@ -91,7 +92,7 @@
 (global-set-key (kbd "C-c C-j") 'join-line)
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x C-g") 'magit-status)
+(global-set-key (kbd "C-x C-g") 'keyboard-quit)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 (global-set-key (kbd "C-0") 'idomenu)
 (global-set-key (kbd "C-c 0") 'idomenu)
