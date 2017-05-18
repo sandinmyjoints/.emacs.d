@@ -51,6 +51,7 @@
 
 (after-load 'coffee-mode
   (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
+  (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote)
   )
 
 (setq coffee-indent-like-python-mode nil)
