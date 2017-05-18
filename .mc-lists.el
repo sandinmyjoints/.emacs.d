@@ -15,6 +15,7 @@
         coffee-indent-shift-left
         coffee-newline-and-indent
         comment-region
+        dired-do-delete
         dired-next-line
         electric-newline-and-maybe-indent
         end-of-visual-line
@@ -23,6 +24,7 @@
         goto-line
         indent-relative
         insert-register
+        js2-mark-defun
         kill-rectangle
         kill-region
         kill-visual-line
@@ -81,6 +83,7 @@
         dired-previous-line
         dired-unmark-all-marks
         electric-buffer-list
+        electric-pair-delete-pair
         end-of-buffer
         ido-find-file
         ido-switch-buffer
