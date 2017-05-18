@@ -54,6 +54,9 @@
       markdown-list-indent-width 2
       markdown-asymmetric-header t)
 
+(after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote))
+
 (provide 'setup-markdown)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
