@@ -53,8 +53,6 @@
   (require-package 'ac-js2)
   (require-package 'coffee-mode))
 
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-
 (require-package 'js-comint)
 
 (require 'js2-refactor)
@@ -72,7 +70,7 @@
 ;(define-key js2-mode-map (kbd "C-a") nil)
 
 (defcustom preferred-javascript-mode
-  (first (remove-if-not #'fboundp '(js2-mode js-mode)))
+  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
   "Javascript mode to use for .js files."
   :type 'symbol
   :group 'programming
@@ -118,7 +116,8 @@
 (setq js2-dynamic-idle-timer-adjust 40000)
 
 (after-load 'js2-mode
-  (add-hook 'js2-mode-hook '(lambda () (setq mode-name "JS2"))))
+  (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
+  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1)))) ;; maybe?
 
 (setq js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil
@@ -308,6 +307,18 @@
 (add-hook 'json-mode 'flymake-json-load)
 
 (set-face-foreground 'js2-object-property "light goldenrod")
+
+(eval-after-load "js2-highlight-vars-autoloads"
+  '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
+
+;; To set/change version of node js, run `js-select-node-version'
+(autoload 'js-comint "js-select-node-version" "Add directory to tree view")
+(autoload 'js-comint "run-js" "Add directory to tree view")
+
+(setq js-use-nvm t)
+(defun inferior-js-mode-hook-setup ()
+  (add-hook 'comint-output-filter-functions 'js-comint-process-output))
+(add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
 
 (provide 'setup-js2-mode)
 
