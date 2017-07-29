@@ -84,10 +84,9 @@
           packages)
     (package-initialize)
     ;(delete-other-windows) ;; Why was this here? Trying it commented out.
-))
+    )
 
-;; Install packages if they're missing.
-(when (require 'package nil t)
+  ;; Install packages if they're missing.
   (defun init--install-packages ()
     (packages-install
      (cons 'dash melpa-stable)
@@ -103,9 +102,9 @@
                                         ;is way outdated, so sticking with installing from git for now.
      ;;(cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
-     (cons 'dired+ marmalade)
-     (cons 'tree-mode melpa-stable) ; dirtree requirement.
-     (cons 'auto-install melpa-stable)
+     (cons 'dired+ melpa)
+     (cons 'tree-mode melpa) ; dirtree requirement.
+     (cons 'auto-install melpa)
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet melpa)
@@ -131,7 +130,6 @@
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'discover-js2-refactor melpa)
-     (cons 'flymake-json melpa-stable)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'gh melpa)
@@ -156,15 +154,15 @@
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
-     (cons 'js2-highlight-vars)
-     (cons 'reveal-in-osx-finder)
-     (cons 'flymake-status-emoji)
+     (cons 'js2-highlight-vars melpa)
+     (cons 'reveal-in-osx-finder melpa)
+     (cons 'flycheck-status-emoji melpa)
 
      ;; Uninstalled, but consider:
      ;; (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
-   ))
+     ))
 
   (condition-case nil
       (init--install-packages)
