@@ -62,4 +62,8 @@
 (remove-hook 'server-switch-hook 'magit-commit-diff)
 (setq vc-handled-backends (delq 'Git vc-handled-backends))
 
+;; https://magit.vc/manual/magit/Diff-options.html
+;; git diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
+(setq magit-diff-refine-hunk t)
+
 (provide 'setup-magit)
