@@ -80,6 +80,9 @@
 (setq org-completion-use-ido t)
 (setq org-return-follows-link t)
 
+;; Load ODT backend to allow for exporting to open document format.
+(require 'ox-odt)
+
 ;; Some initial languages we want org-babel to support
 (org-babel-do-load-languages
  'org-babel-load-languages
