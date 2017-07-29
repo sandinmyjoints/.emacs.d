@@ -27,11 +27,13 @@
         js2-mark-defun
         kill-rectangle
         kill-region
+        kill-sexp
         kill-visual-line
         magit-status
         makey-key-mode-popup-rectangles
         mark-sexp
         markdown-dedent-or-delete
+        markdown-electric-backquote
         markdown-exdent-or-delete
         mc/maybe-multiple-cursors-mode
         multiple-cursors-mode
@@ -53,6 +55,7 @@
         rebox-backspace
         rebox-end-of-line
         rebox-space
+        rjsx-delete-creates-full-tag
         set-rectangular-region-anchor
         sgml-slash
         sh-assignment
@@ -65,6 +68,7 @@
         sp-kill-word
         sp-remove-active-pair-overlay
         sp-wrap-tag-done
+        transpose-words
         whack-whitespace
         wjb-toggle-it-only
         yaml-electric-backspace
@@ -89,6 +93,7 @@
         ido-switch-buffer
         mark-whole-buffer
         markdown-demote
+        orgtbl-hijacker-command-109
         other-window-reverse
         revert-buffer
         smex
