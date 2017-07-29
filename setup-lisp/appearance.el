@@ -1,4 +1,4 @@
-;; Note: Use list-faces-display to examine all faces.
+;; Note: Use (list-faces-display) to examine all faces.
 
 ;; Turn on/off display stuff.
 ;;
@@ -47,32 +47,44 @@
 
 ;; Colors.
 ;;
-(set-foreground-color "white")
-(set-background-color "black")
-(set-face-foreground 'default "white")
-(set-face-background 'default "black")
-(set-face-foreground 'region "gray60")
-(set-face-background 'region "#464740")
-(set-face-foreground 'font-lock-warning-face "#ff6666")
-(set-face-foreground 'font-lock-comment-face "tan1")
-(setq fci-rule-color "#666")
+;; Uncomment if not using theme:
+;;
+;; (set-foreground-color "white")
+;; (set-background-color "black")
+;; (set-face-foreground 'default "white")
+;; (set-face-background 'default "black")
+;; (set-face-foreground 'region "gray60")
+;; (set-face-background 'region "#464740")
+;; (set-face-foreground 'font-lock-warning-face "#ff6666")
+;; (set-face-foreground 'font-lock-comment-face "tan1")
+
+(setq fci-rule-color "#333")
 
 ;; Themes.
 ;;
 ;; Themes I like:
-;; 1. afternoon
-;; 2. ample
+;; 1. afternoon (load-theme 'afternoon)
+;; 2. ample (load-theme 'ample)
+;; 3. gruvbox (load-theme 'gruvbox)
+;;    - Problem with gruvbox is its keyword face is red and builtin face is
+;       orange. They look like errors.
+
 (defun theme-it () ""
        (progn
-	 (load-theme 'afternoon)
-	 ;; but with face-background set to black
+	 (load-theme 'gruvbox-dark-hard)
+   ;; ...but with keywords gray instead of red.
+   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+	 ;; ...but with face-background set to near black
 	 (set-face-background 'default "#020202")
-	 ;; (set-face-background 'auto-dim-other-buffers-face "#202020") ;; is this making it slow to switch back to Emacs?
-	 ;; (require 'hiwin)
-	 ;; (hiwin-deactivate)                           ;; hiwin-modeを有効化
-	 ;; (set-face-background 'hiwin-face "#fff") ;; 非アクティブウィンドウの背景色を設定
+	 ;;(set-face-background 'auto-dim-other-buffers-face "#202020") ;; is this making it slow to switch back to Emacs?
 	 ))
 ;;(theme-it)
+
+;; Highlight current line
+(global-hl-line-mode 1)
+;; Customize background color of highlighted line
+;;(set-face-background 'hl-line "#1A1A1A")
+;;(set-face-background 'hl-line "#202020")
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
@@ -88,11 +100,5 @@
 ;(add-hook 'window-configuration-change-hook
 ;          (lambda ()
 ;            (set-window-margins (car (get-buffer-window-list (current-buffer) nil t)) 8 0)))
-
-;; Highlight current line
-(global-hl-line-mode 1)
-;; Customize background color of highlighted line
-;;(set-face-background 'hl-line "#1A1A1A")
-(set-face-background 'hl-line "#202020")
 
 (provide 'appearance)
