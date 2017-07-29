@@ -59,6 +59,7 @@
 ;;
 ;; C-c p f 'projectile-find-file
 ;;
+;; C-c p k 'projectile-kill-buffer
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
