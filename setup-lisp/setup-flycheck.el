@@ -45,10 +45,25 @@
 ;;
 ;;; Code:
 
-;; Let's only turn on flycheck manually.
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
+;; This turns on Flycheck globally in only these modes. Others can be turned on
+;; per-buffer.
+(setq flycheck-global-modes
+      '(js2-mode
+        rjsx-mode
+        coffee-mode
+        emacs-lisp-mode
+        json-mode
+        sh-mode
+        yaml-mode))
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+
+(eval-after-load 'flycheck
+  '(progn
+     ;; disable jshint since we prefer eslint checking
+     (append flycheck-disabled-checkers '(javascript-jshint html-tidy))))
 
 ;; flycheck errors on a tooltip (doesnt work on console)
 (when (display-graphic-p (selected-frame))
@@ -57,16 +72,39 @@
        (flycheck-pos-tip-mode)
        ;; (custom-set-variables
        ;;  '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-       ;;(setq flycheck-checkers (delq 'html-tidy flycheck-checkers))
-       ;; disable jshint since we prefer eslint checking
-       (append flycheck-disabled-checkers '(javascript-jshint html-tidy))
-       ;; use eslint with web-mode for jsx files
        (flycheck-add-mode 'javascript-eslint 'web-mode)
        )))
 
-(setq flycheck-display-errors-function #'flycheck-display-error-messages
-      flycheck-temp-prefix ".flycheck")
-;;(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages) ;; tooltip
+;; Below from https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el:
+(defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
+  "Adjust how often we check for errors based on if there are any.
+This lets us fix any errors as quickly as possible, but in a
+clean buffer we're an order of magnitude laxer about checking."
+  (setq flycheck-idle-change-delay
+        (if flycheck-current-errors 0.5 5.0)))
+
+;; Each buffer gets its own idle-change-delay because of the
+;; buffer-sensitive adjustment above.
+(make-variable-buffer-local 'flycheck-idle-change-delay)
+
+(add-hook 'flycheck-after-syntax-check-hook
+          'magnars/adjust-flycheck-automatic-syntax-eagerness)
+
+(defun flycheck-handle-idle-change ()
+  "Handle an expired idle time since the last change.
+This is an overwritten version of the original
+flycheck-handle-idle-change, which removes the forced deferred.
+Timers should only trigger inbetween commands in a single
+threaded system and the forced deferred makes errors never show
+up before you execute another command."
+  (flycheck-clear-idle-change-timer)
+  (flycheck-buffer-automatically 'idle-change))
+
+(eval-after-load 'flycheck
+  '(custom-set-variables
+    ;; alternative is flycheck-display-error-messages
+    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
+    '(flycheck-temp-prefix ".flycheck")))
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
