@@ -156,8 +156,12 @@
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
+     (cons 'js2-highlight-vars)
+     (cons 'reveal-in-osx-finder)
+     (cons 'flymake-status-emoji)
 
      ;; Uninstalled, but consider:
+     ;; (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
    ))
