@@ -48,6 +48,14 @@
 ;;
 ;;; Code:
 
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+(let ((file-name-handler-alist nil))
+
 (let ((minver 23))
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
@@ -91,9 +99,11 @@
         ("Quiz View" ?q "" nil)
         ("Client" ?c "" nil)))
 
+(defvar wjb-test-config-buffer)
 (setq wjb-test-config-buffer "test.coffee")
 
 ;; Custom grep-find via find-in-project.
+(defvar find-in-project-default-dir)
 (setq find-in-project-default-dir ".")
 
 (set-register ?t "TODO ")
@@ -102,6 +112,7 @@
 ;; ========================================
 ;; Set up load-path.
 ;; ========================================
+(defvar site-lisp-dir)
 (add-to-list 'load-path site-lisp-dir t)
 (add-to-list 'load-path (expand-file-name "setup-lisp" user-emacs-directory) t)
 ;(add-to-list 'load-path user-emacs-directory t) ;; Probably not needed, but
@@ -432,7 +443,7 @@ and overlay is highlighted between MK and END-MK."
 ;(helm-mode 1)
 
 (defun mine-goto-symbol-at-point ()
-  "Will navigate to the symbol at the current point of the cursor"
+  "Will navigate to the symbol at the current point of the cursor."
   (interactive)
   (ido-goto-symbol (thing-at-point 'symbol)))
 
@@ -446,9 +457,10 @@ and overlay is highlighted between MK and END-MK."
 
 ;; Text and fill modes.
 (defun textful-settings ()
-        (goto-address-mode 1)
-        (auto-fill-mode 1)
-        (set-fill-column 80))
+  "Textful settings."
+  (goto-address-mode 1)
+  (auto-fill-mode 1)
+  (set-fill-column 80))
 
 (add-hook 'markdown-mode-hook 'textful-settings)
 (add-hook 'rst-mode-hook 'textful-settings)
@@ -460,36 +472,36 @@ and overlay is highlighted between MK and END-MK."
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
-(when (require 'fill-column-indicator nil t)
+;; (when (require 'fill-column-indicator nil t)
 
-  (defun turn-on-fci ()
-    (fci-mode 1))
+;;   (defun turn-on-fci ()
+;;     (fci-mode 1))
 
-  (add-hook 'coffee-mode-hook 'turn-on-fci)
-  (add-hook 'js2-mode-hook 'turn-on-fci)
-  (add-hook 'python-mode-hook 'turn-on-fci)
+;;   (add-hook 'coffee-mode-hook 'turn-on-fci)
+;;   (add-hook 'js2-mode-hook 'turn-on-fci)
+;;   (add-hook 'python-mode-hook 'turn-on-fci)
 
-  ;; Make fci-mode global...
-  ;; (define-globalized-minor-mode global-fci-mode fci-mode
-  ;;   (lambda () (fci-mode 1)))
-  ;; (global-fci-mode 1)
+;;   ;; Make fci-mode global...
+;;   ;; (define-globalized-minor-mode global-fci-mode fci-mode
+;;   ;;   (lambda () (fci-mode 1)))
+;;   ;; (global-fci-mode 1)
 
-  ;; ...except for these modes.
-  (defun turn-off-fci ()
-    (fci-mode -1))
+;;   ;; ...except for these modes.
+;;   (defun turn-off-fci ()
+;;     (fci-mode -1))
 
-  ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
-  ;; (add-hook 'org-mode-hook 'turn-off-fci)
-  ;; (add-hook 'magit-mode-hook 'turn-off-fci)
-  ;; (add-hook 'term-mode-hook 'turn-off-fci)
-  ;; (add-hook 'shell-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-  ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
-  ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
-  ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
-  )
+;;   ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'dired-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'org-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'magit-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'term-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'shell-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'dired-mode-hook 'turn-off-fci)
+;;   ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
+;;   ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
+;;   ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
+;;   )
 
 (require-package 'nvm)
 (require 'nvm)
@@ -684,6 +696,14 @@ and overlay is highlighted between MK and END-MK."
 
 (setq nginx-indent-level 2)
 
+;; Enable sane term
+(require 'sane-term)
+(global-set-key (kbd "C-x t") 'sane-term)
+(global-set-key (kbd "C-x T") 'sane-term-create)
+
+;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
+(add-hook 'term-mode-hook (lambda() (define-key term-raw-map (kbd "C-y") (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
+
 (provide 'init)
 
 ;(start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
@@ -692,3 +712,4 @@ and overlay is highlighted between MK and END-MK."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
+)
