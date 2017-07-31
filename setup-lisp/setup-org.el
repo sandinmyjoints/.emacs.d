@@ -46,6 +46,8 @@
 ;;; Code:
 
 
+;; Helpful: (org-reload)
+
 ;; Org-mode setup.
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
