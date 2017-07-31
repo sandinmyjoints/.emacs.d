@@ -108,12 +108,7 @@
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet melpa)
-     ;(cons 'move-text melpa-stable)
-     ;(cons 'gist melpa-stable)
-     ;(cons 'htmlize melpa-stable)
-     ;(cons 'elisp-slime-nav melpa-stable)
-     ;(cons 'elnode marmalade)
-     ;(cons 'slime-js marmalade)
+     (cons 'smex melpa)
      (cons 'anzu melpa-stable)
      (cons 's melpa-stable)
      (cons 'f melpa-stable)
@@ -127,6 +122,8 @@
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
+     (cons 'js2-mode melpa)
+     (cons 'coffee-mode melpa)
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'discover-js2-refactor melpa)
@@ -158,10 +155,19 @@
      (cons 'reveal-in-osx-finder melpa)
      (cons 'flycheck-status-emoji melpa)
 
+     ;; Untried, but consider:
+     ;; (cons 'flycheck-color-mode-line melpa)
+
      ;; Uninstalled, but consider:
      ;; (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
+     ;; (cons 'move-text melpa-stable)
+     ;; (cons 'gist melpa-stable)
+     ;; (cons 'htmlize melpa-stable)
+     ;; (cons 'elisp-slime-nav melpa-stable)
+     ;; (cons 'elnode marmalade)
+     ;; (cons 'slime-js marmalade)
      ))
 
   (condition-case nil
