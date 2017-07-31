@@ -63,8 +63,10 @@
 (eval-after-load 'flycheck
   '(progn
      ;; disable jshint since we prefer eslint checking
-     (append flycheck-disabled-checkers '(javascript-jshint html-tidy))))
+     (append flycheck-disabled-checkers '(javascript-jshint html-tidy))
+     (flycheck-status-emoji-mode 1)))
 
+(setq flycheck-display-errors-delay 0)
 ;; flycheck errors on a tooltip (doesnt work on console)
 (when (display-graphic-p (selected-frame))
   (eval-after-load 'flycheck
@@ -105,6 +107,7 @@ up before you execute another command."
     ;; alternative is flycheck-display-error-messages
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
     '(flycheck-temp-prefix ".flycheck")))
+
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
