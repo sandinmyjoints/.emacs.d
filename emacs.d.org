@@ -243,16 +243,19 @@ EOF
   - Most of the time, we don't have coffeelint in package.json, but rather
     grunt-coffeelint. So I am installing coffeelint globally so that its always
     available. That works!
-** TODO Coffee-script compile and flymake.
-   CLOSED: [2015-07-10 Fri 16:59]
+** INACTIVE Coffee-script compile and flymake.
+   CLOSED: [2017-07-28 Fri 20:51]
   - Way to use coffee-watch?
   - https://github.com/purcell/flymake-coffee
   - Need to specify coffee binary in dir-locals, per project
   - http://alex.kavanagh.name/2012/03/linting-coffee-script-in-emacs/
-** TODO rst / sphinx
+** INACTIVE rst / sphinx
+   CLOSED: [2017-07-28 Fri 20:51]
    - it is using the version of sphinx that is on the exec-path due to venv-activate
    - in eng-docs or hegemone, it errors out because sphinx is too old for the
      checker.
+** DONE have flycheck show that a buffer has errors in mode line
+   CLOSED: [2017-07-29 Sat 21:58]
 * TODO coffee-mode
 ** DONE Coffee repl
    CLOSED: [2014-04-13 Sun 18:12]
@@ -410,10 +413,17 @@ EOF
   - http://stackoverflow.com/questions/843645/a-good-project-tree-browser-for-emacs/26705877
   - Better project tree browser
   - http://www.emacswiki.org/emacs/sr-speedbar.el, speedbar
+  - https://www.emacswiki.org/emacs/TreeMode
+* TODO improve icons in dirtree
+  - they use Emacs widgets, which specify a glyph, which is set to an XPM icon.
+  - path to icons: /usr/local/Cellar/emacs-mac/emacs-25.2-z-mac-6.4/share/emacs/25.2/etc/images/tree-widget/folder/close.xpm
+  - some nice ones I could use instead: http://www.iconarchive.com/show/flat-folder-icons-by-pelfusion.html
+  - download new icons I want to use
+  - resize them and convert to XPM using imagemagick.
+  - looks like the current ones are 16x22, left-justified, the actual images are
+    somewhat smaller.
+** replace existing XPMs with nicer ones
 * TODO multi-term
-* TODO tern / ac-js2 / skewer
-* TODO js-comint https://github.com/redguardtoo/js-comint
-* TODO js3-mode https://github.com/thomblake/js3-mode
 * TODO python in emacs
 ** python-mode
   - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
@@ -468,11 +478,6 @@ EOF
   - read from a file not under git
   - add setup-secrets.el
 * TODO separate frame for irc so i can scan it?
-* TODO node-inspector plus swank or something to inspect running node process in emacs
-  - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
-  - https://github.com/jscheid/kite/blob/master/kite.md
-  - https://github.com/segv/jss
-  - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
 * DONE smart-parens
   CLOSED: [2015-07-10 Fri 17:00]
   - It's "grander" than paredit-everywhere.
@@ -485,7 +490,6 @@ EOF
 * How to recover a frozen Emacs process
   - kill -USR2
   - Then set debug-on-quit back to nil
-* ACTIVE Make it.only / unonly work in js2-mode
 * DONE Magit 2 annoyances
   - [X] can't yank from diffs
   - [X] can't yank commit hash when viewing git log
@@ -508,3 +512,60 @@ magit-auto-revert-mode
   - minor modes: smart-tab and yas
 * cl- functions such as first/cl-first
   - https://github.com/purcell/emacs.d/blob/effd06ad39f73cf84bdfde082d986827547ee00e/lisp/init-lisp.el#L285
+* Javascript setup
+  - es2016, etc.
+  - JSX
+  - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
+** What do I currently have
+   - coffee-mode
+   - discover-js2-refactor
+   - flycheck
+   - js2-mode
+   - js-comint
+   - js-doc
+   - js2-highlight-vars
+   - js2-refactor
+   - json-mode
+   - json-reformat
+   - json-snatcher
+   - nvm
+   - rjsx
+   - web-mode
+*** Deleted because don't use
+    - ac-js2 (don't use)
+    - skewer-mode (don't use)
+*** not installed but consider
+   - https://github.com/NicolasPetton/xref-js2
+   - indium
+   - js3-mode?
+   - prettier-mode
+** DONE Get flycheck working reliably
+   CLOSED: [2017-07-29 Sat 22:02]
+   - https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el
+   - helpful: flycheck-verify-setup
+   - have flycheck do syntax checking and run prettier
+   - different eslint parsers/envs/configs/settings per project :(
+     - awshotornot: next/babel/react/etc.
+     - neodarwin/atalanta/sd-spelling/etc: settle on prettier
+     - solution for eslint version: code that finds local eslint.js executable,
+       aware of node_modules
+     - solution for config files: use flycheck-verify-setup to make sure it is
+       finding them right config file(s)
+** TODO tern / ac-js2 / skewer
+   - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
+** TODO use rjsx instead of js2-mode by default?
+   - or only for .jsx files?
+** TODO indium
+** TODO xref-js2
+   - but I don't want xref-goto-xref to open in a new buffer!
+** TODO js-comint https://github.com/redguardtoo/js-comint
+   - run-js, js-send-buffer
+** TODO js3-mode https://github.com/thomblake/js3-mode
+** TODO node-inspector plus swank or something to inspect running node process in emacs
+   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
+   - https://github.com/jscheid/kite/blob/master/kite.md
+   - https://github.com/segv/jss
+   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
+** ACTIVE Make it.only / unonly work in js2-mode
+** TODO prettier-mode
+* TODO understand recursive editing
