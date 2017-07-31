@@ -164,7 +164,7 @@
 
 ;;; Default for new buffers.
 (when (require 'markdown-mode nil t)
-  (setq-default major-mode 'markdown-mode))
+  (setq-default major-mode 'fundamental-mode))
 
 ;;; Avoid backslash madness.
 (setq reb-re-syntax 'string)
