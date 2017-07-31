@@ -69,6 +69,7 @@
 ;; Don't redefine C-a for me please, js2-mode
 ;(define-key js2-mode-map (kbd "C-a") nil)
 
+(eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
   (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
   "Javascript mode to use for .js files."
@@ -79,12 +80,10 @@
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
-(eval-when-compile (require 'cl))
 (setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
                             (loop for entry in auto-mode-alist
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
-
 
 ;; js2-mode
 (after-load 'js2-mode
@@ -108,7 +107,7 @@
          (eslint (and root
                       (expand-file-name "node_modules/eslint/bin/eslint.js"
                                         root))))
-    (when (file-executable-p eslint)
+    (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
@@ -181,7 +180,11 @@
 ;; Run and interact with an inferior JS via js-comint.el
 ;; ---------------------------------------------------------------------------
 
-(setq inferior-js-program-command "node --interactive")
+(setq inferior-js-program-command "node")
+(setq inferior-js-program-arguments '("--interactive"))
+(defun inferior-js-mode-hook-setup ()
+  (add-hook 'comint-output-filter-functions 'js-comint-process-output))
+(add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
 
 ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
 ;;
@@ -261,17 +264,6 @@
             "coffee"
             (list "--interactive")))))
 
-;; ---------------------------------------------------------------------------
-;; Alternatively, use skewer-mode
-;; ---------------------------------------------------------------------------
-
-;; (when (and (>= emacs-major-version 24) (featurep 'js2-mode))
-;;   (require-package 'skewer-mode)
-;;   (after-load 'skewer-mode
-;;     (add-hook 'skewer-mode-hook
-;;               (lambda () (inferior-js-keys-mode -1)))))
-
-
 ;; Use lambda for anonymous functions.
 (font-lock-add-keywords
  'js2-mode `(("\\(function\\) *("
@@ -308,6 +300,7 @@
 
 (set-face-foreground 'js2-object-property "light goldenrod")
 
+;; Only use if js2-highlight-vars-mode is installed.
 (eval-after-load "js2-highlight-vars-autoloads"
   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
