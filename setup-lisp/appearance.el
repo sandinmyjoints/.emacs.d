@@ -84,7 +84,7 @@
 (global-hl-line-mode 1)
 ;; Customize background color of highlighted line
 ;;(set-face-background 'hl-line "#1A1A1A")
-;;(set-face-background 'hl-line "#202020")
+(set-face-background 'hl-line "#202020")
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
