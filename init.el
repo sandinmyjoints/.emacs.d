@@ -433,15 +433,6 @@ and overlay is highlighted between MK and END-MK."
 
 (require 'setup-projectile)
 
-;(require 'setup-perspective)
-;(require 'setup-ffip)
-;(require 'setup-html-mode)
-;(require 'setup-paredit)
-
-;; Anything.
-;(require 'helm-config)
-;(helm-mode 1)
-
 (defun mine-goto-symbol-at-point ()
   "Will navigate to the symbol at the current point of the cursor."
   (interactive)
