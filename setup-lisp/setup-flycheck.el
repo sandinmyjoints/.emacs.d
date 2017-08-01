@@ -63,7 +63,10 @@
 (eval-after-load 'flycheck
   '(progn
      ;; disable jshint since we prefer eslint checking
-     (append flycheck-disabled-checkers '(javascript-jshint html-tidy))
+     (append flycheck-disabled-checkers
+             '(javascript-jshint
+               html-tidy
+               emacs-lisp-checkdoc))
      (flycheck-status-emoji-mode 1)))
 
 (setq flycheck-display-errors-delay 0)
