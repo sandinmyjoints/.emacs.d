@@ -116,13 +116,6 @@
   (sgml-pretty-print (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
-(defun fix-json ()
-  "Fix JSON."
-  ;; TODO: Strip leading and trailing quotes.
-  (interactive)
-  (json-mode)
-  (json-pretty-print-buffer))
-
 (defun wjb-get-marker-replacer (marker)
   "Returns a marker-replacer function for `marker`."
   (lambda ()
@@ -290,15 +283,11 @@
       "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
 
 ;; Search and delete a console.log statement.
-(fset 'remove-console-log
+(fset 'remove-console-log-coffee
       "\C-sconsole.log \"DEBUG:\C-a\C-k\C-k\C-x\C-s")
 
 (fset 'remove-console-log-js
       "\C-sconsole.log('DEBUG:\C-a\C-a\C-k\C-k\C-x\C-s")
-
-;; Remove a log entry for /api/version.
-(fset 'remove-api-version-log
-      "\C-s/api/version\C-a\C-k\C-k")
 
 (defun long-lines ()
   (interactive)
@@ -344,68 +333,68 @@
 ;;; before starting Tramp: M-x setenv TMPDIR /tmp.
 ;;; see https://trac.macports.org/ticket/29794
 
-(defun wjb-query-chef-handle-line (line)
-  (if (s-starts-with? "aws-" line)
-      (let* ((parts (s-split " " line))
-             (node (pop parts))
-             (info (cons (first parts) (second parts))))
-        ;; Save parts as node-name, public-hostname, public-ipv4
-        (list node info))))
+;; (defun wjb-query-chef-handle-line (line)
+;;   (if (s-starts-with? "aws-" line)
+;;       (let* ((parts (s-split " " line))
+;;              (node (pop parts))
+;;              (info (cons (first parts) (second parts))))
+;;         ;; Save parts as node-name, public-hostname, public-ipv4
+;;         (list node info))))
 
-(defun wjb-query-chef-callback (process content)
-  "Callback for data from chef node queries.
+;; (defun wjb-query-chef-callback (process content)
+;;   "Callback for data from chef node queries.
 
-Puts results in plist (node-name (hostname . ip))"
-  ;; Split on newline.
-  (let* ((splits (s-split "\n" content)))
-    (-each (-remove 'null (-map 'wjb-query-chef-handle-line splits))
-           (lambda (item)
-             (setq wjb-chef-node-plist (lax-plist-put wjb-chef-node-plist (car item) (second item)))))))
+;; Puts results in plist (node-name (hostname . ip))"
+;;   ;; Split on newline.
+;;   (let* ((splits (s-split "\n" content)))
+;;     (-each (-remove 'null (-map 'wjb-query-chef-handle-line splits))
+;;            (lambda (item)
+;;              (setq wjb-chef-node-plist (lax-plist-put wjb-chef-node-plist (car item) (second item)))))))
 
-(defun wjb-query-chef-ips (&optional node-pattern &optional env-pattern)
-  (let ((process-connection-type nil) ;; Use a pipe.
-        (node-pattern (if node-pattern node-pattern "*"))
-        (env-pattern (if env-pattern env-pattern "*")))
-    ;; TODO: Short-circuit return if the shell script doesn't exist.
-    (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip" node-pattern env-pattern))
-    ;; Attach filter function as process output callback.
-    (set-process-filter wjb-process 'wjb-query-chef-callback)))
+;; (defun wjb-query-chef-ips (&optional node-pattern &optional env-pattern)
+;;   (let ((process-connection-type nil) ;; Use a pipe.
+;;         (node-pattern (if node-pattern node-pattern "*"))
+;;         (env-pattern (if env-pattern env-pattern "*")))
+;;     ;; TODO: Short-circuit return if the shell script doesn't exist.
+;;     (setq wjb-process (start-process "query-chef-ips" "*query-ip-results*" "query_ip" node-pattern env-pattern))
+;;     ;; Attach filter function as process output callback.
+;;     (set-process-filter wjb-process 'wjb-query-chef-callback)))
 
-;; TODO: Could use a sentinel to get notified when process status changes.
-;; (when (not (process-live-p wjb-process))
-;;   (message "Process not live")
-;;   (with-current-buffer (process-buffer wjb-process)
-;;     (let* ((start (search-backward "Using"))
-;;            (results (buffer-substring start (process-mark wjb-process))))
-;;       (message (concat "Results: " results))
-;;       (setq results-perm results))))
+;; ;; TODO: Could use a sentinel to get notified when process status changes.
+;; ;; (when (not (process-live-p wjb-process))
+;; ;;   (message "Process not live")
+;; ;;   (with-current-buffer (process-buffer wjb-process)
+;; ;;     (let* ((start (search-backward "Using"))
+;; ;;            (results (buffer-substring start (process-mark wjb-process))))
+;; ;;       (message (concat "Results: " results))
+;; ;;       (setq results-perm results))))
 
-(defun wjb-query-chef-refresh-all ()
-  (setq wjb-chef-node-plist ())
-  (wjb-query-chef-ips))
+;; (defun wjb-query-chef-refresh-all ()
+;;   (setq wjb-chef-node-plist ())
+;;   (wjb-query-chef-ips))
 
-;;(wjb-query-chef-refresh-all)
+;; ;;(wjb-query-chef-refresh-all)
 
-(defun wjb-chef-node-ip (node-name)
-  (cdr (lax-plist-get wjb-chef-node-plist node-name)))
+;; (defun wjb-chef-node-ip (node-name)
+;;   (cdr (lax-plist-get wjb-chef-node-plist node-name)))
 
-(defun wjb-chef-node-hostname (node-name)
-  (car (lax-plist-get wjb-chef-node-plist node-name)))
+;; (defun wjb-chef-node-hostname (node-name)
+;;   (car (lax-plist-get wjb-chef-node-plist node-name)))
 
-(defadvice tramp-dissect-file-name (after lookup-chef-hostnames)
-  "Lookup and replace Chef nodes with their hostnames."
-  ;; If ad-return-value is a property in the plist, return its public hostname.
-  ;;(message "Checking %s, got %s" (aref ad-return-value 2) (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2)))
-  (if (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))
-      (aset ad-return-value 2 (first (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))))
-      ad-return-value))
+;; (defadvice tramp-dissect-file-name (after lookup-chef-hostnames)
+;;   "Lookup and replace Chef nodes with their hostnames."
+;;   ;; If ad-return-value is a property in the plist, return its public hostname.
+;;   ;;(message "Checking %s, got %s" (aref ad-return-value 2) (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2)))
+;;   (if (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))
+;;       (aset ad-return-value 2 (first (lax-plist-get wjb-chef-node-plist (aref ad-return-value 2))))
+;;       ad-return-value))
 
-;; TODO: activate this automatically.
-;;(ad-activate 'tramp-dissect-file-name)
-;;(ad-update 'tramp-dissect-file-name)
+;; ;; TODO: activate this automatically.
+;; ;;(ad-activate 'tramp-dissect-file-name)
+;; ;;(ad-update 'tramp-dissect-file-name)
 
-(unless (boundp 'wjb-chef-node-plist)
-  (setq wjb-chef-node-plist ()))
+;; (unless (boundp 'wjb-chef-node-plist)
+;;   (setq wjb-chef-node-plist ()))
 
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
@@ -458,13 +447,6 @@ Puts results in plist (node-name (hostname . ip))"
     (setq fill-column 10000)
     (fill-paragraph)
     (setq fill-column fill-column-stashed)))
-
-;; This only works for an entire buffer
-(fset 'prepare-for-email-old
-   [?\C-x ?h ?\M-x ?s ?e ?t ?- ?f ?i ?l ?l ?- ?c ?o ?l ?u ?m ?n return ?1 ?0 ?0 ?0 ?0 return ?\M-q ?\C-x ?h ?\M-x ?k ?i ?l ?l ?- ?r ?i ?n ?g ?- ?s ?a ?v ?e return])
-
-(fset 'unprepare-for-email-old
-   [?\M-x ?s ?e ?t ?- ?f ?i ?l ?l ?- ?c ?o ?l ?u ?m ?n return ?8 ?0 return ?\C-  ?\C-  ?\C-x ?h ?\M-q ?\C-u ?\C-  ?\C-u ?\C- ])
 
 (fset 'fix-js-indent
    [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])
@@ -546,14 +528,14 @@ following line."
 (cond ((eq system-type 'darwin)
        (setq path-to-ctags "/usr/local/bin/ctags")))
 
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  ;; (message
-  ;;  (format "%s -f %s/tags -eR %s" path-to-ctags (directory-file-name dir-name) (directory-file-name dir-name)))
-  (shell-command
-   (format "%s -f %s/tags -eR %s" path-to-ctags
-           (directory-file-name dir-name) (directory-file-name dir-name))))
+;; (defun create-tags (dir-name)
+;;   "Create tags file."
+;;   (interactive "DDirectory: ")
+;;   ;; (message
+;;   ;;  (format "%s -f %s/tags -eR %s" path-to-ctags (directory-file-name dir-name) (directory-file-name dir-name)))
+;;   (shell-command
+;;    (format "%s -f %s/tags -eR %s" path-to-ctags
+;;            (directory-file-name dir-name) (directory-file-name dir-name))))
 
 (require 'ht)
 (defun select-current-line ()
@@ -601,6 +583,70 @@ comment box."
     (comment-box b e 1)
     (goto-char e)
     (set-marker e nil)))
+
+;; From https://www.reddit.com/r/emacs/comments/6qpbka/elisp_for_text_processing_in_buffers/
+(defun sed-region (program)
+  "Run one line of sed code on every line of the current region."
+  (interactive "sSed code: ")
+  (let ((tmpfile (make-temp-name "/tmp/esed"))
+        sed-exit-status)
+    (write-region program nil tmpfile)
+    (setq sed-exit-status
+          (call-process-region (region-beginning)
+                               (region-end)
+                               "sed"
+                               t            ; delete old text?
+                               t            ; put new text directly in buffer
+                               nil          ; display as we go
+                               "-f"         ; command line arg 1
+                               tmpfile      ; command line arg 2
+                               ))
+    (if (not (= sed-exit-status 0))
+        (message "sed returned non-zero exit status"))
+    (delete-file tmpfile)))
+
+(defun perl-region (program)
+  "Run one line of perl code on every line of the current region."
+  (interactive "sPerl code: ")
+  (let ((tmpfile (make-temp-name "/tmp/eperl"))
+        perl-exit-status)
+    (write-region program nil tmpfile)
+    (setq perl-exit-status
+          (call-process-region (region-beginning)
+                               (region-end)
+                               "perl"
+                               t            ; delete old text?
+                               t            ; put new text directly in buffer
+                               nil          ; display as we go
+                               "-p"        ; command line arg 1
+                               tmpfile      ; command line arg 2
+                               ))
+    (if (not (= perl-exit-status 0))
+        (message "perl returned non-zero exit status"))
+    (delete-file tmpfile)))
+
+(defun python-region (program)
+  "Run one line of python code on every line of the current region.
+Example: import sys; sys.stdout.write(sys.stdin.read())"
+  (interactive "sPython code: ")
+  (let ((tmpfile (make-temp-name "/tmp/epython"))
+        python-exit-status)
+    (write-region program nil tmpfile)
+    (setq python-exit-status
+          (call-process-region (region-beginning)
+                               (region-end)
+                               "python"
+                               t            ; delete old text?
+                               t            ; put new text directly in buffer
+                               nil          ; display as we go
+                               "-B"        ; command line arg 1
+                               tmpfile      ; command line arg 2
+                               ))
+    (if (not (= python-exit-status 0))
+        (message "python returned non-zero exit status"))
+    (delete-file tmpfile)))
+
+;;a
 
 (provide 'defuns)
 
