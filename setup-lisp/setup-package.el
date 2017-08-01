@@ -89,46 +89,39 @@
   ;; Install packages if they're missing.
   (defun init--install-packages ()
     (packages-install
-     (cons 'dash melpa-stable)
-     (cons 'edit-server melpa)
-     (cons 'edit-server-htmlize melpa)
+     (cons 'ido-completing-read+ melpa)
+     (cons 'smex melpa)
      (cons 'exec-path-from-shell melpa-stable)
-     (cons 'gitconfig-mode marmalade)
-     (cons 'gitignore-mode marmalade)
-     (cons 'ido-ubiquitous melpa-stable)
+     (cons 'dash melpa-stable)
+     (cons 's melpa-stable)
+     (cons 'f melpa-stable)
      (cons 'magit melpa-stable)
-     ;(cons 'magit marmable) ;; Should be ok, because tracks maint branch.
-     ;However, https://github.com/magit/magit#installing-from-marmalade says it
-                                        ;is way outdated, so sticking with installing from git for now.
-     ;;(cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
-     (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
-     (cons 'dired+ melpa)
+     (cons 'gitconfig-mode melpa)
+     (cons 'gitignore-mode melpa)
      (cons 'tree-mode melpa) ; dirtree requirement.
+     (cons 'dired+ melpa)
+     (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
      (cons 'auto-install melpa)
      (cons 'json-mode marmalade)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet melpa)
-     (cons 'smex melpa)
-     (cons 'anzu melpa-stable)
-     (cons 's melpa-stable)
-     (cons 'f melpa-stable)
-     (cons 'dash melpa-stable)
-     (cons 'nvm melpa-stable)
+     (cons 'anzu melpa)
+     (cons 'nvm melpa)
      (cons 'virtualenvwrapper melpa-stable)
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'yaml-mode melpa-stable)
-     (cons 'flycheck melpa-stable)
+     (cons 'flycheck melpa)
      (cons 'flycheck-pos-tip melpa)
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
      (cons 'js2-mode melpa)
-     (cons 'coffee-mode melpa)
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'discover-js2-refactor melpa)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
+     (cons 'coffee-mode melpa)
      (cons 'gh melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa-stable)
@@ -159,6 +152,7 @@
      ;; (cons 'flycheck-color-mode-line melpa)
 
      ;; Uninstalled, but consider:
+     ;; (cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
      ;; (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
@@ -168,6 +162,8 @@
      ;; (cons 'elisp-slime-nav melpa-stable)
      ;; (cons 'elnode marmalade)
      ;; (cons 'slime-js marmalade)
+     ;; (cons 'edit-server melpa)
+     ;; (cons 'edit-server-htmlize melpa)
      ))
 
   (condition-case nil
