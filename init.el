@@ -396,6 +396,8 @@ and overlay is highlighted between MK and END-MK."
 ;; dired-jump is useful.
 (require 'dired-x)
 
+;; This line must run *before* dired is loaded:
+(setq diredp-hide-details-initially-flag nil)
 (when (require 'dired+ nil t)
   (eval-after-load 'dired+ '(require 'setup-dired+)))
 
