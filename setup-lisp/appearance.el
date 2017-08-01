@@ -78,7 +78,7 @@
 	 (set-face-background 'default "#020202")
 	 ;;(set-face-background 'auto-dim-other-buffers-face "#202020") ;; is this making it slow to switch back to Emacs?
 	 ))
-;;(theme-it)
+(theme-it)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
