@@ -112,6 +112,18 @@
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
+(defun my/use-coffeelint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (coffeelint (and root
+                      (expand-file-name "node_modules/coffeelint/bin/coffeelint"
+                                        root))))
+    (when (and coffeelint (file-executable-p coffeelint))
+      (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
+
+(add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
+
 (setq js2-dynamic-idle-timer-adjust 40000)
 
 (after-load 'js2-mode
