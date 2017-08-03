@@ -135,7 +135,6 @@
 ;;; ========================================
 
 (global-set-key (kbd "C-x C-c") nil)
-(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.
 (global-set-key (kbd "C-|") 'align-regexp)
 ;; TODO: bind C-M-= (aka C-+) to align-regexp with regexp of =
@@ -185,6 +184,7 @@
 (fset 'remove-api-version-log
    "\C-s/api/version\C-a\C-k\C-k")
 
+(setq js-indent-level 2)
 
 ;; TODO: Add anything that needs Emacs>=24.
 (when (>= emacs-major-version 24)
