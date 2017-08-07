@@ -54,7 +54,9 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(let ((file-name-handler-alist nil))
+(let
+    ((file-name-handler-alist nil)
+     (gc-cons-threshold most-positive-fixnum))
 
 (let ((minver 23))
   (unless (>= emacs-major-version minver)
@@ -459,6 +461,7 @@ and overlay is highlighted between MK and END-MK."
 (add-hook 'rst-mode-hook 'textful-settings)
 (add-hook 'text-mode-hook 'textful-settings)
 
+;; Force fill columns.
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
 
@@ -503,7 +506,7 @@ and overlay is highlighted between MK and END-MK."
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 ;; json
-(require 'json nil t)
+;; (require 'json nil t) ;; Think this is builtin now.
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
