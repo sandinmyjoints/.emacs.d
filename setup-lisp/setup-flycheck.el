@@ -111,6 +111,8 @@ up before you execute another command."
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
     '(flycheck-temp-prefix ".flycheck")))
 
+;; See https://github.com/flycheck/flycheck-pos-tip/issues/6
+(add-hook 'post-command-hook 'flycheck-pos-tip-hide-messages)
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
