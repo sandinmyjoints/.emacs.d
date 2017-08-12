@@ -110,6 +110,7 @@
      (cons 'virtualenvwrapper melpa-stable)
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'yaml-mode melpa-stable)
+     (cons 'beginend melpa)
      (cons 'flycheck melpa)
      (cons 'flycheck-pos-tip melpa)
      (cons 'web-mode melpa-stable)
@@ -147,6 +148,10 @@
      (cons 'js2-highlight-vars melpa)
      (cons 'reveal-in-osx-finder melpa)
      (cons 'flycheck-status-emoji melpa)
+     (cons 'tern melpa)
+     (cons 'company melpa)
+     (cons 'company-tern melpa)
+     (cons 'prettier-js melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
