@@ -4,4 +4,4 @@
 # name: inspect depth null
 ## condition: "
 # --
-var spect = require('lodash').partialRight(require('util').inspect, {depth: null})$0
+const spect = require('lodash').partialRight(require('util').inspect, {depth: null})$0
