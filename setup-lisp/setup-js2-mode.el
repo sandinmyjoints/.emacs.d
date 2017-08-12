@@ -50,10 +50,19 @@
 
 (when (>= emacs-major-version 24)
   (require-package 'js2-mode)
-  (require-package 'ac-js2)
   (require-package 'coffee-mode))
 
 (require-package 'js-comint)
+
+;; js2-mode steals TAB, let's steal it back for yasnippet
+(defun js2-tab-properly ()
+  "Tab properly."
+  (interactive)
+  (let ((yas-fallback-behavior 'return-nil))
+    (unless (yas-expand)
+      (indent-for-tab-command)
+      (if (looking-back "^\s+")
+          (back-to-indentation)))))
 
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
@@ -294,23 +303,8 @@
 ;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
 (setq-default js2-basic-offset 2)
 
-;; js2-mode steals TAB, let's steal it back for yasnippet
-(defun js2-tab-properly ()
-  "Tab properly."
-  (interactive)
-  (let ((yas-fallback-behavior 'return-nil))
-    (unless (yas-expand)
-      (indent-for-tab-command)
-      (if (looking-back "^\s+")
-          (back-to-indentation)))))
-
-(define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
-
-(js2r-add-keybindings-with-prefix "C-c C-r")
-
-(add-hook 'json-mode 'flymake-json-load)
-
-(set-face-foreground 'js2-object-property "light goldenrod")
+;; Did this predate using gruvbox, or do I still want it?
+;; (set-face-foreground 'js2-object-property "light goldenrod")
 
 ;; Only use if js2-highlight-vars-mode is installed.
 (eval-after-load "js2-highlight-vars-autoloads"
