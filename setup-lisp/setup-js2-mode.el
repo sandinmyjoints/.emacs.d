@@ -135,14 +135,27 @@
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
          (coffeelint (and root
-                      (expand-file-name "node_modules/coffeelint/bin/coffeelint"
-                                        root))))
+                          (expand-file-name "node_modules/coffeelint/bin/coffeelint"
+                                            root))))
     (when (and coffeelint (file-executable-p coffeelint))
       (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
 
 (add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
 
-(setq js2-dynamic-idle-timer-adjust 40000)
+(defun my/use-coffee-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (coffee (and root
+                      (expand-file-name "node_modules/.bin/coffee"
+                                        root))))
+    (when (and coffee (file-executable-p coffee))
+      (setq-local flycheck-coffee-executable coffee))))
+
+(add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
+
+;; (setq js2-dynamic-idle-timer-adjust 40000)
+(setq js2-dynamic-idle-timer-adjust 0)
 
 (after-load 'js2-mode
   (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
@@ -252,6 +265,8 @@
   ;; argument.
   )
 
+;; run-js?
+;; indium-run-node
 (defun run-node (cwd)
   (interactive "DDirectory: ")
   (unless (executable-find "node")
@@ -319,6 +334,9 @@
 (eval-after-load "js2-highlight-vars-autoloads"
   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
+
+
+;; js-comint
 ;; To set/change version of node js, run `js-select-node-version'
 (autoload 'js-comint "js-select-node-version" "Add directory to tree view")
 (autoload 'js-comint "run-js" "Add directory to tree view")
