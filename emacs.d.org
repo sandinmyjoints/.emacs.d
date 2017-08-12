@@ -1,4 +1,13 @@
 #+STARTUP: overview
+* How to recover a frozen Emacs process
+  - kill -USR2
+  - Then set debug-on-quit back to nil
+* Magit variables
+magit-branch-prefer-remote-upstream
+magit-remote-add-set-remote.pushDefault
+magit-auto-revert-mode
+* cl- functions such as first/cl-first
+  - https://github.com/purcell/emacs.d/blob/effd06ad39f73cf84bdfde082d986827547ee00e/lisp/init-lisp.el#L285
 * DONE Use ELPA.
    CLOSED: [2013-02-18 Mon 14:51]
 * DONE Make into repo.
@@ -235,7 +244,24 @@ EOF
    - http://www.emacswiki.org/emacs/rebox2
 ** TODO customize for js
 ** TODO customize for coffee
-* TODO flycheck mode
+* INACTIVE Colors on Emacs 23 on a console
+  CLOSED: [2017-08-01 Tue 17:33]
+
+  - Background face on transparent terminals is awful
+  - install color-theme and choose one
+  - magit is messed up
+  - Revisit appearance.el and make sensible settings for a windowed display vs a
+    terminal display
+  - Is it better/easier not to use transparent background in Terminal?
+* DONE Try perspectives or eproject or...
+  CLOSED: [2017-03-09 Thu 21:57]
+  - https://github.com/nex3/perspective-el
+  - https://github.com/jrockway/eproject
+  - https://github.com/rdallasgray/project-persist
+  - https://github.com/bbatsov/projectile
+    - https://github.com/sabof/project-explorer instead of dirtree
+* DONE flycheck mode
+  CLOSED: [2017-08-01 Tue 17:33]
 ** DONE flycheck with coffeelint
   - In Ataltana, it uses coffeelint that is on the exec-path due to
     ./node_modules/.bin being on the execpath and due to installing coffeelint in
@@ -256,17 +282,54 @@ EOF
      checker.
 ** DONE have flycheck show that a buffer has errors in mode line
    CLOSED: [2017-07-29 Sat 21:58]
-* TODO coffee-mode
-** DONE Coffee repl
-   CLOSED: [2014-04-13 Sun 18:12]
-** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
-
-   - useful for set-rectangular-region-anchor
-
-** TODO coffee compile
-* TODO coffee-mode sourcemap
+* INACTIVE coffee-mode sourcemap
+  CLOSED: [2017-08-01 Tue 17:33]
   - https://github.com/syohex/emacs-sourcemap
   - https://github.com/defunkt/coffee-mode/issues/202#issuecomment-37097782
+* INACTIVE find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
+  CLOSED: [2017-08-01 Tue 17:34]
+* INACTIVE w3m
+  CLOSED: [2017-08-01 Tue 17:34]
+  - try for gmail
+* INACTIVE Octopress and Emacs
+  CLOSED: [2017-08-01 Tue 17:34]
+
+  - Want to:
+    - [-] create new write post
+      - wrapper around rake new_post[title]
+      - [X] octomacs-new-post
+      - [X] write post in MD
+      - [ ] write post in org
+    - [ ] preview
+      - temporary: could open a new shell and run rvm
+        - (ansi-term explicit-shell-file-name (concat "*" 'project "-term" "*"))
+      - rake generate
+      - rake preview
+    - [-] start watch
+      - [X] octopress-shell
+      - [ ] start in a new shell: rake watch
+    - [ ] publish
+      - rake generate
+      - git commit -am
+      - git push origin master
+      - git push heroku master
+  - Octopress installation instructions:
+    - git clone git@github.com:sandinmyjoints/williamjohnbert.com.git
+    - rvm use 1.9.3@octopress
+    - `gem install bundler` && `bundle install`
+    - edit .rvmrc to be rvm use 1.9.3@octopress
+      - additional:
+        http://www.moncefbelyamani.com/how-to-install-and-configure-octopress-on-a-mac/
+        and http://www.moncefbelyamani.com/enhance-your-ruby-development-with-rvm-gemsets-and-rvmrc/
+    - Config Heroku: http://octopress.org/docs/deploying/heroku/
+  - Octopress on Emacs options
+    + https://github.com/jhelwig/octomacs
+      + rvm.el
+    + https://github.com/yoshinari-nomura/org-octopress
+  - Heroku [3/3]
+    - [X] upgrade to heroku toolbelt
+    - [X] install heroku accounts plugin
+    - [X] spanishdict / wjb accounts
 * TODO Window and frame restore. See:
   - Seems
   - https://github.com/emacs-mirror/emacs/blob/master/lisp/frameset.el in Emacs 24.4
@@ -284,6 +347,7 @@ EOF
   - https://github.com/kaushalmodi/.emacs.d
 * TODO Use:
   - Smex (M-x, M-X)
+    - updated fork: https://github.com/DarwinAwardWinner/smex
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
@@ -338,83 +402,28 @@ EOF
   - org-mode C-c C-u: outline-up-heading
   - C-0 (imenu)
   - clean-buffer-list
-* DONE Try perspectives or eproject or...
-  CLOSED: [2017-03-09 Thu 21:57]
-  - https://github.com/nex3/perspective-el
-  - https://github.com/jrockway/eproject
-  - https://github.com/rdallasgray/project-persist
-  - https://github.com/bbatsov/projectile
-    - https://github.com/sabof/project-explorer instead of dirtree
-* TODO find-file-in-project. See: http://emacswiki.org/emacs/FindFileInProject
 * TODO Try anything and/or Helm
 
 * TODO Versioning of packages--how to pin?
 * TODO Shell in Emacs
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell vs terminal-emulator
+* TODO multi-term
 * TODO Master regexp syntax
   - use rx: http://www.emacswiki.org/emacs/rx to build regexps
   - pcre2el: https://github.com/joddie/pcre2el
-* TODO Colors on Emacs 23 on a console
-
-  - Background face on transparent terminals is awful
-  - install color-theme and choose one
-  - magit is messed up
-  - Revisit appearance.el and make sensible settings for a windowed display vs a
-    terminal display
-  - Is it better/easier not to use transparent background in Terminal?
-* TODO w3m
-  - try for gmail
-* TODO Octopress and Emacs
-
-  - Want to:
-    - [-] create new write post
-      - wrapper around rake new_post[title]
-      - [X] octomacs-new-post
-      - [X] write post in MD
-      - [ ] write post in org
-    - [ ] preview
-      - temporary: could open a new shell and run rvm
-        - (ansi-term explicit-shell-file-name (concat "*" 'project "-term" "*"))
-      - rake generate
-      - rake preview
-    - [-] start watch
-      - [X] octopress-shell
-      - [ ] start in a new shell: rake watch
-    - [ ] publish
-      - rake generate
-      - git commit -am
-      - git push origin master
-      - git push heroku master
-  - Octopress installation instructions:
-    - git clone git@github.com:sandinmyjoints/williamjohnbert.com.git
-    - rvm use 1.9.3@octopress
-    - `gem install bundler` && `bundle install`
-    - edit .rvmrc to be rvm use 1.9.3@octopress
-      - additional:
-        http://www.moncefbelyamani.com/how-to-install-and-configure-octopress-on-a-mac/
-        and http://www.moncefbelyamani.com/enhance-your-ruby-development-with-rvm-gemsets-and-rvmrc/
-    - Config Heroku: http://octopress.org/docs/deploying/heroku/
-  - Octopress on Emacs options
-    + https://github.com/jhelwig/octomacs
-      + rvm.el
-    + https://github.com/yoshinari-nomura/org-octopress
-  - Heroku [3/3]
-    - [X] upgrade to heroku toolbelt
-    - [X] install heroku accounts plugin
-    - [X] spanishdict / wjb accounts
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
-* TODO rearrange trees in dirtree mode
+* TODO dirtree: rearrange trees
   - Or replace dirtree.
   - Would be nice to have one modeline
   - http://stackoverflow.com/questions/843645/a-good-project-tree-browser-for-emacs/26705877
   - Better project tree browser
   - http://www.emacswiki.org/emacs/sr-speedbar.el, speedbar
   - https://www.emacswiki.org/emacs/TreeMode
-* TODO improve icons in dirtree
+* TODO dirtree: improve icons
   - they use Emacs widgets, which specify a glyph, which is set to an XPM icon.
   - path to icons: /usr/local/Cellar/emacs-mac/emacs-25.2-z-mac-6.4/share/emacs/25.2/etc/images/tree-widget/folder/close.xpm
   - some nice ones I could use instead: http://www.iconarchive.com/show/flat-folder-icons-by-pelfusion.html
@@ -423,7 +432,6 @@ EOF
   - looks like the current ones are 16x22, left-justified, the actual images are
     somewhat smaller.
 ** replace existing XPMs with nicer ones
-* TODO multi-term
 * TODO python in emacs
 ** python-mode
   - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
@@ -464,14 +472,17 @@ EOF
 * TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
+** TODO easy, nice-looking org export
+   - to markdown
+   - to HTML:
+     - https://github.com/fniessen/org-html-themes
+     - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 ** TODO want to see what is ACTIVE and what was recently DONE
 ** TODO share over dropbox
-** TODO use tags home work etc
 ** TODO use agenda
 ** TODO set dates
 ** TODO use archiving
 ** TODO mobileorg
-** TODO combine into one file?
 * TODO maybe try https://github.com/capitaomorte/autopair
 * TODO try https://github.com/jxa/pivotal-tracker
 * TODO save ssl password for slack not in source control
@@ -487,9 +498,6 @@ EOF
   - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
   - Use C-- to do backwards version of forwards command.
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
-* How to recover a frozen Emacs process
-  - kill -USR2
-  - Then set debug-on-quit back to nil
 * DONE Magit 2 annoyances
   - [X] can't yank from diffs
   - [X] can't yank commit hash when viewing git log
@@ -497,10 +505,6 @@ EOF
   CLOSED: [2015-09-11 Fri 16:09]
   - http://emacs.stackexchange.com/a/5319/2163
   - http://stackoverflow.com/a/20912535/599258
-* Magit variables
-magit-branch-prefer-remote-upstream
-magit-remote-add-set-remote.pushDefault
-magit-auto-revert-mode
 * TODO use use-package
   - https://github.com/jwiegley/use-package
 * TODO magithub / gh package
@@ -510,9 +514,15 @@ magit-auto-revert-mode
   - yas-expand -> yas-expand-from-trigger-key
   - smart-tab
   - minor modes: smart-tab and yas
-* cl- functions such as first/cl-first
-  - https://github.com/purcell/emacs.d/blob/effd06ad39f73cf84bdfde082d986827547ee00e/lisp/init-lisp.el#L285
-* Javascript setup
+* TODO coffee-mode
+** DONE Coffee repl
+   CLOSED: [2014-04-13 Sun 18:12]
+** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+   - useful for set-rectangular-region-anchor
+
+** TODO coffee compile
+* TODO Javascript setup
   - es2016, etc.
   - JSX
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -524,6 +534,8 @@ magit-auto-revert-mode
    - js-comint
    - js-doc
    - js2-highlight-vars
+     - this uses a timer and it still runs after switching buffers, which causes
+       error. annoying!
    - js2-refactor
    - json-mode
    - json-reformat
@@ -539,6 +551,7 @@ magit-auto-revert-mode
    - indium
    - js3-mode?
    - prettier-mode
+** js-doc-insert-function-doc
 ** DONE Get flycheck working reliably
    CLOSED: [2017-07-29 Sat 22:02]
    - https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el
@@ -551,21 +564,22 @@ magit-auto-revert-mode
        aware of node_modules
      - solution for config files: use flycheck-verify-setup to make sure it is
        finding them right config file(s)
+** ACTIVE Make it.only / unonly work in js2-mode
+** TODO indium
 ** TODO tern / ac-js2 / skewer
    - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
+** TODO node-inspector plus tern/swank or something to inspect running node process in emacs
+   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
+   - https://github.com/jscheid/kite/blob/master/kite.md
+   - https://github.com/segv/jss
+   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
 ** TODO use rjsx instead of js2-mode by default?
    - or only for .jsx files?
-** TODO indium
+** TODO prettier-mode
 ** TODO xref-js2
    - but I don't want xref-goto-xref to open in a new buffer!
 ** TODO js-comint https://github.com/redguardtoo/js-comint
    - run-js, js-send-buffer
 ** TODO js3-mode https://github.com/thomblake/js3-mode
-** TODO node-inspector plus swank or something to inspect running node process in emacs
-   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
-   - https://github.com/jscheid/kite/blob/master/kite.md
-   - https://github.com/segv/jss
-   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
-** ACTIVE Make it.only / unonly work in js2-mode
-** TODO prettier-mode
 * TODO understand recursive editing
+** TODO fix recursive editing -- seems to be broken
