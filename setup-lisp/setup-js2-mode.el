@@ -67,13 +67,22 @@
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "H-c")
+(js2r-add-keybindings-with-prefix "H-r")
+
+;; Tern uses C-c C-r.
+;; https://ternjs.net/doc/manual.html#emacs
+;; (js2r-add-keybindings-with-prefix "C-c C-r")
 
 (after-load 'js2-mode
-  (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
+  ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
+  (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
-  (define-key js2-mode-map (kbd "H-r") 'js2r-rename-var)
-  (define-key js2-mode-map (kbd "H-c r m") 'remove-console-log-js)
-  )
+  ;;(define-key js2-mode-map (kbd "H-r") 'js2r-rename-var) ;; H-c r v
+  (define-key js2-mode-map (kbd "H-c r l") 'remove-console-log-js))
+
+(after-load 'coffee-mode
+  (define-key coffee-mode-map (kbd "C-c r l") 'remove-console-log-coffee)
+  (define-key coffee-mode-map (kbd "H-c r l") 'remove-console-log-coffee))
 
 ;; Don't redefine C-a for me please, js2-mode
 ;(define-key js2-mode-map (kbd "C-a") nil)
