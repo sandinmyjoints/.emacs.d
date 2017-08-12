@@ -21,6 +21,8 @@
 
 (global-unset-key (kbd "C-x ."))  ;; unset set-fill-prefix
 
+;; js2-refactor uses either H-c, H-r, or C-c C-r.
+
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
 (global-set-key (kbd "H-_") 'undo)
@@ -70,7 +72,8 @@
 (global-set-key (kbd "C-x p") 'bury-buffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-c s") 'ansi-term)
-(global-set-key (kbd "C-c r") 'query-replace-regexp)
+;; (global-set-key (kbd "C-c r") 'query-replace-regexp)
+;; (global-set-key (kbd "C-c C-r") 're-builder)
 (global-set-key (kbd "C-c q") 'query-replace)
 (global-set-key (kbd "C-c b") 'rename-buffer)
 (global-set-key (kbd "C-c v") 'describe-variable)
@@ -84,7 +87,6 @@
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
 (global-set-key (kbd "C-c c") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
-(global-set-key (kbd "C-c C-r") 're-builder)
 (global-set-key (kbd "C-c C-b") 'browse-at-remote)
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
