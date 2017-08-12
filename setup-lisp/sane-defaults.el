@@ -159,8 +159,13 @@
 ;;; Visible bell.
 (setq-default visible-bell t)
 
-;;; Fewer pop-up windows.
+;;; Fewer new frames and pop-up windows.
+(setq pop-up-frames nil)
 (setq pop-up-windows nil)
+
+;;; Never split windows for me, split-window-sensibly.
+(setq split-height-threshold nil)
+(setq split-width-threshold nil)
 
 ;;; Default for new buffers.
 (when (require 'markdown-mode nil t)
