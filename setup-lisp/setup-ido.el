@@ -63,11 +63,13 @@
 
   (ido-everywhere t)
 
+  (require 'ido-completing-read+)
+  (ido-ubiquitous-mode 1)
   ;; Really use ido everywhere.
-  (when (require 'ido-ubiquitous nil t)
-    (ido-ubiquitous-mode 1))
+  ;; (when (require 'ido-ubiquitous nil t)
+  ;;   (ido-ubiquitous-mode 1))
 
-  (add-to-list 'ido-ubiquitous-command-overrides '(disable exact "rgrep"))
+  ;; (add-to-list 'ido-ubiquitous-command-overrides '(disable exact "rgrep"))
 
   (add-to-list 'ido-ignore-directories "node_modules")
 
