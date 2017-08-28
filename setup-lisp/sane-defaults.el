@@ -286,6 +286,8 @@
 
 (setq split-width-threshold 300)
 
+(setq json-reformat:indent-width 2)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
