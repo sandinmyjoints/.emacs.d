@@ -54,7 +54,8 @@
 (setq dired-listing-switches "-lah"
       ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
       diredp-hide-details-initially-flag nil
-      diredp-hide-details-propagate-flag t)
+      diredp-hide-details-propagate-flag t
+      dired-dwim-target t)
 
 (provide 'setup-dired+)
 
