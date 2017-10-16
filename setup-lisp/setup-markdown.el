@@ -52,7 +52,12 @@
 ;; also see https://markdowncss.github.io/
 (setq markdown-css-paths '("/Users/william/markdown-css/github-rhio.css")
       markdown-list-indent-width 2
-      markdown-asymmetric-header t)
+      markdown-asymmetric-header t
+      markdown-fontify-code-blocks-natively t)
+
+(add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
+(add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
+(add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
 
 (after-load 'markdown-mode
   (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote))
