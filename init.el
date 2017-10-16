@@ -417,36 +417,36 @@
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
-;; (when (require 'fill-column-indicator nil t)
+(when (require 'fill-column-indicator nil t)
 
-;;   (defun turn-on-fci ()
-;;     (fci-mode 1))
+  (defun turn-on-fci ()
+    (fci-mode 1))
 
-;;   (add-hook 'coffee-mode-hook 'turn-on-fci)
-;;   (add-hook 'js2-mode-hook 'turn-on-fci)
-;;   (add-hook 'python-mode-hook 'turn-on-fci)
+  (add-hook 'coffee-mode-hook 'turn-on-fci)
+  (add-hook 'js2-mode-hook 'turn-on-fci)
+  (add-hook 'python-mode-hook 'turn-on-fci)
 
-;;   ;; Make fci-mode global...
-;;   ;; (define-globalized-minor-mode global-fci-mode fci-mode
-;;   ;;   (lambda () (fci-mode 1)))
-;;   ;; (global-fci-mode 1)
+  ;; Make fci-mode global...
+  ;; (define-globalized-minor-mode global-fci-mode fci-mode
+  ;;   (lambda () (fci-mode 1)))
+  ;; (global-fci-mode 1)
 
-;;   ;; ...except for these modes.
-;;   (defun turn-off-fci ()
-;;     (fci-mode -1))
+  ;; ...except for these modes.
+  (defun turn-off-fci ()
+    (fci-mode -1))
 
-;;   ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'org-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'magit-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'term-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'shell-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-;;   ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
-;;   ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
-;;   ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
-;;   )
+  ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
+  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
+  ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
+  ;; (add-hook 'org-mode-hook 'turn-off-fci)
+  ;; (add-hook 'magit-mode-hook 'turn-off-fci)
+  ;; (add-hook 'term-mode-hook 'turn-off-fci)
+  ;; (add-hook 'shell-mode-hook 'turn-off-fci)
+  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
+  ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
+  ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
+  ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
+  )
 
 (require-package 'nvm)
 (require 'nvm)
