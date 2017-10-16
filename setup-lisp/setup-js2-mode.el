@@ -107,7 +107,8 @@
 (after-load 'js2-mode
   ;; Disable js2 mode's syntax error highlighting by default...
   (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil)
+                js2-mode-show-strict-warnings nil
+                js2-skip-preprocessor-directives t)
   ;; ... but enable it if flycheck can't handle javascript
   (autoload 'flycheck-get-checker-for-buffer "flycheck")
   (defun sanityinc/disable-js2-checks-if-flycheck-active ()
@@ -177,8 +178,8 @@
       js2-concat-multiline-strings 'eol
       )
 
-(setq-default js2-global-externs
-              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+(add-to-list 'js2-global-externs
+              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
 
 ;; This might slow things down when loading large files?
 ;; (after-load 'js2-mode
