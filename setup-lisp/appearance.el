@@ -58,8 +58,6 @@
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
-(setq fci-rule-color "#333")
-
 ;; Themes.
 ;;
 ;; Themes I like:
@@ -67,17 +65,30 @@
 ;; 2. ample (load-theme 'ample)
 ;; 3. gruvbox (load-theme 'gruvbox)
 ;;    - Problem with gruvbox is its keyword face is red and builtin face is
-;       orange. They look like errors.
+;;       orange. They look like errors.
+;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
+;; applications.
+(add-hook 'after-init-hook
+          (lambda ()
+            (when (fboundp 'auto-dim-other-buffers-mode)
+              (progn
+                (setq auto-dim-other-buffers-dim-on-focus-out nil)
+                (auto-dim-other-buffers-mode t)
+                (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
+                (set-face-background 'auto-dim-other-buffers-face "#181818")))))
 
 (defun theme-it () ""
        (progn
-	 (load-theme 'gruvbox-dark-hard)
-   ;; ...but with keywords gray instead of red.
-   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
-	 ;; ...but with face-background set to near black
-	 (set-face-background 'default "#020202")
-	 ;;(set-face-background 'auto-dim-other-buffers-face "#202020") ;; is this making it slow to switch back to Emacs?
-	 ))
+         (load-theme 'gruvbox-dark-hard)
+         ;; ...but with keywords gray instead of red.
+         (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+         ;; ...but with face-background set to near black
+         (set-face-background 'default "#000")
+         (set-cursor-color "#30F0F0")
+         ;; #504945
+         (set-face-background 'region "#2d3d45")))
+
+;; TODO: try moving to after-init hook?
 (theme-it)
 
 ;; Highlight current line
@@ -85,6 +96,8 @@
 ;; Customize background color of highlighted line
 ;;(set-face-background 'hl-line "#1A1A1A")
 (set-face-background 'hl-line "#202020")
+
+(setq fci-rule-color "#555")
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
