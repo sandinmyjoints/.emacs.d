@@ -51,24 +51,25 @@
 
 (when (require 'package nil t)
 
-  (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
-  (defvar melpa '("melpa" . "http://melpa.org/packages/")) ;; tracks upstream
-  (defvar melpa-stable '("melpa-stable" . "http://stable.melpa.org/packages/"))
-  (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/")) ;; up to developer when to push
+  (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+  (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
+  (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
+  (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
   (defvar org '("org" . "http://orgmode.org/elpa/"))
 
+  (add-to-list 'package-archives org)
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives melpa-stable)
-  (add-to-list 'package-archives marmalade)
-  (add-to-list 'package-archives org)
+  ;; Use if melpa is down:
+  ;; (add-to-list 'package-archives melpa-mirror)
 
   ;; TODO: See http://www.lonecpluspluscoder.com/2014/11/using-elpa-pinned-packages-gnu-emacs-24-4/
   ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
+  ;; TODO: as of Emacs 24.4, can use variable package-pinned-packages.
 
   (package-initialize)
 
-  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
                (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
     (package-refresh-contents))
 
@@ -115,12 +116,16 @@
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
-     (cons 'json-mode marmalade)
+     (cons 'know-your-http-well melpa)
+     (cons 'company-restclient melpa)
+     (cons 'company-emoji melpa)
+     ;; (cons 'json-mode marmalade)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
      (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
+     (cons 'prettier-js melpa)
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
      (cons 'gh melpa)
@@ -151,14 +156,15 @@
      (cons 'tern melpa)
      (cons 'company melpa)
      (cons 'company-tern melpa)
-     (cons 'prettier-js melpa)
+     (cons 'pandoc-mode melpa)
+     (cons 'restclient melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
 
      ;; Uninstalled, but consider:
      ;; (cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
-     ;; (cons 'auto-dim-other-buffers melpa)
+     (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
      ;; (cons 'move-text melpa-stable)
