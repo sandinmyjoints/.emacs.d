@@ -54,22 +54,19 @@
         emacs-lisp-mode
         json-mode
         sh-mode
-        yaml-mode))
+        yaml-mode
+        python-mode))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-
 (eval-after-load 'flycheck
   '(progn
-     ;; disable jshint since we prefer eslint checking
-     (append flycheck-disabled-checkers
-             '(javascript-jshint
-               html-tidy
-               emacs-lisp-checkdoc))
+     (setq-default flycheck-disabled-checkers
+                   (append '(javascript-jshint html-tidy python-pylint emacs-lisp-checkdoc) flycheck-disabled-checkers))
+     (setq flycheck-display-errors-delay 0.8)
+     (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
      (flycheck-status-emoji-mode 1)))
 
-(setq flycheck-display-errors-delay 0)
 ;; flycheck errors on a tooltip (doesnt work on console)
 (when (display-graphic-p (selected-frame))
   (eval-after-load 'flycheck
@@ -77,8 +74,7 @@
        (flycheck-pos-tip-mode)
        ;; (custom-set-variables
        ;;  '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-       (flycheck-add-mode 'javascript-eslint 'web-mode)
-       )))
+       (flycheck-add-mode 'javascript-eslint 'web-mode))))
 
 ;; Below from https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el:
 (defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
