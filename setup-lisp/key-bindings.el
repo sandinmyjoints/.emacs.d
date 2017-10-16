@@ -21,6 +21,11 @@
 
 (global-unset-key (kbd "C-x ."))  ;; unset set-fill-prefix
 
+;; Used by Alfred.
+(global-unset-key (kbd "M-e"))
+(global-unset-key (kbd "M-g g"))
+(global-unset-key (kbd "M-g M-g"))
+
 ;; js2-refactor uses either H-c, H-r, or C-c C-r.
 
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
@@ -63,6 +68,8 @@
 ;;
 ;; C-c p k 'projectile-kill-buffer
 
+(global-unset-key (kbd "M-l"))
+(global-set-key (kbd "M-l l") 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 (global-set-key (kbd "C-x o") 'ace-window)
