@@ -50,7 +50,7 @@
 (add-hook 'markdown-mode-hook 'projectile-mode)
 (add-hook 'emacs-lisp-mode-hook 'projectile-mode)
 
-(projectile-global-mode)
+(projectile-global-mode +1)
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
 (setq projectile-find-dir-includes-top-level t)
