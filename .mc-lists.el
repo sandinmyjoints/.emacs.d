@@ -5,6 +5,7 @@
       '(
         align-regexp
         backward-kill-sentence
+        beginend-prog-mode-goto-end
         beginning-of-buffer
         beginning-of-visual-line
         c-electric-delete-forward
@@ -35,6 +36,7 @@
         markdown-dedent-or-delete
         markdown-electric-backquote
         markdown-exdent-or-delete
+        markdown-outdent-or-delete
         mc/maybe-multiple-cursors-mode
         multiple-cursors-mode
         org-beginning-of-line
@@ -93,6 +95,7 @@
         ido-switch-buffer
         mark-whole-buffer
         markdown-demote
+        org-meta-return
         orgtbl-hijacker-command-109
         other-window-reverse
         revert-buffer
