@@ -564,7 +564,24 @@ EOF
        aware of node_modules
      - solution for config files: use flycheck-verify-setup to make sure it is
        finding them right config file(s)
-** ACTIVE Make it.only / unonly work in js2-mode
+** TODO Various
+  - [-] emacs js2 setup
+    - [X] upgrade js2-refactor
+    - [X] use const in snippets
+    - [X] tern and company
+      - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
+    - [ ] get to know js2-refactorings and mnemonics
+    - [ ] make js2 snappier
+    - [ ] refactor setup-js2-mode.el
+    - [X] sane eslint
+      - it only uses ~/.eslintrc if it doesn't find one higher up.
+      - helpful: http://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy
+      - .eslintrc.js or .eslintrc.json
+      - $ eslint --print-config test/cache.js
+    - [X] sd-simulator automatic prettier / emacs prettier
+      - https://github.com/prettier/prettier-emacs
+** TODO wjb-kill-node in defuns
+** TODO Make it.only / unonly work in js2-mode
 ** TODO indium
 ** TODO tern / ac-js2 / skewer
    - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
@@ -583,3 +600,6 @@ EOF
 ** TODO js3-mode https://github.com/thomblake/js3-mode
 * TODO understand recursive editing
 ** TODO fix recursive editing -- seems to be broken
+* TODO org mode default settings
+  - http://orgmode.org/manual/In_002dbuffer-settings.html
+  - also see perf.org
