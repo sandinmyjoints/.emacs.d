@@ -288,6 +288,8 @@
 
 (setq json-reformat:indent-width 2)
 
+(defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
