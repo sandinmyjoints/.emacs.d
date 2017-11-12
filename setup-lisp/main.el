@@ -391,6 +391,12 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.env.*\\'" . dotenv-mode)))
 
+;; (eval-after-load 'smartparens-mode '(require 'setup-smartparens))
+
+(use-package coffee-mode
+  :config
+  (require 'setup-coffee))
+
 ;; ========================================
 ;; Key bindings.
 ;; ========================================
@@ -405,9 +411,6 @@
 (byte-recompile-directory site-lisp-dir 0)
 
 (when is-mac (require 'setup-mac))
-
-(eval-after-load 'smartparens-mode '(require 'setup-smartparens))
-(eval-after-load 'coffee-mode '(require 'setup-coffee))
 
 ;; Load something that might be useful.
 ;; An initial file to open if it exists.
