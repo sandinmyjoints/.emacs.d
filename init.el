@@ -369,13 +369,6 @@
 
 ;(require 'setup-hippie)
 
-;; Yasnippet.
-;(require 'setup-yasnippet)
-;; Work-around for tab complaining when yas is active in ansi-term. See:
-;; https://github.com/capitaomorte/yasnippet/issues/289
-(add-hook 'term-mode-hook (lambda()
-                (yas-minor-mode -1)))
-
 ;; Rainbow mode.
 (when (require 'rainbow-mode nil t)
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
@@ -524,7 +517,13 @@
 (when (require 'yasnippet nil t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+
+;; Work-around for tab complaining when yas is active in ansi-term. See:
+;; https://github.com/capitaomorte/yasnippet/issues/289
+  (add-hook 'term-mode-hook (lambda()
+                              (yas-minor-mode -1))))
+
 
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
