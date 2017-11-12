@@ -52,22 +52,10 @@
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
-;; ========================================
-;; Definitions.
-;; ========================================
-
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Preload registers.
-(set-register ?t "TODO ")
-(set-register ?h "TODO HERE: ")
-
-;; ========================================
-;; Settings.
-;; ========================================
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
 (if (require 'cl-lib nil t)
@@ -89,7 +77,7 @@
 
 ;; Save desktop.
 (desktop-save-mode 1)
-(setq desktop-restore-eager 32)
+(defvar desktop-restore-eager 32)
 
 ;; ========================================
 ;; Machine-local custom configuration.
@@ -116,6 +104,12 @@
   :config
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ========================================
+;; Require/autoload and config packages.
+;; ========================================
+
 (require 'setup-grep)
 
 (require 'sane-defaults)
@@ -127,48 +121,6 @@
 (require 'wjb)
 
 (require 'appearance)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Linum: put spaces around line numbers.
-(defadvice linum-update-window (around linum-dynamic activate)
-  (let* ((w (length (number-to-string
-                     (count-lines (point-min) (point-max)))))
-         (linum-format (concat " %" (number-to-string w) "d ")))
-    ad-do-it))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
-(defun my-keyboard-quit-advice (fn &rest args)
-  (let ((region-was-active (region-active-p)))
-    (unwind-protect
-         (apply fn args)
-      (when region-was-active
-        (activate-mark t)))))
-
-(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
-;; make zap-to-char act like zap-up-to-char
-(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
-  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
-  The CHAR is replaced and the point is put before CHAR."
-  (insert char)
-  (forward-char -1))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (abbrev-mode 1))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; ========================================
-;; Require/autoload and config packages.
-;; ========================================
 
 (use-package css-mode
   :config
@@ -401,7 +353,7 @@
   :config
   (global-discover-mode 1))
 
-(use-package 'know-your-http-well)
+(use-package know-your-http-well)
 
 (use-package sane-term
   :config
@@ -432,6 +384,37 @@
 (require 'setup-docker)
 (require 'setup-webmode)
 (require 'setup-markdown)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Linum: put spaces around line numbers.
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
+(defun my-keyboard-quit-advice (fn &rest args)
+  (let ((region-was-active (region-active-p)))
+    (unwind-protect
+         (apply fn args)
+      (when region-was-active
+        (activate-mark t)))))
+
+(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
+;; make zap-to-char act like zap-up-to-char
+(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
+  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
+  The CHAR is replaced and the point is put before CHAR."
+  (insert char)
+  (forward-char -1))
 
 ;; Load something that might be useful.
 ;; An initial file to open if it exists.
