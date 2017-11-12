@@ -185,19 +185,20 @@
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
-;; Smex.
-(when (require 'smex nil t)
+(use-package smex
+  :config
   (smex-initialize)
   (setq smex-auto-update nil)
   (smex-auto-update 10))
 
-(when (require 'beacon nil t)
+(use-package beacon
+  :config
   (setq beacon-blink-duration 0.1)
   (beacon-mode 1))
 
-;; Ido.
-(when (require 'ido nil t)
-  (eval-after-load 'ido '(require 'setup-ido)))
+(use-package ido
+  :config
+  (require 'setup-ido))
 
 ;; Imenu.
 (when (require 'imenu nil t)
