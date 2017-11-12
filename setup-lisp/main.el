@@ -169,41 +169,6 @@
                                           (interactive "P")
                                           (wjb-toggle-marker arg marker handle-in-current-buffer))))))
 
-;; Open grep results in the same frame.
-;;
-;; same-window-buffer-names
-;; * https://stackoverflow.com/questions/12231783/in-emacs-when-i-do-a-grep-find-how-can-i-have-the-files-displayed-to-me-open-i?noredirect=1&lq=1
-;; * https://stackoverflow.com/questions/15814031/want-compile-goto-error-variant-that-replaces-compilation-buffer-in-current-wind?noredirect=1&lq=1
-;;
-;; compile-goto-error is the function when I hit Enter on a grep result. It
-;; opens in a new frame. Why? Normal behavior may be to open compile results in
-;; a new window, but I have set pop-up-windows nil in sane-defaults so for me,
-;; compile results open in the same window. But then hitting enter opens in a
-;; new frame which still seems odd.
-;;
-;; I also want the same behavior from xref. It defines its own xref-goto-xref. L521
-;;
-;; This is from https://stackoverflow.com/a/20548556. It seems to work and is
-;; much smaller than the previous solution. Though it seems not to work when
-;; dirtree window is not open.
-(defadvice compile-goto-error (around my-compile-goto-error activate)
-  (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
-    ad-do-it))
-
-;; from https://emacs.stackexchange.com/a/34724/2163:
-(defvar my-inhibit-set-window-dedicated nil)
-(advice-add 'set-window-dedicated-p :around
-  (lambda (orig-fun &rest args)
-    "Honor inhibitor variable `my-inhibit-set-window-dedicated'."
-    (unless my-inhibit-set-window-dedicated
-      (apply orig-fun args))))
-
-(advice-add 'xref--show-pos-in-buf :around
-  (lambda (orig-fun &rest args)
-    "Inhibit `set-window-dedicated-p'."
-    (let ((my-inhibit-set-window-dedicated t))
-      (apply orig-fun args))))
-
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
   (let* ((w (length (number-to-string
