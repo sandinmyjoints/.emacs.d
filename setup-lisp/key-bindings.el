@@ -115,7 +115,6 @@
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 ;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
 (global-set-key (kbd "C-c C-v") 'wjb-toggle-invert-in-buffer)
-(global-set-key (kbd "C-c C-y") 'wjb-toggle-it-only)
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 (global-set-key (kbd "C-x w") 'prepare-for-email)
 (global-set-key (kbd "C-h C-m") 'discover-my-major)

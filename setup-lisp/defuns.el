@@ -195,13 +195,39 @@
         (message msg)
         (back-to-indentation)))))
 
-(defun wjb-toggle-it-only (arg)
+(defun wjb-toggle-it-only-coffee (arg)
   "Toggle `only` on / off for the current test."
   (interactive "P")
   (let ((onlyed-re "it\.only \\([\"']\\)")
         (unonlyed-re "it \\([\"']\\)")
         (onlyed "it.only \\1")
         (unonlyed "it \\1")
+        (msg "No test found"))
+    (save-excursion
+      (progn
+        (cond ((null arg)
+               ;; Null arg. Turn on.
+               (unless (null (re-search-backward unonlyed-re (point-min) t))
+                 (progn
+                   (replace-match onlyed nil nil)
+                   (setq msg "Test only'ed."))))
+              (t
+               ;; Non-null arg. Turn off.
+               (unless (null (re-search-backward onlyed-re (point-min) t))
+                 (progn
+                   (replace-match unonlyed nil nil)
+                   (setq msg "Tests un-only'ed.")))))))
+
+    (save-buffer)
+    (message msg)))
+
+(defun wjb-toggle-it-only-js (arg)
+  "Toggle `only` on / off for the current test."
+  (interactive "P")
+  (let ((onlyed-re "it\.only\\([(]\\)")
+        (unonlyed-re "it\\([(]\\)")
+        (onlyed "it.only(")
+        (unonlyed "it(")
         (msg "No test found"))
     (save-excursion
       (progn
@@ -256,7 +282,7 @@
 
 (defun shell-command-on-buffer (command)
   (interactive "sShell command on buffer: ")
-  (shell-command-on-region (point-min) (point-max) command t))
+  (shell-command-on-region (point-min) (point-max) command nil))
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -641,7 +667,37 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
         (message "python returned non-zero exit status"))
     (delete-file tmpfile)))
 
-;;a
+
+(defun wjb-mark-region (beg end)
+  (set-mark beg)
+  (goto-char end)
+  (activate-mark))
+
+(defun wjb-mark-node (node leave-point-at-start)
+  (let* ((start-fn (if leave-point-at-start #'js2-node-abs-end #'js2-node-abs-pos))
+         (end-fn (if leave-point-at-start #'js2-node-abs-pos #'js2-node-abs-end))
+         (start (funcall start-fn node))
+         (end (funcall end-fn node)))
+    (wjb-mark-region start end)))
+
+(defun wjb-kill-node (node)
+  (let ((start (js2-node-abs-pos node))
+        (end (js2-node-abs-end node)))
+    (delete-region start end)
+    (goto-char start)))
+
+(defun wjb-mark-this-node (leave-point-at-start)
+  ;; By default, leave point at end.
+  (interactive "P")
+  (wjb-mark-node (js2r--next-node) leave-point-at-start))
+
+(defun wjb-kill-this-node ()
+  (interactive)
+  ;; TODO:
+  ;; - use js2-node-at-point instead
+  ;; - if node is root node, then instead delete node at point-1? or point+1? or next node that is found?
+  ;;(wjb-kill-node (js2r--next-node))
+  (wjb-kill-node (js2-node-at-point)))
 
 (provide 'defuns)
 

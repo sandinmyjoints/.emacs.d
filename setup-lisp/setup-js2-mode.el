@@ -58,11 +58,21 @@
 (defun js2-tab-properly ()
   "Tab properly."
   (interactive)
+
+  ;; yas works differently now, this may be obsolete. See yas-fallback-behavior documentation.
   (let ((yas-fallback-behavior 'return-nil))
     (unless (yas-expand)
       (indent-for-tab-command)
       (if (looking-back "^\s+")
           (back-to-indentation)))))
+
+(defun coffee-tab-properly ()
+  "Expand yasnippet and if it worked, don't tab after."
+  (interactive)
+
+  (let ((yas-fallback-behavior 'return-nil))
+    (unless (yas-expand)
+      (indent-for-tab-command))))
 
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
@@ -78,10 +88,16 @@
   (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
   ;;(define-key js2-mode-map (kbd "H-r") 'js2r-rename-var) ;; H-c r v
-  (define-key js2-mode-map (kbd "H-c r l") 'remove-console-log-js))
+  (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
+  (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
+  (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
+  (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
+  (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill))
 
 (after-load 'coffee-mode
+  (define-key coffee-mode-map (kbd "TAB") 'coffee-tab-properly)
   (define-key coffee-mode-map (kbd "C-c r l") 'remove-console-log-coffee)
+  (define-key coffee-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-coffee)
   (define-key coffee-mode-map (kbd "H-c r l") 'remove-console-log-coffee))
 
 ;; Don't redefine C-a for me please, js2-mode
