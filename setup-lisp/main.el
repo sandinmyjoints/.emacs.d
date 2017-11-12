@@ -107,54 +107,7 @@
 (desktop-save-mode 1)
 (setq desktop-restore-eager 32)
 
-;; Allow the very useful set-goal-column.
-(put 'set-goal-column 'disabled nil)
-
-;; 24-hour time.
-(setq display-time-24hr-format t)
-
-;; Tramp.
-(setq tramp-default-method "ssh")
-
-;; Sane backup files.
-;; See: http://www.emacswiki.org/emacs/BackupDirectory
-(setq
-   backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-   `(("." . ,(expand-file-name
-              (concat user-emacs-directory "backups"))))
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t)       ; use versioned backups
-
-;; Keep auto-save files out of the filesystem.
-;; See: http://emacswiki.org/emacs/AutoSave
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-;; Disable interlocking files (interferes with watches).
-;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Interlocking.html
-;; http://stackoverflow.com/questions/5738170/
-(setq create-lockfiles nil)
-
-;; Set PAGER and EDITOR so git doesn't complain: "terminal is not
-;; fully functional".
-(setenv "PAGER" "cat")
-(setenv "EDITOR" "emacsclient")
-
-;; Allow downcasing regions.
-(put 'downcase-region 'disabled nil)
-
-;; Keyboard for Macs.
-(setq-default mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-
 (require 'setup-grep)
-
-;; Workaround for a bug in emacs' http fetching. See:
-;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
-(setq url-http-attempt-keepalives nil)
 
 ;; ========================================
 ;; Machine-local custom configuration.
@@ -190,8 +143,6 @@
 ;; Sane defaults.
 ;; ========================================
 
-;; From:
-;; https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el
 (require 'sane-defaults)
 
 ;; ========================================

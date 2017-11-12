@@ -45,10 +45,11 @@
 ;;
 ;;; Code:
 
-
 ;; The mac- prefix is specific to the Mac port. Cocoa Emacs uses variables
 ;; starting with ns-.
 ;;
+;; Keyboard for Macs.
+(setq-default mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 
 ;; With Seil, I can map capslock to arbitrary keys, such as fn (keycode 63) or
