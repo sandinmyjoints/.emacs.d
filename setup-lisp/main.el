@@ -340,23 +340,7 @@
   (global-set-key (kbd "M-<left>") 'smart-backward)
   (global-set-key (kbd "M-<right>") 'smart-forward))
 
-;; Scheme.
-;; (setq scheme-program-name
-;;       "/usr/local/bin/racket")
-(setq scheme-program-name
-      "/Applications/MIT-GNUScheme.app/Contents/Resources/mit-scheme")
-;; Common Lisp.
-;; Inferior Lisp.
-(set-variable 'inferior-lisp-program "/usr/local/bin/clisp")
-
-;; SLIME.
-(add-to-list 'load-path "~/scm/slime/")
-;; Autoload on use. See: http://ambience.info.ucl.ac.be/slime.html
-(when (load "slime-autoloads" t)
-  (setq slime-auto-connect 'always)
-  (slime-setup '(slime-fancy inferior-slime)))
-;(require 'slime-autoloads)
-;(slime-setup '(slime-fancy))
+;; (require 'lisp-stuff)
 
 ;; EPG.
 (require 'epa-file)
