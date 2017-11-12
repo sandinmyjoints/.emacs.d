@@ -379,16 +379,16 @@
    (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
 
 ;; RVM.
-(when (require 'rvm nil t)
+(use-package rvm
+  :config
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
-(when (require 'beginend nil t)
+(use-package beginend
+  :config
   (beginend-global-mode))
 
-(when (require 'expand-region nil t)
-  (global-set-key (kbd "C-=") 'er/expand-region))
-
-(when (require 'dotenv-mode nil t)
+(use-package dotenv-mode
+  :config
   (add-to-list 'auto-mode-alist '("\\.env.*\\'" . dotenv-mode)))
 
 ;; ========================================
