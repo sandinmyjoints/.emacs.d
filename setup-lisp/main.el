@@ -401,6 +401,13 @@
   :config
   (global-discover-mode 1))
 
+(use-package 'know-your-http-well)
+
+(use-package sane-term
+  :config
+  (global-set-key (kbd "C-x t") 'sane-term)
+  (global-set-key (kbd "C-x T") 'sane-term-create))
+
 ;; ========================================
 ;; Key bindings.
 ;; ========================================
@@ -446,19 +453,11 @@
 
 (setq nginx-indent-level 2)
 
-;; Enable sane term
-(when (require 'sane-term nil t)
-  (progn
-    (global-set-key (kbd "C-x t") 'sane-term)
-    (global-set-key (kbd "C-x T") 'sane-term-create)))
-
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook
           (lambda ()
             (define-key term-raw-map (kbd "C-y")
               (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
-
-(require 'know-your-http-well nil t)
 
 (eval-after-load "enriched"
   '(defun enriched-decode-display-prop (start end &optional param)
@@ -466,7 +465,6 @@
 
 ;; Byte-recompile site-lisp-dir.
 (byte-recompile-directory site-lisp-dir 0)
-
 
 (provide 'main)
 
