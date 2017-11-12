@@ -274,8 +274,9 @@
 ;;
 ;; I also want the same behavior from xref. It defines its own xref-goto-xref. L521
 ;;
-;; This is from https://stackoverflow.com/a/20548556.
-;; It seems to work and is much smaller than the previous solution.
+;; This is from https://stackoverflow.com/a/20548556. It seems to work and is
+;; much smaller than the previous solution. Though it seems not to work when
+;; dirtree window is not open.
 (defadvice compile-goto-error (around my-compile-goto-error activate)
   (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
     ad-do-it))
