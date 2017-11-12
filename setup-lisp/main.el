@@ -409,63 +409,14 @@
 
 (when is-mac (require 'setup-mac))
 
+(require 'setup-dirtree)
+
 ;; Load something that might be useful.
 ;; An initial file to open if it exists.
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
 
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
-
-;; Directories to open in dirtree on start. TODO This should be in custom.el,
-;; but probably need to move when dirtree starts up to happen following init.el
-;; being processed because custom.el isn't loaded until the very end.
-;; TODO: Would be nice to start these closed instead of expanded.
-(defvar initial-dirs-to-open '())
-
-;; Open up some dirs in dirtree if it's available.
-(defun do-setup-dirtree ()
-  (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
-    (let ((dirtree-buffer "*dirtree*"))
-      (dolist (dir initial-dirs-to-open)
-        (when (file-accessible-directory-p dir)
-          (dirtree dir dirtree-buffer)))
-      ;; Dedicate window and resize.
-      (let ((window (get-buffer-window dirtree-buffer)))
-        (set-window-fringes window 0 0 nil)
-        (set-window-dedicated-p window t)
-        ;; TODO: Resize more intelligently.
-        (adjust-window-trailing-edge window -5 t)
-        (cd "~/scm/sd")))))
-
-;; from http://bzg.fr/emacs-hide-mode-line.html
-(defvar-local hidden-mode-line-mode nil)
-
-(define-minor-mode hidden-mode-line-mode
-  "Minor mode to hide the mode-line in the current buffer."
-  :init-value nil
-  :global t
-  :variable hidden-mode-line-mode
-  :group 'editing-basics
-  (if hidden-mode-line-mode
-      (setq hide-mode-line mode-line-format
-            mode-line-format nil)
-    (setq mode-line-format hide-mode-line
-          hide-mode-line nil))
-  (force-mode-line-update)
-  ;; Apparently force-mode-line-update is not always enough to
-  ;; redisplay the mode-line
-  (redraw-display)
-  (when (and (called-interactively-p 'interactive)
-             hidden-mode-line-mode)
-    (run-with-idle-timer
-     0 nil 'message
-     (concat "Hidden Mode Line Mode enabled.  "
-             "Use M-x hidden-mode-line-mode to make the mode-line appear."))))
-
-(add-hook 'dirtree-mode-hook 'hidden-mode-line-mode)
-
-(autoload 'dirtree "dirtree" "Add directory to tree view")
-(do-setup-dirtree)
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
