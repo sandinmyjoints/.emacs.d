@@ -211,13 +211,18 @@
 (set-default 'imenu-auto-rescan t)
 
 ;; This line must run *before* dired is loaded:
-(setq diredp-hide-details-initially-flag nil)
-(when (require 'dired+ nil t)
-  (eval-after-load 'dired+ '(require 'setup-dired+)))
+(use-package dired+
+  :init
+  (setq diredp-hide-details-initially-flag nil)
+  :config
+  (require 'setup-dired+))
 
 ;; Org-mode.
-(require 'org-install)
-(eval-after-load 'org '(require 'setup-org))
+;; (require 'org-install)
+;; (eval-after-load 'org '(require 'setup-org))
+(use-package org
+  :config
+  (require 'setup-org))
 
 ;; Magit.
 (autoload 'magit-status "magit")
