@@ -662,14 +662,35 @@
     (global-set-key (kbd "C-x T") 'sane-term-create)))
 
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
-(add-hook 'term-mode-hook (lambda() (define-key term-raw-map (kbd "C-y") (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y")
+              (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
+
+(require 'know-your-http-well nil t)
+
+(eval-after-load "enriched"
+  '(defun enriched-decode-display-prop (start end &optional param)
+     (list start end)))
 
 (provide 'init)
 
-;(start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
-
-;(setq debug-on-quit nil)
-
+;; TODO: this is stuff I need to run manually. Make it automatic. Maybe in
+;; after-init hooks.
+;; (do-setup-dirtree)
+;;
+;; (do-nvm-use "6.11.1")
+;;
+;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
+;;
+;; (setq debug-on-quit nil)
+;;
+; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
+;; (eval-after-load "grep"
+;;   '(progn
+;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
+;;      (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee") t)
+;;      ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
 )
