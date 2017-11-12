@@ -17,3 +17,5 @@ custom.el
 /.achievements
 /var/
 /bookmarks
+projectile-bookmarks.eld
+image-dired/
