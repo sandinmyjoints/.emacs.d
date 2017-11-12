@@ -363,6 +363,61 @@
   (add-hook 'comint-output-filter-functions 'js-comint-process-output))
 (add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
 
+
+;; xref
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+
+;; company and tern
+(when (require 'company nil t)
+  (require 'company-tern nil t)
+
+  (add-to-list 'company-backends 'company-tern)
+  (add-hook 'js2-mode-hook (lambda ()
+                             (tern-mode)
+                             (company-mode))))
+
+;; Just placing this here for now. Company stuff should probably be in its own
+;; file.
+(add-to-list 'company-backends 'company-restclient)
+(when (require 'company-emoji nil t)
+  (add-to-list 'company-backends 'company-emoji))
+
+;; Disable completion keybindings, as we use xref-js2 instead
+(define-key tern-mode-keymap (kbd "M-.") nil)
+(define-key tern-mode-keymap (kbd "M-,") nil)
+
+
+;; prettier
+(defun enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+          (funcall (cdr my-pair)))))
+
+(when (require 'prettier-js nil t)
+  ;; Uncomment below to enable prettier in all js buffers.
+  ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;; (add-hook 'web-mode-hook #'(lambda ()
+  ;;                             (enable-minor-mode
+  ;;                              '("\\.jsx?\\'" . prettier-js-mode))))
+
+  (setq prettier-js-width-mode 80)
+  (setq prettier-js-args '(
+                           "--single-quote"
+                           "--trailing-comma"
+                           "es5"
+                           )))
+
+
+;; indium
+;; (when (require 'indium nil t)
+;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
+
+;;(add-hook 'coffee-mode-hook 'smart-indent-rigidly-mode) ;; clobbers TAB for yasnippet/expand
+
+
 (provide 'setup-js2-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
