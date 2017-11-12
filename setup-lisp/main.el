@@ -407,9 +407,6 @@
 ;; Final.
 ;; ========================================
 
-;; Byte-recompile site-lisp-dir.
-(byte-recompile-directory site-lisp-dir 0)
-
 (when is-mac (require 'setup-mac))
 
 ;; Load something that might be useful.
@@ -514,6 +511,10 @@
 (eval-after-load "enriched"
   '(defun enriched-decode-display-prop (start end &optional param)
      (list start end)))
+
+;; Byte-recompile site-lisp-dir.
+(byte-recompile-directory site-lisp-dir 0)
+
 
 (provide 'main)
 
