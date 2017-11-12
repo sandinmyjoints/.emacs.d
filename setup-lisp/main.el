@@ -243,6 +243,16 @@
   (add-hook 'css-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
+;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
+(use-package smart-tab
+  :config
+  (global-smart-tab-mode -1))
+
+(use-package anzu-mode
+  :config
+  (global-anzu-mode 1))
+
 (require 'setup-projectile)
 (require 'setup-tramp)
 
@@ -258,9 +268,6 @@
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-
-;; Force fill columns.
-(add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
@@ -302,28 +309,27 @@
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
-;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
-;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
-(when (require 'smart-tab nil t)
-  (global-smart-tab-mode -1))
+(add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
 
-(when (require 'anzu-mode nil t)
-  (global-anzu-mode 1))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; multiple-cursors.
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
-(global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-M-<") 'mc/edit-beginnings-of-lines)
-(global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines)
+(use-package multiple-cursors
+  :config
+  (global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-M-<") 'mc/edit-beginnings-of-lines)
+  (global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines))
 
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
-(when (require 'expand-region nil t)
+(use-package expand-region
+  :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
 ;; smart-forward
