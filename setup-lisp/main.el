@@ -359,10 +359,16 @@
   (add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer))
 
 ;; Yasnippet.
+;; TODO: get this to work with use-package, it doesn't like it.
 (when (require 'yasnippet nil t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (yas-global-mode 1)
+
+;; Work-around for tab complaining when yas is active in ansi-term. See:
+;; https://github.com/capitaomorte/yasnippet/issues/289
+(add-hook 'term-mode-hook (lambda()
+                            (yas-minor-mode -1))))
 
 ;; Ctags.
 (setq path-to-ctags "/usr/local/bin/ctags") ;; <- your ctags path here
@@ -371,12 +377,6 @@
   (interactive "DDirectory: ")
   (shell-command
    (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
-
-;; Work-around for tab complaining when yas is active in ansi-term. See:
-;; https://github.com/capitaomorte/yasnippet/issues/289
-  (add-hook 'term-mode-hook (lambda()
-                              (yas-minor-mode -1))))
-
 
 ;; RVM.
 (when (require 'rvm nil t)
