@@ -334,7 +334,8 @@
 
 ;; smart-forward
 ;; See: https://github.com/magnars/smart-forward.el
-(when (require 'smart-forward nil t)
+(use-package smart-forward
+  :config
   (global-set-key (kbd "M-<up>") 'smart-up)
   (global-set-key (kbd "M-<down>") 'smart-down)
   (global-set-key (kbd "M-<left>") 'smart-backward)
@@ -343,11 +344,13 @@
 ;; (require 'lisp-stuff)
 
 ;; EPG.
-(require 'epa-file)
-(epa-file-enable)
+(use-package epa-file
+  :config
+  (epa-file-enable))
 
 ;; Edit-server for Edit-in-Emacs Chrome extension.
-(when (require 'edit-server nil t)
+(use-package edit-server
+  :config
   (setq edit-server-new-frame nil)
   (edit-server-start)
   (autoload 'edit-server-maybe-dehtmlize-buffer "edit-server-htmlize" "edit-server-htmlize" t)
