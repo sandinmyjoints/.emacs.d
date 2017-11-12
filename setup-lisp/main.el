@@ -59,9 +59,9 @@
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
-;; Custom grep-find via find-in-project.
-(defvar find-in-project-default-dir ".")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Preload registers.
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
 
@@ -127,12 +127,16 @@
 
 (require 'appearance)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
   (let* ((w (length (number-to-string
                      (count-lines (point-min) (point-max)))))
          (linum-format (concat " %" (number-to-string w) "d ")))
     ad-do-it))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; From http://emacs.stackexchange.com/a/11064
 (defun my-keyboard-quit-advice (fn &rest args)
@@ -143,6 +147,8 @@
         (activate-mark t)))))
 
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
 ;; make zap-to-char act like zap-up-to-char
