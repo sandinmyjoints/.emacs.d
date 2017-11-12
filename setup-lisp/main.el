@@ -295,14 +295,12 @@
   ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
   )
 
-(require-package 'nvm)
-(require 'nvm)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package nvm)
 
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
-
-;; json
-;; (require 'json nil t) ;; Think this is builtin now.
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
