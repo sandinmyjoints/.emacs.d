@@ -397,6 +397,10 @@
   :config
   (require 'setup-coffee))
 
+(use-package discover
+  :config
+  (global-discover-mode 1))
+
 ;; ========================================
 ;; Key bindings.
 ;; ========================================
@@ -410,6 +414,17 @@
 (when is-mac (require 'setup-mac))
 
 (require 'setup-dirtree)
+
+(autoload 'auto-make-header "header2")
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+
+(add-hook 'after-init-hook 'sml/setup)
+(eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
+
+(require 'setup-ediff)
+(require 'setup-docker)
+(require 'setup-webmode)
+(require 'setup-markdown)
 
 ;; Load something that might be useful.
 ;; An initial file to open if it exists.
@@ -426,20 +441,6 @@
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
-
-(autoload 'auto-make-header "header2")
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-
-(when (require 'discover nil t)
-  (global-discover-mode 1))
-
-(add-hook 'after-init-hook 'sml/setup)
-(eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
-
-(require 'setup-ediff)
-(require 'setup-docker)
-(require 'setup-webmode)
-(require 'setup-markdown)
 
 (setq aw-keys '(?1 ?2 ?3 ?4))
 
