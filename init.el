@@ -519,6 +519,15 @@
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (yas-global-mode 1)
 
+;; Tramp;
+;; C-x-f C-f
+;; /ssh:ubuntu@<dest host>:~
+(add-to-list 'tramp-default-proxies-alist
+                 '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
+
+(add-to-list 'tramp-default-proxies-alist
+                 '("ec2-34-207-233-210.compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
+
 ;; Work-around for tab complaining when yas is active in ansi-term. See:
 ;; https://github.com/capitaomorte/yasnippet/issues/289
   (add-hook 'term-mode-hook (lambda()
