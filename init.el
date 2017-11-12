@@ -75,6 +75,7 @@
      (gc-cons-threshold most-positive-fixnum))
   (init))
 
+;;(do-setup-dirtree)
 (provide 'init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
