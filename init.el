@@ -378,6 +378,7 @@
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (require 'setup-projectile)
+(require 'setup-tramp)
 
 (defun mine-goto-symbol-at-point ()
   "Will navigate to the symbol at the current point of the cursor."
@@ -526,15 +527,6 @@
   (interactive "DDirectory: ")
   (shell-command
    (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
-
-;; Tramp;
-;; C-x-f C-f
-;; /ssh:ubuntu@<dest host>:~
-(add-to-list 'tramp-default-proxies-alist
-                 '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
-
-(add-to-list 'tramp-default-proxies-alist
-                 '("ec2-34-207-233-210.compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
 
 ;; Work-around for tab complaining when yas is active in ansi-term. See:
 ;; https://github.com/capitaomorte/yasnippet/issues/289
