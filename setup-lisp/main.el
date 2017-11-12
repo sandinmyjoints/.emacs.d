@@ -112,7 +112,8 @@
      '(progn ,@body)))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
-(when (require 'auto-install nil t)
+(use-package auto-install
+  :config
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (require 'setup-grep)
@@ -138,7 +139,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; From http://emacs.stackexchange.com/a/11064
+;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
 (defun my-keyboard-quit-advice (fn &rest args)
   (let ((region-was-active (region-active-p)))
     (unwind-protect

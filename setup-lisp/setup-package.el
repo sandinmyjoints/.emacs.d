@@ -73,6 +73,12 @@
                (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
     (package-refresh-contents))
 
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (eval-when-compile
+    (require 'use-package))
+
   (defun packages-install (&rest packages)
     (mapc (lambda (package)
             (let ((name (car package))
