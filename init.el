@@ -295,11 +295,34 @@
     (let ((my-inhibit-set-window-dedicated t))
       (apply orig-fun args))))
 
+;; Linum: put spaces around line numbers.
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
+
+;; From http://emacs.stackexchange.com/a/11064
+(defun my-keyboard-quit-advice (fn &rest args)
+  (let ((region-was-active (region-active-p)))
+    (unwind-protect
+         (apply fn args)
+      (when region-was-active
+        (activate-mark t)))))
+
+(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+
+;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
+;; make zap-to-char act like zap-up-to-char
+(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
+  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
+  The CHAR is replaced and the point is put before CHAR."
+  (insert char)
+  (forward-char -1))
+
 ;; ========================================
 ;; Some hooks.
 ;; ========================================
-
-;;(add-hook 'coffee-mode-hook 'smart-indent-rigidly-mode) ;; clobbers TAB for yasnippet/expand
 
 ;; Force 2-space indentation in css-mode.
 (add-hook 'css-mode-hook
@@ -344,10 +367,6 @@
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
-;; Dired.
-;; dired-jump is useful.
-(require 'dired-x)
-
 ;; This line must run *before* dired is loaded:
 (setq diredp-hide-details-initially-flag nil)
 (when (require 'dired+ nil t)
@@ -364,11 +383,6 @@
 
 ;; Python.
 (require 'setup-python)
-
-;; Shell.
-;(eval-after-load 'shell '(require 'setup-shell))
-
-;(require 'setup-hippie)
 
 ;; Rainbow mode.
 (when (require 'rainbow-mode nil t)
@@ -437,7 +451,6 @@
   ;; (add-hook 'magit-mode-hook 'turn-off-fci)
   ;; (add-hook 'term-mode-hook 'turn-off-fci)
   ;; (add-hook 'shell-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
   ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
   ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
   ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
@@ -535,26 +548,9 @@
                               (yas-minor-mode -1))))
 
 
-;; Linum: put spaces around line numbers.
-(defadvice linum-update-window (around linum-dynamic activate)
-  (let* ((w (length (number-to-string
-                     (count-lines (point-min) (point-max)))))
-         (linum-format (concat " %" (number-to-string w) "d ")))
-    ad-do-it))
-
 ;; RVM.
 (when (require 'rvm nil t)
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
-
-;; From http://emacs.stackexchange.com/a/11064
-(defun my-keyboard-quit-advice (fn &rest args)
-  (let ((region-was-active (region-active-p)))
-    (unwind-protect
-         (apply fn args)
-      (when region-was-active
-        (activate-mark t)))))
-
-(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 
 (when (require 'beginend nil t)
   (beginend-global-mode))
