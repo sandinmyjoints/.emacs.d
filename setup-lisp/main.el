@@ -176,7 +176,9 @@
 
 (use-package emacs-lisp
   :config
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80))))
+
 
 (use-package lisp-interaction
   :config
@@ -233,7 +235,8 @@
 (require 'setup-python)
 
 ;; Rainbow mode.
-(when (require 'rainbow-mode nil t)
+(use-package rainbow-mode
+  :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
   (add-hook 'less-css-mode-hook 'rainbow-mode)
@@ -257,7 +260,6 @@
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Force fill columns.
-(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
 
 ;; Fill column indicator.
