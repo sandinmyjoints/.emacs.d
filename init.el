@@ -46,15 +46,19 @@
 ;;; Code:
 
 (defun init ()
-  (defvar site-lisp-dir)
-  (defvar more-lisp-dir)
-  (defvar initial-dirs-to-open)
-  (defvar initial-file)
+  (setq package-enable-at-startup nil)
+  (setq package--init-file-ensured nil)
+  ;; TODO: Goal is to run this after main.
+  (package-initialize)
 
-  (setq site-lisp-dir
+  ;; Set file containing machine-local customized settings.
+  (setq custom-file
+        (expand-file-name "custom.el" user-emacs-directory))
+
+  (defvar site-lisp-dir
         (expand-file-name "elisp" user-emacs-directory))
 
-  (setq more-lisp-dir
+  (defvar more-lisp-dir
         (expand-file-name "setup-lisp" user-emacs-directory))
 
   (add-to-list 'load-path site-lisp-dir t)
@@ -63,15 +67,6 @@
   ;; Add all subdirs of site-lisp-dir.
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
-
-  ;; Directories to open in dirtree on start. TODO This should be in custom.el,
-  ;; but probably need to move when dirtree starts up to happen following init.el
-  ;; being processed because custom.el isn't loaded until the very end.
-  ;; TODO: Would be nice to start these closed instead of expanded.
-  (setq initial-dirs-to-open '())
-
-  ;; An initial file to open if it exists.
-  (setq initial-file (expand-file-name "init.el" user-emacs-directory))
 
   (require 'main))
 

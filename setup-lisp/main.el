@@ -57,11 +57,7 @@
 ;; ========================================
 
 ;; Are we on a mac?
-(setq is-mac (equal system-type 'darwin))
-
-;; Set file containing machine-local customized settings.
-(setq custom-file (expand-file-name "custom.el"
-                                    user-emacs-directory))
+(defvar is-mac (equal system-type 'darwin))
 
 ;; Set custom markers.
 ;; Args:
@@ -70,19 +66,17 @@
 ;; 3. Key bindings to set/clear marker.
 ;; 4. Insert/remove marker from current buffer?
 ;;
-(setq wjb-custom-markers
+(defvar wjb-custom-markers
       '(("NNN" ?n "" t)
         ;("MMM" ?m "" t)
         ("Server" ?s "" nil)
         ("Quiz View" ?q "" nil)
         ("Client" ?c "" nil)))
 
-(defvar wjb-test-config-buffer)
-(setq wjb-test-config-buffer "test.coffee")
+(defvar wjb-test-config-buffer "test.coffee")
 
 ;; Custom grep-find via find-in-project.
-(defvar find-in-project-default-dir)
-(setq find-in-project-default-dir ".")
+(defvar find-in-project-default-dir ".")
 
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
@@ -543,8 +537,17 @@
 (eval-after-load 'coffee-mode '(require 'setup-coffee))
 
 ;; Load something that might be useful.
+;; An initial file to open if it exists.
+(defvar initial-file (expand-file-name "init.el" user-emacs-directory))
+
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+;; Directories to open in dirtree on start. TODO This should be in custom.el,
+;; but probably need to move when dirtree starts up to happen following init.el
+;; being processed because custom.el isn't loaded until the very end.
+;; TODO: Would be nice to start these closed instead of expanded.
+(defvar initial-dirs-to-open '())
 
 ;; Open up some dirs in dirtree if it's available.
 (defun do-setup-dirtree ()
