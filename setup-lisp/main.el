@@ -59,22 +59,6 @@
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
-;; Set custom markers.
-;; Args:
-;; 1. Marker.
-;; 2. Register to store.
-;; 3. Key bindings to set/clear marker.
-;; 4. Insert/remove marker from current buffer?
-;;
-(defvar wjb-custom-markers
-      '(("NNN" ?n "" t)
-        ;("MMM" ?m "" t)
-        ("Server" ?s "" nil)
-        ("Quiz View" ?q "" nil)
-        ("Client" ?c "" nil)))
-
-(defvar wjb-test-config-buffer "test.coffee")
-
 ;; Custom grep-find via find-in-project.
 (defvar find-in-project-default-dir ".")
 
@@ -139,19 +123,9 @@
 
 (require 'setup-flycheck)
 
-(require 'appearance)
+(require 'wjb)
 
-;; Set shortcuts to clear custom markers. Requires lexical binding.
-(dolist (marker-data wjb-custom-markers)
-        (let ((marker (pop marker-data))
-              (marker-register (pop marker-data))
-              (marker-key (pop marker-data))
-              (handle-in-current-buffer (pop marker-data)))
-          (progn
-            (set-register marker-register marker)
-            (global-set-key marker-key (lambda (arg)
-                                          (interactive "P")
-                                          (wjb-toggle-marker arg marker handle-in-current-buffer))))))
+(require 'appearance)
 
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
