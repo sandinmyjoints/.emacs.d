@@ -156,13 +156,6 @@
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
 (setq url-http-attempt-keepalives nil)
 
-;; From purcell.
-(defmacro after-load (feature &rest body)
-  "After FEATURE is loaded, evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,feature
-     '(progn ,@body)))
-
 ;; ========================================
 ;; Machine-local custom configuration.
 ;; ========================================
@@ -180,6 +173,14 @@
 ;; ========================================
 
 (require 'setup-package)
+
+;; From purcell. TODO: replace with use-package. A bunch of stuff uses this,
+;; including in sane-defaults.
+(defmacro after-load (feature &rest body)
+  "After FEATURE is loaded, evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,feature
+     '(progn ,@body)))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
 (when (require 'auto-install nil t)

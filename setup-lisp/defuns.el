@@ -45,13 +45,6 @@
 ;;
 ;;; Code:
 
-
-(defmacro after-load (feature &rest body)
-  "After FEATURE is loaded, evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,feature
-     '(progn ,@body)))
-
 ;; Useful in fullscreen:
 ;; http://osxdaily.com/2012/03/27/remove-auto-hide-dock-delay-mac-os-x/
 (defun toggle-fullscreen ()
