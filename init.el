@@ -519,6 +519,14 @@
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (yas-global-mode 1)
 
+;; Ctags.
+(setq path-to-ctags "/usr/local/bin/ctags") ;; <- your ctags path here
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
+
 ;; Tramp;
 ;; C-x-f C-f
 ;; /ssh:ubuntu@<dest host>:~
