@@ -159,25 +159,28 @@
   (insert char)
   (forward-char -1))
 
-;; ========================================
-;; Some hooks.
-;; ========================================
-
-;; Force 2-space indentation in css-mode.
-(add-hook 'css-mode-hook
-          (function
-           (lambda ()
-             (setq css-indent-offset 2))))
-
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (dolist (hook '(text-mode-hook))
   (add-hook hook (lambda () (abbrev-mode 1))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; ========================================
 ;; Require/autoload and config packages.
 ;; ========================================
+
+(use-package css-mode
+  :config
+  (setq css-indent-offset 2))
+
+(use-package emacs-lisp
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
+
+(use-package lisp-interaction
+  :config
+  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode))
 
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
