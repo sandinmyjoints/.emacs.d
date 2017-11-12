@@ -107,19 +107,11 @@
 (desktop-save-mode 1)
 (setq desktop-restore-eager 32)
 
-(require 'setup-grep)
-
 ;; ========================================
 ;; Machine-local custom configuration.
 ;; ========================================
 
 (load custom-file t t)
-
-;; ========================================
-;; Appearance.
-;; ========================================
-
-(require 'appearance)
 
 ;; ========================================
 ;; Package management.
@@ -139,23 +131,15 @@
 (when (require 'auto-install nil t)
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
-;; ========================================
-;; Sane defaults.
-;; ========================================
+(require 'setup-grep)
 
 (require 'sane-defaults)
 
-;; ========================================
-;; Custom defuns.
-;; ========================================
-
 (require 'defuns)
 
-;; ========================================
-;; Misc.
-;; ========================================
-
 (require 'setup-flycheck)
+
+(require 'appearance)
 
 ;; Set shortcuts to clear custom markers. Requires lexical binding.
 (dolist (marker-data wjb-custom-markers)
