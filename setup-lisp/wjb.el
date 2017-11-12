@@ -74,6 +74,17 @@
                                           (interactive "P")
                                           (wjb-toggle-marker arg marker handle-in-current-buffer))))))
 
+;; Text and fill modes.
+(defun wjb-textful-settings ()
+  "Textful settings."
+  (goto-address-mode 1)
+  (auto-fill-mode 1)
+  (set-fill-column 80))
+
+(add-hook 'markdown-mode-hook 'wjb-textful-settings)
+(add-hook 'rst-mode-hook 'wjb-textful-settings)
+(add-hook 'text-mode-hook 'wjb-textful-settings)
+
 (provide 'wjb)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
