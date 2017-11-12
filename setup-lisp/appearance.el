@@ -78,15 +78,14 @@
                 (set-face-background 'auto-dim-other-buffers-face "#181818")))))
 
 (defun theme-it () ""
-       (progn
-         (load-theme 'gruvbox-dark-hard)
-         ;; ...but with keywords gray instead of red.
-         (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
-         ;; ...but with face-background set to near black
-         (set-face-background 'default "#000")
-         (set-cursor-color "#30F0F0")
-         ;; #504945
-         (set-face-background 'region "#2d3d45")))
+       (load-theme 'gruvbox-dark-hard)
+       ;; ...but with keywords gray instead of red.
+       (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+       ;; ...but with face-background set to near black
+       (set-face-background 'default "#000")
+       (set-cursor-color "#30F0F0")
+       ;; #504945
+       (set-face-background 'region "#2d3d45"))
 
 ;; TODO: try moving to after-init hook?
 (theme-it)
