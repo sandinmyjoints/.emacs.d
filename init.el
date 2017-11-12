@@ -563,6 +563,15 @@
 
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 
+(when (require 'beginend nil t)
+  (beginend-global-mode))
+
+(when (require 'expand-region nil t)
+  (global-set-key (kbd "C-=") 'er/expand-region))
+
+(when (require 'dotenv-mode nil t)
+  (add-to-list 'auto-mode-alist '("\\.env.*\\'" . dotenv-mode)))
+
 ;; ========================================
 ;; Key bindings.
 ;; ========================================
@@ -642,8 +651,8 @@
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
-(require 'discover)
-(global-discover-mode 1)
+(when (require 'discover nil t)
+  (global-discover-mode 1))
 
 (add-hook 'after-init-hook 'sml/setup)
 (eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
@@ -658,9 +667,10 @@
 (setq nginx-indent-level 2)
 
 ;; Enable sane term
-(require 'sane-term)
-(global-set-key (kbd "C-x t") 'sane-term)
-(global-set-key (kbd "C-x T") 'sane-term-create)
+(when (require 'sane-term nil t)
+  (progn
+    (global-set-key (kbd "C-x t") 'sane-term)
+    (global-set-key (kbd "C-x T") 'sane-term-create)))
 
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook (lambda() (define-key term-raw-map (kbd "C-y") (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
