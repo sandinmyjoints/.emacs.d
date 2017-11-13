@@ -124,6 +124,7 @@
 (require 'appearance)
 
 (use-package css-mode
+  :defer t
   :config
   (setq css-indent-offset 2))
 
@@ -190,6 +191,7 @@
 
 ;; Rainbow mode.
 (use-package rainbow-mode
+  :defer t
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
