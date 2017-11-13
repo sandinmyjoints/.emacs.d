@@ -68,9 +68,9 @@
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
-;; Workaround for a bug in emacs' http fetching. See:
+;; Workaround for a bug in emacs' http fetching. Maybe not needed anymore. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
-(setq url-http-attempt-keepalives nil)
+;;(defvar url-http-attempt-keepalives nil)
 
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
