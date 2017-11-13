@@ -175,6 +175,7 @@
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
 (use-package org
+  :defer t
   :config
   (require 'setup-org))
 
