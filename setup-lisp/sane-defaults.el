@@ -56,9 +56,9 @@
 
 ;; Turn on/off display stuff.
 ;;
-(setq visible-bell nil
-      font-lock-maximum-decoration t
-      truncate-partial-width-windows nil)
+(setq-default visible-bell t
+              font-lock-maximum-decoration t
+              truncate-partial-width-windows nil)
 
 (when window-system
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))
@@ -160,10 +160,6 @@
 (setq fill-column 80)
 (setq-default fill-column 80)
 
-;; Save a list of recent files visited. (open recent file with C-x f)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100) ;; just 20 is too recent
-
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)
 
@@ -173,7 +169,8 @@
 ;; Set up 2-space tabs.
 ;; See: http://stackoverflow.com/a/1819405/599258
 (setq-default tab-width 2)
-;(setq indent-line-function 'insert-tab)
+;;(setq indent-line-function 'insert-tab)
+;; TODO: check if this is what I really want in all modes:
 (setq indent-line-function 'indent-relative-maybe)
 
 ;; Show me empty lines after buffer end
@@ -184,12 +181,6 @@
 
 ;; Don't break lines for me, please
 (setq-default truncate-lines t)
-
-;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
-(setq org-replace-disputed-keys t)
-
-;; Fontify org-mode code blocks
-(setq org-src-fontify-natively t)
 
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
@@ -218,9 +209,6 @@
     (dotimes (i 10)
       (when (= p (point)) ad-do-it))))
 
-;;; Visible bell.
-(setq-default visible-bell t)
-
 ;;; Fewer new frames and pop-up windows.
 (setq pop-up-frames nil)
 (setq pop-up-windows nil)
@@ -228,6 +216,10 @@
 ;;; Never split windows for me, split-window-sensibly.
 (setq split-height-threshold nil)
 (setq split-width-threshold nil)
+
+(defadvice split-window-vertically
+    (after my-window-splitting-advice first () activate)
+    (set-window-buffer (next-window) (other-buffer)))
 
 ;;; Default for new buffers.
 (when (require 'markdown-mode nil t)
@@ -262,12 +254,6 @@
     (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
 
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR.
-
-  \(fn arg char)"
-  'interactive)
-
 ;; Use human readable Size column instead of original one.
 (eval-after-load 'ibuffer
   '(progn (define-ibuffer-column size-h
@@ -287,6 +273,12 @@
                         (mode 16 16 :left :elide)
                         " "
                         filename-and-process)))))
+
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.
+
+  \(fn arg char)"
+  'interactive)
 
 ;; Narrow to region is useful.
 (put 'narrow-to-region 'disabled nil)
@@ -346,8 +338,6 @@
 (defadvice load-theme (before theme-dont-propagate activate)
   (mapcar #'disable-theme custom-enabled-themes))
 
-(setq split-width-threshold 300)
-
 (setq json-reformat:indent-width 2)
 
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
@@ -356,10 +346,6 @@
 ;;
 (defvar show-paren-delay 0)
 (show-paren-mode 1)
-
-(defadvice split-window-vertically
-    (after my-window-splitting-advice first () activate)
-    (set-window-buffer (next-window) (other-buffer)))
 
 (provide 'sane-defaults)
 

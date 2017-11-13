@@ -45,6 +45,12 @@
 ;;
 ;;; Code:
 
+;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
+(defvar org-replace-disputed-keys t)
+
+;; Fontify org-mode code blocks
+(defvar org-src-fontify-natively t)
+
 
 ;; Helpful: (org-reload)
 
