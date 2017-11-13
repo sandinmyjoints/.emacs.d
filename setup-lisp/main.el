@@ -128,15 +128,10 @@
   :config
   (setq css-indent-offset 2))
 
-(use-package emacs-lisp
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80))))
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 
-
-(use-package lisp-interaction
-  :config
-  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode))
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
@@ -205,7 +200,7 @@
   :config
   (global-smart-tab-mode -1))
 
-(use-package anzu-mode
+(use-package anzu
   :config
   (global-anzu-mode 1))
 
@@ -287,15 +282,6 @@
 (use-package expand-region
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
-
-;; smart-forward
-;; See: https://github.com/magnars/smart-forward.el
-(use-package smart-forward
-  :config
-  (global-set-key (kbd "M-<up>") 'smart-up)
-  (global-set-key (kbd "M-<down>") 'smart-down)
-  (global-set-key (kbd "M-<left>") 'smart-backward)
-  (global-set-key (kbd "M-<right>") 'smart-forward))
 
 ;; (require 'lisp-stuff)
 
