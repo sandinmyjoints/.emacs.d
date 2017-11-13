@@ -89,6 +89,7 @@
 
 (defun customize-theme ()
   (interactive)
+  (message "running customize-theme")
   ;; ...but with keywords gray instead of red.
   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; ...but with face-background set to near black
