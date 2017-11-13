@@ -121,8 +121,6 @@
 
 (require 'wjb)
 
-(require 'appearance)
-
 (use-package css-mode
   :defer t
   :config
@@ -435,6 +433,8 @@
 
 ;; Byte-recompile site-lisp-dir.
 ;;(byte-recompile-directory site-lisp-dir 0)
+
+(require 'appearance)
 
 (require 'setup-dirtree)
 
