@@ -322,30 +322,44 @@
 
 ;; RVM.
 (use-package rvm
+  :ensure t
+  :defer t
   :config
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
 (use-package beginend
+  :ensure t
+  :defer t
   :config
   (beginend-global-mode))
 
 (use-package dotenv-mode
+  :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.env.*\\'" . dotenv-mode)))
 
 ;; (eval-after-load 'smartparens-mode '(require 'setup-smartparens))
 
 (use-package coffee-mode
+  :ensure t
+  :defer t
   :config
   (require 'setup-coffee))
 
 (use-package discover
+  :ensure t
+  :defer t
   :config
   (global-discover-mode 1))
 
-(use-package know-your-http-well)
+(use-package know-your-http-well
+  :ensure t
+  :defer t)
 
 (use-package sane-term
+  :ensure t
+  :defer t
   :config
   (global-set-key (kbd "C-x t") 'sane-term)
   (global-set-key (kbd "C-x T") 'sane-term-create))
