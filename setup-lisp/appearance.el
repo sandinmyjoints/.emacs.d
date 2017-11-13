@@ -45,6 +45,13 @@
 
 (setq-default line-spacing 2)
 
+(use-package auto-dim-other-buffers
+  :config
+  (setq auto-dim-other-buffers-dim-on-focus-out nil)
+  (auto-dim-other-buffers-mode t)
+  (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
+  (set-face-background 'auto-dim-other-buffers-face "#181818"))
+
 ;; Colors.
 ;;
 ;; Uncomment if not using theme:
@@ -68,15 +75,7 @@
 ;;       orange. They look like errors.
 ;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
 ;; applications.
-(add-hook 'after-init-hook
-          (lambda ()
-            (when (fboundp 'auto-dim-other-buffers-mode)
-              (progn
-                (setq auto-dim-other-buffers-dim-on-focus-out nil)
-                (auto-dim-other-buffers-mode t)
-                (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
-                (set-face-background 'auto-dim-other-buffers-face "#181818")))))
-
+;;
 (defun theme-it () ""
        (load-theme 'gruvbox-dark-hard)
        ;; ...but with keywords gray instead of red.
