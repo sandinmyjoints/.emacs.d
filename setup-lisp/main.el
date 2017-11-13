@@ -71,9 +71,10 @@
   (require 'cl))
 
 ;; Use server.
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+(use-package server
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 ;; Save desktop.
 (desktop-save-mode 1)
