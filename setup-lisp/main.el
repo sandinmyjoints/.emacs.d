@@ -135,10 +135,13 @@
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
 (use-package smex
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands))
   :config
   (smex-initialize)
   (setq smex-auto-update nil)
-  (smex-auto-update 10))
+  (smex-auto-update 10)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 (use-package beacon
   :config
@@ -322,11 +325,8 @@
   :config
   (beginend-global-mode))
 
-(use-package dotenv
-  :ensure t
-  :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.env.*\\'" . dotenv-mode)))
+(use-package dotenv-mode
+  :mode "\\.env\\'")
 
 ;; (eval-after-load 'smartparens-mode '(require 'setup-smartparens))
 
@@ -347,11 +347,11 @@
   :defer t)
 
 (use-package sane-term
+  :commands (sane-term sane-term-create)
+  :bind (("C-x t" . sane-term)
+         ("C-x T" . sane-term-create))
   :ensure t
-  :defer t
-  :config
-  (global-set-key (kbd "C-x t") 'sane-term)
-  (global-set-key (kbd "C-x T") 'sane-term-create))
+  :defer t)
 
 (use-package smart-mode-line
   :ensure t

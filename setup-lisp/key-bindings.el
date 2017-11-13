@@ -136,11 +136,4 @@
 (global-set-key (kbd "S-<up>") 'move-text-up)
 (global-set-key (kbd "S-<down>") 'move-text-down)
 
-;; Smex.
-(when (fboundp 'smex)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  ;; This is your old M-x.
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
-
 (provide 'key-bindings)
