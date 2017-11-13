@@ -45,7 +45,6 @@
 ;;
 ;;; Code:
 
-
 ;; Directories to open in dirtree on start. TODO This should be in custom.el,
 ;; but probably need to move when dirtree starts up to happen following init.el
 ;; being processed because custom.el isn't loaded until the very end.
@@ -96,7 +95,7 @@
 (add-hook 'dirtree-mode-hook 'hidden-mode-line-mode)
 
 (autoload 'dirtree "dirtree" "Add directory to tree view")
-(do-setup-dirtree)
+(add-hook 'after-init-hook #'do-setup-dirtree)
 
 (provide 'setup-dirtree)
 
