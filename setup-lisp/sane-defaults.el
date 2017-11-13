@@ -46,6 +46,28 @@
 ;;
 ;;; Code:
 
+;; Don't use these graphical elements.
+;;
+(if (display-graphic-p)
+    (progn
+      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
+
+;; Turn on/off display stuff.
+;;
+(setq visible-bell nil
+      font-lock-maximum-decoration t
+      truncate-partial-width-windows nil)
+
+(when window-system
+  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+  (tooltip-mode -1)
+  (blink-cursor-mode 1))
+
+;; Set to always be fullscreen.
+(set-frame-parameter nil 'fullscreen 'fullboth)
+
 ;; Workaround for a bug in emacs' http fetching. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
 (setq url-http-attempt-keepalives nil)
@@ -329,6 +351,15 @@
 (setq json-reformat:indent-width 2)
 
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
+
+;; Highlight matching parentheses when point is on them.
+;;
+(defvar show-paren-delay 0)
+(show-paren-mode 1)
+
+(defadvice split-window-vertically
+    (after my-window-splitting-advice first () activate)
+    (set-window-buffer (next-window) (other-buffer)))
 
 (provide 'sane-defaults)
 
