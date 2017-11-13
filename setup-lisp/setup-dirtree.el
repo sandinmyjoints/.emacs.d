@@ -54,6 +54,7 @@
 
 ;; Open up some dirs in dirtree if it's available.
 (defun do-setup-dirtree ()
+  (interactive)
   (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
     (let ((dirtree-buffer "*dirtree*"))
       (dolist (dir initial-dirs-to-open)
