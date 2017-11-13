@@ -362,8 +362,6 @@
 
 (when is-mac (require 'setup-mac))
 
-(require 'setup-dirtree)
-
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
@@ -437,14 +435,14 @@
      (list start end)))
 
 ;; Byte-recompile site-lisp-dir.
-(byte-recompile-directory site-lisp-dir 0)
+;;(byte-recompile-directory site-lisp-dir 0)
+
+(require 'setup-dirtree)
 
 (provide 'main)
 
 ;; TODO: this is stuff I need to run manually. Make it automatic. Maybe in
 ;; after-init hooks.
-;; (do-setup-dirtree)
-;;
 ;; (do-nvm-use "6.11.1")
 ;;
 ;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
