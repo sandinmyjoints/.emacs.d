@@ -379,8 +379,11 @@
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
-(add-hook 'after-init-hook 'sml/setup)
-(eval-after-load 'smart-mode-line (lambda () (load "setup-modeline")))
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (sml/setup)
+  (require "setup-modeline"))
 
 (require 'setup-ediff)
 (require 'setup-docker)
