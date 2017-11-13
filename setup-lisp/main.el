@@ -290,16 +290,6 @@
   :config
   (epa-file-enable))
 
-;; Edit-server for Edit-in-Emacs Chrome extension.
-;; (use-package edit-server
-;;   :config
-;;   (setq edit-server-new-frame nil)
-;;   (edit-server-start)
-;;   (autoload 'edit-server-maybe-dehtmlize-buffer "edit-server-htmlize" "edit-server-htmlize" t)
-;;   (autoload 'edit-server-maybe-htmlize-buffer   "edit-server-htmlize" "edit-server-htmlize" t)
-;;   (add-hook 'edit-server-start-hook 'edit-server-maybe-dehtmlize-buffer)
-;;   (add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer))
-
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
 (when (require 'yasnippet nil t)
