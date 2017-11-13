@@ -287,6 +287,7 @@
 
 ;; EPG.
 (use-package epa-file
+  :defer t
   :config
   (epa-file-enable))
 
@@ -323,7 +324,7 @@
   :config
   (beginend-global-mode))
 
-(use-package dotenv-mode
+(use-package dotenv
   :ensure t
   :defer t
   :config
