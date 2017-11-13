@@ -87,9 +87,9 @@
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
-(defun customize-theme ()
+(defun wjb-theme ()
   (interactive)
-  (message "running customize-theme")
+  (message "running wjb-theme")
   ;; ...but with keywords gray instead of red.
   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; ...but with face-background set to near black
@@ -121,7 +121,7 @@
   :ensure t
   :config
   (load-theme 'gruvbox-dark-hard t)
-  (customize-theme))
+  (wjb-theme))
 
 (provide 'appearance)
 
