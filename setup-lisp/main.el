@@ -354,21 +354,6 @@
   (global-set-key (kbd "C-x t") 'sane-term)
   (global-set-key (kbd "C-x T") 'sane-term-create))
 
-;; ========================================
-;; Key bindings.
-;; ========================================
-
-(require 'key-bindings)
-
-;; ========================================
-;; Final.
-;; ========================================
-
-(when is-mac (require 'setup-mac))
-
-(autoload 'auto-make-header "header2")
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-
 (use-package smart-mode-line
   :ensure t
   :config
@@ -379,6 +364,12 @@
 (require 'setup-docker)
 (require 'setup-webmode)
 (require 'setup-markdown)
+(require 'key-bindings)
+
+(when is-mac (require 'setup-mac))
+
+(autoload 'auto-make-header "header2")
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
