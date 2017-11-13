@@ -64,16 +64,15 @@
 (setq mac-function-modifier nil)
 (setq mac-right-command-modifier 'hyper)
 
-(require-package 'exec-path-from-shell)
-;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
-(exec-path-from-shell-initialize)
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  ;;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
+  (exec-path-from-shell-initialize))
 
 ;; make sure path is correct when launched as application
 (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 (push "/usr/local/bin" exec-path)
-
-;; Toggle fullscreen.
-(global-set-key (quote [M-f10]) (quote toggle-fullscreen))
 
 ;; Move to trash when deleting stuff
 (setq delete-by-moving-to-trash t
@@ -84,7 +83,7 @@
 
 ;; Don't open files from the workspace in a new frame.
 ;; Only works on Cocoa Emacs.
-(setq ns-pop-up-frames nil)
+(defvar ns-pop-up-frames nil)
 
 ;; Darwin/OS X ls doesn't support --dired out of the box.
 ;; First option: emulate ls via ls-lisp.
@@ -94,7 +93,9 @@
 (setq ls-lisp-use-insert-directory-program t)
 (setq insert-directory-program "gls")
 
-(require 'osx-plist nil t)
+(use-package osx-plist
+  :defer t
+  :ensure t)
 
 (provide 'setup-mac)
 
