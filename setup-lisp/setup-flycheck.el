@@ -47,7 +47,7 @@
 
 ;; This turns on Flycheck globally in only these modes. Others can be turned on
 ;; per-buffer.
-(setq flycheck-global-modes
+(defvar flycheck-global-modes
       '(js2-mode
         rjsx-mode
         coffee-mode
@@ -56,8 +56,6 @@
         sh-mode
         yaml-mode
         python-mode))
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (eval-after-load 'flycheck
   '(progn

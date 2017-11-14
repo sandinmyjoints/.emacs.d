@@ -119,7 +119,11 @@
 
 (require 'defuns)
 
-(require 'setup-flycheck)
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  :config
+  (require 'setup-flycheck))
 
 (require 'wjb)
 
