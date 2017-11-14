@@ -45,6 +45,13 @@
 ;;
 ;;; Code:
 
+;; Markdown
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+
 ;; Based on http://stackoverflow.com/a/1680994
 
 ;; https://github.com/michaelamie/markdown-mode-css/tree/master/css

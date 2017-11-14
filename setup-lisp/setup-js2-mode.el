@@ -417,6 +417,19 @@
 
 ;;(add-hook 'coffee-mode-hook 'smart-indent-rigidly-mode) ;; clobbers TAB for yasnippet/expand
 
+;; Add buffer-local indicator for whether prog-mode-hook has run.
+;; See:
+;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
+(defun my-set-pmh-ran ()
+  (set (make-local-variable 'my-pmh-ran) t))
+
+(add-hook 'prog-mode-hook 'my-set-pmh-ran)
+
+;; Ensure js2-mode runs prog-mode-hook.
+(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
+(defun my-run-pmh-if-not-ran ()
+  (unless (bound-and-true-p my-pmh-ran)
+    (run-hooks 'prog-mode-hook)))
 
 (provide 'setup-js2-mode)
 

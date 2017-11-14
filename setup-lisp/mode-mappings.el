@@ -52,18 +52,21 @@
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 
 ;; Ruby
-(autoload 'rhtml-mode "rhtml-mode")
 (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.watchr\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
-
 (add-to-list 'auto-mode-alist '("capfile" . ruby-mode))
+
+(autoload 'rhtml-mode "rhtml-mode")
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . rhtml-mode))
 
+;; nginx
 (add-to-list 'auto-mode-alist '("\\neodarwin-site.erb\\'" . nginx-mode))
+
+(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
 
 ;; Clojure
 (autoload 'clojure-mode "clojure-mode")
@@ -79,20 +82,6 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 ;(add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
 
-;; Add buffer-local indicator for whether prog-mode-hook has run.
-;; See:
-;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
-(defun my-set-pmh-ran ()
-  (set (make-local-variable 'my-pmh-ran) t))
-
-(add-hook 'prog-mode-hook 'my-set-pmh-ran)
-
-;; Ensure js2-mode runs prog-mode-hook.
-(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
-(defun my-run-pmh-if-not-ran ()
-  (unless (bound-and-true-p my-pmh-ran)
-    (run-hooks 'prog-mode-hook)))
-
 ;; Handlebars mode.
 (autoload 'handlebars-mode "handlebars-mode"
   "Major mode for editing Handlebars")
@@ -101,13 +90,6 @@
 ;; Snippets
 (add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
 (add-to-list 'auto-mode-alist '("\\.yasnippet\\'" . snippet-mode))
-
-;; Markdown
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 ;; log mode
 (autoload 'log4j-mode "log4j-mode" "Major mode for viewing log files." t)
@@ -120,10 +102,6 @@
 ;; less-css-mode
 (autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
-
-;; Coffee-mode.
-(autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
-(add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
 
 (provide 'mode-mappings)
 

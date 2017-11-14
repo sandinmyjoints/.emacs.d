@@ -45,16 +45,18 @@
 ;;
 ;;; Code:
 
+;; Coffee-mode.
+(autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
+(add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
 
 (eval-after-load 'coffee-mode
   '(define-key coffee-mode-map [(control j)] 'coffee-newline-and-indent))
 
 (after-load 'coffee-mode
   (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
-  (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote)
-  )
+  (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote))
 
-(setq coffee-indent-like-python-mode nil)
+(defvar coffee-indent-like-python-mode nil)
 
 (provide 'setup-coffee)
 
