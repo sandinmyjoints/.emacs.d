@@ -144,6 +144,7 @@
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 (use-package beacon
+  :defer t
   :config
   (setq beacon-blink-duration 0.1)
   (beacon-mode 1))
@@ -174,6 +175,7 @@
 ;; (eval-after-load 'org '(require 'setup-org))
 (use-package org
   :defer t
+  :mode "\\.org\\'"
   :config
   (require 'setup-org))
 
@@ -200,28 +202,25 @@
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
 (use-package smart-tab
+  :disabled
   :config
-  (global-smart-tab-mode -1))
+  (global-smart-tab-mode))
 
 (use-package anzu
   :config
   (global-anzu-mode 1))
 
 (require 'setup-projectile)
+
 (require 'setup-tramp)
 
-(defun mine-goto-symbol-at-point ()
-  "Will navigate to the symbol at the current point of the cursor."
-  (interactive)
-  (ido-goto-symbol (thing-at-point 'symbol)))
-
-;; Map files to modes.
 (require 'mode-mappings)
 
 ;; Lua mode.
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(use-package lua
+  :defer t
+  :mode "\\.lua\\'"
+  :interpreter "lua")
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
@@ -439,6 +438,8 @@
 (require 'appearance)
 
 (require 'setup-dirtree)
+
+(message (concat "exec-path is " (format "%s" exec-path)))
 
 (provide 'main)
 

@@ -39,6 +39,8 @@
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
 
+(global-set-key (kbd "C-<return>") 'goto-address-at-point)
+
 ;; Only works in Emacs >=25.1. Default for this is C-x C-;.
 (global-set-key (kbd "C-;") #'comment-line)
 

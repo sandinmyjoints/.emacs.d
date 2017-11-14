@@ -45,6 +45,11 @@
 ;;
 ;;; Code:
 
+(defun mine-goto-symbol-at-point ()
+  "Will navigate to the symbol at the current point of the cursor."
+  (interactive)
+  (ido-goto-symbol (thing-at-point 'symbol)))
+
 ;; Useful in fullscreen:
 ;; http://osxdaily.com/2012/03/27/remove-auto-hide-dock-delay-mac-os-x/
 (defun toggle-fullscreen ()
