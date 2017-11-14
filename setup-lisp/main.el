@@ -179,10 +179,20 @@
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
-(use-package org
-  :defer t
+(use-package org-mode
   :mode "\\.org\\'"
   :config
+  (setq org-src-fontify-natively t)
+  (setq org-log-done t)
+  (setq org-clock-persist 'history)
+  (setq org-blank-before-new-entry
+        '((heading . nil) (plain-list-item . nil))) ;; can switch back to auto soon
+  (setq org-todo-keywords
+        '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE")))
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-completion-use-ido t)
+  (setq org-return-follows-link t)
+
   (require 'setup-org))
 
 ;; Magit.
