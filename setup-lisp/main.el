@@ -178,9 +178,11 @@
   (require 'setup-org))
 
 ;; Magit.
-(autoload 'magit-status "magit")
-(autoload 'magit-log "magit")
-(eval-after-load 'magit '(require 'setup-magit))
+(use-package magit
+  :bind (("C-x g" . magit-status))
+  :config
+  (autoload 'magit-log "magit")
+  (require 'setup-magit))
 
 ;; Python.
 (require 'setup-python)
