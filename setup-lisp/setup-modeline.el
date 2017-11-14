@@ -82,5 +82,7 @@
 
 (add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
 
+(provide 'setup-modeline)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-modeline.el ends here

@@ -358,7 +358,7 @@
   :ensure t
   :config
   (sml/setup)
-  (require "setup-modeline"))
+  (require 'setup-modeline))
 
 (require 'setup-ediff)
 (require 'setup-docker)
