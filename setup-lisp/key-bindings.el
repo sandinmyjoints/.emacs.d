@@ -8,6 +8,7 @@
 ;; * C-z
 ;; * C-x C-|
 ;; * C-x j
+;; * C-c C-f
 ;;
 ;;; Code:
 
@@ -57,66 +58,87 @@
 
 (global-set-key (kbd "C-c f") 'find-file-at-point)
 
-;; projectile-mode keymap
-;; C-c p b 'projectile-switch-to-buffer
-;; C-x b
-;;
-;; C-c p g 'projectile-find-file-dwim
-;; C-c f
-;;
-;; C-c p f 'projectile-find-file
-;;
-;; C-c p k 'projectile-kill-buffer
-
 (global-unset-key (kbd "M-l"))
 (global-set-key (kbd "M-l l") 'goto-line)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
+
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-x l") 'ace-window)
+
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 ;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.
+
 (global-set-key (kbd "C-x p") 'bury-buffer)
+
 (global-set-key (kbd "M-/") 'hippie-expand)
+
 (global-set-key (kbd "C-c s") 'ansi-term)
+
 ;; (global-set-key (kbd "C-c r") 'query-replace-regexp)
 ;; (global-set-key (kbd "C-c C-r") 're-builder)
 (global-set-key (kbd "C-c q") 'query-replace)
+
 (global-set-key (kbd "C-c b") 'rename-buffer)
+
 (global-set-key (kbd "C-c v") 'describe-variable)
-(global-set-key (kbd "C-c w") 'whitespace-mode)
+
 (global-set-key (kbd "C-c i") 'indent-relative)
+
 (global-set-key (kbd "C-c d") 'dirtree)
+
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c C-SPC") 'just-one-space)
+
+(global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
+
 (global-set-key (kbd "C-!") 'shell-command-on-buffer)
+
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
+
 (global-set-key (kbd "C-c c") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
+
 (global-set-key (kbd "C-c C-b") 'browse-at-remote)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; grep
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 (global-set-key (kbd "C-x 9") 'rgrep)
+
 (global-set-key (kbd "C-c j") 'join-line)
 (global-set-key (kbd "C-c C-j") 'join-line)
+
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
-(global-set-key (kbd "C-x g") 'magit-status)
+
 (global-set-key (kbd "C-x C-g") 'keyboard-quit)
+
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
+
 (global-set-key (kbd "C-0") 'idomenu)
 (global-set-key (kbd "C-c 0") 'idomenu)
 (global-set-key (kbd "C-c C-0") 'idomenu)
+
 (global-set-key (kbd "H-t") 'toggle-boolean)
 (global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !
-;(global-set-key (kbd "C-x f") 'recentf-open-files)
-;(global-set-key (kbd "C-x f") 'find-file-in-project)
+
+;;(global-set-key (kbd "C-x f") 'recentf-open-files)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
+;;(global-set-key (kbd "C-x f") 'find-file-in-project)
+
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-;(global-set-key (kbd "C-9") 'mine-goto-symbol-at-point) ; Reserved for mine-goto-symbol-at-point
+
 (global-set-key (kbd "C-c C-v") 'wjb-toggle-invert-in-buffer)
+
 ;(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
 (global-set-key (kbd "C-x w") 'prepare-for-email)
+
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 
 (global-set-key (kbd "H-x n e") 'next-error)
@@ -124,6 +146,9 @@
 
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
 (global-set-key (kbd "M-]") 'switch-to-next-buffer)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Movement
 (global-set-key (kbd "M-{") 'windmove-left) ;; from Shift-left arrow
 (global-set-key (kbd "M-}") 'windmove-right) ;; from Shift-right arrow
 (global-set-key (kbd "M-<up>") 'windmove-up) ;; from S-<up>

@@ -45,16 +45,21 @@
 ;;
 ;;; Code:
 
-
-(add-hook 'coffee-mode-hook 'projectile-mode)
-(add-hook 'markdown-mode-hook 'projectile-mode)
-(add-hook 'emacs-lisp-mode-hook 'projectile-mode)
+;; projectile-mode keymap
+;; C-c p b 'projectile-switch-to-buffer
+;; C-x b
+;;
+;; C-c p g 'projectile-find-file-dwim
+;; C-c f
+;;
+;; C-c p f 'projectile-find-file
+;;
+;; C-c p k 'projectile-kill-buffer
 
 (projectile-global-mode +1)
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
 (setq projectile-find-dir-includes-top-level t)
-;(setq projectile-switch-project-action 'projectile-dired)
 (setq projectile-switch-project-action 'projectile-vc)
 
 (defalias 'find-file-in-project 'projectile-find-file)
