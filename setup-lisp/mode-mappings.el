@@ -4,14 +4,6 @@
 (add-to-list 'auto-mode-alist '("\\.styl\\'" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 
-;; HTML
-(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(setq-default web-mode-markup-indent-offset 2)
-
 ;; Ruby
 (autoload 'rhtml-mode "rhtml-mode")
 (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))

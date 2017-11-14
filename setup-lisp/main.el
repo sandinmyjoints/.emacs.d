@@ -362,7 +362,19 @@
 
 (require 'setup-ediff)
 (require 'setup-docker)
-(require 'setup-webmode)
+
+(use-package web-mode
+  :mode "\\.htm\\'"
+  "\\.html\\'"
+  "\\.hbs\\'"
+  "\\.ejs\\'"
+  "\\.jsx\\'"
+  :config
+  (setq-default web-mode-markup-indent-offset 2)
+  (setq-default web-mode-css-indent-offset 2)
+  (setq-default web-mode-code-indent-offset 2)
+  (require 'setup-webmode))
+
 (require 'setup-markdown)
 (require 'key-bindings)
 
