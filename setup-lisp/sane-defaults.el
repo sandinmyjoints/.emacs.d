@@ -68,6 +68,11 @@
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
+;; Prevent vulnerability. See https://bugzilla.redhat.com/show_bug.cgi?id=1490409.
+(eval-after-load "enriched"
+  '(defun enriched-decode-display-prop (start end &optional param)
+     (list start end)))
+
 ;; Workaround for a bug in emacs' http fetching. Maybe not needed anymore. See:
 ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-12/msg00196.html
 ;;(defvar url-http-attempt-keepalives nil)

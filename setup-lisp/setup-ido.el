@@ -98,7 +98,8 @@
 
   (add-hook 'ido-setup-hook 'wjb-ido-keys)
 
-  )
+  ;; Ignore .DS_Store files with ido mode
+  (add-to-list 'ido-ignore-files "\\.DS_Store"))
 
 (provide 'setup-ido)
 

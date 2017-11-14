@@ -80,6 +80,8 @@
 (desktop-save-mode 1)
 (defvar desktop-restore-eager 32)
 
+(when is-mac (require 'setup-mac))
+
 ;; ========================================
 ;; Machine-local custom configuration.
 ;; ========================================
@@ -199,13 +201,6 @@
   (add-hook 'css-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
-;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
-;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
-(use-package smart-tab
-  :disabled
-  :config
-  (global-smart-tab-mode))
-
 (use-package anzu
   :config
   (global-anzu-mode 1))
@@ -222,49 +217,12 @@
   :mode "\\.lua\\'"
   :interpreter "lua")
 
-;; Fill column indicator.
-;; See: https://github.com/alpaker/Fill-Column-Indicator
-;;
-(when (require 'fill-column-indicator nil t)
-
-  (defun turn-on-fci ()
-    (fci-mode 1))
-
-  (add-hook 'coffee-mode-hook 'turn-on-fci)
-  (add-hook 'js2-mode-hook 'turn-on-fci)
-  (add-hook 'python-mode-hook 'turn-on-fci)
-
-  ;; Make fci-mode global...
-  ;; (define-globalized-minor-mode global-fci-mode fci-mode
-  ;;   (lambda () (fci-mode 1)))
-  ;; (global-fci-mode 1)
-
-  ;; ...except for these modes.
-  (defun turn-off-fci ()
-    (fci-mode -1))
-
-  ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-  ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
-  ;; (add-hook 'org-mode-hook 'turn-off-fci)
-  ;; (add-hook 'magit-mode-hook 'turn-off-fci)
-  ;; (add-hook 'term-mode-hook 'turn-off-fci)
-  ;; (add-hook 'shell-mode-hook 'turn-off-fci)
-  ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
-  ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
-  ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package nvm)
 
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 (add-hook 'js2-mode-hook '(lambda () (set-fill-column 80)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; multiple-cursors.
 ;;
@@ -305,14 +263,6 @@
 (add-hook 'term-mode-hook (lambda()
                             (yas-minor-mode -1))))
 
-;; Ctags.
-(setq path-to-ctags "/usr/local/bin/ctags") ;; <- your ctags path here
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
-
 ;; RVM.
 (use-package rvm
   :ensure t
@@ -328,8 +278,6 @@
 
 (use-package dotenv-mode
   :mode "\\.env\\'")
-
-;; (eval-after-load 'smartparens-mode '(require 'setup-smartparens))
 
 (use-package coffee-mode
   :ensure t
@@ -378,12 +326,63 @@
 
 (require 'key-bindings)
 
-(when is-mac (require 'setup-mac))
-
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
+;; Fill column indicator.
+;; See: https://github.com/alpaker/Fill-Column-Indicator
+;;
+(when (require 'fill-column-indicator nil t)
+
+  (defun turn-on-fci ()
+    (fci-mode 1))
+
+  (add-hook 'coffee-mode-hook 'turn-on-fci)
+  (add-hook 'js2-mode-hook 'turn-on-fci)
+  (add-hook 'python-mode-hook 'turn-on-fci)
+
+  ;; Make fci-mode global...
+  ;; (define-globalized-minor-mode global-fci-mode fci-mode
+  ;;   (lambda () (fci-mode 1)))
+  ;; (global-fci-mode 1)
+
+  ;; ...except for these modes.
+  (defun turn-off-fci ()
+    (fci-mode -1))
+
+  ;; (add-hook 'dirtree-mode-hook 'turn-off-fci)
+  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
+  ;; (add-hook 'dired+-mode-hook 'turn-off-fci)
+  ;; (add-hook 'org-mode-hook 'turn-off-fci)
+  ;; (add-hook 'magit-mode-hook 'turn-off-fci)
+  ;; (add-hook 'term-mode-hook 'turn-off-fci)
+  ;; (add-hook 'shell-mode-hook 'turn-off-fci)
+  ;; (add-hook 'edit-server-start-hook 'turn-off-fci)
+  ;; (add-hook 'edit-server-start-hook 'my-edit-server-hook)
+  ;; (add-hook 'edit-server-edit-mode-hook 'my-edit-server-hook)
+  )
+
+;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
+(use-package smart-tab
+  :disabled
+  :config
+  (global-smart-tab-mode))
+
+(use-package smartparens-mode
+  :disabled
+  :config
+  (require 'setup-smartparens))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Ctags.
+(setq path-to-ctags "/usr/local/bin/ctags") ;; <- your ctags path here
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
 
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
@@ -391,8 +390,6 @@
                      (count-lines (point-min) (point-max)))))
          (linum-format (concat " %" (number-to-string w) "d ")))
     ad-do-it))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
 (defun my-keyboard-quit-advice (fn &rest args)
@@ -404,8 +401,6 @@
 
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
 ;; make zap-to-char act like zap-up-to-char
 (defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
@@ -413,13 +408,6 @@
   The CHAR is replaced and the point is put before CHAR."
   (insert char)
   (forward-char -1))
-
-;; Load something that might be useful.
-;; An initial file to open if it exists.
-(defvar initial-file (expand-file-name "init.el" user-emacs-directory))
-
-(when (file-readable-p initial-file)
-  (setq initial-buffer-choice initial-file))
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
@@ -440,10 +428,6 @@
             (define-key term-raw-map (kbd "C-y")
               (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
 
-(eval-after-load "enriched"
-  '(defun enriched-decode-display-prop (start end &optional param)
-     (list start end)))
-
 ;; Byte-recompile site-lisp-dir.
 ;;(byte-recompile-directory site-lisp-dir 0)
 
@@ -452,6 +436,13 @@
 (require 'setup-dirtree)
 
 (message (concat "exec-path is " (format "%s" exec-path)))
+
+;; Load something that might be useful.
+;; An initial file to open if it exists.
+(defvar initial-file (expand-file-name "init.el" user-emacs-directory))
+
+(when (file-readable-p initial-file)
+  (setq initial-buffer-choice initial-file))
 
 (provide 'main)
 
