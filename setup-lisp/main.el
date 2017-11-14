@@ -361,7 +361,6 @@
   (require 'setup-modeline))
 
 (require 'setup-ediff)
-(require 'setup-docker)
 
 (use-package web-mode
   :mode "\\.htm\\'"
@@ -376,6 +375,7 @@
   (require 'setup-webmode))
 
 (require 'setup-markdown)
+
 (require 'key-bindings)
 
 (when is-mac (require 'setup-mac))
