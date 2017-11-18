@@ -295,14 +295,6 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(after-load 'autopair (diminish 'autopair-mode))
-(after-load 'auto-complete (diminish 'auto-complete-mode))
-(after-load 'yasnippet (diminish 'yas-minor-mode))
-(after-load 'eldoc (diminish 'eldoc-mode))
-;;(after-load 'smartparens (diminish 'smartparens-mode))
-(after-load 'rainbow-mode (diminish 'rainbow-mode))
-(after-load 'smart-tab-mode (diminish 'smart-tab-mode))
-
 (defalias 'exit-emacs 'save-buffers-kill-terminal)
 
 ;; https://github.com/purcell/emacs.d/blob/master/lisp/init-isearch.el

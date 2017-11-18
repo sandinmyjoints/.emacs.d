@@ -94,13 +94,19 @@
 
 (require 'setup-package)
 
-;; From purcell. TODO: replace with use-package. A bunch of stuff uses this,
-;; including in sane-defaults.
+;; From purcell. TODO: replace with use-package.
 (defmacro after-load (feature &rest body)
   "After FEATURE is loaded, evaluate BODY."
   (declare (indent defun))
   `(eval-after-load ,feature
      '(progn ,@body)))
+
+;; Diminish.
+(after-load 'autopair (diminish 'autopair-mode))
+(after-load 'auto-complete (diminish 'auto-complete-mode))
+(after-load 'yasnippet (diminish 'yas-minor-mode))
+(after-load 'eldoc (diminish 'eldoc-mode))
+(after-load 'smart-tab-mode (diminish 'smart-tab-mode))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
 (use-package auto-install
