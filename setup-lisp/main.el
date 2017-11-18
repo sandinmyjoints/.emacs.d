@@ -208,11 +208,15 @@
 ;; Rainbow mode.
 (use-package rainbow-mode
   :defer t
+  :diminish
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
   (add-hook 'less-css-mode-hook 'rainbow-mode)
   (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'web-mode-hook 'rainbow-mode)
+  (add-hook 'js2-mode-hook 'rainbow-mode)
+  (add-hook 'conf-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (use-package anzu
