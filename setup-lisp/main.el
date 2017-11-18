@@ -386,7 +386,7 @@
   "Create tags file."
   (interactive "DDirectory: ")
   (shell-command
-   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=test %s" path-to-ctags (directory-file-name dir-name))))
+   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=local_notes --exclude=test --exclude=lib-cov %s" path-to-ctags (directory-file-name dir-name))))
 
 ;; Linum: put spaces around line numbers.
 (defadvice linum-update-window (around linum-dynamic activate)
