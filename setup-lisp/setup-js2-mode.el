@@ -66,14 +66,6 @@
       (if (looking-back "^\s+")
           (back-to-indentation)))))
 
-(defun coffee-tab-properly ()
-  "Expand yasnippet and if it worked, don't tab after."
-  (interactive)
-
-  (let ((yas-fallback-behavior 'return-nil))
-    (unless (yas-expand)
-      (indent-for-tab-command))))
-
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "H-c")
@@ -94,11 +86,6 @@
   (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill))
 
-(after-load 'coffee-mode
-  (define-key coffee-mode-map (kbd "TAB") 'coffee-tab-properly)
-  (define-key coffee-mode-map (kbd "C-c r l") 'remove-console-log-coffee)
-  (define-key coffee-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-coffee)
-  (define-key coffee-mode-map (kbd "H-c r l") 'remove-console-log-coffee))
 
 ;; Don't redefine C-a for me please, js2-mode
 ;(define-key js2-mode-map (kbd "C-a") nil)

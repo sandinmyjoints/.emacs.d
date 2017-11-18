@@ -52,9 +52,20 @@
 (eval-after-load 'coffee-mode
   '(define-key coffee-mode-map [(control j)] 'coffee-newline-and-indent))
 
+(defun coffee-tab-properly ()
+  "Expand yasnippet and if it worked, don't tab after."
+  (interactive)
+
+  (let ((yas-fallback-behavior 'return-nil))
+    (unless (yas-expand)
+      (indent-for-tab-command))))
+
 (after-load 'coffee-mode
-  (define-key coffee-mode-map (kbd "H-c r m") 'remove-console-log)
-  (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote))
+  (define-key coffee-mode-map (kbd "TAB") 'coffee-tab-properly)
+  (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote)
+  (define-key coffee-mode-map (kbd "C-c r l") 'remove-console-log-coffee)
+  (define-key coffee-mode-map (kbd "H-c r l") 'remove-console-log-coffee)
+  (define-key coffee-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-coffee))
 
 (defvar coffee-indent-like-python-mode nil)
 
