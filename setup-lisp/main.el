@@ -198,8 +198,11 @@
 (use-package magit
   :bind (("C-x g" . magit-status))
   :config
-  (autoload 'magit-log "magit")
-  (require 'setup-magit))
+  (autoload 'magit-log "magit"))
+
+;; Experiment, might want to do this for everything:
+(use-package setup-magit
+  :after magit)
 
 ;; Python.
 (require 'setup-python)
