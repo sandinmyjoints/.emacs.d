@@ -49,12 +49,15 @@
 ;; Tramp;
 ;; C-x-f C-f
 ;; /ssh:ubuntu@<dest host>:~
+;; C-x-f C-f
+;; /sudo::/etc/hosts
 
-(setq tramp-default-method "ssh")
+(defvar tramp-default-method "ssh")
 
-(set-default 'tramp-default-proxies-alist ())
-(add-to-list 'tramp-default-proxies-alist
+(defvar tramp-default-proxies-alist
                  '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
+;; (add-to-list 'tramp-default-proxies-alist
+;;                  '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
 
 (provide 'setup-tramp)
 

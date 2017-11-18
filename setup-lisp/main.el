@@ -179,7 +179,7 @@
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
-(use-package org-mode
+(use-package org
   :mode "\\.org\\'"
   :config
   (setq org-src-fontify-natively t)
@@ -192,7 +192,6 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-completion-use-ido t)
   (setq org-return-follows-link t)
-
   (require 'setup-org))
 
 ;; Magit.
