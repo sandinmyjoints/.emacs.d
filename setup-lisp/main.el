@@ -185,7 +185,7 @@
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
-(use-package org
+(use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :mode "\\.org\\'"
   :config
   (setq org-src-fontify-natively t)
