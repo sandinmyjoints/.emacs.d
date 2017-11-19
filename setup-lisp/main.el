@@ -357,13 +357,16 @@
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
 (when (require 'fill-column-indicator nil t)
+  (setq fci-rule-color "#555")
 
   (defun turn-on-fci ()
     (fci-mode 1))
 
-  (add-hook 'coffee-mode-hook 'turn-on-fci)
-  (add-hook 'js2-mode-hook 'turn-on-fci)
-  (add-hook 'python-mode-hook 'turn-on-fci)
+  ;; Turn on fci for these modes:
+  (add-hook 'prog-mode-hook 'fci-mode)
+  ;; (add-hook 'coffee-mode-hook 'turn-on-fci)
+  ;; (add-hook 'js2-mode-hook 'turn-on-fci)
+  ;; (add-hook 'python-mode-hook 'turn-on-fci)
 
   ;; Make fci-mode global...
   ;; (define-globalized-minor-mode global-fci-mode fci-mode
