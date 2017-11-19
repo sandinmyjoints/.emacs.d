@@ -76,10 +76,6 @@
   (unless (server-running-p)
     (server-start)))
 
-;; Save desktop.
-(desktop-save-mode 1)
-(defvar desktop-restore-eager 32)
-
 (when is-mac (require 'setup-mac))
 
 ;; ========================================
@@ -467,11 +463,13 @@
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
 
+(defvar desktop-restore-eager 32)
+(desktop-save-mode 1)
+
+(provide 'main)
 
 ;; Byte-recompile site-lisp-dir.
 ;;(byte-recompile-directory site-lisp-dir 0)
-
-(provide 'main)
 
 ;; TODO: this is stuff I need to run manually. Make it automatic. Maybe in
 ;; after-init hooks.
