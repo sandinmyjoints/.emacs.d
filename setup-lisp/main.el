@@ -138,7 +138,10 @@
   :config
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80))))
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
+  (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
+
+(autoload 'auto-make-header "header2")
 
 (use-package smex
   :bind (("M-x" . smex)
@@ -349,9 +352,6 @@
 (require 'setup-markdown)
 
 (require 'key-bindings)
-
-(autoload 'auto-make-header "header2")
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
