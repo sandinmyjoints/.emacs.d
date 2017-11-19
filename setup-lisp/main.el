@@ -176,9 +176,9 @@
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
-;; This line must run *before* dired is loaded:
 (use-package dired+
   :init
+  ;; This line must run *before* dired is loaded:
   (setq diredp-hide-details-initially-flag nil)
   :config
   (require 'setup-dired+))
@@ -230,6 +230,7 @@
 
 (use-package anzu
   :config
+  :diminish
   (global-anzu-mode 1))
 
 (require 'setup-projectile)
@@ -455,21 +456,20 @@
             (define-key term-raw-map (kbd "C-y")
               (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
 
-;; Byte-recompile site-lisp-dir.
-;;(byte-recompile-directory site-lisp-dir 0)
-
 (require 'appearance)
 
 (require 'setup-dirtree)
 
 (message (concat "exec-path is " (format "%s" exec-path)))
 
-;; Load something that might be useful.
-;; An initial file to open if it exists.
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
 
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
+
+
+;; Byte-recompile site-lisp-dir.
+;;(byte-recompile-directory site-lisp-dir 0)
 
 (provide 'main)
 
