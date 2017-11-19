@@ -138,13 +138,11 @@
   :config
   (setq css-indent-offset 2))
 
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
-
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-
-;; ibuffer.
-(autoload 'ibuffer "ibuffer" "List buffers." t)
+(use-package elisp-mode
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80))))
 
 (use-package smex
   :bind (("M-x" . smex)
@@ -164,6 +162,9 @@
 (use-package ido
   :config
   (require 'setup-ido))
+
+;; ibuffer.
+(autoload 'ibuffer "ibuffer" "List buffers." t)
 
 ;; Imenu.
 (when (require 'imenu nil t)
