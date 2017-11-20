@@ -186,7 +186,7 @@
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
-  :mode "\\.org\\'"
+  :defer t
   :config
   (setq org-src-fontify-natively t)
   (setq org-log-done t)
@@ -216,7 +216,6 @@
 ;; Rainbow mode.
 (use-package rainbow-mode
   :defer t
-  :diminish
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
@@ -229,7 +228,6 @@
 
 (use-package anzu
   :config
-  :diminish
   (global-anzu-mode 1))
 
 (require 'setup-projectile)
