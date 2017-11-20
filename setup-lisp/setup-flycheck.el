@@ -45,18 +45,6 @@
 ;;
 ;;; Code:
 
-;; This turns on Flycheck globally in only these modes. Others can be turned on
-;; per-buffer.
-(defvar flycheck-global-modes
-      '(js2-mode
-        rjsx-mode
-        coffee-mode
-        emacs-lisp-mode
-        json-mode
-        sh-mode
-        yaml-mode
-        python-mode))
-
 (eval-after-load 'flycheck
   '(progn
      (setq-default flycheck-disabled-checkers
