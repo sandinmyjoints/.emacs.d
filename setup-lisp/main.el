@@ -364,6 +364,9 @@
 
 (require 'key-bindings)
 
+(use-package shell-script-mode
+  :mode "\\.bash*")
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
