@@ -1,4 +1,6 @@
 ;; Python.
+
+;; TODO: might get rid of virtualenvwrapper.el now that using elpy.
 (require-package 'virtualenvwrapper)
 
 ;; To use, put the following into custom.el:
@@ -9,6 +11,7 @@
 
 ;; if you want eshell support
 ;;(venv-initialize-eshell)
+
 
 (setq python-indent-offset 2)
 
@@ -47,4 +50,10 @@
                               (hack-local-variables)
                               (when (boundp 'project-venv-name)
                                 (venv-workon project-venv-name))))
+
+
+;; elpy
+(elpy-enable)
+(defalias 'workon 'pyvenv-workon)
+
 (provide 'setup-python)

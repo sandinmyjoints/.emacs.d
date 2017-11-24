@@ -224,7 +224,10 @@
   :after magit)
 
 ;; Python.
-(require 'setup-python)
+(use-package python
+  :config
+  (setq python-indent-guess-indent-offset-verbose nil)
+  (require 'setup-python))
 
 ;; Rainbow mode.
 (use-package rainbow-mode

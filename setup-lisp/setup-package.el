@@ -52,14 +52,17 @@
 (when (require 'package nil t)
 
   (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+  (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
   (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
   (defvar org '("org" . "http://orgmode.org/elpa/"))
 
   (add-to-list 'package-archives org)
+  (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives melpa-stable)
+
   ;; Use if melpa is down:
   ;; (add-to-list 'package-archives melpa-mirror)
 
@@ -98,6 +101,7 @@
     (packages-install
      (cons 'ido-completing-read+ melpa)
      (cons 'smex melpa)
+     (cons 'elpy elpy)
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
