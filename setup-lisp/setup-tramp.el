@@ -55,7 +55,7 @@
 (defvar tramp-default-method "ssh")
 
 (defvar tramp-default-proxies-alist
-                 '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
+                 '((".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:")))
 ;; (add-to-list 'tramp-default-proxies-alist
 ;;                  '(".*compute-1.amazonaws.com" nil "/ssh:sd-bastion:"))
 
