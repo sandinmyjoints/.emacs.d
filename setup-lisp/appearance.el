@@ -119,6 +119,8 @@
   :ensure t
   :config
   (load-theme 'gruvbox-dark-hard t)
+  (set-face-background 'markdown-code-face "#000")
+  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
   (wjb-theme))
 
 (provide 'appearance)
