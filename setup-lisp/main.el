@@ -352,11 +352,9 @@
 (require 'setup-ediff)
 
 (use-package web-mode
-  :mode "\\.htm\\'"
-  "\\.html\\'"
+  :mode "\\.html?\\'"
   "\\.hbs\\'"
   "\\.ejs\\'"
-  "\\.jsx\\'"
   :config
   (setq-default web-mode-markup-indent-offset 2)
   (setq-default web-mode-css-indent-offset 2)

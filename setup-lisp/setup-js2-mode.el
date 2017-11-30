@@ -99,6 +99,8 @@
   :options '(js2-mode js-mode))
 (defvar preferred-javascript-indent-level 2)
 
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
 (setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
