@@ -68,6 +68,7 @@
 (setq-default line-spacing 2)
 
 (use-package auto-dim-other-buffers
+  :diminish auto-dim-other-buffers-mode
   :config
   (setq auto-dim-other-buffers-dim-on-focus-out nil)
   (auto-dim-other-buffers-mode t)

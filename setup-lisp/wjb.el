@@ -49,9 +49,6 @@
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
 
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (abbrev-mode 1))))
-
 ;; Set custom markers.
 ;; Args:
 ;; 1. Marker.

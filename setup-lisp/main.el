@@ -204,6 +204,14 @@
   :diminish visual-line-mode
   )
 
+(use-package autorevert
+  :diminish auto-revert-mode)
+
+(use-package abbrev
+  :init
+  (add-hook 'text-mode-hook 'abbrev-mode)
+  :diminish abbrev-mode)
+
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
