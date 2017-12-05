@@ -131,6 +131,7 @@
   ;; per-buffer.
   (defvar flycheck-global-modes
     '(js2-mode
+      js2-jsx-mode
       rjsx-mode
       coffee-mode
       emacs-lisp-mode
