@@ -52,6 +52,9 @@
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
+(eval-when-compile
+  (require 'use-package))
+
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
