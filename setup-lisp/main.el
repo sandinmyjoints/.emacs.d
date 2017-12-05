@@ -251,7 +251,10 @@
   :config
   (global-anzu-mode 1))
 
-(require 'setup-projectile)
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (require 'setup-projectile))
 
 (require 'setup-tramp)
 
