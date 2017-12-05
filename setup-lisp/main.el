@@ -198,11 +198,20 @@
   :config
   (require 'setup-dired+))
 
+(use-package help-mode
+  :init
+  (add-hook 'help-mode-hook 'visual-line-mode)
+  :diminish visual-line-mode
+  )
+
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :defer t
+  :init
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  :diminish visual-line-mode
   :config
   (setq org-src-fontify-natively t)
   (setq org-log-done t)
