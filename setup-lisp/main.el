@@ -235,6 +235,7 @@
 ;; Rainbow mode.
 (use-package rainbow-mode
   :defer t
+  :diminish rainbow-mode
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
@@ -246,6 +247,7 @@
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (use-package anzu
+  :diminish anzu-mode
   :config
   (global-anzu-mode 1))
 
