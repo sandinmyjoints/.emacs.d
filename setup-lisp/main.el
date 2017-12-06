@@ -100,13 +100,6 @@
   `(eval-after-load ,feature
      '(progn ,@body)))
 
-;; Diminish.
-(after-load 'autopair (diminish 'autopair-mode))
-(after-load 'auto-complete (diminish 'auto-complete-mode))
-(after-load 'yasnippet (diminish 'yas-minor-mode))
-(after-load 'eldoc (diminish 'eldoc-mode))
-(after-load 'smart-tab-mode (diminish 'smart-tab-mode))
-
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
 (use-package auto-install
   :config
@@ -152,9 +145,10 @@
   (setq css-indent-offset 2))
 
 (use-package elisp-mode
+  :diminish eldoc-mode
   :config
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
 
@@ -330,6 +324,8 @@
 (add-hook 'term-mode-hook (lambda()
                             (yas-minor-mode -1))))
 
+(eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
+
 ;; RVM.
 (use-package rvm
   :ensure t
@@ -418,6 +414,7 @@
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
 (use-package smart-tab
   :disabled
+  :diminish smart-tab-mode
   :config
   (global-smart-tab-mode))
 
