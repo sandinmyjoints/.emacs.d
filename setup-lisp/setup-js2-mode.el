@@ -337,6 +337,7 @@
 ;; (set-face-foreground 'js2-object-property "light goldenrod")
 
 ;; Only use if js2-highlight-vars-mode is installed.
+;; TODO: diminish Js2-Highlight-Vars (indicator vars)
 (eval-after-load "js2-highlight-vars-autoloads"
   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 

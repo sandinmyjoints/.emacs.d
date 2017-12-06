@@ -67,6 +67,8 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
+  ;; Copy vars in exec-path-from-shell-variables.
+  ;; https://emacs.stackexchange.com/a/553/2163
   ;;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
   (exec-path-from-shell-initialize))
 

@@ -47,6 +47,10 @@
 
 
 ;; Ido.
+;; TODO: ido + flx vs. ivy vs. helm
+;; - https://www.reddit.com/r/emacs/comments/6na75b/ido_versus_ivy_questions_of_a_neophyte/
+;; - https://www.reddit.com/r/emacs/comments/331gqp/introducing_ivymode_or_emacs/
+;; - https://oremacs.com/2015/04/16/ivy-mode/
 (when (require 'ido nil t)
   (require 'flx-ido)
   (flx-ido-mode 1)
