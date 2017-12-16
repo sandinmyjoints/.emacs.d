@@ -312,6 +312,13 @@
   :config
   (epa-file-enable))
 
+(use-package gitignore-mode
+  :mode "\\.dockerignore\\'")
+
+(use-package conf-mode
+  :mode "credentials$"
+  "pylintrc")
+
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
 (when (require 'yasnippet nil t)
