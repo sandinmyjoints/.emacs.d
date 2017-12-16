@@ -386,13 +386,19 @@
       (if (string-match (car my-pair) buffer-file-name)
           (funcall (cdr my-pair)))))
 
-(when (require 'prettier-js nil t)
-  ;; Uncomment below to enable prettier in all js buffers.
-  ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
-  ;; (add-hook 'web-mode-hook #'(lambda ()
-  ;;                             (enable-minor-mode
-  ;;                              '("\\.jsx?\\'" . prettier-js-mode))))
+(defun my/use-prettier-if-in-node-modules ()
+  "Use prettier-js-mode if prettier is found in this file's project's node_modules."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (prettier (and root
+                      (expand-file-name "node_modules/prettier/bin/prettier.js"
+                                        root))))
+    (when (and prettier (file-executable-p prettier))
+      (prettier-js-mode))))
 
+(when (require 'prettier-js nil t)
+  (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 80)
   (setq prettier-js-args '(
                            "--single-quote"
