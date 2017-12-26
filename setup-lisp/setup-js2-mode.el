@@ -399,12 +399,11 @@
 
 (when (require 'prettier-js nil t)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
-  (setq prettier-js-width-mode 80)
-  (setq prettier-js-args '(
-                           "--single-quote"
-                           "--trailing-comma"
-                           "es5"
-                           )))
+  (setq prettier-js-width-mode 'fill)
+  (setq prettier-js-args
+        '("--single-quote"
+          "--trailing-comma"
+          "es5")))
 
 
 ;; indium
