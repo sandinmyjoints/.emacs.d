@@ -190,6 +190,8 @@
   :init
   ;; This line must run *before* dired is loaded:
   (setq diredp-hide-details-initially-flag nil)
+  :bind (:map dired-mode-map
+              ("C-c f" . find-name-dired))
   :config
   (require 'setup-dired+))
 
