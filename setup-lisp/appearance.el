@@ -88,7 +88,7 @@
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
-(defun wjb-theme ()
+(defun wjb/theme ()
   (interactive)
   (message "running wjb-theme")
   ;; ...but with keywords gray instead of red.
@@ -104,6 +104,8 @@
   ;; Customize background color of highlighted line
   ;;(set-face-background 'hl-line "#1A1A1A")
   (set-face-background 'hl-line "#202020"))
+
+(defalias 'wjb-theme #'wjb/theme)
 
 ;; Themes.
 ;;

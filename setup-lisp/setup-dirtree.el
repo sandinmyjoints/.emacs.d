@@ -54,7 +54,7 @@
 ;; Open up some dirs in dirtree if it's available.
 ;; M-x M-x (twice) to reload smex commands.
 ;; TODO: I think this defun is probably the source of the problems with dirtree at startup.
-(defun setup-dirtree ()
+(defun wjb/setup-dirtree ()
   (interactive)
   (message "running setup-dirtree")
   (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
@@ -71,7 +71,9 @@
         (cd "~/scm/sd")))))
 
 (autoload 'dirtree "dirtree" "Add directory to tree view")
-(add-hook 'after-init-hook #'setup-dirtree)
+(add-hook 'after-init-hook #'wjb/setup-dirtree)
+
+(defalias 'wjb/dirtree #'setup-dirtree)
 
 ;; from http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
