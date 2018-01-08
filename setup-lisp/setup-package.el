@@ -168,6 +168,7 @@
      (cons 'company-tern melpa)
      (cons 'pandoc-mode melpa)
      (cons 'restclient melpa)
+     (cons 'google-this melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)

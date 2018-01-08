@@ -399,6 +399,12 @@
 (use-package shell-script-mode
   :mode "\\.bash*")
 
+(use-package google-this
+  ;; C-c / n|SPC|l
+  :diminish google-this-mode
+  :config
+  (google-this-mode 1))
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
