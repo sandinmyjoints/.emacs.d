@@ -58,6 +58,9 @@
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
+(setq user-full-name "William Bert")
+(setq user-mail-address "william.bert@gmail.com")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
@@ -460,6 +463,7 @@
    (format "%s -f TAGS -e -R --exclude=node_modules --exclude=local_notes --exclude=test --exclude=lib-cov %s" path-to-ctags (directory-file-name dir-name))))
 
 ;; Linum: put spaces around line numbers.
+;; TODO: Not using linum anymore. nlinum is maybe better.
 (defadvice linum-update-window (around linum-dynamic activate)
   (let* ((w (length (number-to-string
                      (count-lines (point-min) (point-max)))))
