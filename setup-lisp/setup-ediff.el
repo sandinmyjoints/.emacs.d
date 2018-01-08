@@ -53,14 +53,16 @@
       (autoload 'ediff-buffers "ediff")
 
       (eval-after-load "ediff" '(progn
-                                  (setq diff-switches               "-c"
-                                        ediff-custom-diff-options   "-c"
+                                  (setq diff-switches "-u"
+                                        ediff-diff-options "-w"
+                                        ediff-custom-diff-options "-u"
                                         ediff-split-window-function 'split-window-horizontally
                                         ediff-window-setup-function 'ediff-setup-windows-plain)
 
                                   (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
                                   (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
-                                  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)))))
+                                  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
+                                  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)))))
 
 (provide 'setup-ediff)
 

@@ -195,6 +195,19 @@
   :config
   (require 'setup-dired+))
 
+(use-package ediff
+  :init
+  (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  :config
+  (setq diff-switches "-u"
+        ediff-diff-options "-w"
+        ediff-custom-diff-options "-w"
+        ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (use-package help-mode
   :init
   (add-hook 'help-mode-hook 'visual-line-mode)
@@ -379,8 +392,6 @@
   :config
   (sml/setup)
   (require 'setup-modeline))
-
-(require 'setup-ediff)
 
 (use-package web-mode
   :mode "\\.html?\\'"
