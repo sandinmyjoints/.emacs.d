@@ -380,14 +380,10 @@
 
 
 ;; prettier
-(defun enable-minor-mode (my-pair)
-  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-  (if (buffer-file-name)
-      (if (string-match (car my-pair) buffer-file-name)
-          (funcall (cdr my-pair)))))
-
 (defun my/use-prettier-if-in-node-modules ()
-  "Use prettier-js-mode if prettier is found in this file's project's node_modules."
+  "Use prettier-js-mode if prettier is found in this file's
+project's node_modules. Use the prettier binary from this
+project."
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
@@ -395,9 +391,11 @@
                       (expand-file-name "node_modules/prettier/bin/prettier.js"
                                         root))))
     (when (and prettier (file-executable-p prettier))
+      (setq prettier-js-command prettier)
       (prettier-js-mode))))
 
 (when (require 'prettier-js nil t)
+  (make-variable-buffer-local 'prettier-js-command)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
   (setq prettier-js-args
