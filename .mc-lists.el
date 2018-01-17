@@ -26,6 +26,7 @@
         indent-relative
         insert-register
         js2-mark-defun
+        js2-tab-properly
         kill-rectangle
         kill-region
         kill-sexp

@@ -165,7 +165,8 @@
 
 (after-load 'js2-mode
   (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
-  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1)))) ;; maybe?
+  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1))) ;; maybe?
+  (add-hook 'js2-mode-hook #'nvm-use-for-buffer))
 
 (setq js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil
@@ -260,6 +261,8 @@
 (require-package 'nvm)
 (require 'nvm)
 
+;; TODO: this may not really be needed anymore thanks to
+;; nvm-use-for-buffer being in js2-mode-hook.
 (defun do-nvm-use (version)
   (interactive "sVersion: ")
   (nvm-use version)
@@ -273,6 +276,7 @@
 
 ;; run-js?
 ;; indium-run-node
+;; js-comint-repl
 (defun run-node (cwd)
   (interactive "DDirectory: ")
   (unless (executable-find "node")
