@@ -628,3 +628,16 @@ EOF
 * TODO emacs coffee yasnippet should not indent
 * TODO emacs recursive editing
 * TODO emacs -- literate .emacs.d
+* DONE grep through all open org buffers
+  CLOSED: [2018-01-10 Wed 11:21]
+  - multi-occur-in-matching-buffers. regex is \\*.org C-0 C-c 0 C-c C-0
+  - occur-rename-buffer / "r" in results buffer
+* DONE grep through open org-mode buffers
+  CLOSED: [2018-01-10 Wed 11:42]
+  - multi-occur-in-mode-string
+  - multi-occur-in-this-mode
+* TODO grep through *.org files in a directory
+  - recursive through subdirs
+  - search within any files that match glob or regex
+  - example: grep through all package.json files in node_modules
+  - example: grep through all test.jsx files in components

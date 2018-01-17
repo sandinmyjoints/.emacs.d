@@ -121,9 +121,10 @@
 
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 
-(global-set-key (kbd "C-0") 'idomenu)
-(global-set-key (kbd "C-c 0") 'idomenu)
-(global-set-key (kbd "C-c C-0") 'idomenu)
+(global-set-key (kbd "C-0") 'multi-occur-in-this-mode)
+(global-set-key (kbd "C-c 0") 'multi-occur-in-mode-string)
+;; Example: \\*.org
+(global-set-key (kbd "C-c C-0") 'multi-occur-in-matching-buffers)
 
 (global-set-key (kbd "H-t") 'toggle-boolean)
 (global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !

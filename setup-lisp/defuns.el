@@ -484,6 +484,8 @@
 (fset 'do-standup
    [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\C-a ?\C-f ?\C-f ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\M-> return ?# ?\S-  ?T ?o ?d ?a ?y return ?- ? ])
 
+(defalias 'standup 'do-standup)
+
 ;; The regexp for this is:
 ;; .*?:\(\s-*\)
 (fset 'align-on-colon
@@ -699,6 +701,40 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   ;; - if node is root node, then instead delete node at point-1? or point+1? or next node that is found?
   ;;(wjb-kill-node (js2r--next-node))
   (wjb-kill-node (js2-node-at-point)))
+
+;; Following based on
+;; https://masteringemacs.org/article/searching-buffers-occur-mode
+(eval-when-compile
+  (require 'cl))
+
+(defun get-buffers-matching-mode (mode)
+  "Returns a list of buffers where their major-mode is equal to MODE"
+  (let ((buffer-mode-matches '()))
+   (dolist (buf (buffer-list))
+     (with-current-buffer buf
+       (if (eq mode major-mode)
+           (add-to-list 'buffer-mode-matches buf))))
+   buffer-mode-matches))
+
+(defun multi-occur-in-mode (mode)
+  "Show all lines matching REGEXP in buffers with major mode MODE."
+  (multi-occur
+   (get-buffers-matching-mode mode)
+   (car (occur-read-primary-args))))
+
+(defun multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode."
+  (interactive)
+  (multi-occur-in-mode major-mode))
+
+(defun mode-from-string (mode-string)
+  "Return a mode from a string."
+  (intern-soft mode-string))
+
+(defun multi-occur-in-mode-string (mode-string)
+  "Show all lines matching REGEXP in buffers with major mode MODE-STRING."
+   (interactive "Cmajor-mode: ")
+   (multi-occur-in-mode (mode-from-string mode-string)))
 
 (provide 'defuns)
 
