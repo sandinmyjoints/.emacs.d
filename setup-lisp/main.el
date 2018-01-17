@@ -404,6 +404,7 @@
   (setq-default web-mode-markup-indent-offset 2)
   (setq-default web-mode-css-indent-offset 2)
   (setq-default web-mode-code-indent-offset 2)
+  (setq-default web-mode-enable-current-element-highlight t)
   (require 'setup-webmode))
 
 (require 'setup-markdown)
@@ -436,8 +437,7 @@
   (defun turn-off-fci ()
     (fci-mode -1))
 
-  ;; (add-hook 'dired-mode-hook 'turn-off-fci)
-  )
+  (add-hook 'web-mode-hook 'turn-off-fci))
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
