@@ -99,7 +99,9 @@
   :options '(js2-mode js-mode))
 (defvar preferred-javascript-indent-level 2)
 
+;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
@@ -122,6 +124,9 @@
       (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
   ;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
   )
+
+;; These defuns may be replaceable by
+;; https://github.com/codesuki/add-node-modules-path
 
 ;; from http://emacs.stackexchange.com/a/21207
 (defun my/use-eslint-from-node-modules ()
