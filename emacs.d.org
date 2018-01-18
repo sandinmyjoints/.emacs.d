@@ -486,6 +486,9 @@ EOF
 ** TODO set dates
 ** TODO use archiving
 ** TODO mobileorg
+* TODO org mode default settings
+  - http://orgmode.org/manual/In_002dbuffer-settings.html
+  - also see perf.org
 * TODO maybe try https://github.com/capitaomorte/autopair
 * TODO try https://github.com/jxa/pivotal-tracker
 * TODO save ssl password for slack not in source control
@@ -508,15 +511,27 @@ EOF
   CLOSED: [2015-09-11 Fri 16:09]
   - http://emacs.stackexchange.com/a/5319/2163
   - http://stackoverflow.com/a/20912535/599258
-* TODO use use-package
+* DONE use use-package
+  CLOSED: [2018-01-17 Wed 09:39]
   - https://github.com/jwiegley/use-package
+* DONE emacs beginend
+* DONE emacs never open new frame
+* DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
+   - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
+     config file -- why? -> because needed .js extension -- it's not json
+* DONE prettier-js-mode is enabled if prettier is available
 * TODO magithub / gh package
   - https://github.com/vermiculus/magithub/blob/master/README.md
-* TODO fix yasnippet smart-tab coffee-mode
-  - after expanding a snippet, I don't want to indent
-  - yas-expand -> yas-expand-from-trigger-key
-  - smart-tab
-  - minor modes: smart-tab and yas
+* TODO understand recursive editing
+** TODO fix recursive editing -- seems to be broken
+* TODO convert to use-package/speed up startup
+    - use-package
+    - require-package
+    - packages-install
+    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
+* TODO emacs -- fresh .emacs.d installs all needed packages
+* TODO emacs -- package-initialize can be delayed until after main.el
+* TODO emacs -- portable .emacs.d
 * TODO coffee-mode
 ** DONE Coffee repl
    CLOSED: [2014-04-13 Sun 18:12]
@@ -525,6 +540,11 @@ EOF
    - useful for set-rectangular-region-anchor
 
 ** TODO coffee compile
+** TODO fix yasnippet smart-tab coffee-mode
+   - after expanding a snippet, I don't want to indent
+   - yas-expand -> yas-expand-from-trigger-key
+   - smart-tab
+   - minor modes: smart-tab and yas
 * TODO Javascript setup
   - es2016, etc.
   - JSX
@@ -567,6 +587,29 @@ EOF
        aware of node_modules
      - solution for config files: use flycheck-verify-setup to make sure it is
        finding them right config file(s)
+** DONE tern / ac-js2 / skewer
+   CLOSED: [2018-01-17 Wed 09:40]
+   - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
+** DONE use rjsx instead of js2-mode by default?
+   CLOSED: [2018-01-17 Wed 09:40]
+   - or only for .jsx files?
+** DONE prettier-mode
+   CLOSED: [2018-01-17 Wed 09:40]
+** INACTIVE js3-mode https://github.com/thomblake/js3-mode
+   - don't need the stuff it offers anymore
+** TODO wjb-kill-node in defuns
+** TODO Make it.only / unonly work in js2-mode
+** TODO indium
+** TODO node-inspector plus tern/swank or something to inspect running node process in emacs
+   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
+   - https://github.com/jscheid/kite/blob/master/kite.md
+   - https://github.com/segv/jss
+   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
+** TODO xref-js2
+   - but I don't want xref-goto-xref to open in a new buffer!
+** TODO js-comint https://github.com/redguardtoo/js-comint
+   - run-js, js-send-buffer
+** TODO cleanup setup-js2-mode.el
 ** TODO Various
   - [-] emacs js2 setup
     - [X] upgrade js2-refactor
@@ -583,51 +626,12 @@ EOF
       - $ eslint --print-config test/cache.js
     - [X] sd-simulator automatic prettier / emacs prettier
       - https://github.com/prettier/prettier-emacs
-** TODO wjb-kill-node in defuns
-** TODO Make it.only / unonly work in js2-mode
-** TODO indium
-** TODO tern / ac-js2 / skewer
-   - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
-** TODO node-inspector plus tern/swank or something to inspect running node process in emacs
-   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
-   - https://github.com/jscheid/kite/blob/master/kite.md
-   - https://github.com/segv/jss
-   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
-** TODO use rjsx instead of js2-mode by default?
-   - or only for .jsx files?
-** TODO prettier-mode
-** TODO xref-js2
-   - but I don't want xref-goto-xref to open in a new buffer!
-** TODO js-comint https://github.com/redguardtoo/js-comint
-   - run-js, js-send-buffer
-** TODO js3-mode https://github.com/thomblake/js3-mode
-* TODO understand recursive editing
-** TODO fix recursive editing -- seems to be broken
-* TODO org mode default settings
-  - http://orgmode.org/manual/In_002dbuffer-settings.html
-  - also see perf.org
-* DONE emacs beginend
-* DONE emacs never open new frame
-* DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
-   - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
-     config file -- why? -> because needed .js extension -- it's not json
-* DONE prettier-js-mode is enabled if prettier is available
-* TODO convert to use-package/speed up startup
-    - use-package
-    - require-package
-    - packages-install
-    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
-* TODO emacs -- fresh .emacs.d installs all needed packages
-* TODO emacs -- package-initialize can be delayed until after main.el
-* TODO emacs -- portable .emacs.d
-* TODO ripgrep https://github.com/dajva/rg.el
 * TODO make xref-goto-xref snappier
     - https://lists.gnu.org/archive/html/emacs-devel/2016-01/msg01385.html
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
-* TODO emacs coffee yasnippet should not indent
-* TODO emacs recursive editing
 * TODO emacs -- literate .emacs.d
+* TODO ripgrep https://github.com/dajva/rg.el
 * DONE grep through all open org buffers
   CLOSED: [2018-01-10 Wed 11:21]
   - multi-occur-in-matching-buffers. regex is \\*.org C-0 C-c 0 C-c C-0
@@ -639,5 +643,21 @@ EOF
 * TODO grep through *.org files in a directory
   - recursive through subdirs
   - search within any files that match glob or regex
-  - example: grep through all package.json files in node_modules
-  - example: grep through all test.jsx files in components
+  - another example: grep through all package.json files in node_modules
+  - another example: grep through all test.jsx files in components
+  - maybe something based on this, from
+    https://www.emacswiki.org/emacs/RecursiveGrep Except that these are about
+    running dired on files, not grepping through them. I want to find based on a
+    name pattern, then grep within those files for a different pattern, and see
+    the output of that grep in a compile buffer.
+#+BEGIN_SRC emacs-lisp
+ (defvar grep-and-find-map (make-sparse-keymap))
+ (define-key global-map "\C-xf" grep-and-find-map)
+ (define-key global-map "\C-xfg" 'find-grep-dired) ;; Find files in DIR matching a regexp REGEXP and start Dired on output.
+ (define-key global-map "\C-xff" 'find-name-dired) ;; Search DIR recursively for files matching the globbing pattern PATTERN, and run Dired on those files.
+ (define-key global-map "\C-xfl" (lambda (dir pattern)
+        (interactive "DFind-name locate-style (directory):
+                     \nsFind-name locate-style (filename wildcard): ")
+        (find-dired dir (concat "-name '*" pattern "*'"))))
+ (define-key global-map "\C-xg" 'grep)
+#+END_SRC
