@@ -192,11 +192,16 @@
 (use-package dired+
   :init
   ;; This line must run *before* dired is loaded:
+  ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
   (setq diredp-hide-details-initially-flag nil)
   :bind (:map dired-mode-map
               ("C-c f" . find-name-dired))
   :config
-  (require 'setup-dired+))
+  (toggle-diredp-find-file-reuse-dir 1)
+  (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
+  (setq dired-listing-switches "-lah"
+      diredp-hide-details-propagate-flag t
+      dired-dwim-target t))
 
 (use-package ediff
   :init
