@@ -68,17 +68,21 @@
 
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "H-c")
-(js2r-add-keybindings-with-prefix "H-r")
-
 ;; Tern uses C-c C-r.
 ;; https://ternjs.net/doc/manual.html#emacs
 ;; (js2r-add-keybindings-with-prefix "C-c C-r")
+(js2r-add-keybindings-with-prefix "H-c")
+(js2r-add-keybindings-with-prefix "H-r")
+
+(define-prefix-command 'tern-js2-map)
+(define-key tern-js2-map (kbd "M-.") 'tern-find-definition)
+(define-key tern-js2-map (kbd "M-,") 'tern-pop-find-definition)
 
 (after-load 'js2-mode
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
+  (define-key js2-mode-map (kbd "H-t") 'tern-js2-map)
   ;;(define-key js2-mode-map (kbd "H-r") 'js2r-rename-var) ;; H-c r v
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)

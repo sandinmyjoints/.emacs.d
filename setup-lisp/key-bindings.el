@@ -126,7 +126,7 @@
 ;; Example: \\*.org
 (global-set-key (kbd "C-c C-0") 'multi-occur-in-matching-buffers)
 
-(global-set-key (kbd "H-t") 'toggle-boolean)
+;; (global-set-key (kbd "H-t") 'toggle-boolean) ;; using H-t for Tern
 (global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !
 
 ;;(global-set-key (kbd "C-x f") 'recentf-open-files)
