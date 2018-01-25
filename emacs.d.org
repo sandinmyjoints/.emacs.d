@@ -330,6 +330,36 @@ EOF
     - [X] upgrade to heroku toolbelt
     - [X] install heroku accounts plugin
     - [X] spanishdict / wjb accounts
+
+* emacs.d
+* DONE init-local for machine-specific configs
+  CLOSED: [2015-07-10 Fri 17:01]
+  - eg, initial files to open
+  - not under source control
+  - -> use custom.el
+  - [ ] move stuff into it
+* DONE use use-package
+  CLOSED: [2018-01-17 Wed 09:39]
+  - https://github.com/jwiegley/use-package
+* TODO convert to use-package/speed up startup
+    - use-package
+    - require-package
+    - packages-install
+    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
+* TODO fresh .emacs.d installs all needed packages
+* TODO package-initialize can be delayed until after main.el
+* TODO portable .emacs.d
+* TODO literate .emacs.d
+* packages
+* TODO Versioning of packages--how to pin?
+* TODO try Cask
+  - cask.github.io
+* emacs core
+* TODO understand recursive editing
+** TODO fix recursive editing -- seems to be broken
+* TODO Master regexp syntax
+  - use rx: http://www.emacswiki.org/emacs/rx to build regexps
+  - pcre2el: https://github.com/joddie/pcre2el
 * TODO Window and frame restore. See:
   - Seems
   - https://github.com/emacs-mirror/emacs/blob/master/lisp/frameset.el in Emacs 24.4
@@ -338,140 +368,11 @@ EOF
   - http://www.emacswiki.org/emacs/SessionManagement
   - http://www.gentei.org/~yuuji/software/windows.el
   - http://www.gentei.org/~yuuji/software/revive.el
-* TODO Review for ideas:
-  - http://news.ycombinator.com/item?id=1654164
-  - https://github.com/technomancy/emacs-starter-kit
-  - https://github.com/bbatsov/prelude
-  - https://github.com/purcell/emacs.d
-  - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
-  - https://github.com/kaushalmodi/.emacs.d (setup-python)
-  - http://gongzhitaao.org/dotemacs/
-* TODO Use:
-  - Occur
-  - multi-occur-in-matching-buffers
-  - subword-backward-kill (C-backspace, or M-backspace)
-  - mc/
-    - mc/edit-lines
-    - mc/beginnings-of-lines (C-M-<)
-    - mc/endings-of-lines (C-M->)
-    - mc/mark-all-like-this (C-*)
-    - mc/mark-all-words-like-this
-    - mc/insert-numbers
-  - org-table (convert-region, transpose, etc)
-    - orgtbl-mode minor mode for working with tables
-  - sorting
-    - sort-lines
-    - reverse-region
-    - sort-fields and sort-numeric-fields
-    - sort-regexp-fields
-    - org-sort-entries
-  - rectangle-number-lines (C-x r N)
-  - Keyboard macros
-    - counters:
-      http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
-      (C-x C-k C-i)
-    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
-    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
-  - set-goal-column (C-x C-n)
-  - terminal-mode for ssh
-  - color-themes
-    - save current as?
-    - use one that works for terminals
-  - view-lossage (C-h l)
-  - repeat (C-x z)
-  - highlight-lines-matching-regexp (M-s h l)
-  - tumme (images)
-  - what-cursor-position (C-x =, also C-u C-x =)
-  - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
-  - eval
-    - eval-and-replace (C-c C-e)
-    - eval-expression (M-:, also eval and insert: C-u M-:)
-  - ispell
-  - list-faces-display
-  - dired-jump
-  - list-processes
-  - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
-  - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
-  - other-frame reverse: C-- C-x 5 o
-  - org-mode C-c C-u: outline-up-heading
-  - C-0 (imenu)
-  - clean-buffer-list
-  - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
-** DONE
-  - zap-to-char (M-z and M-Z)
-  - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
-  - Smex (M-x, M-X)
-    - updated fork: https://github.com/DarwinAwardWinner/smex
-  - align-regexp (C-|)
-  - join-line (C-c C-j)
-  - Org-mode (C-c C-n/p; C-c C-f/b)
-* TODO Try anything and/or Helm
-
-* TODO Versioning of packages--how to pin?
-* TODO Shell in Emacs
-  - See: http://snarfed.org/why_i_run_shells_inside_emacs
-  - ansi-term vs shell vs eshell vs terminal-emulator
-* TODO multi-term
-* TODO Master regexp syntax
-  - use rx: http://www.emacswiki.org/emacs/rx to build regexps
-  - pcre2el: https://github.com/joddie/pcre2el
-* TODO powerline
-  - need to figure out how not to show the entire git branch name in modeline.
-    or truncate it at n characters.
-* TODO elfeed http://nullprogram.com/blog/2013/09/04/
-* TODO dirtree: rearrange trees
-  - Or replace dirtree.
-  - Would be nice to have one modeline
-  - http://stackoverflow.com/questions/843645/a-good-project-tree-browser-for-emacs/26705877
-  - Better project tree browser
-  - http://www.emacswiki.org/emacs/sr-speedbar.el, speedbar
-  - https://www.emacswiki.org/emacs/TreeMode
-* TODO dirtree: improve icons
-  - they use Emacs widgets, which specify a glyph, which is set to an XPM icon.
-  - path to icons: /usr/local/Cellar/emacs-mac/emacs-25.2-z-mac-6.4/share/emacs/25.2/etc/images/tree-widget/folder/close.xpm
-  - some nice ones I could use instead: http://www.iconarchive.com/show/flat-folder-icons-by-pelfusion.html
-  - download new icons I want to use
-  - resize them and convert to XPM using imagemagick.
-  - looks like the current ones are 16x22, left-justified, the actual images are
-    somewhat smaller.
-** replace existing XPMs with nicer ones
-* TODO python in emacs
-** python-mode
-  - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
-  - [ ] bind Enter to newline-and-indent
-  - [ ] jedi: http://tkf.github.io/emacs-jedi/latest/
-  - https://github.com/jhamrick/emacs/blob/master/.emacs.d/settings/python-settings.el
-  - http://wikemacs.org/index.php/Python
-  - https://github.com/tkf/emacs-python-environment vs the venv thing I have installed
-** ipython
-  - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
-  - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
-  - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-  - [ ] put activated venv in buffer name when call run-python and venv is active
-  - [ ] fix ^A in prompts
-  - readline-complete? https://github.com/monsanto/readline-complete.el/blob/master/readline-complete.el
-  - ipython.el?
-  - elpy?
-** django
-
-   - https://code.djangoproject.com/wiki/Emacs
-   -
-* DONE init-local for machine-specific configs
-  CLOSED: [2015-07-10 Fri 17:01]
-  - eg, initial files to open
-  - not under source control
-  - -> use custom.el
-  - [ ] move stuff into it
-* TODO try Cask
-  - cask.github.io
-* TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
-  - grep-find vs rgrep vs find-in-project
-  - find-in-project is grep-find with find-args
-  - find-args is my default find arguments
-  - default-find-cmd is set to be (find . find-args) by maybe it gets changed
-  - do I need to run grep-compute-defaults at all? What does it do?
-  - META-! find . -name "models.py" | xargs grep -niEH -C 5
-  - maybe the solution is to use a project mode that will search automatically.
+* TODO make xref-goto-xref snappier
+    - https://lists.gnu.org/archive/html/emacs-devel/2016-01/msg01385.html
+    - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
+    - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
+* org-mode
 * TODO get better at org-mode
 ** DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
@@ -489,62 +390,11 @@ EOF
 * TODO org mode default settings
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - also see perf.org
-* TODO maybe try https://github.com/capitaomorte/autopair
-* TODO try https://github.com/jxa/pivotal-tracker
-* TODO save ssl password for slack not in source control
-  - read from a file not under git
-  - add setup-secrets.el
-* TODO separate frame for irc so i can scan it?
-* DONE smart-parens
-  CLOSED: [2015-07-10 Fri 17:00]
-  - It's "grander" than paredit-everywhere.
-  - Don't use it with electric-pair-mode, which may now be on by default, so
-    disable it.
-  - Docs are on the wiki: https://github.com/Fuco1/smartparens/wiki
-  - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
-  - Use C-- to do backwards version of forwards command.
-  - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
-* DONE Magit 2 annoyances
-  - [X] can't yank from diffs
-  - [X] can't yank commit hash when viewing git log
-* DONE GFM tables
-  CLOSED: [2015-09-11 Fri 16:09]
-  - http://emacs.stackexchange.com/a/5319/2163
-  - http://stackoverflow.com/a/20912535/599258
-* DONE use use-package
-  CLOSED: [2018-01-17 Wed 09:39]
-  - https://github.com/jwiegley/use-package
-* DONE emacs beginend
-* DONE emacs never open new frame
+* js
 * DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
    - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
      config file -- why? -> because needed .js extension -- it's not json
 * DONE prettier-js-mode is enabled if prettier is available
-* TODO magithub / gh package
-  - https://github.com/vermiculus/magithub/blob/master/README.md
-* TODO understand recursive editing
-** TODO fix recursive editing -- seems to be broken
-* TODO convert to use-package/speed up startup
-    - use-package
-    - require-package
-    - packages-install
-    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
-* TODO emacs -- fresh .emacs.d installs all needed packages
-* TODO emacs -- package-initialize can be delayed until after main.el
-* TODO emacs -- portable .emacs.d
-* TODO coffee-mode
-** DONE Coffee repl
-   CLOSED: [2014-04-13 Sun 18:12]
-** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
-
-   - useful for set-rectangular-region-anchor
-
-** TODO coffee compile
-** TODO fix yasnippet smart-tab coffee-mode
-   - after expanding a snippet, I don't want to indent
-   - yas-expand -> yas-expand-from-trigger-key
-   - smart-tab
-   - minor modes: smart-tab and yas
 * TODO Javascript setup
   - es2016, etc.
   - JSX
@@ -626,12 +476,84 @@ EOF
       - $ eslint --print-config test/cache.js
     - [X] sd-simulator automatic prettier / emacs prettier
       - https://github.com/prettier/prettier-emacs
-* TODO make xref-goto-xref snappier
-    - https://lists.gnu.org/archive/html/emacs-devel/2016-01/msg01385.html
-    - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
-    - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
-* TODO emacs -- literate .emacs.d
+* coffee
+* TODO coffee-mode
+** DONE Coffee repl
+   CLOSED: [2014-04-13 Sun 18:12]
+** TODO coffee-mode coffee-dedent-line-backspace-ignore-blank that does nothing on blank lines
+
+   - useful for set-rectangular-region-anchor
+
+** TODO coffee compile
+** TODO fix yasnippet smart-tab coffee-mode
+   - after expanding a snippet, I don't want to indent
+   - yas-expand -> yas-expand-from-trigger-key
+   - smart-tab
+   - minor modes: smart-tab and yas
+* dirtree
+* TODO dirtree: rearrange trees
+  - Or replace dirtree.
+  - Would be nice to have one modeline
+  - http://stackoverflow.com/questions/843645/a-good-project-tree-browser-for-emacs/26705877
+  - Better project tree browser
+  - http://www.emacswiki.org/emacs/sr-speedbar.el, speedbar
+  - https://www.emacswiki.org/emacs/TreeMode
+* TODO dirtree: improve icons
+  - they use Emacs widgets, which specify a glyph, which is set to an XPM icon.
+  - path to icons: /usr/local/Cellar/emacs-mac/emacs-25.2-z-mac-6.4/share/emacs/25.2/etc/images/tree-widget/folder/close.xpm
+  - some nice ones I could use instead: http://www.iconarchive.com/show/flat-folder-icons-by-pelfusion.html
+  - download new icons I want to use
+  - resize them and convert to XPM using imagemagick.
+  - looks like the current ones are 16x22, left-justified, the actual images are
+    somewhat smaller.
+** replace existing XPMs with nicer ones
+* python
+* TODO python in emacs
+** python-mode
+  - https://github.com/fgallina/python.el is the stock python-mode in Emacs >= 24.3
+  - [ ] bind Enter to newline-and-indent
+  - [ ] jedi: http://tkf.github.io/emacs-jedi/latest/
+  - https://github.com/jhamrick/emacs/blob/master/.emacs.d/settings/python-settings.el
+  - http://wikemacs.org/index.php/Python
+  - https://github.com/tkf/emacs-python-environment vs the venv thing I have installed
+** ipython
+  - http://stackoverflow.com/questions/17817019/how-to-open-ipython-interpreter-in-emacs
+  - http://stackoverflow.com/questions/14284170/emacs-how-to-configure-emacs-for-ipython-pylint-and-autocompletion-support
+  - http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+  - [ ] put activated venv in buffer name when call run-python and venv is active
+  - [ ] fix ^A in prompts
+  - readline-complete? https://github.com/monsanto/readline-complete.el/blob/master/readline-complete.el
+  - ipython.el?
+  - elpy?
+** django
+   - https://code.djangoproject.com/wiki/Emacs
+   -
+* pairing
+* TODO maybe try https://github.com/capitaomorte/autopair
+* DONE smart-parens
+  CLOSED: [2015-07-10 Fri 17:00]
+  - It's "grander" than paredit-everywhere.
+  - Don't use it with electric-pair-mode, which may now be on by default, so
+    disable it.
+  - Docs are on the wiki: https://github.com/Fuco1/smartparens/wiki
+  - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
+  - Use C-- to do backwards version of forwards command.
+  - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
+* shell
+* TODO Shell in Emacs
+  - See: http://snarfed.org/why_i_run_shells_inside_emacs
+  - ansi-term vs shell vs eshell vs terminal-emulator
+* TODO multi-term
+* grep
 * TODO ripgrep https://github.com/dajva/rg.el
+* TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
+  - grep-find vs rgrep vs find-in-project
+  - find-in-project is grep-find with find-args
+  - find-args is my default find arguments
+  - default-find-cmd is set to be (find . find-args) by maybe it gets changed
+  - do I need to run grep-compute-defaults at all? What does it do?
+  - META-! find . -name "models.py" | xargs grep -niEH -C 5
+  - maybe the solution is to use a project mode that will search automatically.
 * DONE grep through all open org buffers
   CLOSED: [2018-01-10 Wed 11:21]
   - multi-occur-in-matching-buffers. regex is \\*.org C-0 C-c 0 C-c C-0
@@ -661,3 +583,86 @@ EOF
         (find-dired dir (concat "-name '*" pattern "*'"))))
  (define-key global-map "\C-xg" 'grep)
 #+END_SRC
+* navigation
+* TODO Try anything and/or Helm
+
+* markdown
+* DONE GFM tables
+  CLOSED: [2015-09-11 Fri 16:09]
+  - http://emacs.stackexchange.com/a/5319/2163
+  - http://stackoverflow.com/a/20912535/599258
+* other
+* TODO powerline
+  - need to figure out how not to show the entire git branch name in modeline.
+    or truncate it at n characters.
+* TODO elfeed http://nullprogram.com/blog/2013/09/04/
+* TODO try https://github.com/jxa/pivotal-tracker
+* TODO magithub / gh package
+  - https://github.com/vermiculus/magithub/blob/master/README.md
+* TODO Review for ideas:
+  - http://news.ycombinator.com/item?id=1654164
+  - https://github.com/technomancy/emacs-starter-kit
+  - https://github.com/bbatsov/prelude
+  - https://github.com/purcell/emacs.d
+  - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
+  - https://github.com/kaushalmodi/.emacs.d (setup-python)
+  - http://gongzhitaao.org/dotemacs/
+* TODO Use:
+  - Occur
+  - multi-occur-in-matching-buffers
+  - subword-backward-kill (C-backspace, or M-backspace)
+  - mc/
+    - mc/edit-lines
+    - mc/beginnings-of-lines (C-M-<)
+    - mc/endings-of-lines (C-M->)
+    - mc/mark-all-like-this (C-*)
+    - mc/mark-all-words-like-this
+    - mc/insert-numbers
+  - org-table (convert-region, transpose, etc)
+    - orgtbl-mode minor mode for working with tables
+  - sorting
+    - sort-lines
+    - reverse-region
+    - sort-fields and sort-numeric-fields
+    - sort-regexp-fields
+    - org-sort-entries
+  - rectangle-number-lines (C-x r N)
+  - Keyboard macros
+    - counters:
+      http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
+      (C-x C-k C-i)
+    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
+    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
+  - set-goal-column (C-x C-n)
+  - terminal-mode for ssh
+  - color-themes
+    - save current as?
+    - use one that works for terminals
+  - view-lossage (C-h l)
+  - repeat (C-x z)
+  - highlight-lines-matching-regexp (M-s h l)
+  - tumme (images)
+  - what-cursor-position (C-x =, also C-u C-x =)
+  - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
+  - eval
+    - eval-and-replace (C-c C-e)
+    - eval-expression (M-:, also eval and insert: C-u M-:)
+  - ispell
+  - list-faces-display
+  - dired-jump
+  - list-processes
+  - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
+  - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
+  - other-frame reverse: C-- C-x 5 o
+  - org-mode C-c C-u: outline-up-heading
+  - C-0 (imenu)
+  - clean-buffer-list
+  - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
+** DONE
+  - zap-to-char (M-z and M-Z)
+  - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+  - Smex (M-x, M-X)
+    - updated fork: https://github.com/DarwinAwardWinner/smex
+  - align-regexp (C-|)
+  - join-line (C-c C-j)
+  - Org-mode (C-c C-n/p; C-c C-f/b)
