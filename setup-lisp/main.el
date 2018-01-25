@@ -440,7 +440,17 @@
   (defun turn-off-fci ()
     (fci-mode -1))
 
-  (add-hook 'web-mode-hook 'turn-off-fci))
+  (add-hook 'web-mode-hook 'turn-off-fci)
+
+  ;; fci-mode doesn't play well with popups
+  (defun on-off-fci-before-company (command)
+    (when (string= "show" command)
+      (turn-off-fci-mode))
+    (when (string= "hide" command)
+      (turn-on-fci-mode)))
+
+  (advice-add 'company-call-frontends
+              :before #'on-off-fci-before-company))
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
