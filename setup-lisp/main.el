@@ -428,6 +428,10 @@
 (use-package shell-script-mode
   :mode "\\.bash*")
 
+(use-package atomic-chrome
+  :config
+  (atomic-chrome-start-server))
+
 (use-package google-this
   ;; C-c / n|SPC|l
   :diminish google-this-mode
