@@ -127,6 +127,7 @@
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
      (cons 'know-your-http-well melpa)
+     (cons 'restclient melpa)
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)
      ;; (cons 'json-mode marmalade)
@@ -167,7 +168,6 @@
      (cons 'company melpa)
      (cons 'company-tern melpa)
      (cons 'pandoc-mode melpa)
-     (cons 'restclient melpa)
      (cons 'google-this melpa)
 
      ;; Untried, but consider:

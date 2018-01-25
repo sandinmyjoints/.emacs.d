@@ -306,6 +306,17 @@
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
+(use-package restclient
+  ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
+  ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
+  :bind (:map restclient-mode-map
+              ("C-c C-c" . 'restclient-http-send-current-stay-in-window)
+              ("C-c C-v" . 'restclient-http-send-current))
+  :config
+  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
+    (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
+      ad-do-it)))
+
 ;; multiple-cursors.
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
