@@ -402,9 +402,15 @@ project."
                 "node_modules"))
          (prettier (and root
                       (expand-file-name "node_modules/prettier/bin/prettier.js"
+                                        root)))
+         (prettier2 (and root
+                      (expand-file-name "node_modules/prettier/bin-prettier.js"
                                         root))))
     (when (and prettier (file-executable-p prettier))
       (setq prettier-js-command prettier)
+      (prettier-js-mode))
+    (when (and prettier2 (file-executable-p prettier2))
+      (setq prettier-js-command prettier2)
       (prettier-js-mode))))
 
 (when (require 'prettier-js nil t)
