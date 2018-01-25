@@ -169,13 +169,19 @@
      (cons 'company-tern melpa)
      (cons 'pandoc-mode melpa)
      (cons 'google-this melpa)
+     (cons 'atomic-chrome melpa)
+     (cons 'auto-dim-other-buffers melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
 
      ;; Uninstalled, but consider:
+
+     ;; (cons 'counsel-etags melpa)
+     ;; (setq-default counsel-etags-find-program "gfind")
+     ;; (setq-default counsel-etags-grep-program "ggrep")
+
      ;; (cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
-     (cons 'auto-dim-other-buffers melpa)
      ;; (cons 'charmap melpa)
      ;; (cons 'smart-forward)
      ;; (cons 'move-text melpa-stable)
