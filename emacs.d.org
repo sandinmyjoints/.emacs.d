@@ -1,4 +1,17 @@
+#+TITLE: emacs.d.org
+#+DATE: <2017-07-28 Fri>
+#+AUTHOR: William Bert
+#+EMAIL: william.bert@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:nil arch:headline author:nil c:nil
+#+OPTIONS: creator:comment d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t
+#+OPTIONS: num:nil p:nil pri:nil stat:t tags:nil tasks:t tex:t timestamp:nil toc:nil
+#+OPTIONS: todo:t |:t
 #+STARTUP: overview
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
 * How to recover a frozen Emacs process
   - kill -USR2
   - Then set debug-on-quit back to nil
@@ -356,7 +369,7 @@ EOF
   - cask.github.io
 * emacs core
 * TODO understand recursive editing
-** TODO fix recursive editing -- seems to be broken
+* TODO fix recursive editing -- seems to be broken
 * TODO Master regexp syntax
   - use rx: http://www.emacswiki.org/emacs/rx to build regexps
   - pcre2el: https://github.com/joddie/pcre2el
@@ -373,33 +386,32 @@ EOF
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
 * org-mode
-* TODO get better at org-mode
-** DONE rename from *-todo.org to *.org
+* DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
-** TODO easy, nice-looking org export
+* DONE org mode default settings
+  CLOSED: [2018-01-25 Thu 16:11]
+  - http://orgmode.org/manual/In_002dbuffer-settings.html
+  - https://orgmode.org/manual/Export-settings.html#Export-settings
+  - see top of this buffer
+* TODO easy, nice-looking org export
    - to markdown
    - to HTML:
      - https://github.com/fniessen/org-html-themes
      - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
-** TODO want to see what is ACTIVE and what was recently DONE
-** TODO share over dropbox
-** TODO use agenda
-** TODO set dates
-** TODO use archiving
-** TODO mobileorg
-* TODO org mode default settings
-  - http://orgmode.org/manual/In_002dbuffer-settings.html
-  - also see perf.org
+* TODO want to see what is ACTIVE and what was recently DONE
+* TODO share over dropbox
+* TODO use agenda
+* TODO set dates
+* TODO use archiving
+* TODO mobileorg or beorg
 * js
 * DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
    - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
      config file -- why? -> because needed .js extension -- it's not json
 * DONE prettier-js-mode is enabled if prettier is available
 * TODO Javascript setup
-  - es2016, etc.
-  - JSX
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
-** What do I currently have
+* What do I currently have
    - coffee-mode
    - discover-js2-refactor
    - flycheck
@@ -424,8 +436,7 @@ EOF
    - indium
    - js3-mode?
    - prettier-mode
-** js-doc-insert-function-doc
-** DONE Get flycheck working reliably
+* DONE Get flycheck working reliably
    CLOSED: [2017-07-29 Sat 22:02]
    - https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el
    - helpful: flycheck-verify-setup
@@ -437,30 +448,35 @@ EOF
        aware of node_modules
      - solution for config files: use flycheck-verify-setup to make sure it is
        finding them right config file(s)
-** DONE tern / ac-js2 / skewer
+* DONE tern / ac-js2 / skewer
    CLOSED: [2018-01-17 Wed 09:40]
    - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
-** DONE use rjsx instead of js2-mode by default?
+* DONE use rjsx instead of js2-mode by default?
    CLOSED: [2018-01-17 Wed 09:40]
    - or only for .jsx files?
-** DONE prettier-mode
+* DONE prettier-mode
    CLOSED: [2018-01-17 Wed 09:40]
-** INACTIVE js3-mode https://github.com/thomblake/js3-mode
+* INACTIVE js3-mode https://github.com/thomblake/js3-mode
    - don't need the stuff it offers anymore
-** TODO wjb-kill-node in defuns
-** TODO Make it.only / unonly work in js2-mode
-** TODO indium
-** TODO node-inspector plus tern/swank or something to inspect running node process in emacs
+* DONE Make it.only / unonly work in js2-mode
+  CLOSED: [2018-01-25 Thu 16:12]
+* DONE toggle-only: only/unonly for it, test, context, describe
+  CLOSED: [2018-01-25 Thu 16:46]
+  - similar to toggle-boolean: when point is on line, add/remove .only
+* DONE js-comint https://github.com/redguardtoo/js-comint
+  CLOSED: [2018-01-25 Thu 16:46]
+   - run-js, js-send-buffer
+* TODO wjb-kill-node in defuns
+* TODO indium
+* TODO node-inspector plus tern/swank or something to inspect running node process in emacs
    - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
    - https://github.com/jscheid/kite/blob/master/kite.md
    - https://github.com/segv/jss
    - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
-** TODO xref-js2
+* TODO xref-js2
    - but I don't want xref-goto-xref to open in a new buffer!
-** TODO js-comint https://github.com/redguardtoo/js-comint
-   - run-js, js-send-buffer
-** TODO cleanup setup-js2-mode.el
-** TODO Various
+* TODO cleanup setup-js2-mode.el
+* TODO Various
   - [-] emacs js2 setup
     - [X] upgrade js2-refactor
     - [X] use const in snippets
@@ -585,7 +601,6 @@ EOF
 #+END_SRC
 * navigation
 * TODO Try anything and/or Helm
-
 * markdown
 * DONE GFM tables
   CLOSED: [2015-09-11 Fri 16:09]
