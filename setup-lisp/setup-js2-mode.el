@@ -47,25 +47,32 @@
 
 (require-package 'js2-mode)
 
-;; js2-mode steals TAB, let's steal it back for yasnippet
-(defun js2-tab-properly ()
-  "Tab properly."
-  (interactive)
+(use-package js2-refactor
+  :config
+  (js2r-add-keybindings-with-prefix "H-c")
+  (js2r-add-keybindings-with-prefix "H-r"))
 
-  ;; yas works differently now, this may be obsolete. See yas-fallback-behavior documentation.
-  (let ((yas-fallback-behavior 'return-nil))
-    (unless (yas-expand)
-      (indent-for-tab-command)
-      (if (looking-back "^\s+")
-          (back-to-indentation)))))
+;; Company and Tern.
 
-(require 'js2-refactor)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-;; Tern uses C-c C-r.
-;; https://ternjs.net/doc/manual.html#emacs
-;; (js2r-add-keybindings-with-prefix "C-c C-r")
-(js2r-add-keybindings-with-prefix "H-c")
-(js2r-add-keybindings-with-prefix "H-r")
+;; Last argument makes tern the last hook to run, which is good
+;; because it needs to come after nvm-use-for-buffer.
+(add-hook 'js2-mode-hook #'tern-mode t)
+
+(when (require 'company nil t)
+  (require 'company-tern nil t)
+  (add-to-list 'company-backends 'company-tern)
+  (add-hook 'js2-mode-hook (lambda () (company-mode))))
+
+;; Just placing this here for now. Company stuff should probably be in its own
+;; file.
+(add-to-list 'company-backends 'company-restclient)
+(when (require 'company-emoji nil t)
+  (add-to-list 'company-backends 'company-emoji))
+
+;; Disable completion keybindings, as we use xref-js2 and
+;; js2-jump-to-definition instead.
+(define-key tern-mode-keymap (kbd "M-.") nil)
+(define-key tern-mode-keymap (kbd "M-,") nil)
 
 (define-prefix-command 'tern-js2-map)
 (define-key tern-js2-map (kbd "M-.") 'tern-find-definition)
@@ -73,10 +80,8 @@
 
 (after-load 'js2-mode
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
-  (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
   (define-key js2-mode-map (kbd "H-t") 'tern-js2-map)
-  ;;(define-key js2-mode-map (kbd "H-r") 'js2r-rename-var) ;; H-c r v
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
@@ -97,6 +102,8 @@
   (add-hook 'js2-mode-hook #'(lambda () (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
   (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
   (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1))) ;; maybe?
+  (add-hook 'js2-mode-hook #'(lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
   ;; This might slow things down when loading large files?
   ;; (add-hook 'js2-mode-hook  #'js2-imenu-extras-setup)
@@ -104,36 +111,9 @@
   ;; put towards the end so it runs early (hooks are added to
   ;; beginning of list)
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
-
   )
 
-;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
-
-;; Need to first remove from list if present, since elpa adds entries too, which
-;; may be in an arbitrary order
-(setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
-                            (loop for entry in auto-mode-alist
-                                  unless (eq preferred-javascript-mode (cdr entry))
-                                  collect entry)))
-
-;; These defuns may be replaceable by
-;; https://github.com/codesuki/add-node-modules-path
-
-;; from http://emacs.stackexchange.com/a/21207
-(defun my/use-eslint-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
-
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
+(setq-default js2-basic-offset 2)
 (setq js2-dynamic-idle-timer-adjust 0
       ;; js2-dynamic-idle-timer-adjust 40000
       js2-use-font-lock-faces t
@@ -161,6 +141,17 @@
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
+;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+
+;; Need to first remove from list if present, since elpa adds entries too, which
+;; may be in an arbitrary order
+(setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
+                            (loop for entry in auto-mode-alist
+                                  unless (eq preferred-javascript-mode (cdr entry))
+                                  collect entry)))
+
 ;; Use lambda for anonymous functions.
 (font-lock-add-keywords
  'js2-mode `(("\\(function\\) *("
@@ -175,10 +166,6 @@
                                         (match-end 1) "\u2190")
                         nil)))))
 
-;; TODO: implement recommendations from
-;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
-(setq-default js2-basic-offset 2)
-
 ;; Did this predate using gruvbox, or do I still want it?
 ;; (set-face-foreground 'js2-object-property "light goldenrod")
 
@@ -187,36 +174,28 @@
 (eval-after-load "js2-highlight-vars-autoloads"
   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
-;; xref
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+;; These defuns may be replaceable by
+;; https://github.com/codesuki/add-node-modules-path
 
+;; Flycheck.
+;;
+;; from http://emacs.stackexchange.com/a/21207
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
 
-;; company and tern
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
-;; Last argument makes tern the last hook to run, which is good
-;; because it needs to come after nvm-use-for-buffer.
-(add-hook 'js2-mode-hook #'tern-mode t)
-
-(when (require 'company nil t)
-  (require 'company-tern nil t)
-
-  (add-to-list 'company-backends 'company-tern)
-  (add-hook 'js2-mode-hook (lambda ()
-                             (company-mode))))
-
-;; Just placing this here for now. Company stuff should probably be in its own
-;; file.
-(add-to-list 'company-backends 'company-restclient)
-(when (require 'company-emoji nil t)
-  (add-to-list 'company-backends 'company-emoji))
-
-;; Disable completion keybindings, as we use xref-js2 instead
-(define-key tern-mode-keymap (kbd "M-.") nil)
-(define-key tern-mode-keymap (kbd "M-,") nil)
-
-
-;; prettier
+;; Prettier.
+;;
+;; TODO: This can probably be updated to work with
+;; add-node-modules-to-path.
 (defun my/use-prettier-if-in-node-modules ()
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
