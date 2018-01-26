@@ -301,11 +301,11 @@
   :mode "\\.lua\\'"
   :interpreter "lua")
 
+(use-package json-mode)
+
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm
 ;; for file.
 (use-package nvm)
-
-(use-package json-mode)
 
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
@@ -338,20 +338,6 @@
   :config
   (js-do-use-nvm))
 
-(use-package rainbow-delimiters
-  :hook (js2-mode-hook json-mode-hook))
-
-(use-package restclient
-  ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
-  ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
-  :bind (:map restclient-mode-map
-              ("C-c C-c" . 'restclient-http-send-current-stay-in-window)
-              ("C-c C-v" . 'restclient-http-send-current))
-  :config
-  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
-    (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
-      ad-do-it)))
-
 (use-package coffee-mode
   :mode "\\.coffee\\.erb\\'"
   :init
@@ -381,6 +367,20 @@
 
   :config
   (setq coffee-tab-width preferred-javascript-indent-level))
+
+(use-package rainbow-delimiters
+  :hook (js2-mode-hook json-mode-hook))
+
+(use-package restclient
+  ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
+  ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
+  :bind (:map restclient-mode-map
+              ("C-c C-c" . 'restclient-http-send-current-stay-in-window)
+              ("C-c C-v" . 'restclient-http-send-current))
+  :config
+  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
+    (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
+      ad-do-it)))
 
 ;; multiple-cursors.
 ;;
