@@ -307,6 +307,15 @@
 ;; for file.
 (use-package nvm)
 
+(eval-when-compile (require 'cl))
+(defcustom preferred-javascript-mode
+  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
+  "Javascript mode to use for .js files."
+  :type 'symbol
+  :group 'programming
+  :options '(js2-mode js-mode))
+(defvar preferred-javascript-indent-level 2)
+
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 (use-package js-comint

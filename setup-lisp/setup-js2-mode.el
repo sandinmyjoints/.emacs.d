@@ -85,15 +85,6 @@
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill))
 
 
-(eval-when-compile (require 'cl))
-(defcustom preferred-javascript-mode
-  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
-  "Javascript mode to use for .js files."
-  :type 'symbol
-  :group 'programming
-  :options '(js2-mode js-mode))
-(defvar preferred-javascript-indent-level 2)
-
 ;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
