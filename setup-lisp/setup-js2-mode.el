@@ -217,12 +217,16 @@
 
 
 ;; company and tern
+
+;; Last argument makes tern the last hook to run, which is good
+;; because it needs to come after nvm-use-for-buffer.
+(add-hook 'js2-mode-hook #'tern-mode t)
+
 (when (require 'company nil t)
   (require 'company-tern nil t)
 
   (add-to-list 'company-backends 'company-tern)
   (add-hook 'js2-mode-hook (lambda ()
-                             (tern-mode)
                              (company-mode))))
 
 ;; Just placing this here for now. Company stuff should probably be in its own
