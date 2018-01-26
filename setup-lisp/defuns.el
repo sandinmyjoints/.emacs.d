@@ -561,12 +561,19 @@ following line."
 ;;    (format "%s -f %s/tags -eR %s" path-to-ctags
 ;;            (directory-file-name dir-name) (directory-file-name dir-name))))
 
-(require 'ht)
+
+(defun replace-with (pos1 pos2 replacement)
+  ""
+  (delete-region pos1 pos2)
+  (insert replacement))
+
 (defun select-current-line ()
   "Select the current line"
   (interactive)
   (end-of-line) ; move to end of line
   (set-mark (line-beginning-position)))
+
+(require 'ht)
 
 ;; var a = true;
 ;; { a: false }
@@ -575,15 +582,19 @@ following line."
 (defun toggle-boolean ()
   "Toggle any booleans found on the current line."
   (interactive)
-  (let ((booleans (ht ("true" "false")
+  (let* ((booleans (ht ("true" "false")
                       ("false" "true")
                       ("True" "False")
-                      ("False" "True"))))
+                      ("False" "True")))
+         (toggle-boolean-re
+          (-reduce
+           (lambda (memo item)
+             (format "%s\\|%s" memo item))
+           (ht-keys booleans))))
     (save-excursion
       (save-restriction
         (call-interactively 'select-current-line)
         (call-interactively 'narrow-to-region)
-        (setq toggle-boolean-re (-reduce (lambda (memo item) (format "%s\\|%s" memo item)) (ht-keys booleans)))
         (goto-char (point-min))
         (re-search-forward toggle-boolean-re nil t))
       (let* ((thing2 (thing-at-point 'word))
@@ -592,8 +603,39 @@ following line."
              (pos2 (cdr bounds)))
         (setq replacement (ht-get booleans thing2 nil))
         (when replacement
-          (delete-region pos1 pos2)
-          (insert replacement))))))
+          (replace-with pos1 pos2 replacement))))))
+
+;; describe('do only one thing')
+;; context('do thing')
+;; test('do thing')
+;; it('do thing')
+;; fn('do thing')
+(defun toggle-only ()
+  "Toggle .only in appropriate identifier on current line."
+  (interactive)
+  (let* ((unonlyable-identifiers-re "describe.only\\|context.only\\|test.only\\|it.only")
+         (onlyable-identifiers-re "describe\\|context\\|test\\|it"))
+    (save-excursion
+      (save-restriction
+        (call-interactively 'select-current-line)
+        (call-interactively 'narrow-to-region)
+        (goto-char (point-min))
+        (if (re-search-forward unonlyable-identifiers-re nil t)
+            (let* ((bounds (bounds-of-thing-at-point 'word))
+                   (end (cdr bounds))
+                   (middle (- end 5)))
+              (delete-region middle end))
+          (progn
+            (condition-case nil
+                (progn
+                  (re-search-forward onlyable-identifiers-re nil)
+                  (let* ((thing2 (thing-at-point 'word))
+                         (bounds (bounds-of-thing-at-point 'word))
+                         (pos1 (car bounds))
+                         (pos2 (cdr bounds))
+                         (replacement (format "%s.only" thing2)))
+                    (replace-with pos1 pos2 replacement)))
+              (error nil))))))))
 
 (defun comment-box-better (b e)
   "Draw a box comment around the region but arrange for the region
