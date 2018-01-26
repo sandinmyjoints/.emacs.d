@@ -85,9 +85,6 @@
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill))
 
 
-;; Don't redefine C-a for me please, js2-mode
-;(define-key js2-mode-map (kbd "C-a") nil)
-
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
   (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -108,7 +105,6 @@
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
-;; js2-mode
 (after-load 'js2-mode
   ;; Disable js2 mode's syntax error highlighting by default...
   (setq-default js2-mode-show-parse-errors nil
@@ -270,24 +266,9 @@ project."
           "--trailing-comma"
           "es5")))
 
-
 ;; indium
 ;; (when (require 'indium nil t)
 ;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
-
-;; Add buffer-local indicator for whether prog-mode-hook has run.
-;; See:
-;; http://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
-(defun my-set-pmh-ran ()
-  (set (make-local-variable 'my-pmh-ran) t))
-
-(add-hook 'prog-mode-hook 'my-set-pmh-ran)
-
-;; Ensure js2-mode runs prog-mode-hook.
-(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
-(defun my-run-pmh-if-not-ran ()
-  (unless (bound-and-true-p my-pmh-ran)
-    (run-hooks 'prog-mode-hook)))
 
 (provide 'setup-js2-mode)
 

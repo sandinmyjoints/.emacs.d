@@ -301,6 +301,8 @@
   :mode "\\.lua\\'"
   :interpreter "lua")
 
+;; Must come before js2-mode or coffee-mode so they can set proper nvm
+;; for file.
 (use-package nvm)
 
 (use-package json-mode)
@@ -326,9 +328,10 @@
   ;;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
   (define-minor-mode inferior-js-keys-mode
     "Bindings for communicating with an inferior js interpreter."
-    nil " InfJS" inferior-js-minor-mode-map)
+    nil "" inferior-js-minor-mode-map)
   (dolist (hook '(js2-mode-hook js-mode-hook))
     (add-hook hook 'inferior-js-keys-mode))
+
   (autoload 'js-comint "js-select-node-version" "Add directory to tree view")
   (autoload 'js-comint "run-js" "Add directory to tree view")
 
