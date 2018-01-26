@@ -139,30 +139,6 @@
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
-(defun my/use-coffeelint-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (coffeelint (and root
-                          (expand-file-name "node_modules/coffeelint/bin/coffeelint"
-                                            root))))
-    (when (and coffeelint (file-executable-p coffeelint))
-      (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
-
-(add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
-
-(defun my/use-coffee-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (coffee (and root
-                      (expand-file-name "node_modules/.bin/coffee"
-                                        root))))
-    (when (and coffee (file-executable-p coffee))
-      (setq-local flycheck-coffee-executable coffee))))
-
-(add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
-
 ;; (setq js2-dynamic-idle-timer-adjust 40000)
 (setq js2-dynamic-idle-timer-adjust 0)
 
@@ -208,7 +184,6 @@
 (add-hook 'js2-mode-hook
           #'(lambda ()
               (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
-
 
 ;; Use lambda for anonymous functions.
 (font-lock-add-keywords
@@ -295,8 +270,6 @@ project."
 ;; indium
 ;; (when (require 'indium nil t)
 ;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
-
-;;(add-hook 'coffee-mode-hook 'smart-indent-rigidly-mode) ;; clobbers TAB for yasnippet/expand
 
 ;; Add buffer-local indicator for whether prog-mode-hook has run.
 ;; See:
