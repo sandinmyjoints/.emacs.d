@@ -304,7 +304,37 @@
 (use-package nvm)
 
 (use-package json-mode)
-(use-package js-comint)
+
+(eval-after-load 'js2-mode '(require 'setup-js2-mode))
+
+(use-package js-comint
+  :init
+  ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
+  (setenv "NODE_NO_READLINE" "1")
+
+  (setq js-comint-program-arguments '("--interactive"))
+
+  (defun inferior-js-mode-hook-setup ()
+    (add-hook 'comint-output-filter-functions 'js-comint-process-output))
+  (add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
+
+  (defvar inferior-js-minor-mode-map (make-sparse-keymap))
+  (define-key inferior-js-minor-mode-map "\C-x\C-e" 'js-send-last-sexp)
+  (define-key inferior-js-minor-mode-map "\C-\M-x" 'js-send-last-sexp-and-go)
+  ;;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
+  ;;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
+  ;;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
+  (define-minor-mode inferior-js-keys-mode
+    "Bindings for communicating with an inferior js interpreter."
+    nil " InfJS" inferior-js-minor-mode-map)
+  (dolist (hook '(js2-mode-hook js-mode-hook))
+    (add-hook hook 'inferior-js-keys-mode))
+  (autoload 'js-comint "js-select-node-version" "Add directory to tree view")
+  (autoload 'js-comint "run-js" "Add directory to tree view")
+
+  :config
+  (js-do-use-nvm))
+
 (use-package coffee-mode
   :mode "\\.coffee\\.erb\\'"
   :config

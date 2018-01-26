@@ -209,98 +209,6 @@
           #'(lambda ()
               (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
 
-;; ---------------------------------------------------------------------------
-;; Run and interact with an inferior JS via js-comint.el
-;; ---------------------------------------------------------------------------
-
-(setq inferior-js-program-command "node")
-(setq inferior-js-program-arguments '("--interactive"))
-(defun inferior-js-mode-hook-setup ()
-  (add-hook 'comint-output-filter-functions 'js-comint-process-output))
-(add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
-
-;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
-;;
-(setenv "NODE_NO_READLINE" "1")
-
-(defvar inferior-js-minor-mode-map (make-sparse-keymap))
-(define-key inferior-js-minor-mode-map "\C-x\C-e" 'js-send-last-sexp)
-(define-key inferior-js-minor-mode-map "\C-\M-x" 'js-send-last-sexp-and-go)
-                                        ;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
-                                        ;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
-                                        ;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
-
-(define-minor-mode inferior-js-keys-mode
-  "Bindings for communicating with an inferior js interpreter."
-  nil " InfJS" inferior-js-minor-mode-map)
-
-(dolist (hook '(js2-mode-hook js-mode-hook))
-  (add-hook hook 'inferior-js-keys-mode))
-
-;;;;;;;;;
-;; nvm ;;
-;;;;;;;;;
-
-(require-package 'nvm)
-(require 'nvm)
-
-;; TODO: this may not really be needed anymore thanks to
-;; nvm-use-for-buffer being in js2-mode-hook.
-(defun do-nvm-use (version)
-  (interactive "sVersion: ")
-  (nvm-use version)
-  ;; exec-path-from-shell made a new login shell at startup and imported values,
-  ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
-  ;; update exec-path to the current PATH in the Emacs process.
-  (exec-path-from-shell-copy-env "PATH")
-  ;; TODO: Unset a Node. Remove node from PATH. Could use setenv with no
-  ;; argument.
-  )
-
-;; run-js?
-;; indium-run-node
-;; js-comint-repl
-(defun run-node (cwd)
-  (interactive "DDirectory: ")
-  (unless (executable-find "node")
-    (call-interactively 'do-nvm-use))
-  (let ((default-directory cwd))
-    (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
-
-(defalias 'node-repl 'run-node)
-
-(defun run-coffee (cwd)
-  (interactive "DDirectory: ")
-  (unless (and (executable-find "node") (executable-find "coffee"))
-    (call-interactively 'do-nvm-use))
-  (let ((default-directory cwd))
-    (call-interactively 'coffee-repl)))
-
-(defun run-nesh (cwd)
-  "Run Nesh."
-  (interactive "DDirectory: ")
-  (unless (and (executable-find "node") (executable-find "nesh"))
-    (call-interactively 'do-nvm-use))
-  (let ((default-directory cwd))
-    (pop-to-buffer (make-comint (format "nesh-repl-%s" cwd) "nesh" nil "--interactive"))))
-
-                                        ;(defalias 'coffee-repl 'run-coffee) ;; (Overwrites defun in coffee-mode.el.)
-
-;; Needs Node to really honor NODE_NO_READLINE. See:
-;; https://github.com/joyent/node/issues/5344
-(defun run-coffee-someday (cwd)
-  "Run Coffeescript."
-  (interactive "DDirectory: ")
-  (unless (and (executable-find "node") (executable-find "coffee"))
-    (call-interactively 'do-nvm-use))
-  (let ((default-directory cwd))
-    (pop-to-buffer
-     (apply 'make-comint (format "coffee-repl-%s" cwd)
-            "env"
-            nil
-            "NODE_NO_READLINE=1"
-            "coffee"
-            (list "--interactive")))))
 
 ;; Use lambda for anonymous functions.
 (font-lock-add-keywords
@@ -327,19 +235,6 @@
 ;; TODO: diminish Js2-Highlight-Vars (indicator vars)
 (eval-after-load "js2-highlight-vars-autoloads"
   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
-
-
-
-;; js-comint
-;; To set/change version of node js, run `js-select-node-version'
-(autoload 'js-comint "js-select-node-version" "Add directory to tree view")
-(autoload 'js-comint "run-js" "Add directory to tree view")
-
-(setq js-use-nvm t)
-(defun inferior-js-mode-hook-setup ()
-  (add-hook 'comint-output-filter-functions 'js-comint-process-output))
-(add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
-
 
 ;; xref
 (add-hook 'js2-mode-hook (lambda ()

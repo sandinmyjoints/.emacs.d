@@ -744,6 +744,9 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   ;;(wjb-kill-node (js2r--next-node))
   (wjb-kill-node (js2-node-at-point)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; occur
+
 ;; Following based on
 ;; https://masteringemacs.org/article/searching-buffers-occur-mode
 (eval-when-compile
@@ -777,6 +780,55 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   "Show all lines matching REGEXP in buffers with major mode MODE-STRING."
    (interactive "Cmajor-mode: ")
    (multi-occur-in-mode (mode-from-string mode-string)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; repls
+
+;; run-js?
+;; indium-run-node
+;; js-comint-repl
+(defun run-node (cwd)
+  (interactive "DDirectory: ")
+  (unless (executable-find "node")
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+    (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
+
+(defalias 'node-repl 'run-node)
+(defun run-coffee (cwd)
+  (interactive "DDirectory: ")
+  (unless (and (executable-find "node") (executable-find "coffee"))
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+    (call-interactively 'coffee-repl)))
+
+;; Needs Node to really honor NODE_NO_READLINE. See:
+;; https://github.com/joyent/node/issues/5344
+(defun run-coffee-someday (cwd)
+  "Run Coffeescript."
+  (interactive "DDirectory: ")
+  (unless (and (executable-find "node") (executable-find "coffee"))
+    (call-interactively 'do-nvm-use))
+  (let ((default-directory cwd))
+    (pop-to-buffer
+     (apply 'make-comint (format "coffee-repl-%s" cwd)
+            "env"
+            nil
+            "NODE_NO_READLINE=1"
+            "coffee"
+            (list "--interactive")))))
+
+;; TODO: this may not really be needed anymore thanks to
+;; nvm-use-for-buffer being in js2-mode-hook.
+;; TODO: Unset a Node. Remove node from PATH. Could use setenv with no
+;; argument.
+(defun do-nvm-use (version)
+  (interactive "sVersion: ")
+  (nvm-use version)
+  ;; exec-path-from-shell made a new login shell at startup and imported values,
+  ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
+  ;; update exec-path to the current PATH in the Emacs process.
+  (exec-path-from-shell-copy-env "PATH"))
 
 (provide 'defuns)
 
