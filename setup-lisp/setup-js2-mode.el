@@ -45,7 +45,6 @@
 ;;
 ;;; Code:
 
-
 (require-package 'js2-mode)
 
 ;; js2-mode steals TAB, let's steal it back for yasnippet
@@ -82,8 +81,31 @@
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
-  (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill))
+  (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill)
 
+  ;; Disable js2 mode's syntax error highlighting by default...
+  (setq-default js2-mode-show-parse-errors nil
+                js2-mode-show-strict-warnings nil
+                js2-skip-preprocessor-directives t)
+  ;; ... but enable it if flycheck can't handle javascript
+  (autoload 'flycheck-get-checker-for-buffer "flycheck")
+  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
+    (unless (flycheck-get-checker-for-buffer)
+      (set (make-local-variable 'js2-mode-show-parse-errors) t)
+      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
+  ;;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
+  (add-hook 'js2-mode-hook #'(lambda () (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
+  (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
+  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1))) ;; maybe?
+
+  ;; This might slow things down when loading large files?
+  ;; (add-hook 'js2-mode-hook  #'js2-imenu-extras-setup)
+
+  ;; put towards the end so it runs early (hooks are added to
+  ;; beginning of list)
+  (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
+
+  )
 
 ;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
@@ -95,20 +117,6 @@
                             (loop for entry in auto-mode-alist
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
-
-(after-load 'js2-mode
-  ;; Disable js2 mode's syntax error highlighting by default...
-  (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil
-                js2-skip-preprocessor-directives t)
-  ;; ... but enable it if flycheck can't handle javascript
-  (autoload 'flycheck-get-checker-for-buffer "flycheck")
-  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
-    (unless (flycheck-get-checker-for-buffer)
-      (set (make-local-variable 'js2-mode-show-parse-errors) t)
-      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
-  ;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
-  )
 
 ;; These defuns may be replaceable by
 ;; https://github.com/codesuki/add-node-modules-path
@@ -126,15 +134,9 @@
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
-;; (setq js2-dynamic-idle-timer-adjust 40000)
-(setq js2-dynamic-idle-timer-adjust 0)
-
-(after-load 'js2-mode
-  (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
-  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1))) ;; maybe?
-  (add-hook 'js2-mode-hook #'nvm-use-for-buffer))
-
-(setq js2-use-font-lock-faces t
+(setq js2-dynamic-idle-timer-adjust 0
+      ;; js2-dynamic-idle-timer-adjust 40000
+      js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil
       js2-basic-offset preferred-javascript-indent-level
       js2-indent-on-enter-key t
@@ -148,29 +150,16 @@
       js2-strict-inconsistent-return-warning t
       js2-rebind-eol-bol-keys nil
       js2-concat-multiline-strings 'eol
-      )
-
-(add-to-list 'js2-global-externs
-              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
-
-;; This might slow things down when loading large files?
-;; (after-load 'js2-mode
-;;   (js2-imenu-extras-setup))
-
-;; Set js-mode's indent level (it seems to ignore tab-width).
-(setq js-indent-level preferred-javascript-indent-level)
-
-(add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
-
-;; js-doc
-(setq js-doc-mail-address "william.bert@gmail.com"
+      js-indent-level preferred-javascript-indent-level
+      js-doc-mail-address "william.bert@gmail.com"
       js-doc-author (format "William Bert <%s>" js-doc-mail-address)
       js-doc-url "williambert.online"
       js-doc-license "MIT")
 
-(add-hook 'js2-mode-hook
-          #'(lambda ()
-              (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
+(add-to-list 'js2-global-externs
+              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
+
+(add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
 ;; Use lambda for anonymous functions.
 (font-lock-add-keywords
