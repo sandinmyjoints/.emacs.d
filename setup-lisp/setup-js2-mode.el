@@ -46,13 +46,7 @@
 ;;; Code:
 
 
-(require-package 'json-mode)
-
-(when (>= emacs-major-version 24)
-  (require-package 'js2-mode)
-  (require-package 'coffee-mode))
-
-(require-package 'js-comint)
+(require-package 'js2-mode)
 
 ;; js2-mode steals TAB, let's steal it back for yasnippet
 (defun js2-tab-properly ()
@@ -205,11 +199,6 @@
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
-;; Javascript nests {} and () a lot, so I find this helpful
-(require-package 'rainbow-delimiters)
-(dolist (hook '(js2-mode-hook js-mode-hook json-mode-hook))
-  (add-hook hook 'rainbow-delimiters-mode))
-
 ;; js-doc
 (setq js-doc-mail-address "william.bert@gmail.com"
       js-doc-author (format "William Bert <%s>" js-doc-mail-address)
@@ -219,21 +208,6 @@
 (add-hook 'js2-mode-hook
           #'(lambda ()
               (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
-
-;;; Coffeescript
-
-(after-load 'coffee-mode
-  (setq coffee-js-mode preferred-javascript-mode
-        coffee-tab-width preferred-javascript-indent-level))
-
-(when (fboundp 'coffee-mode)
-  (add-to-list 'auto-mode-alist '("\\.coffee\\.erb\\'" . coffee-mode)))
-
-;; TODO: write-file-functions is global, so this is a pretty dumb hook. Fix it.
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-
 
 ;; ---------------------------------------------------------------------------
 ;; Run and interact with an inferior JS via js-comint.el

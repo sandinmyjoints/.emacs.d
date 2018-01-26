@@ -303,8 +303,19 @@
 
 (use-package nvm)
 
+(use-package json-mode)
+(use-package js-comint)
+(use-package coffee-mode
+  :mode "\\.coffee\\.erb\\'"
+  :config
+  (setq coffee-js-mode preferred-javascript-mode
+        coffee-tab-width preferred-javascript-indent-level))
+
 ;; js2-mode
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
+
+(use-package rainbow-delimiters
+  :hook (js2-mode-hook json-mode-hook))
 
 (use-package restclient
   ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
