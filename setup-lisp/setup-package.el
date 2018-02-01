@@ -151,7 +151,6 @@
      (cons 'dockerfile-mode melpa)
      (cons 'flx-ido melpa)
      (cons 'launchctl melpa)
-     (cons 'smart-indent-rigidly melpa)
      (cons 'smart-tab melpa)
      (cons 'ace-window melpa-stable)
      (cons 'ht melpa)
@@ -171,6 +170,7 @@
      (cons 'google-this melpa)
      (cons 'atomic-chrome melpa)
      (cons 'auto-dim-other-buffers melpa)
+     (cons 'quickrun melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
@@ -192,6 +192,8 @@
      ;; (cons 'slime-js marmalade)
      ;; (cons 'edit-server melpa)
      ;; (cons 'edit-server-htmlize melpa)
+     ;; (cons 'indium melpa)
+     ;; (cons 'smart-indent-rigidly melpa)
      ))
 
   (condition-case nil
