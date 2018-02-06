@@ -171,6 +171,8 @@
      (cons 'atomic-chrome melpa)
      (cons 'auto-dim-other-buffers melpa)
      (cons 'quickrun melpa)
+     (cons 'vimish-fold melpa)
+     (cons 'wgrep melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)

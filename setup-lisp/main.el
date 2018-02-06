@@ -512,6 +512,12 @@
   :config
   (google-this-mode 1))
 
+(use-package vimish-fold)
+
+(use-package wgrep
+  :config
+  (setq wgrep-enable-key "w"))
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
