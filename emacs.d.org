@@ -673,6 +673,8 @@ EOF
   - C-0 (imenu)
   - clean-buffer-list
   - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
+  - reveal-in-osx-finder
+  - quickrun
 ** DONE
   - zap-to-char (M-z and M-Z)
   - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts

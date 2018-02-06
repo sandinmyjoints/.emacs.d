@@ -624,7 +624,8 @@ following line."
             (let* ((bounds (bounds-of-thing-at-point 'word))
                    (end (cdr bounds))
                    (middle (- end 5)))
-              (delete-region middle end))
+              (delete-region middle end)
+              (save-buffer))
           (progn
             (condition-case nil
                 (progn
@@ -634,7 +635,8 @@ following line."
                          (pos1 (car bounds))
                          (pos2 (cdr bounds))
                          (replacement (format "%s.only" thing2)))
-                    (replace-with pos1 pos2 replacement)))
+                    (replace-with pos1 pos2 replacement)
+                    (save-buffer)))
               (error nil))))))))
 
 (defun comment-box-better (b e)

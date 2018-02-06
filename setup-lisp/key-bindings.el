@@ -128,6 +128,7 @@
 
 ;; (global-set-key (kbd "H-t") 'toggle-boolean) ;; using H-t for Tern
 (global-set-key (kbd "C-c ! !") 'toggle-boolean) ;; flycheck uses C-c !
+(global-set-key (kbd "C-c ! t") 'toggle-only) ;; flycheck uses C-c !
 
 ;;(global-set-key (kbd "C-x f") 'recentf-open-files)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
