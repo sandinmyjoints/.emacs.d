@@ -518,6 +518,10 @@
   :config
   (setq wgrep-enable-key "w"))
 
+(use-package helm-xref
+  :config
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
