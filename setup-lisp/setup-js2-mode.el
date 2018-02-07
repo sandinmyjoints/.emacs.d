@@ -225,6 +225,41 @@ project."
           "--trailing-comma"
           "es5")))
 
+;; To jump back:
+;; xref-pop-marker-stack
+
+;; Run each in succession.
+;; How does each signal success or failure?
+;; xref-find-definitions is best if it goes to a result
+;; then tern-find-definition
+;; then js2-jump-to-definition
+;; then xref-find-definitions listing things
+(defun wjb-find-js-definition ()
+  (interactive)
+  (point-to-register ?=)
+  (let ((wjb-find-js-definition-initial (point-marker)))
+    ;; (message "000")
+    (tern-find-definition)
+    ;; if point hasn't moved, tern didn't find it
+    (if (equal (point-marker) wjb-find-js-definition-initial)
+        (progn
+          ;; (message "111")
+          (condition-case nil
+              (js2-jump-to-definition)
+            ;; if js2-jump-to-definition errored or didn't move point, it didn't find it
+            (error
+             (progn
+               ;; (message "222a")
+               (xref-find-definitions (thing-at-point 'symbol)))))
+          (if (equal (point-marker) wjb-find-js-definition-initial)
+              (progn
+                ;; (message "222b")
+                (message (thing-at-point 'symbol))
+                (xref-find-definitions (thing-at-point 'symbol))))))))
+
+(defun wjb-return-from-js-definition ()
+  (jump-to-register ?=))
+
 ;; indium
 ;; (when (require 'indium nil t)
 ;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
