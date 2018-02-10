@@ -512,7 +512,12 @@
   :config
   (google-this-mode 1))
 
-(use-package vimish-fold)
+(use-package vimish-fold
+  :config
+  (vimish-fold-global-mode 1)
+  ;; TODO: make this only true in vimish-fold key map
+  (global-set-key (kbd "C-c `") #'vimish-fold-toggle)
+  (global-set-key (kbd "C-c ~") #'vimish-fold))
 
 (use-package wgrep
   :config
