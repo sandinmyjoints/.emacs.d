@@ -378,7 +378,14 @@
   (setq coffee-tab-width preferred-javascript-indent-level))
 
 (use-package rainbow-delimiters
-  :hook (js2-mode-hook json-mode-hook))
+  :init
+  (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
+
+;; dims parens.
+(use-package paren-face
+  :config
+  (add-to-list 'paren-face-modes 'js2-mode)
+  (global-paren-face-mode))
 
 (use-package restclient
   ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
