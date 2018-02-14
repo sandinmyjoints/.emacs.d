@@ -522,10 +522,14 @@
 
 (use-package vimish-fold
   :config
-  (vimish-fold-global-mode 1)
+  (vimish-fold-global-mode 0)
   ;; TODO: make this only true in vimish-fold key map
   (global-set-key (kbd "C-c `") #'vimish-fold-toggle)
   (global-set-key (kbd "C-c ~") #'vimish-fold))
+
+(use-package yafolding
+  :config
+  (add-hook 'prog-mode-hook #'yafolding-mode))
 
 (use-package wgrep
   :config
