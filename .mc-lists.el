@@ -23,6 +23,7 @@
         eval-last-sexp
         fill-paragraph
         goto-line
+        indent-for-tab-command
         indent-relative
         insert-register
         js2-mark-defun
