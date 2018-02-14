@@ -510,6 +510,7 @@
   :mode "\\.bash*")
 
 (use-package atomic-chrome
+  :disabled
   :config
   (atomic-chrome-start-server))
 
@@ -545,6 +546,7 @@
 
   ;; Turn on fci for these modes:
   (add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'yaml-mode-hook 'fci-mode)
   ;; (add-hook 'coffee-mode-hook 'turn-on-fci)
 
   ;; ...except for these modes.
