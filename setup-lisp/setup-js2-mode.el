@@ -268,6 +268,10 @@ project."
 ;; (when (require 'indium nil t)
 ;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
 
+;; (add-hook 'js2-mode-hook #'setup-tide-mode)
+;; configure javascript-tide checker to run after your default javascript checker
+;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+
 (provide 'setup-js2-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
