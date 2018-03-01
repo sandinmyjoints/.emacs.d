@@ -51,8 +51,8 @@
 ;; TODO: Document this better.
 ;; http://stackoverflow.com/a/2148754
 ;; comparison with ag: https://www.reddit.com/r/programming/comments/16bvah/the_silver_searcher_is_a_35x_faster_drop_in/
-;; find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-;; find-args for GNU find:
+;; wjb-find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
+;; wjb-find-args for GNU find: "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
 ;;
 ;; -wholename = -path
 ;; -path = pathname
@@ -81,22 +81,24 @@
 ;; - file glob
 ;; - search pattern (regex)
 
-(setq grep-name "grep")
+(require 'grep)
+
+(defvar wjb-grep-bin "grep")
 (when (executable-find "ggrep")
-  (setq grep-name "ggrep"))
+  (setq wjb-grep-bin "ggrep"))
 
-(setq find-name "find")
+(defvar wjb-find-bin "find")
 (when (executable-find "gfind")
-  (setq find-name "gfind"))
+  (setq wjb-find-bin "gfind"))
 
-(setq find-args (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e " grep-name)
-      default-find-cmd (concat find-name " . " find-args))
-
+(defvar wjb-find-args
+  (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
+          wjb-grep-bin))
+(defvar wjb-default-find-cmd (concat wjb-find-bin " . " wjb-find-args))
 
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
-
 (grep-compute-defaults)
-(grep-apply-setting 'grep-find-command default-find-cmd)
+(grep-apply-setting 'grep-find-command wjb-default-find-cmd)
 
 ;; make rgrep behave how I want, like my own find-in-project command.
 (add-to-list 'grep-find-ignored-directories "node_modules")
@@ -113,7 +115,7 @@
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
     (grep-find
-     (concat "gfind . " find-args grep-string))))
+     (concat "gfind . " wjb-find-args grep-string))))
 
 
 
