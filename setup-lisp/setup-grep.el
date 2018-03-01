@@ -47,10 +47,8 @@
 
 
 ;; Make grep-find more helpful.
-;; TODO: custom grep and find, so can use ggrep and gfind if installed.
 ;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules, dist, _tmp, minified files)
 ;; TODO: Document this better.
-;; See also find-in-project in defuns.el.
 ;; http://stackoverflow.com/a/2148754
 ;; comparison with ag: https://www.reddit.com/r/programming/comments/16bvah/the_silver_searcher_is_a_35x_faster_drop_in/
 ;; find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
@@ -66,6 +64,22 @@
 ;;
 ;; Consider having two commands: one that ignores everything I might want
 ;; ignored, and one that ignores conservatively.
+;;
+;; Approaches:
+;; - find | grep via grep-find
+;; - grep -r by itself
+;; - rg by itself
+;; - rg with helm (via helm-ag)
+;;
+;; - search sane defaults in .
+;; - search EVERYTHING in .
+;; - search wildcard pattern I specify (consider subdirs) in .
+;; - all of these in some other path
+;;
+;; inputs:
+;; - path (default to .)
+;; - file glob
+;; - search pattern (regex)
 
 (setq grep-name "grep")
 (when (executable-find "ggrep")
@@ -113,8 +127,6 @@
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
 ;; grep -E --color=auto -Iin -r -C 3 --exclude *~ <query> <dir>
 ;; alias fin='grep -E --color=auto -Iin -r -C 3 --exclude *~'
-
-;(eval-after-load 'grep '(require 'setup-rgrep))
 
 ;; Open grep results in the same frame.
 ;;
