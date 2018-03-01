@@ -537,6 +537,10 @@
   :config
   (setq wgrep-enable-key "w"))
 
+(use-package sql
+  :config
+  (add-to-list 'sql-mysql-login-params '(port :default 3311)))
+
 (use-package helm-xref
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
