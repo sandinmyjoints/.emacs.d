@@ -364,6 +364,8 @@ EOF
 * TODO portable .emacs.d
 * TODO literate .emacs.d
 * packages
+* TODO make startup fast
+  - https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
 * TODO Versioning of packages--how to pin?
 * TODO try Cask
   - cask.github.io
@@ -386,6 +388,7 @@ EOF
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
 * org-mode
+  - export settings https://orgmode.org/manual/Export-settings.html#index-_0023_002bOPTIONS
 * DONE rename from *-todo.org to *.org
    CLOSED: [2014-03-18 Tue 10:21]
 * DONE org mode default settings
@@ -399,18 +402,20 @@ EOF
      - https://github.com/fniessen/org-html-themes
      - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 * TODO want to see what is ACTIVE and what was recently DONE
-* TODO share over dropbox
+* TODO org-babel, particularly with sql
 * TODO use agenda
 * TODO set dates
 * TODO use archiving
+* TODO share over dropbox
 * TODO mobileorg or beorg
+* USE export dispatcher
+  - C-c C-e
+  - insert options: C-c C-e #
 * js
 * DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
    - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
      config file -- why? -> because needed .js extension -- it's not json
 * DONE prettier-js-mode is enabled if prettier is available
-* TODO Javascript setup
-  - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
 * What do I currently have
    - coffee-mode
    - discover-js2-refactor
@@ -466,25 +471,11 @@ EOF
 * DONE js-comint https://github.com/redguardtoo/js-comint
   CLOSED: [2018-01-25 Thu 16:46]
    - run-js, js-send-buffer
-* TODO wjb-kill-node in defuns
-* TODO indium
-* TODO node-inspector plus tern/swank or something to inspect running node process in emacs
-   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
-   - https://github.com/jscheid/kite/blob/master/kite.md
-   - https://github.com/segv/jss
-   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
-* TODO xref-js2
-   - but I don't want xref-goto-xref to open in a new buffer!
-* TODO cleanup setup-js2-mode.el
-* TODO Various
+* DONE Various
+  CLOSED: [2018-03-01 Thu 09:08]
   - [-] emacs js2 setup
     - [X] upgrade js2-refactor
     - [X] use const in snippets
-    - [X] tern and company
-      - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
-    - [ ] get to know js2-refactorings and mnemonics
-    - [ ] make js2 snappier
-    - [ ] refactor setup-js2-mode.el
     - [X] sane eslint
       - it only uses ~/.eslintrc if it doesn't find one higher up.
       - helpful: http://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy
@@ -492,6 +483,34 @@ EOF
       - $ eslint --print-config test/cache.js
     - [X] sd-simulator automatic prettier / emacs prettier
       - https://github.com/prettier/prettier-emacs
+    - [ ] get to know js2-refactorings and mnemonics
+    - [ ] make js2 snappier
+* TODO find-file-at-point for imports in js and jsx files
+  - support "index" by default
+* TODO wjb-kill-node in defuns
+* TODO indium
+* TODO node-inspector plus tern/swank or something to inspect running node process in emacs
+   - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
+   - https://github.com/jscheid/kite/blob/master/kite.md
+   - https://github.com/segv/jss
+   - open /Applications/Google\ Chrome.app --remote-debugging-port=9222
+* TODO IDE features
+** DONE tern
+   CLOSED: [2018-02-14 Wed 15:41]
+    - [X] tern and company
+      - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
+** DONE xref-js2
+   CLOSED: [2018-02-14 Wed 15:41]
+    - but I don't want xref-goto-xref to open in a new buffer!
+** TODO tide
+   - https://github.com/ananthakumaran/tide
+** TODO lsp-javascript
+   - https://github.com/emacs-lsp/lsp-mode
+   - https://github.com/emacs-lsp/lsp-javascript
+** TODO dump-jump + smart-jump
+* TODO refactor setup-js2-mode.el
+* TODO Javascript setup
+  - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
 * coffee
 * TODO coffee-mode
 ** DONE Coffee repl
@@ -518,6 +537,7 @@ EOF
   - they use Emacs widgets, which specify a glyph, which is set to an XPM icon.
   - path to icons: /usr/local/Cellar/emacs-mac/emacs-25.2-z-mac-6.4/share/emacs/25.2/etc/images/tree-widget/folder/close.xpm
   - some nice ones I could use instead: http://www.iconarchive.com/show/flat-folder-icons-by-pelfusion.html
+  - or this: https://github.com/sebastiencs/icons-in-terminal
   - download new icons I want to use
   - resize them and convert to XPM using imagemagick.
   - looks like the current ones are 16x22, left-justified, the actual images are
@@ -562,6 +582,11 @@ EOF
 * TODO multi-term
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
+  - works well with unicode
+  - try helm-ag but with ripgrep as the command instead of ag https://github.com/syohex/emacs-helm-ag
+  - main things I like about my current grep
+    - -C 5 context lines
+    - ignores the right patterns (directories and files)
 * TODO figure out how to use dired-grep dired-find commands without overwriting grep settings
   - grep-find vs rgrep vs find-in-project
   - find-in-project is grep-find with find-args
@@ -611,7 +636,24 @@ EOF
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
-* TODO try https://github.com/jxa/pivotal-tracker
+* TODO Pivotal Tracker integration
+** try https://github.com/jxa/pivotal-tracker
+   - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
+   - https://github.com/emacsfodder/pivotal-tracker/tree/master
+   - https://github.com/zph/pivotal-tracker/commits/master
+** write org-walker, org-to-pt
+   - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
+** ideal flow
+   - org to plan, org exports to odt for import into google docs
+     - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
+   - org to PT, creates PT tickets
+     - top level is release or epic
+     - level 2 is ticket
+       - keyword is ticket type: feature, chore, bug
+       - tags are labels
+     - level 3 is sections within description
+       - bullet points are description
+* TODO try olivetti mode
 * TODO magithub / gh package
   - https://github.com/vermiculus/magithub/blob/master/README.md
 * TODO Review for ideas:
@@ -675,6 +717,7 @@ EOF
   - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
   - reveal-in-osx-finder
   - quickrun
+  - C-c C-o for folding in js2-mode
 ** DONE
   - zap-to-char (M-z and M-Z)
   - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
@@ -683,3 +726,7 @@ EOF
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
+* TODO possible tree window replacement?
+  - https://github.com/sebastiencs/sidebar.el
+* TODO Edit with Emacs OS X service
+  - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
