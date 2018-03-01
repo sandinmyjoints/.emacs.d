@@ -54,6 +54,7 @@
 
 ;; elpy
 (elpy-enable)
+(set-face-background 'highlight-indentation-face "#111")
 (defalias 'workon 'pyvenv-workon)
 
 (provide 'setup-python)
