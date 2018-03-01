@@ -289,7 +289,11 @@
 
 (display-time-mode 1)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook (lambda ()
+                              (if (fboundp 'yafolding-show-all)
+                                  (yafolding-show-all))
+                              (delete-trailing-whitespace)))
+
 
 (defalias 'exit-emacs 'save-buffers-kill-terminal)
 
