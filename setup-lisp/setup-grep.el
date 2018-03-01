@@ -84,13 +84,17 @@
 
 (require 'grep)
 
+;; Setup find.
 (defvar wjb-find-bin "find")
-(when (executable-find "gfind")
-  (setq wjb-find-bin "gfind"))
-(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0")
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 ")
 
+(when (executable-find "gfind")
+  (setq wjb-find-bin "gfind")
+  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
+
+;; Setup grep.
 (defvar wjb-grep-bin "grep")
-(defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e")
+(defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e ")
 
 (when (executable-find "ggrep")
   (setq wjb-grep-bin "ggrep"))
@@ -99,17 +103,14 @@
   (setq wjb-grep-bin "rg")
   (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
 
+;; Construct the full command.
 (defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
-
 (defvar wjb-xargs-part "| xargs -0 -P 2 ")
-
 (defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
-
 (defvar wjb-default-find-command
   (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
-  ;; (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
-  ;;         wjb-grep-bin))
 
+;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command wjb-default-find-cmd)
@@ -185,9 +186,9 @@
 ;;  (add-to-list 'ag-arguments "-C 5")
 ;;  (global-set-key (kbd "C-x 9") 'ag-project))
 
+;; (setq helm-ag-base-command "rg -C 5 --no-heading -niH -e")
+
 (provide 'setup-grep)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-grep.el ends here
-
-;;(setq helm-ag-base-command "rg -C 5")
