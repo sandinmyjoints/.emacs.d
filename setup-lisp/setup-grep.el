@@ -51,8 +51,8 @@
 ;; TODO: Document this better.
 ;; http://stackoverflow.com/a/2148754
 ;; comparison with ag: https://www.reddit.com/r/programming/comments/16bvah/the_silver_searcher_is_a_35x_faster_drop_in/
-;; wjb-find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-;; wjb-find-args for GNU find: "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
+;; wjb-default-find-command
+;; wjb-default-find-command
 ;;
 ;; -wholename = -path
 ;; -path = pathname
@@ -75,6 +75,7 @@
 ;; - search EVERYTHING in .
 ;; - search wildcard pattern I specify (consider subdirs) in .
 ;; - all of these in some other path
+;; - 5 lines of context, jump to match line using compile buffer navigation
 ;;
 ;; inputs:
 ;; - path (default to .)
@@ -83,18 +84,31 @@
 
 (require 'grep)
 
-(defvar wjb-grep-bin "grep")
-(when (executable-find "ggrep")
-  (setq wjb-grep-bin "ggrep"))
-
 (defvar wjb-find-bin "find")
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind"))
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0")
 
-(defvar wjb-find-args
-  (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
-          wjb-grep-bin))
-(defvar wjb-default-find-cmd (concat wjb-find-bin " . " wjb-find-args))
+(defvar wjb-grep-bin "grep")
+(defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e")
+
+(when (executable-find "ggrep")
+  (setq wjb-grep-bin "ggrep"))
+
+(when (and (executable-find "rg") t)
+  (setq wjb-grep-bin "rg")
+  (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
+
+(defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
+
+(defvar wjb-xargs-part "| xargs -0 -P 2 ")
+
+(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+
+(defvar wjb-default-find-command
+  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
+  ;; (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e "
+  ;;         wjb-grep-bin))
 
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
 (grep-compute-defaults)
@@ -114,10 +128,7 @@
   (interactive (list (read-directory-name "path: " find-in-project-default-dir)
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
-    (grep-find
-     (concat "gfind . " wjb-find-args grep-string))))
-
-
+    (grep-find (concat wjb-default-find-command grep-string))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindings
@@ -178,3 +189,5 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-grep.el ends here
+
+;;(setq helm-ag-base-command "rg -C 5")
