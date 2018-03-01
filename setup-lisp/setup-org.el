@@ -50,7 +50,7 @@
 
 ;; Helpful: (org-reload)
 
-;; Org-mode setup.
+(setq org-src-window-setup 'current-window)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
@@ -61,9 +61,6 @@
         (fci-mode -1)
         (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
         (local-set-key (kbd "<S-down>") 'outline-next-visible-heading)))
-
-;; Load ODT backend to allow for exporting to open document format.
-(require 'ox-odt)
 
 ;; Some initial languages we want org-babel to support
 (org-babel-do-load-languages

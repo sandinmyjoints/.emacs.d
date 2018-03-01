@@ -249,7 +249,9 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-completion-use-ido t)
   (setq org-return-follows-link t)
-  (require 'setup-org))
+  (require 'setup-org)
+  ;; Load ODT backend to allow for exporting to open document format.
+  (require 'ox-odt))
 
 ;; Magit.
 (use-package magit
