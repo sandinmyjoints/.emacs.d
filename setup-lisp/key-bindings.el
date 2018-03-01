@@ -106,12 +106,6 @@
 
 (global-set-key (kbd "C-c C-b") 'browse-at-remote)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; grep
-(global-set-key (kbd "C-c g") 'grep-find)
-(global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
-(global-set-key (kbd "C-x 9") 'rgrep)
-
 (global-set-key (kbd "C-c j") 'join-line)
 (global-set-key (kbd "C-c C-j") 'join-line)
 

@@ -90,6 +90,25 @@
 
 ;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
 
+;; Custom grep-find via find-in-project.
+(defvar find-in-project-default-dir ".")
+
+(defun find-in-project (path grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "path: " find-in-project-default-dir)
+                     (read-from-minibuffer "find: ")))
+  (let ((default-directory path))
+    (grep-find
+     (concat "gfind . " find-args grep-string))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; key bindings
+(global-set-key (kbd "C-c g") 'grep-find)
+(global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
+(global-set-key (kbd "C-x 9") 'rgrep)
+
 ;; Ways to do my find in project from the command line:
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
 ;; grep -E --color=auto -Iin -r -C 3 --exclude *~ <query> <dir>
