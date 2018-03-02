@@ -344,6 +344,8 @@
 (defvar show-paren-delay 0)
 (show-paren-mode 1)
 
+(setq auto-window-vscroll nil)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
