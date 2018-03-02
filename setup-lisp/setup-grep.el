@@ -84,6 +84,8 @@
 
 (require 'grep)
 
+;; Custom grep-find via find-in-project.
+
 ;; Setup find.
 (defvar wjb-find-bin "find")
 (defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 ")
@@ -113,32 +115,29 @@
 ;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
 (grep-compute-defaults)
-(grep-apply-setting 'grep-find-command wjb-default-find-cmd)
+(grep-apply-setting 'grep-find-command wjb-default-find-command)
 
-;; make rgrep behave how I want, like my own find-in-project command.
-(add-to-list 'grep-find-ignored-directories "node_modules")
-(grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
-
-;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
-
-;; Custom grep-find via find-in-project.
-(defvar find-in-project-default-dir ".")
-
+(defvar wjb-find-in-project-default-dir ".")
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
-  (interactive (list (read-directory-name "start: " find-in-project-default-dir)
+  (interactive (list (read-directory-name "start: " wjb-find-in-project-default-dir)
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
     (grep-find (concat wjb-default-find-command grep-string))))
 
 (defun find-in-project-name-glob (path name-pattern grep-string)
   "rgrep in current project dir."
-  (interactive (list (read-directory-name "start: " find-in-project-default-dir)
+  (interactive (list (read-directory-name "start: " wjb-find-in-project-default-dir)
                      (read-from-minibuffer "name: ")
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path)
         (dumb (format "gfind . -iname '%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
     (grep-find (concat dumb grep-string))))
+
+;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
+;; make rgrep behave how I want, like my own find-in-project command.
+(add-to-list 'grep-find-ignored-directories "node_modules")
+(grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
