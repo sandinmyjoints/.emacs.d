@@ -77,17 +77,6 @@
   (interactive)
   (other-window -1))
 
-;; Custom grep-find via find-in-project.
-(defvar find-in-project-default-dir ".")
-
-(defun find-in-project (path grep-string)
-  "rgrep in current project dir."
-  (interactive (list (read-directory-name "path: " find-in-project-default-dir)
-                     (read-from-minibuffer "find: ")))
-  (let ((default-directory path))
-    (grep-find
-     (concat "gfind . " find-args grep-string))))
-
 (defun toggle-window-dedicated ()
   "Toggle whether the current active window is dedicated or not"
   (interactive)

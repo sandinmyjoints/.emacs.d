@@ -30,6 +30,7 @@
         js2-tab-properly
         kill-rectangle
         kill-region
+        kill-sentence
         kill-sexp
         kill-visual-line
         magit-status

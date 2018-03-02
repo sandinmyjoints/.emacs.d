@@ -47,14 +47,12 @@
 
 
 ;; Make grep-find more helpful.
-;; TODO: custom grep and find, so can use ggrep and gfind if installed.
 ;; TODO: dir-local list of paths to exclude from grep-find (e.g., .git and node_modules, dist, _tmp, minified files)
 ;; TODO: Document this better.
-;; See also find-in-project in defuns.el.
 ;; http://stackoverflow.com/a/2148754
 ;; comparison with ag: https://www.reddit.com/r/programming/comments/16bvah/the_silver_searcher_is_a_35x_faster_drop_in/
-;; find-args for OS X find: "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 | xargs -0 grep -E -C 5 -niH -e "
-;; find-args for GNU find:
+;; wjb-default-find-command
+;; wjb-default-find-command
 ;;
 ;; -wholename = -path
 ;; -path = pathname
@@ -66,36 +64,92 @@
 ;;
 ;; Consider having two commands: one that ignores everything I might want
 ;; ignored, and one that ignores conservatively.
+;;
+;; Approaches:
+;; - find | grep via grep-find
+;; - grep -r by itself
+;; - rg by itself
+;; - rg with helm (via helm-ag)
+;;
+;; - search sane defaults in .
+;; - search EVERYTHING in .
+;; - search wildcard pattern I specify (consider subdirs) in .
+;; - all of these in some other path
+;; - 5 lines of context, jump to match line using compile buffer navigation
+;;
+;; inputs:
+;; - path (default to .)
+;; - file glob
+;; - search pattern (regex)
 
-(setq grep-name "grep")
-(when (executable-find "ggrep")
-  (setq grep-name "ggrep"))
+(require 'grep)
 
-(setq find-name "find")
+;; Custom grep-find via find-in-project.
+
+;; Setup find.
+(defvar wjb-find-bin "find")
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 ")
+
 (when (executable-find "gfind")
-  (setq find-name "gfind"))
+  (setq wjb-find-bin "gfind")
+  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
 
-(setq find-args (format "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 %s --line-buffered -E -C 5 -niH -e " grep-name)
-      default-find-cmd (concat find-name " . " find-args))
+;; Setup grep.
+(defvar wjb-grep-bin "grep")
+(defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e ")
 
+(when (executable-find "ggrep")
+  (setq wjb-grep-bin "ggrep"))
 
+(when (and (executable-find "rg") t)
+  (setq wjb-grep-bin "rg")
+  (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
+
+;; Construct the full command.
+(defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
+(defvar wjb-xargs-part "| xargs -0 -P 2 ")
+(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+(defvar wjb-default-find-command
+  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
+
+;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
-
 (grep-compute-defaults)
-(grep-apply-setting 'grep-find-command default-find-cmd)
+(grep-apply-setting 'grep-find-command wjb-default-find-command)
 
+(defvar wjb-find-in-project-default-dir ".")
+(defun find-in-project (path grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "start: " wjb-find-in-project-default-dir)
+                     (read-from-minibuffer "find: ")))
+  (let ((default-directory path))
+    (grep-find (concat wjb-default-find-command grep-string))))
+
+(defun find-in-project-name-glob (path name-pattern grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "start: " wjb-find-in-project-default-dir)
+                     (read-from-minibuffer "name: ")
+                     (read-from-minibuffer "find: ")))
+  (let ((default-directory path)
+        (dumb (format "gfind . -iname '%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
+    (grep-find (concat dumb grep-string))))
+
+;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
 ;; make rgrep behave how I want, like my own find-in-project command.
 (add-to-list 'grep-find-ignored-directories "node_modules")
 (grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
 
-;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; key bindings
+(global-set-key (kbd "C-c g") 'grep-find)
+(global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
+(global-set-key (kbd "C-x 9") 'rgrep)
 
 ;; Ways to do my find in project from the command line:
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
 ;; grep -E --color=auto -Iin -r -C 3 --exclude *~ <query> <dir>
 ;; alias fin='grep -E --color=auto -Iin -r -C 3 --exclude *~'
-
-;(eval-after-load 'grep '(require 'setup-rgrep))
 
 ;; Open grep results in the same frame.
 ;;
@@ -140,6 +194,8 @@
 ;;  (setq-default ag-highlight-search t)
 ;;  (add-to-list 'ag-arguments "-C 5")
 ;;  (global-set-key (kbd "C-x 9") 'ag-project))
+
+;; (setq helm-ag-base-command "rg -C 5 --no-heading -niH -e")
 
 (provide 'setup-grep)
 
