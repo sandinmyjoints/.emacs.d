@@ -622,6 +622,7 @@ EOF
         (find-dired dir (concat "-name '*" pattern "*'"))))
  (define-key global-map "\C-xg" 'grep)
 #+END_SRC
+  - [X] find-in-project-name-glob
 * navigation
 * TODO Try anything and/or Helm
 * markdown

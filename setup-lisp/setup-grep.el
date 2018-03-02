@@ -126,10 +126,20 @@
 
 (defun find-in-project (path grep-string)
   "rgrep in current project dir."
-  (interactive (list (read-directory-name "path: " find-in-project-default-dir)
+  (interactive (list (read-directory-name "start: " find-in-project-default-dir)
                      (read-from-minibuffer "find: ")))
   (let ((default-directory path))
     (grep-find (concat wjb-default-find-command grep-string))))
+
+(defun find-in-project-name-glob (path name-pattern grep-string)
+  "rgrep in current project dir."
+  (interactive (list (read-directory-name "start: " find-in-project-default-dir)
+                     (read-from-minibuffer "name: ")
+                     (read-from-minibuffer "find: ")))
+  (let ((default-directory path)
+        (dumb (format "gfind . -iname '%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
+    (grep-find (concat dumb grep-string))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindings
