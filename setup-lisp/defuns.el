@@ -821,6 +821,14 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   ;; update exec-path to the current PATH in the Emacs process.
   (exec-path-from-shell-copy-env "PATH"))
 
+;; from https://emacs.stackexchange.com/a/35683/2163
+(defun sqlparse-region (beg end)
+  (interactive "r")
+  (shell-command-on-region
+   beg end
+   "python -c 'import sys, sqlparse; print(sqlparse.format(sys.stdin.read(), reindent=True, wrap_after=10))'"
+   t t))
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
