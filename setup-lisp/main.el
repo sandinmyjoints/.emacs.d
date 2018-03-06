@@ -432,7 +432,8 @@
 
 (use-package conf-mode
   :mode "credentials$"
-  "pylintrc")
+  "pylintrc"
+  "ads.txt")
 
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
