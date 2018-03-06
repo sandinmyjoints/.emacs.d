@@ -344,31 +344,6 @@ EOF
     - [X] install heroku accounts plugin
     - [X] spanishdict / wjb accounts
 
-* emacs.d
-* DONE init-local for machine-specific configs
-  CLOSED: [2015-07-10 Fri 17:01]
-  - eg, initial files to open
-  - not under source control
-  - -> use custom.el
-  - [ ] move stuff into it
-* DONE use use-package
-  CLOSED: [2018-01-17 Wed 09:39]
-  - https://github.com/jwiegley/use-package
-* TODO convert to use-package/speed up startup
-    - use-package
-    - require-package
-    - packages-install
-    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
-* TODO fresh .emacs.d installs all needed packages
-* TODO package-initialize can be delayed until after main.el
-* TODO portable .emacs.d
-* TODO literate .emacs.d
-* packages
-* TODO make startup fast
-  - https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
-* TODO Versioning of packages--how to pin?
-* TODO try Cask
-  - cask.github.io
 * emacs core
 * TODO understand recursive editing
 * TODO fix recursive editing -- seems to be broken
@@ -387,6 +362,31 @@ EOF
     - https://lists.gnu.org/archive/html/emacs-devel/2016-01/msg01385.html
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
+* emacs.d
+* DONE init-local for machine-specific configs
+  CLOSED: [2015-07-10 Fri 17:01]
+  - eg, initial files to open
+  - not under source control
+  - -> use custom.el
+  - [ ] move stuff into it
+* DONE use use-package
+  CLOSED: [2018-01-17 Wed 09:39]
+  - https://github.com/jwiegley/use-package
+* TODO convert to use-package/speed up startup
+    - use-package
+    - require-package
+    - packages-install
+    - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
+    - https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
+* TODO fresh .emacs.d installs all needed packages
+* TODO package-initialize can be delayed until after main.el
+* TODO portable .emacs.d
+* TODO literate .emacs.d
+* TODO prefix all my stuff with wjb/
+* packages
+* TODO Versioning of packages--how to pin?
+* TODO try Cask
+  - cask.github.io
 * org-mode
   - export settings https://orgmode.org/manual/Export-settings.html#index-_0023_002bOPTIONS
 * DONE rename from *-todo.org to *.org
@@ -396,6 +396,25 @@ EOF
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - https://orgmode.org/manual/Export-settings.html#Export-settings
   - see top of this buffer
+* TODO nice export to google docs
+  - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
+* TODO Pivotal Tracker integration
+** try https://github.com/jxa/pivotal-tracker
+   - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
+   - https://github.com/emacsfodder/pivotal-tracker/tree/master
+   - https://github.com/zph/pivotal-tracker/commits/master
+** write org-walker, org-to-pt
+   - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
+** ideal flow
+   - org to plan, org exports to odt for import into google docs
+     - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
+   - org to PT, creates PT tickets
+     - top level is release or epic
+     - level 2 is ticket
+       - keyword is ticket type: feature, chore, bug
+       - tags are labels
+     - level 3 is sections within description
+       - bullet points are description
 * TODO easy, nice-looking org export
    - to markdown
    - to HTML:
@@ -403,6 +422,10 @@ EOF
      - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 * TODO want to see what is ACTIVE and what was recently DONE
 * TODO org-babel, particularly with sql
+  - [ ] sqlparse-region in defuns.el, maybe add a hook to run this on M-q for sql-mode
+  - https://orgmode.org/worg/org-contrib/babel/intro.html#source-code-blocks
+  - https://www.emacswiki.org/emacs/SqlMode
+  -
 * TODO use agenda
 * TODO set dates
 * TODO use archiving
@@ -543,6 +566,9 @@ EOF
   - looks like the current ones are 16x22, left-justified, the actual images are
     somewhat smaller.
 ** replace existing XPMs with nicer ones
+* TODO possible dirtree replacement?
+  - https://github.com/sebastiencs/sidebar.el
+
 * python
 * TODO python in emacs
 ** python-mode
@@ -635,23 +661,6 @@ EOF
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
-* TODO Pivotal Tracker integration
-** try https://github.com/jxa/pivotal-tracker
-   - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
-   - https://github.com/emacsfodder/pivotal-tracker/tree/master
-   - https://github.com/zph/pivotal-tracker/commits/master
-** write org-walker, org-to-pt
-   - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
-** ideal flow
-   - org to plan, org exports to odt for import into google docs
-     - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
-   - org to PT, creates PT tickets
-     - top level is release or epic
-     - level 2 is ticket
-       - keyword is ticket type: feature, chore, bug
-       - tags are labels
-     - level 3 is sections within description
-       - bullet points are description
 * TODO try olivetti mode
 * TODO magithub / gh package
   - https://github.com/vermiculus/magithub/blob/master/README.md
@@ -725,7 +734,5 @@ EOF
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
-* TODO possible tree window replacement?
-  - https://github.com/sebastiencs/sidebar.el
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
