@@ -470,8 +470,14 @@
 ;; (fset 'update-deploy-data-bag
 ;;    [?\C-s ?r ?e ?v ?\M-f ?\M-f ?\M-b ?\H-k ?\C-x ?r ?i ?c ?\C-s ?\C-s ?\M-f ?\M-f ?\M-b ?\H-k ?\C-x ?r ?i ?c ?\H-s])
 
-(fset 'do-standup
+(fset 'wjb/add-standup-entry
    [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\C-a ?\C-f ?\C-f ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\M-> return ?# ?\S-  ?T ?o ?d ?a ?y return ?- ? ])
+
+(fset 'do-standup (lambda ()
+                    (interactive)
+                    (save-excursion
+                      (goto-char (point-min))
+                      (execute-kbd-macro 'wjb/add-standup-entry))))
 
 (defalias 'standup 'do-standup)
 
