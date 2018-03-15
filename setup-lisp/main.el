@@ -197,9 +197,12 @@
   :bind (:map dired-mode-map
               ("C-c f" . find-name-dired))
   :config
+  (require 'dired+)
   (toggle-diredp-find-file-reuse-dir 1)
   (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
-  (setq dired-listing-switches "-lah"
+  ;; bsd ls vs. gls
+  ;;
+  (setq dired-listing-switches "-laFhp"
       diredp-hide-details-propagate-flag t
       dired-dwim-target t))
 
