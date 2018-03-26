@@ -189,22 +189,29 @@
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
-(use-package dired+
+(use-package dired
   :init
   ;; This line must run *before* dired is loaded:
   ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
+  ;; Details toggling is bound to "(" in `dired-mode' by default.
   (setq diredp-hide-details-initially-flag nil)
   :bind (:map dired-mode-map
               ("C-c f" . find-name-dired))
   :config
-  (require 'dired+)
-  (toggle-diredp-find-file-reuse-dir 1)
-  (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
-  ;; bsd ls vs. gls
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
+  (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
+  ;; bsd ls vs. gls: this is written for bsd, but gls is probably
+  ;; better
   ;;
   (setq dired-listing-switches "-laFhp"
-      diredp-hide-details-propagate-flag t
-      dired-dwim-target t))
+        dired-dwim-target t
+        dired-recursive-copies 'always )
+  (use-package dired+
+    :config
+    (require 'dired+)
+    (toggle-diredp-find-file-reuse-dir 1)
+    (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
+    (setq diredp-hide-details-propagate-flag t)))
 
 (use-package ediff
   :init
