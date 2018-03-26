@@ -174,6 +174,7 @@
      (cons 'vimish-fold melpa)
      (cons 'wgrep melpa)
      (cons 'paren-face melpa)
+     (cons 'dumb-jump melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
