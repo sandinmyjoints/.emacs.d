@@ -120,6 +120,9 @@
 
 (require 'defuns)
 
+(when (require 'so-long nil :noerror)
+  (so-long-enable))
+
 (use-package flycheck
   :ensure t
   :init

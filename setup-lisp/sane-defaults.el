@@ -317,9 +317,11 @@
 (add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 
-(setq message-log-max t)
+(setq message-log-max t
+      suggest-key-bindings nil
+      json-reformat:indent-width 2)
 
-(setq suggest-key-bindings nil)
+(setq-default bidi-display-reordering nil)
 
 (if (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))
@@ -334,8 +336,6 @@
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defadvice load-theme (before theme-dont-propagate activate)
   (mapcar #'disable-theme custom-enabled-themes))
-
-(setq json-reformat:indent-width 2)
 
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
 

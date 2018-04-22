@@ -736,3 +736,16 @@ EOF
   - Org-mode (C-c C-n/p; C-c C-f/b)
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
+* How to improve performance of buffers with very long lines
+** https://emacs.stackexchange.com/a/603/2163
+  - break into lines:
+#+BEGIN_SRC
+# Using python
+$ < infile.json python -c 'import json, sys ; json.dump(json.load(sys.stdin), sys.stdout, indent=2)
+
+# Bash
+$ < infile fold -s
+#+END_SRC
+  -
+** View Large Files https://github.com/m00natic/vlfi
+** OverLongLineMode
