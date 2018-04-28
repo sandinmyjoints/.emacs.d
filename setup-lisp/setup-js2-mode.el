@@ -209,9 +209,10 @@
 ;; (set-face-foreground 'js2-object-property "light goldenrod")
 
 ;; Only use if js2-highlight-vars-mode is installed.
-;; TODO: diminish Js2-Highlight-Vars (indicator vars)
-(eval-after-load "js2-highlight-vars-autoloads"
-  '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
+;; TODO: diminish Js2-Highlight-Vars (indicator vars).
+;; TODO: make it stop complaing about no syntax tree available.
+;; (eval-after-load "js2-highlight-vars-autoloads"
+;;   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
 ;; These defuns may be replaceable by
 ;; https://github.com/codesuki/add-node-modules-path
