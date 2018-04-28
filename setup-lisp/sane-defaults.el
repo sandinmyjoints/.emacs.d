@@ -322,6 +322,7 @@
       json-reformat:indent-width 2)
 
 (setq-default bidi-display-reordering nil)
+(setq large-file-warning-threshold 2500000)
 
 (if (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))

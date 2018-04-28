@@ -123,6 +123,8 @@
 (when (require 'so-long nil :noerror)
   (so-long-enable))
 
+(require 'vlf-setup)
+
 (use-package flycheck
   :ensure t
   :init
