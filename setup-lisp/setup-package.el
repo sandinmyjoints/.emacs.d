@@ -56,7 +56,7 @@
   (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
-  (defvar org '("org" . "http://orgmode.org/elpa/"))
+  (defvar org '("org" . "https://orgmode.org/elpa/"))
 
   (add-to-list 'package-archives org)
   (add-to-list 'package-archives elpy)
@@ -157,6 +157,9 @@
      (cons 'nginx-mode melpa)
      (cons 'browse-at-remote melpa)
      (cons 'projectile melpa)
+     (cons 'helm-projectile melpa)
+     (cons 'log4j-mode melpa)
+     (cons 'vlf melpa)
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
@@ -178,6 +181,8 @@
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
+     ;; https://github.com/marsmining/ox-twbs
+     ;; https://github.com/jojojames/smart-jump
 
      ;; Uninstalled, but consider:
 
