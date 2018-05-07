@@ -538,6 +538,13 @@
 (use-package shell-script-mode
   :mode "\\.bash*")
 
+;; TODO: need to spend time tweaking this for it to be really helpful.
+(use-package smart-jump
+  :ensure t
+  :disabled
+  :config
+  (smart-jump-setup-default-registers))
+
 (use-package atomic-chrome
   :disabled
   :config
