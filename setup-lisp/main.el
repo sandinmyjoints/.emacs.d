@@ -458,7 +458,8 @@
 (use-package conf-mode
   :mode "credentials$"
   "pylintrc"
-  "ads.txt")
+  "ads.txt"
+  ".htaccess")
 
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
