@@ -532,6 +532,7 @@
   (require 'setup-webmode))
 
 (require 'setup-markdown)
+(require 'setup-company)
 
 (require 'key-bindings)
 
