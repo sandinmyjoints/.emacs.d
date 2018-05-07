@@ -50,77 +50,16 @@
 ;; To jump back:
 ;; xref-pop-marker-stack
 
-;; Run each in succession.
-;; How does each signal success or failure?
-;; xref-find-definitions is best if it goes to a result
-;; then tern-find-definition
-;; then js2-jump-to-definition
-;; then xref-find-definitions listing things
-(defun wjb-find-js-definition ()
-  (interactive)
-  (point-to-register ?=)
-  (let ((wjb-find-js-definition-initial (point-marker)))
-    ;; (message "000")
-    (tern-find-definition)
-    ;; if point hasn't moved, tern didn't find it
-    (if (equal (point-marker) wjb-find-js-definition-initial)
-        (progn
-          ;; (message "111")
-          (condition-case nil
-              (js2-jump-to-definition)
-            ;; if js2-jump-to-definition errored or didn't move point, it didn't find it
-            (error
-             (progn
-               ;; (message "222a")
-               (xref-find-definitions (thing-at-point 'symbol)))))
-          (if (equal (point-marker) wjb-find-js-definition-initial)
-              (progn
-                ;; (message "222b")
-                (message (thing-at-point 'symbol))
-                (xref-find-definitions (thing-at-point 'symbol))))))))
-
-(defun wjb-return-from-js-definition ()
-  (interactive)
-  (jump-to-register ?=))
-
-
 (use-package js2-refactor
   :config
   (js2r-add-keybindings-with-prefix "H-c")
   (js2r-add-keybindings-with-prefix "H-r"))
 
-;; Company and Tern.
-
-;; Last argument makes tern the last hook to run, which is good
-;; because it needs to come after nvm-use-for-buffer.
-(add-hook 'js2-mode-hook #'tern-mode t)
-
-(when (require 'company nil t)
-  (require 'company-tern nil t)
-  (add-to-list 'company-backends 'company-tern)
-  (add-hook 'js2-mode-hook (lambda () (company-mode))))
-
-;; Just placing this here for now. Company stuff should probably be in its own
-;; file.
-(add-to-list 'company-backends 'company-restclient)
-(when (require 'company-emoji nil t)
-  (add-to-list 'company-backends 'company-emoji))
-
-;; Disable completion keybindings, as we use xref-js2 and
-;; js2-jump-to-definition instead.
-(define-key tern-mode-keymap (kbd "M-.") nil)
-(define-key tern-mode-keymap (kbd "M-,") nil)
-
-(define-prefix-command 'tern-js2-map)
-(define-key tern-js2-map (kbd "M-.") 'tern-find-definition)
-(define-key tern-js2-map (kbd "M-,") 'tern-pop-find-definition)
-
 (after-load 'js2-mode
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
-  (define-key js2-mode-map (kbd "H-t") 'tern-js2-map)
-  (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
-  (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
+  ;; (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
+  ;; (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
