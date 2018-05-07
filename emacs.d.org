@@ -396,6 +396,7 @@ EOF
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - https://orgmode.org/manual/Export-settings.html#Export-settings
   - see top of this buffer
+* TODO try https://github.com/xiaoxinghu/orgajs/
 * TODO nice export to google docs
   - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
 * TODO Pivotal Tracker integration
@@ -531,6 +532,7 @@ EOF
    - https://github.com/emacs-lsp/lsp-mode
    - https://github.com/emacs-lsp/lsp-javascript
 ** TODO dump-jump + smart-jump
+   - dumb-jump-go C-M-g
 * TODO refactor setup-js2-mode.el
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -549,6 +551,8 @@ EOF
    - smart-tab
    - minor modes: smart-tab and yas
 * dirtree
+* TODO use side window
+  - https://www.gnu.org/software/emacs/draft/manual/html_node/elisp/Displaying-Buffers-in-Side-Windows.html#Displaying-Buffers-in-Side-Windows
 * TODO dirtree: rearrange trees
   - Or replace dirtree.
   - Would be nice to have one modeline
@@ -723,9 +727,21 @@ EOF
   - C-0 (imenu)
   - clean-buffer-list
   - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
+    - like dired for buffers. `/.` filters by file-extension. `//` clears filters.
   - reveal-in-osx-finder
+  - eww
   - quickrun
   - C-c C-o for folding in js2-mode
+  - default-value
+default-value is a built-in function in 'C source code'.
+
+(default-value SYMBOL)
+
+Return SYMBOL's default value.
+This is the value that is seen in buffers that do not have their own values
+for this variable.  The default value is meaningful for variables with
+local bindings in certain buffers.
+
 ** DONE
   - zap-to-char (M-z and M-Z)
   - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
@@ -738,7 +754,7 @@ EOF
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
 * How to improve performance of buffers with very long lines
 ** https://emacs.stackexchange.com/a/603/2163
-  - break into lines:
+  - break input file into lines:
 #+BEGIN_SRC
 # Using python
 $ < infile.json python -c 'import json, sys ; json.dump(json.load(sys.stdin), sys.stdout, indent=2)
@@ -746,6 +762,13 @@ $ < infile.json python -c 'import json, sys ; json.dump(json.load(sys.stdin), sy
 # Bash
 $ < infile fold -s
 #+END_SRC
-  -
-** View Large Files https://github.com/m00natic/vlfi
-** OverLongLineMode
+  - interesting ideas: https://emacs.stackexchange.com/a/8152/2163
+** DONE View Large Files https://github.com/m00natic/vlfi
+** DONE OverLongLineMode
+* TODO fewer popup windows
+  - maybe due to `switch-to-buffer-preserve-window-point`, see https://github.com/emacs-mirror/emacs/blob/emacs-26/etc/NEWS  -
+* open in new window
+I think that the problem has to do with dirtree window being dedicated.
+
+I want inhibit-same-window to always be nil when display-buffer is called from
+dirtree-mode.
