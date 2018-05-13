@@ -586,25 +586,23 @@
 (when (require 'fill-column-indicator nil t)
   (setq fci-rule-color "#555")
 
-  (defun turn-on-fci ()
-    (fci-mode 1))
-
   ;; Turn on fci for these modes:
-  (add-hook 'prog-mode-hook 'fci-mode)
-  (add-hook 'yaml-mode-hook 'fci-mode)
-  ;; (add-hook 'coffee-mode-hook 'turn-on-fci)
+  (dolist (hook '(prog-mode-hook yaml-mode-hook))
+    (add-hook hook 'fci-mode))
 
   ;; ...except for these modes.
   (defun turn-off-fci ()
     (fci-mode -1))
 
-  (add-hook 'web-mode-hook 'turn-off-fci)
+  (dolist (hook '(web-mode-hook lsp-ui-mode-hook))
+    (add-hook hook 'turn-off-fci))
 
   ;; fci-mode doesn't play well with popups
   (defun on-off-fci-before-company (command)
-    (when (string= "show" command)
+    (when (and (bound-and-true-p fci-mode) (string= "show" command))
+      (set (make-local-variable 'wjb/fci-mode-was-on) t)
       (turn-off-fci-mode))
-    (when (string= "hide" command)
+    (when (and (bound-and-true-p wjb/fci-mode-was-on) (string= "hide" command))
       (turn-on-fci-mode)))
 
   (advice-add 'company-call-frontends
