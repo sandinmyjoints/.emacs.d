@@ -621,6 +621,24 @@
   :config
   (require 'setup-smartparens))
 
+(use-package lsp-mode
+  :config (require setup-lsp))
+
+(use-package lsp-ui
+  :config (setq lsp-ui-flycheck-enable 0
+                lsp-ui-peek-enable 0
+                lsp-ui-sideline-enable 1
+                lsp-ui-doc-enable 0
+                lsp-ui-imenu-enable 1)
+
+  ;; Disabling this for now because the default ui stuff is kind of
+  ;; annoying. TODO: only select the UI things I want.
+  ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+  ;; How to turn on sideline mode.
+  ;; (lsp-ui-sideline-enable)
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Ctags.
