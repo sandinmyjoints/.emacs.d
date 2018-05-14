@@ -128,11 +128,15 @@
 (defun find-in-project-name-glob (path name-pattern grep-string)
   "rgrep in current project dir."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "filename glob: ")
+                     (read-from-minibuffer "path glob: ")
                      (read-from-minibuffer "search for: ")))
   (let ((default-directory path)
-        (dumb (format "gfind . -iname '%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
+        (dumb (format "gfind . -ipath '*%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
     (grep-find (concat dumb grep-string))))
+
+;; Useful (-ipath - path vs. iname - filename):
+;; without the leading *, it matches nothing.
+;; gfind . -ipath '*selectors/index.js' ! -name "*~" ! -name "#*#" ! -path "*node_modules*" ! -path "*.git*" ! -path "*_tmp*" ! -path "*coverage*" ! -path "*dist*" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e part
 
 ;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
 ;; make rgrep behave how I want, like my own find-in-project command.
