@@ -655,6 +655,9 @@ EOF
   - [X] find-in-project-name-glob
 * navigation
 * TODO Try anything and/or Helm
+** TODO for helm, sometimes do want popup windows
+   - [ ] helpful?: https://www.reddit.com/r/emacs/comments/7rho4f/now_you_can_use_helm_with_frames_instead_of/?ref=share&ref_source=link
+   - [ ] one key to make helm full window: https://emacs.stackexchange.com/a/650/2163
 * markdown
 * DONE GFM tables
   CLOSED: [2015-09-11 Fri 16:09]
@@ -750,6 +753,8 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
+* TODO Switch from smex to amx
+  - https://github.com/DarwinAwardWinner/amx
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
 * How to improve performance of buffers with very long lines
@@ -772,3 +777,6 @@ I think that the problem has to do with dirtree window being dedicated.
 
 I want inhibit-same-window to always be nil when display-buffer is called from
 dirtree-mode.
+* TODO lsp javascript
+  - for each node version: npm i -g javascript-typescript-langserver
+  - company-complete-common
