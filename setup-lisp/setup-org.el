@@ -66,9 +66,10 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '(
+   (emacs-lisp . t)
    (shell . t)
    (python . t)
-   ))
+   (sql . t)))
 
 (setq org-html-table-row-tags
       (cons '(cond (top-row-p "<tr class=\"tr-top\">")
