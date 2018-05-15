@@ -59,6 +59,8 @@
     (when (equal web-mode-content-type "jsx")
       (flycheck-mode +1))))
 
+(add-hook 'web-mode-hook #'js2-minor-mode)
+
 (provide 'setup-webmode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
