@@ -1,5 +1,5 @@
 (when (require 'company nil t)
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
   ;; (add-hook 'js2-mode-hook (lambda () (company-mode)))
 
   (when (require 'company-lsp nil t)
