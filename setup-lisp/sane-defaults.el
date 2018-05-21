@@ -144,6 +144,7 @@
 (set-keyboard-coding-system 'utf-8) ; pretty
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
+(set-language-environment "UTF-8")
 
 ;; Don't want to see garbage in term-mode.
 (add-hook 'term-exec-hook
