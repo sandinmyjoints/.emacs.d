@@ -69,7 +69,8 @@
    (emacs-lisp . t)
    (shell . t)
    (python . t)
-   (sql . t)))
+   (sql . t)
+   (ein . t)))
 
 (setq org-html-table-row-tags
       (cons '(cond (top-row-p "<tr class=\"tr-top\">")

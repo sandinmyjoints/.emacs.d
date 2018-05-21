@@ -145,6 +145,7 @@
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
      (cons 'gh melpa)
+     (cons 'ein melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa-stable)
      (cons 'diminish melpa-stable)
