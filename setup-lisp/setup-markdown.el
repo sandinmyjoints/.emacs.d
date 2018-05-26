@@ -62,6 +62,8 @@
       markdown-asymmetric-header t
       markdown-fontify-code-blocks-natively t)
 
+;; (setq markdown-css-paths '("github-rhio.css"))
+
 (add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
 (add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
 (add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))

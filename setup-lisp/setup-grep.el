@@ -134,6 +134,11 @@
         (dumb (format "gfind . -ipath '*%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
     (grep-find (concat dumb grep-string))))
 
+;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
+;; $ gfind public -ipath '*.png' -o -ipath '*.js'
+;; or could use -regex which works on the whole path.
+;; $ gfind public -regex '.*\(png\|js\)'
+;;
 ;; Useful (-ipath - path vs. iname - filename):
 ;; without the leading *, it matches nothing.
 ;; gfind . -ipath '*selectors/index.js' ! -name "*~" ! -name "#*#" ! -path "*node_modules*" ! -path "*.git*" ! -path "*_tmp*" ! -path "*coverage*" ! -path "*dist*" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e part

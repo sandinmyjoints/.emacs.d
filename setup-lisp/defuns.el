@@ -835,6 +835,12 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
    "python -c 'import sys, sqlparse; print(sqlparse.format(sys.stdin.read(), reindent=True, wrap_after=10))'"
    t t))
 
+;; TODO:
+;; Mixpanel event parser
+;; - extract data query param
+;; - url decode it
+;; - base64 decode it to utf-8
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

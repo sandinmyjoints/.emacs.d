@@ -59,6 +59,26 @@
 (projectile-global-mode +1)
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
+(add-to-list 'projectile-globally-ignored-directories "local_notes")
+(add-to-list 'projectile-globally-ignored-directories "yarn-offline-mirror")
+
+(add-to-list 'projectile-globally-ignored-file-suffixes "pyc")
+(add-to-list 'projectile-globally-ignored-file-suffixes ".pyc")
+(add-to-list 'projectile-globally-ignored-file-suffixes "elc")
+(add-to-list 'projectile-globally-ignored-file-suffixes ".elc")
+
+;; i can exclude per-project using .projectile
+
+;; Some info about caching: https://tuhdo.github.io/helm-projectile.html#sec-6-7
+;;
+;; Turn on cache per repo with this in .dir-locals.el:
+;; ((nil . ((projectile-enable-caching . t))))
+;;
+;; (setq projectile-enable-caching t)
+;;
+;; C-u C-c p f = projectile-invalidate-cache
+;; C-c p z = projectile-cache-current-file
+
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-switch-project-action 'projectile-vc)
 

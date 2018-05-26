@@ -423,10 +423,17 @@ EOF
      - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 * TODO want to see what is ACTIVE and what was recently DONE
 * TODO org-babel, particularly with sql
+  - limitations:
+    - it runs the entire code block (is there a way to run only a region?) so
+      need to use multiple code blocks
+    - blocks on query, so if it's slow, emacs is frozen
+    - puts results in file, not good for large results sets (though you can tell
+      it how to handle them)
   - [ ] sqlparse-region in defuns.el, maybe add a hook to run this on M-q for sql-mode
   - https://orgmode.org/worg/org-contrib/babel/intro.html#source-code-blocks
+  - https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-sql.html
   - https://www.emacswiki.org/emacs/SqlMode
-  -
+  - [ ] try this backend: https://github.com/nikclayton/ob-sql-mode
 * TODO use agenda
 * TODO set dates
 * TODO use archiving
@@ -780,3 +787,6 @@ dirtree-mode.
 * TODO lsp javascript
   - for each node version: npm i -g javascript-typescript-langserver
   - company-complete-common
+* TODO bash command to open current directory
+  - [X] in dired
+  - [ ] add to dirtree
