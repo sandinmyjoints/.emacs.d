@@ -38,6 +38,7 @@
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
+(global-set-key (kbd "H-a") 'company-complete)
 
 (global-set-key (kbd "C-<return>") 'goto-address-at-point)
 
