@@ -45,22 +45,32 @@
 ;;
 ;;; Code:
 
-(eval-after-load 'flycheck
-  '(progn
-     (setq-default flycheck-disabled-checkers
-                   (append '(javascript-jshint html-tidy python-pylint emacs-lisp-checkdoc) flycheck-disabled-checkers))
-     (setq flycheck-display-errors-delay 0.8)
-     (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-     (flycheck-status-emoji-mode 1)))
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-display-errors-delay 0.8
+                flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+                flycheck-disabled-checkers (append '(javascript-jshint html-tidy python-pylint emacs-lisp-checkdoc) flycheck-disabled-checkers))
+  (flycheck-status-emoji-mode 1)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-inline-mode))
 
-;; flycheck errors on a tooltip (doesnt work on console)
-(when (display-graphic-p (selected-frame))
-  (eval-after-load 'flycheck
-    '(progn
-       (flycheck-pos-tip-mode)
-       ;; (custom-set-variables
-       ;;  '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-       (flycheck-add-mode 'javascript-eslint 'web-mode))))
+;; Most basic way: flycheck errors in minibuffer (works in consoles).
+;; (unless (display-graphic-p (selected-frame))
+;;   (with-eval-after-load 'flycheck
+;;     (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)))
+
+;; for convenience:
+;; (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)
+
+;; (when (display-graphic-p (selected-frame))
+;;   (eval-after-load 'flycheck
+;;     '(progn
+;;        ;; flycheck errors on a tooltip (doesn't work in consoles).
+;;        (flycheck-pos-tip-mode)
+;;        ;; See https://github.com/flycheck/flycheck-pos-tip/issues/6
+;;        (add-hook 'post-command-hook 'flycheck-pos-tip-hide-messages)
+;;        (custom-set-variables
+;;         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;;        )))
 
 ;; Below from https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el:
 (defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
@@ -89,12 +99,7 @@ up before you execute another command."
 
 (eval-after-load 'flycheck
   '(custom-set-variables
-    ;; alternative is flycheck-display-error-messages
-    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
     '(flycheck-temp-prefix ".flycheck")))
-
-;; See https://github.com/flycheck/flycheck-pos-tip/issues/6
-(add-hook 'post-command-hook 'flycheck-pos-tip-hide-messages)
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

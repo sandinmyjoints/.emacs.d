@@ -122,7 +122,11 @@
      (cons 'yaml-mode melpa-stable)
      (cons 'beginend melpa)
      (cons 'flycheck melpa)
-     (cons 'flycheck-pos-tip melpa)
+     ;; (cons 'flycheck-pos-tip melpa)
+     ;;
+     ;; two different flycheck-inlines, though they are about to
+     ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
+     (cons 'flycheck-inline melpa)
      (cons 'web-mode melpa-stable)
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
@@ -132,11 +136,11 @@
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)
      (cons 'company-lsp melpa)
-     ;; (cons 'json-mode marmalade)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
-     (cons 'js-doc melpa)
+     ;; using my own fork of this one:
+     ;; (cons 'js-doc melpa)
      (cons 'js2-refactor melpa-stable)
      (cons 'js2-highlight-vars melpa)
      (cons 'lsp-javascript-typescript melpa)
