@@ -608,21 +608,7 @@
   (advice-add 'company-call-frontends
               :before #'on-off-fci-before-company))
 
-;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
-;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
-(use-package smart-tab
-  :disabled
-  :diminish smart-tab-mode
-  :config
-  (global-smart-tab-mode))
-
-(use-package smartparens-mode
-  :disabled
-  :config
-  (require 'setup-smartparens))
-
-(use-package lsp-mode
-  :config (require setup-lsp))
+(use-package lsp-mode)
 
 (use-package lsp-ui
   :config (setq lsp-ui-flycheck-enable 0
@@ -638,6 +624,19 @@
   ;; How to turn on sideline mode.
   ;; (lsp-ui-sideline-enable)
   )
+
+;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
+(use-package smart-tab
+  :disabled
+  :diminish smart-tab-mode
+  :config
+  (global-smart-tab-mode))
+
+(use-package smartparens-mode
+  :disabled
+  :config
+  (require 'setup-smartparens))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -714,12 +713,27 @@
 (setq display-buffer-alist
       ;; Let popup buffers pop up.
       '(("\*.*popup\*" . (display-buffer-pop-up-window))
+        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
         ;; Catchall: always allow same window, which is the one reusable window.
         (".*" . (display-buffer-use-some-window .
                               '((inhibit-same-window . nil)
                                 (inhibit-switch-frame . t))))
         ))
 
+
+
+(use-package ein
+  :config
+  (require 'ein-loaddefs)
+  (require 'ein-notebook)
+  (require 'ein-subpackages)
+  :bind
+  (:map ein:notebooklist-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open))
+  (:map ein:notebook-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open)))
+
+;; (global-set-key (kbd ')
 
 (provide 'main)
 
