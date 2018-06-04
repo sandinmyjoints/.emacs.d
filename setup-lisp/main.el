@@ -328,6 +328,9 @@
   :mode "\\.lua\\'"
   :interpreter "lua")
 
+(use-package gitignore-mode
+  :mode "global.gitignore")
+
 (use-package json-mode)
 
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm

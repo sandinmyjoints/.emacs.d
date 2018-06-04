@@ -59,6 +59,7 @@
         (auto-fill-mode 1)
         (set-fill-column 80)
         (fci-mode -1)
+        (company-mode -1)
         (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
         (local-set-key (kbd "<S-down>") 'outline-next-visible-heading)))
 

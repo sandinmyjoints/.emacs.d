@@ -110,9 +110,9 @@
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
      (cons 'tree-mode melpa) ; dirtree requirement.
-     (cons 'dired+ melpa)
+     ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
+     ;; (cons 'dired+ melpa)
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
-     (cons 'auto-install melpa)
      (cons 'fill-column-indicator melpa-stable)
      (cons 'yasnippet melpa)
      (cons 'anzu melpa)
@@ -209,6 +209,7 @@
      ;; (cons 'edit-server-htmlize melpa)
      ;; (cons 'indium melpa)
      ;; (cons 'smart-indent-rigidly melpa)
+     ;; (cons 'auto-install melpa)
      ))
 
   (condition-case nil
