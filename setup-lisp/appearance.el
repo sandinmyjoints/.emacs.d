@@ -107,12 +107,24 @@
 
 (defalias 'wjb-theme #'wjb/theme)
 
+
+(defun change-theme (&rest args)
+  "Like `load-theme', but disables all themes before loading the new one."
+  ;; The `interactive' magic is for creating a future-proof passthrough.
+  (interactive (advice-eval-interactive-spec
+                (cadr (interactive-form #'load-theme))))
+  (mapcar #'disable-theme custom-enabled-themes)
+  (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
+         #'load-theme args))
+
+;; (change-theme 'gruvbox)
+
 ;; Themes.
 ;;
 ;; Themes I like:
-;; 1. afternoon (load-theme 'afternoon)
-;; 2. ample (load-theme 'ample)
-;; 3. gruvbox (load-theme 'gruvbox)
+;; 1. afternoon (change-theme 'afternoon)
+;; 2. ample (change-theme 'ample)
+;; 3. gruvbox (change-theme 'gruvbox)
 ;;    - Problem with gruvbox is its keyword face is red and builtin face is
 ;;       orange. They look like errors.
 ;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
@@ -121,7 +133,7 @@
 (use-package gruvbox-theme
   :ensure t
   :config
-  (load-theme 'gruvbox-dark-hard t)
+  (change-theme 'gruvbox-dark-hard t)
   (set-face-background 'markdown-code-face "#000")
   (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
   (wjb-theme))
