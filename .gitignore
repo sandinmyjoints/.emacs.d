@@ -18,4 +18,5 @@ custom.el
 /var/
 /bookmarks
 projectile-bookmarks.eld
+projectile.cache
 image-dired/
