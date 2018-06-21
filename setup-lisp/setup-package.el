@@ -159,6 +159,8 @@
      (cons 'beacon melpa)
      (cons 'urlenc melpa)
      (cons 'dockerfile-mode melpa)
+     (cons 'docker-compose-mode melpa)
+     (cons 'docker-tramp melpa)
      (cons 'flx-ido melpa)
      (cons 'launchctl melpa)
      (cons 'smart-tab melpa)

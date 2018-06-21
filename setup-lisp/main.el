@@ -458,6 +458,13 @@
 (use-package gitignore-mode
   :mode "\\.dockerignore\\'")
 
+(use-package dockerfile-mode
+  :mode "Dockerfile-*")
+
+(use-package docker-compose-mode)
+
+(use-package docker-tramp)
+
 (use-package conf-mode
   :mode "credentials$"
   "pylintrc"

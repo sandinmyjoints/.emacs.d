@@ -757,7 +757,9 @@ local bindings in certain buffers.
 
 ** DONE
   - zap-to-char (M-z and M-Z)
-  - Tramp: C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+  - Tramp:
+    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+    - C-x C-f /docker:user@container:/path/to/file
   - Smex (M-x, M-X)
     - updated fork: https://github.com/DarwinAwardWinner/smex
   - align-regexp (C-|)
