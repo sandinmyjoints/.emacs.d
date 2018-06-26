@@ -608,6 +608,27 @@
   (dolist (hook '(web-mode-hook lsp-ui-mode-hook))
     (add-hook hook 'turn-off-fci))
 
+  ;; fci-mode doesn't play well with flycheck inlines
+  (defun turn-off-fci-before-inlines (errors)
+    (when (bound-and-true-p fci-mode)
+      (set (make-local-variable 'wjb/fci-mode-was-on) t)
+      (turn-off-fci-mode)))
+
+  (defun restore-fci-after-inlines ()
+    (when (bound-and-true-p wjb/fci-mode-was-on)
+      (turn-on-fci-mode)
+      (setq wjb/fci-mode-was-on nil)))
+
+  (advice-add 'flycheck-inline-display-errors
+              :before #'turn-off-fci-before-inlines)
+
+  (advice-add 'flycheck-inline-hide-errors
+                :after #'restore-fci-after-inlines)
+
+  ;; (advice-remove 'flycheck-inline-display-errors #'turn-off-fci-before-inlines)
+  ;; (advice-remove 'flycheck-inline-hide-errors #'restore-fci-after-inlines)
+
+
   ;; fci-mode doesn't play well with popups
   (defun on-off-fci-before-company (command)
     (when (and (bound-and-true-p fci-mode) (string= "show" command))
