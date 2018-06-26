@@ -476,6 +476,7 @@
 (when (require 'yasnippet nil t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (yas-global-mode 1)
 
 ;; Work-around for tab complaining when yas is active in ansi-term. See:
