@@ -208,9 +208,9 @@
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
-  (setq dired-listing-switches "-laFhp"
+  (setq dired-listing-switches "-lahp"
         dired-dwim-target t
-        dired-recursive-copies 'always )
+        dired-recursive-copies 'always)
   (use-package dired+
     :config
     (require 'dired+)
