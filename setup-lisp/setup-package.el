@@ -148,13 +148,11 @@
      (cons 'prettier-js melpa)
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
-     (cons 'gh melpa)
      (cons 'ein melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa-stable)
      (cons 'diminish melpa-stable)
      (cons 'less-css-mode melpa-stable)
-     (cons 'smartparens melpa-stable)
      (cons 'smart-mode-line melpa-stable)
      (cons 'beacon melpa)
      (cons 'urlenc melpa)
@@ -194,6 +192,8 @@
 
      ;; Uninstalled, but consider:
 
+     ;; (cons 'gh melpa)
+     ;; (cons 'smartparens melpa-stable)
      ;; (cons 'counsel-etags melpa)
      ;; (setq-default counsel-etags-find-program "gfind")
      ;; (setq-default counsel-etags-grep-program "ggrep")
