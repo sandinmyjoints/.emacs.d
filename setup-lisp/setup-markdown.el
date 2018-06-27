@@ -52,6 +52,9 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
+;; markdeep: http://casual-effects.com/markdeep/
+(add-to-list 'auto-mode-alist '("\\.md.html\\'" . gfm-mode))
+
 ;; Based on http://stackoverflow.com/a/1680994
 
 ;; https://github.com/michaelamie/markdown-mode-css/tree/master/css
