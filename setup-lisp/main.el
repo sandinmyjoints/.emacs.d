@@ -245,6 +245,17 @@
   (add-hook 'text-mode-hook 'abbrev-mode)
   :diminish abbrev-mode)
 
+(use-package ein
+  :config
+  (require 'ein-loaddefs)
+  (require 'ein-notebook)
+  (require 'ein-subpackages)
+  :bind
+  (:map ein:notebooklist-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open))
+  (:map ein:notebook-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open)))
+
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
@@ -528,6 +539,7 @@
 (use-package smart-mode-line
   :ensure t
   :config
+  :disabled
   (sml/setup)
   (require 'setup-modeline))
 
@@ -753,17 +765,6 @@
         ))
 
 
-
-(use-package ein
-  :config
-  (require 'ein-loaddefs)
-  (require 'ein-notebook)
-  (require 'ein-subpackages)
-  :bind
-  (:map ein:notebooklist-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open))
-  (:map ein:notebook-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open)))
 
 ;; (global-set-key (kbd ')
 
