@@ -82,7 +82,11 @@
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-switch-project-action 'projectile-vc)
 
-(defalias 'find-file-in-project 'projectile-find-file)
+(defalias 'find-file-in-project 'projectile-find-file-dwim)
+;;
+(eval-after-load 'projectile-mode
+  ;; projectile-find-file-dwim is more generalized than projectile-find-file
+  (define-key projectile-mode-map (kbd "C-c p g") 'projectile-find-file-dwim))
 
 (provide 'setup-projectile)
 
