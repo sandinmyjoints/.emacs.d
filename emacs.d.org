@@ -396,6 +396,8 @@ EOF
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - https://orgmode.org/manual/Export-settings.html#Export-settings
   - see top of this buffer
+* TODO why does point go to BOL after running org-toggle-item
+  - when I run org-toggle to change a headline to a list item
 * TODO try https://github.com/xiaoxinghu/orgajs/
 * TODO nice export to google docs
   - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
@@ -484,9 +486,6 @@ EOF
        aware of node_modules
      - solution for config files: use flycheck-verify-setup to make sure it is
        finding them right config file(s)
-* TODO how to handle flycheck messages
-  - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
-  - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
 * DONE tern / ac-js2 / skewer
    CLOSED: [2018-01-17 Wed 09:40]
    - https://emacs.stackexchange.com/questions/17265/cannot-jump-to-definition-in-js2-mode-or-tern
@@ -519,8 +518,11 @@ EOF
       - https://github.com/prettier/prettier-emacs
     - [ ] get to know js2-refactorings and mnemonics
     - [ ] make js2 snappier
-* TODO find-file-at-point for imports in js and jsx files
-  - support "index" by default
+* DONE flycheck bug
+  - https://github.com/flycheck/flycheck/issues/1311
+* TODO how to handle flycheck messages
+  - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
+  - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
 * TODO wjb-kill-node in defuns
 * TODO indium
 * TODO node-inspector plus tern/swank or something to inspect running node process in emacs
@@ -536,13 +538,69 @@ EOF
 ** DONE xref-js2
    CLOSED: [2018-02-14 Wed 15:41]
     - but I don't want xref-goto-xref to open in a new buffer!
-** TODO tide
+** INACTIVE tide
+   CLOSED: [2018-06-13 Wed 21:45]
    - https://github.com/ananthakumaran/tide
 ** TODO lsp-javascript
    - https://github.com/emacs-lsp/lsp-mode
    - https://github.com/emacs-lsp/lsp-javascript
-** TODO dump-jump + smart-jump
+   - https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+   - https://code.visualstudio.com/docs/languages/jsconfig
+   - does it find types installed globally?
+   - does it work with require?
+   - [ ] function docstrings - p2
+   - [ ] method signatures - p2
+   - [ ] types
+   - [ ] autosuggest imports - p2
+   - [ ] show type info for company suggestion candidates - p1
+   - [ ] no animation when making a new
+*** sd-playground
+   - types
+#+BEGIN_SRC
+@types/bluebird@3.5.0
+@types/body-parser@1.18.2
+@types/config@1.26.2
+@types/cors@^2.8.4
+@types/express@4.15.4
+@types/express-statsd@0.3.0
+@types/lodash@4.17.4
+@types/mysql2@1.4.1
+@types/node-statsd@0.1.1
+@types/pn-logging@^4.0.0
+@types/request@2.83.0
+@types/sequelize@^4.37.1
+
+#+END_SRC
+*** neodarwin
+   - types
+#+BEGIN_SRC
+react
+react-dom
+react-redux
+#+END_SRC
+   - initial attempt at neodarwin root
+#+BEGIN_SRC json
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "checkJs": true,
+    "lib": [ "dom", "es2017" ],
+    "jsx": "react",
+    "paths": {
+      "components/*": ["./src/components/*"]
+    }
+  },
+  "exclude": ["local_notes", "dist", "public"]
+}
+
+#+END_SRC
+** TODO dumb-jump + smart-jump
    - dumb-jump-go C-M-g
+** TODO find-file-at-point for imports in js and jsx files
+  - support "index" by default
+  - C-c p g project-find-file-dwim does a pretty good job of this
 * TODO refactor setup-js2-mode.el
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -689,6 +747,8 @@ EOF
   - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
   - https://github.com/kaushalmodi/.emacs.d (setup-python)
   - http://gongzhitaao.org/dotemacs/
+  - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
+  - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
 * TODO Use:
   - Occur
   - multi-occur-in-matching-buffers
@@ -744,7 +804,8 @@ EOF
   - reveal-in-osx-finder
   - eww
   - quickrun
-  - C-c C-o for folding in js2-mode
+  - C-c C-o for folding in js2-mode, C-Enter
+  - projectile-find-file-dwim C-c p g
   - default-value
 default-value is a built-in function in 'C source code'.
 
@@ -789,9 +850,37 @@ I think that the problem has to do with dirtree window being dedicated.
 
 I want inhibit-same-window to always be nil when display-buffer is called from
 dirtree-mode.
-* TODO lsp javascript
-  - for each node version: npm i -g javascript-typescript-langserver
-  - company-complete-common
-* TODO bash command to open current directory
+* DONE bash command to open current directory
+  CLOSED: [2018-06-03 Sun 22:31]
   - [X] in dired
-  - [ ] add to dirtree
+  - [X] add to dirtree
+  - implemented as functions in bashrc
+* TODO packages to remove?
+  - find-file-in-project
+  - smart-mode-line
+  - rainbow-delimiters
+  - mac-pseudo-daemon
+  - typescript-mode
+** gone
+  - smartparens
+  - smart-jump
+  - skewer-mode
+  - tern
+  - company-tern
+* TODO hook up auth-sources to keychain
+  - https://emacs.stackexchange.com/questions/3869/mac-os-keychain-with-smtp-email-password#3872
+  - https://lists.gnu.org/archive/html/bug-gnu-emacs/2014-11/msg00805.html
+  - https://lists.gnu.org/archive/html/help-gnu-emacs/2014-11/msg00543.html
+  - https://www.gnu.org/software/emacs/manual/html_mono/auth.html
+#+BEGIN_SRC emacs-lisp
+;; test it
+(push 'macos-keychain-internet auth-sources)
+(push 'macos-keychain-generic auth-sources)
+(message (format "%s" (auth-source-search :label "github api token")))
+
+(message (format "%s" (auth-source-search :server "api.github.com")))
+
+;; reset
+(setq auth-sources '("~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
+#+END_SRC
+* bug https://github.com/joaotavora/yasnippet/commit/d3bb879356288ef38975fbf85947c7371b8c9759
