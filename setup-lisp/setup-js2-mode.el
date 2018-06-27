@@ -77,19 +77,32 @@
       (set (make-local-variable 'js2-mode-show-parse-errors) t)
       (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
   ;;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
-  (add-hook 'js2-mode-hook #'(lambda () (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc)))
-  (add-hook 'js2-mode-hook #'(lambda () (setq mode-name "JS2")))
-  (add-hook 'js2-mode-hook #'(lambda () (electric-pair-mode 1))) ;; maybe?
-  (add-hook 'js2-mode-hook #'(lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (add-hook 'js2-mode-hook #'(lambda ()
+                               (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
+                               (setq mode-name "JS2")
+                               (electric-pair-mode 1) ;; maybe?
+                               (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
   ;; This might slow things down when loading large files?
   ;; (add-hook 'js2-mode-hook  #'js2-imenu-extras-setup)
 
   ;; put towards the end so it runs early (hooks are added to
-  ;; beginning of list)
+  ;; beginning of list). This hook only runs when a JS file is opened,
+  ;; so TODO: give nvm more opportunities to switch to correct node.
+  ;; - hook for switching buffers
+  ;; - hook where projectile knows when project changes?
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
-  )
+  (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
+
+  ;; HACK
+  (defun nvm-use-for-buffer ()
+  "Activate Node based on an .nvmrc for the current file.
+If buffer is not visiting a file, do nothing."
+  (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
+    (condition-case err
+        (nvm-use-for buffer-file-name)
+      (error (message "%s" err))))))
 
 (setq-default js2-basic-offset 2)
 (setq js2-dynamic-idle-timer-adjust 0
@@ -119,7 +132,7 @@
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
-;; Not sure which of these is better. Hmm, rjsx-mode hung Emacs...
+;; rsjx-mode is better but it has a tendency to hang when attributes are malformed.
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 
@@ -211,6 +224,22 @@ project."
 ;; (add-hook 'js2-mode-hook #'setup-tide-mode)
 ;; configure javascript-tide checker to run after your default javascript checker
 ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+
+;; (require 'lsp-javascript-typescript)
+;; Disabling for now because it can be slow. Not sure if it is
+;; respecting jsconfig.json or not. Run in individual buffers to enable.
+;; (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
+;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
+
+(defun wjb/company-transformer (candidates)
+  (let ((completion-ignore-case t))
+    (all-completions (company-grab-symbol) candidates)))
+
+(defun wjb/js-hook nil
+  (make-local-variable 'company-transformers)
+  (push 'wjb/company-transformer company-transformers))
+
+(add-hook 'js-mode-hook 'wjb/js-hook)
 
 (provide 'setup-js2-mode)
 
