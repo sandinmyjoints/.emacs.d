@@ -63,6 +63,9 @@
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives melpa-stable)
 
+  ;; TODO: package-archive-prioities: see
+  ;; https://emacs.stackexchange.com/a/2989/2163
+
   ;; Use if melpa is down:
   ;; (add-to-list 'package-archives melpa-mirror)
 
@@ -128,6 +131,7 @@
      ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
      (cons 'flycheck-inline melpa)
      (cons 'web-mode melpa-stable)
+     ;; TODO: add css-comb and web-beautify
      (cons 'flx-ido melpa-stable)
      (cons 'header2 melpa)
      (cons 'know-your-http-well melpa)

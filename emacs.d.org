@@ -749,83 +749,6 @@ react-redux
   - http://gongzhitaao.org/dotemacs/
   - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
   - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
-* TODO Use:
-  - Occur
-  - multi-occur-in-matching-buffers
-  - subword-backward-kill (C-backspace, or M-backspace)
-  - mc/
-    - mc/edit-lines
-    - mc/beginnings-of-lines (C-M-<)
-    - mc/endings-of-lines (C-M->)
-    - mc/mark-all-like-this (C-*)
-    - mc/mark-all-words-like-this
-    - mc/insert-numbers
-  - org-table (convert-region, transpose, etc)
-    - orgtbl-mode minor mode for working with tables
-  - sorting
-    - sort-lines
-    - reverse-region
-    - sort-fields and sort-numeric-fields
-    - sort-regexp-fields
-    - org-sort-entries
-  - rectangle-number-lines (C-x r N)
-  - Keyboard macros
-    - counters:
-      http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
-      (C-x C-k C-i)
-    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
-    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
-  - set-goal-column (C-x C-n)
-  - terminal-mode for ssh
-  - color-themes
-    - save current as?
-    - use one that works for terminals
-  - view-lossage (C-h l)
-  - repeat (C-x z)
-  - highlight-lines-matching-regexp (M-s h l)
-  - tumme (images)
-  - what-cursor-position (C-x =, also C-u C-x =)
-  - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
-  - eval
-    - eval-and-replace (C-c C-e)
-    - eval-expression (M-:, also eval and insert: C-u M-:)
-  - ispell
-  - list-faces-display
-  - dired-jump
-  - list-processes
-  - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
-  - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
-  - other-frame reverse: C-- C-x 5 o
-  - org-mode C-c C-u: outline-up-heading
-  - C-0 (imenu)
-  - clean-buffer-list
-  - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
-    - like dired for buffers. `/.` filters by file-extension. `//` clears filters.
-  - reveal-in-osx-finder
-  - eww
-  - quickrun
-  - C-c C-o for folding in js2-mode, C-Enter
-  - projectile-find-file-dwim C-c p g
-  - default-value
-default-value is a built-in function in 'C source code'.
-
-(default-value SYMBOL)
-
-Return SYMBOL's default value.
-This is the value that is seen in buffers that do not have their own values
-for this variable.  The default value is meaningful for variables with
-local bindings in certain buffers.
-
-** DONE
-  - zap-to-char (M-z and M-Z)
-  - Tramp:
-    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
-    - C-x C-f /docker:user@container:/path/to/file
-  - Smex (M-x, M-X)
-    - updated fork: https://github.com/DarwinAwardWinner/smex
-  - align-regexp (C-|)
-  - join-line (C-c C-j)
-  - Org-mode (C-c C-n/p; C-c C-f/b)
 * TODO Switch from smex to amx
   - https://github.com/DarwinAwardWinner/amx
 * TODO Edit with Emacs OS X service
@@ -884,3 +807,103 @@ dirtree-mode.
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
 #+END_SRC
 * bug https://github.com/joaotavora/yasnippet/commit/d3bb879356288ef38975fbf85947c7371b8c9759
+* How to build emacs-mac
+  - see ~/dotfiles/dev/bin/emacs-mac-install
+* Try NS port
+  - but don't want links to overwrite Mac-port
+  - brew install emacs --with-cocoa && brew unlink emacs && brew link emacs-mac
+  -
+* setenv / getenv / process-environment
+  - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
+  - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
+* Use:
+  - markdown-preview-mode
+  - dig
+  - list-timers
+  - list-faces-display
+  - list-processes
+  - emacsclient -T
+#+BEGIN_QUOTE
+Emacsclient has a new option '-T' / '--tramp'.
+This helps with using a local Emacs session as the server for a remote
+emacsclient.  With appropriate setup, one can now set the EDITOR
+environment variable on a remote machine to emacsclient, and
+use the local Emacs to edit remote files via Tramp.  See the node
+"(emacs) emacsclient Options" in the user manual for the details.
+#+END_QUOTE
+  - Occur
+    - multi-occur-in-matching-buffers
+  - subword-backward-kill (C-backspace, or M-backspace)
+  - mc/
+    - mc/edit-lines
+    - mc/beginnings-of-lines (C-M-<)
+    - mc/endings-of-lines (C-M->)
+    - mc/mark-all-like-this (C-*)
+    - mc/mark-all-words-like-this
+    - mc/insert-numbers
+  - org-table (convert-region, transpose, etc)
+    - orgtbl-mode minor mode for working with tables
+  - sorting
+    - sort-lines
+    - reverse-region
+    - sort-fields and sort-numeric-fields
+    - sort-regexp-fields
+    - org-sort-entries
+  - rectangle-number-lines (C-x r N)
+  - Keyboard macros
+    - counters:
+      http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Counter.html
+      (C-x C-k C-i)
+    - query: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Query.html#Keyboard-Macro-Query
+    - stepwise edit: http://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macro-Step_002dEdit.html#Keyboard-Macro-Step_002dEdit
+  - set-goal-column (C-x C-n)
+  - terminal-mode for ssh
+  - color-themes
+    - save current as?
+    - use one that works for terminals
+  - view-lossage (C-h l)
+  - repeat (C-x z)
+  - highlight-lines-matching-regexp (M-s h l)
+  - tumme (images)
+  - what-cursor-position (C-x =, also C-u C-x =)
+  - shell-command-on-buffer (C-c ! [note: overwrites something in org-mode?])
+  - eval
+    - eval-and-replace (C-c C-e)
+    - eval-expression (M-:, also eval and insert: C-u M-:)
+  - ispell
+  - dired-jump
+  - clone-indirect-buffer http://www.gnu.org/software/emacs/manual/html_node/emacs/Indirect-Buffers.html
+  - flush-lines <regex>, will delete matching lines. Enter ^$ to remove all blank lines.
+  - other-frame reverse: C-- C-x 5 o
+  - org-mode C-c C-u: outline-up-heading
+  - C-0 (imenu)
+  - clean-buffer-list
+  - ibuffer to search or query-replace in marked buffers: https://www.emacswiki.org/emacs/IbufferMode
+    - like dired for buffers. `/.` filters by file-extension. `//` clears filters.
+  - reveal-in-osx-finder
+  - eww
+    - custom theme for eww: https://emacs.stackexchange.com/a/4285/2163
+  - quickrun
+  - C-c C-o for folding in js2-mode, C-Enter
+  - projectile-find-file-dwim C-c p g
+  - default-value
+default-value is a built-in function in 'C source code'.
+
+(default-value SYMBOL)
+
+Return SYMBOL's default value.
+This is the value that is seen in buffers that do not have their own values
+for this variable.  The default value is meaningful for variables with
+local bindings in certain buffers.
+
+** DONE
+  - zap-to-char (M-z and M-Z)
+  - Tramp:
+    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+    - C-x C-f /docker:user@container:/path/to/file
+    - C-x C-f /ssh:wbert@wjb.sh:/etc
+  - Smex (M-x, M-X)
+    - updated fork: https://github.com/DarwinAwardWinner/smex
+  - align-regexp (C-|)
+  - join-line (C-c C-j)
+  - Org-mode (C-c C-n/p; C-c C-f/b)
