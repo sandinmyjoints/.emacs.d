@@ -67,12 +67,19 @@
 
 ;; (setq markdown-css-paths '("github-rhio.css"))
 
+;; markdown-live-mode
+;; TODO: point to better stylesheet!
+(setq markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
+
 (add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
 (add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
 (add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
 
 (after-load 'markdown-mode
-  (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote))
+  (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote)
+  (define-key markdown-mode-map (kbd "M-<down>") 'markdown-outline-next)
+  (define-key markdown-mode-map (kbd "M-<up>") 'markdown-outline-previous)
+  (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line))
 
 ;; Useful:
 ;; C-c C-s C-p - `markdown-pre-region'
@@ -100,7 +107,8 @@
                             :hline (concat alignment "|")
                             :lstart "| " :lend " |" :sep " | ")))
         (orgtbl-to-generic table (org-combine-plists params2 params))))
-    (add-hook 'markdown-mode-hook #'orgtbl-mode)
+    ;; TODO: this messes with key bindings, there's probably a way to fix it:
+    ;; (add-hook 'markdown-mode-hook #'turn-on-orgtbl)
 
     (bind-keys
      :map markdown-mode-map
