@@ -317,6 +317,7 @@
 (use-package projectile
   :diminish projectile-mode
   :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (require 'setup-projectile))
 
 (use-package dumb-jump
