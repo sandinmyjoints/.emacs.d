@@ -73,7 +73,8 @@
                mode-line-frame-identification
                mode-line-buffer-identification
                sml/pos-id-separator
-               mode-line-position
+               mode-line-position ;; TODO: consider using "%o" ("degree of travel") or %q via mode-line-percent-position
+
                (vc-mode vc-mode)
                sml/pre-modes-separator
                mode-line-modes
