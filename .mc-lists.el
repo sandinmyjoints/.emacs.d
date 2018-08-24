@@ -19,6 +19,7 @@
         dired-do-delete
         dired-next-line
         electric-newline-and-maybe-indent
+        end-of-defun
         end-of-visual-line
         eval-last-sexp
         fill-paragraph
@@ -96,6 +97,7 @@
         end-of-buffer
         ido-find-file
         ido-switch-buffer
+        mac-mwheel-scroll
         mark-whole-buffer
         markdown-demote
         org-meta-return
