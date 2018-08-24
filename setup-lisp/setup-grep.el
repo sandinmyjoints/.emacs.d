@@ -88,11 +88,11 @@
 
 ;; Setup find.
 (defvar wjb-find-bin "find")
-(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" -type f -print0 ")
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" ! -wholename \"*local/Yarn*\" -type f -print0 ")
 
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind")
-  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
+  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
 
 ;; Setup grep.
 (defvar wjb-grep-bin "grep")
@@ -131,7 +131,7 @@
                      (read-from-minibuffer "path glob: ")
                      (read-from-minibuffer "search for: ")))
   (let ((default-directory path)
-        (dumb (format "gfind . -ipath '*%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
+        (dumb (format "gfind . -ipath '*%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
     (grep-find (concat dumb grep-string))))
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
