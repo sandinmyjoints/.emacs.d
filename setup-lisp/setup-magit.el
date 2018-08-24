@@ -32,6 +32,19 @@
       magit-push-always-verify nil
       magit-branch-read-upstream-first nil)
 
+(add-to-list 'magit-section-initial-visibility-alist '(unpushed . show))
+(add-to-list 'magit-section-initial-visibility-alist '(unstaged . show))
+(add-to-list 'magit-section-initial-visibility-alist '(staged . show))
+
+(add-to-list 'magit-section-initial-visibility-alist '(stashes . hide))
+(add-to-list 'magit-section-initial-visibility-alist '(untracked . hide))
+;; TODO: ideally, push-remote would be the remote tracking branch, not
+;; master -- this can probably be configred in magit somehow
+(add-to-list 'magit-section-initial-visibility-alist '(unpulled . hide))
+(add-to-list 'magit-section-initial-visibility-alist '(recent . hide))
+
+(setq magit-section-cache-visibility '(stashes untracked))
+
 (define-key magit-status-mode-map (kbd "M-u") 'magit-section-up)
 
 ;; magit-gh-pulls
