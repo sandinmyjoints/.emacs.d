@@ -430,6 +430,7 @@
   (global-paren-face-mode))
 
 (use-package restclient
+  :mode ("\\.rest\\'" . restclient-mode)
   ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
   ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
   :bind (:map restclient-mode-map
@@ -481,7 +482,9 @@
   :mode "credentials$"
   "pylintrc"
   "ads.txt"
-  ".htaccess")
+  "\\.htaccess"
+  "\\.curlrc"
+  "\\..*rc\\'")
 
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
