@@ -174,6 +174,7 @@
      (cons 'helm-projectile melpa)
      (cons 'log4j-mode melpa)
      (cons 'vlf melpa)
+     (cons 'nhexl-mode melpa)
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
