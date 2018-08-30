@@ -101,16 +101,13 @@
 (when (executable-find "ggrep")
   (setq wjb-grep-bin "ggrep"))
 
-(when (and (executable-find "rg") t)
+(when (executable-find "rg")
   (setq wjb-grep-bin "rg")
   (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
 
-;; Construct the full command.
 (defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
 (defvar wjb-xargs-part "| xargs -0 -P 2 ")
-(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
-(defvar wjb-default-find-command
-  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
+(defvar wjb-after-the-pipe (concat (format "%s %s" wjb-xargs-part wjb-grep-part) "%s"))
 
 ;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
@@ -125,14 +122,36 @@
   (let ((default-directory path))
     (grep-find (concat wjb-default-find-command grep-string))))
 
-(defun find-in-project-name-glob (path name-pattern grep-string)
-  "rgrep in current project dir."
+(defun find-in-project-glob-by-path (path name-pattern grep-string)
+  "gfind|xargs in current project dir by path."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
                      (read-from-minibuffer "path glob: ")
                      (read-from-minibuffer "search for: ")))
-  (let ((default-directory path)
-        (dumb (format "gfind . -ipath '*%s' ! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e " name-pattern)))
-    (grep-find (concat dumb grep-string))))
+  (let* ((default-directory path)
+         (command-template (concat "gfind . -ipath '*%s' " wjb-find-args wjb-after-the-pipe))
+         (actual-command (format command-template name-pattern grep-string)))
+    (message "actual-command: %s " actual-command)
+    (grep-find actual-command)))
+
+(defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
+  "gfind|xargs in current project dir by name. Negate with prefix arg."
+  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
+                     (read-from-minibuffer "name glob: ")
+                     (read-from-minibuffer "search for: ")
+                     current-prefix-arg))
+  (message "prefix is %s" prefix)
+  (let* ((default-directory path)
+         (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
+         (negate-or-not (if prefix "!" ""))
+         (actual-command (format command-template negate-or-not name-pattern grep-string)))
+    (message "actual-command: %s " actual-command)
+    (grep-find actual-command)))
+
+
+(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+(defvar wjb-default-find-command
+  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
+
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
 ;; $ gfind public -ipath '*.png' -o -ipath '*.js'
@@ -154,7 +173,8 @@
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 ;; (global-set-key (kbd "C-x 9") 'rgrep)
-(global-set-key (kbd "C-x 9") 'find-in-project-name-glob)
+(global-set-key (kbd "C-x 9") 'find-in-project-glob-by-path)
+(global-set-key (kbd "C-x j") 'find-in-project-glob-by-name)
 
 ;; Ways to do my find in project from the command line:
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>

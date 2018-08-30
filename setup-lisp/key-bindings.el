@@ -7,7 +7,6 @@
 ;; * C-x C-c
 ;; * C-z
 ;; * C-x C-|
-;; * C-x j
 ;; * C-c C-f
 ;;
 ;;; Code:
@@ -159,5 +158,8 @@
 
 (global-set-key (kbd "S-<up>") 'move-text-up)
 (global-set-key (kbd "S-<down>") 'move-text-down)
+
+(global-set-key (kbd "C-'") 'helm-mark-all)
+(global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
 
 (provide 'key-bindings)
