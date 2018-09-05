@@ -299,35 +299,50 @@
       "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
 
 ;; Search and delete a console.log statement.
+;; TODO update these to call isearch directly
 (fset 'remove-console-log-coffee
       "\C-sconsole.log \"DEBUG:\C-a\C-k\C-k\C-x\C-s")
 
 (fset 'remove-console-log-js
       "\C-sconsole.log('DEBUG:\C-a\C-a\C-k\C-k\C-x\C-s")
 
-(defun long-lines ()
+(defun wjb/long-lines ()
+  "Set fill-column to a very large number."
   (interactive)
-  (setq fill-column 10000))
+  (setq fill-column 100000))
+
+(defalias #'long-lines #'wjb/long-lines)
+
+(defun wjb/insert-date ()
+  "Insert current date yyyy-mm-dd."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d")))
+
+(defalias #'insert-date #'wjb/insert-date)
 
 (defun mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."
   (if list
       (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
 
-(defun camelize (s)
+(defun wjb/camelize (s)
   "Convert under_score string S to CamelCase string."
   (mapconcat 'identity (mapcar
                         '(lambda (word) (capitalize (downcase word)))
                         (split-string s "_")) ""))
 
-(defun camelize-method (s)
+(defalias #'camelize #'wjb/camelize)
+
+(defun wjb/camelize-method (s)
   "Convert under_score string S to camelCase string."
   (mapconcat 'identity (mapcar-head
                         '(lambda (word) (downcase word))
                         '(lambda (word) (capitalize (downcase word)))
                         (split-string s "_")) ""))
 
-(defun camelize-thing-at-point ()
+(defalias #'camelize-method #'wjb/camelize-method)
+
+(defun wjb/camelize-thing-at-point ()
   "Camelize thing at point."
   (interactive)
   (let ((thing (thing-at-point 'word)))
@@ -338,6 +353,8 @@
       (delete-region pos1 pos2)
       (goto-char pos1)
       (insert (camelize-method thing)))))
+
+(defalias #'camelize-thing-at-point #'wjb/camelize-thing-at-point)
 
 ;; TODO: camelize-all-like-thing-at-point
 
@@ -488,6 +505,9 @@
 
 (fset 'align-on-equal
    [?\C-| ?  ?= return])
+
+(fset 'align-on-hash
+   [?\C-| ?  ?# return])
 
 (defun copy-and-comment ()
   "Comment active region and paste uncommented text on the
