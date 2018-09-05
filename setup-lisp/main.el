@@ -309,10 +309,21 @@
   (add-hook 'conf-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
+(use-package tsv-mode
+  :mode "\\.tsv\\'"
+  :init
+  (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
+
 (use-package anzu
   :diminish anzu-mode
   :config
   (global-anzu-mode 1))
+
+(use-package phi-search
+  :disabled
+  :bind (("C-s" . phi-search)
+         ("C-r" . phi-search-backward))
+  :config)
 
 (use-package projectile
   :diminish projectile-mode
@@ -540,6 +551,9 @@
   :ensure t
   :defer t)
 
+;; while sml is disabled, just do this:
+;; (require 'setup-modeline)
+
 (use-package smart-mode-line
   :ensure t
   :config
@@ -655,6 +669,9 @@
 
   (advice-add 'company-call-frontends
               :before #'on-off-fci-before-company))
+
+(use-package knot-mode
+  :mode "\\.knot\\'")
 
 (use-package lsp-mode)
 
