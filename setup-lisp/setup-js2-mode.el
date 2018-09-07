@@ -166,7 +166,10 @@ If buffer is not visiting a file, do nothing."
 ;; (eval-after-load "js2-highlight-vars-autoloads"
 ;;   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
-;; These defuns may be replaceable by
+(eval-after-load 'js2-mode
+  '(add-hook 'js2-mode-hook #'add-node-modules-path))
+
+;; The following defuns may be replaceable by
 ;; https://github.com/codesuki/add-node-modules-path
 
 ;; Flycheck.
@@ -188,6 +191,7 @@ If buffer is not visiting a file, do nothing."
 ;;
 ;; TODO: This can probably be updated to work with
 ;; add-node-modules-to-path.
+;; or even better would be: $ "$(npm bin)/prettier"
 (defun my/use-prettier-if-in-node-modules ()
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
