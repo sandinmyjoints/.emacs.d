@@ -39,7 +39,12 @@
 (add-to-list 'magit-section-initial-visibility-alist '(stashes . hide))
 (add-to-list 'magit-section-initial-visibility-alist '(untracked . hide))
 ;; TODO: ideally, push-remote would be the remote tracking branch, not
-;; master -- this can probably be configred in magit somehow
+;; master -- this can probably be configred in magit somehow In other
+;; words, when I create a new local branch that tracks a remote
+;; branch, currently rebase is set to master (good) and push is set to
+;; the remote branch (good) but in the magit status buffer I see
+;; "Unpulled from master (3)" (bad) -- I would only want to see
+;; Unpulled from the remote branch.
 (add-to-list 'magit-section-initial-visibility-alist '(unpulled . hide))
 (add-to-list 'magit-section-initial-visibility-alist '(recent . hide))
 

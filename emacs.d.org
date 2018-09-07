@@ -15,10 +15,6 @@
 * How to recover a frozen Emacs process
   - kill -USR2
   - Then set debug-on-quit back to nil
-* Magit variables
-magit-branch-prefer-remote-upstream
-magit-remote-add-set-remote.pushDefault
-magit-auto-revert-mode
 * cl- functions such as first/cl-first
   - https://github.com/purcell/emacs.d/blob/effd06ad39f73cf84bdfde082d986827547ee00e/lisp/init-lisp.el#L285
 * DONE Use ELPA.
@@ -199,7 +195,8 @@ EOF
   - l for short log
   - submitted as http://debbugs.gnu.org/cgi/bugreport.cgi?bug=14378
   - severity 14378 important
-** TODO Keep Magit from slowing down after being open for a while.
+** DONE Keep Magit from slowing down after being open for a while.
+   CLOSED: [2018-09-01 Sat 22:24]
 
   - Try profiling: http://stackoverflow.com/a/6732810
   - Likely due to use of magit-log
@@ -344,6 +341,8 @@ EOF
     - [X] install heroku accounts plugin
     - [X] spanishdict / wjb accounts
 
+
+
 * emacs core
 * TODO understand recursive editing
 * TODO fix recursive editing -- seems to be broken
@@ -362,6 +361,8 @@ EOF
     - https://lists.gnu.org/archive/html/emacs-devel/2016-01/msg01385.html
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
+
+
 * emacs.d
 * DONE init-local for machine-specific configs
   CLOSED: [2015-07-10 Fri 17:01]
@@ -378,15 +379,19 @@ EOF
     - packages-install
     - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
     - https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
-* TODO fresh .emacs.d installs all needed packages
 * TODO package-initialize can be delayed until after main.el
+* TODO fresh .emacs.d installs all needed packages
 * TODO portable .emacs.d
 * TODO literate .emacs.d
 * TODO prefix all my stuff with wjb/
+
+
 * packages
 * TODO Versioning of packages--how to pin?
 * TODO try Cask
   - cask.github.io
+
+
 * org-mode
   - export settings https://orgmode.org/manual/Export-settings.html#index-_0023_002bOPTIONS
 * DONE rename from *-todo.org to *.org
@@ -396,8 +401,22 @@ EOF
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - https://orgmode.org/manual/Export-settings.html#Export-settings
   - see top of this buffer
-* TODO why does point go to BOL after running org-toggle-item
+* ACTIVE why does point go to BOL after running org-toggle-item
   - when I run org-toggle to change a headline to a list item
+#+BEGIN_SRC q
+org-ctrl-c-minus is an interactive compiled Lisp function in 'org.el'.
+
+(org-ctrl-c-minus)
+
+Insert separator line in table or modify bullet status of line.
+Also turns a plain line or a region of lines into list items.
+Calls 'org-table-insert-hline', 'org-toggle-item', or
+'org-cycle-list-bullet', depending on context.
+
+#+END_SRC
+  1) when it's cycling between list bullets, it's fine, point stays where it is
+  2) but when it's going from a headline to a bullet, it puts point at BOL
+     instead of leaving it where it is
 * TODO try https://github.com/xiaoxinghu/orgajs/
 * TODO nice export to google docs
   - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
@@ -444,6 +463,8 @@ EOF
 * USE export dispatcher
   - C-c C-e
   - insert options: C-c C-e #
+
+
 * js
 * DONE emacs flycheck does not like import syntax in jsx files in neodarwin componenents
    - tried symlinking to eslintrc file in /dev, then flycheck just wouldn't load
@@ -523,7 +544,8 @@ EOF
 * TODO how to handle flycheck messages
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
-* TODO wjb-kill-node in defuns
+* DONE wjb-kill-node in defuns
+  CLOSED: [2018-09-01 Sat 22:17]
 * TODO indium
 * TODO node-inspector plus tern/swank or something to inspect running node process in emacs
    - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
@@ -596,14 +618,18 @@ react-redux
 }
 
 #+END_SRC
-** TODO dumb-jump + smart-jump
+** DONE dumb-jump
+   CLOSED: [2018-09-01 Sat 22:17]
    - dumb-jump-go C-M-g
+** TODO smart-jump
 ** TODO find-file-at-point for imports in js and jsx files
   - support "index" by default
   - C-c p g project-find-file-dwim does a pretty good job of this
-* TODO refactor setup-js2-mode.el
+* TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
+
+
 * coffee
 * TODO coffee-mode
 ** DONE Coffee repl
@@ -618,6 +644,8 @@ react-redux
    - yas-expand -> yas-expand-from-trigger-key
    - smart-tab
    - minor modes: smart-tab and yas
+
+
 * dirtree
 * TODO use side window
   - https://www.gnu.org/software/emacs/draft/manual/html_node/elisp/Displaying-Buffers-in-Side-Windows.html#Displaying-Buffers-in-Side-Windows
@@ -641,6 +669,8 @@ react-redux
 * TODO possible dirtree replacement?
   - https://github.com/sebastiencs/sidebar.el
 
+
+
 * python
 * TODO python in emacs
 ** python-mode
@@ -662,6 +692,9 @@ react-redux
 ** django
    - https://code.djangoproject.com/wiki/Emacs
    -
+
+
+
 * pairing
 * TODO maybe try https://github.com/capitaomorte/autopair
 * DONE smart-parens
@@ -673,11 +706,15 @@ react-redux
   - use kill-sexp, forward-sexp, backward-sexp, up-sexp, down-sexp.
   - Use C-- to do backwards version of forwards command.
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
+
+
 * shell
 * TODO Shell in Emacs
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
   - ansi-term vs shell vs eshell vs terminal-emulator
 * TODO multi-term
+
+
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
   - works well with unicode
@@ -699,7 +736,8 @@ react-redux
 * DONE grep through open org-mode buffers
   - multi-occur-in-mode-string
   - multi-occur-in-this-mode
-* TODO grep through *.org files in a directory
+* DONE grep through *.org files in a directory
+  CLOSED: [2018-09-01 Sat 22:15]
   - recursive through subdirs
   - search within any files that match glob or regex
   - another example: grep through all package.json files in node_modules
@@ -721,24 +759,40 @@ react-redux
  (define-key global-map "\C-xg" 'grep)
 #+END_SRC
   - [X] find-in-project-name-glob
+
+
 * navigation
 * TODO Try anything and/or Helm
 ** TODO for helm, sometimes do want popup windows
    - [ ] helpful?: https://www.reddit.com/r/emacs/comments/7rho4f/now_you_can_use_helm_with_frames_instead_of/?ref=share&ref_source=link
    - [ ] one key to make helm full window: https://emacs.stackexchange.com/a/650/2163
+
+
+* magit
+** variables
+ magit-branch-prefer-remote-upstream
+ magit-remote-add-set-remote.pushDefault
+ magit-auto-revert-mode
+
+
 * markdown
 * DONE GFM tables
   CLOSED: [2015-09-11 Fri 16:09]
   - http://emacs.stackexchange.com/a/5319/2163
   - http://stackoverflow.com/a/20912535/599258
+
+
 * other
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO try olivetti mode
-* TODO magithub / gh package
+* INACTIVE magithub / gh package
   - https://github.com/vermiculus/magithub/blob/master/README.md
+* TODO browse-at-remote / magit b y pushRemote problem
+  - https://github.com/magit/magit/issues/3417
+  - fix is replace remote and pushRemote = spanishdict with = origin in .git/config
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
@@ -753,6 +807,8 @@ react-redux
   - https://github.com/DarwinAwardWinner/amx
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
+* DONE tsv-mode
+  - https://www.emacswiki.org/emacs/tsv-mode.el
 * How to improve performance of buffers with very long lines
 ** https://emacs.stackexchange.com/a/603/2163
   - break input file into lines:
@@ -817,6 +873,7 @@ dirtree-mode.
   - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
   - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
 * Use:
+  - C-M-c exit-recursive-edit
   - markdown-preview-mode
   - dig
   - list-timers
@@ -907,3 +964,6 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
+* TODO
+  - phi-search: C-a, C-e, M-m should work
+  -
