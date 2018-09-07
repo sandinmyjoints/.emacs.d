@@ -3,7 +3,6 @@
 ;; * C-,
 ;; * C-.
 ;; * C-'
-;; * C-c 0
 ;; * C-x C-c
 ;; * C-z
 ;; * C-x C-|
@@ -161,5 +160,7 @@
 
 (global-set-key (kbd "C-'") 'helm-mark-all)
 (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
+
+(global-set-key (kbd "C-x C-d") #'wjb/insert-date)
 
 (provide 'key-bindings)
