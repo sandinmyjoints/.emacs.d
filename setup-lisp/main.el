@@ -625,6 +625,51 @@
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 
+;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
+(use-package compile
+  :init
+  (setq compilation-scroll-output t)
+  ;; (setq compilation-scroll-output 'first-error)
+  (setq compilation-ask-about-save nil)
+  ;; Don't save *anything*
+  (setq compilation-save-buffers-predicate '(lambda () nil))
+  :config
+  ;; Add NodeJS error format
+  (setq compilation-error-regexp-alist-alist
+        ;; Tip: M-x re-builder to test this out
+        (cons '(node "^[  ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
+                           1 ;; file
+                           2 ;; line
+                           3 ;; column
+                           )
+              compilation-error-regexp-alist-alist))
+  (setq compilation-error-regexp-alist
+        (cons 'node compilation-error-regexp-alist))
+
+  ;; Make *compilation* buffer use visual-line-mode
+  ;; TODO: make a key binding for turning vlmode on and off
+  (add-hook 'compilation-mode-hook
+            (lambda () (visual-line-mode 1)))
+
+  (add-hook 'compilation-minor-mode-hook
+            (lambda () (visual-line-mode 1)))
+
+  ;; Allow color in compilation buffers
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (read-only-mode 1)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (read-only-mode -1))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  :bind
+  (("C-c <return>" . compile)
+   ("C-c C-<return>" . recompile)))
+(global-set-key (kbd "C-c <return>") 'compile)
+(global-set-key (kbd "C-c C-<return>") 'recompile)
+(fset 'wjb/switch-to-compilation
+   [?\C-x ?b ?* ?c ?o ?m ?p ?i ?l ?a ?t ?i ?o ?n ?* return])
+
+
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
