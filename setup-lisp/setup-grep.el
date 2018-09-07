@@ -109,6 +109,10 @@
 (defvar wjb-xargs-part "| xargs -0 -P 2 ")
 (defvar wjb-after-the-pipe (concat (format "%s %s" wjb-xargs-part wjb-grep-part) "%s"))
 
+(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+(defvar wjb-default-find-command
+  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
+
 ;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
 (grep-compute-defaults)
@@ -146,11 +150,6 @@
          (actual-command (format command-template negate-or-not name-pattern grep-string)))
     (message "actual-command: %s " actual-command)
     (grep-find actual-command)))
-
-
-(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
-(defvar wjb-default-find-command
-  (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
 
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
