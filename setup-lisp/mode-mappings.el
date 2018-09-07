@@ -103,6 +103,8 @@
 (autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
 
+(add-to-list 'auto-mode-alist '("\\.knot\\'" . knot-mode))
+
 (provide 'mode-mappings)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
