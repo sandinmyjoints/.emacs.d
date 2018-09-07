@@ -101,6 +101,9 @@ up before you execute another command."
   '(custom-set-variables
     '(flycheck-temp-prefix ".flycheck")))
 
+(setq flycheck-global-modes
+      '(not org-mode text-mode conf-mode))
+
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; setup-flycheck.el ends here
