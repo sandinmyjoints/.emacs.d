@@ -331,6 +331,10 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (require 'setup-projectile))
 
+(use-package quickrun
+  :config
+  (defalias #'runthis #'quickrun))
+
 (use-package dumb-jump
   ;; :bind (("M-g o" . dumb-jump-go-other-window)
   ;;        ("M-g j" . dumb-jump-go)
