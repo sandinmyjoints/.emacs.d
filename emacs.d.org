@@ -964,6 +964,24 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
-* TODO
-  - phi-search: C-a, C-e, M-m should work
-  -
+* TODO phi-search
+  - [ ] phi-search: during searches, C-a, C-e, M-m should work
+* compile-mode
+  - https://jestjs.io/docs/en/cli.html#colors
+  - https://www.emacswiki.org/emacs/CreatingYourOwnCompileErrorRegexp
+  - https://benhollis.net/blog/2015/12/20/nodejs-stack-traces-in-emacs-compilation-mode/
+** TODO fix face -- stop using underlining
+** TODO is --testLocationInResults doing anything?
+   - seems like I'm just getting the line number from the Error stack traces
+** TODO set compile-command in each repo .dir-locals.el
+** TODO leverage watching
+** TODO leverage jest patterns (eg, related to recent changes)
+* TODO purpose-mode
+  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
+  - for each repo, be able to jump to each of these:
+    - compilation buffer
+    - .rest file, http output
+    - magit status buffer
+    - root dired
+    - .org file
+    - README?
