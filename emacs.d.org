@@ -973,9 +973,17 @@ local bindings in certain buffers.
 ** TODO fix face -- stop using underlining
 ** TODO is --testLocationInResults doing anything?
    - seems like I'm just getting the line number from the Error stack traces
-** TODO set compile-command in each repo .dir-locals.el
+** TODO set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
+   - well, it is becoming file-local
+   - but then i get the original one when i run tests from magit status buffer,
+     or from a newly opened buffer in the project
+   - make initial-compile-command that is in .dir-locals.el?
+   - when are dir-locals evaluated?
+*** include linting/style checks
 ** TODO leverage watching
 ** TODO leverage jest patterns (eg, related to recent changes)
+   - -t to match test name
+** TODO leverage debugger
 * TODO purpose-mode
   - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
   - for each repo, be able to jump to each of these:
@@ -985,3 +993,4 @@ local bindings in certain buffers.
     - root dired
     - .org file
     - README?
+* TODO see notes/references.org/wishlist
