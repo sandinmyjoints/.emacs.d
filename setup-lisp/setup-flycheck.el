@@ -102,7 +102,7 @@ up before you execute another command."
     '(flycheck-temp-prefix ".flycheck")))
 
 (setq flycheck-global-modes
-      '(not org-mode text-mode conf-mode))
+      '(not org-mode text-mode conf-mode restclient-mode))
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
