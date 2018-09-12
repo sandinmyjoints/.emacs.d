@@ -348,6 +348,8 @@
 
 (setq auto-window-vscroll nil)
 
+(setq compile-command "npm test")
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
