@@ -176,6 +176,7 @@
      (cons 'log4j-mode melpa)
      (cons 'vlf melpa)
      (cons 'nhexl-mode melpa)
+     (cons 'phi-search melpa)
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
