@@ -45,7 +45,7 @@
 ;; the remote branch (good) but in the magit status buffer I see
 ;; "Unpulled from master (3)" (bad) -- I would only want to see
 ;; Unpulled from the remote branch.
-(add-to-list 'magit-section-initial-visibility-alist '(unpulled . hide))
+(add-to-list 'magit-section-initial-visibility-alist '(unpulled . show))
 (add-to-list 'magit-section-initial-visibility-alist '(recent . hide))
 
 (setq magit-section-cache-visibility '(stashes untracked))
