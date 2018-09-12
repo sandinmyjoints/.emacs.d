@@ -150,7 +150,7 @@
      (cons 'lsp-javascript-typescript melpa)
      (cons 'lsp-ui melpa)
      (cons 'prettier-js melpa)
-     (cons 'add-node-modules-path)
+     (cons 'add-node-modules-path melpa)
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
      (cons 'ein melpa)
