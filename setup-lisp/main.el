@@ -76,6 +76,12 @@
   ;; Else we're on an older version so require cl.
   (require 'cl))
 
+;; Auto-compile elisp to bytecode. This should be as early as possible.
+(use-package auto-compile
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
 ;; Use server.
 (use-package server
   :config
@@ -625,6 +631,12 @@
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 
+(use-package npm-mode
+  ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
+  ;; :config
+  ;; (npm-global-mode)
+  )
+
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 (use-package compile
   :init
@@ -637,7 +649,7 @@
   ;; Add NodeJS error format
   (setq compilation-error-regexp-alist-alist
         ;; Tip: M-x re-builder to test this out
-        (cons '(node "^[  ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
+        (cons '(node "^[ ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
                            1 ;; file
                            2 ;; line
                            3 ;; column

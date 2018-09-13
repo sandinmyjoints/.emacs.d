@@ -104,6 +104,7 @@
     (packages-install
      (cons 'ido-completing-read+ melpa)
      (cons 'smex melpa)
+     (cons 'auto-compile melpa)
      (cons 'elpy elpy)
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'dash melpa-stable)
@@ -153,6 +154,8 @@
      (cons 'add-node-modules-path melpa)
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
+     (cons 'npm-mode melpa)
+     (cons 'yarn-mode melpa)
      (cons 'ein melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa-stable)
