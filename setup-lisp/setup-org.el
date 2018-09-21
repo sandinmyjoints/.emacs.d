@@ -50,7 +50,9 @@
 
 ;; Helpful: (org-reload)
 
-(setq org-src-window-setup 'current-window)
+(setq org-src-window-setup 'current-window
+      org-src-tab-acts-natively t
+      org-edit-src-content-indentation 0)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
