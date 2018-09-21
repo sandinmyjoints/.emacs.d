@@ -88,6 +88,19 @@
   ;; projectile-find-file-dwim is more generalized than projectile-find-file
   (define-key projectile-mode-map (kbd "C-c p g") 'projectile-find-file-dwim))
 
+(projectile-register-project-type 'npm '("package.json")
+				  :compile "npm install"
+				  :test "npm test"
+				  :run "npm start"
+          :src-dir "src"
+				  :test-dir "test")
+
+(projectile-register-project-type 'yarn '("yarn.lock")
+				  :compile "yarn"
+				  :test "npm test"
+				  :run "npm start"
+				  :test-dir "test")
+
 (provide 'setup-projectile)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
