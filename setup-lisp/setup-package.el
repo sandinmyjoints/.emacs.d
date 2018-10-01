@@ -196,6 +196,9 @@
      (cons 'paren-face melpa)
      (cons 'dumb-jump melpa)
 
+     (cons 'perl6-mode melpa)
+     (cons 'flycheck-perl6 melpa)
+
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs

@@ -146,7 +146,8 @@
       sh-mode
       yaml-mode
       python-mode
-      json-mode))
+      json-mode
+      perl6-mode))
   (global-flycheck-mode)
   :config
   (require 'setup-flycheck))
