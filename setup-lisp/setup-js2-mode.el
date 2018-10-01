@@ -104,6 +104,8 @@ If buffer is not visiting a file, do nothing."
         (nvm-use-for buffer-file-name)
       (error (message "%s" err))))))
 
+;; TODO: default nvm to be used at startup, before any project has been activated.
+
 (setq-default js2-basic-offset 2)
 (setq js2-dynamic-idle-timer-adjust 0
       ;; js2-dynamic-idle-timer-adjust 40000
@@ -228,12 +230,6 @@ project."
 ;; (add-hook 'js2-mode-hook #'setup-tide-mode)
 ;; configure javascript-tide checker to run after your default javascript checker
 ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
-
-;; (require 'lsp-javascript-typescript)
-;; Disabling for now because it can be slow. Not sure if it is
-;; respecting jsconfig.json or not. Run in individual buffers to enable.
-;; (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))

@@ -737,7 +737,9 @@
 (use-package knot-mode
   :mode "\\.knot\\'")
 
-(use-package lsp-mode)
+(use-package lsp-mode
+  :config
+  (setq lsp-project-blacklist '("neodarwin")))
 
 (use-package lsp-ui
   :config (setq lsp-ui-flycheck-enable 0
@@ -746,13 +748,35 @@
                 lsp-ui-doc-enable 0
                 lsp-ui-imenu-enable 1)
 
-  ;; Disabling this for now because the default ui stuff is kind of
-  ;; annoying. TODO: only select the UI things I want.
-  ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
-  ;; How to turn on sideline mode.
-  ;; (lsp-ui-sideline-enable)
-  )
+;; Caveats:
+;;
+;; - Not sure if it is respecting jsconfig.json or not.
+;;
+;; - In Neodarwin, got (lsp-timed-out-error), probably because the
+;;   repo is so big. So, Neodarwin is on the lsp blacklist.
+;;
+;; - TODO: defer starting lsp javascript server until nvm is figured
+;;   out.
+(use-package lsp-javascript-typescript
+  :config
+  (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
+  (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable))
+
+(use-package lsp-css
+  :config
+  (add-hook 'less-mode-hook #'lsp-less-enable))
+
+;; Disabled for now, until https://github.com/mads-hartmann/bash-language-server/issues/80 is fixed
+(use-package lsp-sh
+  :disabled
+  :config
+  (add-hook 'sh-mode-hook #'lsp-sh-enable))
+
+(use-package lsp-html
+  :config
+  (add-hook 'html-mode-hook #'lsp-html-enable))
 
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
@@ -848,8 +872,6 @@
                               '((inhibit-same-window . nil)
                                 (inhibit-switch-frame . t))))
         ))
-
-
 
 ;; (global-set-key (kbd ')
 
