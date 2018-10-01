@@ -110,7 +110,9 @@
      '(progn ,@body)))
 
 ;; For Emacs Lisp not available as submodule or package (e.g., windata.el).
+;; TODO: this package is not listed anymore -- what's up?
 (use-package auto-install
+  :disabled
   :config
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
