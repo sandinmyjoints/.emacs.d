@@ -864,6 +864,58 @@ dirtree-mode.
 ;; reset
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
 #+END_SRC
+** problem
+'epa-file' already enabled
+Decrypting /Users/william/.authinfo.gpg...done
+epa-file-insert-file-contents: Opening input file: Decryption failed,
+Decrypting /Users/william/.authinfo.gpg...done
+epa-file--find-file-not-found-function: Opening input file: Decryption failed,
+
+I think the problem is that a bad password is stored in gpg-agent, which is part
+of GPGTools.
+
+See
+https://unix.stackexchange.com/questions/71135/how-can-i-find-out-what-keys-gpg-agent-has-cached-like-how-ssh-add-l-shows-yo/342461#342461
+and https://demu.red/blog/2016/06/how-to-check-if-your-gpg-key-is-in-cache/
+
+I can see that my gpg key passphrases are in gpg-agent:
+#+BEGIN_SRC
+/usr/local $ gpg --fingerprint --with-keygrip william.bert@gmail.com
+pub   rsa2048 2013-05-30 [SCEA] [expires: 2020-08-23]
+      DCAF AC85 B9BC 9906 2005  936A 3837 B7C0 EC44 F56A
+      Keygrip = B60A813B74819BF15BF060B9C793B1ADB9445CFA
+uid           [ultimate] William Bert <william.bert@gmail.com>
+sub   rsa2048 2013-05-30 [SEA] [expires: 2020-08-23]
+      Keygrip = 02FF654EA26BCB8C445C841E721EB4497D4C1754
+sub   rsa2048 2017-01-25 [S] [expires: 2020-08-23]
+      Keygrip = A7A4A1094E9721242A41BBC7AAAF8FA98AA74DE4
+
+/usr/local $ export keygrip=A7A4A1094E9721242A41BBC7AAAF8FA98AA74DE4
+/usr/local $ echo "KEYINFO --no-ask $keygrip Err Pmt Des" | gpg-connect-agent
+S KEYINFO A7A4A1094E9721242A41BBC7AAAF8FA98AA74DE4 D - - - P - - -
+OK
+/usr/local $ export keygrip=B60A813B74819BF15BF060B9C793B1ADB9445CFA
+/usr/local $ echo "KEYINFO --no-ask $keygrip Err Pmt Des" | gpg-connect-agent
+S KEYINFO B60A813B74819BF15BF060B9C793B1ADB9445CFA D - - - P - - -
+OK
+#+END_SRC
+
+GPG agent config file:
+ls ~/.gnupg/gpg-agent.conf
+
+Send SIGHUP to clear cache (didn't fix problem):
+#+BEGIN_SRC bash
+/usr/local $ ps -ef|grep gpg-agent
+  501   448     1   0  2:19PM ??         0:00.01 /bin/bash /usr/local/MacGPG2/libexec/shutdown-gpg-agent
+  501 14750     1   0  3:06PM ??         0:03.36 gpg-agent --homedir /Users/william/.gnupg --use-standard-socket --daemon
+  501 33425  3433   0 10:25PM ttys037    0:00.00 grep gpg-agent
+/usr/local $ kill -s HUP 14750
+#+END_SRC
+
+FIX: the problem was that somehow .authinfo.gpg had been encrypted with gpg 1.4.
+I don't know how; I don't even know where the binary was located. The fix was to
+download and make gpg 1.4 myself, and use it to decrypt .authinfo.
+
 * bug https://github.com/joaotavora/yasnippet/commit/d3bb879356288ef38975fbf85947c7371b8c9759
 * How to build emacs-mac
   - see ~/dotfiles/dev/bin/emacs-mac-install

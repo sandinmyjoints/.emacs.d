@@ -486,11 +486,14 @@
 
 ;; (require 'lisp-stuff)
 
+(push '(:source "~/.emacs.d/.authinfo.gpg") auth-sources)
+
 ;; EPG.
 (use-package epa-file
   :defer t
   :config
-  (epa-file-enable))
+  (epa-file-enable)
+  (setenv "GPG_AGENT_INFO" nil))
 
 (use-package gitignore-mode
   :mode "\\.dockerignore\\'")
