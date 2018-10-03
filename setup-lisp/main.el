@@ -291,6 +291,14 @@
 ;; Magit.
 (use-package magit
   :bind (("C-x g" . magit-status))
+  :init
+  (mapc (lambda (hook)
+          (add-hook hook (lambda ()
+                           ;; Turn off smartscan
+                           (smartscan-mode -1))))
+        '(git-rebase-mode-hook
+          magit-mode-hook
+          magit-popup-mode-hook))
   :config
   (autoload 'magit-log "magit"))
 
@@ -447,6 +455,9 @@
   :init
   (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
 
+(use-package date-at-point
+  :ensure)
+
 ;; dims parens.
 (use-package paren-face
   :config
@@ -495,11 +506,43 @@
   (epa-file-enable)
   (setenv "GPG_AGENT_INFO" nil))
 
+(use-package smartscan
+  :config
+    (mapc (lambda (hook)
+          (add-hook hook (lambda ()
+                           ;; Turn off smartscan
+                           (smartscan-mode -1))))
+        '(git-rebase-mode-hook
+          magit-mode-hook
+          magit-popup-mode-hook
+          compilation-mode-hook))
+  (setq-default smartscan-symbol-selector "symbol")
+  (global-smartscan-mode 1))
+
 (use-package gitignore-mode
   :mode "\\.dockerignore\\'")
 
 (use-package dockerfile-mode
   :mode "Dockerfile-*")
+
+;; Highlight the current column in indentation-sensitive languages
+(use-package highlight-indentation
+  :commands highlight-indentation-current-column-mode
+  :diminish highlight-indentation-current-column-mode
+  :init
+  (mapc (lambda (hook)
+          (add-hook hook 'highlight-indentation-current-column-mode))
+        '(coffee-mode-hook
+          python-mode-hook
+          web-mode-hook
+          sass-mode-hook))
+  :config
+  ;; Just a bit lighter than the background
+  (require 'color)
+  (set-face-background 'highlight-indentation-current-column-face
+                       (color-lighten-name
+                        (face-attribute 'default :background) 15)))
+
 
 (use-package docker-compose-mode)
 

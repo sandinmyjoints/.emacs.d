@@ -137,6 +137,8 @@
      (cons 'header2 melpa)
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
+     (cons 'smartscan-mode melpa)
+     (cons 'date-at-point melpa)
      (cons 'company melpa)
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)
