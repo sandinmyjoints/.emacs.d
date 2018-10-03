@@ -833,8 +833,8 @@ I want inhibit-same-window to always be nil when display-buffer is called from
 dirtree-mode.
 * DONE bash command to open current directory
   CLOSED: [2018-06-03 Sun 22:31]
-  - [X] in dired
-  - [X] add to dirtree
+  - [X] in dired -- dired
+  - [X] add to dirtree -- dirtree
   - implemented as functions in bashrc
 * TODO packages to remove?
   - find-file-in-project
@@ -848,23 +848,28 @@ dirtree-mode.
   - skewer-mode
   - tern
   - company-tern
-* TODO hook up auth-sources to keychain
-  - https://emacs.stackexchange.com/questions/3869/mac-os-keychain-with-smtp-email-password#3872
-  - https://lists.gnu.org/archive/html/bug-gnu-emacs/2014-11/msg00805.html
-  - https://lists.gnu.org/archive/html/help-gnu-emacs/2014-11/msg00543.html
-  - https://www.gnu.org/software/emacs/manual/html_mono/auth.html
-#+BEGIN_SRC emacs-lisp
-;; test it
-(push 'macos-keychain-internet auth-sources)
-(push 'macos-keychain-generic auth-sources)
-(message (format "%s" (auth-source-search :label "github api token")))
+* TODO use auth-sources                                   :authinfo:security:
+** DONE .authinfo.gpg
+   - checked in crypttext
+** TODO hook up auth-sources to macOS keychain
+   - (it's already hooked up to gpg keychain)
+   - https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+   - https://emacs.stackexchange.com/questions/3869/mac-os-keychain-with-smtp-email-password#3872
+   - https://lists.gnu.org/archive/html/bug-gnu-emacs/2014-11/msg00805.html
+   - https://lists.gnu.org/archive/html/help-gnu-emacs/2014-11/msg00543.html
+   - https://www.gnu.org/software/emacs/manual/html_mono/auth.html
+ #+BEGIN_SRC emacs-lisp
+ ;; test it
+ (push 'macos-keychain-internet auth-sources)
+ (push 'macos-keychain-generic auth-sources)
+ (message (format "%s" (auth-source-search :label "github api token")))
 
-(message (format "%s" (auth-source-search :server "api.github.com")))
+ (message (format "%s" (auth-source-search :server "api.github.com")))
 
-;; reset
-(setq auth-sources '("~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
-#+END_SRC
-** problem
+ ;; reset
+ (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
+ #+END_SRC
+** DONE problem
 'epa-file' already enabled
 Decrypting /Users/william/.authinfo.gpg...done
 epa-file-insert-file-contents: Opening input file: Decryption failed,
@@ -872,7 +877,7 @@ Decrypting /Users/william/.authinfo.gpg...done
 epa-file--find-file-not-found-function: Opening input file: Decryption failed,
 
 I think the problem is that a bad password is stored in gpg-agent, which is part
-of GPGTools.
+of GPGTools. (this turned out not to be right; see below)
 
 See
 https://unix.stackexchange.com/questions/71135/how-can-i-find-out-what-keys-gpg-agent-has-cached-like-how-ssh-add-l-shows-yo/342461#342461
@@ -927,6 +932,7 @@ download and make gpg 1.4 myself, and use it to decrypt .authinfo.
   - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
   - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
 * Use:
+  - smartscan: M-p and M-n to move foward/backward to occurences of symbol at point
   - C-x left, C-x right: back/forward buffer
   - C-M-c exit-recursive-edit
   - markdown-preview-mode
@@ -1049,3 +1055,13 @@ local bindings in certain buffers.
     - .org file
     - README?
 * TODO see notes/references.org/wishlist
+* profiling running commands with smex
+#+BEGIN_QUOTE
+ad-Advice-ido-read-internal is a compiled Lisp function.
+
+(ad-Advice-ido-read-internal AD--ADDOIT-FUNCTION ITEM PROMPT HIST &optional
+DEFAULT REQUIRE-MATCH INITIAL)
+
+Before-advice 'flx-ido-reset':
+Clear flx narrowed hash beforehand.
+#+END_QUOTE
