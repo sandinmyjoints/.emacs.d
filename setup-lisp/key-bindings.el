@@ -32,6 +32,10 @@
 (global-set-key (kbd "H-_") 'undo)
 (global-set-key (kbd "H-k") 'kill-sexp)
 (global-set-key (kbd "H-s") 'save-buffer)
+
+(global-set-key (kbd "H-f") #'wjb/forward-symbol)
+(global-set-key (kbd "H-b") #'wjb/backward-symbol)
+
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.

@@ -588,6 +588,7 @@
   (setq-default web-mode-enable-current-element-highlight t)
   (require 'setup-webmode))
 
+(require 'setup-word)
 (require 'setup-markdown)
 (require 'setup-company)
 
