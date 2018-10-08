@@ -776,7 +776,10 @@
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
 ;;
-(when (require 'fill-column-indicator nil t)
+(use-package fci-mode
+  :disabled
+  :config
+  (require 'setup-fci)
   (setq fci-rule-color "#555")
 
   ;; Turn on fci for these modes:
