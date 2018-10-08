@@ -139,6 +139,8 @@
      (cons 'restclient melpa)
      (cons 'smartscan-mode melpa)
      (cons 'date-at-point melpa)
+     (cons 'recompile-on-save melpa)
+     (cons 'comment-dwim-2 melpa)
      (cons 'company melpa)
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)

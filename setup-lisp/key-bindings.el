@@ -151,6 +151,8 @@
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
 (global-set-key (kbd "M-]") 'switch-to-next-buffer)
 
+(global-set-key (kbd "M-;") #'comment-dwim-2)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Movement
 (global-set-key (kbd "M-{") 'windmove-left) ;; from Shift-left arrow
