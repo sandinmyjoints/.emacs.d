@@ -137,7 +137,7 @@
      (cons 'header2 melpa)
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
-     (cons 'smartscan-mode melpa)
+     (cons 'smartscan melpa)
      (cons 'date-at-point melpa)
      (cons 'recompile-on-save melpa)
      (cons 'comment-dwim-2 melpa)

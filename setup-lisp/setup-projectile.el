@@ -82,8 +82,10 @@
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-switch-project-action 'projectile-vc)
 
-;; fd is supposedly faster than find, but it might not be installed, so use it via dir-locals.
-;; (setq projectile-git-command "fd . -0")
+;; fd is supposedly faster than find, but it might not be installed,
+;; so better to use it via dir-locals. However, it keeps bugging me
+;; about it being a risky variable...
+(setq projectile-git-command "fd . -0")
 
 (defalias 'find-file-in-project 'projectile-find-file-dwim)
 ;;

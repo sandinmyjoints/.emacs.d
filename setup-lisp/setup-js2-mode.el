@@ -77,6 +77,10 @@
       (set (make-local-variable 'js2-mode-show-parse-errors) t)
       (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
   ;;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
+
+  ;; TODO: fix this
+  (load-file "~/.emacs.d/elisp/js-doc/js-doc.el")
+
   (add-hook 'js2-mode-hook #'(lambda ()
                                (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
                                (setq mode-name "JS2")
