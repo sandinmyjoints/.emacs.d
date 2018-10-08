@@ -847,6 +847,10 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   ;; update exec-path to the current PATH in the Emacs process.
   (exec-path-from-shell-copy-env "PATH"))
 
+;; Format markdown with prettier (>1.8.0)
+(fset 'format-markdown
+   [?\C-x ?h ?\C-u ?\M-| ?~ ?/ ?. ?y ?r ?n backspace backspace ?a ?r ?n ?/ ?b ?i ?n ?/ ?p ?r ?e ?t ?t ?i ?e ?r ?  ?- ?- ?p ?a ?r ?s ?e ?r ?  ?m ?a ?r ?k ?d ?o ?w ?n return ?\C-x ?\C-s])
+
 ;; from https://emacs.stackexchange.com/a/35683/2163
 (defun sqlparse-region (beg end)
   (interactive "r")
