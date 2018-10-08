@@ -77,6 +77,8 @@
         transpose-words
         whack-whitespace
         wjb-toggle-it-only
+        wjb/backward-symbol
+        wjb/forward-symbol
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle

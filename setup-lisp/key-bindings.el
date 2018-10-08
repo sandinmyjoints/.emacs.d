@@ -33,8 +33,11 @@
 (global-set-key (kbd "H-k") 'kill-sexp)
 (global-set-key (kbd "H-s") 'save-buffer)
 
-(global-set-key (kbd "H-f") #'wjb/forward-symbol)
-(global-set-key (kbd "H-b") #'wjb/backward-symbol)
+(global-set-key (kbd "H-f") #'forward-word)
+(global-set-key (kbd "H-b") #'backward-word)
+
+(global-set-key (kbd "M-f") #'wjb/forward-symbol)
+(global-set-key (kbd "M-b") #'wjb/backward-symbol)
 
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
