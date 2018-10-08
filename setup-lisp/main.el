@@ -171,6 +171,14 @@
 
 (autoload 'auto-make-header "header2")
 
+(defun auto-fill-comments ()
+  "Automatically fill comments, but nothing else"
+  (setq-local comment-auto-fill-only-comments t)
+  (setq truncate-lines nil))
+(add-hook 'prog-mode-hook 'auto-fill-comments)
+
+(use-package comment-dwim-2)
+
 (use-package smex
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
