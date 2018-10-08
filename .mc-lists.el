@@ -99,6 +99,7 @@
         end-of-buffer
         ido-find-file
         ido-switch-buffer
+        js2r-rename-var
         mac-mwheel-scroll
         mark-whole-buffer
         markdown-demote
