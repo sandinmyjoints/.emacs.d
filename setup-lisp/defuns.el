@@ -855,11 +855,6 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
    "python -c 'import sys, sqlparse; print(sqlparse.format(sys.stdin.read(), reindent=True, wrap_after=10))'"
    t t))
 
-(defun wjb/switch-to-compile-buffer ()
-  "switch to Compile-buffer"
-  (interactive)
-  (switch-to-buffer "*compilation*"))
-
 ;; TODO:
 ;; Mixpanel event parser
 ;; - extract data query param

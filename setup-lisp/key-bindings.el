@@ -166,6 +166,8 @@
 (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
 
 (global-set-key (kbd "C-x C-d") #'wjb/insert-date)
-(global-set-key (kbd "C-c ,") #'wjb/switch-to-compile-buffer)
+(global-set-key (kbd "C-c ,") #'wjb/switch-to-last-compilation-buffer)
+(global-set-key (kbd "<f5>") #'compile)
+(global-set-key [f6] #'recompile)
 
 (provide 'key-bindings)

@@ -348,7 +348,9 @@
 
 (setq auto-window-vscroll nil)
 
-(setq compile-command "npm test")
+(setq source-directory "/Users/william/scm/vendor/emacs-mac/src"
+      compile-command "npm test"
+      compilation-always-kill t)
 
 (provide 'sane-defaults)
 

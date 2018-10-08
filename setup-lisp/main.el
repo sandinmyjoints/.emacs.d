@@ -687,6 +687,9 @@
   ;; (npm-global-mode)
   )
 
+(defvar wjb/last-compilation-buffer nil
+  "The last buffer in which compilation took place.")
+
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 (use-package compile
   :init
@@ -723,13 +726,51 @@
     (ansi-color-apply-on-region compilation-filter-start (point))
     (read-only-mode -1))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+  (defun wjb/switch-to-last-compilation-buffer ()
+    "Switch to last compilation buffer."
+    (interactive)
+    (switch-to-buffer wjb/last-compilation-buffer))
+
+  (defun wjb/switch-to-compilation-buffer ()
+    "Switch to *compilation"
+    (interactive)
+    (switch-to-buffer "*compilation*"))
+
+  ;; from purcell
+  (defadvice compilation-start (after wjb/save-compilation-buffer activate)
+    "Save the compilation buffer to find it later."
+    (setq wjb/last-compilation-buffer next-error-last-buffer))
+
+  (defadvice recompile (around wjb/find-prev-compilation (&optional edit-command) activate)
+    "Find the previous compilation buffer, if present, and recompile there."
+    (if (and (null edit-command)
+             (not (derived-mode-p 'compilation-mode))
+             wjb/last-compilation-buffer
+             (buffer-live-p (get-buffer wjb/last-compilation-buffer)))
+        (with-current-buffer wjb/last-compilation-buffer
+          ad-do-it)
+      ad-do-it))
+
   :bind
   (("C-c <return>" . compile)
    ("C-c C-<return>" . recompile)))
-(global-set-key (kbd "C-c <return>") 'compile)
-(global-set-key (kbd "C-c C-<return>") 'recompile)
-(fset 'wjb/switch-to-compilation
-   [?\C-x ?b ?* ?c ?o ?m ?p ?i ?l ?a ?t ?i ?o ?n ?* return])
+
+;; (global-set-key (kbd "C-c <return>") 'compile)
+;; (global-set-key (kbd "C-c C-<return>") 'recompile)
+
+;; To (temporarily) disable automatic recompilation turn off
+;; (global-recompile-on-save-mode -1).
+;;
+;; To reset compilation buffers associations for current source buffer
+;; use M-x (reset-recompile-on-save).
+;;
+;; TODO: mesh this with --watch
+(use-package recompile-on-save
+  :disabled
+  :config
+  (recompile-on-save-advice compile)
+  (recompile-on-save-advice recompile))
 
 
 ;; Fill column indicator.
