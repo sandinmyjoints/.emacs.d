@@ -70,11 +70,15 @@
   ;; Copy vars in exec-path-from-shell-variables.
   ;; https://emacs.stackexchange.com/a/553/2163
   ;;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
+  (setq-default exec-path-from-shell-check-startup-file nil)
   (exec-path-from-shell-initialize))
 
-;; make sure path is correct when launched as application
-(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-(push "/usr/local/bin" exec-path)
+;; make sure path is correct when launched as application commenting
+;; these out; seems like I should not need them due to using
+;; exec-path-from-shell.
+;;
+;; (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+;; (push "/usr/local/bin" exec-path)
 
 ;; Move to trash when deleting stuff
 (setq delete-by-moving-to-trash t
