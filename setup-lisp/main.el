@@ -710,11 +710,19 @@
   ;; Add NodeJS error format
   (setq compilation-error-regexp-alist-alist
         ;; Tip: M-x re-builder to test this out
-        (cons '(node "^[ ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
+        ;; original:
+        ;; (cons '(node "^[ ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
+        ;; messing with it:
+        (cons '(node "at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
                            1 ;; file
                            2 ;; line
                            3 ;; column
+                           nil ;; type
+                           nil ;; hyperlink
+                           (1 compilation-error-face)
                            )
+                           ;; (2 compilation-error-face)
+                           ;; (3 compilation-error-face))
               compilation-error-regexp-alist-alist))
   (setq compilation-error-regexp-alist
         (cons 'node compilation-error-regexp-alist))
