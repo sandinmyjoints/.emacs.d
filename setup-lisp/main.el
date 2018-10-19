@@ -743,20 +743,28 @@
     (read-only-mode -1))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+  (defun wjb/switch-to-compilation-buffer ()
+    "Switch to *compilation*"
+    (interactive)
+    (switch-to-buffer "*compilation*"))
+
   (defun wjb/switch-to-last-compilation-buffer ()
     "Switch to last compilation buffer."
     (interactive)
     (switch-to-buffer wjb/last-compilation-buffer))
 
-  (defun wjb/switch-to-compilation-buffer ()
-    "Switch to *compilation"
+  (defun wjb/switch-to-last-grep-buffer ()
+    "Switch to last grep buffer."
     (interactive)
-    (switch-to-buffer "*compilation*"))
+    (switch-to-buffer wjb/last-grep-buffer))
 
-  ;; from purcell
+  ;; based on purcell
   (defadvice compilation-start (after wjb/save-compilation-buffer activate)
     "Save the compilation buffer to find it later."
-    (setq wjb/last-compilation-buffer next-error-last-buffer))
+    (when (s-contains? "compil" (buffer-name next-error-last-buffer) t)
+      (setq wjb/last-compilation-buffer next-error-last-buffer)
+    (when (s-contains? "grep" (buffer-name next-error-last-buffer) t)
+      (setq wjb/last-grep-buffer next-error-last-buffer))))
 
   (defadvice recompile (around wjb/find-prev-compilation (&optional edit-command) activate)
     "Find the previous compilation buffer, if present, and recompile there."
@@ -778,7 +786,7 @@
 ;; To (temporarily) disable automatic recompilation turn off
 ;; (global-recompile-on-save-mode -1).
 ;;
-;; To reset compilation buffers associations for current source buffer
+
 ;; use M-x (reset-recompile-on-save).
 ;;
 ;; TODO: mesh this with --watch
