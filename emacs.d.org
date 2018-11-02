@@ -422,11 +422,14 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
 * TODO Pivotal Tracker integration
 ** try https://github.com/jxa/pivotal-tracker
+   - https://github.com/emacs-pe/pivotal-tracker/commits/development
+   - https://github.com/emacs-pe/pivotal-tracker/commit/de40f942aed936c594d1512d8f4ac5eebb0f2bd1
    - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
    - https://github.com/emacsfodder/pivotal-tracker/tree/master
    - https://github.com/zph/pivotal-tracker/commits/master
 ** write org-walker, org-to-pt
    - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
+   - https://github.com/org-pivotal/org-pivotal
 ** ideal flow
    - org to plan, org exports to odt for import into google docs
      - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
@@ -1032,15 +1035,44 @@ local bindings in certain buffers.
   - https://www.emacswiki.org/emacs/CreatingYourOwnCompileErrorRegexp
   - https://benhollis.net/blog/2015/12/20/nodejs-stack-traces-in-emacs-compilation-mode/
 ** TODO fix face -- stop using underlining
-** TODO is --testLocationInResults doing anything?
+   - see https://emacs.stackexchange.com/a/15219/2163
+   - basically, adjust the regex match to change what is considered the
+     hyperlink (which is underlined)
+** DONE is --testLocationInResults doing anything?
+   CLOSED: [2018-10-08 Mon 11:46]
    - seems like I'm just getting the line number from the Error stack traces
-** TODO set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
+** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
+   CLOSED: [2018-10-08 Mon 11:47]
    - well, it is becoming file-local
    - but then i get the original one when i run tests from magit status buffer,
      or from a newly opened buffer in the project
    - make initial-compile-command that is in .dir-locals.el?
    - when are dir-locals evaluated?
 *** include linting/style checks
+** TODO use split-windows-horizontally and H-x n e to go to next-error
+   - would be best if node error regexp only matched the first line of the stack trace
+** TODO multi-compile
+   - https://github.com/ReanGD/emacs-multi-compile
+** TODO name compilation buffer sensibly -- bind compilation buffer to project
+   - *compilation-<project>*
+   - automatically clear buffer after a certain number of lines
+#+BEGIN_SRC emacs-lisp
+(defun my-make-room-for-new-compilation-buffer ()
+  "Renames existing *compilation* buffer to something unique so
+      that a new compilation job can be run."
+  (interactive)
+  (let ((cbuf (get-buffer "*compilation*"))
+        (more-cbufs t)
+        (n 1)
+        (new-cbuf-name ""))
+    (when cbuf
+      (while more-cbufs
+        (setq new-cbuf-name (format "*compilation%d*" n))
+        (setq n (1+ n))
+        (setq more-cbufs (get-buffer new-cbuf-name)))
+      (with-current-buffer cbuf
+        (rename-buffer new-cbuf-name)))))
+#+END_SRC
 ** TODO leverage watching
 ** TODO leverage jest patterns (eg, related to recent changes)
    - -t to match test name
