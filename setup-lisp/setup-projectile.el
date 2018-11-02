@@ -81,6 +81,8 @@
 
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-switch-project-action 'projectile-vc)
+(setq-default projectile-indexing-method 'alien)
+
 
 ;; fd is supposedly faster than find, but it might not be installed,
 ;; so better to use it via dir-locals. However, it keeps bugging me

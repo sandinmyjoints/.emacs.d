@@ -79,6 +79,7 @@
   (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote)
   (define-key markdown-mode-map (kbd "M-<down>") 'markdown-outline-next)
   (define-key markdown-mode-map (kbd "M-<up>") 'markdown-outline-previous)
+  (define-key markdown-mode-map (kbd "C-c <return>") 'markdown-follow-link-at-point)
   (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line))
 
 ;; Useful:
