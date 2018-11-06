@@ -352,6 +352,30 @@
       compile-command "npm test"
       compilation-always-kill t)
 
+;; C-] is abort-recursive-edit
+
+;; From: https://stackoverflow.com/a/39672208/599258
+(defun cancel-minibuffer-first (sub-read &rest args)
+    (let ((active (active-minibuffer-window)))
+        (if active
+                (progn
+                    ;; we have to trampoline, since we're IN the minibuffer right now.
+                    (apply 'run-at-time 0 nil sub-read args)
+                    (abort-recursive-edit))
+            (apply sub-read args))))
+
+(advice-add 'read-from-minibuffer :around #'cancel-minibuffer-first)
+
+;; from https://superuser.com/a/132454/93702
+(defun switch-to-minibuffer-window ()
+  "switch to minibuffer window (if active)"
+  (interactive)
+  (when (active-minibuffer-window)
+    (select-frame-set-input-focus (window-frame (active-minibuffer-window)))
+    (select-window (active-minibuffer-window))))
+(global-set-key (kbd "<f7>") 'switch-to-minibuffer-window)
+
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
