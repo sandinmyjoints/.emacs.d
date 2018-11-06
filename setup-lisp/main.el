@@ -689,6 +689,8 @@
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 
+(use-package helm-aws)
+
 (use-package npm-mode
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
   ;; :config
@@ -751,20 +753,23 @@
   (defun wjb/switch-to-last-compilation-buffer ()
     "Switch to last compilation buffer."
     (interactive)
-    (switch-to-buffer wjb/last-compilation-buffer))
+    (when wjb/last-compilation-buffer
+      (switch-to-buffer wjb/last-compilation-buffer)))
 
   (defun wjb/switch-to-last-grep-buffer ()
     "Switch to last grep buffer."
     (interactive)
-    (switch-to-buffer wjb/last-grep-buffer))
+    (when wjb/last-grep-buffer
+      (switch-to-buffer wjb/last-grep-buffer)))
 
   ;; based on purcell
   (defadvice compilation-start (after wjb/save-compilation-buffer activate)
     "Save the compilation buffer to find it later."
-    (when (s-contains? "compil" (buffer-name next-error-last-buffer) t)
-      (setq wjb/last-compilation-buffer next-error-last-buffer)
-    (when (s-contains? "grep" (buffer-name next-error-last-buffer) t)
-      (setq wjb/last-grep-buffer next-error-last-buffer))))
+    (let ((buf-name (buffer-name next-error-last-buffer)))
+      (when (s-contains? "compil" buf-name t)
+        (setq wjb/last-compilation-buffer next-error-last-buffer))
+      (when (s-contains? "grep" buf-name t)
+        (setq wjb/last-grep-buffer next-error-last-buffer))))
 
   (defadvice recompile (around wjb/find-prev-compilation (&optional edit-command) activate)
     "Find the previous compilation buffer, if present, and recompile there."
