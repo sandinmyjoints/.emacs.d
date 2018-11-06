@@ -61,13 +61,13 @@
         (display-time-mode)
       (display-time-mode -1))))
 
-(defun margin-0 ()
+(defun wjb/margin-0 ()
   "Give current window a left margin of 0 columns."
   (interactive)
   (set-window-margins
    (get-buffer-window (current-buffer)) 0 0))
 
-(defun margin-x ()
+(defun wjb/margin-x ()
   "Give current window a left margin of x columns."
   (interactive)
   (set-window-margins
