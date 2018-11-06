@@ -59,6 +59,7 @@
 ;;     (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)))
 
 ;; for convenience:
+;; (flycheck-inline-mode -1)
 ;; (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)
 
 ;; (when (display-graphic-p (selected-frame))

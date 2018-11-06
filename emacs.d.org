@@ -263,9 +263,10 @@ EOF
   - Revisit appearance.el and make sensible settings for a windowed display vs a
     terminal display
   - Is it better/easier not to use transparent background in Terminal?
-* DONE Try perspectives or eproject or...
+* DONE Try perspective or eproject or...
   CLOSED: [2017-03-09 Thu 21:57]
-  - https://github.com/nex3/perspective-el
+  - https://github.com/nex3/perspective-el -- tried it, perspective is not what
+    I want, it limits you to buffers and files within current project
   - https://github.com/jrockway/eproject
   - https://github.com/rdallasgray/project-persist
   - https://github.com/bbatsov/projectile
@@ -1077,15 +1078,6 @@ local bindings in certain buffers.
 ** TODO leverage jest patterns (eg, related to recent changes)
    - -t to match test name
 ** TODO leverage debugger
-* TODO purpose-mode
-  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
-  - for each repo, be able to jump to each of these:
-    - compilation buffer
-    - .rest file, http output
-    - magit status buffer
-    - root dired
-    - .org file
-    - README?
 * TODO see notes/references.org/wishlist
 * profiling running commands with smex
 #+BEGIN_QUOTE
@@ -1097,3 +1089,13 @@ DEFAULT REQUIRE-MATCH INITIAL)
 Before-advice 'flx-ido-reset':
 Clear flx narrowed hash beforehand.
 #+END_QUOTE
+* TODO purpose-mode
+  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
+  - for each repo, be able to jump to each of these:
+    - compilation buffer
+    - .rest file, http output
+    - magit status buffer
+    - root dired
+    - .org file
+    - README?
+* TODO try eyebrowse
