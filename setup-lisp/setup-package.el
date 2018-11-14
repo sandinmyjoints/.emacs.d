@@ -170,7 +170,7 @@
      (cons 'markdown-toc melpa)
      (cons 'diminish melpa-stable)
      (cons 'ob-sql-mode melpa)
-     (cons 'sqlformat melpa)
+     (cons 'sqlformat melpa) ;; requires sqlformat binary
      (cons 'less-css-mode melpa-stable)
      (cons 'smart-mode-line melpa-stable)
      (cons 'beacon melpa)

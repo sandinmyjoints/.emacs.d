@@ -75,6 +75,14 @@
    (sql . t)
    (ein . t)))
 
+;; alternative Org Babel backend for SQL:
+;; https://github.com/nikclayton/ob-sql-mode
+(use-package ob-sql-mode)
+
+(setq org-confirm-babel-evaluate
+      (lambda (lang body)
+        (not (string= lang "sql-mode"))))
+
 (setq org-html-table-row-tags
       (cons '(cond (top-row-p "<tr class=\"tr-top\">")
                    (bottom-row-p "<tr class=\"tr-bottom\">")
