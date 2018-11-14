@@ -130,7 +130,7 @@
      ;;
      ;; two different flycheck-inlines, though they are about to
      ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
-     (cons 'flycheck-inline melpa)
+     ;; (cons 'flycheck-inline melpa) ;; using my own fork.
      (cons 'pivotal-tracker melpa)
      (cons 'web-mode melpa-stable)
      ;; TODO: add css-comb and web-beautify
@@ -149,8 +149,7 @@
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
-     ;; using my own fork of this one:
-     ;; (cons 'js-doc melpa)
+     ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
      (cons 'js2-highlight-vars melpa)
      (cons 'lsp-javascript-typescript melpa)
@@ -162,10 +161,10 @@
      (cons 'add-node-modules-path melpa)
      (cons 'discover-js2-refactor melpa)
      (cons 'coffee-mode melpa)
-     ;; I have a fork of this in elisp
-     ;; (cons 'npm-mode melpa)
+     ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
      (cons 'ein melpa)
+     ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
