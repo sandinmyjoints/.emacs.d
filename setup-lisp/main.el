@@ -131,7 +131,13 @@
 (when (require 'so-long nil :noerror)
   (so-long-enable))
 
-(require 'vlf-setup)
+(use-package vlf
+  ;; put this in vlf-setup.el, L104:
+  ;; ((string-equal filename "TAGS")
+  ;;  (let ((large-file-warning-threshold nil))
+  ;;    (ad-do-it)))
+  :config
+  (require 'vlf-setup))
 
 (use-package flycheck
   :ensure t
