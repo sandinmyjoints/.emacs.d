@@ -626,7 +626,16 @@
   :ensure t
   :defer t
   :config
-  (require 'setup-coffee))
+  (require 'setup-coffee)
+  (defun wjb/paragraph-boundaries-for-coffee-mode ()
+    ;; paragraph-start from js2-mode:    "[ 	]*\\(//+\\|\\**\\)[ 	]*\\(@[[:alpha:]]+\\>\\|$\\)\\|^"
+    ;; paragraph-separate from js2-mode: "[ 	]*\\(//+\\|\\**\\)[ 	]*$\\|^"
+    ;;
+    ;; TODO: remove the parts that have to deal with forward slash,
+    ;; which isn't in Coffeescript comments.
+    (setq-local paragraph-start "[ 	]*\\(//+\\|\\#*\\)[ 	]*\\(@[[:alpha:]]+\\>\\|$\\)\\|^")
+    (setq-local paragraph-separate "[ 	]*\\(//+\\|\\#*\\)[ 	]*$\\|^"))
+  (add-hook 'coffee-mode-hook #'wjb/paragraph-boundaries-for-coffee-mode))
 
 (use-package discover
   :ensure t
