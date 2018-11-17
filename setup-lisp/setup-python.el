@@ -57,4 +57,16 @@
 (set-face-background 'highlight-indentation-face "#111")
 (defalias 'workon 'pyvenv-workon)
 
+;; from https://emacs.stackexchange.com/a/30970/2163
+
+(with-eval-after-load 'python
+  (defun python-shell-completion-native-try ()
+    "Return non-nil if can trigger native completion."
+    (let ((python-shell-completion-native-enable t)
+          (python-shell-completion-native-output-timeout
+           python-shell-completion-native-try-output-timeout))
+      (python-shell-completion-native-get-completions
+       (get-buffer-process (current-buffer))
+       nil "_"))))
+
 (provide 'setup-python)
