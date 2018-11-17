@@ -45,54 +45,48 @@
 ;;
 ;;; Code:
 
-;; Markdown
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-
-;; markdeep: http://casual-effects.com/markdeep/
-(add-to-list 'auto-mode-alist '("\\.md.html\\'" . gfm-mode))
-
-;; Based on http://stackoverflow.com/a/1680994
-
-;; https://github.com/michaelamie/markdown-mode-css/tree/master/css
-;; also see scm/vendor/markdown-css-theme
-;; also see https://markdowncss.github.io/
-(setq markdown-css-paths '("/Users/william/markdown-css/github-rhio.css")
-      markdown-list-indent-width 2
-      markdown-asymmetric-header t
-      markdown-fontify-code-blocks-natively t)
-
-;; (setq markdown-css-paths '("github-rhio.css"))
-
-;; markdown-live-mode
-;; TODO: point to better stylesheet!
-(setq markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
-
-(add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
-(add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
-(add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
-
-(after-load 'markdown-mode
-  (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote)
-  (define-key markdown-mode-map (kbd "M-<down>") 'markdown-outline-next)
-  (define-key markdown-mode-map (kbd "M-<up>") 'markdown-outline-previous)
-  (define-key markdown-mode-map (kbd "C-c <return>") 'markdown-follow-link-at-point)
-  (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line))
-
 ;; Useful:
-;; C-c C-s C-p - `markdown-pre-region'
+;; C-c C-s P      `markdown-pre-region'
 ;;                Indent the selected region 4 spaces to the right
 ;;                (code block formatting used on reddit, stackexchange, etc.)
 
 ;; from https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-markdown.el
 
 (use-package markdown-mode
-  :mode (("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode)
+         ("\\.text\\'" . gfm-mode)
+         ;; markdeep: http://casual-effects.com/markdeep/
+         ("\\.md.html\\'" . gfm-mode))
   :config
+  (add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
+  (add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
+  (add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
+  (add-to-list 'markdown-code-lang-modes  '("sql" . sql-mode))
+  (add-to-list 'markdown-code-lang-modes  '("sh" . shell-script-mode))
+
+  (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote)
+  (define-key markdown-mode-map (kbd "M-<down>") 'markdown-outline-next)
+  (define-key markdown-mode-map (kbd "M-<up>") 'markdown-outline-previous)
+  (define-key markdown-mode-map (kbd "C-c <return>") 'markdown-follow-link-at-point)
+  (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line)
+
+  ;; Generate a TOC from a markdown file: M-x markdown-toc-generate-toc
+  ;; This will compute the TOC at insert it at current position.
+  ;; Update existing TOC: C-u M-x markdown-toc-generate-toc
+  (use-package markdown-toc)
+
+  ;; https://github.com/michaelamie/markdown-mode-css/tree/master/css
+  ;; also see scm/vendor/markdown-css-theme
+  ;; also see https://markdowncss.github.io/
+  ;; markdown-live-mode
+  ;; TODO: point to better stylesheet!
+  (setq markdown-css-paths '("/Users/william/markdown-css/github-rhio.css")
+        markdown-list-indent-width 2
+        markdown-asymmetric-header t
+        markdown-fontify-code-blocks-natively t
+        markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
+
   (progn
     ;; Seamless editing of Markdown tables (allowed in GFM) using `orgtbl-mode'
     ;; http://stackoverflow.com/a/20912535/1219634
