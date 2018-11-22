@@ -131,6 +131,10 @@
 (when (require 'so-long nil :noerror)
   (so-long-enable))
 
+(use-package which-key
+  :config
+  (which-key-mode))
+
 (use-package vlf
   ;; put this in vlf-setup.el, L104:
   ;; ((string-equal filename "TAGS")

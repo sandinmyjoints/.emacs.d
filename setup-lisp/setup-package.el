@@ -168,6 +168,7 @@
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
+     (cons 'which-key-mode melpa)
      (cons 'diminish melpa-stable)
      (cons 'ob-sql-mode melpa)
      (cons 'sqlformat melpa) ;; requires sqlformat binary
