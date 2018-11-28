@@ -165,6 +165,7 @@
      (cons 'yarn-mode melpa)
      (cons 'ein melpa)
      ;; (cons 'helm-aws melpa) ;; using own fork.
+     (cons 'aws-snippets melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
