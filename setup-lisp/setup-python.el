@@ -41,6 +41,7 @@
      )))
 (ad-activate 'run-python)
 
+(setq-default python-fill-docstring-style 'django)
 
 (defun ipython ()
   (interactive)
