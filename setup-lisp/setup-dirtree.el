@@ -68,6 +68,8 @@
         (set-window-dedicated-p window t)
         ;; TODO: Resize more intelligently.
         (adjust-window-trailing-edge window -5 t)
+        (with-current-buffer "*dirtree*"
+          (setq-local window-size-fixed t))
         (cd "~/scm/sd")))))
 
 (autoload 'dirtree "dirtree" "Add directory to tree view")
