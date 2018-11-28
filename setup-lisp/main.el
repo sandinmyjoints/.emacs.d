@@ -925,13 +925,30 @@
   (setq lsp-project-blacklist '("neodarwin")))
 
 (use-package lsp-ui
-  :config (setq lsp-ui-flycheck-enable 0
-                lsp-ui-peek-enable 0
-                lsp-ui-sideline-enable 1
-                lsp-ui-doc-enable 0
-                lsp-ui-imenu-enable 1)
+  :config
+  (setq lsp-ui-flycheck-enable nil
+        lsp-ui-peek-enable nil
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-show-flycheck nil
+        lsp-ui-doc-enable nil
+        lsp-ui-imenu-enable nil
+        lsp-ui-sideline-ignore-duplicate t)
+  ;; (require 'lsp-ui-flycheck)
 
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  ;; once lsp-ui is registered as a checker, somehow it seems to stop
+  ;; other checkers from running. may be related to
+  ;; https://github.com/emacs-lsp/lsp-ui/issues/190 but when I checked
+  ;; the value of flycheck-checker, it was nil. So I don't understand
+  ;; how it is stopping other checkers. Here is how to disable lsp-ui:
+
+  ;; (setq flycheck-disabled-checkers (append '(lsp-ui) flycheck-disabled-checkers))
+
+  ;; Until it works better, instead of using lsp-ui always...
+  ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+  ;; just use it for a whitelist of modes.
+  (dolist (hook '(sh-mode-hook))
+    (add-hook hook 'lsp-ui-mode)))
 
 ;; Caveats:
 ;;
@@ -943,17 +960,18 @@
 ;; - TODO: defer starting lsp javascript server until nvm is figured
 ;;   out.
 (use-package lsp-javascript-typescript
+  :disabled
   :config
   (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
   (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable))
 
+;; TODO: this is not doing anything
+;; TODO: also use less for flycheck
 (use-package lsp-css
   :config
   (add-hook 'less-mode-hook #'lsp-less-enable))
 
-;; Disabled for now, until https://github.com/mads-hartmann/bash-language-server/issues/80 is fixed
 (use-package lsp-sh
-  :disabled
   :config
   (add-hook 'sh-mode-hook #'lsp-sh-enable))
 
