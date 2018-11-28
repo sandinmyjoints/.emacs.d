@@ -10,6 +10,18 @@
 ;;
 ;;; Code:
 
+;; Custom prefix-map:
+(define-prefix-command 'wjb-map)
+(global-set-key (kbd "C-x C-c") 'wjb-map)
+(define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
+(define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
+(define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+(define-key wjb-map (kbd "t") #'projectile-test-project)
+(define-key wjb-map (kbd "c") #'projectile-compile-project)
+(define-key wjb-map (kbd "s") (lambda ()
+                                (interactive)
+                                (pop-to-buffer "sd-standup.md")))
+
 ;; From https://gist.github.com/cataska/b1875754128853bfb139
 ;; Enables doing something like this, so H-x does the same thing as C-x:
 ;; (defkbalias (kbd "C-x") (kbd "H-x"))
