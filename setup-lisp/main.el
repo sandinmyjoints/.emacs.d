@@ -274,6 +274,7 @@
 
 (use-package ein
   :config
+  :disabled
   (require 'ein-loaddefs)
   (require 'ein-notebook)
   (require 'ein-subpackages)
