@@ -64,6 +64,7 @@
 (setq mac-function-modifier nil)
 (setq mac-right-command-modifier 'hyper)
 
+;; TODO try this instead: https://github.com/arouanet/path-helper
 (use-package exec-path-from-shell
   :ensure t
   :config
