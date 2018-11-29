@@ -162,6 +162,14 @@
       perl6-mode))
   (global-flycheck-mode)
   :config
+  (setq-default flycheck-display-errors-delay 0.8
+                flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+                flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc))
+  (setq flycheck-global-modes
+      '(not org-mode text-mode conf-mode restclient-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-status-emoji-mode 1)
+  (flycheck-inline-mode)
   (require 'setup-flycheck))
 
 (require 'wjb)

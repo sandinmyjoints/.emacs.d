@@ -45,20 +45,14 @@
 ;;
 ;;; Code:
 
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-display-errors-delay 0.8
-                flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-                flycheck-disabled-checkers (append '(javascript-jshint html-tidy python-pylint emacs-lisp-checkdoc) flycheck-disabled-checkers))
-  (flycheck-status-emoji-mode 1)
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-inline-mode))
 
 ;; Most basic way: flycheck errors in minibuffer (works in consoles).
 ;; (unless (display-graphic-p (selected-frame))
 ;;   (with-eval-after-load 'flycheck
+;;     (setq flycheck-display-errors-function 'flycheck-display-error-messages)
 ;;     (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)))
 
-;; for convenience:
+;; for convenience, to turn off inline-mode:
 ;; (flycheck-inline-mode -1)
 ;; (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)
 
@@ -77,9 +71,9 @@
 (defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
   "Adjust how often we check for errors based on if there are any.
 This lets us fix any errors as quickly as possible, but in a
-clean buffer we're an order of magnitude laxer about checking."
+clean buffer we're laxer about checking."
   (setq flycheck-idle-change-delay
-        (if flycheck-current-errors 0.5 5.0)))
+        (if flycheck-current-errors 0.5 2.0)))
 
 ;; Each buffer gets its own idle-change-delay because of the
 ;; buffer-sensitive adjustment above.
@@ -101,9 +95,6 @@ up before you execute another command."
 (eval-after-load 'flycheck
   '(custom-set-variables
     '(flycheck-temp-prefix ".flycheck")))
-
-(setq flycheck-global-modes
-      '(not org-mode text-mode conf-mode restclient-mode))
 
 (provide 'setup-flycheck)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
