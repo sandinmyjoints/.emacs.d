@@ -779,6 +779,26 @@ react-redux
  magit-branch-prefer-remote-upstream
  magit-remote-add-set-remote.pushDefault
  magit-auto-revert-mode
+** worktrees
+   - worktrees would work best as /scm/sd/neodarwin/primary, /scm/sd/neodarwin/other
+     - because .dir-locals.el and similar could exist at /scm/sd/neodarwin
+     - would switching to this break anything?
+   - new worktree:
+     - prefix with repo-name
+     - copy .dir-locals.el
+     - symlink local_notes
+     - yarn, because node_modules is not checked in
+     - local-development.js
+#+BEGIN_SRC sh
+# Run from inside primary tree. Assumes worktree is ../
+REPO=$(basename "$PWD")
+WORKTREE="$REPO-worktree"
+DEST="../$WORKTREE"
+echo Setting up worktree "$WORKTREE" in "$DEST"...
+cp .dir-locals.el jsconfig.json "$DEST"
+cp config/local* "$DEST/config/"
+ln -s "~/notes/$REPO.org" local_notes
+#+END_SRC
 
 
 * markdown

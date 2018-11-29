@@ -48,6 +48,8 @@
 (add-to-list 'magit-section-initial-visibility-alist '(unpulled . show))
 (add-to-list 'magit-section-initial-visibility-alist '(recent . hide))
 
+(add-hook 'magit-status-sections-hook 'magit-insert-worktrees)
+
 (setq magit-section-cache-visibility '(stashes untracked))
 
 (define-key magit-status-mode-map (kbd "M-u") 'magit-section-up)
