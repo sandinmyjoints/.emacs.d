@@ -363,7 +363,14 @@ EOF
     - https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
     - https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
 
+* setq vs setq-default
+  - from https://stackoverflow.com/a/18173666/599258tq-and-setq-default-in-emacs-lisp
+#+BEGIN_QUOTE
+If a variable is buffer-local, then setq sets its local value in the current
+buffer and setq-default sets the global default value.
 
+If a variable is not buffer-local, then setq and setq-default do the same thing.
+#+END_QUOTE
 * emacs.d
 * DONE init-local for machine-specific configs
   CLOSED: [2015-07-10 Fri 17:01]
@@ -1119,3 +1126,32 @@ Clear flx narrowed hash beforehand.
     - .org file
     - README?
 * TODO try eyebrowse
+* TODO PATH stuff
+  - exec-path-from-shell creates a login shell at startup and reads PATH from
+    it. Kind of a hack.
+  - https://github.com/arouanet/path-helper is an alternative that uses macOS's
+    own PATH infrastructure
+    - /etc/paths is default
+    - /etc/paths.d is for customization
+    - path_helper is a macOS utility that reads these files
+#+BEGIN_SRC sh
+ls -l /etc/paths
+cat /etc/paths
+#+END_SRC
+
+#+RESULTS:
+| -rw-r--r--@ | 1 | root | wheel | 30 | Mar | 11 | 2017 | /etc/paths |
+| /usr/bin    |   |      |       |    |     |    |      |            |
+| /bin        |   |      |       |    |     |    |      |            |
+| /usr/sbin   |   |      |       |    |     |    |      |            |
+| /sbin       |   |      |       |    |     |    |      |            |
+
+#+BEGIN_SRC sh
+ls -l /etc/paths.d
+#+END_SRC
+
+#+RESULTS:
+| total       | 24 |      |       |    |     |    |       |            |
+| -rw-r--r--@ |  1 | root | wheel | 13 | Oct | 26 |  2016 | 40-XQuartz |
+| -rw-r--r--@ |  1 | root | wheel | 23 | Jun |  4 | 03:13 | MacGPG2    |
+| -rw-r--r--@ |  1 | root | wheel | 20 | Sep | 26 |  2017 | TeX        |
