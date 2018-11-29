@@ -54,7 +54,10 @@
 
 
 ;; elpy
+;; elpy-module-flymake
+(setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
 (elpy-enable)
+
 (set-face-background 'highlight-indentation-face "#111")
 (defalias 'workon 'pyvenv-workon)
 
