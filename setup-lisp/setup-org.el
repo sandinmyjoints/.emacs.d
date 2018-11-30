@@ -50,9 +50,18 @@
 
 ;; Helpful: (org-reload)
 
-(setq org-src-window-setup 'current-window
-      org-src-tab-acts-natively t
-      org-edit-src-content-indentation 0)
+(use-package org-src
+  :ensure nil
+  :after org
+  :config
+  (setq-default
+   org-edit-src-content-indentation 0
+   org-edit-src-persistent-message t
+   org-src-tab-acts-natively t
+   ;; TODO try this out:
+   ;; org-src-window-setup 'reorganize-frame
+   org-src-window-setup 'current-window))
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 

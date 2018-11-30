@@ -246,12 +246,14 @@
   (setq dired-listing-switches "-lahp"
         dired-dwim-target t
         dired-recursive-copies 'always)
-  (use-package dired+
-    :config
-    (require 'dired+)
-    (toggle-diredp-find-file-reuse-dir 1)
-    (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
-    (setq diredp-hide-details-propagate-flag t)))
+  )
+(use-package dired+
+  :after dired
+  :config
+  (require 'dired+)
+  (toggle-diredp-find-file-reuse-dir 1)
+  (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
+  (setq diredp-hide-details-propagate-flag t))
 
 (use-package ediff
   :init
