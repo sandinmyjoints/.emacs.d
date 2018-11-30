@@ -387,6 +387,14 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
     - packages-install
     - https://www.reddit.com/r/emacs/comments/56fvgd/is_there_a_way_to_stop_emacs_from_adding_the/
     - https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
+* TODO use more of use-package
+  - :preface -- good place for custom defuns
+  - :after -- dependent packages
+  - :defines
+  - :functions
+  - :delight -- diminish
+  - https://github.com/jwiegley/use-package#add-preface-occurring-before-everything-except-disabled
+  - https://www.reddit.com/r/emacs/comments/6i7ha2/usepackage_for_a_dependency_or_not_setq_options/
 * TODO package-initialize can be delayed until after main.el
 * TODO fresh .emacs.d installs all needed packages
 * TODO portable .emacs.d
@@ -836,6 +844,7 @@ ln -s "~/notes/$REPO.org" local_notes
   - http://gongzhitaao.org/dotemacs/
   - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
   - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
+  - https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org (literate)
 * TODO Switch from smex to amx
   - https://github.com/DarwinAwardWinner/amx
 * TODO Edit with Emacs OS X service
