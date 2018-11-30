@@ -88,7 +88,7 @@
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
-(defun wjb/theme ()
+(defun wjb/customize-gruvbox ()
   (interactive)
   ;; ...but with keywords gray instead of red.
   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
@@ -107,7 +107,7 @@
                        (color-lighten-name
                         (face-attribute 'default :background) 15)))
 
-(defalias 'wjb-theme #'wjb/theme)
+(defalias 'wjb-theme #'wjb/customize-gruvbox)
 
 
 (defun change-theme (&rest args)
@@ -133,12 +133,13 @@
 ;; applications.
 ;;
 (use-package gruvbox-theme
+  :defer 1
   :ensure t
   :config
   (change-theme 'gruvbox-dark-hard t)
   (set-face-background 'markdown-code-face "#000")
   (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
-  (wjb-theme))
+  (wjb/customize-gruvbox))
 
 (provide 'appearance)
 
