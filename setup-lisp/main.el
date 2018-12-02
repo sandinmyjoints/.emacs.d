@@ -179,8 +179,9 @@
   :config
   (setq css-indent-offset 2))
 
-(use-package elisp-mode
+(use-package emacs-lisp-mode
   :diminish eldoc-mode
+  :mode "abbrev_defs"
   :config
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
@@ -278,8 +279,12 @@
   :diminish auto-revert-mode)
 
 (use-package abbrev
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
+  ;; (list-abbrevs)
   :init
+  (add-hook 'fundamental-mode 'abbrev-mode)
   (add-hook 'text-mode-hook 'abbrev-mode)
+  (add-hook 'markdown-mode-hook 'abbrev-mode)
   :diminish abbrev-mode)
 
 (use-package ein
