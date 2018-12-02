@@ -308,16 +308,15 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
   :diminish visual-line-mode
   :config
-  (setq org-src-fontify-natively t)
-  (setq org-log-done t)
-  (setq org-clock-persist 'history)
-  (setq org-blank-before-new-entry
-        '((heading . nil) (plain-list-item . nil))) ;; can switch back to auto soon
-  (setq org-todo-keywords
-        '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE")))
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-completion-use-ido t)
-  (setq org-return-follows-link t)
+  (setq org-src-fontify-natively t
+        org-catch-invisible-edits 'smart
+        org-log-done t
+        org-clock-persist 'history
+        org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)) ;; can switch back to auto soon
+        org-todo-keywords '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE"))
+        org-outline-path-complete-in-steps nil
+        org-completion-use-ido t
+        org-return-follows-link t)
   (require 'setup-org)
   ;; Load ODT backend to allow for exporting to open document format.
   (require 'ox-odt))
