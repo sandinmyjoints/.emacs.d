@@ -606,6 +606,8 @@
   :mode "credentials$"
   "pylintrc"
   "ads.txt"
+  "robots.txt"
+  "requirements.txt"
   "\\.htaccess"
   "\\.curlrc"
   "\\..*rc\\'")
