@@ -169,7 +169,7 @@
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
-     (cons 'which-key-mode melpa)
+     (cons 'which-key melpa)
      (cons 'diminish melpa-stable)
      (cons 'ob-sql-mode melpa)
      (cons 'sqlformat melpa) ;; requires sqlformat binary
@@ -207,6 +207,7 @@
      (cons 'wgrep melpa)
      (cons 'paren-face melpa)
      (cons 'dumb-jump melpa)
+     (cons 'pcre2el melpa)
 
      (cons 'perl6-mode melpa)
      (cons 'flycheck-perl6 melpa)
