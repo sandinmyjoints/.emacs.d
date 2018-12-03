@@ -647,7 +647,8 @@
   :ensure t
   :defer t
   :config
-  (beginend-global-mode))
+  (beginend-global-mode)
+  (diminish 'beginend-global-mode))
 
 (use-package dotenv-mode
   :mode "\\.env\\'")
