@@ -554,6 +554,14 @@
           magit-mode-hook
           magit-popup-mode-hook
           compilation-mode-hook))
+    (mapc (lambda (hook)
+          (add-hook hook (lambda ()
+                           ;; Turn off smartscan
+                           (setq smartscan-symbol-selector "word"))))
+        '(text-mode-hook
+          fundamental-mode-hook
+          org-mode-hook))
+  ;; TODO: smartscan should use select "word" in comments!
   (setq-default smartscan-symbol-selector "symbol")
   (global-smartscan-mode 1))
 
@@ -607,7 +615,7 @@
   "pylintrc"
   "ads.txt"
   "robots.txt"
-  "requirements.txt"
+  "requirements.*.txt"
   "\\.htaccess"
   "\\.curlrc"
   "\\..*rc\\'")

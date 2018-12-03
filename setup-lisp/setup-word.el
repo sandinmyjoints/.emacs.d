@@ -45,6 +45,28 @@
 ;;
 ;;; Code:
 
+;;; # Navigation by units
+;; - top-level: https://www.gnu.org/software/emacs/manual/html_node/emacs/Text.html#Text
+;; - characters
+;; - subwords
+;; - words
+;; - sexps
+;; - sentences
+;; - defuns
+;; - paragraphs
+;; - pages
+;;
+;; - chars: C-f and C-b
+;; - subword: H-f and H-b (what defines a subword?).
+;;   - note: cc-mode has c-kill-subword and friends: https://www.gnu.org/software/emacs/manual/html_node/ccmode/Subword-Movement.html
+;; - word: M-f and M-b (what word is depends on whether superword, subword, or neither is active).
+;;   - M-d is delete-word. But M-k is kill-sentence
+;; - symbol: (use the symbols defuns from eddie's config below but what keybindings?)
+;;   - *this* symbol: M-n and M-p (via smartscan) -- distinction between forward/backward and next/previous, because it's this symbol not a symbol
+;; - sentence: M-k is kill-sentence. C-x delete is backward-kill-sentence.
+;; - sexp: C-M f and C-M b. C-M k is kill-sexp. C-M backspace is backward-kill-sexp.
+;; - defun: H-0 is beginning-of-defun. H-9 is end-of-defun. could there be a next-defun?
+;;
 
 ;; background: https://stackoverflow.com/questions/18675201/alternative-to-forward-word-backward-word-to-include-symbols-e-g#18675636
 ;; basically, this will add * as being part of a word
@@ -56,15 +78,10 @@
 ;; cons:
 ;; - deletion of segments of an identifier doesn't work well
 ;;
+
 ;; ideal would be to have subword-kill be available to do this;
 ;; however, it's deleting the whole thing too.
-;; - chars: C-f and C-b
-;; - sub: H-f and H-b (what defines a subword?)
-;; - word: M-f and M-b (what word is depends on whether superword, subword, or neither is active)
-;; - symbol: (use the symbols defuns from eddie's config below but what keybindings)
-;; - this symbol: M-n and M-p (via smartscan) -- distinction between forward/backward and next/previous, because it's this symbol not a symbol
-;; - sexp: C-M f and C-M b
-;; - defun: could there be a next-defun?
+;;
 ;; - how can I make subwords be what I want them to be?
 ;; - what modes should use subword? javascript?
 ;; - what modes should use superword? python? text?
@@ -97,34 +114,36 @@
 ;; jsAndRuby use camelCase
 ;; JavaUses PascalCase NSString GtkWindow
 
-;; I think what I want is global-subword-mode, thus enabling navigation within words using -word commands, but "over" words (symbols) with symbol commands.
+;; I think what I want is global-subword-mode, thus enabling
+;; navigation within words using -word commands, but "over" words
+;; (symbols) with higher-level symbol commands.
 (global-subword-mode 1)
 
 ;; (global-superword-mode 1)
 
 ;; based on https://github.com/eddieh/eddie/blob/4cb3ba6af6d750eb7b4bfce38fcb13850f5d7afa/init.el
 ;;
-;; this uses superword to always navigate a symbol, regardless of
-;; whether superword or subword was on. it restores them when done.
 (defun wjb/forward-symbol (&optional arg)
-  ""
+  "Uses superword to always navigate a symbol, regardless of
+whether superword or subword mode was on. It restores their state
+when done."
   (interactive "^p")
   (let ((subword-mode-was-on
-	 (if (and (boundp 'subword-mode) subword-mode) 1 -1))
-	(superword-mode-was-on
-	 (if (and (boundp 'superword-mode) superword-mode) 1 -1)))
+	       (if (and (boundp 'subword-mode) subword-mode) 1 -1))
+	      (superword-mode-was-on
+	       (if (and (boundp 'superword-mode) superword-mode) 1 -1)))
     (superword-mode 1)
     (subword-forward arg)
     (subword-mode subword-mode-was-on)
     (superword-mode superword-mode-was-on)))
 
 (defun wjb/backward-symbol (&optional arg)
-  ""
+  "Like wjb/forward-symbol but backward."
   (interactive "^p")
   (let ((subword-mode-was-on
-	 (if (and (boundp 'subword-mode) subword-mode) 1 -1))
-	(superword-mode-was-on
-	 (if (and (boundp 'superword-mode) superword-mode) 1 -1)))
+	       (if (and (boundp 'subword-mode) subword-mode) 1 -1))
+	      (superword-mode-was-on
+	       (if (and (boundp 'superword-mode) superword-mode) 1 -1)))
     (superword-mode 1)
     (subword-backward arg)
     (subword-mode subword-mode-was-on)

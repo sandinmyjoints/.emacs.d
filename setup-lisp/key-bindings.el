@@ -13,11 +13,37 @@
 ;; Custom prefix-map:
 (define-prefix-command 'wjb-map)
 (global-set-key (kbd "C-x C-c") 'wjb-map)
+;; TODO: more #'wjb/ defuns:
+;; - switch-to-restclient -- local_notes/<project name>.rest
+;; - deploy-project
 (define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
 (define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
 (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile section
+;;
+;; #+BEGIN_SRC
+;; C-c p C  = Configure project = ?
+;; C-c p c  = Compile project = build artifacts = npm run dev:build
+;; C-c p P  = Test Project = run tests = npm run test --colors --watch
+;; C-c p u  = Run project = start server = npm start
+;; C-c p t  = projectile-toggle-between-implementation-and-test ** set up and figure out how to use these!
+;; C-c p T  = projectile-find-test-file
+;; C-c p f  = projectile-find-file
+;; C-c p g  = projectile-find-file-dwim
+;; ?        = projectile-repeat-last-command
+;;
+;; C-c n v  = package.json
+;; #+END_SRC
+
 (define-key wjb-map (kbd "t") #'projectile-test-project)
+;; - projectile-configure-project
+;; - projectile-run-project
+;; what does compile typically do, vs run?
 (define-key wjb-map (kbd "c") #'projectile-compile-project)
+;; run = start
+(define-key wjb-map (kbd "r") #'projectile-run-project)
 (define-key wjb-map (kbd "s") (lambda ()
                                 (interactive)
                                 (pop-to-buffer "sd-standup.md")))
@@ -43,6 +69,9 @@
 
 (global-set-key (kbd "H-_") 'undo)
 (global-set-key (kbd "H-k") 'kill-sexp)
+;; H-d should be backward-kill-subword, but that doesn't exist
+(global-set-key (kbd "H-d") 'backward-kill-word) ;; or backward-kill-sexp?
+(global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (global-set-key (kbd "H-s") 'save-buffer)
 
 (global-set-key (kbd "H-f") #'forward-word)
@@ -55,7 +84,8 @@
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
-(global-set-key (kbd "H-a") 'company-complete)
+(global-set-key (kbd "H-a") #'wjb/switch-to-dirtree)
+(global-set-key (kbd "H-c") 'company-complete)
 
 (global-set-key (kbd "C-<return>") 'goto-address-at-point)
 
@@ -67,7 +97,7 @@
 (global-set-key [H-up] 'beginning-of-defun)
 (global-set-key (kbd "H-1") 'beginning-of-defun)
 (global-set-key [H-down] 'end-of-defun)
-(global-set-key (kbd "H-2") 'end-of-defun)
+(global-set-key (kbd "H-9") 'end-of-defun)
 
 (global-set-key (kbd "C-x C-c") nil)
 (global-unset-key (kbd "C-z")) ;; Don't suspend that easily.

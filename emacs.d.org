@@ -349,7 +349,12 @@ EOF
 * TODO fix recursive editing -- seems to be broken
 * TODO Master regexp syntax
   - use rx: http://www.emacswiki.org/emacs/rx to build regexps
-  - pcre2el: https://github.com/joddie/pcre2el
+  - even better: pcre2el: https://github.com/joddie/pcre2el
+    - usage: https://github.com/joddie/pcre2el#use-from-lisp
+    - re-builder support: https://github.com/joddie/pcre2el#re-builder-support
+#+BEGIN_SRC
+
+#+END_SRC
 * TODO Window and frame restore. See:
   - Seems
   - https://github.com/emacs-mirror/emacs/blob/master/lisp/frameset.el in Emacs 24.4
