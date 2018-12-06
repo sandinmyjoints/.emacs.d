@@ -58,6 +58,7 @@
    org-edit-src-content-indentation 0
    org-edit-src-persistent-message t
    org-src-tab-acts-natively t
+   org-export-with-sub-superscripts '{}
    ;; TODO try this out:
    ;; org-src-window-setup 'reorganize-frame
    org-src-window-setup 'current-window))
