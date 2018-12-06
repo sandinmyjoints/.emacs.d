@@ -88,13 +88,14 @@
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
+(defvar wjb/default-cursor-color "#30F0F0")
 (defun wjb/customize-gruvbox ()
   (interactive)
   ;; ...but with keywords gray instead of red.
   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; ...but with face-background set to near black
   (set-face-background 'default "#000")
-  (set-cursor-color "#30F0F0")
+  (set-cursor-color wjb/default-cursor-color)
   ;; #504945
   (set-face-background 'region "#2d3d45")
 
@@ -141,6 +142,23 @@
   (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
   (wjb/customize-gruvbox))
 
+;; Change cursor color according to mode.
+;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
+(defvar wjb/set-cursor-color-color "")
+(defvar wjb/set-cursor-color-buffer "")
+(defun wjb/set-cursor-color-according-to-mode ()
+  "change cursor color according to some minor modes."
+  ;; set-cursor-color is somewhat costly, so we only call it when needed:
+  (let ((color
+         (if buffer-read-only "white"
+           (if overwrite-mode "red"
+             wjb/default-cursor-color))))
+    (unless (and
+             (string= color wjb/set-cursor-color-color)
+             (string= (buffer-name) wjb/set-cursor-color-buffer))
+      (set-cursor-color (setq wjb/set-cursor-color-color color))
+      (setq wjb/set-cursor-color-buffer (buffer-name)))))
+(add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
 (provide 'appearance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
