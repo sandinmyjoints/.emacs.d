@@ -547,17 +547,18 @@
 
 (use-package smartscan
   :config
-    (mapc (lambda (hook)
+  ;; Turn off smartscan in these modes.
+  (mapc (lambda (hook)
           (add-hook hook (lambda ()
-                           ;; Turn off smartscan
                            (smartscan-mode -1))))
         '(git-rebase-mode-hook
           magit-mode-hook
           magit-popup-mode-hook
           compilation-mode-hook))
-    (mapc (lambda (hook)
+
+  ;; Use word instead of symbol in these modes.
+  (mapc (lambda (hook)
           (add-hook hook (lambda ()
-                           ;; Turn off smartscan
                            (setq smartscan-symbol-selector "word"))))
         '(text-mode-hook
           fundamental-mode-hook
