@@ -1170,3 +1170,47 @@ ls -l /etc/paths.d
 | -rw-r--r--@ |  1 | root | wheel | 13 | Oct | 26 |  2016 | 40-XQuartz |
 | -rw-r--r--@ |  1 | root | wheel | 23 | Jun |  4 | 03:13 | MacGPG2    |
 | -rw-r--r--@ |  1 | root | wheel | 20 | Sep | 26 |  2017 | TeX        |
+* TODO ido-switch-buffer qualified with org-mode only
+  - want to choose among only org-mode buffers
+  - possibly helpful: https://stackoverflow.com/questions/22808844/emacs-switch-buffer-per-window
+  - https://www.reddit.com/r/emacs/comments/8e8bhv/how_do_you_manage_and_switch_between_multiple/
+#+BEGIN_QUOTE
+ido-switch-buffer is an interactive autoloaded compiled Lisp function in
+'ido.el'.
+
+It is bound to C-x b, <menu-bar> <buffer> <select-named-buffer>.
+
+(ido-switch-buffer)
+
+Switch to another buffer.
+The buffer is displayed according to 'ido-default-buffer-method' -- the
+default is to show it in the same window, unless it is already visible
+in another frame.
+
+As you type in a string, all of the buffers matching the string are
+displayed if substring-matching is used (default).  Look at
+'ido-enable-prefix' and 'ido-toggle-prefix'.  When you have found the
+buffer you want, it can then be selected.  As you type, most keys have
+their normal keybindings, except for the following:
+
+RET	Select the buffer at the front of the list of matches.
+	If the list is empty, possibly prompt to create new buffer.
+
+C-j	Use the current input string verbatim.
+
+C-s	Put the first element at the end of the list.
+C-r	Put the last element at the start of the list.
+TAB	Complete a common suffix to the current string that matches
+	all buffers.  If there is only one match, select that buffer.
+	If there is no common suffix, show a list of all matching buffers
+	in a separate window.
+C-e	Edit input string.
+C-x C-b	Fallback to non-ido version of current command.
+C-t	Toggle regexp searching.
+C-p	Toggle between substring and prefix matching.
+C-c	Toggle case-sensitive searching of buffer names.
+?	Show list of matching buffers in separate window.
+C-x C-f	Drop into 'ido-find-file'.
+C-k	Kill buffer at head of buffer list.
+C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
+#+END_QUOTE
