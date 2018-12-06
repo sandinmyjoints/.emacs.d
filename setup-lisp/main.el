@@ -806,7 +806,8 @@
   ;; Make *compilation* buffer use visual-line-mode
   ;; TODO: make a key binding for turning vlmode on and off
   (add-hook 'compilation-mode-hook
-            (lambda () (visual-line-mode 1)))
+            (lambda () (visual-line-mode 1)
+              (npm-mode 1)))
 
   (add-hook 'compilation-minor-mode-hook
             (lambda () (visual-line-mode 1)))
