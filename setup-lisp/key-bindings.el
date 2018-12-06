@@ -214,7 +214,10 @@
 
 (global-set-key (kbd "C-x C-d") #'wjb/insert-date)
 (global-set-key (kbd "C-c ,") #'wjb/switch-to-last-compilation-buffer)
+(global-set-key (kbd "C-c C-,") #'wjb/switch-to-last-compilation-buffer)
 (global-set-key (kbd "C-c .") #'wjb/switch-to-last-grep-buffer)
+(global-set-key (kbd "C-c C-.") #'wjb/switch-to-last-grep-buffer)
+
 (global-set-key (kbd "<f5>") #'compile)
 (global-set-key [f6] #'recompile)
 
