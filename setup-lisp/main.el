@@ -766,6 +766,21 @@
   ;; (npm-global-mode)
   )
 
+;; See:
+;; - comint-output-filter-functions
+;; - comint-preoutput-filter-functions
+;;
+;; Ref: https://www.reddit.com/r/emacs/comments/3scsak/incredibly_slow_comint_eg_shell_compile_output_on/
+;;
+;; comint-strip-ctrl-m
+(use-package comint
+  :config
+  (add-hook 'comint-mode-hook
+            (lambda ()
+              (toggle-truncate-lines 1)
+              (make-local-variable 'jit-lock-defer-timer)
+              (set (make-local-variable 'jit-lock-defer-time) 0.25))))
+
 (defvar wjb/last-compilation-buffer nil
   "The last buffer in which compilation took place.")
 
@@ -815,6 +830,7 @@
   ;; Allow color in compilation buffers.
   ;; From https://stackoverflow.com/a/20788581/599258
   ;; Possibly more efficient than the old technique.
+  ;; additional reference: http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
   (ignore-errors
     (require 'ansi-color)
     (defun wjb/colorize-compilation-buffer ()
