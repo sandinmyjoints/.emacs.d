@@ -977,6 +977,7 @@ download and make gpg 1.4 myself, and use it to decrypt .authinfo.
   - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
   - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
 * Use:
+  - writable-grep mode: press w in grep buffer
   - smartscan: M-p and M-n to move foward/backward to occurences of symbol at point
   - C-x left, C-x right: back/forward buffer
   - C-M-c exit-recursive-edit

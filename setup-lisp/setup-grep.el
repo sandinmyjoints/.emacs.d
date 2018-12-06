@@ -214,6 +214,8 @@
     (let ((my-inhibit-set-window-dedicated t))
       (apply orig-fun args))))
 
+(use-package wgrep
+  :after grep)
 
 ;; ag
 ;;(when (executable-find "ag")
