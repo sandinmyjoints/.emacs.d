@@ -53,7 +53,47 @@
 (use-package js2-refactor
   :config
   (js2r-add-keybindings-with-prefix "H-c")
-  (js2r-add-keybindings-with-prefix "H-r"))
+  (js2r-add-keybindings-with-prefix "H-r")
+  ;; hack to my liking
+  (defun wjb/js2r-log-this (arg)
+    "Log of the node at point, adding a 'console.log()' statement.
+Unless a prefix argument ARG, use JSON pretty-printing for logging."
+    (interactive "P")
+    (js2r--guard)
+    (js2r--wait-for-parse
+     (let* ((log-info (js2r--figure-out-what-to-log-where))
+	          (stmt (car log-info))
+	          (pos (cdr log-info)))
+       (save-excursion
+         (goto-char pos)
+         (when (looking-at "[;{]")
+	         (forward-char 1))
+         (newline-and-indent)
+         (unless arg
+	         (progn (insert "console.log('DEBUG ' + '" stmt " = ');")
+		              (newline-and-indent)
+		              (insert "console.dir(" stmt ", { depth: null, colors: true });"))
+	         ;; (insert "console.log('DEBUG ' + '" stmt " = ', " stmt ");")
+           (insert "")
+           )))))
+  (defalias 'js2r-log-this #'wjb/js2r-log-this)
+
+  (defun wjb/js2r-debug-this ()
+    "Debug the node at point, adding a 'debug()' statement."
+    (interactive)
+    (js2r--guard)
+    (js2r--wait-for-parse
+     (let* ((log-info (js2r--figure-out-what-to-log-where))
+	          (stmt (car log-info))
+	          (pos (cdr log-info)))
+       (save-excursion
+         (goto-char pos)
+         (when (looking-at "[;{]")
+	         (forward-char 1))
+         (newline-and-indent)
+         (insert "debug(" (js2r--wrap-text stmt " = %s") ", " stmt ");")))))
+  (defalias 'js2r-debug-this #'wjb/js2r-debug-this)
+  )
 
 (after-load 'js2-mode
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
