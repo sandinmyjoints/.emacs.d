@@ -779,6 +779,11 @@
   (setq compilation-save-buffers-predicate '(lambda () nil))
   :config
   ;; Add NodeJS error format
+  ;; TODO:
+  ;; - rewrite using pcre2el
+  ;; - can it be optimized so compilation buffers use less cpu?
+  ;;   - optimize regex
+  ;;   - run on fewer lines?
   (setq compilation-error-regexp-alist-alist
         ;; Tip: M-x re-builder to test this out
         ;; original:
@@ -1132,7 +1137,7 @@
 ;;
 ;; (setq debug-on-quit nil)
 ;;
-; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
+;; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
 ;; (eval-after-load "grep"
 ;;   '(progn
 ;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
@@ -1140,3 +1145,6 @@
 ;;      ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
+;; TODO: am I handling safe-local-variable-values in a sensible way?
+;; look at purcell, etc.
+
