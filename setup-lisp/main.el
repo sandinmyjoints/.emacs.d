@@ -65,14 +65,14 @@
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
 (if (require 'cl-lib nil t)
-  ;; Madness: cl-block-wrapper was an alias for identity in 24.2, then it was
-  ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
-  ;; wants cl-block-wrapper when running 24.3 (though my 10.8.3 machine has no
-  ;; such problem), so help it out.
-  (progn
-    (defalias 'cl-block-wrapper 'identity)
-    (defalias 'member* 'cl-member)
-    (defalias 'adjoin 'cl-adjoin))
+    ;; Madness: cl-block-wrapper was an alias for identity in 24.2, then it was
+    ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
+    ;; wants cl-block-wrapper when running 24.3 (though my 10.8.3 machine has no
+    ;; such problem), so help it out.
+    (progn
+      (defalias 'cl-block-wrapper 'identity)
+      (defalias 'member* 'cl-member)
+      (defalias 'adjoin 'cl-adjoin))
   ;; Else we're on an older version so require cl.
   (require 'cl))
 
@@ -166,7 +166,7 @@
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc))
   (setq flycheck-global-modes
-      '(not org-mode text-mode conf-mode restclient-mode))
+        '(not org-mode text-mode conf-mode restclient-mode))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-status-emoji-mode 1)
   (flycheck-inline-mode)
@@ -225,7 +225,7 @@
   (autoload 'idomenu "idomenu" nil t))
 
 (defadvice ido-imenu (before push-mark activate)
-    (push-mark))
+  (push-mark))
 
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
@@ -629,10 +629,10 @@
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
   (yas-global-mode 1)
 
-;; Work-around for tab complaining when yas is active in ansi-term. See:
-;; https://github.com/capitaomorte/yasnippet/issues/289
-(add-hook 'term-mode-hook (lambda()
-                            (yas-minor-mode -1))))
+  ;; Work-around for tab complaining when yas is active in ansi-term. See:
+  ;; https://github.com/capitaomorte/yasnippet/issues/289
+  (add-hook 'term-mode-hook (lambda()
+                              (yas-minor-mode -1))))
 
 (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
 
@@ -783,15 +783,15 @@
         ;; (cons '(node "^[ ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
         ;; messing with it:
         (cons '(node "at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
-                           1 ;; file
-                           2 ;; line
-                           3 ;; column
-                           nil ;; type
-                           nil ;; hyperlink
-                           (1 compilation-error-face)
-                           )
-                           ;; (2 compilation-error-face)
-                           ;; (3 compilation-error-face))
+                     1 ;; file
+                     2 ;; line
+                     3 ;; column
+                     nil ;; type
+                     nil ;; hyperlink
+                     (1 compilation-error-face)
+                     )
+              ;; (2 compilation-error-face)
+              ;; (3 compilation-error-face))
               compilation-error-regexp-alist-alist))
   (setq compilation-error-regexp-alist
         (cons 'node compilation-error-regexp-alist))
@@ -925,7 +925,7 @@
               :before #'turn-off-fci-before-inlines)
 
   (advice-add 'flycheck-inline-hide-errors
-                :after #'restore-fci-after-inlines)
+              :after #'restore-fci-after-inlines)
 
   ;; (advice-remove 'flycheck-inline-display-errors #'turn-off-fci-before-inlines)
   ;; (advice-remove 'flycheck-inline-hide-errors #'restore-fci-after-inlines)
@@ -1054,7 +1054,7 @@
 (defun my-keyboard-quit-advice (fn &rest args)
   (let ((region-was-active (region-active-p)))
     (unwind-protect
-         (apply fn args)
+        (apply fn args)
       (when region-was-active
         (activate-mark t)))))
 
@@ -1109,9 +1109,10 @@
       '(("\*.*popup\*" . (display-buffer-pop-up-window))
         ("\*helm-imenu\*" . (display-buffer-pop-up-window))
         ;; Catchall: always allow same window, which is the one reusable window.
-        (".*" . (display-buffer-use-some-window .
-                              '((inhibit-same-window . nil)
-                                (inhibit-switch-frame . t))))
+        (".*" .
+         (display-buffer-use-some-window .
+                                         '((inhibit-same-window . nil)
+                                           (inhibit-switch-frame . t))))
         ))
 
 ;; (global-set-key (kbd ')
