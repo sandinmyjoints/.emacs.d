@@ -66,11 +66,16 @@
       (let ((window (get-buffer-window dirtree-buffer)))
         (set-window-fringes window 0 0 nil)
         (set-window-dedicated-p window t)
-        ;; TODO: Resize more intelligently.
+        ;; TODO: Resize more intelligently. Ideally, dirtree should be:
+        ;; generally: 20% of window width
+        ;; minimum: 30 columns or so
+        (with-current-buffer "*dirtree*"
+          (setq-local window-size-fixed nil))
         (adjust-window-trailing-edge window -5 t)
         (with-current-buffer "*dirtree*"
           (setq-local window-size-fixed t))
-        (cd "~/scm/sd")))))
+        (cd "~/scm/sd")))
+    ))
 
 (autoload 'dirtree "dirtree" "Add directory to tree view")
 (add-hook 'after-init-hook #'wjb/setup-dirtree)
