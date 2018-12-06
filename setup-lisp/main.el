@@ -145,6 +145,7 @@
 
 (use-package flycheck
   :ensure t
+  :defer 5
   :init
   ;; This turns on Flycheck globally in only these modes. Others can be turned on
   ;; per-buffer.
