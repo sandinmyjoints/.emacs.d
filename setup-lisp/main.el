@@ -1135,6 +1135,3 @@
 ;;      ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
-;; TODO: am I handling safe-local-variable-values in a sensible way?
-;; look at purcell, etc.
-
