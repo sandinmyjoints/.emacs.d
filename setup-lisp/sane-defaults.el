@@ -134,7 +134,9 @@
 ;; Answering just 'y' or 'n' will do
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Fix junk characters in shell-mode
+;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
+;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
+;; only sort of uses it?
 (add-hook 'shell-mode-hook
           'ansi-color-for-comint-mode-on)
 
