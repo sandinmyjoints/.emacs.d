@@ -812,34 +812,23 @@
   (add-hook 'compilation-minor-mode-hook
             (lambda () (visual-line-mode 1)))
 
-  ;; Allow color in compilation buffers
-  (require 'ansi-color)
-  (defun colorize-compilation-buffer ()
-    (read-only-mode 1)
-    (ansi-color-apply-on-region compilation-filter-start (point))
-    (read-only-mode -1))
-  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  ;; Allow color in compilation buffers.
+  ;; From https://stackoverflow.com/a/20788581/599258
+  ;; Possibly more efficient than the old technique.
+  (ignore-errors
+    (require 'ansi-color)
+    (defun wjb/colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+    (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
 
-  (defun wjb/switch-to-dirtree ()
-    "Switch to dirtree buffer."
-    (interactive)
-    ;; (pop-to-buffer "*dirtree*")
-
-    ;; see display-buffer docs:
-    ;; action preserve-size
-    ;; (display-buffer-reuse-window . ((preserve-size . (t . t))))
-    ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Action-Functions.html
-
-    ;; why doesn't this work??
-    ;; this may be why: https://www.gnu.org/software/emacs/manual/html_node/elisp/Dedicated-Windows.html
-    ;; TODO: undedicate dirtree window while this runs, then re-dedicate it
-    ;; (pop-to-buffer "*dirtree*" '(display-buffer-reuse-window . ((preserve-size . (t . t)))) t)
-
-    ;; with window-fixed-size set on dirtree window, this works unless
-    ;; there are 3+ windows, so TODO undedicate dirtree window
-    (unless (s-equals? (buffer-name) "*dirtree*")
-      (switch-to-buffer-other-window "*dirtree*" t))
-    )
+  ;; From https://stackoverflow.com/a/13408008/599258
+  ;; (require 'ansi-color)
+  ;; (defun colorize-compilation-buffer ()
+  ;;   (read-only-mode 1)
+  ;;   (ansi-color-apply-on-region compilation-filter-start (point))
+  ;;   (read-only-mode -1))
+  ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
   (defun wjb/switch-to-compilation-buffer ()
     "Switch to *compilation*"
