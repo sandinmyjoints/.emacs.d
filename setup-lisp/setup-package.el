@@ -207,8 +207,9 @@
      (cons 'wgrep melpa)
      (cons 'paren-face melpa)
      (cons 'dumb-jump melpa)
-     (cons 'pcre2el melpa)
+     (cons 'xterm-color melpa)
 
+     (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
      (cons 'flycheck-perl6 melpa)
 

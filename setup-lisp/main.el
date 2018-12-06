@@ -827,16 +827,33 @@
   (add-hook 'compilation-minor-mode-hook
             (lambda () (visual-line-mode 1)))
 
-  ;; Allow color in compilation buffers.
+  ;; Handle ANSI color in compilation buffers.
+  (setq compilation-environment '("TERM=xterm-256color"))
+
+  ;; From https://github.com/atomontage/xterm-color
+  (add-hook 'compilation-start-hook
+            (lambda (proc)
+              ;; We need to differentiate between compilation-mode buffers
+              ;; and running as part of comint (which at this point we assume
+              ;; has been configured separately for xterm-color)
+              (when (eq (process-filter proc) 'compilation-filter)
+                ;; This is a process associated with a compilation-mode buffer.
+                ;; We may call `xterm-color-filter' before its own filter function.
+                (set-process-filter
+                 proc
+                 (lambda (proc string)
+                   (funcall 'compilation-filter proc
+                            (xterm-color-filter string)))))))
+
   ;; From https://stackoverflow.com/a/20788581/599258
   ;; Possibly more efficient than the old technique.
   ;; additional reference: http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-  (ignore-errors
-    (require 'ansi-color)
-    (defun wjb/colorize-compilation-buffer ()
-      (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
-    (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
+  ;; (ignore-errors
+  ;;   (require 'ansi-color)
+  ;;   (defun wjb/colorize-compilation-buffer ()
+  ;;     (when (eq major-mode 'compilation-mode)
+  ;;       (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  ;;   (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
 
   ;; From https://stackoverflow.com/a/13408008/599258
   ;; (require 'ansi-color)
