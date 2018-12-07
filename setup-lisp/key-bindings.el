@@ -10,44 +10,6 @@
 ;;
 ;;; Code:
 
-;; Custom prefix-map:
-(define-prefix-command 'wjb-map)
-(global-set-key (kbd "C-x C-c") 'wjb-map)
-;; TODO: more #'wjb/ defuns:
-;; - switch-to-restclient -- local_notes/<project name>.rest
-;; - deploy-project
-(define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
-(define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
-(define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Projectile section
-;;
-;; #+BEGIN_SRC
-;; C-c p C  = Configure project = ?
-;; C-c p c  = Compile project = build artifacts = npm run dev:build
-;; C-c p P  = Test Project = run tests = npm run test --colors --watch
-;; C-c p u  = Run project = start server = npm start
-;; C-c p t  = projectile-toggle-between-implementation-and-test ** set up and figure out how to use these!
-;; C-c p T  = projectile-find-test-file
-;; C-c p f  = projectile-find-file
-;; C-c p g  = projectile-find-file-dwim
-;; ?        = projectile-repeat-last-command
-;;
-;; C-c n v  = package.json
-;; #+END_SRC
-
-(define-key wjb-map (kbd "t") #'projectile-test-project)
-;; - projectile-configure-project
-;; - projectile-run-project
-;; what does compile typically do, vs run?
-(define-key wjb-map (kbd "c") #'projectile-compile-project)
-;; run = start
-(define-key wjb-map (kbd "r") #'projectile-run-project)
-(define-key wjb-map (kbd "s") (lambda ()
-                                (interactive)
-                                (pop-to-buffer "sd-standup.md")))
-
 ;; From https://gist.github.com/cataska/b1875754128853bfb139
 ;; Enables doing something like this, so H-x does the same thing as C-x:
 ;; (defkbalias (kbd "C-x") (kbd "H-x"))
@@ -220,5 +182,50 @@
 
 (global-set-key (kbd "<f5>") #'compile)
 (global-set-key [f6] #'recompile)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; wjb-map
+;;
+;; Custom prefix-map:
+;; TODO: more #'wjb/ defuns:
+;; - switch-to-restclient -- local_notes/<project name>.rest
+;; - deploy-project
+(defvar wjb-map nil "Custom prefix map.")
+(define-prefix-command 'wjb-map)
+(add-hook 'after-init-hook
+          (lambda ()
+            (global-set-key (kbd "C-x C-c") 'wjb-map)))
+
+(define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
+(define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
+(define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile section
+;;
+;; #+BEGIN_SRC
+;; C-c p C  = Configure project = ?
+;; C-c p c  = Compile project = build artifacts = npm run dev:build
+;; C-c p P  = Test Project = run tests = npm run test --colors --watch
+;; C-c p u  = Run project = start server = npm start
+;; C-c p t  = projectile-toggle-between-implementation-and-test ** set up and figure out how to use these!
+;; C-c p T  = projectile-find-test-file
+;; C-c p f  = projectile-find-file
+;; C-c p g  = projectile-find-file-dwim
+;; ?        = projectile-repeat-last-command
+;;
+;; C-c n v  = package.json
+;; #+END_SRC
+
+(define-key wjb-map (kbd "t") #'projectile-test-project)
+;; - projectile-configure-project
+;; - projectile-run-project
+;; what does compile typically do, vs run?
+(define-key wjb-map (kbd "c") #'projectile-compile-project)
+;; run = start
+(define-key wjb-map (kbd "r") #'projectile-run-project)
+(define-key wjb-map (kbd "s") (lambda ()
+                                (interactive)
+                                (pop-to-buffer "sd-standup.md")))
 
 (provide 'key-bindings)
