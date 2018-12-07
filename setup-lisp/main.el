@@ -830,10 +830,17 @@
             (lambda () (visual-line-mode 1)))
 
   ;; Handle ANSI color in compilation buffers.
-  (setq compilation-environment '("TERM=xterm-256color"))
+
+  ;; Approach 1: xterm-color. This is promising, but disabled because it
+  ;; scrolls test output when it should be overwriting. Is this related to the
+  ;; issue about tput reset?
+  ;; TO RE-ENABLE:
+  ;; - uncomment setq compilation-environment
+  ;; - change remove-hook to add-hook
 
   ;; From https://github.com/atomontage/xterm-color
-  (add-hook 'compilation-start-hook
+  ;; (setq compilation-environment '("TERM=xterm-256color"))
+  (remove-hook 'compilation-start-hook
             (lambda (proc)
               ;; We need to differentiate between compilation-mode buffers
               ;; and running as part of comint (which at this point we assume
@@ -847,17 +854,26 @@
                    (funcall 'compilation-filter proc
                             (xterm-color-filter string)))))))
 
+  ;; Approach 2:
   ;; From https://stackoverflow.com/a/20788581/599258
-  ;; Possibly more efficient than the old technique.
-  ;; additional reference: http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-  ;; (ignore-errors
-  ;;   (require 'ansi-color)
-  ;;   (defun wjb/colorize-compilation-buffer ()
-  ;;     (when (eq major-mode 'compilation-mode)
-  ;;       (ansi-color-apply-on-region compilation-filter-start (point-max))))
-  ;;   (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
+  ;;
+  ;; Handles test scrolling just fine. Possibly less performant than approach 1.
+  ;; Possibly more performant than approach 3. Colors are not as nice as
+  ;; xterm-256color. Additional reference:
+  ;; http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+  ;;
+  (ignore-errors
+    (require 'ansi-color)
+    (defun wjb/colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+    (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
 
+  ;; Approach 3:
   ;; From https://stackoverflow.com/a/13408008/599258
+  ;;
+  ;; Works fine. Possibly less performant than approach 2.
+  ;;
   ;; (require 'ansi-color)
   ;; (defun colorize-compilation-buffer ()
   ;;   (read-only-mode 1)
