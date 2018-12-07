@@ -1214,23 +1214,29 @@ C-x C-f	Drop into 'ido-find-file'.
 C-k	Kill buffer at head of buffer list.
 C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
 #+END_QUOTE
+* comint and compilation
+** filter out escape sequences that aren't color codes
+   - if needed: https://emacs.stackexchange.com/a/38531/2163
+** perf: shorten comint lines
+   - would this help in compilation mode? how to use it?
+   - TODO: figure out the various comint filters, compilation filters, and
+     compilation hooks
+     - this suggests comint-output-filter-functions is a hook variable,
+       equivalent for comint to compilation mode's compilation-filter-hook:
+       https://emacs.stackexchange.com/a/38531/2163 So does
+       comint-output-filter-functions get run during compilation-mode?
+ #+BEGIN_SRC
+   (defvar wjb/comint-long-line-regexp "\\(.\\{75\\}[;,: ]\\)")
+   (defun wjb/comint-shorten-long-lines (text)
+     (let* ((shortened-text (replace-regexp-in-string wjb/comint-long-line-regexp "\\1\n" text)))
+       (shortened-text)))
+   ;; (if (string= shortened-text text)
+   ;;     text
+   ;;   shortened-text)))
 
-* shorten comint lines
-  - would this help in compilation mode? how to use it?
-  - TODO: figure out the various comint filters, compilation filters, and
-    compilation hooks
-#+BEGIN_SRC
-  (defvar wjb/comint-long-line-regexp "\\(.\\{75\\}[;,: ]\\)")
-  (defun wjb/comint-shorten-long-lines (text)
-    (let* ((shortened-text (replace-regexp-in-string wjb/comint-long-line-regexp "\\1\n" text)))
-      (shortened-text)))
-  ;; (if (string= shortened-text text)
-  ;;     text
-  ;;   shortened-text)))
-
-  ;; but does compilation-mode use comint-preoutput-filter-functions??
-  ;; there is a compilation-filter-hook, can I add this to it?
-  (add-hook 'comint-preoutput-filter-functions 'wjb/comint-shorten-long-lines)
+   ;; but does compilation-mode use comint-preoutput-filter-functions??
+   ;; there is a compilation-filter-hook, can I add this to it?
+   (add-hook 'comint-preoutput-filter-functions 'wjb/comint-shorten-long-lines)
 
 
-#+END_SRC
+ #+END_SRC
