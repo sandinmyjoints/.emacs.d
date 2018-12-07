@@ -783,6 +783,8 @@
 
 (defvar wjb/last-compilation-buffer nil
   "The last buffer in which compilation took place.")
+(defvar wjb/last-grep-buffer nil
+  "The last grep buffer.")
 
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 (use-package compile
