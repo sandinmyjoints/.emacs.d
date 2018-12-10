@@ -69,11 +69,11 @@
         ;; TODO: Resize more intelligently. Ideally, dirtree should be:
         ;; generally: 20% of window width
         ;; minimum: 30 columns or so
-        (with-current-buffer "*dirtree*"
-          (setq-local window-size-fixed nil))
+        ;; (with-current-buffer "*dirtree*"
+        ;;   (setq-local window-size-fixed nil))
         (adjust-window-trailing-edge window -5 t)
-        (with-current-buffer "*dirtree*"
-          (setq-local window-size-fixed t))
+        ;; (with-current-buffer "*dirtree*"
+        ;;   (setq-local window-size-fixed t))
         (cd "~/scm/sd")))
     ))
 

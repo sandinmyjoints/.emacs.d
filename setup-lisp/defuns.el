@@ -877,7 +877,12 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
   ;; with window-fixed-size set on dirtree window, this works unless
   ;; there are 3+ windows, so TODO undedicate dirtree window
   (unless (s-equals? (buffer-name) "*dirtree*")
-    (switch-to-buffer-other-window "*dirtree*" t)))
+    (progn
+      (with-current-buffer "*dirtree*"
+        (setq-local window-size-fixed t))
+      (switch-to-buffer-other-window "*dirtree*" t)
+      (with-current-buffer "*dirtree*"
+        (setq-local window-size-fixed nil)))))
 
 ;; TODO:
 ;; Mixpanel event parser
