@@ -106,6 +106,7 @@
      (cons 'smex melpa)
      (cons 'auto-compile melpa)
      (cons 'elpy elpy)
+     (cons 'pip-requirements melpla)
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
@@ -208,6 +209,8 @@
      (cons 'paren-face melpa)
      (cons 'dumb-jump melpa)
      (cons 'xterm-color melpa)
+     (cons 'helpful melpa)
+     (cons 'elisp-demos melpa)
 
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
