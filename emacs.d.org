@@ -820,6 +820,10 @@ cp config/local* "$DEST/config/"
 ln -s "~/notes/$REPO.org" local_notes
 #+END_SRC
 
+** cherry picking
+   - https://magit.vc/manual/magit/Cherry-Picking.html
+   - magit-cherry-spinoff -- useful when conflicts; spinoff commits onto a new branch
+
 
 * markdown
 * DONE GFM tables
@@ -869,6 +873,8 @@ $ < infile fold -s
   - interesting ideas: https://emacs.stackexchange.com/a/8152/2163
 ** DONE View Large Files https://github.com/m00natic/vlfi
 ** DONE OverLongLineMode
+* elisp-demos
+  - https://github.com/xuchunyang/elisp-demos/blob/master/elisp-demos.org
 * TODO fewer popup windows
   - maybe due to `switch-to-buffer-preserve-window-point`, see https://github.com/emacs-mirror/emacs/blob/emacs-26/etc/NEWS  -
 * open in new window
