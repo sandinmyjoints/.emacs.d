@@ -490,11 +490,12 @@
 (fset 'wjb/add-standup-entry
    [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\C-a ?\C-f ?\C-f ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\M-> return ?# ?\S-  ?T ?o ?d ?a ?y return ?- ? ])
 
-(fset 'do-standup (lambda ()
-                    (interactive)
-                    (save-excursion
-                      (goto-char (point-min))
-                      (execute-kbd-macro 'wjb/add-standup-entry))))
+(defun do-standup ()
+  "Do standup."
+  (interactive)
+  ;; removed save-excursion
+  (goto-char (point-min))
+  (execute-kbd-macro 'wjb/add-standup-entry))
 
 (defalias 'standup 'do-standup)
 
