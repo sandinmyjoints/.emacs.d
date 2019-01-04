@@ -174,7 +174,8 @@
 (global-set-key (kbd "C-'") 'helm-mark-all)
 (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
 
-(global-set-key (kbd "C-x C-d") #'wjb/insert-date)
+;; (global-set-key (kbd "C-x C-d") #'wjb/insert-date)
+(global-set-key (kbd "C-x C-d") #'dired-jump)  ;; was C-x j, but I want that for grepping
 (global-set-key (kbd "C-c ,") #'wjb/switch-to-last-compilation-buffer)
 (global-set-key (kbd "C-c C-,") #'wjb/switch-to-last-compilation-buffer)
 (global-set-key (kbd "C-c .") #'wjb/switch-to-last-grep-buffer)

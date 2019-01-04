@@ -98,6 +98,9 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 (after-load 'js2-mode
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
+  ;; replace with dumb-jump, or js2-mode-goto-definition, or xref-find-definitions
+  (define-key js2-mode-map (kbd "M-.") 'smart-jump-go)
+  (define-key js2-mode-map (kbd "M-,") 'smart-jump-back)
   ;; (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
   ;; (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)

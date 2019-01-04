@@ -399,19 +399,20 @@
   ;;        ("M-g i" . dumb-jump-go-prompt)
   ;;        ("M-g x" . dumb-jump-go-prefer-external)
   ;;        ("M-g z" . dumb-jump-go-prefer-external-other-window))
-  ;; C-M-g dumb-jump-go
-  ;; C-M-p dumb-jump-back
+  ;; C-M-g dumb-jump-go -- would like to use M-.
+  ;; C-M-p dumb-jump-back -- M-,
   :config
   (setq dumb-jump-selector 'helm) ;; (setq dumb-jump-selector 'helm)
   (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
 (use-package smart-jump
   :config
-  ;; H-j smart-jump-go
-  ;; H-p smart-jump-back
+  ;; H-j smart-jump-go -- would like to use M-.
+  ;; H-p smart-jump-back -- M-,
   (smart-jump-setup-default-registers)
   (global-set-key (kbd "H-j") #'smart-jump-go)
-  (global-set-key (kbd "H-p") #'smart-jump-back))
+  (global-set-key (kbd "H-p") #'smart-jump-back)
+  (smart-jump-bind-jump-keys 'prog-mode))
 
 (require 'setup-tramp)
 

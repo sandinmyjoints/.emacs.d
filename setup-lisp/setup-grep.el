@@ -169,10 +169,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindings
 (global-set-key (kbd "C-c g") 'grep-find)
+;; i is old/everything, 9 is by path, j is by name
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 ;; (global-set-key (kbd "C-x 9") 'rgrep)
 (global-set-key (kbd "C-x 9") 'find-in-project-glob-by-path)
+(global-set-key (kbd "C-x C-9") 'find-in-project-glob-by-path)
 (global-set-key (kbd "C-x j") 'find-in-project-glob-by-name)
+(global-set-key (kbd "C-x C-j") 'find-in-project-glob-by-name)
 
 ;; Ways to do my find in project from the command line:
 ;; find . -name "models.py" | xargs grep -niEH -C 5 <query>
