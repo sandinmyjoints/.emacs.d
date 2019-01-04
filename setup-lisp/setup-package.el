@@ -106,7 +106,7 @@
      (cons 'smex melpa)
      (cons 'auto-compile melpa)
      (cons 'elpy elpy)
-     (cons 'pip-requirements melpla)
+     (cons 'pip-requirements melpa)
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
