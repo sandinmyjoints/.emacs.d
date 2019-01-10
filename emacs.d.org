@@ -1251,3 +1251,4 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
+* TODO bundle use-package as part of emacs repo, or otherwise automatically install it if missing
