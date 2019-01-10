@@ -289,11 +289,7 @@
   :diminish abbrev-mode)
 
 (use-package ein
-  :config
   :disabled
-  (require 'ein-loaddefs)
-  (require 'ein-notebook)
-  (require 'ein-subpackages)
   :bind
   (:map ein:notebooklist-mode-map
         ("C-c C-g" . 'ein:notebooklist-open))
