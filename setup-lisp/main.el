@@ -170,8 +170,8 @@
         '(not org-mode text-mode conf-mode restclient-mode))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-status-emoji-mode 1)
-  (flycheck-inline-mode)
-  (require 'setup-flycheck))
+  (require 'setup-flycheck)
+  (flycheck-inline-mode))
 
 (require 'wjb)
 
