@@ -104,9 +104,10 @@
   ;; Customize background color of highlighted line
   ;;(set-face-background 'hl-line "#1A1A1A")
   (set-face-background 'hl-line "#202020")
-  (set-face-background 'highlight-indentation-current-column-face
-                       (color-lighten-name
-                        (face-attribute 'default :background) 15)))
+  ;; (set-face-background 'highlight-indentation-current-column-face
+  ;;                      (color-lighten-name
+  ;;                       (face-attribute 'default :background) 15)
+  )
 
 (defalias 'wjb-theme #'wjb/customize-gruvbox)
 

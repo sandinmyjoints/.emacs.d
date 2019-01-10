@@ -53,17 +53,17 @@
                                 (venv-workon project-venv-name))))
 
 
-;; elpy
-;; elpy-module-flymake
-(setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
-(elpy-enable)
 
-(set-face-background 'highlight-indentation-face "#111")
 (defalias 'workon 'pyvenv-workon)
 
 ;; from https://emacs.stackexchange.com/a/30970/2163
 
 (with-eval-after-load 'python
+  ;; elpy
+  (elpy-enable)
+  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
+  (set-face-background 'highlight-indentation-face "#111")
+
   (defun python-shell-completion-native-try ()
     "Return non-nil if can trigger native completion."
     (let ((python-shell-completion-native-enable t)
