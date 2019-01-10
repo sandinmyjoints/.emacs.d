@@ -377,6 +377,7 @@
     (select-window (active-minibuffer-window))))
 (global-set-key (kbd "<f7>") 'switch-to-minibuffer-window)
 
+(setq tab-always-indent 'complete)
 
 (provide 'sane-defaults)
 

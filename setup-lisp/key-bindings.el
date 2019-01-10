@@ -200,6 +200,7 @@
 (define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
 (define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
 (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+(define-key wjb-map (kbd "<tab>") #'company-complete)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile section
