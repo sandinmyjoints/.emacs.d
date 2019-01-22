@@ -32,12 +32,6 @@
       magit-push-always-verify nil
       magit-branch-read-upstream-first nil)
 
-(add-to-list 'magit-section-initial-visibility-alist '(unpushed . show))
-(add-to-list 'magit-section-initial-visibility-alist '(unstaged . show))
-(add-to-list 'magit-section-initial-visibility-alist '(staged . show))
-
-(add-to-list 'magit-section-initial-visibility-alist '(stashes . hide))
-(add-to-list 'magit-section-initial-visibility-alist '(untracked . hide))
 ;; TODO: ideally, push-remote would be the remote tracking branch, not
 ;; master -- this can probably be configred in magit somehow In other
 ;; words, when I create a new local branch that tracks a remote
@@ -45,11 +39,20 @@
 ;; the remote branch (good) but in the magit status buffer I see
 ;; "Unpulled from master (3)" (bad) -- I would only want to see
 ;; Unpulled from the remote branch.
-(add-to-list 'magit-section-initial-visibility-alist '(unpulled . show))
-(add-to-list 'magit-section-initial-visibility-alist '(recent . hide))
+(setq magit-section-initial-visibility-alist
+      '(
+        (unpulled . show)
+        (staged . show)
+        (unstaged . show)
+        (recent . hide)
+        (untracked . hide)
+        (unpushed . hide)
+        (stashes . hide)))
 
 (add-hook 'magit-status-sections-hook 'magit-insert-worktrees)
 
+;; this means it will only be shown/hidden by tab, not by killing and reopening
+;; the magit-status buffer.
 (setq magit-section-cache-visibility '(stashes untracked))
 
 (define-key magit-status-mode-map (kbd "M-u") 'magit-section-up)
@@ -59,7 +62,6 @@
 ;; Tokens are stored in ~/.gitconfig.
 ;;(require 'magit-gh-pulls)
 ;;(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
-
 
 ;; From http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html
 (defun endless/visit-pull-request-url ()
