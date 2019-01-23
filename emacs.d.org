@@ -1154,7 +1154,10 @@ C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
  #+END_SRC
 * Use!:
   - apropos-variable (apropos-value but it's slow)
-  - magit-cherry-spinoff
+  - magit-cherry-spinoff -- be on feature branch, move commits to master, then
+    create new branch
+  - magit-cherry-harvest -- be on master
+  - magit-cherry-donate --
   - writable-grep mode: press w in grep buffer
   - smart-jump
   - helm-aws
