@@ -49,6 +49,7 @@
 
 (add-hook 'python-mode-hook (lambda ()
                               (hack-local-variables)
+                              (setq fill-column 79)
                               (when (boundp 'project-venv-name)
                                 (venv-workon project-venv-name))))
 
