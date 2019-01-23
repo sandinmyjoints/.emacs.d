@@ -1037,11 +1037,32 @@
 (use-package knot-mode
   :mode "\\.knot\\'")
 
+;; Caveats about lsp for javascript:
+;;
+;; - Not sure if it is respecting jsconfig.json or not.
+;;
+;; - In Neodarwin, got (lsp-timed-out-error), probably because the
+;;   repo is so big. So, Neodarwin is on the lsp blacklist.
+;;
+;; - TODO: defer starting lsp javascript server until nvm is figured
+;;   out.
 (use-package lsp-mode
+  :disabled
+  :commands lsp
+  :hook (less-mode . lsp)
+  :hook (sh-mode . lsp)
+  :hook (html-mode . lsp)
+  :hook (js-mode . lsp)
+  :hook (js2-mode . lsp)
+  :hook (python-mode. lsp)
   :config
-  (setq lsp-project-blacklist '("neodarwin")))
+  (setq lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
 
 (use-package lsp-ui
+  :disabled
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-ui-flycheck-enable nil
         lsp-ui-peek-enable nil
@@ -1064,37 +1085,16 @@
   ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
   ;; just use it for a whitelist of modes.
-  (dolist (hook '(sh-mode-hook))
-    (add-hook hook 'lsp-ui-mode)))
+  ;; (dolist (hook '(sh-mode-hook))
+  ;;   (add-hook hook 'lsp-ui-mode))
+  )
 
-;; Caveats:
-;;
-;; - Not sure if it is respecting jsconfig.json or not.
-;;
-;; - In Neodarwin, got (lsp-timed-out-error), probably because the
-;;   repo is so big. So, Neodarwin is on the lsp blacklist.
-;;
-;; - TODO: defer starting lsp javascript server until nvm is figured
-;;   out.
-(use-package lsp-javascript-typescript
+(use-package company-lsp
   :disabled
+  :after lsp-mode
+  :commands company-lsp
   :config
-  (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-  (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable))
-
-;; TODO: this is not doing anything
-;; TODO: also use less for flycheck
-(use-package lsp-css
-  :config
-  (add-hook 'less-mode-hook #'lsp-less-enable))
-
-(use-package lsp-sh
-  :config
-  (add-hook 'sh-mode-hook #'lsp-sh-enable))
-
-(use-package lsp-html
-  :config
-  (add-hook 'html-mode-hook #'lsp-html-enable))
+  (push 'company-lsp company-backends))
 
 ;; from https://gitlab.petton.fr/nico/emacs.d/
 (use-package whitespace

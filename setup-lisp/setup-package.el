@@ -156,10 +156,7 @@
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
      (cons 'js2-highlight-vars melpa)
-     (cons 'lsp-javascript-typescript melpa)
-     (cons 'lsp-css melpa)
-     (cons 'lsp-sh melpa)
-     (cons 'lsp-html melpa)
+     (cons 'lsp-mode melpa)
      (cons 'lsp-ui melpa)
      (cons 'prettier-js melpa)
      (cons 'add-node-modules-path melpa)
