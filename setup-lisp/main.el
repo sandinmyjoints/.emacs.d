@@ -829,16 +829,43 @@
   "The last buffer in which compilation took place.")
 (defvar wjb/last-grep-buffer nil
   "The last grep buffer.")
+;; TODO: set this after switching to a restclient buffer.
+;; TODO: add key-binding to get to last restclient buffer.
+(defvar wjb/last-restclient-buffer nil
+  "The last restclient buffer.")
 
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 (use-package compile
-  :init
-  (setq compilation-scroll-output t)
-  ;; (setq compilation-scroll-output 'first-error)
-  (setq compilation-ask-about-save nil)
-  ;; Don't save *anything*
-  (setq compilation-save-buffers-predicate '(lambda () nil))
   :config
+  (setq compilation-scroll-output t
+        ;; set to "dumb" to not get colors codes
+        ;; ansi and xterm-256colors both get movement/scrolling codes from jest output, not just colors
+        comint-terminfo-terminal "dumb"
+        ;; comint-terminfo-terminal "ansi"
+        ;; comint-terminfo-terminal "xterm-256colors"
+        ;;
+        ;; https://stackoverflow.com/a/42467888/599258 talks about dumb-emacs-ansi
+        ;; comint-terminfo-terminal "dumb-emacs-ansi"
+        ;;
+        ;; From https://unix.stackexchange.com/a/237947/14423:
+        ;;
+        ;; this is telling Jest (and other ncurses programs) they can use color codes
+        ;; but not movement codes, I think.
+        compilation-environment '("TERM=dumb" "COLORTERM=1") ;; default nil
+        comint-prompt-read-only t
+        comint-scroll-to-bottom-on-input t
+        compilation-ask-about-save nil
+        ;; Don't save *anything*
+        compilation-save-buffers-predicate '(lambda () nil)
+        ;; compilation-scroll-output 'first-error
+        )
+
+  (add-hook 'comint-mode-hook
+          (lambda ()
+            (define-key comint-mode-map [remap kill-region] 'comint-kill-region)
+            (define-key comint-mode-map [remap kill-whole-line]
+              'comint-kill-whole-line)))
+
   ;; Add NodeJS error format
   ;; TODO:
   ;; - rewrite using pcre2el
@@ -875,28 +902,40 @@
 
   ;; Handle ANSI color in compilation buffers.
 
-  ;; Approach 1: xterm-color. This is promising, but disabled because it
-  ;; scrolls test output when it should be overwriting. Is this related to the
-  ;; issue about tput reset?
+  ;; Approach 1: xterm-color. This is promising, but disabled because it scrolls
+  ;; test output when it should be overwriting. Is this related to the issue
+  ;; about tput reset? https://github.com/atomontage/xterm-color/issues/24 Or
+  ;; something else? What code is Jest (mocha, etc) using to move the cursor
+  ;; back?
+  ;;
+  ;; TODO: can I use this just for grep buffers?
   ;; TO RE-ENABLE:
   ;; - uncomment setq compilation-environment
   ;; - change remove-hook to add-hook
-
+  ;;
   ;; From https://github.com/atomontage/xterm-color
-  ;; (setq compilation-environment '("TERM=xterm-256color"))
-  (remove-hook 'compilation-start-hook
-            (lambda (proc)
-              ;; We need to differentiate between compilation-mode buffers
-              ;; and running as part of comint (which at this point we assume
-              ;; has been configured separately for xterm-color)
-              (when (eq (process-filter proc) 'compilation-filter)
-                ;; This is a process associated with a compilation-mode buffer.
-                ;; We may call `xterm-color-filter' before its own filter function.
-                (set-process-filter
-                 proc
-                 (lambda (proc string)
-                   (funcall 'compilation-filter proc
-                            (xterm-color-filter string)))))))
+  ;; (setq compilation-environment '("TERM=xterm-256color")) ;; default nil
+  (defun xterm-color-compilation-start-hook (proc)
+    ;; We need to differentiate between compilation-mode buffers
+    ;; and running as part of comint (which at this point we assume
+    ;; has been configured separately for xterm-color)
+    (when (eq (process-filter proc) 'compilation-filter)
+      ;; This is a process associated with a compilation-mode buffer.
+      ;; We may call `xterm-color-filter' before its own filter function.
+      (set-process-filter
+       proc
+       (lambda (proc string)
+         (funcall 'compilation-filter proc
+                  (xterm-color-filter string))))))
+  (remove-hook 'compilation-start-hook #'xterm-color-compilation-start-hook)
+
+  ;; what I really want is to add-hook compilation-start-hook only when entering a grep mode buffer
+  ;; (make-variable-buffer-local 'compilation-environment)
+  ;; (make-variable-buffer-local 'compilation-start-hook)
+  ;; (add-hook grep-mode-hook
+  ;;           #'(lambda ()
+  ;;               (setq compilation-environment '("TERM=xterm-256color"))
+  ;;               (add-hook 'compilation-start-hook xterm-color-compilation-start-hook)) t t)
 
   ;; Approach 2:
   ;; From https://stackoverflow.com/a/20788581/599258
@@ -906,24 +945,24 @@
   ;; xterm-256color. Additional reference:
   ;; http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
   ;;
-  (ignore-errors
-    (require 'ansi-color)
-    (defun wjb/colorize-compilation-buffer ()
-      (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
-    (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
+  ;; (ignore-errors
+  ;;   (require 'ansi-color)
+  ;;   (defun wjb/colorize-compilation-buffer ()
+  ;;     (when (eq major-mode 'compilation-mode)
+  ;;       (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  ;;   (add-hook 'compilation-filter-hook 'wjb/colorize-compilation-buffer))
 
   ;; Approach 3:
   ;; From https://stackoverflow.com/a/13408008/599258
   ;;
   ;; Works fine. Possibly less performant than approach 2.
   ;;
-  ;; (require 'ansi-color)
-  ;; (defun colorize-compilation-buffer ()
-  ;;   (read-only-mode 1)
-  ;;   (ansi-color-apply-on-region compilation-filter-start (point))
-  ;;   (read-only-mode -1))
-  ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (read-only-mode 1)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (read-only-mode -1))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
   (defun wjb/switch-to-compilation-buffer ()
     "Switch to *compilation*"
