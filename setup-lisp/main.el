@@ -398,16 +398,15 @@
   ;; C-M-g dumb-jump-go -- would like to use M-.
   ;; C-M-p dumb-jump-back -- M-,
   :config
-  (setq dumb-jump-selector 'helm) ;; (setq dumb-jump-selector 'helm)
+  (setq dumb-jump-selector 'helm)
   (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
 (use-package smart-jump
+  :bind (("C-M-g" . smart-jump-go)
+         ("C-M-p" . smart-jump-back))
   :config
-  ;; H-j smart-jump-go -- would like to use M-.
-  ;; H-p smart-jump-back -- M-,
   (smart-jump-setup-default-registers)
-  (global-set-key (kbd "H-j") #'smart-jump-go)
-  (global-set-key (kbd "H-p") #'smart-jump-back)
+  ;; this binds to M-. and M-, in prog-mode-map:
   (smart-jump-bind-jump-keys 'prog-mode))
 
 (require 'setup-tramp)
@@ -760,13 +759,6 @@
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 (use-package pip-requirements)
-
-;; TODO: need to spend time tweaking this for it to be really helpful.
-(use-package smart-jump
-  :ensure t
-  :disabled
-  :config
-  (smart-jump-setup-default-registers))
 
 (use-package atomic-chrome
   :disabled
