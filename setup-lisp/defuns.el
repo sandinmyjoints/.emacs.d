@@ -328,7 +328,7 @@
 (defun wjb/camelize (s)
   "Convert under_score string S to CamelCase string."
   (mapconcat 'identity (mapcar
-                        '(lambda (word) (capitalize (downcase word)))
+                        #'(lambda (word) (capitalize (downcase word)))
                         (split-string s "_")) ""))
 
 (defalias #'camelize #'wjb/camelize)
@@ -336,8 +336,8 @@
 (defun wjb/camelize-method (s)
   "Convert under_score string S to camelCase string."
   (mapconcat 'identity (mapcar-head
-                        '(lambda (word) (downcase word))
-                        '(lambda (word) (capitalize (downcase word)))
+                        #'(lambda (word) (downcase word))
+                        #'(lambda (word) (capitalize (downcase word)))
                         (split-string s "_")) ""))
 
 (defalias #'camelize-method #'wjb/camelize-method)

@@ -56,7 +56,6 @@
 ;; TODO: I think this defun is probably the source of the problems with dirtree at startup.
 (defun wjb/setup-dirtree ()
   (interactive)
-  (message "running setup-dirtree")
   (when (and (require 'tree-mode nil t) (require 'dirtree nil t))
     (let ((dirtree-buffer "*dirtree*"))
       (dolist (dir initial-dirs-to-open)

@@ -221,7 +221,6 @@
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs
-     ;; https://github.com/jojojames/smart-jump
 
      ;; Uninstalled, but consider:
 

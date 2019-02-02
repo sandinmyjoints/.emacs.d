@@ -855,6 +855,7 @@ company-mode TODO:
   (google-this-mode 1))
 
 (use-package vimish-fold
+  :disabled
   :config
   (vimish-fold-global-mode 0)
   ;; TODO: make this only true in vimish-fold key map
