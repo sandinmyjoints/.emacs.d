@@ -719,11 +719,91 @@
   (setq-default web-mode-enable-current-element-highlight t)
   (require 'setup-webmode))
 
-(require 'setup-word)
-(require 'setup-markdown)
-(require 'setup-company)
-
 (require 'key-bindings)
+
+(require 'setup-word)
+
+(require 'setup-markdown)
+
+(defun wjb/set-company-minimum-prefix-length ()
+  (setq-local company-minimum-prefix-length 3))
+
+(use-package company
+  "
+company-mode TODO:
+(company-emoji company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+               (company-dabbrev-code company-gtags company-etags company-keywords)
+               company-oddmuse company-dabbrev)
+
+- order backends in a way that makes sense
+- group backends
+- set backends based on major mode. For example, higher minimum prefix in text modes (4)
+  (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
+- different behavior within comments
+- understand company-capf
+
+- how backends work: https://superuser.com/a/528407/93702
+- another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
+- another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
+
+- dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
+- strong backend:
+- text/markdow backend:
+- org backend:
+
+- company-diag
+- company-yasnippet -- specific binding for this
+- company-nginx
+- company-shell
+- company-web
+
+- push mutates, puts newelt in front
+(setq l '())
+(push 1 l)
+- add-to-list mutates, puts newelt in front
+(add-to-list 'l 2)
+- but with arg, it puts it in back
+(add-to-list 'l 4 t)
+- append does not mutate
+(append l '(5))
+- delq mutates
+(delq 5 l)
+
+"
+  :defer 2
+  :diminish
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 4)
+  (company-show-numbers nil)
+  (company-tooltip-align-annotations 't)
+  (company-dabbrev-downcase nil)
+  (global-company-mode t)
+
+  :config
+  (define-key company-mode-map (kbd "M-/") 'company-complete)
+  (define-key company-active-map (kbd "M-/") 'company-other-backend)
+  (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
+  )
+
+(use-package company-buffer-line
+  :commands (company-same-mode-buffer-lines)
+  :bind ("C-x C-l" . company-same-mode-buffer-lines))
+
+(global-set-key (kbd "H-0 y") #'company-yasnippet)
+(global-set-key (kbd "C-c y") #'company-yasnippet)
+(global-set-key (kbd "C-c C-y") #'company-yasnippet)
+
+(use-package company-emoji
+  :after company
+  :config
+  ;; TODO: this should probably only be used in non-prog-mode descendents.
+  (push 'company-emoji company-backends))
+
+(use-package company-restclient
+  :after company
+  (push 'company-emoji company-backends))
 
 (use-package shell-script-mode
   :mode "\\.bash*")
