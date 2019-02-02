@@ -56,6 +56,13 @@
 ;; - paragraphs
 ;; - pages
 ;;
+;; # Behavior appropriate to mdes
+;; - markdown, text, comments
+;; - org
+;; - prog
+;;
+;; - treat urls/links as words, with parts within them being subwords? or treat them as symbols or sexps?
+;;
 ;; - chars: C-f and C-b
 ;; - subword: H-f and H-b (what defines a subword?).
 ;;   - note: cc-mode has c-kill-subword and friends: https://www.gnu.org/software/emacs/manual/html_node/ccmode/Subword-Movement.html
@@ -65,7 +72,7 @@
 ;;   - *this* symbol: M-n and M-p (via smartscan) -- distinction between forward/backward and next/previous, because it's this symbol not a symbol
 ;; - sentence: M-k is kill-sentence. C-x delete is backward-kill-sentence.
 ;; - sexp: C-M f and C-M b. C-M k is kill-sexp. C-M backspace is backward-kill-sexp.
-;; - defun: H-0 is beginning-of-defun. H-9 is end-of-defun. could there be a next-defun?
+;; - defun: H-1 is beginning-of-defun. H-9 is end-of-defun. could there be a next-defun?
 ;;
 
 ;; background: https://stackoverflow.com/questions/18675201/alternative-to-forward-word-backward-word-to-include-symbols-e-g#18675636

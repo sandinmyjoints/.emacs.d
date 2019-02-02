@@ -720,6 +720,13 @@ react-redux
    -
 
 
+** elpy
+** venv/pyenv
+  - pyvenv-workon -- from pyvenv lib. elpy uses this. workon is an alias for
+    this.
+  - venv-workon -- from virtualenvwrapper lib. but running this seems to be
+    needed for pylint to work?
+
 
 * pairing
 * TODO maybe try https://github.com/capitaomorte/autopair
@@ -1031,7 +1038,6 @@ download and make gpg 1.4 myself, and use it to decrypt .authinfo.
 ** TODO leverage jest patterns (eg, related to recent changes)
    - -t to match test name
 ** TODO leverage debugger
-* TODO see notes/references.org/wishlist
 * profiling running commands with smex
 #+BEGIN_QUOTE
 ad-Advice-ido-read-internal is a compiled Lisp function.
@@ -1153,6 +1159,22 @@ C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
 
  #+END_SRC
 * Use!:
+  - bookmarks list:
+    - C-x r l  = list
+    - C-x r b  = jump
+    - C-x r m  = set
+#+BEGIN_SRC
+Some keys in ‘*Bookmark List*’:
+
+‘a’ – show annotation for the current bookmark
+‘A’ – show all annotations for your bookmarks
+‘d’ – mark various entries for deletion (‘x’ – to delete them)
+‘e’ – edit the annotation for the current bookmark
+‘m’ – mark various entries for display and other operations, (‘v’ – to visit)
+‘o’ – visit the current bookmark in another window, keeping the bookmark list open
+‘C-o’ – switch to the current bookmark in another window
+‘r’ – rename the current bookmark
+#+END_SRC
   - apropos-variable (apropos-value but it's slow)
   - magit-cherry-spinoff -- be on feature branch, move commits to master, then
     create new branch
@@ -1255,3 +1277,86 @@ local bindings in certain buffers.
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
 * TODO bundle use-package as part of emacs repo, or otherwise automatically install it if missing
+* wishlist                                                         :wishlist:
+  - fix magit stash save -- it's always empty now -- why?
+  - kill full urls and email addresses in markdown mode, text mode, comments.
+    kill-thing-at-point, kill-word.
+    - helpful: https://emacs.stackexchange.com/questions/19508/kill-url-at-point
+    - fix paragraph start --
+      - it should match lines that look like # - or * - for markdown style lists
+      - https://stackoverflow.com/questions/71788/getting-emacs-fill-paragraph-to-play-nice-with-javadoc-like-comments
+      - http://barelyenough.org/blog/2006/10/nicer-phpdoc-comments/
+    - [X]  defun to insert date in form of 2018-09-01 -> wjb/insert-date
+    - for every project, have a sane-term open, to make it easy to jump to a terminal
+    - bind compilation buffers to projects via projectile, purpose, or perspectiv
+      - maybe a frame per project? but only if frame switching is super-easy
+      - and it'd be great to automatically focus the current project in dirtree
+    - don't fill code, eg, text within code fences in markdown mode
+``` shell
+$ aws ecs update-service --cluster <cluster name> --service <service name> --force-new-deployment
+```
+   -  automatically open project in dirtree when switch to it
+     - probably can use projectile hook of some kind
+   -  Use compile buffer, jump to failing tests
+     - [X] unit tests
+     - integration tests
+   - [ ]  fill comment paragraphs nicely, including when they contain
+     bulleted lists and such (need to fix paragraph-start variable)
+   - [X]  really, truly skip husky
+     - magit runs "git commit". NEODARWIN_SKIP_PRECOMMIT is in process environment.
+     - hooks/pre-commit runs, looks like it does a bunch of stuff with nvm,
+       which is bad because nvm is slow. It uses has_hook_script to checks
+       whether package.json has a "precommit" task; if not, it exits; if so, it
+       runs it.
+       - So I'll change this to bail when NEODARWIN_SKIP_PRECOMMIT=1
+#+BEGIN_SRC bash
+[[ "$NEODARWIN_SKIP_PRECOMMIT" -eq 1 ]] && exit 0
+#+END_SRC
+     - Then the hook runs the npm precommit task, which bails dues to
+       NEODARWIN_SKIP_PRECOMMIT before lint-staged (which includes prettier) runs.
+     - If/when we upgrade husky, this will probably get overwritten... Use
+       HUSKY_SKIP_INSTALL (see https://github.com/typicode/husky/issues/172)
+   - [ ]  magit-status works from local_notes
+     - somewhat related: https://github.com/magit/magit/issues/1769
+#+BEGIN_SRC emacs-lisp
+;; if magit-toplevel is nil, and if current directory is a symlink, then check
+magit-toplevel of ..
+(unless (magit-toplevel)
+  (if (file-symlink-p default-directory) (magit-toplevel ..)))
+#+END_SRC
+
+#+BEGIN_SRC sh
+ ~/.../sd-playground/local_notes $ git rev-parse --show-toplevel
+fatal: not a git repository (or any of the parent directories): .git
+#+END_SRC
+** $sh mode
+   - knows about shell commands written out like so:
+#+BEGIN_SRC
+$ ls
+$ pwd
+/usr/local
+#+END_SRC
+   - works in markdown-mode
+#+BEGIN_SRC markdown
+Here are some commands to run:
+
+    $ ls
+    $ pwd
+#+END_SRC
+   - works if stuff is front of the $, for example:
+#+BEGIN_SRC markdown
+    (hegemone) $ workon hegemone
+    (hegemone) $ python manage.py showmigrations \
+                    --settings sd_hegemone.sd_hegemone.settings_atalanta
+#+END_SRC
+   - navigation commands put point after the "$ "
+#+BEGIN_SRC
+$ ls
+  ^ point is here
+#+END_SRC
+   - prompt-line- is the prefix:
+     - next
+     - previous
+     - kill -- don't kill the $, just the command
+     - mark-region
+     - new-line
