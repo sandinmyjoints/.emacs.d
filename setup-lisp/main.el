@@ -581,27 +581,30 @@
 (use-package dockerfile-mode
   :mode "Dockerfile-*")
 
-;; Highlight the current column in indentation-sensitive languages
+(defun wjb/set-highlight-indentation-current-column-face ()
+  "Just a bit lighter than the background."
+  (set-face-background 'highlight-indentation-current-column-face
+                       (color-lighten-name
+                        (face-attribute 'default :background) 15)))
+
+;; Highlight the current column in indentation-sensitive languages. Just want
+;; 0.6.0 because later versions cause breakage with elpy, I think.
 (use-package highlight-indentation
   :commands highlight-indentation-current-column-mode
   :diminish highlight-indentation-current-column-mode
-  :init
+  :defer 4
+  :disabled
+  :config
+  (require 'color)
   (mapc (lambda (hook)
+          (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
           (add-hook hook 'highlight-indentation-current-column-mode))
         '(coffee-mode-hook
           python-mode-hook
           yaml-mode-hook
-          web-mode-hook
+          ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
           sass-mode-hook))
-  :config
-  ;; Just a bit lighter than the background
-  (require 'color)
-  ;; this has to be called after the theme is loaded, because that
-  ;; changes what the default background is. but there's no hook:
-  ;; https://emacs.stackexchange.com/questions/22686/is-there-a-universal-after-theme-load-hook#26325
-  (set-face-background 'highlight-indentation-current-column-face
-                       (color-lighten-name
-                        (face-attribute 'default :background) 15)))
+  )
 
 (use-package highlight-indent-guides
   :disabled ;; doesn't seem to work right
