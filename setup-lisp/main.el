@@ -84,6 +84,7 @@
 
 ;; Use server.
 (use-package server
+  :defer 5
   :config
   (unless (server-running-p)
     (server-start)))
@@ -280,6 +281,7 @@
   :diminish auto-revert-mode)
 
 (use-package abbrev
+  :defer 4
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
   ;; (list-abbrevs)
   :init
@@ -803,12 +805,13 @@ company-mode TODO:
 
 (use-package company-restclient
   :after company
-  (push 'company-emoji company-backends))
+  (push 'company-restclient company-backends))
 
 (use-package shell-script-mode
   :mode "\\.bash*")
 
 (use-package helpful
+  :defer 2
   :config
   ;; Note that the built-in `describe-function' includes both functions
   ;; and macros. `helpful-function' is functions only, so we provide
