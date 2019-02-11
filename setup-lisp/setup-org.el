@@ -65,6 +65,7 @@
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(push "~/notes" org-agenda-files)
 
 (add-hook 'org-mode-hook
 	  (lambda ()
