@@ -1278,6 +1278,8 @@ local bindings in certain buffers.
   - Org-mode (C-c C-n/p; C-c C-f/b)
 * TODO bundle use-package as part of emacs repo, or otherwise automatically install it if missing
 * wishlist                                                         :wishlist:
+  - dumb-jump or smart-jump for jsx
+  - magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
   - kill full urls and email addresses in markdown mode, text mode, comments.
     kill-thing-at-point, kill-word.
@@ -1360,3 +1362,73 @@ $ ls
      - kill -- don't kill the $, just the command
      - mark-region
      - new-line
+* company-mode goals
+** triggers and key bindings
+   - trigger when type >3 or 4 chars
+   - M-/ is hippie-expand in some modes, company-complete in others
+   -
+*** hippie-expand
+esc-map /
+global-map M-/
+
+*** company-complete
+company-mode-map M-/
+ctl-x-map C-c <tab>
+global-map C-x C-c <tab>
+global-map H-0 <tab>
+global-map H-c
+wjb-map <tab>
+
+*** company-other-backend
+company-active-map M-/
+
+** test cases for all the company backends
+   - file
+     - in js require
+   - text
+   - markdown
+   - org
+   - restclient
+   - yasnippet
+   - js/jsx
+   - coffee
+   - python
+   - less
+** yasnippet
+   - wjb-map y
+** company-buffer-lines
+   - goal is to complete js import statements
+   - company-same-mode-buffer-lines
+** company-lsp
+** statistics to choose common completions
+** hippie-expand
+   - is there a company bridge to this?
+   - what hippie-expand functions am I using?
+   - wjb-map h?
+** js, jsx
+   - good completion, especially of requires and imports
+** text modes, markdown
+   - sensible
+   - integrates code
+** org
+   - currently get "company not enabled" in org
+   - M-/ is hippie-expand
+** coffee
+** python
+** emacs-lisp
+** css/less
+* counsel-projectile
+  - [X] counsel-projectile-switch-project go directly to magit status buffer
+    - counsel-projectile-switch-project with argument "v"
+  - [ ] sdplay matches sd-playground. and mainel matches main.el
+    - space makes a regex in ivy, might just get used to this
+    - i can omit the sd when switching projects
+    - i don't want to type - or . in queries, so - or . in results should "not count"
+    - https://www.reddit.com/r/emacs/comments/aoqcyl/third_trial_for_a_weekly_tipstricksetc_thread/eg4azgy/
+  - [ ] ordering of matches is directory/filename instead of filename|directory
+    - I think this is due to open buffers having buffer|path vs. files that
+      aren't opened being path/to/file
+    - different for switch-to-buffer vs. counsel-projectile-find-file
+    - not so much of an issue when ordering doesn't matter
+  - [X] ordering doesn't matter
+    - ivy–regex-ignore-order
