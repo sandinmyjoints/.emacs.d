@@ -454,7 +454,41 @@
   :diminish projectile-mode
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (require 'setup-projectile))
+  (require 'setup-projectile)
+  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
+  (counsel-projectile-mode)
+  )
+
+;; consider:
+;; (global-set-key (kbd "C-s") 'swiper)
+;; (global-set-key (kbd "M-x") 'counsel-M-x)
+;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;
+(use-package ivy
+  :demand
+  :diminish
+  :config
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d "
+        ivy-height 12
+        ivy-on-del-error-function 'ignore
+        ivy-display-function nil
+        ;; overlay would be great if:
+        ;; - border around the box
+        ;; - consistent placement of the box; it seems to be related to where point is
+        ;; ivy-display-function #'ivy-display-function-overlay
+        ivy-format-function 'ivy-format-function-arrow
+        ivy-virtual-abbreviate 'abbreviate
+        ivy-magic-tilde nil
+        ;; ivy-re-builders-alist '((t . ivy--regex-ignore-order))
+        ;; ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-fuzzy)
+        ;;                         (t . ivy--regex-ignore-order))
+        ;; see https://oremacs.com/2016/01/06/ivy-flx/:
+        ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
+                                (counsel-projectile-switch-project . ivy--regex-ignore-order)
+                                (t . ivy--regex-fuzzy))
+        ivy-initial-inputs-alist nil)
+  (ivy-mode 1))
 
 (use-package quickrun
   :config
