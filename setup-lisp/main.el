@@ -200,37 +200,11 @@
 
 (use-package comment-dwim-2)
 
-(use-package smex
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
-  :config
-  (smex-initialize)
-  (setq smex-auto-update nil)
-  (smex-auto-update 10)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
-
 (use-package beacon
   :defer t
   :config
   (setq beacon-blink-duration 0.1)
   (beacon-mode 1))
-
-(use-package ido
-  :config
-  (require 'setup-ido))
-
-;; ibuffer.
-(autoload 'ibuffer "ibuffer" "List buffers." t)
-
-;; Imenu.
-(when (require 'imenu nil t)
-  (autoload 'idomenu "idomenu" nil t))
-
-(defadvice ido-imenu (before push-mark activate)
-  (push-mark))
-
-;; Always rescan buffer for imenu
-(set-default 'imenu-auto-rescan t)
 
 (use-package dired
   :init
@@ -461,15 +435,58 @@
   (counsel-projectile-mode)
   )
 
-;; consider:
-;; (global-set-key (kbd "C-s") 'swiper)
-;; (global-set-key (kbd "M-x") 'counsel-M-x)
-;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;;
+(use-package ido
+  :config
+  (require 'setup-ido)
+  (global-set-key (kbd "C-x C-f") 'ido-find-file))
+
+;; ibuffer.
+(autoload 'ibuffer "ibuffer" "List buffers." t)
+
+;; Imenu.
+(when (require 'imenu nil t)
+  (autoload 'idomenu "idomenu" nil t))
+
+(defadvice ido-imenu (before push-mark activate)
+  (push-mark))
+
+;; Always rescan buffer for imenu
+(set-default 'imenu-auto-rescan t)
+
+(use-package flx)
+
+(use-package smex
+  :bind (("M-X" . smex-major-mode-commands)
+         ;; ("M-x" . smex)
+         )
+  :config
+  (smex-initialize)
+  (setq smex-auto-update nil)
+  (smex-auto-update 10)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+
+(use-package counsel
+  :config
+  (setq counsel-find-file-at-point t
+        counsel-preselect-current-file t
+        counsel-yank-pop-height 12
+        counsel-yank-pop-preselect-last t))
+
 (use-package ivy
   :demand
   :diminish
   :config
+  ;; consider:
+  ;; (global-set-key (kbd "C-s") 'swiper)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
+  ;;
+  (setq ivy-height-alist '((counsel-evil-registers . 5)
+                           (counsel-yank-pop . 10)
+                           (counsel-git-log . 10)
+                           (counsel--generic . 12)
+                           (counsel-el . 12)))
+
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "
         ivy-height 12
