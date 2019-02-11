@@ -466,14 +466,7 @@
   (smex-initialize)
   (setq smex-auto-update nil)
   (smex-auto-update 10)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
-
-(use-package counsel
-  :config
-  (setq counsel-find-file-at-point t
-        counsel-preselect-current-file t
-        counsel-yank-pop-height 12
-        counsel-yank-pop-preselect-last t))
+  (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
 (use-package ivy
   :demand
@@ -511,6 +504,13 @@
                                 (t . ivy--regex-fuzzy))
         ivy-initial-inputs-alist nil)
   (ivy-mode 1))
+
+(use-package counsel
+  :config
+  (setq counsel-find-file-at-point t
+        counsel-preselect-current-file t
+        counsel-yank-pop-height 12
+        counsel-yank-pop-preselect-last t))
 
 (use-package quickrun
   :config
