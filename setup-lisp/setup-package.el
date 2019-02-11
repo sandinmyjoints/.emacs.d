@@ -213,10 +213,21 @@
      (cons 'xterm-color melpa)
      (cons 'helpful melpa)
      (cons 'elisp-demos melpa)
+     (cons 'org-clock-csv melpa)
+     (cons 'symbol-overlay melpa)
 
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
      (cons 'flycheck-perl6 melpa)
+
+     (cons 'ivy melpa)
+     (cons 'ivy-hydra melpa)
+     (cons 'counsel melpa)
+     (cons 'counsel-projectile melpa)
+     (cons 'counsel-css melpa)
+     (cons 'counsel-tramp melpa)
+     (cons 'swiper melpa)
+     (cons 'company-flx melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
