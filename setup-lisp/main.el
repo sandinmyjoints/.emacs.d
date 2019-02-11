@@ -286,10 +286,13 @@
   ;; Load ODT backend to allow for exporting to open document format.
   (require 'ox-odt))
 
-(use-package sql
+(use-package sql)
+(use-package sqlformat
+  :after sql
   :config
   ;; needs sqlparse package, which can be gotten with homebrew
-  (add-hook 'sql-mode-hook 'sqlformat-mode))
+  (add-hook 'sql-mode-hook 'sqlformat-on-save-mode)
+  (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
 ;; Magit.
 (use-package magit
