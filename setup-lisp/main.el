@@ -506,6 +506,7 @@
   ;; C-M-p dumb-jump-back -- M-,
   :config
   (setq dumb-jump-selector 'helm)
+  ;; (setq dumb-jump-selector 'ivy)
   (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
 (use-package smart-jump
@@ -835,48 +836,88 @@
 (defun wjb/set-company-minimum-prefix-length ()
   (setq-local company-minimum-prefix-length 3))
 
+(defun wjb/revert-company-backends ()
+  ;; current
+  (setq company-backends
+        '(
+          company-emoji
+          company-bbdb
+          company-eclim
+          company-semantic
+          company-clang
+          company-xcode
+          company-cmake
+          company-capf
+          company-files
+          (company-dabbrev-code company-gtags company-etags company-keywords)
+          company-oddmuse
+          company-dabbrev)))
+(wjb/revert-company-backends)
+
+(defun wjb/experimental-company-backends ()
+  "Try some backend orderings."
+  ;; mode-specific, smart
+  (let (zing (list))
+    (dolist
+        ;; last ends up first
+        (backend '(company-clang company-xcode company-cmake company-capf company-web company-shell company-lsp company-nginx company-restclient company-css) zing)
+      (push
+       (list backend :with 'company-dabbrev-code 'company-dabbrev 'company-emoji 'company-keywords)
+       zing))
+
+    ;; generic
+    (setq zin (append zing '(company-files)))
+    ;; fallback backends -- likely to return in almost all cases
+    (setq zing (append zing
+               '(
+                 ;; code
+                 (company-dabbrev-code company-gtags company-etags company-keywords)
+                 ;; text
+                 (company-emoji company-dabbrev)
+                 )
+               ))
+    (setq company-backends zing)))
+(wjb/experimental-company-backends)
+
+;; company-mode TODO:
+;; (company-emoji company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+;;                (company-dabbrev-code company-gtags company-etags company-keywords)
+;;                company-oddmuse company-dabbrev)
+
+;; - order backends in a way that makes sense
+;; - group backends
+;; - set backends based on major mode. For example, higher minimum prefix in text modes (4)
+;;   (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
+;; - different behavior within comments
+;; - understand company-capf
+
+;; - how backends work: https://superuser.com/a/528407/93702
+;; - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
+;; - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
+
+;; - dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
+;; - strong backend:
+;; - text/markdow backend:
+;; - org backend:
+
+;; - company-diag
+;; - company-yasnippet -- specific binding for this
+;; - company-nginx
+;; - company-shell
+;; - company-web
+
+;; - push mutates, puts newelt in front
+;; (setq l '())
+;; (push 1 l)
+;; - add-to-list mutates, puts newelt in front
+;; (add-to-list 'l 2)
+;; - but with arg, it puts it in back
+;; (add-to-list 'l 4 t)
+;; - append does not mutate
+;; (append l '(5))
+;; - delq mutates
+;; (delq 5 l)
 (use-package company
-  "
-company-mode TODO:
-(company-emoji company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-               (company-dabbrev-code company-gtags company-etags company-keywords)
-               company-oddmuse company-dabbrev)
-
-- order backends in a way that makes sense
-- group backends
-- set backends based on major mode. For example, higher minimum prefix in text modes (4)
-  (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
-- different behavior within comments
-- understand company-capf
-
-- how backends work: https://superuser.com/a/528407/93702
-- another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
-- another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
-
-- dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
-- strong backend:
-- text/markdow backend:
-- org backend:
-
-- company-diag
-- company-yasnippet -- specific binding for this
-- company-nginx
-- company-shell
-- company-web
-
-- push mutates, puts newelt in front
-(setq l '())
-(push 1 l)
-- add-to-list mutates, puts newelt in front
-(add-to-list 'l 2)
-- but with arg, it puts it in back
-(add-to-list 'l 4 t)
-- append does not mutate
-(append l '(5))
-- delq mutates
-(delq 5 l)
-
-"
   :defer 2
   :diminish
   :custom
@@ -893,6 +934,12 @@ company-mode TODO:
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
   )
+
+;; trial:
+(use-package company-flx
+  :after company
+  :config
+  (company-flx-mode +1))
 
 (use-package company-buffer-line
   :commands (company-same-mode-buffer-lines)
