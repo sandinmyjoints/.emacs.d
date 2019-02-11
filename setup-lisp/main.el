@@ -434,6 +434,8 @@
   (add-hook 'conf-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
+(use-package symbol-overlay)
+
 (use-package tsv-mode
   :mode "\\.tsv\\'"
   :init
@@ -756,6 +758,7 @@
                               (yas-minor-mode -1))))
 
 (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
+(eval-after-load 'yasnippet '(use-package emacs-snippets))
 
 ;; RVM.
 (use-package rvm
@@ -1030,10 +1033,12 @@
   (add-to-list 'sql-mysql-login-params '(port :default 3311)))
 
 (use-package helm-xref
+  :after helm
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 
-(use-package helm-aws)
+(use-package helm-aws
+  :after helm)
 
 (use-package npm-mode
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
