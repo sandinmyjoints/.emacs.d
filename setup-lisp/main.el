@@ -347,7 +347,78 @@
 (use-package python
   :config
   (setq python-indent-guess-indent-offset-verbose nil)
-  (require 'setup-python))
+  (setq python-indent-offset 2)
+  (setq-default python-fill-docstring-style 'django)
+
+  ;; This is https://github.com/jorgenschaefer/pyvenv
+  ;; - pyvenv-* commands
+  ;; - comes with elpy
+  (defalias 'workon 'pyvenv-workon)
+
+  (add-hook 'python-mode-hook (lambda ()
+                                (hack-local-variables)
+                                (setq fill-column 79)
+                                (set-face-background 'highlight-indentation-face "#111")
+                                (when (boundp 'project-venv-name)
+                                  (venv-workon project-venv-name)
+                                  (pyvenv-workon project-venv-name))))
+
+  (with-eval-after-load 'python
+    ;; elpy
+    (elpy-enable)
+    (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules)))
+
+  ;; This is https://github.com/porterjamesj/virtualenvwrapper.el
+  ;; - venv-* commands.
+  ;; - TODO: might get rid of virtualenvwrapper.el now that using elpy.
+  (require-package 'virtualenvwrapper)
+
+  ;; To use, put the following into custom.el:
+  ;; (setq venv-location "path/to/virtualenvs/")
+
+  ;; if you want interactive shell support
+  (venv-initialize-interactive-shells)
+
+  ;; if you want eshell support
+  ;;(venv-initialize-eshell)
+
+  (defadvice run-python (before setup-repl ())
+    "Use IPython if available."
+    (if (executable-find "ipython")
+        (setq
+         python-shell-interpreter "ipython"
+         ;;python-shell-interpreter-args "--no-banner --gui=osx"
+         python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+         python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+         python-shell-completion-setup-code
+         "from IPython.core.completerlib import module_completion"
+         python-shell-completion-module-string-code
+         "';'.join(module_completion('''%s'''))\n"
+         python-shell-completion-string-code
+         "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+      (setq
+       python-shell-interpreter "python"
+       python-shell-interpreter-args "-i"
+       python-shell-prompt-regexp ">>> "
+       python-shell-prompt-output-regexp ""
+       python-shell-completion-setup-code
+       "try:\n    import readline\nexcept ImportError:\n    def __COMPLETER_all_completions(text): []\nelse:\n    import rlcompleter\n    readline.set_completer(rlcompleter.Completer().complete)\n    def __COMPLETER_all_completions(text):\n        import sys\n        completions = []\n        try:\n            i = 0\n            while True:\n                res = readline.get_completer()(text, i)\n                if not res: break\n                i += 1\n                completions.append(res)\n        except NameError:\n            pass\n        return completions"
+       python-shell-completion-module-string-code ""
+       python-shell-completion-string-code "';'.join(__COMPLETER_all_completions('''%s'''))"
+       )))
+  (ad-activate 'run-python)
+
+  ;; from https://emacs.stackexchange.com/a/30970/2163
+  ;; (with-eval-after-load 'python
+  ;;   (defun python-shell-completion-native-try ()
+  ;;     "Return non-nil if can trigger native completion."
+  ;;     (let ((python-shell-completion-native-enable t)
+  ;;           (python-shell-completion-native-output-timeout
+  ;;            python-shell-completion-native-try-output-timeout))
+  ;;       (python-shell-completion-native-get-completions
+  ;;        (get-buffer-process (current-buffer))
+  ;;        nil "_"))))
+  )
 
 ;; Rainbow mode.
 (use-package rainbow-mode
