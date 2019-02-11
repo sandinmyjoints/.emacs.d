@@ -195,12 +195,24 @@
 (define-prefix-command 'wjb-map)
 (add-hook 'after-init-hook
           (lambda ()
-            (global-set-key (kbd "C-x C-c") 'wjb-map)))
+            (global-set-key (kbd "C-x C-c") 'wjb-map)
+            (global-set-key (kbd "H-0") 'wjb-map)))
+
+(defun wjb/switch-to-clock ()
+  "Switch to last clock buffer."
+  (interactive)
+  (switch-to-buffer "clock.org"))
 
 (define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
 (define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
 (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+;; want to prefer yas-snippet-expand, then fall back to company-complete, then indent-for-tab-command
+;; this is what's in yasnippet itself: yas-maybe-expand is a conditional variable?!
+;; (define-key yas-minor-mode-map (kbd "<tab>") yas-maybe-expand)
+;; (define-key yas-minor-mode-map (kbd "TAB") yas-maybe-expand)
+
 (define-key wjb-map (kbd "<tab>") #'company-complete)
+(define-key wjb-map (kbd "0") #'wjb/switch-to-clock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile section
