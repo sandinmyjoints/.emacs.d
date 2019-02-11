@@ -264,14 +264,6 @@
   (add-hook 'markdown-mode-hook 'abbrev-mode)
   :diminish abbrev-mode)
 
-(use-package ein
-  :disabled
-  :bind
-  (:map ein:notebooklist-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open))
-  (:map ein:notebook-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open)))
-
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
@@ -393,6 +385,14 @@
   ;;        (get-buffer-process (current-buffer))
   ;;        nil "_"))))
   )
+
+(use-package ein
+  :disabled
+  :bind
+  (:map ein:notebooklist-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open))
+  (:map ein:notebook-mode-map
+        ("C-c C-g" . 'ein:notebooklist-open)))
 
 ;; Rainbow mode.
 (use-package rainbow-mode
