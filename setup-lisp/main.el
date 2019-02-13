@@ -1052,6 +1052,28 @@
   :config
   (add-to-list 'sql-mysql-login-params '(port :default 3311)))
 
+(require 'helm-config)
+(use-package helm
+  :config
+  (global-set-key (kbd "C-o") #'helm-mini)
+  (global-set-key (kbd "M-o") #'helm-mini)
+  (global-set-key (kbd "H-o") #'helm-mini)
+  (global-set-key (kbd "H-0 o") #'helm-buffers-list)
+  (require 'helm-dired-recent-dirs)
+  ;; TODO: would like to add a source of files in the current project, maybe even all files
+  ;; helm-source-bookmarks
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                    helm-source-recentf
+                                    helm-source-bookmarks
+                                    helm-source-file-cache
+                                    helm-source-files-in-current-dir
+                                    helm-source-dired-recent-dirs
+                                    helm-source-buffer-not-found
+                                    ))
+  )
+
+(use-package helm-org-rifle)
+
 (use-package helm-xref
   :after helm
   :config
