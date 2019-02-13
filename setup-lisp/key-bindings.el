@@ -29,6 +29,7 @@
 
 (global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
 
+(global-set-key (kbd "H-v") #'scroll-up-command)
 (global-set-key (kbd "H-_") 'undo)
 (global-set-key (kbd "H-k") 'kill-sexp)
 ;; H-d should be backward-kill-subword, but that doesn't exist
