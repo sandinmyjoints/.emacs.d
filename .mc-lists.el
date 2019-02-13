@@ -109,4 +109,5 @@
         revert-buffer
         smex
         wdired-finish-edit
+        wjb/switch-to-last-compilation-buffer
         ))
