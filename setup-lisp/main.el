@@ -672,6 +672,26 @@
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
+(require 'setup-dirtree)
+(with-eval-after-load 'dirtree
+  (progn
+    ;; Free up for helm-mini.
+    (unbind-key (kbd "C-o")  dirtree-mode-map)))
+
+;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
+;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
+;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
+(setq display-buffer-alist
+      ;; Let popup buffers pop up.
+      '(("\*.*popup\*" . (display-buffer-pop-up-window))
+        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
+        ;; Catchall: always allow same window, which is the one reusable window.
+        (".*" .
+         (display-buffer-use-some-window .
+                                         '((inhibit-same-window . nil)
+                                           (inhibit-switch-frame . t))))
+        ))
+
 ;; (require 'lisp-stuff)
 
 (push '(:source "~/.emacs.d/.authinfo.gpg") auth-sources)
@@ -1498,8 +1518,6 @@
 
 (require 'appearance)
 
-(require 'setup-dirtree)
-
 (message (concat "exec-path is " (format "%s" exec-path)))
 
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
@@ -1509,20 +1527,6 @@
 
 (defvar desktop-restore-eager 32)
 (desktop-save-mode 1)
-
-;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
-;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
-;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
-(setq display-buffer-alist
-      ;; Let popup buffers pop up.
-      '(("\*.*popup\*" . (display-buffer-pop-up-window))
-        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
-        ;; Catchall: always allow same window, which is the one reusable window.
-        (".*" .
-         (display-buffer-use-some-window .
-                                         '((inhibit-same-window . nil)
-                                           (inhibit-switch-frame . t))))
-        ))
 
 ;; (global-set-key (kbd ')
 
