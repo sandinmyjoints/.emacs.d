@@ -1417,7 +1417,7 @@ company-active-map M-/
 ** python
 ** emacs-lisp
 ** css/less
-* counsel-projectile
+* ivy/counsel
   - [X] counsel-projectile-switch-project go directly to magit status buffer
     - counsel-projectile-switch-project with argument "v"
   - [ ] sdplay matches sd-playground. and mainel matches main.el
@@ -1427,7 +1427,7 @@ company-active-map M-/
     - https://www.reddit.com/r/emacs/comments/aoqcyl/third_trial_for_a_weekly_tipstricksetc_thread/eg4azgy/
   - [ ] ordering of matches is directory/filename instead of filename|directory
     - I think this is due to open buffers having buffer|path vs. files that
-      aren't opened being path/to/file
+      aren't opened being path/to/file. This is the buffer name: filename|path
     - different for switch-to-buffer vs. counsel-projectile-find-file
     - not so much of an issue when ordering doesn't matter
   - [X] ordering doesn't matter
