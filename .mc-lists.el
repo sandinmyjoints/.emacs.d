@@ -89,6 +89,7 @@
 (setq mc/cmds-to-run-once
       '(
         ace-window
+        counsel-M-x
         create-cursor
         dired-create-directory
         dired-do-copy
