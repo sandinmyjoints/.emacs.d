@@ -60,6 +60,9 @@
       (flycheck-mode +1))))
 
 (add-hook 'web-mode-hook #'js2-minor-mode)
+(setq web-mode-auto-close-style 2
+      web-mode-markup-indent-offset 2
+      web-mode-auto-quote-style 1)    ;; uses double quotes
 
 (provide 'setup-webmode)
 

@@ -130,6 +130,8 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
                                (electric-pair-mode 1) ;; maybe?
                                (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  ;; TODO: make minor mode hook more like major mode hook
+  (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 
   ;; This might slow things down when loading large files?
   ;; (add-hook 'js2-mode-hook  #'js2-imenu-extras-setup)
@@ -140,6 +142,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   ;; - hook for switching buffers
   ;; - hook where projectile knows when project changes?
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
+  (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer)
   (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
 
   ;; HACK
@@ -183,6 +186,7 @@ If buffer is not visiting a file, do nothing."
 
 ;; rsjx-mode is better but it has a tendency to hang when attributes are malformed.
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
@@ -217,6 +221,8 @@ If buffer is not visiting a file, do nothing."
 
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
+(eval-after-load 'js2-minor-mode
+  '(add-hook 'js2-minor-mode-hook #'add-node-modules-path))
 
 ;; The following defuns may be replaceable by
 ;; https://github.com/codesuki/add-node-modules-path
@@ -264,6 +270,7 @@ project."
 (when (require 'prettier-js nil t)
   (make-variable-buffer-local 'prettier-js-command)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
+  (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
   (setq prettier-js-args
         '("--single-quote"
