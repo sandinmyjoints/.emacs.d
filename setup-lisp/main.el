@@ -1476,6 +1476,19 @@
   :config
   (require 'setup-smartparens))
 
+
+;; It doesn't seem to like this, it thinks the domain name is neodarwin
+;; 	url = git@github.com:spanishdict/neodarwin.git
+;;
+(use-package browse-at-remote
+  :config
+  (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
+                                              ("github.com" . "github")
+                                              ("neodarwin" . "github")
+                                              ("gitlab.com" . "gitlab")
+                                              ("git.savannah.gnu.org" . "gnu")
+                                              ("gist.github.com" . "gist"))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Ctags.
