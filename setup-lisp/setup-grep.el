@@ -126,21 +126,23 @@
   (let ((default-directory path))
     (grep-find (concat wjb-default-find-command grep-string))))
 
+;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string)
   "find|xargs in current project dir by path."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "path glob: ")
+                     (read-from-minibuffer "path glob: " "*")
                      (read-from-minibuffer "search for: ")))
   (let* ((default-directory path)
-         (command-template (concat "gfind . -ipath '*%s' " wjb-find-args wjb-after-the-pipe))
+         (command-template (concat "gfind . -ipath '%s' " wjb-find-args wjb-after-the-pipe))
          (actual-command (format command-template name-pattern grep-string)))
     (message "actual-command: %s " actual-command)
     (grep-find actual-command)))
 
+;; C-x j -> j close to n
 (defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
   "find|xargs in current project dir by name. Negate with prefix arg."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "name glob: ")
+                     (read-from-minibuffer "name glob: " "*")
                      (read-from-minibuffer "search for: ")
                      current-prefix-arg))
   (let* ((default-directory path)
