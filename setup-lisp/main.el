@@ -144,13 +144,6 @@
   :config
   (require 'vlf-setup))
 
-(defun wjb/bury-ibuffer (orig-fun &rest args)
-  "Never want to switch back to *Ibuffer* after choosing a buffer from it."
-  (bury-buffer "*Ibuffer*")
-  (apply orig-fun args))
-
-(advice-add 'ibuffer-visit-buffer :around #'wjb/bury-ibuffer)
-
 (use-package flycheck
   :ensure t
   :defer 5
@@ -452,6 +445,13 @@
 
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
+
+(defun wjb/bury-ibuffer (orig-fun &rest args)
+  "Never want to switch back to *Ibuffer* after choosing a buffer from it."
+  (bury-buffer "*Ibuffer*")
+  (apply orig-fun args))
+
+(advice-add 'ibuffer-visit-buffer :around #'wjb/bury-ibuffer)
 
 ;; Imenu.
 (when (require 'imenu nil t)
