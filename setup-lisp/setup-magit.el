@@ -30,6 +30,7 @@
       magit-revert-buffers 1 ;; important for not slowing down everything
       magit-completing-read-function 'magit-ido-completing-read
       magit-push-always-verify nil
+      magit-revision-insert-related-refs nil
       magit-branch-read-upstream-first nil)
 
 ;; TODO: ideally, push-remote would be the remote tracking branch, not
