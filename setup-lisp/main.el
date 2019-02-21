@@ -1137,6 +1137,15 @@
 
 (use-package helm-org-rifle)
 
+(use-package ace-jump-helm-line
+  :config
+  (setq ace-jump-helm-line-idle-delay 0
+        ace-jump-helm-line-style 'pre
+        ;; ace-jump-helm-line-style 'de-bruijn
+        )
+  (ace-jump-helm-line-idle-exec-add 'helm-mini)
+)
+
 (use-package helm-xref
   :after helm
   :config

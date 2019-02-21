@@ -195,6 +195,7 @@
      (cons 'helm-projectile melpa)
      (cons 'helm-dired-recent-dirs melpa)
      (cons 'helm-org-rifle melpa)
+     (cons 'ace-jump-helm-line melpa)
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
