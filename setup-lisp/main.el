@@ -1175,6 +1175,14 @@
               (make-local-variable 'jit-lock-defer-timer)
               (set (make-local-variable 'jit-lock-defer-time) 0.25))))
 
+(require 'cl-lib)
+(defun endless/toggle-comint-compilation ()
+  "Restart compilation with (or without) `comint-mode'."
+  (interactive)
+  (cl-callf (lambda (mode) (if (eq mode t) nil t))
+      (elt compilation-arguments 1))
+  (recompile))
+
 (defvar wjb/last-compilation-buffer nil
   "The last buffer in which compilation took place.")
 (defvar wjb/last-grep-buffer nil
@@ -1202,7 +1210,7 @@
         ;; this is telling Jest (and other ncurses programs) they can use color codes
         ;; but not movement codes, I think.
         compilation-environment '("TERM=dumb" "COLORTERM=1") ;; default nil
-        comint-prompt-read-only t
+        comint-prompt-read-only nil
         comint-scroll-to-bottom-on-input t
         compilation-ask-about-save nil
         ;; Don't save *anything*
