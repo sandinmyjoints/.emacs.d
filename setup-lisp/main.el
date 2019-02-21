@@ -754,7 +754,18 @@
 
 ;; (require 'lisp-stuff)
 
+;; Lines in this file take the form of:
+;; machine api.github.com login sandinmyjoints^magit password SECRET_THING
+;;
+;; They can be retrieved with (auth-source-user-and-password "api.github.com" "sandinmyjoints^magit")
+;; (take the cadr of what's returned by that)
 (push '(:source "~/.emacs.d/.authinfo.gpg") auth-sources)
+
+(setq pivotal-api-token
+      (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
+
+      paradox-github-token
+      (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox")))
 
 ;; EPG.
 (use-package epa-file
