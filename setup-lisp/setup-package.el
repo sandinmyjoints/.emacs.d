@@ -138,6 +138,7 @@
      (cons 'flx-ido melpa)
      (cons 'header2 melpa)
      (cons 'know-your-http-well melpa)
+     (cons 'paradox melpa)
      (cons 'restclient melpa)
      (cons 'smartscan melpa)
      (cons 'date-at-point melpa)

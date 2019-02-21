@@ -117,6 +117,10 @@
   :config
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
+(use-package paradox
+  :config
+  (paradox-enable))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; ========================================
