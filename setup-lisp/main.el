@@ -215,6 +215,9 @@
   :bind (:map dired-mode-map
               ("C-c f" . find-name-dired))
   :config
+  ;; unbind C-o (was diredp-find-file-other-frame) for use by helm-mini
+  (unbind-key (kbd "C-o") dired-mode-map)
+
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
@@ -512,13 +515,22 @@
   (smex-auto-update 10)
   (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
+;; switching/finding/opening/running things
+;; - C-x b switch buffer (among open buffers)
+;; - TODO: switch buffer among buffers limited to current project?
+;; - C-o helm-mini -> buffers, recent files, bookmarks, more?
+;; - C-x C-f -> open/find file (least used)
+;; - TODO: helm-mini limited to current project?
+;; - C-c p f find file in project
+;; - M-x commands to run
 (use-package ivy
   :demand
   :diminish
   :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
   ;; consider:
   ;; (global-set-key (kbd "C-s") 'swiper)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
   ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
   ;;
   (setq ivy-height-alist '((counsel-evil-registers . 5)
@@ -539,14 +551,17 @@
         ivy-format-function 'ivy-format-function-arrow
         ivy-virtual-abbreviate 'abbreviate
         ivy-magic-tilde nil
-        ;; ivy-re-builders-alist '((t . ivy--regex-ignore-order))
-        ;; ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-fuzzy)
-        ;;                         (t . ivy--regex-ignore-order))
-        ;; see https://oremacs.com/2016/01/06/ivy-flx/:
+        ivy-initial-inputs-alist nil
+
+        ;; references on ivy-re-builders-alist:
+        ;; - https://emacs.stackexchange.com/a/36748/2163
+        ;; - https://oremacs.com/2016/01/06/ivy-flx/
+        ;;
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
+                                (ivy-switch-buffer . ivy--regex-fuzzy)
                                 (t . ivy--regex-fuzzy))
-        ivy-initial-inputs-alist nil)
+        )
   (ivy-mode 1))
 
 (use-package counsel
@@ -720,7 +735,8 @@
 (with-eval-after-load 'dirtree
   (progn
     ;; Free up for helm-mini.
-    (unbind-key (kbd "C-o")  dirtree-mode-map)))
+    (unbind-key (kbd "C-o")  dirtree-mode-map)
+    (bind-key (kbd "<return>") 'dirtree-display dirtree-mode-map)))
 
 ;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
