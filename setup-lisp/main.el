@@ -450,8 +450,6 @@
   (add-hook 'conf-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
-(use-package symbol-overlay)
-
 (use-package tsv-mode
   :mode "\\.tsv\\'"
   :init
@@ -749,7 +747,36 @@
   (epa-file-enable)
   (setenv "GPG_AGENT_INFO" nil))
 
+;; Usage
+;;
+;; To use `symbol-overlay' in your Emacs, you need only to bind these keys:
+;; (require 'symbol-overlay)
+;; (global-set-key (kbd "M-i") 'symbol-overlay-put)
+;; (global-set-key (kbd "M-n") 'symbol-overlay-jump-next)
+;; (global-set-key (kbd "M-p") 'symbol-overlay-jump-prev)
+;; (global-set-key (kbd "<f7>") 'symbol-overlay-mode)
+;; (global-set-key (kbd "<f8>") 'symbol-overlay-remove-all)
+;;
+;; Default key-bindings are defined in `symbol-overlay-map'.
+;; You can re-bind the commands to any keys you prefer by simply writing
+;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
+;; prog-mode-hook
+(use-package symbol-overlay
+  :bind (:map prog-mode-map
+              ("M-i" . 'symbol-overlay-put)
+              ("M-n" . 'symbol-overlay-jump-next)
+              ("M-p" . 'symbol-overlay-jump-prev)
+              ("<f7>" .  'symbol-overlay-mode)
+              ("<f8>" .  'symbol-overlay-remove-all)))
+
+;; TODO
+         ;; ("M-p" . smart-jump-back)))
+  ;; :hook (prog-mode . symbol-overlay-mode))
+
+;; disabled: in jsx file, AudioToggle move next tries to go "audio" even when
+;; using symbol. Prefer symbol-overlay.
 (use-package smartscan
+  :disabled
   :config
   ;; Turn off smartscan in these modes.
   (mapc (lambda (hook)
