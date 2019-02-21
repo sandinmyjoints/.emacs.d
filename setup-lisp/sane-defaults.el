@@ -379,6 +379,9 @@
 
 (setq tab-always-indent 'complete)
 
+(minibuffer-depth-indicate-mode 1)
+(setq enable-recursive-minibuffers t)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
