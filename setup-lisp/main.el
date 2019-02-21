@@ -1452,8 +1452,13 @@
   :hook (js-mode . lsp)
   :hook (js2-mode . lsp)
   :hook (python-mode. lsp)
+  :init
+  (setq lsp-prefer-flymake nil)
   :config
-  (setq lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
+  (setq lsp-auto-guess-root t
+        lsp-eldoc-enable-hover nil
+        lsp-response-timeout 5
+        lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
 
 (use-package lsp-ui
   :disabled
@@ -1461,6 +1466,7 @@
   :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode)
   :config
+  ;; TODO: call lsp-ui-flycheck-enable per mode or buffer
   (setq lsp-ui-flycheck-enable nil
         lsp-ui-peek-enable nil
         lsp-ui-sideline-enable nil
