@@ -312,6 +312,37 @@
 (use-package setup-magit
   :after magit)
 
+(defun wjb/set-highlight-indentation-current-column-face ()
+  "Just a bit lighter than the background."
+  (set-face-background 'highlight-indentation-current-column-face
+                       (color-lighten-name
+                        (face-attribute 'default :background) 15)))
+
+;; Highlight the current column in indentation-sensitive languages. Just want
+;; 0.6.0 because later versions cause breakage with elpy, I think.
+(use-package highlight-indentation
+  :commands highlight-indentation-current-column-mode
+  :diminish highlight-indentation-current-column-mode
+  :defer 4
+  :disabled
+  :config
+  (require 'color)
+  (mapc (lambda (hook)
+          (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
+          (add-hook hook 'highlight-indentation-current-column-mode))
+        '(coffee-mode-hook
+          yaml-mode-hook
+          ;; python-mode-hook ;; let elpy set this up
+          ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
+          sass-mode-hook))
+  )
+
+(use-package elpy
+  :disabled
+  :config
+  (elpy-enable)
+  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules)))
+
 ;; Python.
 (use-package python
   :config
@@ -331,11 +362,6 @@
                                 (when (boundp 'project-venv-name)
                                   (venv-workon project-venv-name)
                                   (pyvenv-workon project-venv-name))))
-
-  (with-eval-after-load 'python
-    ;; elpy
-    (elpy-enable)
-    (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules)))
 
   ;; This is https://github.com/porterjamesj/virtualenvwrapper.el
   ;; - venv-* commands.
@@ -390,12 +416,25 @@
   )
 
 (use-package ein
+  :after python
   :disabled
   :bind
   (:map ein:notebooklist-mode-map
         ("C-c C-g" . 'ein:notebooklist-open))
   (:map ein:notebook-mode-map
         ("C-c C-g" . 'ein:notebooklist-open)))
+
+(use-package highlight-indent-guides
+  :disabled ;; doesn't seem to work right
+  :init
+  (mapc (lambda (hook)
+          (remove-hook hook 'highlight-indent-guides-mode))
+        '(coffee-mode-hook
+          python-mode-hook
+          web-mode-hookp
+          sass-mode-hook))
+  :config
+  (setq highlight-indent-guides-method 'column))
 
 ;; Rainbow mode.
 (use-package rainbow-mode
@@ -737,44 +776,6 @@
 
 (use-package dockerfile-mode
   :mode "Dockerfile-*")
-
-(defun wjb/set-highlight-indentation-current-column-face ()
-  "Just a bit lighter than the background."
-  (set-face-background 'highlight-indentation-current-column-face
-                       (color-lighten-name
-                        (face-attribute 'default :background) 15)))
-
-;; Highlight the current column in indentation-sensitive languages. Just want
-;; 0.6.0 because later versions cause breakage with elpy, I think.
-(use-package highlight-indentation
-  :commands highlight-indentation-current-column-mode
-  :diminish highlight-indentation-current-column-mode
-  :defer 4
-  :disabled
-  :config
-  (require 'color)
-  (mapc (lambda (hook)
-          (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
-          (add-hook hook 'highlight-indentation-current-column-mode))
-        '(coffee-mode-hook
-          python-mode-hook
-          yaml-mode-hook
-          ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
-          sass-mode-hook))
-  )
-
-(use-package highlight-indent-guides
-  :disabled ;; doesn't seem to work right
-  :init
-  (mapc (lambda (hook)
-          (remove-hook hook 'highlight-indent-guides-mode))
-        '(coffee-mode-hook
-          python-mode-hook
-          web-mode-hookp
-          sass-mode-hook))
-  :config
-  (setq highlight-indent-guides-method 'column))
-
 
 (use-package docker-compose-mode)
 
