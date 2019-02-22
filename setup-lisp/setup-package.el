@@ -166,7 +166,6 @@
      ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
      (cons 'ein melpa)
-     ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'aws-snippets melpa)
      (cons 'discover-my-major melpa)
      (cons 'markdown-mode melpa)
@@ -193,7 +192,9 @@
      (cons 'vlf melpa)
      (cons 'nhexl-mode melpa)
      (cons 'projectile melpa)
+     ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'helm-projectile melpa)
+     (cons 'helm-ls-git melpa)
      (cons 'helm-dired-recent-dirs melpa)
      (cons 'helm-org-rifle melpa)
      (cons 'ace-jump-helm-line melpa)
