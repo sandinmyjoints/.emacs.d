@@ -520,14 +520,15 @@
   (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
 ;; switching/finding/opening/running things
-;; - C-x b switch buffer (among open buffers)
-;;   - helm-buffers-list
-;; - TODO: switch buffer among buffers limited to current project? -> helm-browse-project H-0 o? H-0 C-o? H-0 a?
-;; - C-o helm-mini -> buffers, recent files, bookmarks, more?
-;; - C-x C-f -> open/find file (least used)
-;; - TODO: helm-mini limited to current project? -> helm-browse-project H-0 o? H-0 a?
-;; - C-c p f find file in project
+;; - C-o = helm-mini -> buffers, recent files, bookmarks, more?
+;; - C-x b = switch buffer (among open buffers)
+;;   - C-x C-b = ibuffer
+;;   - H-x b = helm-buffers-list
+;;   - switch buffer among buffers limited to current project?
+;; - helm-mini limited to current project?-> H-0 C-o = helm-browse-project
+;; - C-c p f = find file in project
 ;; - M-x commands to run
+;; - C-x C-f -> open/find file (least used)
 (use-package ivy
   :demand
   :diminish
@@ -582,13 +583,11 @@
   :config
   (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
   (global-set-key (kbd "H-o") #'helm-mini)
-  (global-set-key (kbd "H-0 o") #'helm-buffers-list)
+  (global-set-key (kbd "H-x b") #'helm-buffers-list)
   (global-set-key (kbd "M-o") #'helm-browse-project)
   (global-set-key (kbd "H-0 C-o") #'helm-browse-project)
-  ;; TODO helm-browse-project
   (require 'helm-dired-recent-dirs)
   ;; TODO: would like to add a source of files in the current project, maybe even all files
-  ;; helm-source-bookmarks
   ;;
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                     helm-source-recentf
