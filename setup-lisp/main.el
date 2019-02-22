@@ -521,10 +521,11 @@
 
 ;; switching/finding/opening/running things
 ;; - C-x b switch buffer (among open buffers)
-;; - TODO: switch buffer among buffers limited to current project?
+;;   - helm-buffers-list
+;; - TODO: switch buffer among buffers limited to current project? -> helm-browse-project H-0 o? H-0 C-o? H-0 a?
 ;; - C-o helm-mini -> buffers, recent files, bookmarks, more?
 ;; - C-x C-f -> open/find file (least used)
-;; - TODO: helm-mini limited to current project?
+;; - TODO: helm-mini limited to current project? -> helm-browse-project H-0 o? H-0 a?
 ;; - C-c p f find file in project
 ;; - M-x commands to run
 (use-package ivy
@@ -574,6 +575,70 @@
         counsel-preselect-current-file t
         counsel-yank-pop-height 12
         counsel-yank-pop-preselect-last t))
+
+(require 'helm-config)
+;; TODO: C-g when helm-mini is showing actually quits
+(use-package helm
+  :config
+  (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
+  (global-set-key (kbd "H-o") #'helm-mini)
+  (global-set-key (kbd "H-0 o") #'helm-buffers-list)
+  (global-set-key (kbd "M-o") #'helm-browse-project)
+  (global-set-key (kbd "H-0 C-o") #'helm-browse-project)
+  ;; TODO helm-browse-project
+  (require 'helm-dired-recent-dirs)
+  ;; TODO: would like to add a source of files in the current project, maybe even all files
+  ;; helm-source-bookmarks
+  ;;
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                    helm-source-recentf
+                                    helm-source-bookmarks
+                                    helm-source-file-cache
+                                    helm-source-files-in-current-dir
+                                    helm-source-dired-recent-dirs
+                                    helm-source-buffer-not-found
+                                    ))
+
+  (setq
+   ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+   ;; helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+   ;; helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+   ;; helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+   ;; helm-ff-file-name-history-use-recentf t
+   helm-echo-input-in-header-line t
+  ;; make helm-mini use fuzzy matching, so weborg will not match sd-web.org.
+  ;; Because ivy-switch-buffers is using fuzzy matching, want the muscle memory
+  ;; to be the same.
+   helm-recentf-fuzzy-match t
+   helm-buffers-fuzzy-matching t
+   )
+  )
+
+(use-package helm-org-rifle)
+
+(use-package ace-jump-helm-line
+  :config
+  (setq ace-jump-helm-line-idle-delay 1
+        ace-jump-helm-line-style 'pre
+        ;; ace-jump-helm-line-style 'de-bruijn
+
+        ;; Select by default
+        ace-jump-helm-line-default-action 'select
+        ;; Set the move-only and persistent keys
+        ace-jump-helm-line-select-key ?s ;; this line is not needed
+        ace-jump-helm-line-move-only-key ?m
+        ace-jump-helm-line-persistent-key ?p
+        )
+  (ace-jump-helm-line-idle-exec-add 'helm-mini)
+)
+
+(use-package helm-xref
+  :after helm
+  :config
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+
+(use-package helm-aws
+  :after helm)
 
 (use-package quickrun
   :config
@@ -1137,53 +1202,6 @@
 (use-package sql
   :config
   (add-to-list 'sql-mysql-login-params '(port :default 3311)))
-
-(require 'helm-config)
-(use-package helm
-  :config
-  (global-set-key (kbd "C-o") #'helm-mini)
-  (global-set-key (kbd "M-o") #'helm-mini)
-  (global-set-key (kbd "H-o") #'helm-mini)
-  (global-set-key (kbd "H-0 o") #'helm-buffers-list)
-  (require 'helm-dired-recent-dirs)
-  ;; TODO: would like to add a source of files in the current project, maybe even all files
-  ;; helm-source-bookmarks
-  (setq helm-mini-default-sources '(helm-source-buffers-list
-                                    helm-source-recentf
-                                    helm-source-bookmarks
-                                    helm-source-file-cache
-                                    helm-source-files-in-current-dir
-                                    helm-source-dired-recent-dirs
-                                    helm-source-buffer-not-found
-                                    ))
-
-  (setq
-   ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-   ;; helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-   ;; helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-   ;; helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-   ;; helm-ff-file-name-history-use-recentf t
-   helm-echo-input-in-header-line t)
-  )
-
-(use-package helm-org-rifle)
-
-(use-package ace-jump-helm-line
-  :config
-  (setq ace-jump-helm-line-idle-delay 0
-        ace-jump-helm-line-style 'pre
-        ;; ace-jump-helm-line-style 'de-bruijn
-        )
-  (ace-jump-helm-line-idle-exec-add 'helm-mini)
-)
-
-(use-package helm-xref
-  :after helm
-  :config
-  (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
-
-(use-package helm-aws
-  :after helm)
 
 (use-package npm-mode
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
