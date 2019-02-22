@@ -189,6 +189,7 @@
 ;; wjb-map
 ;;
 ;; Custom prefix-map:
+;; TODO: use a minor mode, see https://stackoverflow.com/a/683575/599258
 ;; TODO: more #'wjb/ defuns:
 ;; - switch-to-restclient -- local_notes/<project name>.rest
 ;; - deploy-project
@@ -196,7 +197,6 @@
 (define-prefix-command 'wjb-map)
 (add-hook 'after-init-hook
           (lambda ()
-            (global-set-key (kbd "C-x C-c") 'wjb-map)
             (global-set-key (kbd "H-0") 'wjb-map)))
 
 (defun wjb/switch-to-clock ()
@@ -212,6 +212,7 @@
 ;; (define-key yas-minor-mode-map (kbd "<tab>") yas-maybe-expand)
 ;; (define-key yas-minor-mode-map (kbd "TAB") yas-maybe-expand)
 
+(define-key wjb-map (kbd "/") #'hippie-expand)
 (define-key wjb-map (kbd "<tab>") #'company-complete)
 (define-key wjb-map (kbd "0") #'wjb/switch-to-clock)
 
