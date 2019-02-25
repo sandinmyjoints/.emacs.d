@@ -586,6 +586,11 @@
   (global-set-key (kbd "H-x b") #'helm-buffers-list)
   (global-set-key (kbd "M-o") #'helm-browse-project)
   (global-set-key (kbd "H-0 C-o") #'helm-browse-project)
+
+  ;; useful commands, but probably shouldn't be bound globally:
+  ;; (global-set-key (kbd "C-'") 'helm-mark-all)
+  ;; (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
+
   (require 'helm-dired-recent-dirs)
   ;; TODO: would like to add a source of files in the current project, maybe even all files
   ;;
@@ -1575,6 +1580,45 @@
   :config
   (require 'setup-smartparens))
 
+(use-package hungry-delete
+  :config
+  (global-hungry-delete-mode))
+
+
+;;
+;; (defvar paredit-everywhere-mode-map
+;;   (let ((m (make-sparse-keymap)))
+;;     (define-key m (kbd "C-)") 'paredit-forward-slurp-sexp)
+;;     (define-key m (kbd "C-}") 'paredit-forward-barf-sexp)
+;;     (define-key m (kbd "M-(") 'paredit-wrap-round)
+;;     (define-key m (kbd "M-)") 'paredit-close-round-and-newline)
+;;     (define-key m (kbd "M-]") 'paredit-close-square-and-newline)
+;;     (define-key m (kbd "M-\"") 'paredit-meta-doublequote)
+;;     (define-key m (kbd "M-S") 'paredit-split-sexp)
+;;     (define-key m (kbd "M-J") 'paredit-join-sexps)
+;;     (define-key m (kbd "M-s") 'paredit-splice-sexp)
+;;     (define-key m (kbd "M-r") 'paredit-raise-sexp)
+;;     (define-key m (kbd "M-DEL") 'paredit-backward-kill-word)
+;;     (define-key m (kbd "M-d") 'paredit-forward-kill-word)
+;;     m)
+;;   "Keymap for `paredit-everywhere-mode'.")
+;;
+(use-package paredit-everywhere
+  :config
+  (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
+
+  ;; http://endlessparentheses.com/a-few-paredit-keys-that-take-over-the-world.html
+  ;;
+  (global-set-key (kbd "C-M-u") #'paredit-backward-up)
+  (global-set-key (kbd "C-M-n") #'paredit-forward-up)
+  ;; ;; This one's surpisingly useful for writing prose.
+  ;; (global-set-key "\M-S"
+  ;;   #'paredit-splice-sexp-killing-backward)
+  (global-set-key "\M-R" #'paredit-raise-sexp)
+  (global-set-key "\M-(" #'paredit-wrap-round)
+  (global-set-key "\M-[" #'paredit-wrap-square)
+  (global-set-key "\M-{" #'paredit-wrap-curly)
+  )
 
 ;; It doesn't seem to like this, it thinks the domain name is neodarwin
 ;; 	url = git@github.com:spanishdict/neodarwin.git

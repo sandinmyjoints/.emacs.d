@@ -68,6 +68,7 @@
 ;;   - note: cc-mode has c-kill-subword and friends: https://www.gnu.org/software/emacs/manual/html_node/ccmode/Subword-Movement.html
 ;; - word: M-f and M-b (what word is depends on whether superword, subword, or neither is active).
 ;;   - M-d is delete-word. But M-k is kill-sentence
+;;   - H-f is forward-word. H-b is backward-word.
 ;; - symbol: (use the symbols defuns from eddie's config below but what keybindings?)
 ;;   - *this* symbol: M-n and M-p (via smartscan) -- distinction between forward/backward and next/previous, because it's this symbol not a symbol
 ;; - sentence: M-k is kill-sentence. C-x delete is backward-kill-sentence.

@@ -219,6 +219,7 @@
      (cons 'elisp-demos melpa)
      (cons 'org-clock-csv melpa)
      (cons 'symbol-overlay melpa)
+     (cons 'hungry-delete melpa)
 
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
@@ -233,6 +234,8 @@
      (cons 'swiper melpa)
      (cons 'company-flx melpa)
 
+     (cons 'paredit melpa)
+     (cons 'paredit-everywhere melpa)
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs

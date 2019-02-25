@@ -7,6 +7,7 @@
 ;; * C-z
 ;; * C-x C-|
 ;; * C-c C-f
+;; * C-x C-r
 ;;
 ;;; Code:
 
@@ -136,7 +137,7 @@
 (global-set-key (kbd "C-c ! t") 'toggle-only) ;; flycheck uses C-c !
 
 ;;(global-set-key (kbd "C-x f") 'recentf-open-files)
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
+;; (global-set-key (kbd "C-x C-r") 'recentf-open-files) ;; superceded by helm
 
 ;;(global-set-key (kbd "C-x f") 'find-file-in-project)
 
@@ -153,27 +154,31 @@
 (global-set-key (kbd "H-x n e") 'next-error)
 (global-set-key (kbd "H-x p e") 'previous-error)
 
-(global-set-key (kbd "M-[") 'switch-to-prev-buffer)
-(global-set-key (kbd "M-]") 'switch-to-next-buffer)
 
 (global-set-key (kbd "M-;") #'comment-dwim-2)
 
+;; move lines of text
+(global-set-key (kbd "M-<up>") 'move-text-up)
+(global-set-key (kbd "M-<down>") 'move-text-down)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Movement
-(global-set-key (kbd "M-{") 'windmove-left) ;; from Shift-left arrow
-(global-set-key (kbd "M-}") 'windmove-right) ;; from Shift-right arrow
-(global-set-key (kbd "M-<up>") 'windmove-up) ;; from S-<up>
-(global-set-key (kbd "M-<down>") 'windmove-down) ;; from S-<down>
+
+;; these seem like useful commands, but I didn't use them in practice, and I want these bindings for wrapping in square bracket
+;; (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
+;; (global-set-key (kbd "M-]") 'switch-to-next-buffer)
+
+;; Shift-arrow moves around windows, by default, which is fine.
+;; 'windmove-left ;;  Shift-left arrow is default, that's good
+;; 'windmove-right ;; Shift-right arrow is default, that's good
+;; (global-set-key (kbd "S-<up>") 'windmove-up)
+;; (global-set-key (kbd "S-<down>") 'windmove-down)
+
 ;; (global-set-key (kbd "<M-up>") 'scroll-down)
 ;; (global-set-key (kbd "<M-down>") 'scroll-up)
 (global-set-key (kbd "ESC <up>") 'scroll-down)
 (global-set-key (kbd "ESC <down>") 'scroll-up)
 
-(global-set-key (kbd "S-<up>") 'move-text-up)
-(global-set-key (kbd "S-<down>") 'move-text-down)
-
-(global-set-key (kbd "C-'") 'helm-mark-all)
-(global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
 
 ;; (global-set-key (kbd "C-x C-d") #'wjb/insert-date)
 (global-set-key (kbd "C-x C-d") #'dired-jump)  ;; was C-x j, but I want that for grepping
