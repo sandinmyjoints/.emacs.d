@@ -66,8 +66,12 @@
   (add-to-list 'markdown-code-lang-modes  '("sh" . shell-script-mode))
 
   (define-key markdown-mode-map (kbd "C-c C-b") 'browse-at-remote)
-  (define-key markdown-mode-map (kbd "M-<down>") 'markdown-outline-next)
-  (define-key markdown-mode-map (kbd "M-<up>") 'markdown-outline-previous)
+  (define-key markdown-mode-map (kbd "M-<up>") 'markdown-move-up)
+  (define-key markdown-mode-map (kbd "M-<down>") 'markdown-move-down)
+  ;; these go to headers
+  (define-key markdown-mode-map (kbd "M-n") 'markdown-outline-next)
+  (define-key markdown-mode-map (kbd "M-p") 'markdown-outline-previous)
+
   (define-key markdown-mode-map (kbd "C-c <return>") 'markdown-follow-link-at-point)
   (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line)
 
@@ -107,9 +111,9 @@
 
     (bind-keys
      :map markdown-mode-map
-      ;; Mimicking the org-export style bindings
-      ("C-c C-e o" . markdown-preview)
-      ("C-c C-e t". orgtbl-send-table))))
+     ;; Mimicking the org-export style bindings
+     ("C-c C-e o" . markdown-preview)
+     ("C-c C-e t". orgtbl-send-table))))
 
 ;; Example orgtbl template:
 ;;
