@@ -1260,6 +1260,9 @@
   "The last restclient buffer.")
 
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
+;; comint mode is interactive, compilation-shell-minor-mode is
+;; C-c RET starts compilation, keys don't do anything
+;; C-u C-c RET starts comint with compilation-minor-mode, keys are sent -- BUT it's not doing anything for Jest, which probably isn't listening for input? maybe because terminfo is set to dumb? TODO: experiment with other values of TERM
 (use-package compile
   :config
   (setq compilation-scroll-output t
@@ -1280,6 +1283,7 @@
         comint-prompt-read-only nil
         comint-scroll-to-bottom-on-input t
         compilation-ask-about-save nil
+        comint-use-prompt-regexp nil
         ;; Don't save *anything*
         compilation-save-buffers-predicate '(lambda () nil)
         ;; compilation-scroll-output 'first-error
