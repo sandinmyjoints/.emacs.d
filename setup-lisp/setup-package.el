@@ -151,6 +151,7 @@
      (cons 'company-nginx melpa)
      (cons 'company-shell melpa)
      (cons 'company-web melpa)
+     (cons 'company-statistics melpa)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)

@@ -1006,7 +1006,16 @@
   (setq-default web-mode-css-indent-offset 2)
   (setq-default web-mode-code-indent-offset 2)
   (setq-default web-mode-enable-current-element-highlight t)
-  (require 'setup-webmode))
+  (require 'setup-webmode)
+
+  ;; experimental:
+  (require 'company-web-html)
+  (require 'company-web-jade)
+  (defun wjb/web-mode-company ()
+    (set (make-local-variable 'company-backends)
+         '((company-web-html :with company-dabbrev-code company-gtags company-etags company-keywords)))
+    (company-mode t))
+  (add-hook 'web-mode-hook #'wjb/web-mode-company))
 
 (require 'key-bindings)
 
@@ -1041,13 +1050,13 @@
   (let (zing (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-xcode company-cmake company-capf company-web company-shell company-lsp company-nginx company-restclient company-css) zing)
+        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-lsp company-nginx company-restclient company-css) zing)
       (push
        (list backend :with 'company-dabbrev-code 'company-dabbrev 'company-emoji 'company-keywords)
        zing))
 
     ;; generic
-    (setq zin (append zing '(company-files)))
+    (setq zing (append zing '(company-files)))
     ;; fallback backends -- likely to return in almost all cases
     (setq zing (append zing
                '(
@@ -1114,6 +1123,8 @@
   (define-key company-mode-map (kbd "M-/") 'company-complete)
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
+  ;; trial:
+  (add-hook 'after-init-hook #'company-statistics-mode)
   )
 
 ;; trial:
