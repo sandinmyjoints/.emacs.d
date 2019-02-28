@@ -88,11 +88,11 @@
 
 ;; Setup find.
 (defvar wjb-find-bin "find")
-(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" ! -wholename \"*local/Yarn*\" -type f -print0 ")
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" ! -wholename \"*local/Yarn*\" ! -wholename \"*.storybook-static*\" -type f -print0 ")
 
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind")
-  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
+  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*.storybook-static*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
 
 ;; Setup grep.
 (defvar wjb-grep-bin "grep")
@@ -138,7 +138,7 @@
     (message "actual-command: %s " actual-command)
     (grep-find actual-command)))
 
-;; C-x j -> j close to n
+;; C-x j -> j close to n for name
 (defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
   "find|xargs in current project dir by name. Negate with prefix arg."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
