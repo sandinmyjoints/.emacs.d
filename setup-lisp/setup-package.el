@@ -237,6 +237,10 @@
 
      (cons 'paredit melpa)
      (cons 'paredit-everywhere melpa)
+
+     (cons 'gruvbox-theme melpa)
+     (cons 'nimbus-theme melpa)
+
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs

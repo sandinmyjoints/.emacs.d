@@ -50,8 +50,14 @@
 
 ;; Fonts.
 ;;
-;; TODO: Use (null window-system) or (display-graphic-p)) to conditionally
-;; execute.
+;; This makes the font the default on all graphical frames.
+(add-to-list 'default-frame-alist
+             '(font . "DejaVu Sans Mono-14"))
+
+;; list all known fonts:
+;; (font-family-list)
+;;
+;; Examine font of char at point: C-u C-x =
 ;;
 ;; Too wide!
 ;;(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
@@ -61,6 +67,10 @@
 ;;
 ;; Just right.
 (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140 :weight 'normal)
+;;
+;; http://typeof.net/Iosevka/
+;; (set-face-attribute 'default nil :family "Iosevka" :height 144 :weight 'light)
 
 (if (functionp 'set-fontset-font) ; nil in Terminal
     (set-fontset-font "fontset-default" 'unicode "Menlo"))
@@ -70,9 +80,9 @@
 (use-package auto-dim-other-buffers
   :diminish auto-dim-other-buffers-mode
   :config
-  (setq auto-dim-other-buffers-dim-on-focus-out nil)
+  (setq auto-dim-other-buffers-dim-on-focus-out nil
+        auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   (auto-dim-other-buffers-mode t)
-  (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   (set-face-background 'auto-dim-other-buffers-face "#181818"))
 
 ;; Colors.
@@ -98,19 +108,25 @@
   (set-cursor-color wjb/default-cursor-color)
   ;; #504945
   (set-face-background 'region "#2d3d45")
-
-  ;; Highlight current line
-  (global-hl-line-mode 1)
-  ;; Customize background color of highlighted line
-  ;;(set-face-background 'hl-line "#1A1A1A")
-  (set-face-background 'hl-line "#202020")
-  ;; (set-face-background 'highlight-indentation-current-column-face
-  ;;                      (color-lighten-name
-  ;;                       (face-attribute 'default :background) 15)
   )
 
 (defalias 'wjb-theme #'wjb/customize-gruvbox)
 
+(defun wjb/turn-on-hl-line ()
+  ;; Highlight current line
+  (global-hl-line-mode 1)
+  ;; Customize background color of highlighted line.
+
+  ;; very dark.
+  ;;(set-face-background 'hl-line "#1A1A1A")
+
+  ;; pretty dark.
+  ;; (set-face-background 'hl-line "#202020")
+
+  ;; lighter relative to current background
+  (set-face-background 'hl-line
+                       (color-lighten-name
+                        (face-attribute 'default :background) 10)))
 
 (defun change-theme (&rest args)
   "Like `load-theme', but disables all themes before loading the new one."
@@ -133,15 +149,22 @@
 ;;       orange. They look like errors.
 ;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
 ;; applications.
+;; 5. nimbus (use-package nimbus-theme)
 ;;
 (use-package gruvbox-theme
   :defer 1
-  :ensure t
+  :disabled
   :config
   (change-theme 'gruvbox-dark-hard t)
   (set-face-background 'markdown-code-face "#000")
   (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
-  (wjb/customize-gruvbox))
+  (wjb/customize-gruvbox)
+  (wjb/turn-on-hl-line))
+
+(use-package nimbus-theme
+  :defer 1
+  :config
+  (wjb/turn-on-hl-line))
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
@@ -159,7 +182,9 @@
              (string= (buffer-name) wjb/set-cursor-color-buffer))
       (set-cursor-color (setq wjb/set-cursor-color-color color))
       (setq wjb/set-cursor-color-buffer (buffer-name)))))
+
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
+
 (provide 'appearance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
