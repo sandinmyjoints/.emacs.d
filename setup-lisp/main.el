@@ -137,6 +137,7 @@
   (so-long-enable))
 
 (use-package which-key
+  :diminish
   :config
   (which-key-mode))
 
@@ -899,7 +900,8 @@
   (global-smartscan-mode 1))
 
 (use-package gitignore-mode
-  :mode "\\.dockerignore\\'")
+  :mode "\\.dockerignore\\'"
+  ".*gitignore\\'")
 
 (use-package dockerfile-mode
   :mode "Dockerfile-*")
@@ -933,7 +935,8 @@
                               (yas-minor-mode -1))))
 
 (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
-(eval-after-load 'yasnippet '(use-package emacs-snippets))
+;; These are great snippets, but loading them is causing some warnings:
+;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
 
 ;; RVM.
 (use-package rvm
@@ -1604,6 +1607,7 @@
 ;;   "Keymap for `paredit-everywhere-mode'.")
 ;;
 (use-package paredit-everywhere
+  :diminish
   :config
   (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
 
