@@ -49,20 +49,21 @@
 ;; starting with ns-.
 ;;
 ;; Keyboard for Macs.
-(setq-default mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
+(setq-default mac-command-key-is-meta t
+              mac-command-modifier 'meta
 
-;; With Seil, I can map capslock to arbitrary keys, such as fn (keycode 63) or
-;; L-option (keycode 58). Then I can set mac-option-modifier or
-;; mac-function-modifier to super or hyper, and capslock will do super or hyper.
-;; But it's tradeoff: I either lose the ability to use fn keys or to use option
-;; to insert OS X extended characters.
-;;
-;; For now, I'm not modifying fn so I can use it regularly. I'm using
-;; right-command as hyper. I use hyper a lot of smartparens bindings.
-(setq mac-option-modifier nil)
-(setq mac-function-modifier nil)
-(setq mac-right-command-modifier 'hyper)
+              ;; With Seil, I can map capslock to arbitrary keys, such as fn
+              ;; (keycode 63) or L-option (keycode 58). Then I can set
+              ;; mac-option-modifier or mac-function-modifier to super or hyper,
+              ;; and capslock will do super or hyper. But it's tradeoff: I
+              ;; either lose the ability to use fn keys or to use option to
+              ;; insert OS X extended characters.
+              ;;
+              ;; For now, I'm not modifying fn so I can use it regularly. I'm using
+              ;; right-command as hyper.
+              mac-option-modifier nil
+              mac-function-modifier nil
+              mac-right-command-modifier 'hyper)
 
 ;; TODO try this instead: https://github.com/arouanet/path-helper
 (use-package exec-path-from-shell
