@@ -292,11 +292,23 @@
 
 (display-time-mode 1)
 
-(add-hook 'before-save-hook (lambda ()
-                              (if (fboundp 'yafolding-show-all)
-                                  (yafolding-show-all))
-                              (delete-trailing-whitespace)))
+;; This unfolds all before saving, so that deleting trailing whitespace works as
+;; expected.
+;;
+;; (add-hook 'before-save-hook (lambda ()
+;;                               (if (fboundp 'yafolding-show-all)
+;;                                   (yafolding-show-all))
+;;                               (delete-trailing-whitespace)))
 
+;; This attempts to only delete-trailing-whitespace if there aren't any folds.
+;; Not sure it's bug-free, though.
+(add-hook 'before-save-hook
+          (lambda ()
+            (and
+             (fboundp 'yafolding-get-overlays)
+             (not (yafolding-get-overlays (point-min) (point-max)))
+             ;; TODO: don't delete trailing whitespace in .diff or .patch files
+             (delete-trailing-whitespace))))
 
 (defalias 'exit-emacs 'save-buffers-kill-terminal)
 
