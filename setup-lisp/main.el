@@ -53,13 +53,15 @@
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
 (eval-when-compile
-  (require 'use-package))
+  (progn
+    (require 'use-package)
+    (setq use-package-verbose t)))
 
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
-(setq user-full-name "William Bert")
-(setq user-mail-address "william.bert@gmail.com")
+(setq user-full-name "William Bert"
+      user-mail-address "william.bert@gmail.com")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -166,7 +168,6 @@
       sh-mode
       yaml-mode
       python-mode
-      json-mode
       perl6-mode))
   (global-flycheck-mode)
   :config
