@@ -623,7 +623,7 @@
 
 (use-package ace-jump-helm-line
   :config
-  (setq ace-jump-helm-line-idle-delay 1
+  (setq ace-jump-helm-line-idle-delay 3
         ace-jump-helm-line-style 'pre
         ;; ace-jump-helm-line-style 'de-bruijn
 
@@ -1599,9 +1599,18 @@
   (require 'setup-smartparens))
 
 (use-package hungry-delete
+  :diminish
   :config
+  (setq hungry-delete-chars-to-skip " \t"
+        hungry-delete-except-modes '(help-mode minibuffer-inactive-mode calc-mode))
+  ;; TODO: turn off in some modes:
+  ;; - org-mode?
+  ;; - whitespace sensitive modes?
   (global-hungry-delete-mode))
 
+(use-package nginx-mode
+  :config
+  (setq nginx-indent-level 2))
 
 ;;
 ;; (defvar paredit-everywhere-mode-map
@@ -1698,8 +1707,6 @@
 
 (setq aw-keys '(?1 ?2 ?3 ?4))
 
-(setq nginx-indent-level 2)
-
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook
           (lambda ()
@@ -1718,26 +1725,21 @@
 (defvar desktop-restore-eager 32)
 (desktop-save-mode 1)
 
-;; (global-set-key (kbd ')
+;; This is voodoo...
+(-remove-item "/Users/william/scm/sd/hegemone/TAGS" tags-table-list)
 
 (provide 'main)
 
-;; Byte-recompile site-lisp-dir.
+;; TODO: am I handling safe-local-variable-values in a sensible way?
+;; look at purcell, etc.
+
+;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
 ;;(byte-recompile-directory site-lisp-dir 0)
 
-;; TODO: this is stuff I need to run manually. Make it automatic. Maybe in
-;; after-init hooks.
-;; (do-nvm-use "6.11.1")
-;;
-;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
-;;
-;; (setq debug-on-quit nil)
-;;
-;; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
-;; (eval-after-load "grep"
-;;   '(progn
-;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
-;;      (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee") t)
-;;      ))
+;; Experimental:
+;; (add-to-list 'load-path "../elisp/emacs-libvterm/build")
+;; (let (vterm-install)
+;;   (require 'vterm))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; init.el ends here
+;;; main.el ends here
