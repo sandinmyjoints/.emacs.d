@@ -74,6 +74,8 @@
         ;; (with-current-buffer "*dirtree*"
         ;;   (setq-local window-size-fixed t))
         (cd "~/scm/sd")))
+    (with-current-buffer "*dirtree*"
+      (read-only-mode))
     ))
 
 (autoload 'dirtree "dirtree" "Add directory to tree view")
