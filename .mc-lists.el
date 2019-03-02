@@ -16,6 +16,7 @@
         coffee-indent-shift-left
         coffee-newline-and-indent
         comment-region
+        counsel-M-x
         dired-do-delete
         dired-next-line
         electric-newline-and-maybe-indent
@@ -24,9 +25,12 @@
         eval-last-sexp
         fill-paragraph
         goto-line
+        hungry-delete-backward
+        hungry-delete-forward
         indent-for-tab-command
         indent-relative
         insert-register
+        js2-indent-bounce
         js2-mark-defun
         js2-tab-properly
         kill-rectangle
@@ -55,6 +59,8 @@
         org-self-insert-command
         org-yank
         orgtbl-self-insert-command
+        paredit-backward-kill-word
+        paredit-forward-kill-word
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         query-replace
@@ -89,7 +95,6 @@
 (setq mc/cmds-to-run-once
       '(
         ace-window
-        counsel-M-x
         create-cursor
         dired-create-directory
         dired-do-copy
@@ -98,6 +103,7 @@
         electric-buffer-list
         electric-pair-delete-pair
         end-of-buffer
+        find-in-project-glob-by-name
         ido-find-file
         ido-switch-buffer
         js2r-rename-var
