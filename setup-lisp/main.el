@@ -118,6 +118,7 @@
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (use-package paradox
+  :defer
   :config
   (paradox-enable))
 
@@ -619,7 +620,8 @@
    )
   )
 
-(use-package helm-org-rifle)
+(use-package helm-org-rifle
+  :defer)
 
 (use-package ace-jump-helm-line
   :config
