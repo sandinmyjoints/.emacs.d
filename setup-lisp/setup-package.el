@@ -95,36 +95,50 @@
                       (package-initialize)
                       (package-install name))))))
           packages)
-    (package-initialize)
-    ;(delete-other-windows) ;; Why was this here? Trying it commented out.
-    )
+    (package-initialize))
 
   ;; Install packages if they're missing.
   (defun init--install-packages ()
     (packages-install
-     (cons 'ido-completing-read+ melpa)
-     (cons 'smex melpa)
      (cons 'auto-compile melpa)
-     (cons 'elpy elpy)
-     (cons 'pip-requirements melpa)
-     (cons 'exec-path-from-shell melpa-stable)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
      (cons 'f melpa-stable)
+     (cons 'ht melpa)
+
+     (cons 'exec-path-from-shell melpa-stable)
+
+     (cons 'flx-ido melpa)
+     (cons 'ido-completing-read+ melpa)
+     (cons 'smex melpa)
+
+     (cons 'elpy elpy)
+     (cons 'pip-requirements melpa)
+     (cons 'virtualenvwrapper melpa-stable)
+     (cons 'ein melpa)
+
      (cons 'magit melpa-stable)
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
+
      (cons 'tree-mode melpa) ; dirtree requirement.
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
      ;; (cons 'dired+ melpa)
+
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
-     (cons 'fill-column-indicator melpa-stable)
+     (cons 'rainbow-delimiters melpa-stable)
+     (cons 'paren-face melpa)
+     (cons 'beacon melpa)
+     (cons 'which-key melpa)
+     (cons 'diminish melpa-stable)
+     (cons 'ob-sql-mode melpa)
+     (cons 'sqlformat melpa) ;; requires sqlformat binary
+     (cons 'less-css-mode melpa-stable)
+     (cons 'smart-mode-line melpa-stable)
+     (cons 'urlenc melpa)
+
      (cons 'yasnippet melpa)
      (cons 'anzu melpa)
-     (cons 'nvm melpa)
-     (cons 'virtualenvwrapper melpa-stable)
-     (cons 'rainbow-delimiters melpa-stable)
-     (cons 'yaml-mode melpa-stable)
      (cons 'beginend melpa)
      (cons 'flycheck melpa)
      ;; (cons 'flycheck-pos-tip melpa)
@@ -132,18 +146,59 @@
      ;; two different flycheck-inlines, though they are about to
      ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
      ;; (cons 'flycheck-inline melpa) ;; using my own fork.
+
+     (cons 'yaml-mode melpa-stable)
      (cons 'pivotal-tracker melpa)
      (cons 'web-mode melpa-stable)
      ;; TODO: add css-comb and web-beautify
-     (cons 'flx-ido melpa)
      (cons 'header2 melpa)
-     (cons 'know-your-http-well melpa)
      (cons 'paradox melpa)
+
+     (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
      (cons 'smartscan melpa)
      (cons 'date-at-point melpa)
      (cons 'recompile-on-save melpa)
      (cons 'comment-dwim-2 melpa)
+
+     (cons 'nvm melpa)
+     (cons 'json-reformat melpa)
+     (cons 'json-snatcher melpa)
+     (cons 'js2-mode melpa)
+     ;; (cons 'js-doc melpa) ;; using own fork.
+     (cons 'js2-refactor melpa-stable)
+     (cons 'js2-highlight-vars melpa)
+     (cons 'prettier-js melpa)
+     (cons 'add-node-modules-path melpa)
+     (cons 'discover-js2-refactor melpa)
+     (cons 'coffee-mode melpa)
+     ;; (cons 'npm-mode melpa) ;; using own fork.
+     (cons 'yarn-mode melpa)
+
+     (cons 'lsp-mode melpa)
+     (cons 'lsp-ui melpa)
+
+     (cons 'aws-snippets melpa)
+     (cons 'discover-my-major melpa)
+
+     (cons 'markdown-mode melpa)
+     (cons 'markdown-toc melpa)
+
+     (cons 'dockerfile-mode melpa)
+     (cons 'docker-compose-mode melpa)
+     (cons 'docker-tramp melpa)
+
+     (cons 'launchctl melpa)
+     (cons 'smart-tab melpa)
+     (cons 'ace-window melpa-stable)
+     (cons 'nginx-mode melpa)
+     (cons 'browse-at-remote melpa)
+     (cons 'log4j-mode melpa)
+     (cons 'vlf melpa)
+     (cons 'nhexl-mode melpa)
+
+     (cons 'projectile melpa)
+
      (cons 'company melpa)
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)
@@ -151,54 +206,23 @@
      (cons 'company-nginx melpa)
      (cons 'company-shell melpa)
      (cons 'company-web melpa)
+     (cons 'company-flx melpa)
      (cons 'company-statistics melpa)
-     (cons 'json-reformat melpa)
-     (cons 'json-snatcher melpa)
-     (cons 'js2-mode melpa)
-     ;; (cons 'js-doc melpa) ;; using own fork.
-     (cons 'js2-refactor melpa-stable)
-     (cons 'js2-highlight-vars melpa)
-     (cons 'lsp-mode melpa)
-     (cons 'lsp-ui melpa)
-     (cons 'prettier-js melpa)
-     (cons 'add-node-modules-path melpa)
-     (cons 'discover-js2-refactor melpa)
-     (cons 'coffee-mode melpa)
-     ;; (cons 'npm-mode melpa) ;; using own fork.
-     (cons 'yarn-mode melpa)
-     (cons 'ein melpa)
-     (cons 'aws-snippets melpa)
-     (cons 'discover-my-major melpa)
-     (cons 'markdown-mode melpa)
-     (cons 'markdown-toc melpa)
-     (cons 'which-key melpa)
-     (cons 'diminish melpa-stable)
-     (cons 'ob-sql-mode melpa)
-     (cons 'sqlformat melpa) ;; requires sqlformat binary
-     (cons 'less-css-mode melpa-stable)
-     (cons 'smart-mode-line melpa-stable)
-     (cons 'beacon melpa)
-     (cons 'urlenc melpa)
-     (cons 'dockerfile-mode melpa)
-     (cons 'docker-compose-mode melpa)
-     (cons 'docker-tramp melpa)
-     (cons 'flx-ido melpa)
-     (cons 'launchctl melpa)
-     (cons 'smart-tab melpa)
-     (cons 'ace-window melpa-stable)
-     (cons 'ht melpa)
-     (cons 'nginx-mode melpa)
-     (cons 'browse-at-remote melpa)
-     (cons 'log4j-mode melpa)
-     (cons 'vlf melpa)
-     (cons 'nhexl-mode melpa)
-     (cons 'projectile melpa)
+
      ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'helm-projectile melpa)
      (cons 'helm-ls-git melpa)
      (cons 'helm-dired-recent-dirs melpa)
      (cons 'helm-org-rifle melpa)
      (cons 'ace-jump-helm-line melpa)
+
+     (cons 'ivy melpa)
+     (cons 'ivy-hydra melpa)
+     (cons 'counsel melpa)
+     (cons 'counsel-projectile melpa)
+     (cons 'counsel-css melpa)
+     (cons 'counsel-tramp melpa)
+     (cons 'swiper melpa)
 
      (cons 'apu melpa)
      (cons 'unicode-troll-stopper melpa)
@@ -211,10 +235,6 @@
      (cons 'quickrun melpa)
      (cons 'vimish-fold melpa)
      (cons 'wgrep melpa)
-     (cons 'paren-face melpa)
-     (cons 'slime melpa)
-     (cons 'dumb-jump melpa)
-     (cons 'smart-jump melpa)
      (cons 'xterm-color melpa)
      (cons 'helpful melpa)
      (cons 'elisp-demos melpa)
@@ -222,18 +242,13 @@
      (cons 'symbol-overlay melpa)
      (cons 'hungry-delete melpa)
 
+
+     (cons 'dumb-jump melpa)
+     (cons 'smart-jump melpa)
+
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
      (cons 'flycheck-perl6 melpa)
-
-     (cons 'ivy melpa)
-     (cons 'ivy-hydra melpa)
-     (cons 'counsel melpa)
-     (cons 'counsel-projectile melpa)
-     (cons 'counsel-css melpa)
-     (cons 'counsel-tramp melpa)
-     (cons 'swiper melpa)
-     (cons 'company-flx melpa)
 
      (cons 'paredit melpa)
      (cons 'paredit-everywhere melpa)
@@ -250,9 +265,12 @@
      ;; (cons 'gh melpa)
      ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
+
      ;; (cons 'counsel-etags melpa)
      ;; (setq-default counsel-etags-find-program "gfind")
      ;; (setq-default counsel-etags-grep-program "ggrep")
+
+     ;; (cons 'fill-column-indicator melpa-stable)
 
      ;; (cons 'magit-gh-pulls melpa) ;; Doesn't work as of June 2016
      ;; (cons 'charmap melpa)

@@ -652,8 +652,6 @@
   :config
   (defalias #'runthis #'quickrun))
 
-(use-package slime)
-
 (use-package dumb-jump
   ;; :bind (("M-g o" . dumb-jump-go-other-window)
   ;;        ("M-g j" . dumb-jump-go)
@@ -1467,6 +1465,8 @@
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
+;;
+;; Disabled because too flaky, too many problems with various modes.
 ;;
 (use-package fci-mode
   :disabled
