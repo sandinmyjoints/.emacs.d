@@ -1069,7 +1069,7 @@
   (let (zing (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-lsp company-nginx company-restclient company-css) zing)
+        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-lsp company-restclient company-css) zing)
       (push
        (list backend :with 'company-dabbrev-code 'company-dabbrev 'company-emoji 'company-keywords)
        zing))
@@ -1111,7 +1111,6 @@
 
 ;; - company-diag
 ;; - company-yasnippet -- specific binding for this
-;; - company-nginx
 ;; - company-shell
 ;; - company-web
 
@@ -1632,7 +1631,8 @@
 
 (use-package nginx-mode
   :config
-  (setq nginx-indent-level 2))
+  (setq nginx-indent-level 2)
+  (add-hook 'nginx-mode-hook #'company-nginx-keywords))
 
 ;;
 ;; (defvar paredit-everywhere-mode-map
