@@ -65,26 +65,26 @@
               mac-function-modifier nil
               mac-right-command-modifier 'hyper)
 
-;; TODO try this instead: https://github.com/arouanet/path-helper
+;; An alternative is, https://github.com/arouanet/path-helper,
+;; however, it has this limitation:
+;;
+;; "An obvious downside of this approach is that if the PATH is manually set
+;; elsewhere, such as in the user .profile file, it will not be visible to
+;; path-helper. But properly configured macOS packages such as MacTeX, which
+;; contribute to the PATH by adding a file in /etc/paths.d/, will work as
+;; expected."
+;;
 (use-package exec-path-from-shell
-  :ensure t
+  :defer 2 ;; exec-path-from-shell-initialize takes a couple seconds to run.
   :config
   ;; Copy vars in exec-path-from-shell-variables.
   ;; https://emacs.stackexchange.com/a/553/2163
   ;;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
-  (setq-default exec-path-from-shell-check-startup-file nil)
+  (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
 
-;; make sure path is correct when launched as application commenting
-;; these out; seems like I should not need them due to using
-;; exec-path-from-shell.
-;;
-;; (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-;; (push "/usr/local/bin" exec-path)
-
-;; Move to trash when deleting stuff
 (setq delete-by-moving-to-trash t
-      trash-directory "~/.Trash/emacs")
+      trash-directory "~/.Trash")
 
 ;; Don't open files from the workspace in a new frame.
 ;; Only works on Cocoa Emacs.
