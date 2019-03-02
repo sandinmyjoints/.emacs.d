@@ -1304,7 +1304,22 @@ $ aws ecs update-service --cluster <cluster name> --service <service name> --for
      - integration tests
    - [ ]  fill comment paragraphs nicely, including when they contain
      bulleted lists and such (need to fix paragraph-start variable)
-   - [X]  really, truly skip husky
+   - [ ] project commands work from local_notes
+     - for example, magit-status, and projectile find file
+     - but what about cases where a notes file is symlinked from multiple dirs?
+     - somewhat related: https://github.com/magit/magit/issues/1769
+#+BEGIN_SRC emacs-lisp
+;; if magit-toplevel is nil, and if current directory is a symlink, then check
+magit-toplevel of ..
+(unless (magit-toplevel)
+  (if (file-symlink-p default-directory) (magit-toplevel ..)))
+#+END_SRC
+
+#+BEGIN_SRC sh
+ ~/.../sd-playground/local_notes $ git rev-parse --show-toplevel
+fatal: not a git repository (or any of the parent directories): .git
+#+END_SRC
+   - [X] really, truly skip husky
      - magit runs "git commit". NEODARWIN_SKIP_PRECOMMIT is in process environment.
      - hooks/pre-commit runs, looks like it does a bunch of stuff with nvm,
        which is bad because nvm is slow. It uses has_hook_script to checks
@@ -1318,19 +1333,6 @@ $ aws ecs update-service --cluster <cluster name> --service <service name> --for
        NEODARWIN_SKIP_PRECOMMIT before lint-staged (which includes prettier) runs.
      - If/when we upgrade husky, this will probably get overwritten... Use
        HUSKY_SKIP_INSTALL (see https://github.com/typicode/husky/issues/172)
-   - [ ]  magit-status works from local_notes
-     - somewhat related: https://github.com/magit/magit/issues/1769
-#+BEGIN_SRC emacs-lisp
-;; if magit-toplevel is nil, and if current directory is a symlink, then check
-magit-toplevel of ..
-(unless (magit-toplevel)
-  (if (file-symlink-p default-directory) (magit-toplevel ..)))
-#+END_SRC
-
-#+BEGIN_SRC sh
- ~/.../sd-playground/local_notes $ git rev-parse --show-toplevel
-fatal: not a git repository (or any of the parent directories): .git
-#+END_SRC
 ** $sh mode
    - knows about shell commands written out like so:
 #+BEGIN_SRC
@@ -1432,3 +1434,17 @@ company-active-map M-/
     - not so much of an issue when ordering doesn't matter
   - [X] ordering doesn't matter
     - ivy–regex-ignore-order
+* random cruft from main.el
+#+BEGIN_SRC emacs-lisp
+;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
+;;
+;; (setq debug-on-quit nil)
+;;
+;; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
+;; (eval-after-load "grep"
+;;   '(progn
+;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
+;;      (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee") t)
+;;      ))
+
+#+END_SRC
