@@ -770,10 +770,22 @@
 (use-package date-at-point
   :ensure)
 
-;; dims parens.
-(use-package paren-face
+;; Highlight matching parentheses when point is on them.
+;;
+(use-package paren
   :config
-  (add-to-list 'paren-face-modes 'js2-mode)
+  (setq show-paren-delay 0
+        show-paren-style 'mixed
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t
+        show-paren-highlight-openparen t)
+  (show-paren-mode 1))
+
+;; Dims parens in certain modes.
+(use-package paren-face
+  :defer
+  :config
+  (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
 
 (use-package restclient

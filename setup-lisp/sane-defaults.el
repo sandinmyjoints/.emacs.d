@@ -355,11 +355,6 @@
 
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
 
-;; Highlight matching parentheses when point is on them.
-;;
-(defvar show-paren-delay 0)
-(show-paren-mode 1)
-
 (setq auto-window-vscroll nil)
 
 (setq source-directory "/Users/william/scm/vendor/emacs-mac/src"
