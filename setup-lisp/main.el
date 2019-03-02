@@ -120,7 +120,7 @@
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (use-package paradox
-  :defer
+  :defer t
   :config
   (paradox-enable))
 
@@ -243,6 +243,7 @@
   (setq diredp-hide-details-propagate-flag t))
 
 (use-package ediff
+  :defer t
   :init
   (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
   (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
@@ -583,6 +584,7 @@
 (require 'helm-config)
 ;; TODO: C-g when helm-mini is showing actually quits
 (use-package helm
+  :defer t
   :config
   (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
   (global-set-key (kbd "H-o") #'helm-mini)
@@ -649,6 +651,7 @@
   :after helm)
 
 (use-package quickrun
+  :defer t
   :config
   (defalias #'runthis #'quickrun))
 
@@ -686,7 +689,8 @@
 (use-package gitignore-mode
   :mode "global.gitignore")
 
-(use-package json-mode)
+(use-package json-mode
+  :defer t)
 
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm
 ;; for file.
@@ -804,6 +808,7 @@
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
 (use-package multiple-cursors
+  :defer t
   :config
   (global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -815,6 +820,7 @@
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
 (use-package expand-region
+  :defer t
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
@@ -1209,6 +1215,7 @@
   (atomic-chrome-start-server))
 
 (use-package google-this
+  :defer t
   ;; C-c / n|SPC|l
   :diminish google-this-mode
   :config
