@@ -107,8 +107,9 @@
 (setenv "PAGER" "cat")
 (setenv "EDITOR" "emacsclient")
 
-;; Allow downcasing regions.
+;; Allow casing regions.
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 ;; 24-hour time.
 (defvar display-time-24hr-format t)
@@ -229,9 +230,10 @@
   (setq-default major-mode 'fundamental-mode))
 
 ;;; Avoid backslash madness.
-(setq reb-re-syntax 'string)
-
-(put 'upcase-region 'disabled nil)
+(use-package re-builder
+  :defer t
+  :config
+  (setq reb-re-syntax 'string))
 
 ;;; Emacs 24 and up.
 (when (>= emacs-major-version 24)
