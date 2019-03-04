@@ -280,10 +280,9 @@
 ;; (eval-after-load 'org '(require 'setup-org))
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :defer t
-  :init
-  (add-hook 'org-mode-hook 'visual-line-mode)
   :diminish visual-line-mode
   :config
+  (add-hook 'org-mode-hook 'visual-line-mode)
   (setq org-src-fontify-natively t
         org-catch-invisible-edits 'smart
         org-log-done t
@@ -356,6 +355,7 @@
 
 ;; Python.
 (use-package python
+  :defer t
   :config
   (setq python-indent-guess-indent-offset-verbose nil)
   (setq python-indent-offset 2)
@@ -435,6 +435,10 @@
   (:map ein:notebook-mode-map
         ("C-c C-g" . 'ein:notebooklist-open)))
 
+(use-package pip-requirements
+  :after python
+  :defer t)
+
 (use-package highlight-indent-guides
   :disabled ;; doesn't seem to work right
   :init
@@ -451,7 +455,7 @@
 (use-package rainbow-mode
   :defer t
   :diminish rainbow-mode
-  :config
+  :init
   (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
   (add-hook 'coffee-mode-hook 'rainbow-mode)
   (add-hook 'less-css-mode-hook 'rainbow-mode)
@@ -462,6 +466,7 @@
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (use-package tsv-mode
+  :defer t
   :mode "\\.tsv\\'"
   :init
   (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
@@ -575,6 +580,7 @@
   (ivy-mode 1))
 
 (use-package counsel
+  :defer t
   :config
   (setq counsel-find-file-at-point t
         counsel-preselect-current-file t
@@ -708,6 +714,7 @@
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 (use-package js-comint
+  :defer t
   :init
   ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
   (setenv "NODE_NO_READLINE" "1")
@@ -737,6 +744,7 @@
   (js-do-use-nvm))
 
 (use-package coffee-mode
+  :defer t
   :mode "\\.coffee\\.erb\\'"
   :init
   (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
@@ -767,11 +775,12 @@
   (setq coffee-tab-width preferred-javascript-indent-level))
 
 (use-package rainbow-delimiters
+  :defer t
   :init
   (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
 
 (use-package date-at-point
-  :ensure)
+  :defer t)
 
 ;; Highlight matching parentheses when point is on them.
 ;;
@@ -786,12 +795,13 @@
 
 ;; Dims parens in certain modes.
 (use-package paren-face
-  :defer
+  :defer t
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
 
 (use-package restclient
+  :defer t
   :mode ("\\.rest\\'" . restclient-mode)
   ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
   ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
@@ -882,6 +892,7 @@
 ;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
 ;; prog-mode-hook
 (use-package symbol-overlay
+  :defer t
   :bind (:map prog-mode-map
               ("M-i" . 'symbol-overlay-put)
               ("M-n" . 'symbol-overlay-jump-next)
@@ -897,6 +908,7 @@
 ;; using symbol. Prefer symbol-overlay.
 (use-package smartscan
   :disabled
+  :defer t
   :config
   ;; Turn off smartscan in these modes.
   (mapc (lambda (hook)
@@ -920,16 +932,21 @@
 
 (use-package gitignore-mode
   :mode "\\.dockerignore\\'"
-  ".*gitignore\\'")
+  ".*gitignore\\'"
+  :defer t)
 
 (use-package dockerfile-mode
-  :mode "Dockerfile-*")
+  :mode "Dockerfile-*"
+  :defer t)
 
-(use-package docker-compose-mode)
+(use-package docker-compose-mode
+  :defer t)
 
-(use-package docker-tramp)
+(use-package docker-tramp
+  :defer t)
 
 (use-package conf-mode
+  :defer t
   :mode "credentials$"
   "pylintrc"
   "ads.txt"
@@ -937,7 +954,8 @@
   "requirements.*.txt"
   "\\.htaccess"
   "\\.curlrc"
-  "\\..*rc\\'")
+  "\\..*rc\\'"
+  )
 
 ;; Yasnippet.
 ;; TODO: get this to work with use-package, it doesn't like it.
@@ -1205,8 +1223,6 @@
   ;; (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
   ;; this is specific to helpful:
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
-
-(use-package pip-requirements)
 
 (use-package atomic-chrome
   :disabled
@@ -1674,6 +1690,7 @@
 ;; 	url = git@github.com:spanishdict/neodarwin.git
 ;;
 (use-package browse-at-remote
+  :defer t
   :config
   (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
                                               ("github.com" . "github")
