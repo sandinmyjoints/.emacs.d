@@ -1761,7 +1761,7 @@
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
 
-(defvar desktop-restore-eager 32)
+(defvar desktop-restore-eager 16)
 (desktop-save-mode 1)
 
 ;; This is voodoo...
