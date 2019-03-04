@@ -862,6 +862,12 @@
 ;;
 ;; They can be retrieved with (auth-source-user-and-password "api.github.com" "sandinmyjoints^magit")
 ;; (take the cadr of what's returned by that)
+;;
+;; To see if cache is being used: (setq auth-source-debug 'trivia)
+;; then check messages buffer.
+;;
+;; To clear auth source cache: (setq auth-source-netrc-cache '())
+;;
 (push '(:source "~/.emacs.d/.authinfo.gpg") auth-sources)
 
 (setq pivotal-api-token
