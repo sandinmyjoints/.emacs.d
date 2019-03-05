@@ -164,6 +164,7 @@
 (use-package nimbus-theme
   :defer 1
   :config
+  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
   (wjb/turn-on-hl-line))
 
 ;; Change cursor color according to mode.
