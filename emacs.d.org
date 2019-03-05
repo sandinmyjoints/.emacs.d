@@ -400,6 +400,8 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
   - :delight -- diminish
   - https://github.com/jwiegley/use-package#add-preface-occurring-before-everything-except-disabled
   - https://www.reddit.com/r/emacs/comments/6i7ha2/usepackage_for_a_dependency_or_not_setq_options/
+** TODO optimization
+   - https://www.reddit.com/r/emacs/comments/6klmh6/diffhl_mode_doesnt_load_with_defer_1_in_usepackage/
 * TODO package-initialize can be delayed until after main.el
 * TODO fresh .emacs.d installs all needed packages
 * TODO portable .emacs.d

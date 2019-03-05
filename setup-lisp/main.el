@@ -1780,6 +1780,16 @@
 
 ;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
 ;;(byte-recompile-directory site-lisp-dir 0)
+;;
+;; (defun wjb/run-once-when-idle (fun)
+;;   "Run a command every once in a while, if possible when emacs is idle."
+;;   (defun wjb/generate-idle-callback (fun)
+;;     (defun ()
+;;         (call fun)
+;;       (remove-hook 'auto-save-hook thing)))
+;;   ;; TODO: need unique name for thing
+;;   (setq thing (wjb/generate-idle-callback fun))
+;;   (add-hook 'auto-save-hook thing))
 
 ;; Experimental:
 ;; (add-to-list 'load-path "../elisp/emacs-libvterm/build")
