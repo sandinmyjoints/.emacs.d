@@ -819,20 +819,20 @@
 ;;
 (use-package multiple-cursors
   :defer t
-  :config
-  (global-set-key (kbd "C-x t") 'set-rectangular-region-anchor)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-M-<") 'mc/edit-beginnings-of-lines)
-  (global-set-key (kbd "C-M->") 'mc/edit-ends-of-lines))
+  :bind (:map global-map
+              ("C-x t" . 'set-rectangular-region-anchor)
+              ("C->" . 'mc/mark-next-like-this)
+              ("C-<" . 'mc/mark-previous-like-this)
+              ("C-*" . 'mc/mark-all-like-this)
+              ("C-M-<" . 'mc/edit-beginnings-of-lines)
+              ("C-M->" . 'mc/edit-ends-of-lines)))
 
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
 (use-package expand-region
   :defer t
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region))
+  :bind (:map global-map
+              ("C-=" . 'er/expand-region)))
 
 (require 'setup-dirtree)
 (with-eval-after-load 'dirtree
