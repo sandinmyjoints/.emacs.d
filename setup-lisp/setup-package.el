@@ -107,6 +107,7 @@
      (cons 'ht melpa)
 
      (cons 'exec-path-from-shell melpa-stable)
+     (cons 'reveal-in-osx-finder melpa)
 
      (cons 'flx-ido melpa)
      (cons 'ido-completing-read+ melpa)
@@ -120,46 +121,71 @@
      (cons 'magit melpa-stable)
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
+     (cons 'browse-at-remote melpa)
 
      (cons 'tree-mode melpa) ; dirtree requirement.
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
      ;; (cons 'dired+ melpa)
+     (cons 'yaml-mode melpa-stable)
+     (cons 'web-mode melpa-stable)
+     (cons 'less-css-mode melpa-stable)
+     (cons 'nginx-mode melpa)
+     (cons 'log4j-mode melpa)
+     (cons 'pandoc-mode melpa)
 
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'paren-face melpa)
      (cons 'beacon melpa)
-     (cons 'which-key melpa)
+     (cons 'auto-dim-other-buffers melpa)
      (cons 'diminish melpa-stable)
-     (cons 'ob-sql-mode melpa)
-     (cons 'sqlformat melpa) ;; requires sqlformat binary
-     (cons 'less-css-mode melpa-stable)
+     (cons 'xterm-color melpa)
+     (cons 'vimish-fold melpa)
+     (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
-     (cons 'urlenc melpa)
 
+     (cons 'which-key melpa)
+     (cons 'apu melpa) ;; Apropos Unicode characters.
+     (cons 'google-this melpa)
+     (cons 'atomic-chrome melpa)
+     (cons 'quickrun melpa)
+     (cons 'wgrep melpa)
+     (cons 'symbol-overlay melpa)
+     (cons 'smartscan melpa)
+     (cons 'hungry-delete melpa)
+     (cons 'launchctl melpa)
+     (cons 'smart-tab melpa)
+     (cons 'ace-window melpa-stable)
+     (cons 'vlf melpa)
+     (cons 'nhexl-mode melpa)
+     (cons 'sqlformat melpa) ;; requires sqlformat binary
+     (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
+     (cons 'pivotal-tracker melpa)
+     ;; TODO: add css-comb and web-beautify
+     (cons 'header2 melpa)
+     (cons 'paradox melpa)
+     (cons 'date-at-point melpa)
+     (cons 'recompile-on-save melpa)
+     (cons 'comment-dwim-2 melpa)
+     (cons 'aws-snippets melpa)
+
+     (cons 'helpful melpa)
+     (cons 'discover-my-major melpa)
+     (cons 'elisp-demos melpa)
+
+     (cons 'know-your-http-well melpa)
+     (cons 'restclient melpa)
+
+     (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck melpa)
      ;; (cons 'flycheck-pos-tip melpa)
      ;;
      ;; two different flycheck-inlines, though they are about to
      ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
      ;; (cons 'flycheck-inline melpa) ;; using my own fork.
-
-     (cons 'yaml-mode melpa-stable)
-     (cons 'pivotal-tracker melpa)
-     (cons 'web-mode melpa-stable)
-     ;; TODO: add css-comb and web-beautify
-     (cons 'header2 melpa)
-     (cons 'paradox melpa)
-
-     (cons 'know-your-http-well melpa)
-     (cons 'restclient melpa)
-     (cons 'smartscan melpa)
-     (cons 'date-at-point melpa)
-     (cons 'recompile-on-save melpa)
-     (cons 'comment-dwim-2 melpa)
 
      (cons 'nvm melpa)
      (cons 'json-reformat melpa)
@@ -178,24 +204,12 @@
      (cons 'lsp-mode melpa)
      (cons 'lsp-ui melpa)
 
-     (cons 'aws-snippets melpa)
-     (cons 'discover-my-major melpa)
-
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
 
      (cons 'dockerfile-mode melpa)
      (cons 'docker-compose-mode melpa)
      (cons 'docker-tramp melpa)
-
-     (cons 'launchctl melpa)
-     (cons 'smart-tab melpa)
-     (cons 'ace-window melpa-stable)
-     (cons 'nginx-mode melpa)
-     (cons 'browse-at-remote melpa)
-     (cons 'log4j-mode melpa)
-     (cons 'vlf melpa)
-     (cons 'nhexl-mode melpa)
 
      (cons 'projectile melpa)
 
@@ -224,24 +238,8 @@
      (cons 'counsel-tramp melpa)
      (cons 'swiper melpa)
 
-     (cons 'apu melpa)
-     (cons 'unicode-troll-stopper melpa)
-     (cons 'reveal-in-osx-finder melpa)
-     (cons 'flycheck-status-emoji melpa)
-     (cons 'pandoc-mode melpa)
-     (cons 'google-this melpa)
-     (cons 'atomic-chrome melpa)
-     (cons 'auto-dim-other-buffers melpa)
-     (cons 'quickrun melpa)
-     (cons 'vimish-fold melpa)
-     (cons 'wgrep melpa)
-     (cons 'xterm-color melpa)
-     (cons 'helpful melpa)
-     (cons 'elisp-demos melpa)
+     (cons 'ob-sql-mode melpa)
      (cons 'org-clock-csv melpa)
-     (cons 'symbol-overlay melpa)
-     (cons 'hungry-delete melpa)
-
 
      (cons 'dumb-jump melpa)
      (cons 'smart-jump melpa)
