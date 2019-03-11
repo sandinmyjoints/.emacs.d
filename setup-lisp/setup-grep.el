@@ -54,9 +54,9 @@
 ;; wjb-default-find-command
 ;; wjb-default-find-command
 ;;
-;; -wholename = -path
-;; -path = pathname
-;; -name = last part of pathname
+;; -wholename  = -path
+;; -path       = pathname
+;; -name       = last part of pathname
 ;;
 ;; Consider ignoring:
 ;; *[-.]min[.-]*
@@ -88,11 +88,11 @@
 
 ;; Setup find.
 (defvar wjb-find-bin "find")
-(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*node_modules*\" ! -wholename \"*.git*\" ! -wholename \"*local/Yarn*\" ! -wholename \"*.storybook-static*\" -type f -print0 ")
+(defvar wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -wholename \"*/node_modules*\" ! -wholename \"*/.git*\" ! -wholename \"*local/Yarn*\" ! -wholename \"*/.storybook-static*\" -type f -print0 ")
 
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind")
-  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*node_modules*\" ! -path \"*.git*\" ! -path \"*local/Yarn*\" ! -path \"*.storybook-static*\" ! -path \"*_tmp*\" ! -path \"*coverage*\" ! -path \"*dist*\" -type f -print0"))
+  (setq wjb-find-args "! -name \"*~\" ! -name \"#*#\" ! -path \"*/node_modules*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist*\" -type f -print0"))
 
 ;; Setup grep.
 (defvar wjb-grep-bin "grep")
