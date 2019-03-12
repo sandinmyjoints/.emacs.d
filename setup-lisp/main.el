@@ -1091,6 +1091,17 @@
           company-dabbrev)))
 (wjb/revert-company-backends)
 
+(defvar wjb/company-backends-js
+  '(
+    company-capf
+ (company-capf :with company-dabbrev-code company-keywords)
+ company-files
+ (company-dabbrev-code company-gtags company-etags company-keywords)
+ (company-emoji company-dabbrev))
+  "eglot hooks into capf, so favor that")
+
+;; (setq company-backends wjb/company-backends-js)
+
 (defun wjb/experimental-company-backends ()
   "Try some backend orderings."
   ;; mode-specific, smart
@@ -1199,11 +1210,10 @@
   :after company
   :config
   ;; TODO: this should probably only be used in non-prog-mode descendents.
-  (push 'company-emoji company-backends))
+  )
 
 (use-package company-restclient
-  :after company
-  (push 'company-restclient company-backends))
+  :after company)
 
 (use-package shell-script-mode
   :mode "\\.bash*")
@@ -1621,9 +1631,7 @@
 (use-package company-lsp
   :disabled
   :after lsp-mode
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends))
+  :commands company-lsp)
 
 ;; from https://gitlab.petton.fr/nico/emacs.d/
 (use-package whitespace
