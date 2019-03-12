@@ -236,18 +236,21 @@ If buffer is not visiting a file, do nothing."
 
 ;; from http://emacs.stackexchange.com/a/21207
 (defun my/use-eslint-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root)))
-         (eslint_d "eslint_d"))
-    (when (file-executable-p eslint_d)
-      (setq-local flycheck-javascript-eslint-executable eslint_d))
-    (unless (file-executable-p eslint)
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint)))))
+  ;; TODO: may need to add web-mode or some js-specific minor mode from it to
+  ;; this to get proper eslint when using web-mode for jsx files
+  (when (derived-mode-p 'js-mode)
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root)))
+           (eslint_d (executable-find "eslint_d")))
+      (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
+      (if (file-executable-p eslint_d)
+            (setq-local flycheck-javascript-eslint-executable eslint_d)
+        (when (and eslint (file-executable-p (format "%s" eslint)))
+            (setq-local flycheck-javascript-eslint-executable eslint))))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
