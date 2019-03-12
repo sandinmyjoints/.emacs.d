@@ -646,13 +646,37 @@ react-redux
 }
 
 #+END_SRC
+** langservers
+   - https://github.com/sourcegraph/javascript-typescript-langserver
+   - https://github.com/theia-ide/typescript-language-server (lighter weight? faster)
+   - comparison: https://github.com/eclipse/wildwebdeveloper/issues/22
+   - this one uses tern: https://github.com/tbodt/js-langserver
+** lsp eglot
+  - fs. should complete using lsp, NOT company
+  - eglot uses capf
+  - want a different min prefix for modes where this applies?
+  - summary:
+    - eglot uses company-capf
+    - . is an lsp trigger character so even when company min length is set, it
+      will trigger
+    - types need to be installed per repo to be found by the language server
+      (seems to apply to both sourcegraph and theia)
+    - the language server seems to have variou problems with jsconfig.json,
+    - so even when @types/node is installed locally, fs. does not complete as
+      i'd like
+    - company-quickhelp and pos-tip don't seem to working (unrelated to lsp)
+    - would like langserver support for jsx, but it doesn't seem like this
+      exists, so dont hook eglot for jsx files
 ** DONE dumb-jump
    CLOSED: [2018-09-01 Sat 22:17]
    - dumb-jump-go C-M-g
-** TODO smart-jump
-** TODO find-file-at-point for imports in js and jsx files
+** DONE smart-jump
+   CLOSED: [2019-03-08 Fri 11:06]
+** DONE find-file-at-point for imports in js and jsx files
+   CLOSED: [2019-03-08 Fri 11:06]
   - support "index" by default
   - C-c p g project-find-file-dwim does a pretty good job of this
+  - counsel has
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -1450,3 +1474,6 @@ company-active-map M-/
 ;;      ))
 
 #+END_SRC
+* disable app nap
+  - defaults write org.gnu.Emacs NSAppSleepDisabled -bool YES
+  - from https://github.com/rejeep/prodigy.el
