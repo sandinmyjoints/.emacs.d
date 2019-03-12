@@ -232,6 +232,8 @@ If buffer is not visiting a file, do nothing."
 
 ;; Flycheck.
 ;;
+(make-variable-buffer-local 'flycheck-javascript-eslint-executable)
+
 ;; from http://emacs.stackexchange.com/a/21207
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file
@@ -239,9 +241,13 @@ If buffer is not visiting a file, do nothing."
                 "node_modules"))
          (eslint (and root
                       (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+                                        root)))
+         (eslint_d "eslint_d"))
+    (when (file-executable-p eslint_d)
+      (setq-local flycheck-javascript-eslint-executable eslint_d))
+    (unless (file-executable-p eslint)
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint)))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
