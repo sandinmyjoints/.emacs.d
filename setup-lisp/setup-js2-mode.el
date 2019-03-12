@@ -184,10 +184,13 @@ If buffer is not visiting a file, do nothing."
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
-;; rsjx-mode is better but it has a tendency to hang when attributes are malformed.
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+;; Which mode(s) to use for JSX?
+;; - web-mode + js2-jsx-mode is pretty good but has some quirks, and js2r doesn't seem to work
+;; - rsjx-mode works with js2r but it has had a tendency to hang when attributes are malformed.
+;;
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
