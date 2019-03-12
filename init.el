@@ -70,10 +70,23 @@
 
   (require 'main))
 
+(defvar wjb/gc-cons-threshold (eval-when-compile (* 20 1024 1024)))
+(defvar wjb/gc-timer)
+(setq garbage-collection-messages t)
+
 (let
     ((file-name-handler-alist nil)
      (gc-cons-threshold most-positive-fixnum))
-  (init))
+  (init)
+  ;; This would result in a big GC after init finishes, right when I want to
+  ;; start using Emacs. Instead, schedule gc to run once after 2 seconds of idle
+  ;; time, then when it finishes, reset the threshold to a reasonable value.
+  (setq wjb/gc-timer
+        (run-with-idle-timer 2 nil (lambda ()
+                                     (message "GCing while idle.")
+                                     (garbage-collect)
+                                     (setq gc-cons-threshold wjb/gc-cons-threshold)
+                                     (makunbound wjb/gc-timer)))))
 
 ;;(do-setup-dirtree)
 (provide 'init)

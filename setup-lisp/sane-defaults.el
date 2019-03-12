@@ -319,17 +319,14 @@
 ;; the previous result
 (define-key isearch-mode-map [remap isearch-delete-char] #'isearch-del-char)
 
-(defvar my/gc-cons-threshold 20000000)
-
-;; Based on https://github.com/lewang/flx#gc-optimization
-(setq gc-cons-threshold my/gc-cons-threshold)
-
-;; Based on http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
+;; Based on:
+;; - https://github.com/lewang/flx#gc-optimization
+;; - http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
 (defun my/minibuffer-setup-hook ()
   (setq gc-cons-threshold most-positive-fixnum))
 
 (defun my/minibuffer-exit-hook ()
-  (setq gc-cons-threshold my/gc-cons-threshold))
+  (setq gc-cons-threshold wjb/gc-cons-threshold))
 
 (add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
