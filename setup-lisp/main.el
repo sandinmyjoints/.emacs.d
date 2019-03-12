@@ -533,12 +533,12 @@
   (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
 ;; switching/finding/opening/running things
-;; - C-o = helm-mini -> buffers, recent files, bookmarks, more?
+;; - C-o = helm-mini -> buffers, recent files, bookmarks, more? (cf M-o)
 ;; - C-x b = switch buffer (among open buffers)
 ;;   - C-x C-b = ibuffer
 ;;   - H-x b = helm-buffers-list
 ;;   - switch buffer among buffers limited to current project?
-;; - helm-mini limited to current project?-> H-0 C-o = helm-browse-project
+;; - helm-mini limited to current project?-> M-o = helm-browse-project (cf C-o)
 ;; - C-c p f = find file in project
 ;; - M-x commands to run
 ;; - C-x C-f -> open/find file (least used)
@@ -597,10 +597,10 @@
   :defer t
   :config
   (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
-  (global-set-key (kbd "H-o") #'helm-mini)
-  (global-set-key (kbd "H-x b") #'helm-buffers-list)
+  (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
+  ;; (global-set-key (kbd "H-x b") #'helm-buffers-list)
+  ;; (global-set-key (kbd "H-o") #'helm-browse-project)
   (global-set-key (kbd "M-o") #'helm-browse-project)
-  (global-set-key (kbd "H-0 C-o") #'helm-browse-project)
 
   ;; useful commands, but probably shouldn't be bound globally:
   ;; (global-set-key (kbd "C-'") 'helm-mark-all)
