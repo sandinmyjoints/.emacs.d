@@ -153,8 +153,7 @@
   (require 'vlf-setup))
 
 (use-package flycheck
-  :ensure t
-  :defer 5
+  :defer t
   :init
   ;; This turns on Flycheck globally in only these modes. Others can be turned on
   ;; per-buffer.
@@ -162,20 +161,25 @@
     '(js2-mode
       js2-jsx-mode
       rjsx-mode
-      coffee-mode
-      emacs-lisp-mode
       json-mode
+      coffee-mode
+      sql-mode
+      emacs-lisp-mode
       sh-mode
       yaml-mode
       python-mode
+      perl-mode
+      css-mode
+      less-css-mode
       perl6-mode))
+  ;; (setq flycheck-global-modes
+  ;;       '(not org-mode text-mode conf-mode restclient-mode))
   (global-flycheck-mode)
   :config
   (setq-default flycheck-display-errors-delay 0.8
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc))
-  (setq flycheck-global-modes
-        '(not org-mode text-mode conf-mode restclient-mode))
+  (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-status-emoji-mode 1)
   (require 'setup-flycheck)
