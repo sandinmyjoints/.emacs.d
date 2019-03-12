@@ -263,21 +263,22 @@ If buffer is not visiting a file, do nothing."
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
 project."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (prettier (and root
-                      (expand-file-name "node_modules/prettier/bin/prettier.js"
-                                        root)))
-         (prettier2 (and root
-                      (expand-file-name "node_modules/prettier/bin-prettier.js"
-                                        root))))
-    (when (and prettier (file-executable-p prettier))
-      (setq prettier-js-command prettier)
-      (prettier-js-mode))
-    (when (and prettier2 (file-executable-p prettier2))
-      (setq prettier-js-command prettier2)
-      (prettier-js-mode))))
+  (when (derived-mode-p 'js-mode)
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (prettier (and root
+                          (expand-file-name "node_modules/prettier/bin/prettier.js"
+                                            root)))
+           (prettier2 (and root
+                           (expand-file-name "node_modules/prettier/bin-prettier.js"
+                                             root))))
+      (when (and prettier (file-executable-p prettier))
+        (setq prettier-js-command prettier)
+        (prettier-js-mode))
+      (when (and prettier2 (file-executable-p prettier2))
+        (setq prettier-js-command prettier2)
+        (prettier-js-mode)))))
 
 (when (require 'prettier-js nil t)
   (make-variable-buffer-local 'prettier-js-command)
