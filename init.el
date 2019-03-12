@@ -86,9 +86,8 @@
                                      (message "GCing while idle.")
                                      (garbage-collect)
                                      (setq gc-cons-threshold wjb/gc-cons-threshold)
-                                     (makunbound wjb/gc-timer)))))
+                                     (makunbound 'wjb/gc-timer)))))
 
-;;(do-setup-dirtree)
 (provide 'init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
