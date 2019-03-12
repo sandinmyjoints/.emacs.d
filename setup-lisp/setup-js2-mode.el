@@ -247,7 +247,7 @@ If buffer is not visiting a file, do nothing."
                                           root)))
            (eslint_d (executable-find "eslint_d")))
       (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
-      (if (file-executable-p eslint_d)
+      (if (file-executable-p (format "%s" eslint_d))
             (setq-local flycheck-javascript-eslint-executable eslint_d)
         (when (and eslint (file-executable-p (format "%s" eslint)))
             (setq-local flycheck-javascript-eslint-executable eslint))))))
