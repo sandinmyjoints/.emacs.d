@@ -201,6 +201,7 @@
      ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
 
+     (cons 'eglot melpa)
      (cons 'lsp-mode melpa)
      (cons 'lsp-ui melpa)
 
@@ -222,6 +223,7 @@
      (cons 'company-web melpa)
      (cons 'company-flx melpa)
      (cons 'company-statistics melpa)
+     (cons 'company-quickhelp melpa)
 
      ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'helm-projectile melpa)

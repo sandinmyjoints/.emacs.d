@@ -1170,7 +1170,15 @@
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
   ;; trial:
-  (add-hook 'after-init-hook #'company-statistics-mode)
+  (company-statistics-mode)
+  (company-quickhelp-mode)
+  )
+
+(use-package eglot
+  :defer t
+  :config
+  ;; TODO: find a language server that actually works with JSX
+  ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
   )
 
 ;; trial:
