@@ -333,10 +333,15 @@
 
 (setq message-log-max t
       suggest-key-bindings nil
-      json-reformat:indent-width 2)
+      large-file-warning-threshold 2500000
+      text-quoting-style 'straight
+      search-default-mode #'character-fold-to-regexp
+      auto-window-vscroll nil
+      source-directory "/Users/william/scm/vendor/emacs-mac/src"
+      compile-command "npm test"
+      compilation-always-kill t)
 
 (setq-default bidi-display-reordering nil)
-(setq large-file-warning-threshold 2500000)
 
 (if (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))
@@ -345,20 +350,7 @@
     (progn  (global-prettify-symbols-mode 1)
             (setq prettify-symbols-unprettify-at-point 'right-edge)))
 
-(setq text-quoting-style 'straight
-      search-default-mode #'character-fold-to-regexp)
-
-;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
-(defadvice load-theme (before theme-dont-propagate activate)
-  (mapcar #'disable-theme custom-enabled-themes))
-
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
-
-(setq auto-window-vscroll nil)
-
-(setq source-directory "/Users/william/scm/vendor/emacs-mac/src"
-      compile-command "npm test"
-      compilation-always-kill t)
 
 ;; C-] is abort-recursive-edit
 

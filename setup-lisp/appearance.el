@@ -128,6 +128,11 @@
                        (color-lighten-name
                         (face-attribute 'default :background) 10)))
 
+;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
+;; Commenting out; prefer change-theme (see below).
+;; (defadvice load-theme (before theme-dont-propagate activate)
+;;   (mapcar #'disable-theme custom-enabled-themes))
+
 (defun change-theme (&rest args)
   "Like `load-theme', but disables all themes before loading the new one."
   ;; The `interactive' magic is for creating a future-proof passthrough.
@@ -151,6 +156,11 @@
 ;; applications.
 ;; 5. nimbus (use-package nimbus-theme)
 ;;
+;; TODO: Just a guess, but you probably have to do something like:
+
+;; (use-package spacemacs-common :ensure 'spacemacs-theme :config (load-theme 'spacemacs-dark))
+;; from https://www.reddit.com/r/emacs/comments/9ik7ug/two_questions_regarding_usepackage/e6kc4nc/
+
 (use-package gruvbox-theme
   :defer 1
   :disabled
