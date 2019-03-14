@@ -55,7 +55,6 @@
   (require 'flx-ido)
   (flx-ido-mode 1)
   ;; disable ido faces to see flx highlights.
-  (setq ido-enable-flex-matching t)
   (setq ido-use-faces nil)
 
   (ido-mode t)
@@ -69,26 +68,15 @@
 
   (require 'ido-completing-read+)
   (ido-ubiquitous-mode 1)
-  ;; Really use ido everywhere.
-  ;; (when (require 'ido-ubiquitous nil t)
-  ;;   (ido-ubiquitous-mode 1))
 
   ;; (add-to-list 'ido-ubiquitous-command-overrides '(disable exact "rgrep"))
 
   (add-to-list 'ido-ignore-directories "node_modules")
-
   (add-to-list 'ido-ignore-buffers "*Ibuffer*")
+  (add-to-list 'ido-ignore-files "\\.DS_Store")
 
   ;; TODO: extensions order, ignore
   ;; (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
-
-  (setq ido-enable-flex-matching t)
-
-  ;; Configure flx to work with ido.
-  ; (flx-ido-mode 1) ;; problem is it doesn't give value to recently visited buffers.
-
-  ;; disable ido faces to see flx highlights.
-  (setq ido-use-faces t)
 
   (setq flx-ido-threshold 8192)
 
@@ -100,10 +88,8 @@
     (define-key ido-completion-map
       (kbd "C-p") 'ido-prev-match))
 
-  (add-hook 'ido-setup-hook 'wjb-ido-keys)
+  (add-hook 'ido-setup-hook 'wjb-ido-keys))
 
-  ;; Ignore .DS_Store files with ido mode
-  (add-to-list 'ido-ignore-files "\\.DS_Store"))
 
 (provide 'setup-ido)
 
