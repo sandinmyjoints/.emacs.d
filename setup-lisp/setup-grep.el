@@ -94,6 +94,14 @@
   (setq wjb-find-bin "gfind")
   (setq wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"#*#\" ! -path \"*/node_modules*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist*\" -type f -print0"))
 
+;; TODO: fd is often faster than GNU grep, but its arguments are "<pattern
+;; path>", whereas grep is "<starting point> <expression>". So the the command
+;; construction would need to account for this.
+;;
+;; (when (executable-find "fd")
+;;   (setq wjb-find-bin "fd")
+;;   (setq wjb-find-args "-E \"*local/Yarn*\" -E \"*/.storybook-static*\" -E \"*/_tmp*\" -E \"*/coverage*\" -E \"*/dist*\" --type f --print0"))
+
 ;; Setup grep.
 (defvar wjb-grep-bin "grep")
 (defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e ")
@@ -137,7 +145,10 @@
                          (ivy-read "search for: " '() :require-match nil)
                        (read-from-minibuffer "search for: "))))
   (let* ((default-directory path)
-         (command-template (concat "gfind . -ipath '%s' " wjb-find-args wjb-after-the-pipe))
+         (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
+                                "-ipath"
+                              ""))
+         (command-template (concat wjb-find-bin " . " wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
          (actual-command (format command-template name-pattern grep-string)))
     (grep-find actual-command)))
 
@@ -153,7 +164,10 @@
                        (read-from-minibuffer "search for: "))
                      current-prefix-arg))
   (let* ((default-directory path)
-         (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
+         (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
+                                "-iname"
+                              ""))
+         (command-template (concat wjb-find-bin " . %s " wjb-path-or-iname " '%s' "  wjb-find-args wjb-after-the-pipe))
          (negate-or-not (if prefix "!" ""))
          (actual-command (format command-template negate-or-not name-pattern grep-string)))
     (grep-find actual-command)))
