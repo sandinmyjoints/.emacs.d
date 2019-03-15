@@ -614,12 +614,12 @@ be found in docstring of `posframe-show'."
              2)
           (round (/ (- (plist-get info :parent-frame-height)
                         (plist-get info :posframe-height))
-                     2.8))))
+                     3))))
 
   (defun ivy-posframe-display-at-frame-above-center (str)
     (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
 
-  (setq ivy-posframe-width 80
+  (setq ivy-posframe-width 90
         ivy-display-function #'ivy-posframe-display-at-frame-above-center)
   (ivy-posframe-enable))
 
