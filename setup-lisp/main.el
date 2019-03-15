@@ -930,11 +930,16 @@ be found in docstring of `posframe-show'."
 ;;
 (push '(:source "~/.emacs.d/.authinfo.gpg") auth-sources)
 
+;; TODO: defer setting these until some sensible time (first time will popup a
+;; box for the password). For, now at startup they are set to nil and cached, so
+;; clear the cache.
 (setq pivotal-api-token
       (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
 
       paradox-github-token
       (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox")))
+
+(setq auth-source-netrc-cache '())
 
 ;; EPG.
 (use-package epa-file

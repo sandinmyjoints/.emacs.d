@@ -199,7 +199,7 @@ If buffer is not visiting a file, do nothing."
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
-;; Use lambda for anonymous functions.
+;; Use lambda for anonymous functions. TODO: prettify may take care of this
 (font-lock-add-keywords
  'js2-mode `(("\\(function\\) *("
               (0 (progn (compose-region (match-beginning 1)
