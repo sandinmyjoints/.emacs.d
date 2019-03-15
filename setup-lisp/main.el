@@ -357,6 +357,10 @@
   (elpy-enable)
   (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules)))
 
+(use-package smart-dash
+  :disabled
+  :hook (python-mode . smart-dash-mode))
+
 ;; Python.
 (use-package python
   :defer t
@@ -1844,6 +1848,69 @@ be found in docstring of `posframe-show'."
 
 ;; This is voodoo...
 (-remove-item "/Users/william/scm/sd/hegemone/TAGS" tags-table-list)
+
+;; (prodigy-define-service
+;;   :name "webpack"
+;;   :cwd "~/project/"
+;;   :init-async (lambda (done) (nvm-use-for "~/project/" done))
+;;   :command "npm"
+;;   :args '("run" "build" "--" "--watch")
+;;   :ready-message "Build Finished")
+;; (prodigy-define-service
+;;   :name "tsc"
+;;   :cwd "~/project/"
+;;   :init-async (lambda (done) (nvm-use-for "~/project/" done))
+;;   :command "npm"
+;;   :args '("run" "compile" "--watch")
+;;   :ready-message "Watching for file changes.")
+;; (prodigy-define-service
+;;   :name "server"
+;;   :env '(("PORT" "6789")
+;;          )
+;;   :cwd "~/project/"
+;;   :init-async (lambda (done) (nvm-use-for "~/project/" done))
+;;   :command "npm"
+;;   :args '("run" "serve-dev")
+;;   :ready-message "Listening on 6789")
+
+(use-package prodigy
+  :config
+;; from https://github.com/jhirn/emacs-prelude/blob/master/personal/prodigy.el
+  (prodigy-define-tag
+    :name 'docker
+    :ready-message "Attaching to \\.*")
+
+  (defun prodigy-define-docker-compose (project cwd)
+    (prodigy-define-service
+      :name (concat project "-service")
+      :command "docker-compose"
+      :args '("up")
+      :cwd cwd
+      :tags '(docker)))
+
+  (let ((project "neodarwin")
+      (cwd "~/scm/sd/neodarwin"))
+    (prodigy-define-docker-compose project cwd))
+
+  (let ((project "atalanta")
+      (cwd "~/scm/sd/atalanta"))
+    (prodigy-define-docker-compose project cwd))
+
+  ;; (prodigy-define-service
+  ;;   :name "neodarwin-webpack-build"
+  ;;   :cwd "~/scm/sd/neodarwin"
+  ;;   :init-async (lambda (done) (nvm-use-for "~/scm/sd/neodarwin" done))
+  ;;   :command "nice"
+  ;;   :args '("npm" "run" "build:webpack:dev")
+  ;;   :ready-message "Webpack done.")
+  ;; (prodigy-define-service
+  ;;   :name "neodarwin-webpack-watch"
+  ;;   :cwd "~/scm/sd/neodarwin"
+  ;;   :init-async (lambda (done) (nvm-use-for "~/scm/sd/neodarwin" done))
+  ;;   :command "nice"
+  ;;   :args '("npm" "run" "watch:build:webpack:dev")
+  ;;   :ready-message "webpack is watching the files")
+  )
 
 (provide 'main)
 

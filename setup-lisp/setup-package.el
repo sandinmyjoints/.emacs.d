@@ -176,6 +176,8 @@
      (cons 'helpful melpa)
      (cons 'discover-my-major melpa)
      (cons 'elisp-demos melpa)
+     (cons 'smart-dash melpa)
+     (cons 'prodigy melpa)
 
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
