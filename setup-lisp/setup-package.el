@@ -171,6 +171,7 @@
      (cons 'recompile-on-save melpa)
      (cons 'comment-dwim-2 melpa)
      (cons 'aws-snippets melpa)
+     (cons 'posframe melpa)
 
      (cons 'helpful melpa)
      (cons 'discover-my-major melpa)
@@ -234,6 +235,7 @@
 
      (cons 'ivy melpa)
      (cons 'ivy-hydra melpa)
+     (cons 'ivy-posframe melpa)
      (cons 'counsel melpa)
      (cons 'counsel-projectile melpa)
      (cons 'counsel-css melpa)

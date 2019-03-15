@@ -130,16 +130,35 @@
 (defun find-in-project-glob-by-path (path name-pattern grep-string)
   "find|xargs in current project dir by path."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "path glob: " "*")
-                     (read-from-minibuffer "search for: ")))
+                     (if (functionp #'ivy-read)
+                         (ivy-read "path glob: " '() :require-match nil :initial-input "*")
+                       (read-from-minibuffer "path glob: " "*"))
+                     (if (functionp #'ivy-read)
+                         (ivy-read "search for: " '() :require-match nil)
+                       (read-from-minibuffer "search for: "))))
   (let* ((default-directory path)
          (command-template (concat "gfind . -ipath '%s' " wjb-find-args wjb-after-the-pipe))
          (actual-command (format command-template name-pattern grep-string)))
-    (message "actual-command: %s " actual-command)
     (grep-find actual-command)))
 
 ;; C-x j -> j close to n for name
 (defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
+  "find|xargs in current project dir by name. Negate with prefix arg."
+  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
+                     (if (functionp #'ivy-read)
+                         (ivy-read "name glob: " '() :require-match nil :initial-input "*")
+                       (read-from-minibuffer "name glob: " "*"))
+                     (if (functionp #'ivy-read)
+                         (ivy-read "search for: " '() :require-match nil)
+                       (read-from-minibuffer "search for: "))
+                     current-prefix-arg))
+  (let* ((default-directory path)
+         (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
+         (negate-or-not (if prefix "!" ""))
+         (actual-command (format command-template negate-or-not name-pattern grep-string)))
+    (grep-find actual-command)))
+
+(defun find-in-project-glob-by-name-old (path name-pattern grep-string prefix)
   "find|xargs in current project dir by name. Negate with prefix arg."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
                      (read-from-minibuffer "name glob: " "*")
@@ -149,7 +168,6 @@
          (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
          (negate-or-not (if prefix "!" ""))
          (actual-command (format command-template negate-or-not name-pattern grep-string)))
-    (message "actual-command: %s " actual-command)
     (grep-find actual-command)))
 
 

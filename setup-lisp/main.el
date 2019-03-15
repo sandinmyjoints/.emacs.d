@@ -535,19 +535,32 @@
 ;; switching/finding/opening/running things
 ;; - C-o = helm-mini -> buffers, recent files, bookmarks, more? (cf M-o)
 ;; - C-x b = switch buffer (among open buffers)
-;;   - C-x C-b = ibuffer
+;;   - C-x C-b = was ibuffer, now helm-mini
 ;;   - H-x b = helm-buffers-list
 ;;   - switch buffer among buffers limited to current project?
 ;; - helm-mini limited to current project?-> M-o = helm-browse-project (cf C-o)
+;; - M-x = commands to run
 ;; - C-c p f = find file in project
-;; - M-x commands to run
-;; - C-x C-f -> open/find file (least used)
+;; - C-x C-f = ido-find-file, which I like but it doesn't use posframe
+;; - H-0 f = counsel-find-file, which I would prefer to be more like ido-find-file.
+;;    - Enter on a dir should descend into it, not open the dir in dired. Have to hit TAB twice.
+;;      - good solution: https://github.com/abo-abo/swiper/wiki/ido-style-folder-navigation
+;;      - good solution: https://emacs.stackexchange.com/a/33706/2163 (using this one)
+;;      - possible solution: https://emacs.stackexchange.com/a/45937/2163
+;;      - other: https://github.com/abo-abo/swiper/issues/1333#issuecomment-436960474
+;;    - dired-do-rename and copy and other functions are also bad with counsel-find-file.
+;;    - https://github.com/jixiuf/ivy-dired-history
 (use-package ivy
   :demand
   :diminish
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
+  (global-set-key (kbd "H-0 f") 'counsel-find-file)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
+  (global-set-key (kbd "C-x d") 'ido-dired) ;; TODO: want to replace this with counsel
+  (global-set-key (kbd "C-x C-w") 'ido-write-file) ;; TODO: want to replace this with counsel
   ;; consider:
   ;; (global-set-key (kbd "C-s") 'swiper)
   ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -560,9 +573,8 @@
 
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "
-        ivy-height 12
+        ivy-height 20
         ivy-on-del-error-function 'ignore
-        ivy-display-function nil
         ;; overlay would be great if:
         ;; - border around the box
         ;; - consistent placement of the box; it seems to be related to where point is
@@ -579,9 +591,33 @@
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
                                 (ivy-switch-buffer . ivy--regex-fuzzy)
-                                (t . ivy--regex-fuzzy))
-        )
+                                (t . ivy--regex-fuzzy)))
   (ivy-mode 1))
+
+(use-package ivy-posframe
+  :after ivy
+  :config
+  ;; (set-variable 'debug-on-error t)
+
+  (defun posframe-poshandler-frame-above-center (info)
+    "Posframe's position handler.
+
+Get a position which let posframe stay onto its
+parent-frame's center.  The structure of INFO can
+be found in docstring of `posframe-show'."
+    (cons (/ (- (plist-get info :parent-frame-width)
+                (plist-get info :posframe-width))
+             2)
+          (round (/ (- (plist-get info :parent-frame-height)
+                        (plist-get info :posframe-height))
+                     2.8))))
+
+  (defun ivy-posframe-display-at-frame-above-center (str)
+    (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
+
+  (setq ivy-posframe-width 80
+        ivy-display-function #'ivy-posframe-display-at-frame-above-center)
+  (ivy-posframe-enable))
 
 (use-package counsel
   :defer t
@@ -589,7 +625,13 @@
   (setq counsel-find-file-at-point t
         counsel-preselect-current-file t
         counsel-yank-pop-height 12
-        counsel-yank-pop-preselect-last t))
+        counsel-yank-pop-preselect-last t)
+  ;; from https://emacs.stackexchange.com/a/33706/2163
+  (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
+        (alt  (where-is-internal #'ivy-alt-done ivy-minibuffer-map t)))
+    ;; TODO: Would like to do this for find-alternate-file as well, what map is active in that?
+    (define-key counsel-find-file-map done #'ivy-alt-done)
+    (define-key counsel-find-file-map alt  #'ivy-done)))
 
 (require 'helm-config)
 ;; TODO: C-g when helm-mini is showing actually quits
