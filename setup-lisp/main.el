@@ -496,9 +496,9 @@
   )
 
 (use-package ido
+  :disabled
   :config
-  (require 'setup-ido)
-  (global-set-key (kbd "C-x C-f") 'ido-find-file))
+  (require 'setup-ido))
 
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
@@ -649,13 +649,19 @@ be found in docstring of `posframe-show'."
   ;; (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
 
   (require 'helm-dired-recent-dirs)
-  ;; TODO: would like to add a source of files in the current project, maybe even all files
-  ;;
+  ;; TODO:
+  ;; - would like to add a source of files in the current project, maybe even all files
+  ;; - would like to add dirs as sources, like ~/notes, ~/notes/prof-dev/ Solution: https://stackoverflow.com/a/12708839/599258, also see https://www.reddit.com/r/emacs/comments/6ogkp3/how_to_add_more_source_to_helmfindfiles_or/
+  ;; - helm-for-files, helm-for-files-preferred-list, helm-source-locate
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                     helm-source-recentf
                                     helm-source-bookmarks
+                                    ;; TODO: improve spotlight, see: https://github.com/syl20bnr/spacemacs/issues/3280
+                                    ;; it doesn't order well, when query is myself.org, the result appears very low -- why?
+                                    ;; alfred does this when you prefix search query with space
+                                    helm-source-mac-spotlight
                                     helm-source-file-cache
-                                    helm-source-files-in-current-dir
+                                    ;; helm-source-files-in-current-dir
                                     helm-source-dired-recent-dirs
                                     helm-source-buffer-not-found
                                     ))
@@ -672,7 +678,11 @@ be found in docstring of `posframe-show'."
   ;; to be the same.
    helm-recentf-fuzzy-match t
    helm-buffers-fuzzy-matching t
+   helm-ff-skip-boring-files t
    )
+  (when is-mac
+    (setq helm-locate-fuzzy-match nil
+          helm-locate-command "mdfind -name %s %s"))
   )
 
 (use-package helm-org-rifle

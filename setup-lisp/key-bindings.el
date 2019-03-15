@@ -120,7 +120,7 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "H-l") 'goto-line)
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; (global-set-key (kbd "C-x C-b") 'ibuffer) using helm-buffers-list now
 
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 

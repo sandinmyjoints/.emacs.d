@@ -84,7 +84,8 @@
   (exec-path-from-shell-initialize))
 
 (setq delete-by-moving-to-trash t
-      trash-directory "~/.Trash")
+      trash-directory "~/.Trash"
+      locate-command "mdfind")
 
 ;; Don't open files from the workspace in a new frame.
 ;; Only works on Cocoa Emacs.
