@@ -247,7 +247,8 @@ Also converts full stops to commas."
 (define-prefix-command 'wjb-map)
 (add-hook 'after-init-hook
           (lambda ()
-            (global-set-key (kbd "H-0") 'wjb-map)))
+            (global-set-key (kbd "H-0") 'wjb-map)
+            (global-set-key (kbd "H-c") 'wjb-map)))
 
 (defun wjb/switch-to-clock ()
   "Switch to last clock buffer."
