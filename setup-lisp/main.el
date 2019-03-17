@@ -1885,21 +1885,50 @@ be found in docstring of `posframe-show'."
     :name 'docker
     :ready-message "Attaching to \\.*")
 
-  (defun prodigy-define-docker-compose (project cwd)
-    (prodigy-define-service
-      :name (concat project "-service")
-      :command "docker-compose"
-      :args '("up")
-      :cwd cwd
-      :tags '(docker)))
+  (prodigy-define-tag
+    :name 'docker-express
+    :ready-message "listening on http://\\.*")
 
-  (let ((project "neodarwin")
-      (cwd "~/scm/sd/neodarwin"))
-    (prodigy-define-docker-compose project cwd))
+  (prodigy-define-tag
+    :name 'docker-detached
+    :ready-message "Starting \\.* ... done")
 
-  (let ((project "atalanta")
-      (cwd "~/scm/sd/atalanta"))
-    (prodigy-define-docker-compose project cwd))
+  ;; - git pull
+  ;; - git checkout master
+  ;; - logs
+  ;; - build
+  ;; - up
+  ;; - stop
+  ;; - down
+  ;; - restart = down ; up
+  ;; - update/refresh = down ; pull ; up --build
+  ;;
+  (defun prodigy-define-docker-compose (project-cons)
+    (let ((project (car project-cons))
+          (tags (cdr project-cons)))
+      (prodigy-define-service
+        :name (concat project)
+        :command "docker-compose"
+        :args '("up")
+        :cwd (format "~/scm/sd/%s" project)
+        :tags tags)))
+
+  (let ((services '(
+                    ("sd-gimme-db" . 'docker)
+                    ("atalanta" . 'docker-express)
+                    ("darwin" . 'docker)
+                    ("sd-auth" . 'docker-express)
+                    ("sd-playground" . 'docker-express)
+                    ("sd-spelling" . 'docker-express)
+                    ("neodarwin" . 'docker-express)
+                    ("sd-router" . 'docker)
+                    )))
+    (mapcar #'prodigy-define-docker-compose services))
+
+  (global-set-key (kbd "C-x q") #'prodigy)
+
+  ;; (let ((project "atalanta")
+  ;;   (prodigy-define-docker-compose project)))
 
   ;; (prodigy-define-service
   ;;   :name "neodarwin-webpack-build"

@@ -1477,3 +1477,5 @@ company-active-map M-/
 * disable app nap
   - defaults write org.gnu.Emacs NSAppSleepDisabled -bool YES
   - from https://github.com/rejeep/prodigy.el
+* prodigy for use docker startup script
+* renice emacs
