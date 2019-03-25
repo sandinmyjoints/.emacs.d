@@ -163,7 +163,8 @@
      (cons 'yasnippet melpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
-     (cons 'pivotal-tracker melpa)
+     ;; (cons 'pivotal-tracker melpa)
+     (cons 'org-pivotal melpa)
      ;; TODO: add css-comb and web-beautify
      (cons 'header2 melpa)
      (cons 'paradox melpa)

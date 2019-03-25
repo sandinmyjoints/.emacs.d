@@ -981,10 +981,16 @@ be found in docstring of `posframe-show'."
 (setq pivotal-api-token
       (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
 
+      org-pivotal-api-token
+      (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
+
       paradox-github-token
       (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox")))
 
 (setq auth-source-netrc-cache '())
+
+(use-package org-pivotal
+  :defer 1)
 
 ;; EPG.
 (use-package epa-file
