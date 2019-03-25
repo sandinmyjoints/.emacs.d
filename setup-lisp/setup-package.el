@@ -179,6 +179,7 @@
      (cons 'elisp-demos melpa)
      (cons 'smart-dash melpa)
      (cons 'prodigy melpa)
+     (cons 'electric-operator melpa)
 
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
@@ -286,8 +287,8 @@
      ;; (cons 'elisp-slime-nav melpa-stable)
      ;; (cons 'elnode marmalade)
      ;; (cons 'slime-js marmalade)
-     ;; (cons 'edit-server melpa)
-     ;; (cons 'edit-server-htmlize melpa)
+     (cons 'edit-server melpa)
+     (cons 'edit-server-htmlize melpa)
      ;; (cons 'indium melpa)
      ;; (cons 'smart-indent-rigidly melpa)
      ;; (cons 'auto-install melpa)

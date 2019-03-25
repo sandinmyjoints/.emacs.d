@@ -1373,7 +1373,6 @@ be found in docstring of `posframe-show'."
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 (use-package atomic-chrome
-  :disabled
   :config
   (atomic-chrome-start-server))
 
@@ -1833,6 +1832,25 @@ be found in docstring of `posframe-show'."
   (global-set-key "\M-[" #'paredit-wrap-square)
   (global-set-key "\M-{" #'paredit-wrap-curly)
   )
+
+(use-package pcre2el
+  :commands reb-change-syntax)
+
+(use-package electric-operator
+  :defer
+  :hook
+  ((coffee-mode python-mode) . electric-operator-mode)
+  :config
+  (setq electric-operator-enable-in-docs t))
+
+;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
+(use-package edit-server
+  :config
+  (setq edit-server-new-frame nil)
+  (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
+  (add-hook 'edit-server-done-hook #'wjb/save-edit-server)
+  (add-hook 'edit-server-start-hook #'gfm-mode)
+  (edit-server-start))
 
 ;; It doesn't seem to like this, it thinks the domain name is neodarwin
 ;; 	url = git@github.com:spanishdict/neodarwin.git
