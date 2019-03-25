@@ -3,11 +3,16 @@
 ;; * C-,
 ;; * C-.
 ;; * C-'
+;; * C-;
 ;; * C-x C-c
-;; * C-z
 ;; * C-x C-|
-;; * C-c C-f
 ;; * C-x C-r
+;; * C-c f
+;; * C-c C-f
+;; * C-c l
+;; * C-c a
+;;
+;; * M-0?
 ;;
 ;;; Code:
 
@@ -54,9 +59,6 @@
 
 (global-set-key (kbd "C-<return>") 'goto-address-at-point)
 
-;; Only works in Emacs >=25.1. Default for this is C-x C-;.
-(global-set-key (kbd "C-;") #'comment-line)
-
 (global-set-key (kbd "C-x 7") #'describe-char)
 
 (global-set-key [H-up] 'beginning-of-defun)
@@ -70,8 +72,6 @@
 (global-set-key (kbd "C-|") 'align-regexp)
 (global-set-key (kbd "C-:") 'align-on-colon)
 (global-set-key (kbd "C-+") 'align-on-equal)
-
-(global-set-key (kbd "C-c f") 'find-file-at-point)
 
 (global-set-key "\M-c" 'endless/capitalize)
 (global-set-key "\M-l" 'endless/downcase)
@@ -172,7 +172,7 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 
-(global-set-key (kbd "C-0") 'multi-occur-in-this-mode)
+;; (global-set-key (kbd "C-0") 'multi-occur-in-this-mode) ;; Using for helm-org-rifle
 (global-set-key (kbd "C-c 0") 'multi-occur-in-mode-string)
 ;; Example: \\*.org
 (global-set-key (kbd "C-c C-0") 'multi-occur-in-matching-buffers)
@@ -198,9 +198,6 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "H-x n e") 'next-error)
 (global-set-key (kbd "H-x p e") 'previous-error)
-
-
-(global-set-key (kbd "M-;") #'comment-dwim-2)
 
 ;; move lines of text
 (global-set-key (kbd "M-<up>") 'move-text-up)
