@@ -490,15 +490,16 @@
 (fset 'wjb/add-standup-entry
    [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\C-a ?\C-f ?\C-f ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\M-> return ?# ?\S-  ?T ?o ?d ?a ?y return ?- ? ])
 
-;; TODO: first, switch to standup buffer if open
-(defun do-standup ()
+(defun wjb/do-standup ()
   "Do standup."
   (interactive)
+  (wjb/switch-to-standup)
   ;; removed save-excursion
   (goto-char (point-min))
-  (execute-kbd-macro 'wjb/add-standup-entry))
-
-(defalias 'standup 'do-standup)
+  (insert (format "* %s\n  - \n" (format-time-string "%Y-%m-%d")))
+  (forward-line -1)
+  (move-end-of-line nil))
+  ;; (execute-kbd-macro 'wjb/add-standup-entry))
 
 ;; The regexp for this is:
 ;; .*?:\(\s-*\)

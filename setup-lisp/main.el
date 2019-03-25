@@ -286,8 +286,9 @@
   :defer t
   :diminish visual-line-mode
   :config
-  (add-hook 'org-mode-hook 'visual-line-mode)
   (setq org-src-fontify-natively t
+        org-directory "~/notes"
+        org-agenda-files "~/.emacs.d/org-agenda-files-list.txt"
         org-catch-invisible-edits 'smart
         org-log-done t
         org-clock-persist 'history
@@ -296,9 +297,56 @@
         org-outline-path-complete-in-steps nil
         org-completion-use-ido t
         org-return-follows-link t)
-  (require 'setup-org)
+
+  ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
+  ;; entry, instead of having to mark it
+  (define-key org-mode-map (kbd "C-c e") #'org-slack-export-to-clipboard-as-slack)
+
+  ;; what do these do?
+  ;; (define-key global-map "\C-cl" 'org-store-link)
+  ;; (define-key global-map "\C-ca" 'org-agenda)
+
+  (defun wjb/org-mode-hook ()
+    (auto-fill-mode 1)
+    (set-fill-column 80)
+    (fci-mode -1)
+    (company-mode -1)
+    (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
+    (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
+  (add-hook 'org-mode-hook #'wjb/org-mode-hook)
+  (add-hook 'org-mode-hook #'visual-line-mode)
+
+  (require 'setup-org))
+
+;; How to search among org files:
+;; - helm-org-agenda-files-headings -- search headings among org agenda files
+;; - helm-org-rifle -- searches among headings and content
+;;   - helm-org-rifle-agenda-files -- helm results, can be slow. C-0
+;;   - helm-org-rifle-org-directory
+;;   - helm-org-rifle-occur-agenda-files -- occur results (persistent buffer)
+;;   - helm-org-rifle-occur-agenda-directory
+;;
+(use-package helm-org-rifle
+  :defer t
+  :config
+  (setq helm-org-rifle-show-path t)
+  (global-set-key (kbd "C-0") #'helm-org-rifle-agenda-files)
+
+  (defun helm-org-rifle-show-entry-in-real-buffer (candidate)
+    "Show CANDIDATE in its real buffer. Modified: see https://github.com/alphapapa/helm-org-rifle/issues/22"
+    (helm-attrset 'new-buffer nil)  ; Prevent the buffer from being cleaned up
+    (-let (((buffer . pos) candidate))
+      (switch-to-buffer buffer)
+      (goto-char pos))
+    (org-show-children)))
+
   ;; Load ODT backend to allow for exporting to open document format.
-  (require 'ox-odt))
+(use-package ox-odt
+  :after org)
+(use-package ox-gfm
+  :after org)
+(use-package ox-slack
+  :after org)
 
 (use-package sql)
 (use-package sqlformat
@@ -688,9 +736,6 @@ be found in docstring of `posframe-show'."
     (setq helm-locate-fuzzy-match nil
           helm-locate-command "mdfind -name %s %s"))
   )
-
-(use-package helm-org-rifle
-  :defer)
 
 (use-package ace-jump-helm-line
   :config

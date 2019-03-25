@@ -63,19 +63,6 @@
    ;; org-src-window-setup 'reorganize-frame
    org-src-window-setup 'current-window))
 
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(push "~/notes" org-agenda-files)
-
-(add-hook 'org-mode-hook
-	  (lambda ()
-        (auto-fill-mode 1)
-        (set-fill-column 80)
-        (fci-mode -1)
-        (company-mode -1)
-        (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
-        (local-set-key (kbd "<S-down>") 'outline-next-visible-heading)))
-
 ;; Some initial languages we want org-babel to support
 (org-babel-do-load-languages
  'org-babel-load-languages
