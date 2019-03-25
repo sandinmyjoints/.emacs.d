@@ -887,6 +887,19 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
       (with-current-buffer "*dirtree*"
         (setq-local window-size-fixed nil)))))
 
+(defun mw-lisp-butt-display ()
+  "Function to produce nicer lisp butts.
+This function can be hooked into the modes of interest.  E.g.
+(add-hook 'emacs-lisp-mode-hook #'mw-lisp-butt-display)
+(add-hook 'lisp-mode-hook #'mw-lisp-butt-display)"
+  (font-lock-add-keywords
+   nil
+   '((")\\())+\\))"
+      (1 (compose-region
+          (match-beginning 1) (match-end 1)
+          ".")
+         nil)))))
+
 ;; TODO:
 ;; Mixpanel event parser
 ;; - extract data query param

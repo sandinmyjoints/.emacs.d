@@ -81,6 +81,7 @@
   (setq flx-ido-threshold 8192)
 
   ;; Ido keymap.
+  ;; TODO: want this to work with magit completions
   (defun wjb-ido-keys ()
     "Add my keybindings for ido."
     (define-key ido-completion-map

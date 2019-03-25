@@ -46,13 +46,17 @@
 ;;
 ;;; Code:
 
+(setq-default bidi-display-reordering nil)
+
+
 ;; Don't use these graphical elements.
 ;;
 (if (display-graphic-p)
     (progn
       (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
       (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
+      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+      (if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))))
 
 ;; Turn on/off display stuff.
 ;;
@@ -135,12 +139,6 @@
 ;; Answering just 'y' or 'n' will do
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
-;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
-;; only sort of uses it?
-(add-hook 'shell-mode-hook
-          'ansi-color-for-comint-mode-on)
-
 ;; UTF-8 please
 (setq locale-coding-system 'utf-8) ; pretty
 (set-terminal-coding-system 'utf-8) ; pretty
@@ -148,6 +146,12 @@
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
 (set-language-environment "UTF-8")
+
+;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
+;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
+;; only sort of uses it?
+(add-hook 'shell-mode-hook
+          'ansi-color-for-comint-mode-on)
 
 ;; Don't want to see garbage in term-mode.
 (add-hook 'term-exec-hook
@@ -162,11 +166,10 @@
 (setq-default transient-mark-mode t)
 
 ;; Always display line and column numbers
-(setq line-number-mode t)
-(setq column-number-mode t)
+(setq line-number-mode t
+      column-number-mode t)
 
 ;; Lines should be 80 characters wide, not 72
-(setq fill-column 80)
 (setq-default fill-column 80)
 
 ;; Undo/redo window configuration with C-c <left>/<right>
@@ -339,12 +342,8 @@
       auto-window-vscroll nil
       source-directory "/Users/william/scm/vendor/emacs-mac/src"
       compile-command "npm test"
-      compilation-always-kill t)
-
-(setq-default bidi-display-reordering nil)
-
-(if (fboundp 'horizontal-scroll-bar-mode)
-    (horizontal-scroll-bar-mode -1))
+      compilation-always-kill t
+      recenter-positions '(0.33 top bottom))
 
 (if (fboundp 'global-prettify-symbols-mode)
     (progn  (global-prettify-symbols-mode 1)

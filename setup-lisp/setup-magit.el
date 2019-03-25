@@ -28,7 +28,8 @@
       magit-status-expand-stashes nil
       magit-commit-show-diff nil
       magit-revert-buffers 1 ;; important for not slowing down everything
-      magit-completing-read-function 'magit-ido-completing-read
+      ;; magit-completing-read-function 'magit-ido-completing-read
+      magit-completing-read-function 'ivy-completing-read
       magit-push-always-verify nil
       magit-revision-insert-related-refs nil
       magit-branch-read-upstream-first nil)

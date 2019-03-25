@@ -193,13 +193,18 @@
   (setq css-indent-offset 2))
 
 (use-package emacs-lisp-mode
-  :diminish eldoc-mode
   :mode "abbrev_defs"
   :config
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
+
+(use-package eldoc
+  :after emacs-lisp-mode
+  :diminish eldoc-mode
+  :config
+  (diminish 'eldoc-mode))
 
 (autoload 'auto-make-header "header2")
 
@@ -209,7 +214,10 @@
   (setq truncate-lines nil))
 (add-hook 'prog-mode-hook 'auto-fill-comments)
 
-(use-package comment-dwim-2)
+(use-package comment-dwim-2
+  :config
+  ;; Default for builtin comment-line is C-x C-;
+  (global-set-key (kbd "M-;") #'comment-dwim-2))
 
 (use-package beacon
   :defer t
@@ -1294,7 +1302,7 @@ be found in docstring of `posframe-show'."
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
   ;; trial:
   (company-statistics-mode)
-  (company-quickhelp-mode)
+  (company-quickhelp-mode -1)
   )
 
 (use-package eglot
@@ -1440,6 +1448,8 @@ be found in docstring of `posframe-show'."
 ;; C-u C-c RET starts comint with compilation-minor-mode, keys are sent -- BUT it's not doing anything for Jest, which probably isn't listening for input? maybe because terminfo is set to dumb? TODO: experiment with other values of TERM
 (use-package compile
   :config
+  (unbind-key (kbd "C-o") compilation-minor-mode-map)
+  (unbind-key (kbd "C-o") compilation-mode-map)
   (setq compilation-scroll-output t
         ;; set to "dumb" to not get colors codes
         ;; ansi and xterm-256colors both get movement/scrolling codes from jest output, not just colors

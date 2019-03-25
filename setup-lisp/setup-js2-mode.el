@@ -51,6 +51,7 @@
 ;; xref-pop-marker-stack
 
 (use-package js2-refactor
+  :diminish js2-refactor
   :config
   (js2r-add-keybindings-with-prefix "H-c")
   (js2r-add-keybindings-with-prefix "H-r")
