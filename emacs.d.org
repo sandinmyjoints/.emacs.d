@@ -1,3 +1,4 @@
+# -*- default-directory: "/Users/william/.emacs.d"; -*-
 #+TITLE: emacs.d.org
 #+DATE: <2017-07-28 Fri>
 #+AUTHOR: William Bert
@@ -424,6 +425,10 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
   - http://orgmode.org/manual/In_002dbuffer-settings.html
   - https://orgmode.org/manual/Export-settings.html#Export-settings
   - see top of this buffer
+* INACTIVE nice export to google docs
+  - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
+   - org to plan, org exports to odt for import into google docs
+     - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
 * ACTIVE why does point go to BOL after running org-toggle-item
   - when I run org-toggle to change a headline to a list item
 #+BEGIN_SRC q
@@ -440,22 +445,26 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   1) when it's cycling between list bullets, it's fine, point stays where it is
   2) but when it's going from a headline to a bullet, it puts point at BOL
      instead of leaving it where it is
-* TODO try https://github.com/xiaoxinghu/orgajs/
-* TODO nice export to google docs
-  - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
-* TODO Pivotal Tracker integration
-** try https://github.com/jxa/pivotal-tracker
-   - https://github.com/emacs-pe/pivotal-tracker/commits/development
-   - https://github.com/emacs-pe/pivotal-tracker/commit/de40f942aed936c594d1512d8f4ac5eebb0f2bd1
-   - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
-   - https://github.com/emacsfodder/pivotal-tracker/tree/master
-   - https://github.com/zph/pivotal-tracker/commits/master
-** write org-walker, org-to-pt
-   - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
-   - https://github.com/org-pivotal/org-pivotal
+* TODO helm search of org headlines
+
+* TODO helm source: github
+* TODO helm source: pivotal
+* TODO easy, nice-looking org export
+   - to markdown
+   - to HTML:
+     - https://github.com/fniessen/org-html-themes
+     - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
+** TODO try https://github.com/xiaoxinghu/orgajs/
+* TODO notion integration
+  - approach: org to md for import into notion
+  - approach: edit with emacs or atomic chrome
+  - approach: org to notion exporter?
+* TODO Pivotal Tracker: create and edit tickets
+  - approach: org to md for c/p into pt
+  - approach: edit with emacs or atomic chrome
+  - approach: write org-walker, org-to-pt
+  - approach: pt interface in emacs
 ** ideal flow
-   - org to plan, org exports to odt for import into google docs
-     - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
    - org to PT, creates PT tickets
      - top level is release or epic
      - level 2 is ticket
@@ -463,11 +472,25 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
        - tags are labels
      - level 3 is sections within description
        - bullet points are description
-* TODO easy, nice-looking org export
-   - to markdown
-   - to HTML:
-     - https://github.com/fniessen/org-html-themes
-     - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
+** try https://github.com/org-pivotal/org-pivotal
+   - C-c ( i install, p push, f fetch
+*** wishlist
+    - be collapsed after fetch all
+    - option to show ticket id in org headline (though the headline is the title)
+    - option to leave headlines that aren't PT tickets alone (currently it removes them
+      when doing a fetch)
+** try https://github.com/jxa/pivotal-tracker
+*** forks
+    - https://github.com/emacs-pe/pivotal-tracker/commits/development
+    - https://github.com/emacs-pe/pivotal-tracker/commit/de40f942aed936c594d1512d8f4ac5eebb0f2bd1
+    - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
+    - https://github.com/emacsfodder/pivotal-tracker/tree/master
+    - https://github.com/zph/pivotal-tracker/commits/master
+** write org-walker, org-to-pt
+   - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
+   - https://github.com/org-pivotal/org-pivotal
+* TODO Pivotal tracker: search tickets
+  - link org headline to ticket
 * TODO want to see what is ACTIVE and what was recently DONE
 * TODO org-babel, particularly with sql
   - limitations:
@@ -1323,14 +1346,16 @@ local bindings in certain buffers.
 ``` shell
 $ aws ecs update-service --cluster <cluster name> --service <service name> --force-new-deployment
 ```
-   -  automatically open project in dirtree when switch to it
+   - automatically open project in dirtree when switch to it
      - probably can use projectile hook of some kind
-   -  Use compile buffer, jump to failing tests
+   - Use compile buffer, jump to failing tests
      - [X] unit tests
      - integration tests
    - [ ]  fill comment paragraphs nicely, including when they contain
      bulleted lists and such (need to fix paragraph-start variable)
-   - [ ] project commands work from local_notes
+   - [X] project commands work from local_notes
+     - SOLVED with # -*- default-directory: "/Users/william/scm/sd/sd-playground"; -*-
+     - helpful for .rest and .org files
      - for example, magit-status, and projectile find file
      - but what about cases where a notes file is symlinked from multiple dirs?
      - somewhat related: https://github.com/magit/magit/issues/1769
