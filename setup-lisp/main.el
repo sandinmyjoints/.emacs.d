@@ -290,6 +290,7 @@
 ;; Org-mode.
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
+;; Helpful: (org-reload)
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :defer t
   :diminish visual-line-mode
@@ -304,6 +305,7 @@
         org-todo-keywords '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE"))
         org-outline-path-complete-in-steps nil
         org-completion-use-ido t
+        org-replace-disputed-keys t
         org-return-follows-link t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
@@ -319,12 +321,110 @@
     (set-fill-column 80)
     (fci-mode -1)
     (company-mode -1)
+    (hungry-delete-mode -1)
     (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
   (add-hook 'org-mode-hook #'wjb/org-mode-hook)
   (add-hook 'org-mode-hook #'visual-line-mode)
 
+  (require 'org-tempo)
+
   (require 'setup-org))
+
+(use-package org-src
+  :ensure nil
+  :after org
+  :config
+  (setq-default
+   org-edit-src-content-indentation 0
+   org-edit-src-persistent-message t
+   org-src-tab-acts-natively t
+   org-export-with-sub-superscripts '{}
+   ;; TODO try this out:
+   ;; org-src-window-setup 'reorganize-frame
+   org-src-window-setup 'current-window)
+  ;; Some initial languages we want org-babel to support
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (emacs-lisp . t)
+     (shell . t)
+     (python . t)
+     (sql . t)
+     (ein . t))))
+
+(use-package ob
+  :after org
+  :config
+  (setq org-confirm-babel-evaluate
+        (lambda (lang body)
+          (not (string= lang "sql-mode")))))
+
+;; alternative Org Babel backend for SQL:
+;; https://github.com/nikclayton/ob-sql-mode
+(use-package ob-sql-mode
+  :after ob
+  :config
+  ;; HACK: remove ("Q" "#+BEGIN_SRC sql-mode ?\n\n#+END_SRC" "#+BEGIN_SRC
+  ;; sql-mode ?\n\n#+END_SRC") from list because it doesn't fit new format.
+  ;; ob-sql-mode needs to be updated to work with org-tempo.
+  (setq org-structure-template-alist
+        '(
+          ("a" . "export ascii")
+          ("c" . "center")
+          ("C" . "comment")
+          ("e" . "example")
+          ("E" . "export")
+          ("h" . "export html")
+          ("l" . "export latex")
+          ("q" . "quote")
+          ("s" . "src")
+          ("v" . "verse"))))
+
+(use-package org-table
+  :after org
+  :config
+  (setq org-html-table-row-tags
+        (cons '(cond (top-row-p "<tr class=\"tr-top\">")
+                     (bottom-row-p "<tr class=\"tr-bottom\">")
+                     (t (if (= (mod row-number 2) 1)
+                            "<tr class=\"tr-odd\">"
+                          "<tr class=\"tr-even\">")))
+              "</tr>"))
+
+  (defun wjb/cleanup-org-tables ()
+    (save-excursion
+      (goto-char (point-min))
+      (while (search-forward "-+-" nil t) (replace-match "-|-"))
+      ))
+
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              (add-hook 'after-save-hook #'wjb/cleanup-org-tables  nil 'make-it-local)))
+
+  ;; Source: http://emacs.stackexchange.com/a/5319/2163
+  (defun orgtbl-to-gfm (table params)
+    "Convert the Orgtbl mode TABLE to GitHub Flavored Markdown."
+    (let* ((alignment (mapconcat (lambda (x) (if x "|--:" "|---"))
+                                 org-table-last-alignment ""))
+           (params2
+            (list
+             :splice t
+             :hline (concat alignment "|")
+             :lstart "| " :lend " |" :sep " | ")))
+      (orgtbl-to-generic table (org-combine-plists params2 params))))
+
+  (defun insert-org-to-md-table (table-name)
+    (interactive "*sEnter table name: ")
+    (insert "<!---
+#+ORGTBL: SEND " table-name " orgtbl-to-gfm
+
+-->
+<!--- BEGIN RECEIVE ORGTBL " table-name " -->
+<!--- END RECEIVE ORGTBL " table-name " -->")
+    (forward-line -1)
+    (forward-line -1)
+    (forward-line -1)))
 
 ;; How to search among org files:
 ;; - helm-org-agenda-files-headings -- search headings among org agenda files
