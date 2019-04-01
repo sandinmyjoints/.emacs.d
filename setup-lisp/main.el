@@ -277,6 +277,8 @@
 (use-package autorevert
   :diminish auto-revert-mode)
 
+(use-package 'ht)
+
 (use-package abbrev
   :defer 4
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
