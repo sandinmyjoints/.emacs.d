@@ -291,6 +291,9 @@
 ;; (require 'org-install)
 ;; (eval-after-load 'org '(require 'setup-org))
 ;; Helpful: (org-reload)
+;; C-c e -- export to slack
+;; C-c C-, -- insert template (or wrap around region)
+;;
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :defer t
   :diminish visual-line-mode
@@ -306,6 +309,7 @@
         org-outline-path-complete-in-steps nil
         org-completion-use-ido t
         org-replace-disputed-keys t
+        org-edit-src-content-indentation 0
         org-return-follows-link t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
@@ -379,7 +383,10 @@
           ("l" . "export latex")
           ("q" . "quote")
           ("s" . "src")
-          ("v" . "verse"))))
+          ("v" . "verse")))
+  (add-to-list 'org-structure-template-alist '("js" . "src javascript"))
+  (add-to-list 'org-structure-template-alist '("Q" . "src sql-mode"))
+  )
 
 (use-package org-table
   :after org
@@ -435,7 +442,7 @@
 ;;   - helm-org-rifle-occur-agenda-directory
 ;;
 (use-package helm-org-rifle
-  :defer t
+  :after helm
   :config
   (setq helm-org-rifle-show-path t)
   (global-set-key (kbd "C-0") #'helm-org-rifle-agenda-files)
