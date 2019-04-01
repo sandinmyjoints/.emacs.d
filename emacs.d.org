@@ -455,11 +455,13 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
      - https://github.com/fniessen/org-html-themes
      - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 ** TODO try https://github.com/xiaoxinghu/orgajs/
-* TODO notion integration
+* TODO notion integration                                          :wishlist:
   - approach: org to md for import into notion
   - approach: edit with emacs or atomic chrome
-  - approach: org to notion exporter?
-* TODO Pivotal Tracker: create and edit tickets
+  - approach: org to notion exporter? write command that exports a buffer or
+    subtree to md and uploads it using the unofficial API
+    -
+* TODO Pivotal Tracker: create and edit tickets                    :wishlist:
   - approach: org to md for c/p into pt
   - approach: edit with emacs or atomic chrome
   - approach: write org-walker, org-to-pt
