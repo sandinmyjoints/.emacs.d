@@ -788,6 +788,107 @@ be found in docstring of `posframe-show'."
         ivy-display-function #'ivy-posframe-display-at-frame-above-center)
   (ivy-posframe-enable))
 
+(use-package ivy-rich
+  :config
+  :disabled
+  (ivy-rich-mode 1)
+  (setq ivy-rich-path-style 'abbrev)
+
+  ;; see https://www.reddit.com/r/emacs/comments/b5n1yh/weekly_tipstricketc_thread/ejems0p/
+  (defun ivy-rich-branch-candidate (candidate)
+    (let ((candidate (expand-file-name candidate ivy--directory)))
+      (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+          ""
+        (format "%s%s"
+                (propertize (replace-regexp-in-string abbreviated-home-dir "~/" (file-name-directory (directory-file-name candidate))) 'face 'font-lock-doc-face)
+                (propertize (file-name-nondirectory (directory-file-name candidate)) 'face 'success)))))
+
+  (defun ivy-rich-branch (candidate)
+    (let* ((candidate (expand-file-name candidate ivy--directory))
+           (default-directory candidate))
+      (if (or (not (magit-git-repo-p candidate)) (not (file-exists-p candidate)) (file-remote-p candidate))
+          ""
+        (format "%s"
+                (propertize (if (magit-rebase-in-progress-p) "REBASE" (or (magit-get-current-branch) "*NONE*")) 'face 'warning)))))
+
+  (defun ivy-rich-count (candidate)
+    (let* ((candidate (expand-file-name candidate ivy--directory)))
+      (if (or (not (file-exists-p candidate)) (file-remote-p candidate) (not (magit-git-repo-p candidate)))
+          ""
+        (format "%s" (length (projectile-project-buffers (projectile-ensure-project candidate)))))))
+
+  (defun projectile-compilation-buffers (&optional project)
+    "Get a list of a project's compilation buffers.
+If PROJECT is not specified the command acts on the current project."
+    (let* ((project-root (or project (projectile-project-root)))
+           (buffer-list (mapcar #'process-buffer compilation-in-progress))
+           (all-buffers (cl-remove-if-not
+                         (lambda (buffer)
+                           (projectile-project-buffer-p buffer project-root))
+                         buffer-list)))
+      (if projectile-buffers-filter-function
+          (funcall projectile-buffers-filter-function all-buffers)
+        all-buffers)))
+
+  (defun ivy-rich-compiling (candidate)
+    (let* ((candidate (expand-file-name candidate ivy--directory)))
+      (if (or (not (file-exists-p candidate)) (file-remote-p candidate) (not (magit-git-repo-p candidate)))
+          ""
+        (if (projectile-compilation-buffers candidate)
+            "compiling"
+          ""))))
+
+  ;; wjb: this one is actually somewhat useful, but slow
+  (plist-put ivy-rich--display-transformers-list
+             'counsel-projectile-switch-project
+             '(:columns
+               ((ivy-rich-branch-candidate (:width 45))
+                ;; (ivy-rich-count (:width 3 :align left))
+                (ivy-rich-branch (:width 30))
+                (ivy-rich-compiling))))
+  (ivy-rich-set-display-transformer)
+
+  (defun ivy-rich-file-info (candidate)
+    "read file information, try to deal with tramp"
+    (if (file-remote-p (concat ivy--directory candidate))
+        "     tramp method"
+      (let* ((candidate (expand-file-name candidate ivy--directory))
+             (attrs (file-attributes candidate))
+             (type (nth 0 attrs))
+             (size (nth 7 attrs))
+             (modes (nth 8 attrs))
+             (user (user-login-name (nth 2 attrs)))
+             (group (nth 3 attrs))
+             (info ""))
+        (cond
+         ((eq attrs nil)
+          (setq info "nofile"))
+         ((stringp type) ;; file is just an symbolic link
+          (setq info (concat "     ->  " (expand-file-name type ivy--directory))))
+         (t (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+                ""
+              (setq info
+                    (cond ((eq type t) ;; directory
+                           "    dir")
+                          (t
+                           (cond ((> size 1000000) (format "%6.1fM" (/ size 1000000.0)))
+                                 ((> size 1000) (format "%6.1fk" (/ size 1000.0)))
+                                 (t (format "%6dB" size))))))
+              (setq info (format "%s  %s  %s" info modes user))))
+         info ))))
+
+  ;; wjb: gratuitous!
+  (setq ivy-rich-display-transformers-list
+        (plist-put
+         ivy-rich-display-transformers-list 'counsel-find-file
+         '(:columns
+           ((ivy-read-file-transformer    (:width 0.4))
+            (ivy-rich-file-info               (:width 20 :face font-lock-doc-face))
+            ;; (ivy-rich-file-last-modified-time (:width 25 :face font-lock-doc-face))
+            ))))
+  (ivy-rich-set-display-transformer)
+  )
+
 (use-package counsel
   :defer t
   :config
