@@ -143,6 +143,9 @@
      (cons 'vimish-fold melpa)
      (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
+     (cons 'highlight-thing melpa)
+     (cons 'multiple-cursors melpa)
+     (cons 'mc-extras melpa)
 
      (cons 'which-key melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.

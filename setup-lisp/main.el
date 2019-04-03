@@ -1150,12 +1150,29 @@ If PROJECT is not specified the command acts on the current project."
               ("C-M-<" . 'mc/edit-beginnings-of-lines)
               ("C-M->" . 'mc/edit-ends-of-lines)))
 
+(use-package mc-extras
+  :after multiple-cursors
+  :config
+  (define-key mc/keymap (kbd "C-. d")   'mc/remove-duplicated-cursors)
+  (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines)
+  )
+
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
 (use-package expand-region
   :defer t
   :bind (:map global-map
               ("C-=" . 'er/expand-region)))
+
+(use-package highlight-thing
+  :init
+  (defface highlight-thing
+    '((t (:inherit 'helm-helper)))
+    "Face that is used to highlight things."
+    :group 'highlight-thing)
+  :config
+  (global-highlight-thing-mode)
+  (setq highlight-thing-delay-seconds 0.2))
 
 (require 'setup-dirtree)
 (with-eval-after-load 'dirtree
