@@ -1325,8 +1325,9 @@ If PROJECT is not specified the command acts on the current project."
 
   ;; Work-around for tab complaining when yas is active in ansi-term. See:
   ;; https://github.com/capitaomorte/yasnippet/issues/289
-  (add-hook 'term-mode-hook (lambda()
-                              (yas-minor-mode -1))))
+  (defun wjb/disable-yas-minor-mode ()
+    (yas-minor-mode -1))
+  (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode))
 
 (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
 ;; These are great snippets, but loading them is causing some warnings:
