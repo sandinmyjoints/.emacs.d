@@ -208,6 +208,7 @@
      (cons 'coffee-mode melpa)
      ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
+     (cons 'jest-mode melpa)
 
      (cons 'eglot melpa)
      (cons 'lsp-mode melpa)

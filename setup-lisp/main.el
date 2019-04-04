@@ -1861,6 +1861,25 @@ If PROJECT is not specified the command acts on the current project."
   (recompile-on-save-advice compile)
   (recompile-on-save-advice recompile))
 
+(use-package jest
+  :bind (:map jest-mode-map
+              ("g" . jest-repeat)
+              ("M-n" . compilation-next-error)
+              ("M-p" . compilation-previous-error))
+  :config
+  ;; not sure which of this is preferable to use; shell-minor just seems to not have as many key bindings I want
+  (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
+  (add-hook 'jest-mode-hook #'compilation-minor-mode))
+
+(define-minor-mode jest-minor-mode
+  "Minor mode to run jest-mode commands for compile and friends."
+  :lighter " Jest"
+  :keymap jest-minor-mode-keymap
+  :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
+            (define-key jest-minor-mode-keymap [remap compile] #'jest-popup)
+            (define-key jest-minor-mode-keymap [remap recompile] #'jest-popup)
+            (define-key jest-minor-mode-keymap [remap projectile-test-project] #'jest-popup)
+            jest-minor-mode-keymap))
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
