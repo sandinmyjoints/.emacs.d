@@ -1166,13 +1166,19 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package highlight-thing
   :init
+  ;; TODO
+  ;; - ideal would be for it to be same face but bolded or slightly lighter
+  ;; (color-lighten-name (face-name (face-at-point)) 10)
+  ;; - ideal would be it only highlights the thing under point and none others
   (defface highlight-thing
-    '((t (:inherit 'helm-helper)))
+    '((t (:background "grey50")))
     "Face that is used to highlight things."
     :group 'highlight-thing)
   :config
   (global-highlight-thing-mode)
-  (setq highlight-thing-delay-seconds 0.2))
+  (setq highlight-thing-delay-seconds 0.2
+        highlight-thing-excluded-major-modes '(org-mode gitcommit-mode magit-status-mode)
+        highlight-thing-limit-to-defun t))
 
 (require 'setup-dirtree)
 (with-eval-after-load 'dirtree
