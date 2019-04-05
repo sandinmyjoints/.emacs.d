@@ -95,18 +95,71 @@
   ;; projectile-find-file-dwim is more generalized than projectile-find-file
   (define-key projectile-mode-map (kbd "C-c p g") 'projectile-find-file-dwim))
 
+;; playground
+;; src/controller/file.js
+;; test/controller/file.test.js
+(defun wjb/related-files-corresponding-path-playground (path)
+  (if (string-match (rx (group (or "src" "test"))
+                        (group "/" (+? anything))
+                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".coffee"))) path)
+      (let* ((top-dir (match-string 1 path))
+             (mid-path (match-string 2 path))
+             (filename (match-string 3 path))
+             (filename-base (file-name-base filename))
+             (filename-extension (file-name-extension filename t))
+             (filename-test (concat filename-base ".test" filename-extension))
+             (filename-impl (s-replace ".test" "" filename)))
+        ;; (if (equal path "/Users/william/scm/sd/sd-playground/test/controllers/reconcile.test.js")
+        ;;     (debug))
+        (if (equal top-dir "test")
+            (list :impl (concat "src" mid-path filename-impl))
+          (list :test (concat "test" mid-path filename-test))))))
+
+;; neodarwin server
+;; test/file.coffee but for controllers there's common|desktop|mobile
+
+;; neodarwin components
+;; src/components/test.js
+;; src/components/test.jsx
+(defun wjb/related-files-same-dir-components (path)
+  (if (string-match (rx (group (+? anything))
+                        (group (1+ (not (any "/"))) (or ".js" ".jsx"))) path)
+      (let* ((dir (match-string 1 path))
+             (filename (match-string 2 path))
+             (filename-base (file-name-base filename))
+             (filename-extension (file-name-extension filename t))
+             (filename-test (concat "test" filename-extension))
+             (filename-impl (concat "index" filename-extension)))
+        ;; (if (equal path "/Users/william/scm/sd/sd-playground/test/controllers/reconcile.test.js")
+        ;;     (debug))
+        ;; (debug)
+        (if (equal filename-base "test")
+            (list :impl (concat dir filename-impl))
+          (list :test (concat dir filename-test))))))
+
 (projectile-register-project-type 'npm '("package.json")
 				  :compile "npm install"
 				  :test "npm test"
 				  :run "npm start"
           :src-dir "src"
-				  :test-dir "test")
+				  :test-dir "test"
+          ;; projectile looks up related files fn based on project type, but I
+          ;; want different functions for specific projects. So put this in
+          ;; dir-locals:
+          ;;
+          ;; (projectile-related-files-fn-function . (lambda (type) #'wjb/related-files-same-dir-components))
+          ;;
+          ;; This would set it for the npm project type:
+          ;; :related-files-fn #'wjb/related-files-corresponding-path-playground
+          )
 
-(projectile-register-project-type 'yarn '("yarn.lock")
-				  :compile "yarn"
-				  :test "npm test"
-				  :run "npm start"
-				  :test-dir "test")
+;; (projectile-register-project-type 'yarn '("yarn.lock")
+;; 				  :compile "yarn"
+;; 				  :test "npm test"
+;; 				  :run "npm start"
+;;           :src-dir "src"
+;; 				  :test-dir "test"
+;;           )
 
 (provide 'setup-projectile)
 
