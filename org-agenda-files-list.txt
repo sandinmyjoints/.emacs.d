@@ -1,0 +1,17 @@
+budget.org
+characters.org
+engineering-leads.org
+engineering-meetup.org
+perf.org
+reference.org
+sd-web.org
+today.org
+neodarwin/neodarwin.org
+atalanta/atalanta.org
+sd-router/router.org
+darwin/darwin.org
+pn-logging/pn-logging.org
+hegemone/hegemone.org
+org-settings-template.org
+~/.emacs.d/emacs.d.org
+sd-standup.org
