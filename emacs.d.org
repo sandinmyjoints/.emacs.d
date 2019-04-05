@@ -387,7 +387,8 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
 * DONE use use-package
   CLOSED: [2018-01-17 Wed 09:39]
   - https://github.com/jwiegley/use-package
-* TODO convert to use-package/speed up startup
+* DONE convert to use-package/speed up startup
+  CLOSED: [2019-04-03 Wed 14:41]
     - use-package
     - require-package
     - packages-install
@@ -429,6 +430,8 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
   - via odt: https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export
    - org to plan, org exports to odt for import into google docs
      - https://orgmode.org/manual/Applying-custom-styles.html#Applying-custom-styles
+* DONE helm search of org headlines
+  - helm-org-rifle
 * ACTIVE why does point go to BOL after running org-toggle-item
   - when I run org-toggle to change a headline to a list item
 #+BEGIN_SRC q
@@ -445,8 +448,6 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   1) when it's cycling between list bullets, it's fine, point stays where it is
   2) but when it's going from a headline to a bullet, it puts point at BOL
      instead of leaving it where it is
-* TODO helm search of org headlines
-
 * TODO helm source: github
 * TODO helm source: pivotal
 * TODO easy, nice-looking org export
@@ -516,6 +517,7 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 * USE export dispatcher
   - C-c C-e
   - insert options: C-c C-e #
+  - C-c e for org-slack-export-to-clipboard-as-slack
 
 
 * js
@@ -594,13 +596,9 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
     - [ ] make js2 snappier
 * DONE flycheck bug
   - https://github.com/flycheck/flycheck/issues/1311
-* TODO how to handle flycheck messages
-  - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
-  - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
 * DONE wjb-kill-node in defuns
   CLOSED: [2018-09-01 Sat 22:17]
-* TODO indium
-* TODO node-inspector plus tern/swank or something to inspect running node process in emacs
+* INACTIVE node-inspector plus tern/swank or something to inspect running node process in emacs
    - http://enthusiasm.cozy.org/archives/2014/04/emacs-node-javascript-oh-my
    - https://github.com/jscheid/kite/blob/master/kite.md
    - https://github.com/segv/jss
@@ -613,7 +611,7 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 ** DONE xref-js2
    CLOSED: [2018-02-14 Wed 15:41]
     - but I don't want xref-goto-xref to open in a new buffer!
-** INACTIVE tide
+** TODO tide
    CLOSED: [2018-06-13 Wed 21:45]
    - https://github.com/ananthakumaran/tide
 ** TODO lsp-javascript
@@ -702,6 +700,10 @@ react-redux
   - support "index" by default
   - C-c p g project-find-file-dwim does a pretty good job of this
   - counsel has
+* TODO how to handle flycheck messages
+  - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
+  - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
+* TODO indium
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -792,12 +794,210 @@ react-redux
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
 
 
-* shell
+* shell/comint
 * TODO Shell in Emacs
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
-  - ansi-term vs shell vs eshell vs terminal-emulator
-* TODO multi-term
+  - ansi-term vs shell vs eshell vs terminal-emulator vs. comint vs.
+    vs. compilation-mode
+* setenv / getenv / process-environment
+  - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
+  - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
+* ansi-term
+  - actually using sane-term
+  - line mode = C-c C-j
+  - char mode = C-c C-k
+  - fully supports ncurses-style applications, jest in ansi-term works fine
+  - process.env.TERM = eterm-color
+    - [ ] does jest support eterm-color? it's not dumb
+  - turn on compilation-shell-minor-mode: https://superuser.com/a/1416462/93702
+    - I tried this with jest --watch, but my input doesn't do anything. Probably
+      was in line mode. Switch to char mode with C-c C-k. In char mode, jest
+      --watch works!
+    - problems with ansi-term:
+      - char-mode to send commands, line-mode to navigate in buffer
+      - next-error and prev-error aren't working even in line-mode
+      - next-error and prev-error aren't bound to M-n and M-p (term-mode
+        bindings are taking over)
+* comint-mode
+  - comint-mode: Major mode for interacting with an inferior interpreter.
+  - js-comint-mode: Major mode derived from comint-mode by define-derived-mode.
+  - shell-mode is derived from comint-mode
+  - comint-mode has input and output filter functions
+* shell-mode
+  - (define-derived-mode shell-mode comint-mode "Shell"
+* compilation-mode
+  - Major mode for compilation log buffers.
+  - compile command starts it. If optional second arg COMINT is t the buffer will be in Comint mode with
+`compilation-shell-minor-mode'.
+  - When Compilation Shell minor mode is enabled, all the error-parsing commands
+    of the Compilation major mode are available but bound to keys that don't
+    collide with Shell mode. See compilation-mode.
+  - there's also compilation-minor-mode
+  - [ ] is compilation-shell-minor-mode derived from shell-mode? or if not, then
+    from what? maybe minor modes aren't derived from modes...
+  - [ ] what TERMs does compilation-shell-minor-mode support?
+    - assume same as comint-mode? comint-mode is generic, it probably doesn't
+      support any itself.
+    - assume same as shell-mode?
+  - [ ] does shell-mode support sufficient ansi/term escape codes to support
+    jest --watch?
+  - [X] how can I set TERM to something other than dumb when I run compile in
+    comint mode? -> set comint-terminfo-terminal
+  - M-x compile is compilation-mode. C-u M-x compile is comint-mode with
+    compilation-shell-minor-mode. When jest is watching, I can type, but nothing
+    happens. Why not?
+  - comint-use-prompt-regexp: this is buffer-local. If non-nil, use 'comint-prompt-regexp' to recognize prompts.
+If nil, then program output and user-input are given different 'field'
+properties, which Emacs commands can use to distinguish them (in
+particular, common movement commands such as 'beginning-of-line'
+respect field boundaries in a natural way).
+> process.stdout.isTTY
+true
+> process.env.TERM
+'dumb'
+>
+* projectile command
+  - projectile-run-compilation runs compile without the comint arg!
+  - [ ] check whether there's an issue for this
+* jest-mode
+  - jest mode defined in 'jest.el': Major mode for jest sessions (derived from comint-mode).
+  - [X] to set defaults in magit-popup: C-t to show magit-popup common commands, set
+    the values, then C-x C-s
+** TODO minor mode jest-minor-mode
+   - where compile, recompile, projectile-compile are remapped to jest-popup, etc.
+   - then activate it in dir-locals
+* projects in compilation-mode
+** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
+   CLOSED: [2018-10-08 Mon 11:47]
+   - well, it is becoming file-local
+   - but then i get the original one when i run tests from magit status buffer,
+     or from a newly opened buffer in the project
+   - make initial-compile-command that is in .dir-locals.el?
+   - when are dir-locals evaluated?
+** TODO multi-compile to run tests and linting
+   - https://github.com/ReanGD/emacs-multi-compile
+*** include linting/style checks
+** TODO name compilation buffer sensibly -- bind compilation buffer to project
+   - *compilation-<project>*
+   - automatically clear buffer after a certain number of lines
+#+BEGIN_SRC emacs-lisp
+(defun my-make-room-for-new-compilation-buffer ()
+  "Renames existing *compilation* buffer to something unique so
+      that a new compilation job can be run."
+  (interactive)
+  (let ((cbuf (get-buffer "*compilation*"))
+        (more-cbufs t)
+        (n 1)
+        (new-cbuf-name ""))
+    (when cbuf
+      (while more-cbufs
+        (setq new-cbuf-name (format "*compilation%d*" n))
+        (setq n (1+ n))
+        (setq more-cbufs (get-buffer new-cbuf-name)))
+      (with-current-buffer cbuf
+        (rename-buffer new-cbuf-name)))))
+#+END_SRC
+* display in compilation-mode (compile)
+** filter out escape sequences that aren't color codes
+   - if needed: https://emacs.stackexchange.com/a/38531/2163
+** perf: shorten comint lines
+   - some ideas: https://www.reddit.com/r/emacs/comments/3scsak/incredibly_slow_comint_eg_shell_compile_output_on/
+   - would this help in compilation mode? how to use it?
+   - TODO: figure out the various comint filters, compilation filters, and
+     compilation hooks
+     - this suggests comint-output-filter-functions is a hook variable,
+       equivalent for comint to compilation mode's compilation-filter-hook:
+       https://emacs.stackexchange.com/a/38531/2163 So does
+       comint-output-filter-functions get run during compilation-mode?
+ #+BEGIN_SRC
+   (defvar wjb/comint-long-line-regexp "\\(.\\{75\\}[;,: ]\\)")
+   (defun wjb/comint-shorten-long-lines (text)
+     (let* ((shortened-text (replace-regexp-in-string wjb/comint-long-line-regexp "\\1\n" text)))
+       (shortened-text)))
+   ;; (if (string= shortened-text text)
+   ;;     text
+   ;;   shortened-text)))
 
+   ;; but does compilation-mode use comint-preoutput-filter-functions??
+   ;; there is a compilation-filter-hook, can I add this to it?
+   (add-hook 'comint-preoutput-filter-functions 'wjb/comint-shorten-long-lines)
+
+
+ #+END_SRC
+
+* node/js stack traces in compilation-mode
+  - https://www.emacswiki.org/emacs/CreatingYourOwnCompileErrorRegexp
+  - https://benhollis.net/blog/2015/12/20/nodejs-stack-traces-in-emacs-compilation-mode/
+** TODO fix face -- stop using underlining
+   - see https://emacs.stackexchange.com/a/15219/2163
+   - basically, adjust the regex match to change what is considered the
+     hyperlink (which is underlined)
+* TODO use split-windows-horizontally and H-x n e to go to next-error
+   - would be best if node error regexp only matched the first line of the stack trace
+* jest in compilation-mode
+  - https://jestjs.io/docs/en/cli.html#colors
+** DONE is --testLocationInResults doing anything?
+   CLOSED: [2018-10-08 Mon 11:46]
+   - seems like I'm just getting the line number from the Error stack traces
+** TODO support jest watch prompt (for watching)
+*** jest prompt
+    - jest-core/src/watch
+    #+begin_src js
+      const onCancelPatternPrompt = () => {
+    outputStream.write(ansiEscapes.cursorHide);
+    outputStream.write(specialChars.CLEAR);
+    outputStream.write(usage(globalConfig, watchPlugins));
+    outputStream.write(ansiEscapes.cursorShow);
+  };
+
+  if (typeof stdin.setRawMode === 'function') {
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.setEncoding('utf8');
+    stdin.on('data', onKeypress);
+  }
+
+    #+end_src
+*** red herring: cli (it's not the cli that's the problem, it's the prompt)
+    - https://github.com/facebook/jest/blob/b0cbcbf3f813db9a66a5bfbe822e15d59d157064/packages/jest-cli/src/cli/index.ts
+    - curses-type behavior?
+      - clear line
+      - accept keyboard input
+      - be a tty
+    - chalk
+    - isInteractive:
+      https://github.com/facebook/jest/blob/f57e2887357d7f19f398cac8fb25f1b0835467e7/packages/jest-util/src/isInteractive.ts
+ // isTTY true and TERM != dumb
+ export default !!process.stdout.isTTY && process.env.TERM !== 'dumb' && !isCI;
+    - clearLine: https://github.com/facebook/jest/blob/b4897796bcbcb972234ef699b3e9e0f6b8724132/packages/jest-util/src/clearLine.ts
+    #+begin_src js
+    export default (stream: NodeJS.WritableStream) => {
+   if (process.stdout.isTTY) {
+     stream.write('\x1b[999D\x1b[K');
+   }
+ };
+    #+end_src
+** TODO leverage jest patterns cli args (eg, related to recent changes)
+   - -t to match test name
+   - couple this with defuns to run only a certain test name, akin to only
+   - go back to marker strategy I used to use with mocha and coffee-script: put
+     XXX in the test name, then use -t flag
+** TODO leverage debugger / integrate with indium?
+
+
+
+
+* projectile
+* TODO make projectile-find-test-file work
+  - projectile-find-test-file -> projectile-toggle-between-implementation-and-test
+  - per-project test prefix and suffix, but that's assuming a.jsx is tested with
+    test-a.jsx or a.spec
+    - in Neodarwin components test-suffix is really just test.jsx
+    - in other projects, I want it to go to the test directory, find the
+      matching path, find the matching filename
+  - [ ] will it walk around directories?
+  - [ ] if I find a test file manually, will it remember it?
+** custom :related-files-fn
 
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
@@ -846,7 +1046,7 @@ react-redux
 
 
 * navigation
-* TODO Try anything and/or Helm
+* DONE Try anything and/or Helm
 ** TODO for helm, sometimes do want popup windows
    - [ ] helpful?: https://www.reddit.com/r/emacs/comments/7rho4f/now_you_can_use_helm_with_frames_instead_of/?ref=share&ref_source=link
    - [ ] one key to make helm full window: https://emacs.stackexchange.com/a/650/2163
@@ -890,34 +1090,101 @@ ln -s "~/notes/$REPO.org" local_notes
   - http://stackoverflow.com/a/20912535/599258
 
 
+
+* macOS
+* How to build emacs-mac
+  - see ~/dotfiles/dev/bin/emacs-mac-install
+* Try NS port
+  - but don't want links to overwrite Mac-port
+  - brew install emacs --with-cocoa && brew unlink emacs && brew link emacs-mac
+  -
+
+* disable app nap
+  - defaults write org.gnu.Emacs NSAppSleepDisabled -bool YES
+  - from https://github.com/rejeep/prodigy.el
+
+
+
 * other
+* INACTIVE magithub / gh package
+  - https://github.com/vermiculus/magithub/blob/master/README.md
+* INACTIVE browse-at-remote / magit b y pushRemote problem
+  - https://github.com/magit/magit/issues/3417
+  - fix is replace remote and pushRemote = spanishdict with = origin in .git/config
+* INACTIVE phi-search
+  - [ ] phi-search: during searches, C-a, C-e, M-m should work
+* INACTIVE profiling running commands with smex
+#+BEGIN_QUOTE
+ad-Advice-ido-read-internal is a compiled Lisp function.
+
+(ad-Advice-ido-read-internal AD--ADDOIT-FUNCTION ITEM PROMPT HIST &optional
+DEFAULT REQUIRE-MATCH INITIAL)
+
+Before-advice 'flx-ido-reset':
+Clear flx narrowed hash beforehand.
+#+END_QUOTE
+* INACTIVE Switch from smex to amx
+  - https://github.com/DarwinAwardWinner/amx
+* INACTIVE ido-switch-buffer qualified with org-mode only
+  - want to choose among only org-mode buffers
+  - possibly helpful: https://stackoverflow.com/questions/22808844/emacs-switch-buffer-per-window
+  - https://www.reddit.com/r/emacs/comments/8e8bhv/how_do_you_manage_and_switch_between_multiple/
+#+BEGIN_QUOTE
+ido-switch-buffer is an interactive autoloaded compiled Lisp function in
+'ido.el'.
+
+It is bound to C-x b, <menu-bar> <buffer> <select-named-buffer>.
+
+(ido-switch-buffer)
+
+Switch to another buffer.
+The buffer is displayed according to 'ido-default-buffer-method' -- the
+default is to show it in the same window, unless it is already visible
+in another frame.
+
+As you type in a string, all of the buffers matching the string are
+displayed if substring-matching is used (default).  Look at
+'ido-enable-prefix' and 'ido-toggle-prefix'.  When you have found the
+buffer you want, it can then be selected.  As you type, most keys have
+their normal keybindings, except for the following:
+
+RET	Select the buffer at the front of the list of matches.
+	If the list is empty, possibly prompt to create new buffer.
+
+C-j	Use the current input string verbatim.
+
+C-s	Put the first element at the end of the list.
+C-r	Put the last element at the start of the list.
+TAB	Complete a common suffix to the current string that matches
+	all buffers.  If there is only one match, select that buffer.
+	If there is no common suffix, show a list of all matching buffers
+	in a separate window.
+C-e	Edit input string.
+C-x C-b	Fallback to non-ido version of current command.
+C-t	Toggle regexp searching.
+C-p	Toggle between substring and prefix matching.
+C-c	Toggle case-sensitive searching of buffer names.
+?	Show list of matching buffers in separate window.
+C-x C-f	Drop into 'ido-find-file'.
+C-k	Kill buffer at head of buffer list.
+C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
+#+END_QUOTE
+* DONE tsv-mode
+  - https://www.emacswiki.org/emacs/tsv-mode.el
+* DONE bash command to open current directory
+  CLOSED: [2018-06-03 Sun 22:31]
+  - [X] in dired -- dired
+  - [X] add to dirtree -- dirtree
+  - implemented as functions in bashrc
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
 * TODO try olivetti mode
-* INACTIVE magithub / gh package
-  - https://github.com/vermiculus/magithub/blob/master/README.md
-* TODO browse-at-remote / magit b y pushRemote problem
-  - https://github.com/magit/magit/issues/3417
-  - fix is replace remote and pushRemote = spanishdict with = origin in .git/config
-* TODO Review for ideas:
-  - http://news.ycombinator.com/item?id=1654164
-  - https://github.com/technomancy/emacs-starter-kit
-  - https://github.com/bbatsov/prelude
-  - https://github.com/purcell/emacs.d
-  - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
-  - https://github.com/kaushalmodi/.emacs.d (setup-python)
-  - http://gongzhitaao.org/dotemacs/
-  - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
-  - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
-  - https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org (literate)
-* TODO Switch from smex to amx
-  - https://github.com/DarwinAwardWinner/amx
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
-* DONE tsv-mode
-  - https://www.emacswiki.org/emacs/tsv-mode.el
+* TODO fewer popup windows
+  - maybe due to `switch-to-buffer-preserve-window-point`, see https://github.com/emacs-mirror/emacs/blob/emacs-26/etc/NEWS  -
 * How to improve performance of buffers with very long lines
 ** https://emacs.stackexchange.com/a/603/2163
   - break input file into lines:
@@ -933,18 +1200,11 @@ $ < infile fold -s
 ** DONE OverLongLineMode
 * elisp-demos
   - https://github.com/xuchunyang/elisp-demos/blob/master/elisp-demos.org
-* TODO fewer popup windows
-  - maybe due to `switch-to-buffer-preserve-window-point`, see https://github.com/emacs-mirror/emacs/blob/emacs-26/etc/NEWS  -
 * open in new window
 I think that the problem has to do with dirtree window being dedicated.
 
 I want inhibit-same-window to always be nil when display-buffer is called from
 dirtree-mode.
-* DONE bash command to open current directory
-  CLOSED: [2018-06-03 Sun 22:31]
-  - [X] in dired -- dired
-  - [X] add to dirtree -- dirtree
-  - implemented as functions in bashrc
 * TODO packages to remove?
   - find-file-in-project
   - smart-mode-line
@@ -1031,74 +1291,6 @@ I don't know how; I don't even know where the binary was located. The fix was to
 download and make gpg 1.4 myself, and use it to decrypt .authinfo.
 
 * bug https://github.com/joaotavora/yasnippet/commit/d3bb879356288ef38975fbf85947c7371b8c9759
-* How to build emacs-mac
-  - see ~/dotfiles/dev/bin/emacs-mac-install
-* Try NS port
-  - but don't want links to overwrite Mac-port
-  - brew install emacs --with-cocoa && brew unlink emacs && brew link emacs-mac
-  -
-* setenv / getenv / process-environment
-  - See https://www.gnu.org/software/emacs/manual/html_node/elisp/System-Environment.html
-  - dir local env vars: https://emacs.stackexchange.com/q/35964/2163
-* TODO phi-search
-  - [ ] phi-search: during searches, C-a, C-e, M-m should work
-* compile-mode
-  - https://jestjs.io/docs/en/cli.html#colors
-  - https://www.emacswiki.org/emacs/CreatingYourOwnCompileErrorRegexp
-  - https://benhollis.net/blog/2015/12/20/nodejs-stack-traces-in-emacs-compilation-mode/
-** TODO fix face -- stop using underlining
-   - see https://emacs.stackexchange.com/a/15219/2163
-   - basically, adjust the regex match to change what is considered the
-     hyperlink (which is underlined)
-** DONE is --testLocationInResults doing anything?
-   CLOSED: [2018-10-08 Mon 11:46]
-   - seems like I'm just getting the line number from the Error stack traces
-** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
-   CLOSED: [2018-10-08 Mon 11:47]
-   - well, it is becoming file-local
-   - but then i get the original one when i run tests from magit status buffer,
-     or from a newly opened buffer in the project
-   - make initial-compile-command that is in .dir-locals.el?
-   - when are dir-locals evaluated?
-*** include linting/style checks
-** TODO use split-windows-horizontally and H-x n e to go to next-error
-   - would be best if node error regexp only matched the first line of the stack trace
-** TODO multi-compile
-   - https://github.com/ReanGD/emacs-multi-compile
-** TODO name compilation buffer sensibly -- bind compilation buffer to project
-   - *compilation-<project>*
-   - automatically clear buffer after a certain number of lines
-#+BEGIN_SRC emacs-lisp
-(defun my-make-room-for-new-compilation-buffer ()
-  "Renames existing *compilation* buffer to something unique so
-      that a new compilation job can be run."
-  (interactive)
-  (let ((cbuf (get-buffer "*compilation*"))
-        (more-cbufs t)
-        (n 1)
-        (new-cbuf-name ""))
-    (when cbuf
-      (while more-cbufs
-        (setq new-cbuf-name (format "*compilation%d*" n))
-        (setq n (1+ n))
-        (setq more-cbufs (get-buffer new-cbuf-name)))
-      (with-current-buffer cbuf
-        (rename-buffer new-cbuf-name)))))
-#+END_SRC
-** TODO leverage watching
-** TODO leverage jest patterns (eg, related to recent changes)
-   - -t to match test name
-** TODO leverage debugger
-* profiling running commands with smex
-#+BEGIN_QUOTE
-ad-Advice-ido-read-internal is a compiled Lisp function.
-
-(ad-Advice-ido-read-internal AD--ADDOIT-FUNCTION ITEM PROMPT HIST &optional
-DEFAULT REQUIRE-MATCH INITIAL)
-
-Before-advice 'flx-ido-reset':
-Clear flx narrowed hash beforehand.
-#+END_QUOTE
 * TODO purpose-mode
   - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
   - for each repo, be able to jump to each of these:
@@ -1138,77 +1330,104 @@ ls -l /etc/paths.d
 | -rw-r--r--@ |  1 | root | wheel | 13 | Oct | 26 |  2016 | 40-XQuartz |
 | -rw-r--r--@ |  1 | root | wheel | 23 | Jun |  4 | 03:13 | MacGPG2    |
 | -rw-r--r--@ |  1 | root | wheel | 20 | Sep | 26 |  2017 | TeX        |
-* TODO ido-switch-buffer qualified with org-mode only
-  - want to choose among only org-mode buffers
-  - possibly helpful: https://stackoverflow.com/questions/22808844/emacs-switch-buffer-per-window
-  - https://www.reddit.com/r/emacs/comments/8e8bhv/how_do_you_manage_and_switch_between_multiple/
-#+BEGIN_QUOTE
-ido-switch-buffer is an interactive autoloaded compiled Lisp function in
-'ido.el'.
+* TODO bundle use-package as part of emacs repo, or otherwise automatically install it if missing
+* company-mode goals
+** triggers and key bindings
+   - trigger when type >3 or 4 chars
+   - M-/ is hippie-expand in some modes, company-complete in others
+   -
+*** hippie-expand
+esc-map /
+global-map M-/
 
-It is bound to C-x b, <menu-bar> <buffer> <select-named-buffer>.
+*** company-complete
+company-mode-map M-/
+ctl-x-map C-c <tab>
+global-map C-x C-c <tab>
+global-map H-0 <tab>
+global-map H-c
+wjb-map <tab>
 
-(ido-switch-buffer)
+*** company-other-backend
+company-active-map M-/
 
-Switch to another buffer.
-The buffer is displayed according to 'ido-default-buffer-method' -- the
-default is to show it in the same window, unless it is already visible
-in another frame.
+** test cases for all the company backends
+   - file
+     - in js require
+   - text
+   - markdown
+   - org
+   - restclient
+   - yasnippet
+   - js/jsx
+   - coffee
+   - python
+   - less
+** yasnippet
+   - wjb-map y
+** company-buffer-lines
+   - goal is to complete js import statements
+   - company-same-mode-buffer-lines
+** company-lsp
+** statistics to choose common completions
+** hippie-expand
+   - is there a company bridge to this?
+   - what hippie-expand functions am I using?
+   - wjb-map h?
+** js, jsx
+   - good completion, especially of requires and imports
+** text modes, markdown
+   - sensible
+   - integrates code
+** org
+   - currently get "company not enabled" in org
+   - M-/ is hippie-expand
+** coffee
+** python
+** emacs-lisp
+** css/less
+* ivy/counsel
+  - [X] counsel-projectile-switch-project go directly to magit status buffer
+    - counsel-projectile-switch-project with argument "v"
+  - [ ] sdplay matches sd-playground. and mainel matches main.el
+    - space makes a regex in ivy, might just get used to this
+    - i can omit the sd when switching projects
+    - i don't want to type - or . in queries, so - or . in results should "not count"
+    - https://www.reddit.com/r/emacs/comments/aoqcyl/third_trial_for_a_weekly_tipstricksetc_thread/eg4azgy/
+  - [ ] ordering of matches is directory/filename instead of filename|directory
+    - I think this is due to open buffers having buffer|path vs. files that
+      aren't opened being path/to/file. This is the buffer name: filename|path
+    - different for switch-to-buffer vs. counsel-projectile-find-file
+    - not so much of an issue when ordering doesn't matter
+  - [X] ordering doesn't matter
+    - ivy–regex-ignore-order
+* random cruft from main.el
+#+BEGIN_SRC emacs-lisp
+;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
+;;
+;; (setq debug-on-quit nil)
+;;
+;; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
+;; (eval-after-load "grep"
+;;   '(progn
+;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
+;;      (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee") t)
+;;      ))
 
-As you type in a string, all of the buffers matching the string are
-displayed if substring-matching is used (default).  Look at
-'ido-enable-prefix' and 'ido-toggle-prefix'.  When you have found the
-buffer you want, it can then be selected.  As you type, most keys have
-their normal keybindings, except for the following:
-
-RET	Select the buffer at the front of the list of matches.
-	If the list is empty, possibly prompt to create new buffer.
-
-C-j	Use the current input string verbatim.
-
-C-s	Put the first element at the end of the list.
-C-r	Put the last element at the start of the list.
-TAB	Complete a common suffix to the current string that matches
-	all buffers.  If there is only one match, select that buffer.
-	If there is no common suffix, show a list of all matching buffers
-	in a separate window.
-C-e	Edit input string.
-C-x C-b	Fallback to non-ido version of current command.
-C-t	Toggle regexp searching.
-C-p	Toggle between substring and prefix matching.
-C-c	Toggle case-sensitive searching of buffer names.
-?	Show list of matching buffers in separate window.
-C-x C-f	Drop into 'ido-find-file'.
-C-k	Kill buffer at head of buffer list.
-C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
-#+END_QUOTE
-* comint and compilation
-** filter out escape sequences that aren't color codes
-   - if needed: https://emacs.stackexchange.com/a/38531/2163
-** perf: shorten comint lines
-   - some ideas: https://www.reddit.com/r/emacs/comments/3scsak/incredibly_slow_comint_eg_shell_compile_output_on/
-   - would this help in compilation mode? how to use it?
-   - TODO: figure out the various comint filters, compilation filters, and
-     compilation hooks
-     - this suggests comint-output-filter-functions is a hook variable,
-       equivalent for comint to compilation mode's compilation-filter-hook:
-       https://emacs.stackexchange.com/a/38531/2163 So does
-       comint-output-filter-functions get run during compilation-mode?
- #+BEGIN_SRC
-   (defvar wjb/comint-long-line-regexp "\\(.\\{75\\}[;,: ]\\)")
-   (defun wjb/comint-shorten-long-lines (text)
-     (let* ((shortened-text (replace-regexp-in-string wjb/comint-long-line-regexp "\\1\n" text)))
-       (shortened-text)))
-   ;; (if (string= shortened-text text)
-   ;;     text
-   ;;   shortened-text)))
-
-   ;; but does compilation-mode use comint-preoutput-filter-functions??
-   ;; there is a compilation-filter-hook, can I add this to it?
-   (add-hook 'comint-preoutput-filter-functions 'wjb/comint-shorten-long-lines)
-
-
- #+END_SRC
+#+END_SRC
+* TODO prodigy for use docker startup script
+* TODO Review for ideas:
+  - http://news.ycombinator.com/item?id=1654164
+  - https://github.com/technomancy/emacs-starter-kit
+  - https://github.com/bbatsov/prelude
+  - https://github.com/purcell/emacs.d
+  - https://raw.github.com/expez/.emacs.d/master/init-javascript.el
+  - https://github.com/kaushalmodi/.emacs.d (setup-python)
+  - http://gongzhitaao.org/dotemacs/
+  - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
+  - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
+  - https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org (literate)
+* renice emacs
 * Use!:
   - bookmarks list:
     - C-x r l  = list
@@ -1327,7 +1546,6 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
-* TODO bundle use-package as part of emacs repo, or otherwise automatically install it if missing
 * wishlist                                                         :wishlist:
   - dumb-jump or smart-jump for jsx
   - magit status buffer lets me next-line past worktrees
@@ -1417,92 +1635,3 @@ $ ls
      - kill -- don't kill the $, just the command
      - mark-region
      - new-line
-* company-mode goals
-** triggers and key bindings
-   - trigger when type >3 or 4 chars
-   - M-/ is hippie-expand in some modes, company-complete in others
-   -
-*** hippie-expand
-esc-map /
-global-map M-/
-
-*** company-complete
-company-mode-map M-/
-ctl-x-map C-c <tab>
-global-map C-x C-c <tab>
-global-map H-0 <tab>
-global-map H-c
-wjb-map <tab>
-
-*** company-other-backend
-company-active-map M-/
-
-** test cases for all the company backends
-   - file
-     - in js require
-   - text
-   - markdown
-   - org
-   - restclient
-   - yasnippet
-   - js/jsx
-   - coffee
-   - python
-   - less
-** yasnippet
-   - wjb-map y
-** company-buffer-lines
-   - goal is to complete js import statements
-   - company-same-mode-buffer-lines
-** company-lsp
-** statistics to choose common completions
-** hippie-expand
-   - is there a company bridge to this?
-   - what hippie-expand functions am I using?
-   - wjb-map h?
-** js, jsx
-   - good completion, especially of requires and imports
-** text modes, markdown
-   - sensible
-   - integrates code
-** org
-   - currently get "company not enabled" in org
-   - M-/ is hippie-expand
-** coffee
-** python
-** emacs-lisp
-** css/less
-* ivy/counsel
-  - [X] counsel-projectile-switch-project go directly to magit status buffer
-    - counsel-projectile-switch-project with argument "v"
-  - [ ] sdplay matches sd-playground. and mainel matches main.el
-    - space makes a regex in ivy, might just get used to this
-    - i can omit the sd when switching projects
-    - i don't want to type - or . in queries, so - or . in results should "not count"
-    - https://www.reddit.com/r/emacs/comments/aoqcyl/third_trial_for_a_weekly_tipstricksetc_thread/eg4azgy/
-  - [ ] ordering of matches is directory/filename instead of filename|directory
-    - I think this is due to open buffers having buffer|path vs. files that
-      aren't opened being path/to/file. This is the buffer name: filename|path
-    - different for switch-to-buffer vs. counsel-projectile-find-file
-    - not so much of an issue when ordering doesn't matter
-  - [X] ordering doesn't matter
-    - ivy–regex-ignore-order
-* random cruft from main.el
-#+BEGIN_SRC emacs-lisp
-;; (start-process NAME BUFFER PROGRAM &rest PROGRAM-ARGS)
-;;
-;; (setq debug-on-quit nil)
-;;
-;; TODO: when is semantic-symref-filepattern-alist available? Is it part of grep?
-;; (eval-after-load "grep"
-;;   '(progn
-;;      (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js") t)
-;;      (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee") t)
-;;      ))
-
-#+END_SRC
-* disable app nap
-  - defaults write org.gnu.Emacs NSAppSleepDisabled -bool YES
-  - from https://github.com/rejeep/prodigy.el
-* prodigy for use docker startup script
-* renice emacs
