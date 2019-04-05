@@ -2291,9 +2291,17 @@ If PROJECT is not specified the command acts on the current project."
 ;;   (add-hook 'auto-save-hook thing))
 
 ;; Experimental:
-;; (add-to-list 'load-path "../elisp/emacs-libvterm/build")
-;; (let (vterm-install)
-;;   (require 'vterm))
+(add-to-list 'load-path "../elisp/emacs-libvterm/build")
+(let (vterm-install)
+  (require 'vterm)
+  (define-key vterm-mode-map [up]    '(lambda () (interactive) (vterm-send-key "<up>")))
+  (define-key vterm-mode-map [down]  '(lambda () (interactive) (vterm-send-key "<down>")))
+  (define-key vterm-mode-map [right] '(lambda () (interactive) (vterm-send-key "<right>")))
+  (define-key vterm-mode-map [left]  '(lambda () (interactive) (vterm-send-key "<left>")))
+  (define-key vterm-mode-map [tab]   '(lambda () (interactive) (vterm-send-key "<tab>")))
+  (define-key vterm-mode-map (kbd "DEL") '(lambda () (interactive) (vterm-send-key "<backspace>")))
+  (define-key vterm-mode-map (kbd "RET") '(lambda () (interactive) (vterm-send-key "<return>")))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here
