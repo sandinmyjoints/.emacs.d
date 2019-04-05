@@ -1670,16 +1670,22 @@ If PROJECT is not specified the command acts on the current project."
   "The last restclient buffer.")
 
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
-;; comint mode is interactive, compilation-shell-minor-mode is
+;; comint mode is interactive, compilation-shell-minor-mode runs compilation using shell-mode which is comint-mode, so it is interactive.
 ;; C-c RET starts compilation, keys don't do anything
 ;; C-u C-c RET starts comint with compilation-minor-mode, keys are sent -- BUT it's not doing anything for Jest, which probably isn't listening for input? maybe because terminfo is set to dumb? TODO: experiment with other values of TERM
+;;
+;; this actually works for sending keys to a comint compilation buffer, however,
+;; you can't type in test name patterns, and there were some other problems too:
+;; from http://endlessparentheses.com/provide-input-to-the-compilation-buffer.html
+;;
 (use-package compile
   :config
   (unbind-key (kbd "C-o") compilation-minor-mode-map)
   (unbind-key (kbd "C-o") compilation-mode-map)
   (setq compilation-scroll-output t
-        ;; set to "dumb" to not get colors codes
-        ;; ansi and xterm-256colors both get movement/scrolling codes from jest output, not just colors
+        ;; Set to "dumb" to not get color codes.
+        ;; ansi and xterm-256colors both will get movement/scrolling codes from jest output, not just colors, and I think comint/shell-mode can't handle them
+        ;; TODO: this could be set in dir-locals.
         comint-terminfo-terminal "dumb"
         ;; comint-terminfo-terminal "ansi"
         ;; comint-terminfo-terminal "xterm-256colors"
@@ -1689,13 +1695,17 @@ If PROJECT is not specified the command acts on the current project."
         ;;
         ;; From https://unix.stackexchange.com/a/237947/14423:
         ;;
-        ;; this is telling Jest (and other ncurses programs) they can use color codes
-        ;; but not movement codes, I think.
-        compilation-environment '("TERM=dumb" "COLORTERM=1") ;; default nil
+        ;; compilation-environment nil ;; default
+        ;; This tells Jest (and other ncurses programs) they can use color codes
+        ;; but not movement codes.
+        ;; TODO: this could be set in dir-locals.
+        compilation-environment '("TERM=dumb" "COLORTERM=1")
+
         comint-prompt-read-only nil
         comint-scroll-to-bottom-on-input t
         compilation-ask-about-save nil
-        comint-use-prompt-regexp nil
+        comint-prompt-regexp "^" ;; default
+        comint-use-prompt-regexp nil ;; default
         ;; Don't save *anything*
         compilation-save-buffers-predicate '(lambda () nil)
         ;; compilation-scroll-output 'first-error
