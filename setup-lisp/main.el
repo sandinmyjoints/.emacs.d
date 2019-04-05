@@ -1157,13 +1157,6 @@ If PROJECT is not specified the command acts on the current project."
   (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines)
   )
 
-;; expand-region.
-;; See: https://github.com/magnars/expand-region.el
-(use-package expand-region
-  :defer t
-  :bind (:map global-map
-              ("C-=" . 'er/expand-region)))
-
 (use-package highlight-thing
   :init
   ;; TODO
@@ -1179,6 +1172,27 @@ If PROJECT is not specified the command acts on the current project."
   (setq highlight-thing-delay-seconds 0.2
         highlight-thing-excluded-major-modes '(org-mode gitcommit-mode magit-status-mode)
         highlight-thing-limit-to-defun t))
+
+;; expand-region.
+;; See: https://github.com/magnars/expand-region.el
+(use-package expand-region
+  :defer t
+  :bind (:map global-map
+              ("C-=" . 'er/expand-region)))
+
+(use-package easy-kill
+  :config
+  (setq easy-kill-try-things '(url email sexp)
+        easy-kill-alist '((?w word           " ")
+                          (?s sexp           "\n")
+                          (?l list           "\n")
+                          (?f filename       "\n")
+                          (?d defun          "\n\n")
+                          (?D defun-name     " ")
+                          (?L line           "\n")
+                          (?b buffer-file-name)))
+  (global-set-key [remap kill-ring-save] 'easy-kill)
+  (global-set-key [remap mark-sexp] 'easy-mark))
 
 (require 'setup-dirtree)
 (with-eval-after-load 'dirtree
