@@ -289,6 +289,8 @@ Also converts full stops to commas."
 ;; run = start
 (define-key wjb-map (kbd "r") #'projectile-run-project)
 
+(define-key wjb-map (kbd "n e") 'compilation-next-error)
+(define-key wjb-map (kbd "p e") 'compilation-previous-error)
 (defun wjb/switch-to-standup ()
   (interactive)
   (pop-to-buffer "sd-standup.org"))
