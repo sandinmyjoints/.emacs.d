@@ -170,7 +170,7 @@
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      ;; (cons 'pivotal-tracker melpa)
-     (cons 'org-pivotal melpa)
+     ;; (cons 'org-pivotal melpa) ;; using own fork
      ;; TODO: add css-comb and web-beautify
      (cons 'header2 melpa)
      (cons 'paradox melpa)
@@ -211,7 +211,7 @@
      (cons 'coffee-mode melpa)
      ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
-     (cons 'jest-mode melpa)
+     ;; (cons 'jest-mode melpa) ;; using own fork.
 
      (cons 'eglot melpa)
      (cons 'lsp-mode melpa)
