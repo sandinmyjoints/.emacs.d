@@ -152,6 +152,13 @@
   :config
   (require 'vlf-setup))
 
+(use-package text-mode
+  :config
+  ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
+  :bind (:map text-mode-map
+              ("C-M-n" . forward-paragraph)
+              ("C-M-p" . backward-paragraph)))
+
 (use-package flycheck
   :defer t
   :init
@@ -994,12 +1001,15 @@ If PROJECT is not specified the command acts on the current project."
   ;; C-M-p dumb-jump-back -- M-,
   :config
   (setq dumb-jump-selector 'helm)
+  (unbind-key (kbd "C-M-p") dumb-jump-mode-map)
+
   ;; (setq dumb-jump-selector 'ivy)
   (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
 (use-package smart-jump
-  :bind (("C-M-g" . smart-jump-go)
-         ("C-M-p" . smart-jump-back))
+  ;; don't need these, use M-. and M-, instead
+  ;; :bind (("C-M-g" . smart-jump-go)
+  ;;        ("C-M-p" . smart-jump-back))
   :config
   (smart-jump-setup-default-registers)
   ;; this binds to M-. and M-, in prog-mode-map:
@@ -1275,7 +1285,10 @@ If PROJECT is not specified the command acts on the current project."
               ("M-n" . 'symbol-overlay-jump-next)
               ("M-p" . 'symbol-overlay-jump-prev)
               ("<f7>" .  'symbol-overlay-mode)
-              ("<f8>" .  'symbol-overlay-remove-all)))
+              ("<f8>" .  'symbol-overlay-remove-all))
+  :bind (:map text-mode-map
+              ("M-n" . 'symbol-overlay-jump-next)
+              ("M-p" . 'symbol-overlay-jump-prev)))
 
 ;; TODO
          ;; ("M-p" . smart-jump-back)))
@@ -2099,8 +2112,11 @@ If PROJECT is not specified the command acts on the current project."
 
   ;; http://endlessparentheses.com/a-few-paredit-keys-that-take-over-the-world.html
   ;;
-  (global-set-key (kbd "C-M-u") #'paredit-backward-up)
+  ;; TODO: update these so that if these commands don't work (signal error),
+  ;; then fall back to something else, like next-defun and prev-defun
   (global-set-key (kbd "C-M-n") #'paredit-forward-up)
+  (global-set-key (kbd "C-M-p") #'paredit-backward-up)
+
   ;; ;; This one's surpisingly useful for writing prose.
   ;; (global-set-key "\M-S"
   ;;   #'paredit-splice-sexp-killing-backward)

@@ -1429,6 +1429,9 @@ company-active-map M-/
   - https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org (literate)
 * renice emacs
 * Use!:
+  - easy-kill M-w w/s/l/d/D
+  - easy-mark C-M-spc, C-M-@, M-= then +/-
+  - expand-region
   - bookmarks list:
     - C-x r l  = list
     - C-x r b  = jump
