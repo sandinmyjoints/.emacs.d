@@ -1920,15 +1920,37 @@ If PROJECT is not specified the command acts on the current project."
   (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
   (add-hook 'jest-mode-hook #'compilation-minor-mode))
 
+(defcustom jest-compile-function 'jest-popup
+  "Command to run when compile and friends are called."
+  :group 'jest
+  :type 'function)
+
+(defun jest-compile-command ()
+  (interactive)
+  (call-interactively (symbol-value 'jest-compile-function)))
+
+;; I have been activating this via dir-locals, though that also turns it on for
+;; other kinds of buffers (non-JS)
+;;;###autoload
 (define-minor-mode jest-minor-mode
   "Minor mode to run jest-mode commands for compile and friends."
   :lighter " Jest"
-  :keymap jest-minor-mode-keymap
   :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
-            (define-key jest-minor-mode-keymap [remap compile] #'jest-popup)
-            (define-key jest-minor-mode-keymap [remap recompile] #'jest-popup)
-            (define-key jest-minor-mode-keymap [remap projectile-test-project] #'jest-popup)
+            (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
+            (define-key jest-minor-mode-keymap [remap recompile] 'jest-compile-command)
+            (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
             jest-minor-mode-keymap))
+
+;; change
+;; (setq jest-compile-function #'jest-popup)
+;; (setq jest-compile-function #'jest-file-dwim)
+
+;; unbind
+;; (fmakunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode-map)
+;; (makunbound 'jest-compile-command)
+;; (makunbound 'jest-compile-function)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
