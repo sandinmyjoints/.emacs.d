@@ -95,6 +95,21 @@
   ;; projectile-find-file-dwim is more generalized than projectile-find-file
   (define-key projectile-mode-map (kbd "C-c p g") 'projectile-find-file-dwim))
 
+
+;; auth
+;; src/controller/file.js
+;; test/controller/file.js
+(defun wjb/related-files-corresponding-path (path)
+  (if (string-match (rx (group (or "src" "test"))
+                        (group "/" (+? anything))
+                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".coffee"))) path)
+      (let* ((top-dir (match-string 1 path))
+             (mid-path (match-string 2 path))
+             (filename (match-string 3 path)))
+        (if (equal top-dir "test")
+            (list :impl (concat "src" mid-path filename))
+          (list :test (concat "test" mid-path filename))))))
+
 ;; playground
 ;; src/controller/file.js
 ;; test/controller/file.test.js
