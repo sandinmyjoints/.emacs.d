@@ -1173,14 +1173,20 @@ If PROJECT is not specified the command acts on the current project."
   ;; - ideal would be for it to be same face but bolded or slightly lighter
   ;; (color-lighten-name (face-name (face-at-point)) 10)
   ;; - ideal would be it only highlights the thing under point and none others
+  ;; (put 'highlight-thing 'face-defface-spec nil)
+  ;; - highlight word, symbol, sexp, defun, etc.
   (defface highlight-thing
-    '((t (:background "grey50")))
+    '((t
+       ;; (:background "grey50")
+       (color-lighten-name (face-name (face-at-point)) 10)
+       (:weight bold)))
     "Face that is used to highlight things."
     :group 'highlight-thing)
   :config
-  (global-highlight-thing-mode)
-  (setq highlight-thing-delay-seconds 0.2
-        highlight-thing-excluded-major-modes '(org-mode gitcommit-mode magit-status-mode)
+  (global-highlight-thing-mode 1)
+  (setq highlight-thing-delay-seconds 0
+        highlight-thing-excluded-major-modes
+        '(org-mode gitcommit-mode magit-status-mode text-mode gfm-mode)
         highlight-thing-limit-to-defun t))
 
 ;; expand-region.
