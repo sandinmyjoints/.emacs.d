@@ -144,13 +144,14 @@
                      (if (functionp #'ivy-read)
                          (ivy-read "search for: " '() :require-match nil)
                        (read-from-minibuffer "search for: "))))
-  (let* ((default-directory path)
-         (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
-                                "-ipath"
-                              ""))
-         (command-template (concat wjb-find-bin " . " wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
-         (actual-command (format command-template name-pattern grep-string)))
-    (grep-find actual-command)))
+  (unless (equal grep-string "")
+      (let* ((default-directory path)
+             (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
+                                    "-ipath"
+                                  ""))
+             (command-template (concat wjb-find-bin " . " wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
+             (actual-command (format command-template name-pattern grep-string)))
+        (grep-find actual-command))))
 
 ;; C-x j -> j close to n for name
 (defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
@@ -163,14 +164,15 @@
                          (ivy-read "search for: " '() :require-match nil)
                        (read-from-minibuffer "search for: "))
                      current-prefix-arg))
-  (let* ((default-directory path)
-         (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
-                                "-iname"
-                              ""))
-         (command-template (concat wjb-find-bin " . %s " wjb-path-or-iname " '%s' "  wjb-find-args wjb-after-the-pipe))
-         (negate-or-not (if prefix "!" ""))
-         (actual-command (format command-template negate-or-not name-pattern grep-string)))
-    (grep-find actual-command)))
+  (unless (equal grep-string "")
+      (let* ((default-directory path)
+             (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
+                                    "-iname"
+                                  ""))
+             (command-template (concat wjb-find-bin " . %s " wjb-path-or-iname " '%s' "  wjb-find-args wjb-after-the-pipe))
+             (negate-or-not (if prefix "!" ""))
+             (actual-command (format command-template negate-or-not name-pattern grep-string)))
+        (grep-find actual-command))))
 
 (defun find-in-project-glob-by-name-old (path name-pattern grep-string prefix)
   "find|xargs in current project dir by name. Negate with prefix arg."
@@ -178,11 +180,12 @@
                      (read-from-minibuffer "name glob: " "*")
                      (read-from-minibuffer "search for: ")
                      current-prefix-arg))
-  (let* ((default-directory path)
-         (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
-         (negate-or-not (if prefix "!" ""))
-         (actual-command (format command-template negate-or-not name-pattern grep-string)))
-    (grep-find actual-command)))
+  (unless (equal grep-string "")
+      (let* ((default-directory path)
+             (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
+             (negate-or-not (if prefix "!" ""))
+             (actual-command (format command-template negate-or-not name-pattern grep-string)))
+        (grep-find actual-command))))
 
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
