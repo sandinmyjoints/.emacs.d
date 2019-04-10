@@ -1553,29 +1553,31 @@ local bindings in certain buffers.
   - dumb-jump or smart-jump for jsx
   - magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
+  - [ ] fill comment paragraphs nicely, including when they contain bulleted
+    lists and such (need to fix paragraph-start variable)
+    - it should match lines that look like # - or * - or // * or // - for markdown style lists
+    - https://stackoverflow.com/questions/71788/getting-emacs-fill-paragraph-to-play-nice-with-javadoc-like-comments
+    - http://barelyenough.org/blog/2006/10/nicer-phpdoc-comments/
   - kill full urls and email addresses in markdown mode, text mode, comments.
     kill-thing-at-point, kill-word.
     - helpful: https://emacs.stackexchange.com/questions/19508/kill-url-at-point
-    - fix paragraph start --
-      - it should match lines that look like # - or * - for markdown style lists
-      - https://stackoverflow.com/questions/71788/getting-emacs-fill-paragraph-to-play-nice-with-javadoc-like-comments
-      - http://barelyenough.org/blog/2006/10/nicer-phpdoc-comments/
-    - [X]  defun to insert date in form of 2018-09-01 -> wjb/insert-date
-    - for every project, have a sane-term open, to make it easy to jump to a terminal
-    - bind compilation buffers to projects via projectile, purpose, or perspectiv
-      - maybe a frame per project? but only if frame switching is super-easy
-      - and it'd be great to automatically focus the current project in dirtree
-    - don't fill code, eg, text within code fences in markdown mode
+    - easy-kill
+  - [X]  defun to insert date in form of 2018-09-01 -> wjb/insert-date
+  - for every project, have a sane-term open, to make it easy to jump to a terminal
+  - [ ] switch-to-compilation buffer works with *jest* buffers
+    - maybe do this via projectile
+  - bind compilation buffers to projects via projectile, purpose, or perspectiv
+    - maybe a frame per project? but only if frame switching is super-easy
+    - and it'd be great to automatically focus the current project in dirtree
+  - don't fill code, eg, text within code fences in markdown mode
 ``` shell
 $ aws ecs update-service --cluster <cluster name> --service <service name> --force-new-deployment
 ```
    - automatically open project in dirtree when switch to it
      - probably can use projectile hook of some kind
-   - Use compile buffer, jump to failing tests
+   - [X] Use compile buffer, jump to failing tests
      - [X] unit tests
      - integration tests
-   - [ ]  fill comment paragraphs nicely, including when they contain
-     bulleted lists and such (need to fix paragraph-start variable)
    - [X] project commands work from local_notes
      - SOLVED with # -*- default-directory: "/Users/william/scm/sd/sd-playground"; -*-
      - helpful for .rest and .org files
