@@ -110,6 +110,26 @@
             (list :impl (concat "src" mid-path filename))
           (list :test (concat "test" mid-path filename))))))
 
+;; intake
+;; src/file.js
+;; test/server/file.test.js
+(defun wjb/related-files-corresponding-path-po-intake (path)
+  (if (string-match (rx (group (or "src" "test"))
+                        (group "/" (*? anything))
+                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".coffee"))) path)
+      (let* ((top-dir (match-string 1 path))
+             (mid-path (match-string 2 path))
+             (src-mid-path (s-replace "/server" "" mid-path))
+             (filename (match-string 3 path))
+             (filename-base (file-name-base filename))
+             (filename-extension (file-name-extension filename t))
+             (filename-test (concat filename-base ".test" filename-extension))
+             (filename-impl (s-replace ".test" "" filename)))
+        ;; (debug)
+        (if (equal top-dir "test")
+            (list :impl (concat "src" src-mid-path filename-impl))
+          (list :test (concat "test/server" mid-path filename-test))))))
+
 ;; playground
 ;; src/controller/file.js
 ;; test/controller/file.test.js
