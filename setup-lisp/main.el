@@ -692,6 +692,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 (use-package tsv-mode
   :defer t
+  :disabled
   :mode "\\.tsv\\'"
   :init
   (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
@@ -810,6 +811,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
         ;; - https://oremacs.com/2016/01/06/ivy-flx/
         ;;
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
+                                (swiper-isearch . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
                                 (ivy-switch-buffer . ivy--regex-fuzzy)
                                 (t . ivy--regex-fuzzy)))
