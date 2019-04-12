@@ -150,6 +150,8 @@
      (cons 'easy-kill melpa)
      (cons 'easy-kill-extras melpa)
      (cons 'page-break-lines melpa)
+     (cons 'eyebrowse melpa)
+     (cons 'centered-cursor-mode melpa)
 
      (cons 'which-key melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.

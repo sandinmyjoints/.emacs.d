@@ -2197,6 +2197,27 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key "\M-{" #'paredit-wrap-curly)
   )
 
+(use-package centered-cursor-mode
+  :config
+  (setq-default ccm-vpos-init (round (*(ccm-visible-text-lines) .37))))
+
+(use-package eyebrowse
+  :init
+  ;; (setq eyebrowse-keymap-prefix (kbd "C-c C-z"))
+  (setq eyebrowse-keymap-prefix (kbd "H-w"))
+  :config
+  (define-key eyebrowse-mode-map (kbd "H-w n") 'eyebrowse-next-window-config)
+  (define-key eyebrowse-mode-map (kbd "H-w p") 'eyebrowse-prev-window-config)
+  (define-key eyebrowse-mode-map (kbd "H-1") 'eyebrowse-switch-to-window-config-1)
+  (define-key eyebrowse-mode-map (kbd "H-2") 'eyebrowse-switch-to-window-config-2)
+  (define-key eyebrowse-mode-map (kbd "H-3") 'eyebrowse-switch-to-window-config-3)
+  (define-key eyebrowse-mode-map (kbd "H-4") 'eyebrowse-switch-to-window-config-4)
+  (define-key eyebrowse-mode-map (kbd "H-5") 'eyebrowse-switch-to-window-config-5)
+  (setq eyebrowse-mode-line-separator " "
+        eyebrowse-wrap-around t)
+  (set-face-attribute 'eyebrowse-mode-line-active nil :foreground "#9ccc65")
+  (eyebrowse-mode t))
+
 (use-package pcre2el
   :commands reb-change-syntax)
 
