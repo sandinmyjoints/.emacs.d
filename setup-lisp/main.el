@@ -472,7 +472,52 @@
 (use-package ox-slack
   :after org)
 
-(use-package sql)
+;; Use `page-break-lines-mode' to enable the mode in specific buffers,
+;; or customize `page-break-lines-modes' and enable the mode globally with
+;; `global-page-break-lines-mode'.
+;;
+(use-package page-break-lines)
+
+(use-package sql
+  :after page-break-lines
+  :config
+  (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat)
+  (define-key sql-mode-map (kbd "C-c C-z") 'sanityinc/pop-to-sqli-buffer)
+  (push 'sql-mode page-break-lines-modes)
+
+  (setq-default sql-input-ring-file-name
+                (expand-file-name ".sqli_history" user-emacs-directory)
+                sql-product 'mysql)
+
+  (add-to-list 'sql-mysql-login-params '(port :default 3311))
+  ;; (push "" sql-mysql-options)
+
+  (defun sanityinc/fix-postgres-prompt-regexp ()
+    "Work around https://debbugs.gnu.org/cgi/bugreport.cgi?bug=22596.
+Fix for the above hasn't been released as of Emacs 25.2."
+    (when (eq sql-product 'postgres)
+      (setq-local sql-prompt-regexp "^[[:alnum:]_]*=[#>] ")
+      (setq-local sql-prompt-cont-regexp "^[[:alnum:]_]*[-(][#>] ")))
+
+  (add-hook 'sql-interactive-mode-hook 'sanityinc/fix-postgres-prompt-regexp)
+
+  (defun sanityinc/pop-to-sqli-buffer ()
+    "Switch to the corresponding sqli buffer."
+    (interactive)
+    (if (and sql-buffer (buffer-live-p sql-buffer))
+        (progn
+          (pop-to-buffer sql-buffer)
+          (goto-char (point-max)))
+      (sql-set-sqli-buffer)
+      (when sql-buffer
+        (sanityinc/pop-to-sqli-buffer))))
+
+  ;; See my answer to https://emacs.stackexchange.com/questions/657/why-do-sql-mode-and-sql-interactive-mode-not-highlight-strings-the-same-way/673
+  (defun sanityinc/font-lock-everything-in-sql-interactive-mode ()
+    (unless (eq 'oracle sql-product)
+      (sql-product-font-lock nil nil)))
+  (add-hook 'sql-interactive-mode-hook 'sanityinc/font-lock-everything-in-sql-interactive-mode))
+
 (use-package sqlformat
   :after sql
   :config
@@ -1665,10 +1710,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package wgrep
   :config
   (setq wgrep-enable-key "w"))
-
-(use-package sql
-  :config
-  (add-to-list 'sql-mysql-login-params '(port :default 3311)))
 
 (use-package npm-mode
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
