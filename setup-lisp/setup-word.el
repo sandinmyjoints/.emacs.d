@@ -74,11 +74,12 @@
 ;; - sentence: M-k is kill-sentence. C-x delete is backward-kill-sentence.
 ;; - sexp: C-M f and C-M b. C-M k is kill-sexp. C-M backspace is backward-kill-sexp.
 ;; - defun: C-M-a and C-M-e are begin-defun and end-defun. H-1 is beginning-of-defun. H-9 is end-of-defun. Could there be a next-defun? C-M-n and C-M-p. These are currently used by paredit-forward-up and dumb-jump-back. TODO:
-;; use paredit-forward-up and paredit-backward-up when they do something, but if they err, then do next-defun and prev-defun instead. But those don't exist -- why? There are no forward-defun and backward-defun either -- why?
+;; use paredit-forward-up and paredit-backward-up when they do something, but if they err, then do next-defun and prev-defun instead. But those don't exist -- why? There are no forward-defun and backward-defun either -- why? https://github.com/search?q=next-defun&type=Code
+;;   https://www.gnu.org/software/emacs/manual/html_node/emacs/Paragraphs.html
 ;; - paragraph: text equivalent of defun. Why don't end-of-paragraph and next-paragraph exist? -> Because they are forward-paragraph and backward-paragraph.
 ;; - TODO:
 ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
-;;   - in prog modes, C-M-n and C-M-p are bound to paredit-forward-up and paredit-backward-up, then beginning-of-defun and end-of-defun
+;;   - in prog modes, C-M-n and C-M-p are bound to paredit-forward-up and paredit-backward-up, then beginning-of-defun and end-of-defun.
 
 ;; something like:
 ;; (defun wjb/C-M-n ()
@@ -87,6 +88,7 @@
 ;;            (condition-case something
 ;;                (paredit-forward-up)
 ;;   ))))
+;; - there's also forward-sexp and backward-sexp. to accomplish goal of moving by top-level functions, need to
 
 ;; background: https://stackoverflow.com/questions/18675201/alternative-to-forward-word-backward-word-to-include-symbols-e-g#18675636
 ;; basically, this will add * as being part of a word
