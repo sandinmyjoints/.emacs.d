@@ -97,6 +97,14 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   )
 
 (after-load 'js2-mode
+  (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
+  (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
+  ;; TODO js2-mode-show-all
+  (define-key js2-mode-map [remap move-beginning-of-line] 'js2-beginning-of-line)
+  (define-key js2-mode-map [remap move-end-of-line] 'js2-end-of-line)
+  (define-key js2-mode-map [remap forward-sexp] 'js2-mode-forward-sexp)
+  (define-key js2-mode-map [remap yafolding-toggle-element] 'js2-mode-toggle-element)
+
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
   ;; replace with dumb-jump, or js2-mode-goto-definition, or xref-find-definitions
@@ -104,6 +112,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (define-key js2-mode-map (kbd "M-,") 'smart-jump-back)
   ;; (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
   ;; (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
+
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
