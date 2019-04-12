@@ -244,8 +244,7 @@ Also converts full stops to commas."
 (define-prefix-command 'wjb-map)
 (add-hook 'after-init-hook
           (lambda ()
-            (global-set-key (kbd "H-0") 'wjb-map)
-            (global-set-key (kbd "H-c") 'wjb-map)))
+            (global-set-key (kbd "H-0") 'wjb-map)))
 
 (defun wjb/switch-to-clock ()
   "Switch to last clock buffer."
@@ -289,8 +288,11 @@ Also converts full stops to commas."
 ;; run = start
 (define-key wjb-map (kbd "r") #'projectile-run-project)
 
-(define-key wjb-map (kbd "n e") 'compilation-next-error)
-(define-key wjb-map (kbd "p e") 'compilation-previous-error)
+(define-key wjb-map (kbd "W") #'widen)
+
+(define-key wjb-map (kbd "e n") 'compilation-next-error)
+(define-key wjb-map (kbd "e p") 'compilation-previous-error)
+
 (defun wjb/switch-to-standup ()
   (interactive)
   (pop-to-buffer "sd-standup.org"))
