@@ -48,7 +48,6 @@
 
 (setq-default bidi-display-reordering nil)
 
-
 ;; Don't use these graphical elements.
 ;;
 (if (display-graphic-p)
@@ -58,12 +57,6 @@
       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
       (if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))))
 
-;; Turn on/off display stuff.
-;;
-(setq-default visible-bell t
-              font-lock-maximum-decoration t
-              truncate-partial-width-windows nil)
-
 (when window-system
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))
   (tooltip-mode -1)
@@ -71,6 +64,12 @@
 
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
+
+;; Turn on/off display stuff.
+;;
+(setq-default visible-bell t
+              font-lock-maximum-decoration t
+              truncate-partial-width-windows nil)
 
 ;; Prevent vulnerability. See https://bugzilla.redhat.com/show_bug.cgi?id=1490409.
 (eval-after-load "enriched"

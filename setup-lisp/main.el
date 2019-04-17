@@ -522,7 +522,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :after sql
   :config
   ;; needs sqlparse package, which can be gotten with homebrew
-  (add-hook 'sql-mode-hook 'sqlformat-on-save-mode)
+  ;; (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
 ;; Magit.
@@ -537,6 +537,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
           magit-mode-hook
           magit-popup-mode-hook))
   :config
+  (setq ghub-use-workaround-for-emacs-bug nil)
   (autoload 'magit-log "magit"))
 
 ;; Experiment, might want to do this for everything:
@@ -1183,11 +1184,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package restclient
   :defer t
   :mode ("\\.rest\\'" . restclient-mode)
-  ;; (local-set-key (kbd "C-c C-c") 'restclient-http-send-current)
-  ;; (local-set-key (kbd "C-c C-v") 'restclient-http-send-current-stay-in-window)
-  :bind (:map restclient-mode-map
-              ("C-c C-c" . 'restclient-http-send-current-stay-in-window)
-              ("C-c C-v" . 'restclient-http-send-current))
   :config
   (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
     (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
@@ -1215,6 +1211,7 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package highlight-thing
+  :diminish
   :init
   ;; TODO
   ;; - ideal would be for it to be same face but bolded or slightly lighter
@@ -1232,8 +1229,7 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (global-highlight-thing-mode 1)
   (setq highlight-thing-delay-seconds 0
-        highlight-thing-excluded-major-modes
-        '(org-mode gitcommit-mode magit-status-mode text-mode gfm-mode)
+        highlight-thing-excluded-major-modes '(org-mode gitcommit-mode magit-status-mode text-mode gfm-mode)
         highlight-thing-limit-to-defun t))
 
 ;; expand-region.
@@ -1744,8 +1740,10 @@ If PROJECT is not specified the command acts on the current project."
 
 (defvar wjb/last-compilation-buffer nil
   "The last buffer in which compilation took place.")
+
 (defvar wjb/last-grep-buffer nil
   "The last grep buffer.")
+
 ;; TODO: set this after switching to a restclient buffer.
 ;; TODO: add key-binding to get to last restclient buffer.
 (defvar wjb/last-restclient-buffer nil
@@ -2217,6 +2215,11 @@ If PROJECT is not specified the command acts on the current project."
         eyebrowse-wrap-around t)
   (set-face-attribute 'eyebrowse-mode-line-active nil :foreground "#9ccc65")
   (eyebrowse-mode t))
+
+(use-package page-break-lines
+  :diminish
+  :config
+  (global-page-break-lines-mode))
 
 (use-package pcre2el
   :commands reb-change-syntax)
