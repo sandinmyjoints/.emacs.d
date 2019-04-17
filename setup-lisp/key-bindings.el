@@ -124,8 +124,11 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
-(global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-x l") 'ace-window)
+(use-package ace-window
+  :bind (("C-x o" . ace-window)
+         ("C-x l" . ace-window))
+  :config
+  (setq aw-scope 'frame))
 
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 ;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.
