@@ -2258,9 +2258,17 @@ Interactively also sends a terminating newline."
   ;; http://endlessparentheses.com/a-few-paredit-keys-that-take-over-the-world.html
   ;;
   ;; TODO: update these so that if these commands don't work (signal error),
-  ;; then fall back to something else, like next-defun and prev-defun
+  ;; then fall back to something else, like next-defun and prev-defun.
+  ;; Think of down as "into" and up as "out of"
+  ;; Command           | default | notes
+  ;; forward up/down   | n/d     | forward-down is very useful, think of it as forward-descend or forward-into
+  ;; backwards up/down | u/p     |
   (global-set-key (kbd "C-M-n") #'paredit-forward-up)
-  (global-set-key (kbd "C-M-p") #'paredit-backward-up)
+  (global-set-key (kbd "C-M-d") #'paredit-forward-down)
+  (global-set-key (kbd "C-M-u") #'paredit-backward-up) ;; shadows backward-up-list
+  (global-set-key (kbd "C-M-p") #'paredit-backward-down)
+
+  (global-set-key (kbd "C-(") #'paredit-backward-slurp-sexp) ;; matches C-)
 
   ;; ;; This one's surpisingly useful for writing prose.
   ;; (global-set-key "\M-S"

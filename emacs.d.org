@@ -781,7 +781,7 @@ react-redux
     needed for pylint to work?
 
 
-* pairing
+* pairing/paredit
 * TODO maybe try https://github.com/capitaomorte/autopair
 * DONE smart-parens
   CLOSED: [2015-07-10 Fri 17:00]
@@ -793,6 +793,7 @@ react-redux
   - Use C-- to do backwards version of forwards command.
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
 
+* TODO paredit - use advice to push mark
 
 * shell/comint
 * TODO Shell in Emacs
