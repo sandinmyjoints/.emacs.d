@@ -863,9 +863,96 @@ true
   - jest mode defined in 'jest.el': Major mode for jest sessions (derived from comint-mode).
   - [X] to set defaults in magit-popup: C-t to show magit-popup common commands, set
     the values, then C-x C-s
+** how it works
+  - jest-mode uses comint-mode
+  - I'm hooking it to use compilation-minor-mode
+  - in compilation mode, the endless defuns will work IF bound to the keys,
+    because they send to the process.
+  - In compilation-minor-mode, they seem not to work, maybe because the process
+    is lost? Not sure. One theory is the keypresses ARE getting to jest, but the
+    output of the actions they cause is surpressed for some reason...
+  - need to understand when a process is bound to a buffer/not bound -- because
+    it seems to need to send directly to the process, which the endless defuns
+    do, my guess is because jest prompt is doing something strange/unusual with
+    the way it is reading input
+** TODO want a different set of settings for jest watch than for other comint/compilation buffers
+   - to handle the prompt
+   - [ ] do the endless send-key bindings
+   - [ ] what to use for output filters??
+   - try:
+   #+begin_src
+compilation-scroll-output nil ;; ??
+comint-terminfo-terminal "ansi"
+comint-scroll-show-maximum-output nil ;; ??
+
+   #+end_src
+** examples of unsupported ansi codes
+   #+begin_src
+   Test Suites: 0 of 12 total
+Tests:       0 total
+Snapshots:   0 total
+[1A
+[0m[7m[33m RUNS  ...
+ RUNS  ...
+ RUNS  ...
+
+   #+end_src>
+
 ** TODO minor mode jest-minor-mode
    - where compile, recompile, projectile-compile are remapped to jest-popup, etc.
    - then activate it in dir-locals
+* jest in compilation-mode
+  - https://jestjs.io/docs/en/cli.html#colors
+** DONE is --testLocationInResults doing anything?
+   CLOSED: [2018-10-08 Mon 11:46]
+   - seems like I'm just getting the line number from the Error stack traces
+** TODO support jest watch prompt (for watching)
+*** jest watcher being interactive and using full ansi codes is coupled; this is a problem b/c comint/compilation support only color codes (not movement/screen clearing)
+    - so I can only get interactivity if I also get janky output b/c it's not
+      really clearing the screen
+    - [ ] should I add process.env.INSIDE_EMACS to isInteractive? -> doesn't
+      matter, that will make isInteractive true which is going to cause it to
+      use movement/clear codes that Emacs doesn't support :(
+    - isInteractive:
+      https://github.com/facebook/jest/blob/f57e2887357d7f19f398cac8fb25f1b0835467e7/packages/jest-util/src/isInteractive.ts
+ // isTTY true and TERM != dumb
+ export default !!process.stdout.isTTY && process.env.TERM !== 'dumb' && !isCI;
+    - could change to this in order to be interactive with colors inside emacs
+      where ansi movements codes are not really supported:
+ export default !!process.stdout.isTTY && (process.env.TERM !== 'dumb' || process.env.INSIDE_EMACS) && !isCI;
+    - clearLine: https://github.com/facebook/jest/blob/b4897796bcbcb972234ef699b3e9e0f6b8724132/packages/jest-util/src/clearLine.ts
+    #+begin_src js
+    export default (stream: NodeJS.WritableStream) => {
+   if (process.stdout.isTTY) {
+     stream.write('\x1b[999D\x1b[K');
+   }
+ };
+    #+end_src
+*** jest prompt
+    - jest-core/src/watch
+    #+begin_src js
+      const onCancelPatternPrompt = () => {
+    outputStream.write(ansiEscapes.cursorHide);
+    outputStream.write(specialChars.CLEAR);
+    outputStream.write(usage(globalConfig, watchPlugins));
+    outputStream.write(ansiEscapes.cursorShow);
+  };
+
+  if (typeof stdin.setRawMode === 'function') {
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.setEncoding('utf8');
+    stdin.on('data', onKeypress);
+  }
+
+    #+end_src
+** TODO leverage jest patterns cli args (eg, related to recent changes)
+   - -t to match test name
+   - couple this with defuns to run only a certain test name, akin to only
+   - go back to marker strategy I used to use with mocha and coffee-script: put
+     XXX in the test name, then use -t flag
+** TODO leverage debugger / integrate with indium?
+
 * projects in compilation-mode
 ** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
    CLOSED: [2018-10-08 Mon 11:47]
@@ -925,66 +1012,13 @@ true
 
  #+END_SRC
 
-* node/js stack traces in compilation-mode
+* DONE node/js stack traces in compilation-mode
   - https://www.emacswiki.org/emacs/CreatingYourOwnCompileErrorRegexp
   - https://benhollis.net/blog/2015/12/20/nodejs-stack-traces-in-emacs-compilation-mode/
 ** TODO fix face -- stop using underlining
    - see https://emacs.stackexchange.com/a/15219/2163
    - basically, adjust the regex match to change what is considered the
      hyperlink (which is underlined)
-* TODO use split-windows-horizontally and H-x n e to go to next-error
-   - would be best if node error regexp only matched the first line of the stack trace
-* jest in compilation-mode
-  - https://jestjs.io/docs/en/cli.html#colors
-** DONE is --testLocationInResults doing anything?
-   CLOSED: [2018-10-08 Mon 11:46]
-   - seems like I'm just getting the line number from the Error stack traces
-** TODO support jest watch prompt (for watching)
-*** jest prompt
-    - jest-core/src/watch
-    #+begin_src js
-      const onCancelPatternPrompt = () => {
-    outputStream.write(ansiEscapes.cursorHide);
-    outputStream.write(specialChars.CLEAR);
-    outputStream.write(usage(globalConfig, watchPlugins));
-    outputStream.write(ansiEscapes.cursorShow);
-  };
-
-  if (typeof stdin.setRawMode === 'function') {
-    stdin.setRawMode(true);
-    stdin.resume();
-    stdin.setEncoding('utf8');
-    stdin.on('data', onKeypress);
-  }
-
-    #+end_src
-*** red herring: cli (it's not the cli that's the problem, it's the prompt)
-    - https://github.com/facebook/jest/blob/b0cbcbf3f813db9a66a5bfbe822e15d59d157064/packages/jest-cli/src/cli/index.ts
-    - curses-type behavior?
-      - clear line
-      - accept keyboard input
-      - be a tty
-    - chalk
-    - isInteractive:
-      https://github.com/facebook/jest/blob/f57e2887357d7f19f398cac8fb25f1b0835467e7/packages/jest-util/src/isInteractive.ts
- // isTTY true and TERM != dumb
- export default !!process.stdout.isTTY && process.env.TERM !== 'dumb' && !isCI;
-    - clearLine: https://github.com/facebook/jest/blob/b4897796bcbcb972234ef699b3e9e0f6b8724132/packages/jest-util/src/clearLine.ts
-    #+begin_src js
-    export default (stream: NodeJS.WritableStream) => {
-   if (process.stdout.isTTY) {
-     stream.write('\x1b[999D\x1b[K');
-   }
- };
-    #+end_src
-** TODO leverage jest patterns cli args (eg, related to recent changes)
-   - -t to match test name
-   - couple this with defuns to run only a certain test name, akin to only
-   - go back to marker strategy I used to use with mocha and coffee-script: put
-     XXX in the test name, then use -t flag
-** TODO leverage debugger / integrate with indium?
-
-
 
 
 * projectile

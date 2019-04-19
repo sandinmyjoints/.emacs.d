@@ -1735,6 +1735,42 @@ If PROJECT is not specified the command acts on the current project."
               (make-local-variable 'jit-lock-defer-timer)
               (set (make-local-variable 'jit-lock-defer-time) 0.25))))
 
+(defun endless/send-input (input &optional nl)
+  "Send INPUT to the current process.
+Interactively also sends a terminating newline."
+  (interactive "MInput: \nd")
+  (let ((string (concat input (if nl "\n"))))
+    ;; This is just for visual feedback.
+    (let ((inhibit-read-only t))
+      (insert-before-markers string))
+    ;; This is the important part.
+    (process-send-string
+     (get-buffer-process (current-buffer))
+     string)))
+
+(defun endless/send-self ()
+  "Send the pressed key to the current process."
+  (interactive)
+  (endless/send-input
+   (apply #'string
+          (append (this-command-keys-vector) nil))))
+
+;; - Enter is for compile-goto-error, unless I want to rebind it to something else
+;;   - Maybe I could somehow remap so that pressing C-j or C-m tells Jest to do Enter?
+;; - p and t are for typing in patterns, so they don't workm
+;; - a w f o are for changing watch mode
+;; - TODO don't echo the key I press
+(dolist (key '("\C-d" "\C-j" "a" "w" "f" "o"))
+  (define-key compilation-mode-map key
+    #'endless/send-self)
+  ;; I have jest set to run compilation-minor-mode, so this is the map that is active in my jest buffers:
+  (define-key compilation-minor-mode-map key
+    #'endless/send-self)
+  ;; (define-key global-map key
+  ;;   #'endless/send-self)
+  )
+  ;; (unbind-key "\C-c" compilation-minor-mode-map)
+
 (require 'cl-lib)
 (defun endless/toggle-comint-compilation ()
   "Restart compilation with (or without) `comint-mode'."
@@ -1956,15 +1992,39 @@ If PROJECT is not specified the command acts on the current project."
   (recompile-on-save-advice compile)
   (recompile-on-save-advice recompile))
 
+(require 'jest)
 (use-package jest
-  :bind (:map jest-mode-map
-              ("g" . jest-repeat)
-              ("M-n" . compilation-next-error)
-              ("M-p" . compilation-previous-error))
+  :bind (
+         :map jest-mode-map
+         ("g" . jest-repeat)
+         ("M-n" . compilation-next-error)
+         ("M-p" . compilation-previous-error)
+         ("C-c RET" . jest-popup)
+         ("C-c <C-return>" . jest-repeat)
+         :map compilation-minor-mode-map
+         ;; TODO not sure both of these are required -- not sure what the
+         ;; defaults are for this map
+         ("C-c RET" . jest-popup)
+         ("C-c C-<return>" . jest-repeat)
+         ([remap compile] . jest-popup)
+         ([remap recompile] . jest-repeat)
+         )
   :config
-  ;; not sure which of this is preferable to use; shell-minor just seems to not have as many key bindings I want
-  (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
-  (add-hook 'jest-mode-hook #'compilation-minor-mode))
+  ;; not sure which of this is preferable to use. shell-minor seems to not have
+  ;; as many key bindings I want, however, it allows sending input into the
+  ;; buffer.
+  ;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
+  (add-hook 'jest-mode-hook #'compilation-minor-mode)
+
+  ;; should be redundant due to :bind above
+  (define-key jest-mode-map [remap recompile] 'jest-repeat)
+  )
+
+;; (define-key compilation-mode-map [remap compile] 'jest-popup)
+;; (define-key compilation-mode-map [remap recompile] 'jest-repeat)
+;; (define-key compilation-mode-map (kbd "C-c RET") 'jest-popup)
+;; (define-key compilation-mode-map (kbd "C-c C-<return>") 'jest-repeat)
+
 
 (defcustom jest-compile-function 'jest-popup
   "Command to run when compile and friends are called."
@@ -1975,17 +2035,28 @@ If PROJECT is not specified the command acts on the current project."
   (interactive)
   (call-interactively (symbol-value 'jest-compile-function)))
 
+;; (define-minor-mode jest-compilation-minor-mode
+;;   "Minor mode to run jest-mode commands for compile and friends inside compilation buffers."
+;;   :keymap (let ((map (make-sparse-keymap)))
+;;             (define-key map [remap recompile] 'jest-repeat)
+;;             map)
+
 ;; I have been activating this via dir-locals, though that also turns it on for
 ;; other kinds of buffers (non-JS)
 ;;;###autoload
 (define-minor-mode jest-minor-mode
   "Minor mode to run jest-mode commands for compile and friends."
   :lighter " Jest"
+  :diminish
   :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
             (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
-            (define-key jest-minor-mode-keymap [remap recompile] 'jest-compile-command)
+            (define-key jest-minor-mode-keymap [remap recompile] 'jest-repeat)
             (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
-            jest-minor-mode-keymap))
+            jest-minor-mode-keymap)
+  )
+
+;; when starting a test run, activate jest-compilation-minor-mode
+;; whose keymap remaps recompile to jest-repeat
 
 ;; change
 ;; (setq jest-compile-function #'jest-popup)
