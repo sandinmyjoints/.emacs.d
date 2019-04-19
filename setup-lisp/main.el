@@ -2287,8 +2287,16 @@ Interactively also sends a terminating newline."
   (define-key eyebrowse-mode-map (kbd "H-3") 'eyebrowse-switch-to-window-config-3)
   (define-key eyebrowse-mode-map (kbd "H-4") 'eyebrowse-switch-to-window-config-4)
   (define-key eyebrowse-mode-map (kbd "H-5") 'eyebrowse-switch-to-window-config-5)
+  (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+  (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+  (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+  (define-key eyebrowse-mode-map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+  (define-key eyebrowse-mode-map (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
+  (define-key eyebrowse-mode-map (kbd "M-'") 'eyebrowse-last-window-config)
   (setq eyebrowse-mode-line-separator " "
-        eyebrowse-wrap-around t)
+        eyebrowse-wrap-around t
+        eyebrowse-new-workspace t
+        eyebrowse-mode-line-style 'always)
   (set-face-attribute 'eyebrowse-mode-line-active nil :foreground "#9ccc65")
   (eyebrowse-mode t))
 
