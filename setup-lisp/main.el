@@ -199,16 +199,16 @@
   :config
   (setq css-indent-offset 2))
 
-(use-package emacs-lisp-mode
+(use-package elisp-mode
   :mode "abbrev_defs"
   :config
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
+  ;; (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
 
 (use-package eldoc
-  :after emacs-lisp-mode
+  :after elisp-mode
   :diminish eldoc-mode
   :config
   (diminish 'eldoc-mode))
@@ -284,7 +284,8 @@
 (use-package autorevert
   :diminish auto-revert-mode)
 
-(use-package 'ht)
+(use-package simple
+  :diminish auto-fill-function)
 
 (use-package abbrev
   :defer 4
@@ -295,6 +296,8 @@
   (add-hook 'text-mode-hook 'abbrev-mode)
   (add-hook 'markdown-mode-hook 'abbrev-mode)
   :diminish abbrev-mode)
+
+(use-package 'ht)
 
 ;; Org-mode.
 ;; (require 'org-install)
@@ -329,20 +332,20 @@
   ;; (define-key global-map "\C-cl" 'org-store-link)
   ;; (define-key global-map "\C-ca" 'org-agenda)
 
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook #'auto-fill-mode)
+  (add-hook 'org-mode-hook #'display-time-mode)
   (defun wjb/org-mode-hook ()
-    (auto-fill-mode 1)
     (set-fill-column 80)
-    (fci-mode -1)
     (company-mode -1)
     (hungry-delete-mode -1)
+    (when (boundp fci-mode)
+      (fci-mode -1))
     (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
   (add-hook 'org-mode-hook #'wjb/org-mode-hook)
-  (add-hook 'org-mode-hook #'visual-line-mode)
 
-  (require 'org-tempo)
-
-  (require 'setup-org))
+  (require 'org-tempo))
 
 (use-package org-src
   :ensure nil
@@ -689,6 +692,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (add-hook 'web-mode-hook 'rainbow-mode)
   (add-hook 'js2-mode-hook 'rainbow-mode)
   (add-hook 'conf-mode-hook 'rainbow-mode)
+  (add-hook 'help-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (use-package tsv-mode
@@ -1160,8 +1164,7 @@ If PROJECT is not specified the command acts on the current project."
   :init
   (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
 
-(use-package date-at-point
-  :defer t)
+(use-package date-at-point)
 
 ;; Highlight matching parentheses when point is on them.
 ;;
@@ -1176,7 +1179,8 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Dims parens in certain modes.
 (use-package paren-face
-  :defer t
+  ;; TODO: dolist :hook over all the applicable modes
+  ;; :defer t
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
@@ -1710,6 +1714,7 @@ If PROJECT is not specified the command acts on the current project."
   (setq wgrep-enable-key "w"))
 
 (use-package npm-mode
+  :diminish
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
   ;; :config
   ;; (npm-global-mode)
