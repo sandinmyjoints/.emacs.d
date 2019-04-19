@@ -48,23 +48,6 @@
 
 (setq-default bidi-display-reordering nil)
 
-;; Don't use these graphical elements.
-;;
-(if (display-graphic-p)
-    (progn
-      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-      (if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))))
-
-(when window-system
-  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
-  (tooltip-mode -1)
-  (blink-cursor-mode 1))
-
-;; Set to always be fullscreen.
-(set-frame-parameter nil 'fullscreen 'fullboth)
-
 ;; Turn on/off display stuff.
 ;;
 (setq-default visible-bell t
@@ -293,8 +276,6 @@
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
-
-(display-time-mode 1)
 
 ;; This unfolds all before saving, so that deleting trailing whitespace works as
 ;; expected.

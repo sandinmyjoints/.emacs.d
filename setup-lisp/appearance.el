@@ -45,8 +45,24 @@
 ;;
 ;;; Code:
 
-
 ;; Note: Use (list-faces-display) to examine all faces.
+
+;; Don't use these graphical elements.
+;;
+(if (display-graphic-p)
+    (progn
+      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+      (if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))))
+
+(when window-system
+  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+  (tooltip-mode -1)
+  (blink-cursor-mode 1))
+
+;; Set to always be fullscreen.
+(set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; Fonts.
 ;;
@@ -71,6 +87,9 @@
 ;;
 ;; http://typeof.net/Iosevka/
 ;; (set-face-attribute 'default nil :family "Iosevka" :height 144 :weight 'light)
+
+;; set a fallback
+(set-fontset-font t nil "Courier New" nil 'append)
 
 (if (functionp 'set-fontset-font) ; nil in Terminal
     (set-fontset-font "fontset-default" 'unicode "Menlo"))
