@@ -1034,6 +1034,74 @@ Snapshots:   0 total
   - [ ] if I find a test file manually, will it remember it?
 ** custom :related-files-fn
 
+
+
+* perspective or persp-mode
+  - intention is to be limited to project-related buffers
+  - want to keep using tmux to own shells so that quitting Emacs doesn't kill
+    servers and watches. tmunx runs in vterm.
+  - needs to support main repo and 0+ worktrees
+  - needs to account for local_notes
+  - need to be able to add/remove/change which project(s) a buffer belongs to
+  - for this to work, project-switching would need to be fast and easy. Maybe
+    make a hydra?
+    - start -> choose project -> choose buffer
+  - top-level shared buffers (belong to all projects)
+    - bunch of org: standup.org, today.org,
+    - clock.org
+  - top-level buffers (belong to no projects)
+    - default for anything not otherwise specified
+    - personnel notes
+  - project buffers
+    - magit
+    - .org
+    - .rest
+    - tmux session - vterm - *tmux-neodarwin*
+      - server
+      - build
+      - test (maybe replaced by jest in compile buffer)
+      - storybook
+    - test - compile
+  - project-create buffers
+    - run a shell
+    - create a new file
+    -
+
+
+* vterm for tmux
+  - [ ] why doesn't the tmux status line appear?
+  - [ ] resizing the pane (maximizing)
+* DONE try olivetti mode
+  CLOSED: [2019-04-18 Thu 21:55]
+* TODO purpose-mode
+  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
+  - for each repo, be able to jump to each of these:
+    - compilation buffer
+    - .rest file, http output
+    - magit status buffer
+    - root dired
+    - .org file
+    - README?
+* TODO try eyebrowse
+* TODO fill/auto-fill/visual-line/line wrapping
+  - two modes
+** writing emails, for posts
+  - when writing emails etc, I don't want hard line breaks
+  - *a* way to achieve that is: set fill-column to 10000, turn on visual-line-mode
+  - olivetti
+  - no or thin fringe
+** writing docs, markdown, code
+   - want hard line break at 80 columns
+   - set fill-column 80
+   - turn on auto-fill-mode
+   - turn off visual-line-mode
+* TODO watch mode
+  - what movement terminal codes would comint need to support in order to work
+    with jest watch mode?
+
+
+
+
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
   - works well with unicode
@@ -1211,11 +1279,13 @@ C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
   - [X] in dired -- dired
   - [X] add to dirtree -- dirtree
   - implemented as functions in bashrc
+* DONE diminish auto-fill-mode
+  - https://www.wisdomandwonder.com/link/10214/httpsgithub-commagnars-emacs-dblobmastersite-lispdiminish-ell87wh
+  - https://github.com/magnars/.emacs.d/blob/master/site-lisp/diminish.el#L87y-you-cant-diminish-auto-fill-mode
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
 * TODO elfeed http://nullprogram.com/blog/2013/09/04/
-* TODO try olivetti mode
 * TODO Edit with Emacs OS X service
   - https://react-hn.appspot.com/#/story/16395379?_k=v1k1cm
 * TODO fewer popup windows
@@ -1326,16 +1396,6 @@ I don't know how; I don't even know where the binary was located. The fix was to
 download and make gpg 1.4 myself, and use it to decrypt .authinfo.
 
 * bug https://github.com/joaotavora/yasnippet/commit/d3bb879356288ef38975fbf85947c7371b8c9759
-* TODO purpose-mode
-  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
-  - for each repo, be able to jump to each of these:
-    - compilation buffer
-    - .rest file, http output
-    - magit status buffer
-    - root dired
-    - .org file
-    - README?
-* TODO try eyebrowse
 * TODO PATH stuff
   - exec-path-from-shell creates a login shell at startup and reads PATH from
     it. Kind of a hack.
@@ -1451,6 +1511,8 @@ company-active-map M-/
 
 #+END_SRC
 * TODO prodigy for use docker startup script
+* renice emacs
+
 * TODO Review for ideas:
   - http://news.ycombinator.com/item?id=1654164
   - https://github.com/technomancy/emacs-starter-kit
@@ -1462,7 +1524,6 @@ company-active-map M-/
   - https://github.com/vidjuheffex/dotemacs/blob/master/emacs.org (literate)
   - https://github.com/GustafB/.emacs.d/blob/master/myinit.org (literate)
   - https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org (literate)
-* renice emacs
 * Use!:
   - easy-kill M-w w/s/l/d/D
   - easy-mark C-M-spc, C-M-@, M-= then +/-

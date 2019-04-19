@@ -2534,7 +2534,58 @@ Interactively also sends a terminating newline."
   (define-key vterm-mode-map [tab]   '(lambda () (interactive) (vterm-send-key "<tab>")))
   (define-key vterm-mode-map (kbd "DEL") '(lambda () (interactive) (vterm-send-key "<backspace>")))
   (define-key vterm-mode-map (kbd "RET") '(lambda () (interactive) (vterm-send-key "<return>")))
+  (define-key vterm-mode-map (kbd "C-]") #'vterm--self-insert)
   )
+
+(use-package hi-lock
+  :diminish)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here
+
+;; TODO: use esc-mode-map M-~ instead
+;; (global-set-key (kbd "~") (lambda ()
+;;                             (interactive)
+;;                             (nameframe-switch-frame "olivetti")))
+
+;; Use a second frame for:
+;; - markdown live preview
+;; - email composing/editing
+;;
+(use-package olivetti
+  :diminish
+  :config
+  (setq-default olivetti-body-width 80))
+
+;; Text and fill modes.
+(defun wjb/soft-wrap-text ()
+  "Soft-wrap."
+  ;; wraps at fill-column, but that doesn't matter if fill-column is 10000
+  (auto-fill-mode -1)
+  (set-fill-column 10000)
+  (visual-line-mode 1))
+
+(defun wjb/hard-wrap-text ()
+  "Hard wrap."
+  ;; wraps at fill-column, but that doesn't matter if fill-column is 10000
+  (auto-fill-mode 1)
+  ;; C-x f is set-fill-column
+  (set-fill-column 80)
+  (visual-line-mode -1))
+
+(defun wjb/olivetti ()
+  "Turn on settings for writing prose."
+  (interactive)
+  (gfm-mode)
+  (olivetti-mode)
+  ;; investigate fringe-mode more
+  ;; (fringe-mode 40)
+  )
+
+(add-hook 'text-mode-hook #'goto-address-mode)
+(add-hook 'text-mode-hook #'wjb/hard-wrap-text)
+;; (add-hook 'gfm-mode-hook 'wjb/hard-wrap-text)
+;; (add-hook 'markdown-mode-hook 'wjb/hard-wrap-text)
+;; (add-hook 'rst-mode-hook 'wjb/hard-wrap-text)
+
+(add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text)
