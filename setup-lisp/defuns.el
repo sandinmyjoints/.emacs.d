@@ -273,15 +273,6 @@
     (save-buffer)
     (message msg)))
 
-;; Journal command.
-(defun journal ()
-  "Start journaling"
-  (interactive)
-  (switch-to-buffer "journal")
-  (text-mode)
-  (auto-fill-mode 1)
-  (set-fill-column 80))
-
 (defun sudo-find-file (file-name)
   (interactive "Find file (sudo): ")
   (find-file (concat "/sudo::" file-name)))
@@ -341,13 +332,6 @@
 
 (fset 'remove-console-log-js
       "\C-sconsole.log('DEBUG:\C-a\C-a\C-k\C-k\C-x\C-s")
-
-(defun wjb/long-lines ()
-  "Set fill-column to a very large number."
-  (interactive)
-  (setq fill-column 100000))
-
-(defalias #'long-lines #'wjb/long-lines)
 
 (defun wjb/insert-date ()
   "Insert current date yyyy-mm-dd."
@@ -468,6 +452,28 @@
 ;(wjb-chef-node-hostname "aws-prod-platform-oneiric-c1m-01")
 ;(wjb-chef-node-ip "aws-prod-platform-oneiric-c1m-01")
 
+(defun wjb/long-lines ()
+  "Set fill-column to a very large number."
+  (interactive)
+  (setq fill-column 100000))
+
+(defalias #'long-lines #'wjb/long-lines)
+
+;; From http://www.emacswiki.org/emacs/UnfillParagraph
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun unfill-region (beg end)
+  "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode'."
+  (interactive "*r")
+  (let ((fill-column (point-max)))
+    (fill-region beg end)))
+
 ;; TODO: Doesn't work well in org-mode.
 ;;
 ;; TODO: Could do org-to-md that kills region and puts it in a new markdown
@@ -490,21 +496,6 @@
         (kill-ring-save (point-min) (point-max))
         (call-interactively 'fill-region)))))
 
-;; From http://www.emacswiki.org/emacs/UnfillParagraph
-(defun unfill-paragraph ()
-  "Takes a multi-line paragraph and makes it into a single line of text."
-  (interactive)
-  (let ((fill-column (point-max)))
-    (fill-paragraph nil)))
-
-(defun unfill-region (beg end)
-  "Unfill the region, joining text paragraphs into a single
-    logical line.  This is useful, e.g., for use with
-    `visual-line-mode'."
-  (interactive "*r")
-  (let ((fill-column (point-max)))
-    (fill-region beg end)))
-
 ;; TODO:
 ;; * fill-region with prefix
 ;; * copy whatever is filled to kill ring for convenient pasting
@@ -516,6 +507,15 @@
     (setq fill-column 10000)
     (fill-paragraph)
     (setq fill-column fill-column-stashed)))
+
+;; Journal command. Deprecated by wjb/olivetti.
+;; (defun journal ()
+;;   "Start journaling"
+;;   (interactive)
+;;   (switch-to-buffer "journal")
+;;   (text-mode)
+;;   (auto-fill-mode 1)
+;;   (set-fill-column 80))
 
 (fset 'fix-js-indent
    [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])
