@@ -84,12 +84,22 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
-;; Use server.
-(use-package server
-  :defer 5
-  :config
-  (unless (server-running-p)
-    (server-start)))
+;; Base packages.
+;; Lists.
+(use-package dash
+  :ensure t)
+;; Sequences.
+(use-package seq
+  :ensure t)
+;; Strings.
+(use-package s
+  :ensure t)
+;; Hash table.
+(use-package ht
+  :ensure t)
+;; Filesystem.
+(use-package f
+  :ensure t)
 
 (when is-mac (require 'setup-mac))
 
@@ -138,6 +148,13 @@
 
 (when (require 'so-long nil :noerror)
   (so-long-enable))
+
+(use-package server
+  :defer 5
+  :config
+  (unless (server-running-p)
+    (message "Starting server...")
+    (server-start)))
 
 (use-package which-key
   :diminish
@@ -190,7 +207,11 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-status-emoji-mode 1)
   (require 'setup-flycheck)
-  (flycheck-inline-mode))
+
+  ;; using my own fork of this, it's in /elisp
+  (require 'flycheck-inline)
+  (flycheck-inline-mode)
+  )
 
 (require 'wjb)
 
@@ -222,12 +243,11 @@
 (add-hook 'prog-mode-hook 'auto-fill-comments)
 
 (use-package comment-dwim-2
-  :config
   ;; Default for builtin comment-line is C-x C-;
-  (global-set-key (kbd "M-;") #'comment-dwim-2))
+  :bind (("M-;" . comment-dwim-2)))
 
 (use-package beacon
-  :defer t
+  :defer 1
   :config
   (setq beacon-blink-duration 0.1)
   (beacon-mode 1))
@@ -293,11 +313,9 @@
   ;; (list-abbrevs)
   :init
   (add-hook 'fundamental-mode 'abbrev-mode)
-  (add-hook 'text-mode-hook 'abbrev-mode)
-  (add-hook 'markdown-mode-hook 'abbrev-mode)
   :diminish abbrev-mode)
 
-(use-package 'ht)
+(use-package ht)
 
 ;; Org-mode.
 ;; (require 'org-install)
@@ -339,7 +357,7 @@
     (set-fill-column 80)
     (company-mode -1)
     (hungry-delete-mode -1)
-    (when (boundp fci-mode)
+    (when (boundp 'fci-mode)
       (fci-mode -1))
     (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
@@ -1052,11 +1070,12 @@ If PROJECT is not specified the command acts on the current project."
   ;; C-M-g dumb-jump-go -- would like to use M-.
   ;; C-M-p dumb-jump-back -- M-,
   :config
-  (setq dumb-jump-selector 'helm)
-  (unbind-key (kbd "C-M-p") dumb-jump-mode-map)
-
   ;; (setq dumb-jump-selector 'ivy)
-  (add-hook 'prog-mode-hook #'dumb-jump-mode))
+  (setq dumb-jump-selector 'helm)
+  (unbind-key "C-M-p" dumb-jump-mode-map)
+  ;; I think this is redundant because smart-jump uses dumb-jump as a fallback
+  ;; (add-hook 'prog-mode-hook #'dumb-jump-mode)
+  )
 
 (use-package smart-jump
   ;; don't need these, use M-. and M-, instead
@@ -1200,7 +1219,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package multiple-cursors
   :defer t
   :bind (:map global-map
-              ("C-x t" . 'set-rectangular-region-anchor)
+              ;; ("C-x t" . 'set-rectangular-region-anchor) ;; sane-term
               ("C->" . 'mc/mark-next-like-this)
               ("C-<" . 'mc/mark-previous-like-this)
               ("C-*" . 'mc/mark-all-like-this)
@@ -1211,8 +1230,7 @@ If PROJECT is not specified the command acts on the current project."
   :after multiple-cursors
   :config
   (define-key mc/keymap (kbd "C-. d")   'mc/remove-duplicated-cursors)
-  (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines)
-  )
+  (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines))
 
 (use-package highlight-thing
   :diminish
@@ -1296,6 +1314,8 @@ If PROJECT is not specified the command acts on the current project."
 ;; TODO: defer setting these until some sensible time (first time will popup a
 ;; box for the password). For, now at startup they are set to nil and cached, so
 ;; clear the cache.
+(setq auth-source-netrc-cache '())
+
 (setq pivotal-api-token
       (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
 
@@ -1304,8 +1324,6 @@ If PROJECT is not specified the command acts on the current project."
 
       paradox-github-token
       (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox")))
-
-(setq auth-source-netrc-cache '())
 
 (use-package org-pivotal
   :defer 1)
