@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; Available to use:
 ;; * C-z
 ;; * C-,
@@ -300,5 +302,14 @@ Also converts full stops to commas."
   (interactive)
   (pop-to-buffer "sd-standup.org"))
 (define-key wjb-map (kbd "s") #'wjb/switch-to-standup)
+
+;; TODO: use this for all switch-to-* buffer commands
+(defun wjb/command-to-switch-to-buffer (buffer)
+  "Generate an interactive command to switch to BUFFER."
+  (lambda ()
+    (interactive)
+    (pop-to-buffer buffer)))
+
+(define-key wjb-map (kbd "w") (wjb/command-to-switch-to-buffer "sd-web.org"))
 
 (provide 'key-bindings)
