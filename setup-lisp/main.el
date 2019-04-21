@@ -166,7 +166,9 @@
   ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
   :bind (:map text-mode-map
               ("C-M-n" . forward-paragraph)
-              ("C-M-p" . backward-paragraph)))(use-package which-key
+              ("C-M-p" . backward-paragraph)))
+
+(use-package which-key
   :diminish
   :config
   (which-key-mode))
