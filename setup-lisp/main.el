@@ -146,9 +146,6 @@
 
 (require 'defuns)
 
-(when (require 'so-long nil :noerror)
-  (so-long-enable))
-
 (use-package server
   :defer 5
   :config
@@ -156,10 +153,26 @@
     (message "Starting server...")
     (server-start)))
 
-(use-package which-key
+(use-package shell
+  :config
+  ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
+  ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
+  ;; only sort of uses it?
+  (add-hook 'shell-mode-hook
+            'ansi-color-for-comint-mode-on))
+
+(use-package text-mode
+  :config
+  ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
+  :bind (:map text-mode-map
+              ("C-M-n" . forward-paragraph)
+              ("C-M-p" . backward-paragraph)))(use-package which-key
   :diminish
   :config
   (which-key-mode))
+
+(when (require 'so-long nil :noerror)
+  (so-long-enable))
 
 (use-package vlf
   ;; put this in vlf-setup.el, L104:
@@ -168,13 +181,6 @@
   ;;    (ad-do-it)))
   :config
   (require 'vlf-setup))
-
-(use-package text-mode
-  :config
-  ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
-  :bind (:map text-mode-map
-              ("C-M-n" . forward-paragraph)
-              ("C-M-p" . backward-paragraph)))
 
 (use-package flycheck
   :defer t
