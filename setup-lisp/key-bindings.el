@@ -312,4 +312,12 @@ Also converts full stops to commas."
 
 (define-key wjb-map (kbd "w") (wjb/command-to-switch-to-buffer "sd-web.org"))
 
+(defun wjb/find-use-package (package)
+  (interactive "MPackage: ")
+    (switch-to-buffer "main.el")
+    (goto-char 0)
+    (funcall-interactively #'swiper (format "(use-package %s" package)))
+
+(define-key wjb-map (kbd "u") #'wjb/find-use-package)
+
 (provide 'key-bindings)
