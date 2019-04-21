@@ -774,6 +774,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package flx)
 
 (use-package smex
+  :disabled
   :bind (("M-X" . smex-major-mode-commands)
          ;; ("M-x" . smex)
          )
