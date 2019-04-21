@@ -411,6 +411,7 @@ If a variable is not buffer-local, then setq and setq-default do the same thing.
 * TODO prefix all my stuff with wjb/
 
 
+
 * packages
 * TODO Versioning of packages--how to pin?
 * TODO try Cask
@@ -518,6 +519,11 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   - C-c C-e
   - insert options: C-c C-e #
   - C-c e for org-slack-export-to-clipboard-as-slack
+
+
+
+* sqli
+* TODO try http://john.mercouris.online/emacs-database-interface.html
 
 
 * js
@@ -689,7 +695,13 @@ react-redux
       i'd like
     - company-quickhelp and pos-tip don't seem to working (unrelated to lsp)
     - would like langserver support for jsx, but it doesn't seem like this
-      exists, so dont hook eglot for jsx files
+      exists, so dont hook eglot for jsx files. BUT actually, see
+      https://www.reddit.com/r/emacs/comments/b9oxbm/lspmode_javascript/ek6d8w5/
+      - "I'm using typescript-language-server: (add-to-list
+        'eglot-server-programs '(web-mode . ("typescript-language-server"
+        "--stdio"))) It supports completions and goto definition, even when
+        using imports in a jsx file. Eglot doesn't have all the bells and
+        whistles of lsp-ui, which I like. "
 ** DONE dumb-jump
    CLOSED: [2018-09-01 Sat 22:17]
    - dumb-jump-go C-M-g
@@ -1068,11 +1080,89 @@ Snapshots:   0 total
     -
 
 
+* appearance
+* review/useful
+  - https://writequit.org/eos/eos-appearance.html
+  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
+* modeline
+  - don't want display-time on laptop screen
+* margins
+  - margins are 0 by default
+  #+begin_src emacs-lisp
+ (setq-default left-margin-width 10 right-margin-width 8) ; Define new widths.
+ (set-window-margins nil 0 0)
+
+ ;; third argument is keep-margins
+ (set-window-buffer nil (current-buffer)) ; Use them now.
+  #+end_src
+* fringes
+  - a window has fringes
+  - indicate-empty-lines
+  - dirtree has no fringes (set-window-fringes window 0 0 nil)
+fringe-styles -- variable of known styles
+? -- fringe for a particular window -- probably a parameter
+fringe-mode -- set default for all frames
+set-fringe-style -- set default for one frame
+set-window-fringes -- set for a window, all has outside-margins argument
+  #+begin_quote
+If optional fourth arg OUTSIDE-MARGINS is non-nil, draw the fringes
+outside of the display margins.  By default, fringes are drawn between
+display marginal areas and the text area.
+  #+end_quote
+* TODO initial frame
+  - https://www.reddit.com/r/emacs/comments/7s52iz/initialframealist_and_x_resources_on_mac/
+    suggests using defaults like so, but I haven't yet determined whether this
+    works with emacs-mac or just the official macOS emacs. I do see
+    org.gnu.Emacs in the strings from the emacs binary.
+#+begin_src bash
+# here's what I see now:
+$ defaults read org.gnu.Emacs
+{
+    ApplePressAndHoldEnabled = NO;
+    NSAppSleepDisabled = 1;
+    RawCameraSupportVersion = 7040;
+}
+
+
+defaults write org.gnu.Emacs Width 120
+defaults write org.gnu.Emacs Height 40
+defaults write org.gnu.Emacs Top 40
+defaults write org.gnu.Emacs Left 200
+
+#+end_src
+  - discussion for emacs-mac specifically:
+    https://github.com/railwaycat/homebrew-emacsmacport/issues/127
+#+begin_src emacs-lisp
+;; get all frame parameters:
+(frame-parameters)
+
+;; get a frame parameter:
+(frame-parameter nil 'height) ;; 72
+
+;; set a parameter
+(set-frame-parameter nil 'width 120)
+(set-frame-parameter nil 'height 40)
+(set-frame-parameter nil 'fullscreen fs)
+#+end_src
+* TODO nice fringes
+* TODO centered modeline that matches fringes
+* TODO per-frame settings
+** main frame
+** olivetti frame
+** split-horizontally frame?
+
+
+
+
+
 * vterm for tmux
   - [ ] why doesn't the tmux status line appear?
   - [ ] resizing the pane (maximizing)
-* DONE try olivetti mode
-  CLOSED: [2019-04-18 Thu 21:55]
+* TODO watch mode
+  - what movement terminal codes would comint need to support in order to work
+    with jest watch mode?
+
+
 * TODO purpose-mode
   - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
   - for each repo, be able to jump to each of these:
@@ -1095,11 +1185,8 @@ Snapshots:   0 total
    - set fill-column 80
    - turn on auto-fill-mode
    - turn off visual-line-mode
-* TODO watch mode
-  - what movement terminal codes would comint need to support in order to work
-    with jest watch mode?
-
-
+* writeroom frame/olivetti frame
+* TODO how to do olivetti-mode like appearance for an entire frame? frame-locals? frame-hook?
 
 
 * grep
