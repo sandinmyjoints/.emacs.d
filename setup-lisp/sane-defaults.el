@@ -161,17 +161,18 @@
 ;; TODO: check if this is what I really want in all modes:
 (setq indent-line-function 'indent-relative-maybe)
 
-;; Show me empty lines after buffer end
-(set-default 'indicate-empty-lines t)
-
-;; Easily navigate sillycased words
-(global-subword-mode 1)
+;; Show empty lines after buffer end?
+(setq-default indicate-empty-lines nil)
 
 ;; Don't break lines for me, please
+;; what is relationship of this to visual-line-mode? and truncate-partial-width-windows?
 (setq-default truncate-lines t)
 
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
+
+;; Easily navigate sillycased words
+(global-subword-mode 1)
 
 ;; Add parts of each file's directory to the buffer name if not unique
 (require 'uniquify)
