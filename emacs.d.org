@@ -1823,3 +1823,8 @@ $ ls
      - kill -- don't kill the $, just the command
      - mark-region
      - new-line
+* TODO dropdown shell console
+;; TODO: use esc-mode-map M-~ instead
+;; (global-set-key (kbd "~") (lambda ()
+;;                             (interactive)
+;;                             (nameframe-switch-frame "olivetti")))

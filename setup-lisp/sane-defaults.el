@@ -162,7 +162,8 @@
 (setq indent-line-function 'indent-relative-maybe)
 
 ;; Show empty lines after buffer end?
-(setq-default indicate-empty-lines nil)
+(setq-default indicate-empty-lines nil
+              indicate-buffer-boundaries nil)
 
 ;; Don't break lines for me, please
 ;; what is relationship of this to visual-line-mode? and truncate-partial-width-windows?

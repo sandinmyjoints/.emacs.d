@@ -153,6 +153,10 @@
     (message "Starting server...")
     (server-start)))
 
+(use-package prog-mode
+  :config
+  (add-hook 'prog-mode-hook #'goto-address-prog-mode))
+
 (use-package shell
   :config
   ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
@@ -161,12 +165,47 @@
   (add-hook 'shell-mode-hook
             'ansi-color-for-comint-mode-on))
 
+;; Text and fill modes.
+(defun wjb/soft-wrap-text ()
+  "Soft wrap: sets fill-column to 10000. Doesn't auto-fill;
+instead, wraps at screen edge, thanks to visual-line-mode."
+  (set-fill-column 10000)
+  (auto-fill-mode -1)
+  (visual-line-mode 1))
+
+(defun wjb/hard-wrap-text ()
+  "Hard wrap: sets fill-column to 80 and auto-fills."
+  ;; C-x f is set-fill-column
+  (set-fill-column 80)
+  (auto-fill-mode 1)
+  (visual-line-mode -1))
+
 (use-package text-mode
-  :config
-  ;;   - in textual modes, C-M-n and C-M-p are bound to forward-paragraph and backward-paragraph.
   :bind (:map text-mode-map
+              ;; In textual modes, C-M-n and C-M-p are bound to
+              ;; forward-paragraph and backward-paragraph.
               ("C-M-n" . forward-paragraph)
-              ("C-M-p" . backward-paragraph)))
+              ("C-M-p" . backward-paragraph))
+  :config
+  (add-hook 'text-mode-hook #'wjb/hard-wrap-text)
+  (add-hook 'text-mode-hook #'goto-address-mode)
+  )
+
+;; TODO: Use a second frame for:
+;; - markdown live preview
+;; - email composing/editing
+;;
+(use-package olivetti
+  :diminish
+  :config
+  (setq-default olivetti-body-width 80)
+  (add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text))
+
+(defun wjb/olivetti ()
+  "Turn on settings for writing prose."
+  (interactive)
+  (gfm-mode)
+  (olivetti-mode))
 
 (use-package which-key
   :diminish
@@ -185,7 +224,7 @@
   (require 'vlf-setup))
 
 (use-package flycheck
-  :defer t
+  :defer 5
   :init
   ;; This turns on Flycheck globally in only these modes. Others can be turned on
   ;; per-buffer.
@@ -195,33 +234,40 @@
       rjsx-mode
       json-mode
       coffee-mode
+      css-mode
+      less-css-mode
       sql-mode
       emacs-lisp-mode
       sh-mode
       yaml-mode
       python-mode
       perl-mode
-      css-mode
-      less-css-mode
       perl6-mode))
   ;; (setq flycheck-global-modes
   ;;       '(not org-mode text-mode conf-mode restclient-mode))
-  (global-flycheck-mode)
   :config
   (setq-default flycheck-display-errors-delay 0.8
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-                flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc))
+                flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
+                flycheck-temp-prefix ".flycheck")
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-status-emoji-mode 1)
+
   (require 'setup-flycheck)
 
-  ;; using my own fork of this, it's in /elisp
-  (require 'flycheck-inline)
-  (flycheck-inline-mode)
-  )
+  (global-flycheck-mode))
 
-(require 'wjb)
+(use-package flycheck-inline
+  ;; using my own fork of this, it's in /elisp
+  :load-path "elisp/flycheck-inline"
+  :after flycheck
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+
+(use-package flycheck-status-emoji
+  :after flycheck
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-status-emoji-mode))
 
 (use-package css-mode
   :defer t
@@ -388,7 +434,7 @@
 
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
-  (add-hook 'org-mode-hook #'display-time-mode)
+  ;; (add-hook 'org-mode-hook #'display-time-mode)
   (defun wjb/org-mode-hook ()
     (set-fill-column 80)
     (company-mode -1)
@@ -1400,10 +1446,6 @@ If PROJECT is not specified the command acts on the current project."
               ("M-n" . 'symbol-overlay-jump-next)
               ("M-p" . 'symbol-overlay-jump-prev)))
 
-;; TODO
-         ;; ("M-p" . smart-jump-back)))
-  ;; :hook (prog-mode . symbol-overlay-mode))
-
 ;; disabled: in jsx file, AudioToggle move next tries to go "audio" even when
 ;; using symbol. Prefer symbol-overlay.
 (use-package smartscan
@@ -1524,9 +1566,6 @@ If PROJECT is not specified the command acts on the current project."
          ("C-x T" . sane-term-create))
   :ensure t
   :defer t)
-
-;; while sml is disabled, just do this:
-;; (require 'setup-modeline)
 
 (use-package smart-mode-line
   :ensure t
@@ -2621,52 +2660,7 @@ Interactively also sends a terminating newline."
 (use-package hi-lock
   :diminish)
 
+(require 'wjb)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here
-
-;; TODO: use esc-mode-map M-~ instead
-;; (global-set-key (kbd "~") (lambda ()
-;;                             (interactive)
-;;                             (nameframe-switch-frame "olivetti")))
-
-;; Use a second frame for:
-;; - markdown live preview
-;; - email composing/editing
-;;
-(use-package olivetti
-  :diminish
-  :config
-  (setq-default olivetti-body-width 80))
-
-;; Text and fill modes.
-(defun wjb/soft-wrap-text ()
-  "Soft-wrap."
-  ;; wraps at fill-column, but that doesn't matter if fill-column is 10000
-  (auto-fill-mode -1)
-  (set-fill-column 10000)
-  (visual-line-mode 1))
-
-(defun wjb/hard-wrap-text ()
-  "Hard wrap."
-  ;; wraps at fill-column, but that doesn't matter if fill-column is 10000
-  (auto-fill-mode 1)
-  ;; C-x f is set-fill-column
-  (set-fill-column 80)
-  (visual-line-mode -1))
-
-(defun wjb/olivetti ()
-  "Turn on settings for writing prose."
-  (interactive)
-  (gfm-mode)
-  (olivetti-mode)
-  ;; investigate fringe-mode more
-  ;; (fringe-mode 40)
-  )
-
-(add-hook 'text-mode-hook #'goto-address-mode)
-(add-hook 'text-mode-hook #'wjb/hard-wrap-text)
-;; (add-hook 'gfm-mode-hook 'wjb/hard-wrap-text)
-;; (add-hook 'markdown-mode-hook 'wjb/hard-wrap-text)
-;; (add-hook 'rst-mode-hook 'wjb/hard-wrap-text)
-
-(add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text)

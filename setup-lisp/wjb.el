@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; wjb.el ---
 ;;
 ;; Filename: wjb.el
@@ -57,25 +58,25 @@
 ;; 4. Insert/remove marker from current buffer?
 ;;
 (defvar wjb-custom-markers
-      '(("NNN" ?n "" t)
-        ;("MMM" ?m "" t)
-        ("Server" ?s "" nil)
-        ("Quiz View" ?q "" nil)
-        ("Client" ?c "" nil)))
+  '(("NNN" ?n "" t)
+    ;; ("MMM" ?m "" t)
+    ("Server" ?s "" nil)
+    ("Quiz View" ?q "" nil)
+    ("Client" ?c "" nil)))
 
 (defvar wjb-test-config-buffer "test.coffee")
 
 ;; Set shortcuts to clear custom markers. Requires lexical binding.
 (dolist (marker-data wjb-custom-markers)
-        (let ((marker (pop marker-data))
-              (marker-register (pop marker-data))
-              (marker-key (pop marker-data))
-              (handle-in-current-buffer (pop marker-data)))
-          (progn
-            (set-register marker-register marker)
-            (global-set-key marker-key (lambda (arg)
-                                          (interactive "P")
-                                          (wjb-toggle-marker arg marker handle-in-current-buffer))))))
+  (let ((marker (pop marker-data))
+        (marker-register (pop marker-data))
+        (marker-key (pop marker-data))
+        (handle-in-current-buffer (pop marker-data)))
+    (progn
+      (set-register marker-register marker)
+      (global-set-key marker-key (lambda (arg)
+                                   (interactive "P")
+                                   (wjb-toggle-marker arg marker handle-in-current-buffer))))))
 
 (provide 'wjb)
 

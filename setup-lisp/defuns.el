@@ -57,9 +57,10 @@
   (interactive)
   (let ((fs (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
     (set-frame-parameter nil 'fullscreen fs)
-    (if (equal fs 'fullboth)
-        (display-time-mode)
-      (display-time-mode -1))))
+    ;; (if (equal fs 'fullboth)
+    ;;     (display-time-mode)
+    ;; (display-time-mode -1))
+  ))
 
 (defun wjb/margin-0 ()
   "Give current window a left margin of 0 columns."
@@ -72,6 +73,21 @@
   (interactive)
   (set-window-margins
    (get-buffer-window (current-buffer)) 12 0))
+
+;; TODOs:
+;; - set this for a window configuration
+;; - nice border
+;; - also center modeline
+;;
+;; (defun wjb/center-column ()
+;;   "Center column of current window. Resize window margins to allow for a single 120 column."
+;;   (interactive)
+;;   (let ((margin-size (/ (- (frame-width) 120) 2)))
+;;     (set-window-margins nil margin-size margin-size))
+;;     ;; (set-window-margins
+;;     ;;  (get-buffer-window (current-buffer)) margin-size margin-size)
+;;   ;; https://stackoverflow.com/a/8349940/599258
+;;   )
 
 (defun other-window-reverse ()
   (interactive)
