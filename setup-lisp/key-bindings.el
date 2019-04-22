@@ -247,9 +247,9 @@ Also converts full stops to commas."
 ;; - deploy-project
 (defvar wjb-map nil "Custom prefix map.")
 (define-prefix-command 'wjb-map)
-(add-hook 'after-init-hook
-          (lambda ()
-            (global-set-key (kbd "H-0") 'wjb-map)))
+(defun wjb/bind-wjb-map ()
+  (global-set-key (kbd "H-0") 'wjb-map))
+(add-hook 'after-init-hook #'wjb/bind-wjb-map)
 
 (defun wjb/switch-to-clock ()
   "Switch to last clock buffer."

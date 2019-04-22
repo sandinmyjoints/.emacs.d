@@ -46,10 +46,41 @@
 ;;; Code:
 
 (defun init ()
-  (setq package-enable-at-startup nil)
-  (setq package--init-file-ensured nil)
-  ;; TODO: Goal is to run this after main.
+  ;; Initial and default frame settings.
+  ;; - good default-frame-alist https://www.gnu.org/software/emacs/manual/html_node/elisp/Frame-Parameters.html#Frame-Parameters
+  ;; - update defaults to match initial-frame-alist
+  ;; - set these in init.el?
+
+  ;; Initial and default settings. Should match these:
+  ;; defaults write org.gnu.Emacs Width 120
+  ;; defaults write org.gnu.Emacs Height 40
+  ;; defaults write org.gnu.Emacs Top 40
+  ;; defaults write org.gnu.Emacs Left 200
+  ;;
+  (setq default-frame-alist '((width . 120)
+                              (height . 40)
+                              (top . 40)
+                              (left . 200)
+                              ;; Menu and tool bar will be disabled but don't
+                              ;; show them even before getting to the code that
+                              ;; disables them.
+                              (tool-bar-lines . 0)
+                              (menu-bar-lines . 0)
+                              (horizontal-scroll-bars . nil)
+                              (vertical-scroll-bars . nil)))
+
+  ;; fullscreen frame settings -- depends on screen size, though
+  ;; '(default-frame-alist
+  ;;     '((width . 254)
+  ;;      (height . 72)
+  ;;      (top . 0)
+  ;;      (left . 0)
+  ;;      (fullscreen . fullboth)))
+
+  ;; This finds and sets up autoloads.
   (package-initialize)
+  (setq package-enable-at-startup nil
+        package--init-file-ensured nil)
 
   ;; Set file containing machine-local customized settings.
   (setq custom-file
@@ -58,11 +89,11 @@
   (defvar site-lisp-dir
         (expand-file-name "elisp" user-emacs-directory))
 
-  (defvar more-lisp-dir
+  (defvar setup-lisp-dir
         (expand-file-name "setup-lisp" user-emacs-directory))
 
   (add-to-list 'load-path site-lisp-dir t)
-  (add-to-list 'load-path more-lisp-dir t)
+  (add-to-list 'load-path setup-lisp-dir t)
 
   ;; Add all subdirs of site-lisp-dir.
   (let ((default-directory site-lisp-dir))
@@ -70,7 +101,7 @@
 
   (require 'main))
 
-(defvar wjb/gc-cons-threshold (eval-when-compile (* 20 1024 1024)))
+(defvar wjb/gc-cons-threshold (eval-when-compile (* 40 1024 1024)))
 (defvar wjb/gc-timer)
 (setq garbage-collection-messages t)
 
@@ -79,10 +110,11 @@
      (gc-cons-threshold most-positive-fixnum))
   (init)
   ;; This would result in a big GC after init finishes, right when I want to
-  ;; start using Emacs. Instead, schedule gc to run once after 2 seconds of idle
-  ;; time, then when it finishes, reset the threshold to a reasonable value.
+  ;; start using Emacs. Instead, schedule gc to run once after some amount of
+  ;; idle time, then when it finishes, reset the threshold to a reasonable
+  ;; value.
   (setq wjb/gc-timer
-        (run-with-idle-timer 2 nil (lambda ()
+        (run-with-idle-timer 15 nil (lambda ()
                                      (message "GCing while idle.")
                                      (garbage-collect)
                                      (setq gc-cons-threshold wjb/gc-cons-threshold)

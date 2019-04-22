@@ -85,6 +85,7 @@
   (auto-compile-on-save-mode))
 
 ;; Base packages.
+;;
 ;; Lists.
 (use-package dash
   :ensure t)
@@ -301,6 +302,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :bind (("M-;" . comment-dwim-2)))
 
 (use-package beacon
+  :diminish
   :defer 1
   :config
   (setq beacon-blink-duration 0.1)
@@ -434,7 +436,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
-  ;; (add-hook 'org-mode-hook #'display-time-mode)
+
   (defun wjb/org-mode-hook ()
     (set-fill-column 80)
     (company-mode -1)
@@ -819,8 +821,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (require 'setup-projectile)
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
-  (counsel-projectile-mode)
-  )
+  (counsel-projectile-mode))
 
 (use-package ido
   :disabled
@@ -1163,9 +1164,9 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package smart-jump
-  ;; don't need these, use M-. and M-, instead
-  ;; :bind (("C-M-g" . smart-jump-go)
-  ;;        ("C-M-p" . smart-jump-back))
+  :defer t
+  :bind (("M-." . smart-jump-go)
+         ("M-," . smart-jump-back))
   :config
   (smart-jump-setup-default-registers)
   ;; this binds to M-. and M-, in prog-mode-map:
@@ -1526,11 +1527,12 @@ If PROJECT is not specified the command acts on the current project."
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
 (use-package beginend
+  :diminish
   :ensure t
-  :defer t
   :config
   (beginend-global-mode)
-  (diminish 'beginend-global-mode))
+  (diminish 'beginend-global-mode)
+  (diminish 'beginend-prog-mode))
 
 (use-package dotenv-mode
   :mode "\\.env\\'")
@@ -1569,7 +1571,6 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package smart-mode-line
   :ensure t
-  :defer 4
   :config
   ;; Helpful reading:
   ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
@@ -1581,7 +1582,6 @@ If PROJECT is not specified the command acts on the current project."
   ;;        "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
   (setq sml/theme 'automatic
         sml/name-width 30)
-  (display-time-mode -1)
   ;; TODO: splice in venv and nvm, flycheck-emoji
   (setq mode-line-percent-position "-3 %o")
   (setq sml/position-percentage-format "%o")
@@ -2661,6 +2661,9 @@ Interactively also sends a terminating newline."
   :diminish)
 
 (require 'wjb)
+
+(add-hook 'after-init-hook
+          (lambda () (display-time-mode -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here

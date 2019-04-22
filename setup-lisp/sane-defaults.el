@@ -173,11 +173,15 @@
 (set-default 'sentence-end-double-space nil)
 
 ;; Easily navigate sillycased words
-(global-subword-mode 1)
+(use-package subword
+  :diminish
+  :config
+  (global-subword-mode 1))
 
 ;; Add parts of each file's directory to the buffer name if not unique
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward)
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'post-forward))
 
 ;; Nic says eval-expression-print-level needs to be set to nil (turned off) so
 ;; that you can always see what's happening.
