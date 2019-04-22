@@ -291,6 +291,7 @@ project."
         (prettier-js-mode)))))
 
 (when (require 'prettier-js nil t)
+  (diminish 'prettier-js-mode)
   (make-variable-buffer-local 'prettier-js-command)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)

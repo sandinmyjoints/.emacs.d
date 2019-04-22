@@ -1500,10 +1500,59 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package smart-mode-line
   :ensure t
+  :defer 4
   :config
-  :disabled
-  (sml/setup)
-  (require 'setup-modeline))
+  ;; Helpful reading:
+  ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
+  ;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html
+
+  ;; Original value was
+  ;; (setq-default mode-line-format '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
+  ;;        (vc-mode vc-mode)
+  ;;        "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
+  (setq sml/theme 'automatic
+        sml/name-width 30)
+  (display-time-mode -1)
+  ;; TODO: splice in venv and nvm, flycheck-emoji
+  (setq mode-line-percent-position "-3 %o")
+  (setq sml/position-percentage-format "%o")
+  (add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
+  ;; (setq-default mode-line-format
+  ;;               (list  '(
+  ;;                        ;; Leave these in front.
+  ;;                        "%e"
+  ;;                        "%n"
+  ;;                        mode-line-front-space
+  ;;                        "@"
+  ;;                        mode-line-mule-info
+  ;;                        "@"
+  ;;                        (:exec venv-current-name)
+  ;;                        "@"
+  ;;                        (:eval (car nvm-current-version))
+  ;;                        "@"
+  ;;                        mode-line-client
+  ;;                        "@"
+  ;;                        mode-line-remote
+  ;;                        "@"
+  ;;                        mode-line-frame-identification
+  ;;                        "@"
+  ;;                        mode-line-buffer-identification
+  ;;                        "@"
+  ;;                        mode-line-modified
+  ;;                        "@"
+  ;;                        ;; sml/pos-id-separator
+  ;;                        mode-line-position ;; TODO: consider using "%o" ("degree of
+  ;;                        ;; travel") or %q via
+  ;;                        ;; mode-line-percent-position
+  ;;                        "@"
+  ;;                        (vc-mode vc-mode)
+  ;;                        "@"
+  ;;                        ;; sml/pre-modes-separator
+  ;;                        mode-line-modes
+  ;;                        "@"
+  ;;                        ;; mode-line-misc-info
+  ;;                        mode-line-end-spaces)))
+  (sml/setup))
 
 (use-package web-mode
   :mode "\\.html?\\'"
@@ -2081,6 +2130,8 @@ Interactively also sends a terminating newline."
             (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
             jest-minor-mode-keymap)
   )
+
+(diminish 'jest-minor-mode)
 
 ;; when starting a test run, activate jest-compilation-minor-mode
 ;; whose keymap remaps recompile to jest-repeat
