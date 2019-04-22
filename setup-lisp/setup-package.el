@@ -151,8 +151,11 @@
      (cons 'easy-kill melpa)
      (cons 'easy-kill-extras melpa)
      (cons 'page-break-lines melpa)
-     (cons 'eyebrowse melpa)
      (cons 'centered-cursor-mode melpa)
+     (cons 'eyebrowse melpa)
+     (cons 'nameframe melpa)
+     (cons 'olivetti melpa)
+     (cons 'writeroom-mode melpa)
 
      (cons 'which-key melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.
@@ -310,7 +313,6 @@
     (error
      (package-refresh-contents)
      (init--install-packages))))
-
 
 ;; A different take on a package installer, from
 ;; https://github.com/purcell/emacs.d
