@@ -111,7 +111,8 @@
 
      (cons 'flx-ido melpa)
      (cons 'ido-completing-read+ melpa)
-     (cons 'smex melpa)
+     (cons 'amx melpa)
+     ;; (cons 'smex melpa)
 
      (cons 'elpy elpy)
      (cons 'pip-requirements melpa)
