@@ -145,8 +145,10 @@
 (setq line-number-mode t
       column-number-mode t)
 
-;; Lines should be 80 characters wide, not 72
-(setq-default fill-column 80)
+;; Lines should be 80 characters wide, not 72. However, with the font size I'm
+;; using, on my laptop screen, there are 78 columns. And this builds in a little
+;; wiggle room.
+(setq-default fill-column 78)
 
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)

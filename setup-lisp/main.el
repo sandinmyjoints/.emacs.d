@@ -177,7 +177,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 (defun wjb/hard-wrap-text ()
   "Hard wrap: sets fill-column to 80 and auto-fills."
   ;; C-x f is set-fill-column
-  (set-fill-column 80)
+  (set-fill-column 78)
   (auto-fill-mode 1)
   (visual-line-mode -1))
 
