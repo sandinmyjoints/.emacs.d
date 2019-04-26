@@ -68,7 +68,7 @@
 ;;
 ;; This makes the font the default on all graphical frames.
 (add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-14"))
+             '(font . "DejaVu Sans Mono-13"))
 
 ;; list all known fonts:
 ;; (font-family-list)
@@ -82,7 +82,7 @@
 ;; (set-face-attribute 'default nil :family "Menlo" :height 140)
 ;;
 ;; Just right.
-(set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
+(set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
 ;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140 :weight 'normal)
 ;;
 ;; http://typeof.net/Iosevka/
@@ -96,13 +96,21 @@
 
 (setq-default line-spacing 2)
 
+;; TODO: leave some blank space at right on large monitors
+;; (set-window-margins nil 0 4)
+
 (use-package auto-dim-other-buffers
+  :defer 1
   :diminish auto-dim-other-buffers-mode
   :config
   (setq auto-dim-other-buffers-dim-on-focus-out nil
         auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   (auto-dim-other-buffers-mode t)
-  (set-face-background 'auto-dim-other-buffers-face "#181818"))
+  ;; (set-face-background 'auto-dim-other-buffers-face "#181818")
+  ;; (set-face-background 'auto-dim-other-buffers-face
+  ;;                      (color-lighten-name
+  ;;                       (face-attribute 'default :background) 5))
+  )
 
 ;; Colors.
 ;;
@@ -118,40 +126,48 @@
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
 (defvar wjb/default-cursor-color "#30F0F0")
-(defun wjb/customize-gruvbox ()
-  (interactive)
+
+(defun wjb/customize-gruvbox-dark ()
   ;; ...but with keywords gray instead of red.
   (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; ...but with face-background set to near black
   (set-face-background 'default "#000")
+  ;; (set-face-background 'markdown-code-face "#000")
   (set-cursor-color wjb/default-cursor-color)
   ;; #504945
-  (set-face-background 'region "#2d3d45")
+  (set-face-background 'region "#2d3d45"))
+
+(defun wjb/customize-gruvbox-light ()
+  ;; ;; ...but with keywords gray instead of red.
+  ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+  ;; ;; ...but with face-background set to near black
+  ;; (set-face-background 'default "#000")
+  ;; (set-cursor-color wjb/default-cursor-color)
+  ;; ;; #504945
+  ;; (set-face-background 'region "#2d3d45")
   )
 
-(defalias 'wjb-theme #'wjb/customize-gruvbox)
-
-(defun wjb/turn-on-hl-line ()
-  ;; Highlight current line
-  (global-hl-line-mode 1)
-  ;; Customize background color of highlighted line.
-
+(defun wjb/set-hl-line-bg ()
+  "Customize background color of highlighted line."
   ;; very dark.
   ;;(set-face-background 'hl-line "#1A1A1A")
 
   ;; pretty dark.
   ;; (set-face-background 'hl-line "#202020")
 
-  ;; lighter relative to current background
+  ;; Set it lighter relative to current background.
   (set-face-background 'hl-line
                        (color-lighten-name
                         (face-attribute 'default :background) 10)))
 
-;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
-;; Commenting out; prefer change-theme (see below).
-;; (defadvice load-theme (before theme-dont-propagate activate)
-;;   (mapcar #'disable-theme custom-enabled-themes))
+(defun wjb/turn-on-hl-line ()
+  (wjb/set-hl-line-bg)
+  (global-hl-line-mode 1))
 
+(defun wjb/custom-appearance ()
+  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130))
+
+;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defun change-theme (&rest args)
   "Like `load-theme', but disables all themes before loading the new one."
   ;; The `interactive' magic is for creating a future-proof passthrough.
@@ -161,11 +177,12 @@
   (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
          #'load-theme args))
 
-;; (change-theme 'gruvbox)
-
-;; Themes.
+;; Themes. Goal is to have one dark and one light theme that both work well, and
+;; also have matching themes for Terminal.app.
+;; - Dark: nimbus or gruvbox-dark-hard
+;; - Light: gruvbox-light-hard / Novel in Terminal.app.
 ;;
-;; Themes I like:
+;; themes I like:
 ;; 1. afternoon (change-theme 'afternoon)
 ;; 2. ample (change-theme 'ample)
 ;; 3. gruvbox (change-theme 'gruvbox)
@@ -175,26 +192,32 @@
 ;; applications.
 ;; 5. nimbus (use-package nimbus-theme)
 ;;
-;; TODO: Just a guess, but you probably have to do something like:
+;; Themes to try:
+;; - https://github.com/mswift42/reykjavik-theme
+;;
+(use-package gruvbox-theme ;; dark
+  :defer 1
+  :config
+  (change-theme 'gruvbox-dark-hard t)
+  (wjb/customize-gruvbox-dark)
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
 
-;; (use-package spacemacs-common :ensure 'spacemacs-theme :config (load-theme 'spacemacs-dark))
-;; from https://www.reddit.com/r/emacs/comments/9ik7ug/two_questions_regarding_usepackage/e6kc4nc/
-
-(use-package gruvbox-theme
+(use-package gruvbox-theme ;; light
   :defer 1
   :disabled
   :config
-  (change-theme 'gruvbox-dark-hard t)
-  (set-face-background 'markdown-code-face "#000")
-  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
-  (wjb/customize-gruvbox)
-  (wjb/turn-on-hl-line))
+  (change-theme 'gruvbox-light-hard t)
+  (wjb/customize-gruvbox-light)
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
 
 (use-package nimbus-theme
   :defer 1
+  :disabled
   :config
-  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 140)
-  (wjb/turn-on-hl-line))
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
@@ -214,6 +237,7 @@
       (setq wjb/set-cursor-color-buffer (buffer-name)))))
 
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
+(add-hook 'after-init-hook 'wjb/set-cursor-color-according-to-mode)
 
 (provide 'appearance)
 
