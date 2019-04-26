@@ -794,6 +794,11 @@ react-redux
 
 
 * pairing/paredit
+* TODO paredit
+  - http://danmidwood.com/content/2014/11/21/animated-paredit.html
+  - https://markhneedham.com/blog/2012/10/31/emacsclojure-starting-out-with-paredit/
+  - https://emacs.stackexchange.com/questions/29664/how-to-do-paredit-kill-backwards#30278
+** TODO paredit - use advice to push mark
 * TODO maybe try https://github.com/capitaomorte/autopair
 * DONE smart-parens
   CLOSED: [2015-07-10 Fri 17:00]
@@ -805,7 +810,6 @@ react-redux
   - Use C-- to do backwards version of forwards command.
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
 
-* TODO paredit - use advice to push mark
 
 * shell/comint
 * TODO Shell in Emacs
@@ -1048,44 +1052,31 @@ Snapshots:   0 total
 
 
 
-* perspective or persp-mode
-  - intention is to be limited to project-related buffers
-  - want to keep using tmux to own shells so that quitting Emacs doesn't kill
-    servers and watches. tmunx runs in vterm.
-  - needs to support main repo and 0+ worktrees
-  - needs to account for local_notes
-  - need to be able to add/remove/change which project(s) a buffer belongs to
-  - for this to work, project-switching would need to be fast and easy. Maybe
-    make a hydra?
-    - start -> choose project -> choose buffer
-  - top-level shared buffers (belong to all projects)
-    - bunch of org: standup.org, today.org,
-    - clock.org
-  - top-level buffers (belong to no projects)
-    - default for anything not otherwise specified
-    - personnel notes
-  - project buffers
-    - magit
-    - .org
-    - .rest
-    - tmux session - vterm - *tmux-neodarwin*
-      - server
-      - build
-      - test (maybe replaced by jest in compile buffer)
-      - storybook
-    - test - compile
-  - project-create buffers
-    - run a shell
-    - create a new file
-    -
-
-
 * appearance
 * review/useful
   - https://writequit.org/eos/eos-appearance.html
   - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
 * modeline
   - don't want display-time on laptop screen
+* faces
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Standard-Faces.html
+* frames
+  - https://www.emacswiki.org/emacs/FrameParameters
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Parameters.html
+* TODO per-frame settings
+** main frame
+** olivetti frame
+** split-horizontally frame?
+
+
+
+* borders / dividers
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Borders-X.html
+  - https://www.reddit.com/r/emacs/comments/8dm8z9/emacs_window_border/
+  - https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
+  - https://stackoverflow.com/questions/14055977/border-frame-around-emacs-frame
+* windows
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Window-Parameters.html
 * margins
   - margins are 0 by default
   #+begin_src emacs-lisp
@@ -1096,6 +1087,8 @@ Snapshots:   0 total
  (set-window-buffer nil (current-buffer)) ; Use them now.
   #+end_src
 * fringes
+  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
+  - https://www.emacswiki.org/emacs/TheFringe
   - a window has fringes
   - indicate-empty-lines
   - dirtree has no fringes (set-window-fringes window 0 0 nil)
@@ -1146,35 +1139,12 @@ defaults write org.gnu.Emacs Left 200
 #+end_src
 * TODO nice fringes
 * TODO centered modeline that matches fringes
-* TODO per-frame settings
-** main frame
-** olivetti frame
-** split-horizontally frame?
-
-
-
-
-
-* vterm for tmux
-  - [ ] why doesn't the tmux status line appear?
-  - [ ] resizing the pane (maximizing)
-* TODO watch mode
-  - what movement terminal codes would comint need to support in order to work
-    with jest watch mode?
-
-
-* TODO purpose-mode
-  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
-  - for each repo, be able to jump to each of these:
-    - compilation buffer
-    - .rest file, http output
-    - magit status buffer
-    - root dired
-    - .org file
-    - README?
-* TODO try eyebrowse
+* TODO centered text in window
+  - https://github.com/anler/centered-window-mode
 * TODO fill/auto-fill/visual-line/line wrapping
   - two modes
+  - https://www.emacswiki.org/emacs/LineWrap
+  - https://superuser.com/questions/474373/how-to-automatically-wrap-long-lines-in-emacs
 ** writing emails, for posts
   - when writing emails etc, I don't want hard line breaks
   - *a* way to achieve that is: set fill-column to 10000, turn on visual-line-mode
@@ -1185,8 +1155,63 @@ defaults write org.gnu.Emacs Left 200
    - set fill-column 80
    - turn on auto-fill-mode
    - turn off visual-line-mode
+
 * writeroom frame/olivetti frame
 * TODO how to do olivetti-mode like appearance for an entire frame? frame-locals? frame-hook?
+  - https://www.reddit.com/r/emacs/comments/33gsh6/trouble_with_writeroom_mode/
+
+
+
+* My groupings of buffers
+  - intention is to be limited to project-related buffers
+  - want to keep using tmux to own shells so that quitting Emacs doesn't kill
+    servers and watches. tmunx runs in vterm.
+  - needs to support main repo and 0+ worktrees
+  - needs to account for local_notes
+  - need to be able to add/remove/change which project(s) a buffer belongs to
+  - for this to work, project-switching would need to be fast and easy. Maybe
+    make a hydra?
+    - start -> choose project -> choose buffer
+  - top-level shared buffers (belong to all projects)
+    - bunch of org: standup.org, today.org,
+    - clock.org
+  - top-level buffers (belong to no projects)
+    - default for anything not otherwise specified
+    - personnel notes
+  - project buffers
+    - magit
+    - .org
+    - .rest
+    - tmux session - vterm - *tmux-neodarwin*
+      - server
+      - build
+      - test (maybe replaced by jest in compile buffer)
+      - storybook
+    - test - compile
+  - project-create buffers
+    - run a shell
+    - create a new file
+    -
+* TODO try perspective or persp-mode
+* tmux in emacs
+  - https://www.reddit.com/r/emacs/comments/5j89xn/tmux_emacs/
+  - https://github.com/laishulu/emacs-tmux-pane
+* vterm for tmux
+  - https://launchpad.net/libvterm
+  - [ ] why doesn't the tmux status line appear?
+  - [ ] resizing the pane (maximizing)
+* TODO watch mode
+  - what movement terminal codes would comint need to support in order to work
+    with jest watch mode?
+* TODO purpose-mode
+  - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
+  - for each repo, be able to jump to each of these:
+    - compilation buffer
+    - .rest file, http output
+    - magit status buffer
+    - root dired
+    - .org file
+    - README?
 
 
 * grep
