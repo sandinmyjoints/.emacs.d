@@ -1595,52 +1595,25 @@ If PROJECT is not specified the command acts on the current project."
   ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
   ;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html
 
-  ;; Original value was
-  ;; (setq-default mode-line-format '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
-  ;;        (vc-mode vc-mode)
-  ;;        "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
-  (setq sml/theme 'automatic
-        sml/name-width 30)
-  ;; TODO: splice in venv and nvm, flycheck-emoji
-  (setq mode-line-percent-position "-3 %o")
-  (setq sml/position-percentage-format "%o")
+  (setq wjb/mode-line-format-original (-copy mode-line-format))
+
+  ;; (setq mode-line-format wjb/mode-line-format-original)
+  ;; (setq-default mode-line-format wjb/mode-line-format-original)
+
   (add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
-  ;; (setq-default mode-line-format
-  ;;               (list  '(
-  ;;                        ;; Leave these in front.
-  ;;                        "%e"
-  ;;                        "%n"
-  ;;                        mode-line-front-space
-  ;;                        "@"
-  ;;                        mode-line-mule-info
-  ;;                        "@"
-  ;;                        (:exec venv-current-name)
-  ;;                        "@"
-  ;;                        (:eval (car nvm-current-version))
-  ;;                        "@"
-  ;;                        mode-line-client
-  ;;                        "@"
-  ;;                        mode-line-remote
-  ;;                        "@"
-  ;;                        mode-line-frame-identification
-  ;;                        "@"
-  ;;                        mode-line-buffer-identification
-  ;;                        "@"
-  ;;                        mode-line-modified
-  ;;                        "@"
-  ;;                        ;; sml/pos-id-separator
-  ;;                        mode-line-position ;; TODO: consider using "%o" ("degree of
-  ;;                        ;; travel") or %q via
-  ;;                        ;; mode-line-percent-position
-  ;;                        "@"
-  ;;                        (vc-mode vc-mode)
-  ;;                        "@"
-  ;;                        ;; sml/pre-modes-separator
-  ;;                        mode-line-modes
-  ;;                        "@"
-  ;;                        ;; mode-line-misc-info
-  ;;                        mode-line-end-spaces)))
-  (sml/setup))
+
+  ;; 'automatic works if :defer is used, but if :defer is used then minor modes
+  ;; aren't reliably diminished...
+  (setq sml/theme 'light
+        sml/name-width 32
+        mode-line-percent-position '(-3 "%o")
+        mode-line-end-spaces " "
+        sml/position-percentage-format "%o")
+
+  ;; Splice in virtualenv name and nvm.
+  (setq mode-line-format
+        (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
+  (setq-default mode-line-format mode-line-format))
 
 (use-package web-mode
   :mode "\\.html?\\'"
