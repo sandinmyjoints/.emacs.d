@@ -2510,8 +2510,6 @@ Interactively also sends a terminating newline."
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
-(setq aw-keys '(?1 ?2 ?3 ?4))
-
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook
           (lambda ()

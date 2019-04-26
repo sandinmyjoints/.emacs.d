@@ -15,6 +15,7 @@
 ;; * C-c a
 ;;
 ;; * M-0?
+;; * M-RET
 ;;
 ;;; Code:
 
@@ -127,10 +128,13 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
 (use-package ace-window
-  :bind (("C-x o" . ace-window)
+  :bind (("H-o" . ace-window)
+         ("C-x o" . ace-window)
          ("C-x l" . ace-window))
   :config
-  (setq aw-scope 'frame))
+  (setq aw-scope 'frame
+        aw-ignore-current t
+        aw-keys '(?1 ?2 ?3 ?4)))
 
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 ;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.
