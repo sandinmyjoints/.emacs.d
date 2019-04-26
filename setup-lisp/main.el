@@ -292,6 +292,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 (use-package elisp-mode
   :mode "abbrev_defs"
   :config
+  (diminish 'lisp-interaction-mode)
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
   ;; (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
@@ -308,7 +309,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 (defun auto-fill-comments ()
   "Automatically fill comments, but nothing else"
   (setq-local comment-auto-fill-only-comments t)
-  (setq truncate-lines nil))
+  (setq truncate-lines nil)
+  (setq-local truncate-partial-width-windows t))
 (add-hook 'prog-mode-hook 'auto-fill-comments)
 
 (use-package comment-dwim-2
@@ -334,8 +336,10 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; unbind C-o (was diredp-find-file-other-frame) for use by helm-mini
   (unbind-key (kbd "C-o") dired-mode-map)
 
-  (add-hook 'dired-mode-hook 'auto-revert-mode)
-  (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
+  ;; I think I am using auto-revert-mode globally
+  ;; (add-hook 'dired-mode-hook 'auto-revert-mode)
+  ;; (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
+
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
@@ -961,7 +965,9 @@ be found in docstring of `posframe-show'."
     (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
 
   (setq ivy-posframe-width 90
-        ivy-display-function #'ivy-posframe-display-at-frame-above-center)
+        ivy-display-function #'ivy-posframe-display-at-frame-above-center
+        ;; for some reason this has to be changed to take effect
+        ivy-posframe-border-width 1)
   (ivy-posframe-enable))
 
 (use-package ivy-rich
@@ -1951,6 +1957,15 @@ Interactively also sends a terminating newline."
         ;; This tells Jest (and other ncurses programs) they can use color codes
         ;; but not movement codes.
         ;; TODO: this could be set in dir-locals.
+        ;; Related: node 12 changes for color detection and handling dumb terminals:
+        ;; - https://github.com/nodejs/node/pull/26261
+        ;; - https://github.com/nodejs/node/pull/26247
+        ;; - https://github.com/nodejs/node/pull/26485
+        ;;   - adds FORCE_COLOR and NO_COLOR
+        ;;   - very helpful test suite: https://github.com/nodejs/node/blob/master/test/pseudo-tty/test-tty-color-support.js
+        ;;   - tty implementation: https://github.com/nodejs/node/blob/master/lib/internal/tty.js
+        ;; - interesting: https://no-color.org
+        ;; - https://linux.die.net/man/1/dircolors
         compilation-environment '("TERM=dumb" "COLORTERM=1")
 
         comint-prompt-read-only nil
