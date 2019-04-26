@@ -2414,9 +2414,22 @@ Interactively also sends a terminating newline."
 
 (use-package centered-cursor-mode
   :config
-  (setq-default ccm-vpos-init (round (*(ccm-visible-text-lines) .37))))
+  (setq ccm-recenter-at-end-of-file t)
+  (defun wjb/set-ccm-vpos-init ()
+    (setq ccm-vpos-init (wjb/calculate-ccm-vpos-init)))
+  (defun wjb/calculate-ccm-vpos-init ()
+    (round (* (ccm-visible-text-lines) .38)))
+  (setq-default ccm-vpos-init (wjb/set-ccm-vpos-init))
+
+  (add-hook 'text-mode-hook #'centered-cursor-mode)
+  (add-hook 'text-mode-hook #'wjb/set-ccm-vpos-init))
+
+(use-package zoom
+  :config
+  (global-set-key (kbd "C-x +") 'zoom))
 
 (use-package eyebrowse
+  :after zoom
   :init
   ;; (setq eyebrowse-keymap-prefix (kbd "C-c C-z"))
   (setq eyebrowse-keymap-prefix (kbd "H-w"))
@@ -2439,6 +2452,50 @@ Interactively also sends a terminating newline."
         eyebrowse-new-workspace t
         eyebrowse-mode-line-style 'always)
   (set-face-attribute 'eyebrowse-mode-line-active nil :foreground "#9ccc65")
+
+  ;; zoom uses advice-add after
+  ;;   (advice-add #'select-window :after #'zoom--handler)
+
+  (defun wjb/turn-off-zoom-mode (slot)
+    "This is zoom--off but without the final cleanup it does."
+    (message "turning off zoom mode")
+    "Disable hooks and advices and evenly balance the windows."
+    ;; unregister the zoom handler
+    (remove-hook 'window-size-change-functions #'zoom--handler)
+    (remove-hook 'minibuffer-setup-hook #'zoom--handler)
+    (advice-remove #'select-window #'zoom--handler)
+    ;; enable mouse resizing
+    (advice-remove #'mouse-drag-mode-line #'ignore)
+    (advice-remove #'mouse-drag-vertical-line #'ignore)
+    (advice-remove #'mouse-drag-header-line #'ignore)
+    (setq zoom-mode nil))
+
+  (advice-add #'eyebrowse-switch-to-window-config :before #'wjb/turn-off-zoom-mode)
+
+  (setq zoom-size '(0.55 . 1))
+
+  ;; (defun wjb/pre-ebhook ()
+  ;;   (message "pre: deactivating zoom-mode")
+  ;;   )
+
+  ;; (add-hook 'eyebrowse-pre-window-switch-hook #'wjb/pre-ebhook)
+
+  (defun wjb/post-ebhook ()
+    (let* ((current-slot (eyebrowse--get 'current-slot))
+           (window-configs (eyebrowse--get 'window-configs))
+           (current-tag (nth 2 (assoc current-slot window-configs)))
+           (last-slot (eyebrowse--get 'last-slot)))
+      (message (format "current-tag: %s" current-tag))
+      (cond ((equal current-tag "sql") (progn
+                                          (message "cond sql: activating")
+                                          (zoom-mode)))
+            ((equal current-tag "rest") (progn
+                                          (message "cond rest: activating")
+                                          (zoom-mode)))
+            (t (progn
+                 (message "fall through: deactivating"))))))
+
+  (add-hook 'eyebrowse-post-window-switch-hook #'wjb/post-ebhook)
   (eyebrowse-mode t))
 
 (use-package page-break-lines
@@ -2677,6 +2734,11 @@ Interactively also sends a terminating newline."
           (lambda () (display-time-mode -1)))
 
 (use-package minions)
+
+(use-package smooth-scrolling
+  :init
+  :disabled
+  (smooth-scrolling-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here
