@@ -144,6 +144,7 @@
      (cons 'vimish-fold melpa)
      (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
+     (cons 'minions melpa-stable)
      (cons 'multiple-cursors melpa)
      (cons 'mc-extras melpa)
      (cons 'highlight-thing melpa)

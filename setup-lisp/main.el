@@ -101,6 +101,8 @@
 ;; Filesystem.
 (use-package f
   :ensure t)
+(use-package ht
+  :ensure t)
 
 (when is-mac (require 'setup-mac))
 
@@ -146,6 +148,18 @@
 (require 'sane-defaults)
 
 (require 'defuns)
+
+(use-package autorevert
+  :diminish auto-revert-mode)
+
+(use-package simple
+  :diminish auto-fill-function)
+
+(use-package abbrev
+  :defer 4
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
+  ;; (list-abbrevs)
+  :diminish abbrev-mode)
 
 (use-package server
   :defer 5
@@ -385,21 +399,20 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; look at interactive functions.
   (global-set-key (kbd "C-h C") #'helpful-command))
 
-(use-package autorevert
-  :diminish auto-revert-mode)
-
-(use-package simple
-  :diminish auto-fill-function)
-
-(use-package abbrev
-  :defer 4
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
-  ;; (list-abbrevs)
-  :init
-  (add-hook 'fundamental-mode 'abbrev-mode)
-  :diminish abbrev-mode)
-
-(use-package ht)
+;; from https://gitlab.petton.fr/nico/emacs.d/
+(use-package whitespace
+  :config
+  (setq whitespace-display-mappings
+        '(
+          (space-mark 32 [183] [46]) ; normal space, ·
+          (space-mark 160 [164] [95])
+          (space-mark 2208 [2212] [95])
+          (space-mark 2336 [2340] [95])
+          (space-mark 3616 [3620] [95])
+          (space-mark 3872 [3876] [95])
+          (newline-mark 10 [182 10]) ; newlne, ¶
+          (tab-mark 9 [9655 9] [92 9]) ; tab, ▷
+          )))
 
 ;; Org-mode.
 ;; (require 'org-install)
@@ -2309,21 +2322,6 @@ Interactively also sends a terminating newline."
   :after lsp-mode
   :commands company-lsp)
 
-;; from https://gitlab.petton.fr/nico/emacs.d/
-(use-package whitespace
-  :config
-  (setq whitespace-display-mappings
-        '(
-          (space-mark 32 [183] [46]) ; normal space, ·
-          (space-mark 160 [164] [95])
-          (space-mark 2208 [2212] [95])
-          (space-mark 2336 [2340] [95])
-          (space-mark 3616 [3620] [95])
-          (space-mark 3872 [3876] [95])
-          (newline-mark 10 [182 10]) ; newlne, ¶
-          (tab-mark 9 [9655 9] [92 9]) ; tab, ▷
-          )))
-
 ;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
 ;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
 (use-package smart-tab
@@ -2662,6 +2660,8 @@ Interactively also sends a terminating newline."
 
 (add-hook 'after-init-hook
           (lambda () (display-time-mode -1)))
+
+(use-package minions)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here

@@ -323,5 +323,6 @@ Also converts full stops to commas."
   (funcall-interactively #'swiper (format "(use-package %s" package)))
 
 (define-key wjb-map (kbd "u") #'wjb/find-use-package)
+(define-key wjb-map (kbd "m") #'minions-minor-modes-menu)
 
 (provide 'key-bindings)
