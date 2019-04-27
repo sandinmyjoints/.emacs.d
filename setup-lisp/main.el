@@ -1419,16 +1419,18 @@ If PROJECT is not specified the command acts on the current project."
 ;; TODO: defer setting these until some sensible time (first time will popup a
 ;; box for the password). For, now at startup they are set to nil and cached, so
 ;; clear the cache.
-(setq auth-source-netrc-cache '())
+(defun wjb/init-auth-source ()
+  (interactive)
+  (setq auth-source-netrc-cache '())
 
-(setq pivotal-api-token
-      (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
+  (setq pivotal-api-token
+        (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
 
-      org-pivotal-api-token
-      (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
+        org-pivotal-api-token
+        (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
 
-      paradox-github-token
-      (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox")))
+        paradox-github-token
+        (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
 (use-package org-pivotal
   :defer 1)
