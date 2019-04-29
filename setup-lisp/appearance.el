@@ -105,77 +105,7 @@
   :config
   (setq auto-dim-other-buffers-dim-on-focus-out nil
         auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
-  (auto-dim-other-buffers-mode t)
-  ;; (set-face-background 'auto-dim-other-buffers-face "#181818")
-  ;; (set-face-background 'auto-dim-other-buffers-face
-  ;;                      (color-lighten-name
-  ;;                       (face-attribute 'default :background) 5))
-  )
-
-;; Colors.
-;;
-;; Uncomment if not using theme:
-;;
-;; (set-foreground-color "white")
-;; (set-background-color "black")
-;; (set-face-foreground 'default "white")
-;; (set-face-background 'default "black")
-;; (set-face-foreground 'region "gray60")
-;; (set-face-background 'region "#464740")
-;; (set-face-foreground 'font-lock-warning-face "#ff6666")
-;; (set-face-foreground 'font-lock-comment-face "tan1")
-
-(defvar wjb/default-cursor-color "#30F0F0")
-
-(defun wjb/customize-gruvbox-dark ()
-  ;; ...but with keywords gray instead of red.
-  (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
-  ;; ...but with face-background set to near black
-  (set-face-background 'default "#000")
-  ;; (set-face-background 'markdown-code-face "#000")
-  (set-cursor-color wjb/default-cursor-color)
-  ;; #504945
-  (set-face-background 'region "#2d3d45"))
-
-(defun wjb/customize-gruvbox-light ()
-  ;; ;; ...but with keywords gray instead of red.
-  ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
-  ;; ;; ...but with face-background set to near black
-  ;; (set-face-background 'default "#000")
-  ;; (set-cursor-color wjb/default-cursor-color)
-  ;; ;; #504945
-  ;; (set-face-background 'region "#2d3d45")
-  )
-
-(defun wjb/set-hl-line-bg ()
-  "Customize background color of highlighted line."
-  ;; very dark.
-  ;;(set-face-background 'hl-line "#1A1A1A")
-
-  ;; pretty dark.
-  ;; (set-face-background 'hl-line "#202020")
-
-  ;; Set it lighter relative to current background.
-  (set-face-background 'hl-line
-                       (color-lighten-name
-                        (face-attribute 'default :background) 10)))
-
-(defun wjb/turn-on-hl-line ()
-  (wjb/set-hl-line-bg)
-  (global-hl-line-mode 1))
-
-(defun wjb/custom-appearance ()
-  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130))
-
-;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
-(defun change-theme (&rest args)
-  "Like `load-theme', but disables all themes before loading the new one."
-  ;; The `interactive' magic is for creating a future-proof passthrough.
-  (interactive (advice-eval-interactive-spec
-                (cadr (interactive-form #'load-theme))))
-  (mapcar #'disable-theme custom-enabled-themes)
-  (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
-         #'load-theme args))
+  (auto-dim-other-buffers-mode t))
 
 ;; Themes. Goal is to have one dark and one light theme that both work well, and
 ;; also have matching themes for Terminal.app.
@@ -199,7 +129,7 @@
   :defer 1
   :config
   (change-theme 'gruvbox-dark-hard t)
-  (wjb/customize-gruvbox-dark)
+  (wjb/gruvbox-dark)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
 
@@ -208,7 +138,7 @@
   :disabled
   :config
   (change-theme 'gruvbox-light-hard t)
-  (wjb/customize-gruvbox-light)
+  (wjb/gruvbox-light)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
 
@@ -216,8 +146,95 @@
   :defer 1
   :disabled
   :config
+  (change-theme 'nimbus)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
+
+;; Nice theme but not updated since 2014. Enabling it produces a warning;
+;; https://stackoverflow.com/a/1322978/599258 might help with debugging it.
+(use-package afternoon-theme
+  :defer 1
+  :disabled
+  :config
+  (change-theme 'afternoon)
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
+
+(use-package ample-theme
+  :defer 1
+  :disabled
+  :init
+  (load-theme 'ample t t)
+  (load-theme 'ample-flat t t)
+  (load-theme 'ample-light t t)
+  :config
+  ;; (change-theme 'ample)
+  (change-theme 'ample-flat)
+  ;; (change-theme 'ample-light)
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
+
+;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
+(defun change-theme (&rest args)
+  "Like `load-theme', but disables all themes before loading the new one."
+  ;; The `interactive' magic is for creating a future-proof passthrough.
+  (interactive (advice-eval-interactive-spec
+                (cadr (interactive-form #'load-theme))))
+  (mapc #'disable-theme custom-enabled-themes)
+  (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
+         #'load-theme args))
+
+(defvar wjb/default-cursor-color "#30F0F0")
+
+(defun wjb/gruvbox-dark ()
+  ;; instead of red:
+  (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+
+  ;; raise region contrast:
+  (set-face-background 'region "#2d3d45")
+
+  ;; to make background true black:
+  ;; (set-face-background 'default "#000")
+
+  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
+  ;; (set-face-background 'markdown-code-face "#000")
+  )
+
+(defun wjb/gruvbox-light ()
+  ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
+  ;; (set-face-background 'default "#000")
+  ;; (set-cursor-color wjb/default-cursor-color)
+  ;; (set-face-background 'region "#2d3d45")
+  )
+
+(defun wjb/set-hl-line-bg ()
+  "Customize background color of highlighted line."
+  ;; very dark.
+  ;;(set-face-background 'hl-line "#1A1A1A")
+
+  ;; pretty dark.
+  ;; (set-face-background 'hl-line "#202020")
+
+  ;; Set it lighter relative to current background.
+  (set-face-background 'hl-line
+                       (color-lighten-name
+                        (face-attribute 'default :background) 10)))
+
+(defun wjb/turn-on-hl-line ()
+  "Turn on highlighted line."
+  (wjb/set-hl-line-bg)
+  (global-hl-line-mode 1))
+
+(defun wjb/custom-appearance ()
+  (set-cursor-color wjb/default-cursor-color)
+  ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
+
+  ;; For themes that don't have adob faces defined (ample):
+  ;; (set-face-background 'auto-dim-other-buffers-face "#181818")
+  ;; (set-face-background 'auto-dim-other-buffers-face
+  ;;                      (color-lighten-name
+  ;;                       (face-attribute 'default :background) 5))
+  )
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
@@ -238,6 +255,17 @@
 
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
 (add-hook 'after-init-hook 'wjb/set-cursor-color-according-to-mode)
+
+;; Basic colors, if not using theme:
+;;
+;; (set-foreground-color "white")
+;; (set-background-color "black")
+;; (set-face-foreground 'default "white")
+;; (set-face-background 'default "black")
+;; (set-face-foreground 'region "gray60")
+;; (set-face-background 'region "#464740")
+;; (set-face-foreground 'font-lock-warning-face "#ff6666")
+;; (set-face-foreground 'font-lock-comment-face "tan1")
 
 (provide 'appearance)
 
