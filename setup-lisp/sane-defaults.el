@@ -97,8 +97,13 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-;; 24-hour time.
+;; Mode-line display-time formatting.
 (defvar display-time-24hr-format t)
+(defvar display-time-default-load-average nil)
+(defun wjb/display-time ()
+  (setq display-time-24hr-format t)
+  (setq display-time-default-load-average nil))
+(add-hook 'display-time-hook #'wjb/display-time)
 
 ;; Allow pasting selection outside of Emacs/kill to system clipboard.
 (defvar x-select-enable-clipboard t)
