@@ -228,6 +228,7 @@
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
 
+     (cons 'docker melpa)
      (cons 'dockerfile-mode melpa)
      (cons 'docker-compose-mode melpa)
      (cons 'docker-tramp melpa)
