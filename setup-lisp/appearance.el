@@ -207,6 +207,8 @@
   ;; (set-face-background 'region "#2d3d45")
   )
 
+(declare-function color-lighten-name "colors.el")
+
 (defun wjb/set-hl-line-bg ()
   "Customize background color of highlighted line."
   ;; very dark.
