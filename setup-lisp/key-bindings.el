@@ -48,6 +48,7 @@
 
 (global-set-key (kbd "H-f") #'forward-word)
 (global-set-key (kbd "H-b") #'backward-word)
+(global-set-key (kbd "H-n") #'symbol-overlay-jump-next)
 
 (global-set-key (kbd "M-f") #'wjb/forward-symbol)
 (global-set-key (kbd "M-b") #'wjb/backward-symbol)
