@@ -1606,16 +1606,19 @@ If PROJECT is not specified the command acts on the current project."
 
   ;; 'automatic works if :defer is used, but if :defer is used then minor modes
   ;; aren't reliably diminished...
-  (setq sml/theme 'light
+  (setq sml/theme 'automatic
         sml/name-width 32
         mode-line-percent-position '(-3 "%o")
         mode-line-end-spaces " "
         sml/position-percentage-format "%o")
 
-  ;; Splice in virtualenv name and nvm.
-  (setq mode-line-format
-        (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
-  (setq-default mode-line-format mode-line-format))
+  (defun wjb/sml-after-setup-hook ()
+    ;; Splice in virtualenv name and nvm.
+    (setq mode-line-format
+          (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
+    (setq-default mode-line-format mode-line-format))
+
+  (add-hook 'sml/after-setup-hook #'wjb/sml-after-setup-hook))
 
 (use-package web-mode
   :mode "\\.html?\\'"
@@ -2705,15 +2708,17 @@ Interactively also sends a terminating newline."
 
 (require 'wjb)
 
-(add-hook 'after-init-hook
-          (lambda () (display-time-mode -1)))
-
-(use-package minions)
+(use-package minions
+  :config
+  (setq minions-direct '(flycheck-mode))
+  (minions-mode 1))
 
 (use-package smooth-scrolling
   :init
   :disabled
-  (smooth-scrolling-mode))
+  (smooth-scrolling-mode nil))
+
+(provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; main.el ends here
