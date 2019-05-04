@@ -127,7 +127,9 @@
 ;;
 (use-package gruvbox-theme ;; dark
   :defer 1
+  :disabled
   :config
+  (setq wjb/dark t)
   (change-theme 'gruvbox-dark-hard t)
   (wjb/gruvbox-dark)
   (wjb/turn-on-hl-line)
@@ -137,15 +139,16 @@
   :defer 1
   :disabled
   :config
+  (setq wjb/dark nil)
   (change-theme 'gruvbox-light-hard t)
   (wjb/gruvbox-light)
-  (wjb/turn-on-hl-line)
+  (global-hl-line-mode -1)
   (wjb/custom-appearance))
 
 (use-package nimbus-theme
   :defer 1
-  :disabled
   :config
+  (setq wjb/dark t)
   (change-theme 'nimbus)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
@@ -168,10 +171,15 @@
   (load-theme 'ample-flat t t)
   (load-theme 'ample-light t t)
   :config
+  (setq wjb/dark t)
   ;; (change-theme 'ample)
   (change-theme 'ample-flat)
-  ;; (change-theme 'ample-light)
   (wjb/turn-on-hl-line)
+
+  ;; (setq wjb/dark nil)
+  ;; (change-theme 'ample-light)
+  ;; (global-hl-line-mode -1)
+
   (wjb/custom-appearance))
 
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
@@ -184,6 +192,7 @@
   (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
          #'load-theme args))
 
+(defvar wjb/dark t)
 (defvar wjb/default-cursor-color "#30F0F0")
 
 (defun wjb/gruvbox-dark ()
@@ -219,11 +228,12 @@
 
   ;; Set it lighter relative to current background.
   (set-face-background 'hl-line
-                       (color-lighten-name
-                        (face-attribute 'default :background) 10)))
+                       (color-darken-name
+                        (face-attribute 'default :background) 4)))
 
 (defun wjb/turn-on-hl-line ()
   "Turn on highlighted line."
+  (use-package hl-line)
   (wjb/set-hl-line-bg)
   (global-hl-line-mode 1))
 
@@ -246,7 +256,7 @@
   "change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
   (let ((color
-         (if buffer-read-only "white"
+         (if buffer-read-only (if wjb/dark "white" "#116")
            (if overwrite-mode "red"
              wjb/default-cursor-color))))
     (unless (and
