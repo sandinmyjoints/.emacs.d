@@ -464,6 +464,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
   (add-hook 'org-mode-hook #'wjb/org-mode-hook)
 
+  (global-set-key (kbd "H-c") #'org-capture)
+
   (require 'org-tempo))
 
 (use-package org-src
