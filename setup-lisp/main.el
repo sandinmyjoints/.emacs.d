@@ -2061,23 +2061,36 @@ Interactively also sends a terminating newline."
   ;;
   ;; Works fine. Possibly less performant than approach 2.
   ;;
-  (require 'ansi-color)
-  (defun colorize-compilation-buffer ()
-    (read-only-mode 1)
-    (ansi-color-apply-on-region compilation-filter-start (point))
-    (read-only-mode -1))
-  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  ;; (require 'ansi-color)
+  ;; (defun colorize-compilation-buffer ()
+  ;;   (read-only-mode 1)
+  ;;   (ansi-color-apply-on-region compilation-filter-start (point))
+  ;;   (read-only-mode -1))
+  ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+  (defun wjb/switch-to-project-jest-buffer ()
+    "Switch to a project's jest buffer, falling back to last compilation buffer.*"
+    (interactive)
+    (let* ((projectile-current-project-name (projectile-default-project-name (projectile-project-root)))
+           (buffer-name (format "*jest*<%s>" projectile-current-project-name)))
+      (if (buffer-live-p (get-buffer buffer-name))
+          (switch-to-buffer buffer-name)
+        (funcall-interactively #'wjb/switch-to-last-compilation-buffer))))
+
+  (defun wjb/switch-to-last-compilation-buffer ()
+    "Switch to last compilation buffer, falling back to *compilation*."
+    (interactive)
+    (if (and wjb/last-compilation-buffer (buffer-live-p (wjb/last-compilation-buffer)))
+        (switch-to-buffer wjb/last-compilation-buffer)
+      (funcall-interactively #'wjb/switch-to-compilation-buffer)))
 
   (defun wjb/switch-to-compilation-buffer ()
     "Switch to *compilation*"
     (interactive)
-    (switch-to-buffer "*compilation*"))
-
-  (defun wjb/switch-to-last-compilation-buffer ()
-    "Switch to last compilation buffer."
-    (interactive)
-    (when wjb/last-compilation-buffer
-      (switch-to-buffer wjb/last-compilation-buffer)))
+    (let ((comp-buffer-name "*compilation*"))
+      (if (buffer-live-p (get-buffer comp-buffer-name))
+          (switch-to-buffer comp-buffer-name)
+        (message "no compilation buffer"))))
 
   (defun wjb/switch-to-last-grep-buffer ()
     "Switch to last grep buffer."

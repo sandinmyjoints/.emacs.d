@@ -234,8 +234,8 @@ Also converts full stops to commas."
 
 ;; (global-set-key (kbd "C-x C-d") #'wjb/insert-date)
 (global-set-key (kbd "C-x C-d") #'dired-jump)  ;; was C-x j, but I want that for grepping
-(global-set-key (kbd "C-c ,") #'wjb/switch-to-last-compilation-buffer)
-(global-set-key (kbd "C-c C-,") #'wjb/switch-to-last-compilation-buffer)
+(global-set-key (kbd "C-c ,") #'wjb/switch-to-project-jest-buffer)
+(global-set-key (kbd "C-c C-,") #'wjb/switch-to-project-jest-buffer)
 (global-set-key (kbd "C-c .") #'wjb/switch-to-last-grep-buffer)
 (global-set-key (kbd "C-c C-.") #'wjb/switch-to-last-grep-buffer)
 
