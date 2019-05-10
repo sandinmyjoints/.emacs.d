@@ -193,7 +193,8 @@
          #'load-theme args))
 
 (defvar wjb/dark t)
-(defvar wjb/default-cursor-color "#30F0F0")
+(defvar wjb/dark-cursor-color "#30F0F0")
+(defvar wjb/light-cursor-color "purple")
 
 (defun wjb/gruvbox-dark ()
   ;; instead of red:
@@ -212,7 +213,7 @@
 (defun wjb/gruvbox-light ()
   ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; (set-face-background 'default "#000")
-  ;; (set-cursor-color wjb/default-cursor-color)
+  ;; (set-cursor-color wjb/dark-cursor-color)
   ;; (set-face-background 'region "#2d3d45")
   )
 
@@ -237,8 +238,17 @@
   (wjb/set-hl-line-bg)
   (global-hl-line-mode 1))
 
+(defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
+
 (defun wjb/custom-appearance ()
-  (set-cursor-color wjb/default-cursor-color)
+  (if wjb/dark
+      (progn
+        (set-mouse-color "light gray")
+        (set-cursor-color wjb/dark-cursor-color))
+    (progn
+      (set-mouse-color "black")
+      (set-cursor-color wjb/light-cursor-color)))
+
   ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
 
   ;; For themes that don't have adob faces defined (ample):
@@ -258,7 +268,7 @@
   (let ((color
          (if buffer-read-only (if wjb/dark "white" "#116")
            (if overwrite-mode "red"
-             wjb/default-cursor-color))))
+             wjb/dark-cursor-color))))
     (unless (and
              (string= color wjb/set-cursor-color-color)
              (string= (buffer-name) wjb/set-cursor-color-buffer))
