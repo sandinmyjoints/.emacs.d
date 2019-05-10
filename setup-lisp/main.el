@@ -1149,6 +1149,7 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package ace-jump-helm-line
+  :disabled
   :config
   (setq ace-jump-helm-line-idle-delay 3
         ace-jump-helm-line-style 'pre
@@ -1301,6 +1302,9 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package date-at-point)
 
+(defun wjb/disable-show-paren-mode ()
+  ;; See http://endlessparentheses.com/locally-configure-or-disable-show-paren-mode.html
+  (setq-local show-paren-mode nil))
 ;; Highlight matching parentheses when point is on them.
 ;;
 (use-package paren
@@ -1310,6 +1314,7 @@ If PROJECT is not specified the command acts on the current project."
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t
         show-paren-highlight-openparen t)
+  (add-hook 'magit-status-mode-hook #'wjb/disable-show-paren-mode)
   (show-paren-mode 1))
 
 ;; Dims parens in certain modes.
@@ -1350,6 +1355,7 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package highlight-thing
   :diminish
+  :disabled
   :init
   ;; TODO
   ;; - ideal would be for it to be same face but bolded or slightly lighter
@@ -2202,7 +2208,7 @@ Interactively also sends a terminating newline."
 ;;;###autoload
 (define-minor-mode jest-minor-mode
   "Minor mode to run jest-mode commands for compile and friends."
-  :lighter " Jest"
+  :lighter " Jest Minor"
   :diminish
   :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
             (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
@@ -2283,6 +2289,13 @@ Interactively also sends a terminating newline."
 
 (use-package knot-mode
   :mode "\\.knot\\'")
+
+(use-package eglot
+  :defer t
+  :config
+  ;; TODO: find a language server that actually works with JSX
+  ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
+  )
 
 ;; Caveats about lsp for javascript:
 ;;
@@ -2482,13 +2495,7 @@ Interactively also sends a terminating newline."
 
   (advice-add #'eyebrowse-switch-to-window-config :before #'wjb/turn-off-zoom-mode)
 
-  (setq zoom-size '(0.55 . 1))
-
-  ;; (defun wjb/pre-ebhook ()
-  ;;   (message "pre: deactivating zoom-mode")
-  ;;   )
-
-  ;; (add-hook 'eyebrowse-pre-window-switch-hook #'wjb/pre-ebhook)
+  (setq zoom-size '(0.5 . 1))
 
   (defun wjb/post-ebhook ()
     (let* ((current-slot (eyebrowse--get 'current-slot))
@@ -2517,7 +2524,7 @@ Interactively also sends a terminating newline."
   :commands reb-change-syntax)
 
 (use-package electric-operator
-  :defer
+  :defer t
   :hook
   ((coffee-mode python-mode) . electric-operator-mode)
   :config
@@ -2554,14 +2561,6 @@ Interactively also sends a terminating newline."
   (interactive "DDirectory: ")
   (shell-command
    (format "%s -f TAGS -e -R --exclude=node_modules --exclude=local_notes --exclude=test --exclude=lib-cov %s" path-to-ctags (directory-file-name dir-name))))
-
-;; Linum: put spaces around line numbers.
-;; TODO: Not using linum anymore. nlinum is maybe better.
-(defadvice linum-update-window (around linum-dynamic activate)
-  (let* ((w (length (number-to-string
-                     (count-lines (point-min) (point-max)))))
-         (linum-format (concat " %" (number-to-string w) "d ")))
-    ad-do-it))
 
 ;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
 (defun my-keyboard-quit-advice (fn &rest args)
