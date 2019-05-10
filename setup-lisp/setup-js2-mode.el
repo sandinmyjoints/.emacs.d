@@ -315,7 +315,8 @@ project."
 
 (defun wjb/js-hook nil
   (make-local-variable 'company-transformers)
-  (push 'wjb/company-transformer company-transformers))
+  (push 'wjb/company-transformer company-transformers)
+  (setq-local fill-column 80))
 
 (add-hook 'js-mode-hook 'wjb/js-hook)
 
