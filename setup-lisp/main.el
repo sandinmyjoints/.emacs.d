@@ -1113,7 +1113,8 @@ If PROJECT is not specified the command acts on the current project."
                                     ;; TODO: improve spotlight, see: https://github.com/syl20bnr/spacemacs/issues/3280
                                     ;; it doesn't order well, when query is myself.org, the result appears very low -- why?
                                     ;; alfred does this when you prefix search query with space
-                                    helm-source-mac-spotlight
+                                    ;; helm-source-mac-spotlight
+                                    helm-source-locate
                                     helm-source-file-cache
                                     ;; helm-source-files-in-current-dir
                                     helm-source-dired-recent-dirs
@@ -1133,6 +1134,14 @@ If PROJECT is not specified the command acts on the current project."
    helm-recentf-fuzzy-match t
    helm-buffers-fuzzy-matching t
    helm-ff-skip-boring-files t
+   helm-buffer-max-length 24
+   helm-buffers-end-truncated-string "…"
+   helm-echo-input-in-header-line t
+   helm-buffer--pretty-names '((dired-mode . "Dired")
+                               (lisp-interaction-mode . "Lisp Inter")
+                               (magit-process-mode . "Magit proc")
+                               (rest-client-mode . "REST")
+                               (shell-script-mode . "Shell"))
    )
   (when is-mac
     (setq helm-locate-fuzzy-match nil
