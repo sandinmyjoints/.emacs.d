@@ -1710,9 +1710,14 @@ If PROJECT is not specified the command acts on the current project."
     (dolist
         ;; last ends up first
         (backend '(company-clang company-xcode company-cmake company-capf company-shell company-lsp company-restclient company-css) zing)
-      (push
-       (list backend :with 'company-dabbrev-code 'company-dabbrev 'company-emoji 'company-keywords)
-       zing))
+      (if (equal list 'company-capf)
+        (push
+         (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
+         zing)
+
+        (push
+         (list backend :with 'company-dabbrev-code 'company-keywords)
+         zing)))
 
     ;; generic
     (setq zing (append zing '(company-files)))
@@ -1727,6 +1732,25 @@ If PROJECT is not specified the command acts on the current project."
                ))
     (setq company-backends zing)))
 (wjb/experimental-company-backends)
+;; elisp-completion-at-point
+;; C-M-i is completion-at-point. How is it configured?
+
+;; ((company-css :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-restclient :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-lsp :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-shell :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-capf :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-cmake :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-xcode :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  (company-clang :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
+;;  company-files
+;;  (company-dabbrev-code company-gtags company-etags company-keywords)
+;;  (company-emoji company-dabbrev))
+
+
+;; :with means completions unconditionally; the default is to only use them if
+;; they return the same prefix as the first defined checker in the group
+
 
 ;; company-mode TODO:
 ;; (company-emoji company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
@@ -1782,22 +1806,15 @@ If PROJECT is not specified the command acts on the current project."
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
   ;; trial:
-  (company-statistics-mode)
+  (company-statistics-mode -1)
   (company-quickhelp-mode -1)
-  )
-
-(use-package eglot
-  :defer t
-  :config
-  ;; TODO: find a language server that actually works with JSX
-  ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
   )
 
 ;; trial:
 (use-package company-flx
   :after company
   :config
-  (company-flx-mode +1))
+  (company-flx-mode -1))
 
 (use-package company-buffer-line
   :commands (company-same-mode-buffer-lines)
