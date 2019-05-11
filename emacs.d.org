@@ -811,6 +811,117 @@ react-redux
   - In coffee-mode, don't indent-region after sp-kill-sexp (or other commands). How?
 
 
+* appearance
+* review/useful
+  - https://writequit.org/eos/eos-appearance.html
+  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
+  - https://www.john2x.com/emacs.html
+* modeline
+  - don't want display-time on laptop screen
+  - beautiful tabs and stuff: https://github.com/tarsius/moody
+* faces
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Standard-Faces.html
+* frames
+  - https://www.emacswiki.org/emacs/FrameParameters
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Parameters.html
+* TODO per-frame settings
+** main frame
+** olivetti frame
+** split-horizontally frame?
+
+
+* borders / dividers
+  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Borders-X.html
+  - https://www.reddit.com/r/emacs/comments/8dm8z9/emacs_window_border/
+  - https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
+  - https://stackoverflow.com/questions/14055977/border-frame-around-emacs-frame
+* windows
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Window-Parameters.html
+* margins
+  - margins are 0 by default
+  #+begin_src emacs-lisp
+ (setq-default left-margin-width 10 right-margin-width 8) ; Define new widths.
+ (set-window-margins nil 0 0)
+
+ ;; third argument is keep-margins
+ (set-window-buffer nil (current-buffer)) ; Use them now.
+  #+end_src
+* fringes
+  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
+  - https://www.emacswiki.org/emacs/TheFringe
+  - a window has fringes
+  - indicate-empty-lines
+  - dirtree has no fringes (set-window-fringes window 0 0 nil)
+fringe-styles -- variable of known styles
+? -- fringe for a particular window -- probably a parameter
+fringe-mode -- set default for all frames
+set-fringe-style -- set default for one frame
+set-window-fringes -- set for a window, all has outside-margins argument
+  #+begin_quote
+If optional fourth arg OUTSIDE-MARGINS is non-nil, draw the fringes
+outside of the display margins.  By default, fringes are drawn between
+display marginal areas and the text area.
+  #+end_quote
+* TODO initial frame
+  - https://www.reddit.com/r/emacs/comments/7s52iz/initialframealist_and_x_resources_on_mac/
+    suggests using defaults like so, but I haven't yet determined whether this
+    works with emacs-mac or just the official macOS emacs. I do see
+    org.gnu.Emacs in the strings from the emacs binary.
+#+begin_src bash
+# here's what I see now:
+$ defaults read org.gnu.Emacs
+{
+    ApplePressAndHoldEnabled = NO;
+    NSAppSleepDisabled = 1;
+    RawCameraSupportVersion = 7040;
+}
+
+
+defaults write org.gnu.Emacs Width 120
+defaults write org.gnu.Emacs Height 40
+defaults write org.gnu.Emacs Top 40
+defaults write org.gnu.Emacs Left 200
+
+#+end_src
+  - discussion for emacs-mac specifically:
+    https://github.com/railwaycat/homebrew-emacsmacport/issues/127
+#+begin_src emacs-lisp
+;; get all frame parameters:
+(frame-parameters)
+
+;; get a frame parameter:
+(frame-parameter nil 'height) ;; 72
+
+;; set a parameter
+(set-frame-parameter nil 'width 120)
+(set-frame-parameter nil 'height 40)
+(set-frame-parameter nil 'fullscreen fs)
+#+end_src
+* TODO nice fringes
+* TODO centered modeline that matches fringes
+* TODO centered text in window
+  - https://github.com/anler/centered-window-mode
+* TODO fill/auto-fill/visual-line/line wrapping
+  - two modes
+  - https://www.emacswiki.org/emacs/LineWrap
+  - https://superuser.com/questions/474373/how-to-automatically-wrap-long-lines-in-emacs
+** writing emails, for posts
+  - when writing emails etc, I don't want hard line breaks
+  - *a* way to achieve that is: set fill-column to 10000, turn on visual-line-mode
+  - olivetti
+  - no or thin fringe
+** writing docs, markdown, code
+   - want hard line break at 80 columns
+   - set fill-column 80
+   - turn on auto-fill-mode
+   - turn off visual-line-mode
+
+* writeroom frame/olivetti frame
+* TODO how to do olivetti-mode like appearance for an entire frame? frame-locals? frame-hook?
+  - https://www.reddit.com/r/emacs/comments/33gsh6/trouble_with_writeroom_mode/
+
+
+
 * shell/comint
 * TODO Shell in Emacs
   - See: http://snarfed.org/why_i_run_shells_inside_emacs
@@ -1037,128 +1148,11 @@ Snapshots:   0 total
    - basically, adjust the regex match to change what is considered the
      hyperlink (which is underlined)
 
-
-* projectile
-* TODO make projectile-find-test-file work
-  - projectile-find-test-file -> projectile-toggle-between-implementation-and-test
-  - per-project test prefix and suffix, but that's assuming a.jsx is tested with
-    test-a.jsx or a.spec
-    - in Neodarwin components test-suffix is really just test.jsx
-    - in other projects, I want it to go to the test directory, find the
-      matching path, find the matching filename
-  - [ ] will it walk around directories?
-  - [ ] if I find a test file manually, will it remember it?
-** custom :related-files-fn
+* TODO watch mode
+  - what movement terminal codes would comint need to support in order to work
+    with jest watch mode?
 
 
-
-* appearance
-* review/useful
-  - https://writequit.org/eos/eos-appearance.html
-  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
-* modeline
-  - don't want display-time on laptop screen
-* faces
-  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Standard-Faces.html
-* frames
-  - https://www.emacswiki.org/emacs/FrameParameters
-  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Parameters.html
-* TODO per-frame settings
-** main frame
-** olivetti frame
-** split-horizontally frame?
-
-
-
-* borders / dividers
-  - https://www.gnu.org/software/emacs/manual/html_node/emacs/Borders-X.html
-  - https://www.reddit.com/r/emacs/comments/8dm8z9/emacs_window_border/
-  - https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
-  - https://stackoverflow.com/questions/14055977/border-frame-around-emacs-frame
-* windows
-  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Window-Parameters.html
-* margins
-  - margins are 0 by default
-  #+begin_src emacs-lisp
- (setq-default left-margin-width 10 right-margin-width 8) ; Define new widths.
- (set-window-margins nil 0 0)
-
- ;; third argument is keep-margins
- (set-window-buffer nil (current-buffer)) ; Use them now.
-  #+end_src
-* fringes
-  - https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
-  - https://www.emacswiki.org/emacs/TheFringe
-  - a window has fringes
-  - indicate-empty-lines
-  - dirtree has no fringes (set-window-fringes window 0 0 nil)
-fringe-styles -- variable of known styles
-? -- fringe for a particular window -- probably a parameter
-fringe-mode -- set default for all frames
-set-fringe-style -- set default for one frame
-set-window-fringes -- set for a window, all has outside-margins argument
-  #+begin_quote
-If optional fourth arg OUTSIDE-MARGINS is non-nil, draw the fringes
-outside of the display margins.  By default, fringes are drawn between
-display marginal areas and the text area.
-  #+end_quote
-* TODO initial frame
-  - https://www.reddit.com/r/emacs/comments/7s52iz/initialframealist_and_x_resources_on_mac/
-    suggests using defaults like so, but I haven't yet determined whether this
-    works with emacs-mac or just the official macOS emacs. I do see
-    org.gnu.Emacs in the strings from the emacs binary.
-#+begin_src bash
-# here's what I see now:
-$ defaults read org.gnu.Emacs
-{
-    ApplePressAndHoldEnabled = NO;
-    NSAppSleepDisabled = 1;
-    RawCameraSupportVersion = 7040;
-}
-
-
-defaults write org.gnu.Emacs Width 120
-defaults write org.gnu.Emacs Height 40
-defaults write org.gnu.Emacs Top 40
-defaults write org.gnu.Emacs Left 200
-
-#+end_src
-  - discussion for emacs-mac specifically:
-    https://github.com/railwaycat/homebrew-emacsmacport/issues/127
-#+begin_src emacs-lisp
-;; get all frame parameters:
-(frame-parameters)
-
-;; get a frame parameter:
-(frame-parameter nil 'height) ;; 72
-
-;; set a parameter
-(set-frame-parameter nil 'width 120)
-(set-frame-parameter nil 'height 40)
-(set-frame-parameter nil 'fullscreen fs)
-#+end_src
-* TODO nice fringes
-* TODO centered modeline that matches fringes
-* TODO centered text in window
-  - https://github.com/anler/centered-window-mode
-* TODO fill/auto-fill/visual-line/line wrapping
-  - two modes
-  - https://www.emacswiki.org/emacs/LineWrap
-  - https://superuser.com/questions/474373/how-to-automatically-wrap-long-lines-in-emacs
-** writing emails, for posts
-  - when writing emails etc, I don't want hard line breaks
-  - *a* way to achieve that is: set fill-column to 10000, turn on visual-line-mode
-  - olivetti
-  - no or thin fringe
-** writing docs, markdown, code
-   - want hard line break at 80 columns
-   - set fill-column 80
-   - turn on auto-fill-mode
-   - turn off visual-line-mode
-
-* writeroom frame/olivetti frame
-* TODO how to do olivetti-mode like appearance for an entire frame? frame-locals? frame-hook?
-  - https://www.reddit.com/r/emacs/comments/33gsh6/trouble_with_writeroom_mode/
 
 
 
@@ -1192,17 +1186,190 @@ defaults write org.gnu.Emacs Left 200
     - run a shell
     - create a new file
     -
+* service and repo management
+** list of services/repos
+sd-gimme-db
+  mysql
+  redis
+  memcached
+  elasticsearch
+
+atalanta
+sd-traductor
+darwin
+sd-auth
+sd-playground
+sd-spelling
+neodarwin
+sd-router
+
+#+begin_src emacs-lisp
+     (let ((services '(
+                    ("sd-gimme-db" . 'docker)
+                    ("atalanta" . 'docker-express)
+                    ("darwin" . 'docker)
+                    ("sd-auth" . 'docker-express)
+                    ("sd-playground" . 'docker-express)
+                    ("sd-spelling" . 'docker-express)
+                    ("neodarwin" . 'docker-express)
+                    ("sd-router" . 'docker)
+
+#+end_src
+** service observability
+   - for each service, I want to know:
+   - is it current with origin/master?
+     - poll github
+   - is it up and running locally?
+     - docker-compose ps
+   - is node_modules/yarn current or out of date?
+     - is there a yarn command for this?
+   - is the build (webpack) successful at rest, running, or error at rest?
+     - capture events
+   - are tests passing? (nice to have, but this would be really expensive to run
+     for all -- needs to be opted into)
+** Service management: actions
+   - name the buffer after the service/repo
+*** if on master
+Compare master and origin/master.
+
+If origin/master is past master:
+    - dc stop
+    - git pull
+    - yarn
+    - dc up
+    - report service status so I know when all services are up, vs. some services are
+      building, vs. some services are down/broken
+    - report version control status so I know when a repo is behind
+    - neodarwin: build webpack
+*** additional
+    - logs
+    - build
+      - yarn install
+    - up
+    - stop
+    - down
+    - restart = down ; up
+    - update/refresh = down ; pull ; up --build
+*** If not on master
+** hydra
+*** common
+    - attach to container logs (optionally tail by default)
+    - open shell in home dir
+    - magit
+      - pull master and current branch
+      - checkout branch
+      - checkout PR
+    - run tests
+      - run lint
+    - yarn/npm install
+*** specific
+    - start dev server
+    - deploy
+    - build/compile assets/bundles
+    - build docker image
+    - local_notes .org file
+* DONE use one overall docker-compose file?
+   - https://docs.docker.com/compose/extends/
+   - https://www.npmjs.com/package/docker-compose
+** why better than dev-startup?
+   - docker-compose knows about all the involved services
+   - via sdc, run docker-compose commands from any directory -- don't have to be
+     in the repo directory to work with those services
+     - $ sdc restart sd-auth from anywhere to pick up changes
+   - can specify deps via depends_on
+   - simpler file: no networks or external_links stanzas
+   - no networks to manage
+   - only one docker-compose file to look at, maintain, update. no bash script.
+   - enables docker dashboards
+** why worse than dev-startup?
+   - files are defined away from the repo they are associated with, though there
+     may be ways around this
+     - -f -f -f
+### Alternative
+# docker-compose -p sd \
+#                -f $DIR/neodarwin/docker-compose.yml \
+#                -f $DIR/sd-playground/docker-compose.yml \
+#                etc
+
+     - script to dynamically build it
+** dashboards
+   - very popular: https://github.com/portainer/portainer
+   - web, popular: http://francescou.github.io/docker-compose-ui/
+   - console, js, broken/unmaintained?: https://github.com/pipiliang/docker-dashboard
+   - web, js: https://github.com/otothea/docker-ui
+   - web, python: https://github.com/davidholiday/foxy
+** how to use
+$ docker-compose -f docker-compose.sd.yml --project-directory='..' ps
+            Name                          Command                State                                        Ports
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+sd_atalanta_1                  npm run dev:server               Up         0.0.0.0:2000->2000/tcp
+sd_darwin_1                    /docker-entrypoint.sh /usr ...   Up         0.0.0.0:8888->80/tcp
+sd_dev_elastic                 /docker-entrypoint.sh elas ...   Up         0.0.0.0:9200->9200/tcp, 0.0.0.0:9300->9300/tcp
+sd_dev_mysql                   docker-entrypoint.sh mysql ...   Up         0.0.0.0:3311->3306/tcp
+sd_dev_redis                   docker-entrypoint.sh redis ...   Up         0.0.0.0:6379->6379/tcp
+sd_loadbalancer_1              nginx -g daemon off;             Up         0.0.0.0:10001->10001/tcp, 0.0.0.0:10003->10003/tcp,
+                                                                           0.0.0.0:10004->10004/tcp, 0.0.0.0:10006->10006/tcp, 0.0.0.0:443->443/tcp,
+                                                                           0.0.0.0:80->80/tcp
+sd_memcached_1                 docker-entrypoint.sh memcached   Up         11211/tcp
+sd_neodarwin_1                 npm start                        Exit 127
+sd_router_1                    nginx -g daemon off;             Up         80/tcp
+sd_sd-auth-email_1             npm run serve-email              Up         80/tcp, 0.0.0.0:9002->9002/tcp
+sd_sd-auth_1                   npm run dev                      Up         80/tcp, 0.0.0.0:9001->9001/tcp
+sd_sd-spelling_1               npm run dev                      Exit 254
+sd_sd-traductor_1              yarn dev                         Up         0.0.0.0:11000->11000/tcp, 80/tcp
+sdplayground_sd-playground_1   npm run dev                      Up
+0.0.0.0:10000->10000/tcp, 80/tcp
+
+** problem
+   #+begin_src text
+   ERROR: for neodarwin Cannot start service neodarwin: OCI runtime create
+   failed: container_linux.go:344: starting container process caused
+   "process_linux.go:424: container init caused \"rootfs_linux.go:58: mounting
+   \\\"/Users/william/scm/sd/stats.json\\\" to rootfs
+   \\\"/var/lib/docker/overlay2/1a99abb0ae9df2b8de2624b8682b23163b810404014b2a65c485e0727680cba4/merged\\\"
+   at
+   \\\"/var/lib/docker/overlay2/1a99abb0ae9df2b8de2624b8682b23163b810404014b2a65c485e0727680cba4/merged/usr/src/app/stats.json\\\"
+   caused \\\"not a directory\\\"\"": unknown: Are you trying to mount a
+   directory onto a file (or vice-versa)? Check if the specified host path exists
+   and is the expected type ERROR: Encountered errors while bringing up the
+   project.
+   #+end_src
+
+/var/lib/docker/overlay2/9c39118382fe01a1ddc3e71b3949a11636102620b33846da3d2a86f28376dd7d/merged/usr/src/app/server-single.js
+
+- c5c55251ed200f443edcdef3717fdf7b09fbace5cceba6979f63762bf9b5ae31 is mysql
+- the problem is with the neodarwin container or volumes
+- it is not running atm
+- [ ] why does it still see stats.json?
+
+738065f6981b
+$ docker rmi 1c031d2ce88d
+
+** delete the container
+Error response from daemon: conflict: unable to delete 52345403c039 (must be
+forced) - image is being used by stopped container  6ed09e37738f
+
+image 52345403c039
+container 6ed09e37738f
+
+d7c575eac714149f2d9ae77f0d6971f264c1684d30497d7aee4128d7d13e73a0
+
+fca1464b7749/sd_neodarwin_1                                sd_neodarwin                           21 seconds ago ago   Created                       "npm start"
+* TODO prodigy for use docker startup script
+
 * TODO try perspective or persp-mode
-* tmux in emacs
-  - https://www.reddit.com/r/emacs/comments/5j89xn/tmux_emacs/
-  - https://github.com/laishulu/emacs-tmux-pane
-* vterm for tmux
-  - https://launchpad.net/libvterm
-  - [ ] why doesn't the tmux status line appear?
-  - [ ] resizing the pane (maximizing)
-* TODO watch mode
-  - what movement terminal codes would comint need to support in order to work
-    with jest watch mode?
+* projectile
+* TODO make projectile-find-test-file work
+  - projectile-find-test-file -> projectile-toggle-between-implementation-and-test
+  - per-project test prefix and suffix, but that's assuming a.jsx is tested with
+    test-a.jsx or a.spec
+    - in Neodarwin components test-suffix is really just test.jsx
+    - in other projects, I want it to go to the test directory, find the
+      matching path, find the matching filename
+  - [ ] will it walk around directories?
+  - [ ] if I find a test file manually, will it remember it?
+** custom :related-files-fn
+
 * TODO purpose-mode
   - https://github.com/bmag/emacs-purpose/wiki/Purpose-Configuration
   - for each repo, be able to jump to each of these:
@@ -1213,6 +1380,16 @@ defaults write org.gnu.Emacs Left 200
     - .org file
     - README?
 
+
+
+
+* tmux in emacs
+  - https://www.reddit.com/r/emacs/comments/5j89xn/tmux_emacs/
+  - https://github.com/laishulu/emacs-tmux-pane
+* vterm for tmux
+  - https://launchpad.net/libvterm
+  - [ ] why doesn't the tmux status line appear?
+  - [ ] resizing the pane (maximizing)
 
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
@@ -1317,6 +1494,8 @@ ln -s "~/notes/$REPO.org" local_notes
 * disable app nap
   - defaults write org.gnu.Emacs NSAppSleepDisabled -bool YES
   - from https://github.com/rejeep/prodigy.el
+
+
 
 
 
@@ -1622,7 +1801,7 @@ company-active-map M-/
 ;;      ))
 
 #+END_SRC
-* TODO prodigy for use docker startup script
+
 * renice emacs
 
 * TODO Review for ideas:
@@ -1757,7 +1936,12 @@ local bindings in certain buffers.
   - align-regexp (C-|)
   - join-line (C-c C-j)
   - Org-mode (C-c C-n/p; C-c C-f/b)
+* startup bugs
+  - org-agenda-files is not set correctly, it always has local-dev.org in it --
+    why? should be "~/.emacs.d/org-agenda-files-list.txt"
 * wishlist                                                         :wishlist:
+  - [ ] flycheck shows error if point is immediately after it
+  - [ ] minions exception for flycheck-emoji
   - dumb-jump or smart-jump for jsx
   - magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
@@ -1853,3 +2037,7 @@ $ ls
 ;; (global-set-key (kbd "~") (lambda ()
 ;;                             (interactive)
 ;;                             (nameframe-switch-frame "olivetti")))
+* debugging emacs
+  - set-variable debug-on-error t
+  - edebug-trace-mode
+  - macrostep-mode and macrostep-expand
