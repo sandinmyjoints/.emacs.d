@@ -1,3 +1,119 @@
+;;; services.el --- Define servics and commands for working with them.
+;;
+;; Filename: services.el
+;; Description:
+;; Author: William Bert
+;; Maintainer:
+;; Created: Sat May 11 11:49:04 2019 (-0700)
+;; Version:
+;; Package-Requires: ()
+;; Last-Updated:
+;;           By:
+;;     Update #: 0
+;; URL:
+;; Doc URL:
+;; Keywords:
+;; Compatibility:
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Commentary:
+;;
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Change Log:
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Code:
+
+(defvar wjb/sd-services
+  '(
+    "sd-gimme-db"
+    "atalanta"
+    "darwin"
+    "sd-auth"
+    "sd-playground"
+    "sd-spelling"
+    "neodarwin"
+    "sd-router"))
+
+;; (head-binding head-command head-hint head-plist)
+;; TODO: compute
+(defvar wjb/sd-services/hydra
+  '(
+    ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
+    ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+    ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
+    ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
+    ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
+    ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
+    ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
+    ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
+    ))
+
+;; static implementation -- doesn't pick up changes to the list of services.
+;; (global-set-key (kbd "H-i")
+;;                 (defhydra hydra-sd-services (:color blue)
+;;                   "Manage SD services."
+;;                   ("g" (projectile-switch-project-by-name "sd-gimme-db") "sd-gimme-db")
+;;                   ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+;;                   ("d" (projectile-switch-project-by-name "darwin") "darwin")
+;;                   ("h" (projectile-switch-project-by-name "sd-auth") "sd-auth")
+;;                   ("p" (projectile-switch-project-by-name "sd-playground") "sd-playground")
+;;                   ("s" (projectile-switch-project-by-name "sd-spelling") "sd-spelling")
+;;                   ("n" (projectile-switch-project-by-name "neodarwin") "neodarwin")
+;;                   ("r" (projectile-switch-project-by-name "sd-router") "sd-router")
+;;                   ("q" nil nil :exit t)
+;;                  ))
+
+;; recreates the hydra when activated, picking up new services. Based on
+;; https://github.com/abo-abo/hydra/issues/164
+(bind-keys ("H-i" .
+            (lambda ()
+              (interactive)
+              (call-interactively
+               (eval `(defhydra hydra-sd-services (:color blue)
+                        "Manage SD services"
+                        ,@(mapcar (lambda (x)
+                                    (list (car x) (cadr x) (caddr x)))
+                                  wjb/sd-services/hydra)))))))
+
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+
+(defvar wjb/sd-services/prodigy '(
+                    ("sd-gimme-db" . 'docker)
+                    ("atalanta" . 'docker-express)
+                    ("darwin" . 'docker)
+                    ("sd-auth" . 'docker-express)
+                    ("sd-playground" . 'docker-express)
+                    ("sd-spelling" . 'docker-express)
+                    ("neodarwin" . 'docker-express)
+                    ("sd-router" . 'docker)
+                    ))
+
 ;; (prodigy-define-service
 ;;   :name "webpack"
 ;;   :cwd "~/project/"
@@ -48,16 +164,7 @@
         :cwd (format "~/scm/sd/%s" project)
         :tags tags)))
 
-  (let ((services '(
-                    ("sd-gimme-db" . 'docker)
-                    ("atalanta" . 'docker-express)
-                    ("darwin" . 'docker)
-                    ("sd-auth" . 'docker-express)
-                    ("sd-playground" . 'docker-express)
-                    ("sd-spelling" . 'docker-express)
-                    ("neodarwin" . 'docker-express)
-                    ("sd-router" . 'docker)
-                    )))
+  (let (wjb/sd-services/prodigy)
     (mapc #'prodigy-define-docker-compose services))
 
   (global-set-key (kbd "C-x q") #'prodigy)
@@ -80,3 +187,6 @@
   ;;   :args '("npm" "run" "watch:build:webpack:dev")
   ;;   :ready-message "webpack is watching the files")
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; services.el ends here
