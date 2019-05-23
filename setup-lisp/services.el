@@ -73,6 +73,10 @@
     ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
     ))
 
+(use-package hydra
+  :config
+  (setq hydra-hint-display-type 'posframe))
+
 ;; static implementation -- doesn't pick up changes to the list of services.
 ;; (global-set-key (kbd "H-i")
 ;;                 (defhydra hydra-projects (:color blue)
@@ -181,7 +185,7 @@
         :tags tags)))
 
   (let (wjb/sd-services/prodigy)
-    (mapc #'prodigy-define-docker-compose services))
+    (mapc #'prodigy-define-docker-compose wjb/sd-services/prodigy))
 
   (global-set-key (kbd "C-x q") #'prodigy)
 
