@@ -1201,7 +1201,14 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (smart-jump-setup-default-registers)
   ;; this binds to M-. and M-, in prog-mode-map:
-  (smart-jump-bind-jump-keys 'prog-mode))
+  (smart-jump-bind-jump-keys 'prog-mode)
+  (smart-jump-register :modes 'js2-mode
+                       :jump-fn 'js2-jump-to-definition
+                       :should-jump t
+                       :heuristic 'point
+                       :async nil
+                       :order 0)
+    )
 
 (require 'setup-tramp)
 
