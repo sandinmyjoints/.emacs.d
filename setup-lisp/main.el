@@ -649,24 +649,30 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
+(use-package ghub)
+
 ;; Magit.
 (use-package magit
   :bind (("C-x g" . magit-status))
-  :init
-  (mapc (lambda (hook)
-          (add-hook hook (lambda ()
-                           ;; Turn off smartscan
-                           (smartscan-mode -1))))
-        '(git-rebase-mode-hook
-          magit-mode-hook
-          magit-popup-mode-hook))
   :config
-  (setq ghub-use-workaround-for-emacs-bug nil)
+  (setq ghub-use-workaround-for-emacs-bug nil
+        ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
+        magit-branch-prefer-remote-upstream '(master))
   (autoload 'magit-log "magit"))
 
 ;; Experiment, might want to do this for everything:
 (use-package setup-magit
   :after magit)
+
+(use-package forge
+  :disabled
+  :after magit)
+
+(use-package github-review
+  :after magit
+  :disabled
+  :config
+  (setq github-review-fetch-top-level-and-review-comments t))
 
 (defun wjb/set-highlight-indentation-current-column-face ()
   "Just a bit lighter than the background."
