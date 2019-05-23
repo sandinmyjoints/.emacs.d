@@ -19,6 +19,7 @@
         counsel-M-x
         dired-do-delete
         dired-next-line
+        easy-mark
         electric-newline-and-maybe-indent
         end-of-defun
         end-of-visual-line
@@ -30,6 +31,9 @@
         indent-for-tab-command
         indent-relative
         insert-register
+        ivy-switch-buffer
+        js2-beginning-of-line
+        js2-end-of-line
         js2-indent-bounce
         js2-mark-defun
         js2-tab-properly
@@ -80,6 +84,7 @@
         sp-kill-word
         sp-remove-active-pair-overlay
         sp-wrap-tag-done
+        symbol-overlay-jump-next
         transpose-words
         whack-whitespace
         wjb-toggle-it-only
