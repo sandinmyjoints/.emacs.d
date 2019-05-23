@@ -58,7 +58,8 @@
 
 ;; (head-binding head-command head-hint head-plist)
 ;; TODO: compute
-(defvar wjb/projects/hydra
+(defvar wjb/projects/hydra '())
+(setq wjb/projects/hydra
   '(
     ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
     ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
@@ -69,6 +70,7 @@
     ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
     ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
     ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
+    ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
     ))
 
 ;; static implementation -- doesn't pick up changes to the list of services.
@@ -85,20 +87,6 @@
 ;;                   ("r" (projectile-switch-project-by-name "sd-router") "sd-router")
 ;;                   ("q" nil nil :exit t)
 ;;                  ))
-
-(defun hydra-posframe-show (str)
-  "HACK: redefining in order to use the poshandler I want."
-  (require 'posframe)
-  (posframe-show
-   " *hydra-posframe*"
-   :string str
-   :poshandler #'posframe-poshandler-frame-above-center
-   :internal-border-width 1
-   :internal-border-color "light gray"
-   :left-fringe 10
-   :right-fringe 10
-   :min-height 2
-   :min-width 50))
 
 ;; recreates the hydra when activated, picking up new services. Based on
 ;; https://github.com/abo-abo/hydra/issues/164
@@ -117,6 +105,19 @@
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
 
+(defun hydra-posframe-show (str)
+  "HACK: redefining in order to use the poshandler I want."
+  (require 'posframe)
+  (posframe-show
+   " *hydra-posframe*"
+   :string str
+   :poshandler #'posframe-poshandler-frame-above-center
+   :internal-border-width 2
+   :internal-border-color "light gray"
+   :left-fringe 10
+   :right-fringe 10
+   :min-height 2
+   :min-width 50))
 
 (defvar wjb/sd-services/prodigy '(
                     ("sd-gimme-db" . 'docker)
