@@ -2511,12 +2511,10 @@ Interactively also sends a terminating newline."
 
   (defun wjb/turn-off-zoom-mode (slot)
     "This is zoom--off but without the final cleanup it does."
-    (message "turning off zoom mode")
+    ;; (message "turning off zoom mode")
     "Disable hooks and advices and evenly balance the windows."
     ;; unregister the zoom handler
-    (remove-hook 'window-size-change-functions #'zoom--handler)
-    (remove-hook 'minibuffer-setup-hook #'zoom--handler)
-    (advice-remove #'select-window #'zoom--handler)
+    (remove-function pre-redisplay-function #'zoom--handler)
     ;; enable mouse resizing
     (advice-remove #'mouse-drag-mode-line #'ignore)
     (advice-remove #'mouse-drag-vertical-line #'ignore)
@@ -2532,15 +2530,14 @@ Interactively also sends a terminating newline."
            (window-configs (eyebrowse--get 'window-configs))
            (current-tag (nth 2 (assoc current-slot window-configs)))
            (last-slot (eyebrowse--get 'last-slot)))
-      (message (format "current-tag: %s" current-tag))
+      ;; (message (format "switched to: %s" current-tag))
       (cond ((equal current-tag "sql") (progn
-                                          (message "cond sql: activating")
                                           (zoom-mode)))
             ((equal current-tag "rest") (progn
-                                          (message "cond rest: activating")
                                           (zoom-mode)))
-            (t (progn
-                 (message "fall through: deactivating"))))))
+            ;; (t (progn
+                 ;; (message "leaving zoom deactivated")))
+            )))
 
   (add-hook 'eyebrowse-post-window-switch-hook #'wjb/post-ebhook)
   (eyebrowse-mode t))
