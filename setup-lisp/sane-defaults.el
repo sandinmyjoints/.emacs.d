@@ -48,6 +48,8 @@
 
 (setq-default bidi-display-reordering nil)
 
+(setq inhibit-startup-echo-area-message "william")
+
 ;; Turn on/off display stuff.
 ;;
 (setq-default visible-bell t

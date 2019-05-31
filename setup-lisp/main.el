@@ -441,6 +441,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
         org-completion-use-ido t
         org-replace-disputed-keys t
         org-edit-src-content-indentation 0
+        org-catch-invisible-edits 'show
         org-return-follows-link t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
@@ -488,7 +489,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
      (shell . t)
      (python . t)
      (sql . t)
-     (ein . t))))
+     (ein . t)
+     (restclient . t))))
 
 (use-package ob
   :after org

@@ -182,6 +182,7 @@
 
   (wjb/custom-appearance))
 
+;; TODO: try counsel-load-theme
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defun change-theme (&rest args)
   "Like `load-theme', but disables all themes before loading the new one."

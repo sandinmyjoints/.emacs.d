@@ -61,6 +61,7 @@
   (add-to-list 'package-archives org)
   (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
+  (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
 
   ;; TODO: package-archive-prioities: see
