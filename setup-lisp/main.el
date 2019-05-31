@@ -2523,7 +2523,59 @@ Interactively also sends a terminating newline."
 
   (advice-add #'eyebrowse-switch-to-window-config :before #'wjb/turn-off-zoom-mode)
 
-  (setq zoom-size '(0.5 . 1))
+  ;; (setq zoom-ignored-buffer-names '("*HTTP Response*"))
+  ;; (setq zoom-ignored-buffer-name-regexps '())
+
+  ;; TODO my hack
+  (defun zoom--resize-one-dimension (size-hint-cons horizontal)
+    "Resize one dimension of the selected window according to the user preference.
+
+Argument SIZE-HINT-CONS is the size hint provided by the user.
+
+Argument HORIZONTAL determines whether the window should be
+resized horizontally or vertically."
+    (let* ((size-hint
+            (if horizontal (car size-hint-cons) (cdr size-hint-cons)))
+           (frame-size
+            (if horizontal (frame-width) (frame-height)))
+           ;; use the total size (including fringes, scroll bars, etc.) for ratios
+           ;; and the body size for absolute values
+           (window-size
+            (if (floatp size-hint)
+                (if horizontal (window-total-width) (window-total-height))
+              (if horizontal (window-body-width) (window-body-height))))
+           ;; either use an absolute value or a ratio
+           (min-window-size
+            (if (floatp size-hint) (round (* size-hint frame-size)) size-hint))
+           ;; do not shrink the window if it is already large enough
+           ;; (desired-delta (max (- min-window-size window-size) 0))
+           ;; HACK: DO shrink the window if by >1!
+           (desired-delta (- min-window-size window-size))
+           ;; fall back to the maximum available if the windows are too small
+           (delta (window-resizable nil desired-delta horizontal)))
+        ;; actually resize the window
+        (window-resize nil delta horizontal)))
+
+  ;; half-width windows
+  ;; (setq zoom-size '(0.5 . 1.0))
+
+  (defun zoom-sizer ()
+    (let* ((buf-name (buffer-name)))
+      (cond ((s-equals? buf-name "*scratch*") '(1.0 . 1.0))
+            ;; due to rounding(?), 0.6 and 0.4 produce different adjustments
+            ;; from balanced (evenly split) windows. These values produce
+            ;; identical adjustments.
+            ((s-equals? buf-name "*HTTP Response*") '(0.39 . 1.0))
+            ((s-ends-with? ".rest" buf-name) '(0.62 . 1.0))
+
+            ((s-equals? buf-name "*SQL*") '(0.44 . 1.0))
+            ((s-ends-with? ".sql" buf-name) '(0.57 . 1.0))
+
+            ((s-starts-with? "*" buf-name) '(0.4 . 1.0))
+            (t '(1.0 . 1.0)))
+      ))
+
+  (setq zoom-size #'zoom-sizer)
 
   (defun wjb/post-ebhook ()
     (let* ((current-slot (eyebrowse--get 'current-slot))
@@ -2532,11 +2584,11 @@ Interactively also sends a terminating newline."
            (last-slot (eyebrowse--get 'last-slot)))
       ;; (message (format "switched to: %s" current-tag))
       (cond ((equal current-tag "sql") (progn
-                                          (zoom-mode)))
+                                         (zoom-mode)))
             ((equal current-tag "rest") (progn
                                           (zoom-mode)))
             ;; (t (progn
-                 ;; (message "leaving zoom deactivated")))
+            ;; (message "leaving zoom deactivated")))
             )))
 
   (add-hook 'eyebrowse-post-window-switch-hook #'wjb/post-ebhook)
