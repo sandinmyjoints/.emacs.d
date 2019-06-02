@@ -2508,22 +2508,38 @@ Interactively also sends a terminating newline."
         eyebrowse-mode-line-style 'always)
   (set-face-attribute 'eyebrowse-mode-line-active nil :foreground "#9ccc65")
 
-  ;; zoom uses advice-add after
-  ;;   (advice-add #'select-window :after #'zoom--handler)
+  ;; ;; zoom uses advice-add after
+  ;; ;;   (advice-add #'select-window :after #'zoom--handler)
 
-  (defun wjb/turn-off-zoom-mode (slot)
-    "This is zoom--off but without the final cleanup it does."
-    ;; (message "turning off zoom mode")
-    "Disable hooks and advices and evenly balance the windows."
-    ;; unregister the zoom handler
-    (remove-function pre-redisplay-function #'zoom--handler)
-    ;; enable mouse resizing
-    (advice-remove #'mouse-drag-mode-line #'ignore)
-    (advice-remove #'mouse-drag-vertical-line #'ignore)
-    (advice-remove #'mouse-drag-header-line #'ignore)
-    (setq zoom-mode nil))
+  ;; (defun wjb/turn-off-zoom-mode (slot)
+  ;;   "This is zoom--off but without the final cleanup it does."
+  ;;   ;; (message "turning off zoom mode")
+  ;;   "Disable hooks and advices and evenly balance the windows."
+  ;;   ;; unregister the zoom handler
+  ;;   (remove-function pre-redisplay-function #'zoom--handler)
+  ;;   ;; enable mouse resizing
+  ;;   (advice-remove #'mouse-drag-mode-line #'ignore)
+  ;;   (advice-remove #'mouse-drag-vertical-line #'ignore)
+  ;;   (advice-remove #'mouse-drag-header-line #'ignore)
+  ;;   (setq zoom-mode nil))
 
-  (advice-add #'eyebrowse-switch-to-window-config :before #'wjb/turn-off-zoom-mode)
+  ;; (advice-add #'eyebrowse-switch-to-window-config :before #'wjb/turn-off-zoom-mode)
+
+  ;; (defun wjb/post-ebhook ()
+  ;;   (let* ((current-slot (eyebrowse--get 'current-slot))
+  ;;          (window-configs (eyebrowse--get 'window-configs))
+  ;;          (current-tag (nth 2 (assoc current-slot window-configs))))
+  ;;     ;; (message (format "switched to: %s" current-tag))
+  ;;     (cond ((equal current-tag "sql") (progn
+  ;;                                        (zoom-mode)))
+  ;;           ((equal current-tag "rest") (progn
+  ;;                                         (zoom-mode)))
+  ;;           ;; (t (progn
+  ;;           ;; (message "leaving zoom deactivated")))
+  ;;           )))
+
+  ;; (add-hook 'eyebrowse-post-window-switch-hook #'wjb/post-ebhook)
+
 
   ;; (setq zoom-ignored-buffer-names '("*HTTP Response*"))
   ;; (setq zoom-ignored-buffer-name-regexps '())
@@ -2579,22 +2595,12 @@ resized horizontally or vertically."
 
   (setq zoom-size #'zoom-sizer)
 
-  (defun wjb/post-ebhook ()
-    (let* ((current-slot (eyebrowse--get 'current-slot))
-           (window-configs (eyebrowse--get 'window-configs))
-           (current-tag (nth 2 (assoc current-slot window-configs)))
-           (last-slot (eyebrowse--get 'last-slot)))
-      ;; (message (format "switched to: %s" current-tag))
-      (cond ((equal current-tag "sql") (progn
-                                         (zoom-mode)))
-            ((equal current-tag "rest") (progn
-                                          (zoom-mode)))
-            ;; (t (progn
-            ;; (message "leaving zoom deactivated")))
-            )))
-
-  (add-hook 'eyebrowse-post-window-switch-hook #'wjb/post-ebhook)
   (eyebrowse-mode t))
+
+(use-package eyezoom
+  :after eyebrowse
+  :config
+  (setq eyezoom-tags-that-zoom '("sql" "rest")))
 
 (use-package page-break-lines
   :diminish
