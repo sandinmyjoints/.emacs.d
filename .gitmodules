@@ -71,3 +71,6 @@
 [submodule "elisp/js-snippets"]
 	path = elisp/js-snippets
 	url = git@github.com:sandinmyjoints/js-snippets.git
+[submodule "elisp/eyezoom"]
+	path = elisp/eyezoom
+	url = git@github.com:sandinmyjoints/eyezoom.git
