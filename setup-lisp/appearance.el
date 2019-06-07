@@ -46,6 +46,7 @@
 ;;; Code:
 
 ;; Note: Use (list-faces-display) to examine all faces.
+;; How to change faces (get/set face attributes): https://emacs.stackexchange.com/questions/29183/how-to-get-read-face-attributes
 
 ;; Don't use these graphical elements.
 ;;
@@ -81,12 +82,18 @@
 ;; Too thick!
 ;; (set-face-attribute 'default nil :family "Menlo" :height 140)
 ;;
-;; Just right.
-(set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
-;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140 :weight 'normal)
-;;
+;; Kind of broken...
 ;; http://typeof.net/Iosevka/
 ;; (set-face-attribute 'default nil :family "Iosevka" :height 144 :weight 'light)
+;;
+;; Just right.
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140 :weight 'normal)
+;;
+;; But wow, this is great!
+;; https://github.com/tonsky/FiraCode/wiki
+;; https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
+(set-face-attribute 'default nil :family "Fira Code" :height 140)
 
 ;; set a fallback
 (set-fontset-font t nil "Courier New" nil 'append)
