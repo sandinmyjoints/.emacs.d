@@ -60,37 +60,44 @@
 ;; TODO: compute
 (defvar wjb/projects/hydra '())
 (setq wjb/projects/hydra
-  '(
-    ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
-    ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
-    ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
-    ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
-    ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
-    ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
-    ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
-    ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
-    ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
-    ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
-    ))
+      '(
+        ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
+        ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
+        ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+        ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
+        ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
+        ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
+        ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
+        ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
+        ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
+        ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
+        ))
 
 (use-package hydra
   :config
   (setq hydra-hint-display-type 'posframe))
 
-;; static implementation -- doesn't pick up changes to the list of services.
-;; (global-set-key (kbd "H-i")
-;;                 (defhydra hydra-projects (:color blue)
-;;                   "Manage SD services."
-;;                   ("g" (projectile-switch-project-by-name "sd-gimme-db") "sd-gimme-db")
-;;                   ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
-;;                   ("d" (projectile-switch-project-by-name "darwin") "darwin")
-;;                   ("h" (projectile-switch-project-by-name "sd-auth") "sd-auth")
-;;                   ("p" (projectile-switch-project-by-name "sd-playground") "sd-playground")
-;;                   ("s" (projectile-switch-project-by-name "sd-spelling") "sd-spelling")
-;;                   ("n" (projectile-switch-project-by-name "neodarwin") "neodarwin")
-;;                   ("r" (projectile-switch-project-by-name "sd-router") "sd-router")
-;;                   ("q" nil nil :exit t)
-;;                  ))
+;; TODO: rewrite using defhydra+
+;; see https://github.com/abo-abo/hydra/issues/185
+
+(defhydra hydra-projects (:color blue :columns 2)
+  "Projects."
+  ("_" list "nop"))
+
+;; (defhydra+ hydra-projects ()
+;;   ,@(mapcar (lambda (x)
+;;               (list (car x) (cadr x) (caddr x)))
+            ;; wjb/projects/hydra))
+
+(mapc (lambda (project)
+        (defhydra+ hydra-projects () "docstring"
+          (list (car project) (cadr project) (caddr project))))
+        wjb/projects/hydra)
+
+;; (mapc (lambda (project)
+;;         (eval `(defhydra+ hydra-projects () "docstring"
+;;                  (list (car project) (cadr project) (caddr project))))
+;;         wjb/projects/hydra))
 
 ;; recreates the hydra when activated, picking up new services. Based on
 ;; https://github.com/abo-abo/hydra/issues/164
@@ -104,11 +111,6 @@
                                     (list (car x) (cadr x) (caddr x)))
                                   wjb/projects/hydra)))))))
 
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
-
 (defun hydra-posframe-show (str)
   "HACK: redefining in order to use the poshandler I want."
   (require 'posframe)
@@ -116,23 +118,24 @@
    " *hydra-posframe*"
    :string str
    :poshandler #'posframe-poshandler-frame-above-center
-   :internal-border-width 2
-   :internal-border-color "light gray"
+   :internal-border-width 3
+   ;; :internal-border-color "light gray"
+   :internal-border-color "dark gray"
    :left-fringe 10
    :right-fringe 10
    :min-height 2
    :min-width 50))
 
 (defvar wjb/sd-services/prodigy '(
-                    ("sd-gimme-db" . 'docker)
-                    ("atalanta" . 'docker-express)
-                    ("darwin" . 'docker)
-                    ("sd-auth" . 'docker-express)
-                    ("sd-playground" . 'docker-express)
-                    ("sd-spelling" . 'docker-express)
-                    ("neodarwin" . 'docker-express)
-                    ("sd-router" . 'docker)
-                    ))
+                                  ("sd-gimme-db" . 'docker)
+                                  ("atalanta" . 'docker-express)
+                                  ("darwin" . 'docker)
+                                  ("sd-auth" . 'docker-express)
+                                  ("sd-playground" . 'docker-express)
+                                  ("sd-spelling" . 'docker-express)
+                                  ("neodarwin" . 'docker-express)
+                                  ("sd-router" . 'docker)
+                                  ))
 
 ;; (prodigy-define-service
 ;;   :name "webpack"
@@ -207,6 +210,8 @@
   ;;   :args '("npm" "run" "watch:build:webpack:dev")
   ;;   :ready-message "webpack is watching the files")
   )
+
+(provide 'services)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; services.el ends here
