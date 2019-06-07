@@ -429,6 +429,21 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :defer t
   :diminish visual-line-mode
   :config
+  (defface org-checkbox-done-text
+    '((t (:strike-through t :slant italic :weight light) ))
+    "Face for the text part of a checked org-mode checkbox.")
+
+  (font-lock-add-keywords
+   'org-mode
+   ;; from https://blog.jft.rocks/emacs/unicode-for-orgmode-checkboxes.html
+   ;; TODO: it is striking through the newline at the end of the line
+   `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+      1 'org-checkbox-done-text prepend))
+   'append)
+
+  (set-face-attribute 'org-headline-done nil :foreground nil)
+  (set-face-attribute 'org-headline-done nil :inherit 'shadow)
+
   (setq org-src-fontify-natively t
         org-directory "~/notes"
         org-agenda-files "~/.emacs.d/org-agenda-files-list.txt"
@@ -442,6 +457,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
         org-replace-disputed-keys t
         org-edit-src-content-indentation 0
         org-catch-invisible-edits 'show
+        org-fontify-done-headline t
         org-return-follows-link t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
@@ -459,10 +475,32 @@ instead, wraps at screen edge, thanks to visual-line-mode."
     (set-fill-column 80)
     (company-mode -1)
     (hungry-delete-mode -1)
+
+    ;; reset it:
+    ;; (setq-default prettify-symbols-alist '(("lambda" . 955)))
+
+    (push '("[ ]" . "☐") prettify-symbols-alist) ;; ⚪
+    (push '("[X]" . "☑") prettify-symbols-alist) ;; ⚫
+    (push '("[-]" . "❆") prettify-symbols-alist) ;; ❍⮽🗳
+
+    (push '("TODO" . ?□) prettify-symbols-alist) ;; ⬜
+    (push '("ACTIVE" . ?⇒) prettify-symbols-alist) ;; TODO: something heavier, bolder
+    (push '("INACTIVE" . ?❎) prettify-symbols-alist) ;; 🞖
+    (push '("DONE" . ?■) prettify-symbols-alist) ;; ⬛
+    (push '("ONGOING" . ?∞) prettify-symbols-alist) ;; ⏲⌛⏳⧗⧖∞⧜
+
+    ;; not needed with fonts that support ligatures and have them for these
+    ;; (e.g., Fira Code, DejaVu Code):
+    ;;
+    ;; (push '("->" . ?➔) prettify-symbols-alist)
+    ;; (push '("=>" . ?⇒) prettify-symbols-alist)
+
     (when (boundp 'fci-mode)
       (fci-mode -1))
+
     (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
+
   (add-hook 'org-mode-hook #'wjb/org-mode-hook)
 
   (global-set-key (kbd "H-c") #'org-capture)
