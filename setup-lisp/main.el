@@ -1134,9 +1134,9 @@ If PROJECT is not specified the command acts on the current project."
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
 (require 'helm-config)
+
 ;; TODO: C-g when helm-mini is showing actually quits
 (use-package helm
-  :defer t
   :config
   (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
   (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
