@@ -99,6 +99,9 @@
 (setq ls-lisp-use-insert-directory-program t)
 (setq insert-directory-program "gls")
 
+(when (fboundp 'mac-auto-operator-composition-mode)
+  (mac-auto-operator-composition-mode))
+
 (use-package osx-plist
   :defer t
   :ensure t)
