@@ -142,23 +142,33 @@
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
 
-(use-package gruvbox-theme ;; light
-  :defer 1
-  :disabled
-  :config
+(defun wjb/go-light ()
+  (interactive)
   (setq wjb/dark nil)
   (change-theme 'gruvbox-light-hard t)
   (wjb/gruvbox-light)
   (global-hl-line-mode -1)
   (wjb/custom-appearance))
 
-(use-package nimbus-theme
+(use-package gruvbox-theme ;; light
   :defer 1
+  :disabled
   :config
+  (call-interactively #'wjb/go-light))
+
+(defun wjb/go-dark ()
+  "Activate my dark theme."
+  (interactive)
   (setq wjb/dark t)
   (change-theme 'nimbus)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
+
+(use-package nimbus-theme
+  :defer 1
+  :disabled
+  :config
+  (call-interactively #'wjb/go-dark))
 
 ;; Nice theme but not updated since 2014. Enabling it produces a warning;
 ;; https://stackoverflow.com/a/1322978/599258 might help with debugging it.
