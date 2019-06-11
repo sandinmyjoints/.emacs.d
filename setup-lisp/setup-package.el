@@ -124,6 +124,7 @@
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
      (cons 'browse-at-remote melpa)
+     (cons 'github-review melpa)
 
      (cons 'tree-mode melpa) ; dirtree requirement.
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
@@ -200,6 +201,7 @@
      (cons 'restclient melpa)
 
      (cons 'flycheck-status-emoji melpa)
+     (cons 'flycheck-package melpa)
      (cons 'flycheck melpa)
      ;; (cons 'flycheck-pos-tip melpa)
      ;;

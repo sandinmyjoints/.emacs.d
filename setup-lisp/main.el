@@ -272,6 +272,9 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 
   (global-flycheck-mode))
 
+(use-package flycheck-package
+  :config (flycheck-package-setup))
+
 (use-package flycheck-inline
   ;; using my own fork of this, it's in /elisp
   :load-path "elisp/flycheck-inline"
