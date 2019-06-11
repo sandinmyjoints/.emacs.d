@@ -328,6 +328,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (beacon-mode 1))
 
 (use-package dired
+  :defer 1
   :init
   ;; This line must run *before* dired is loaded:
   ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
@@ -348,8 +349,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;;
   (setq dired-listing-switches "-lahp"
         dired-dwim-target t
-        dired-recursive-copies 'always)
-  )
+        dired-recursive-copies 'always))
+
 (use-package dired+
   :after dired
   :config
@@ -645,6 +646,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;;
 (use-package page-break-lines)
 
+;; Fix sql-prompt-regexp: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27586
 (use-package sql
   :after page-break-lines
   :config
@@ -2108,7 +2110,7 @@ Interactively also sends a terminating newline."
   ;; - change remove-hook to add-hook
   ;;
   ;; From https://github.com/atomontage/xterm-color
-  ;; (setq compilation-environment '("TERM=xterm-256color")) ;; default nil
+  (setq compilation-environment '("TERM=xterm-256color")) ;; default nil
   (defun xterm-color-compilation-start-hook (proc)
     ;; We need to differentiate between compilation-mode buffers
     ;; and running as part of comint (which at this point we assume
@@ -2121,7 +2123,32 @@ Interactively also sends a terminating newline."
        (lambda (proc string)
          (funcall 'compilation-filter proc
                   (xterm-color-filter string))))))
-  (remove-hook 'compilation-start-hook #'xterm-color-compilation-start-hook)
+  (add-hook 'compilation-start-hook #'xterm-color-compilation-start-hook)
+
+  (setq xterm-color-debug nil
+        comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
+
+  (defun xristos/font-lock-function (_)
+    nil)
+
+  (defun xristos/disable-font-lock ()
+    (font-lock-mode -1)
+    (make-local-variable 'font-lock-function)
+    (setq font-lock-function 'xristos/font-lock-function))
+
+  (defun xristos/shell-mode-hook ()
+    (xristos/disable-font-lock)
+    (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
+
+
+    ;; TODO: The following depends on font-locking, it's better to write
+    ;; my own mode for similar functionality at some point.
+    ;; (compilation-shell-minor-mode 1)
+    )
+
+  (add-hook 'shell-mode-hook 'xristos/shell-mode-hook)
+  ;; my own thing:
+  (add-hook 'comint-mode-hook 'xristos/shell-mode-hook)
 
   ;; what I really want is to add-hook compilation-start-hook only when entering a grep mode buffer
   ;; (make-variable-buffer-local 'compilation-environment)
