@@ -2800,6 +2800,8 @@ resized horizontally or vertically."
 
 (require 'wjb)
 
+(require 'services)
+
 (use-package minions
   :config
   (setq minions-direct '(flycheck-mode))

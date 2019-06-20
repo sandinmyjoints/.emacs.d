@@ -162,6 +162,7 @@
 ;;   :ready-message "Listening on 6789")
 
 (use-package prodigy
+  :disabled
   :config
   ;; from https://github.com/jhirn/emacs-prelude/blob/master/personal/prodigy.el
   (prodigy-define-tag
