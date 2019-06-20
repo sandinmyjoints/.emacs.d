@@ -2306,12 +2306,13 @@ Interactively also sends a terminating newline."
 ;;             map)
 
 ;; I have been activating this via dir-locals, though that also turns it on for
-;; other kinds of buffers (non-JS)
+;; other kinds of buffers (non-JS), like grep, which is annoying because its bindings shadow recompile
 ;;;###autoload
 (define-minor-mode jest-minor-mode
   "Minor mode to run jest-mode commands for compile and friends."
   :lighter " Jest Minor"
   :diminish
+  :after-hook (when (equal mode-name "Grep") (jest-minor-mode -1))
   :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
             (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
             (define-key jest-minor-mode-keymap [remap recompile] 'jest-repeat)
