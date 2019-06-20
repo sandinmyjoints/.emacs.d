@@ -273,6 +273,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (global-flycheck-mode))
 
 (use-package flycheck-package
+  :after flycheck
   :config (flycheck-package-setup))
 
 (use-package flycheck-inline
