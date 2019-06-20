@@ -1252,6 +1252,7 @@ If origin/master is past master:
     - update/refresh = down ; pull ; up --build
 *** If not on master
 ** hydra
+   - dynamically created from list of services: https://github.com/abo-abo/hydra/issues/164
 *** common
     - attach to container logs (optionally tail by default)
     - open shell in home dir
