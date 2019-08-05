@@ -677,9 +677,10 @@ pasting into other programs."
   (defun sanityinc/fix-postgres-prompt-regexp ()
     "Work around https://debbugs.gnu.org/cgi/bugreport.cgi?bug=22596.
 Fix for the above hasn't been released as of Emacs 25.2."
-    (when (eq sql-product 'postgres)
+    (when (or (eq sql-product 'postgres) (eq sql-product 'mysql))
       (setq-local sql-prompt-regexp "^[[:alnum:]_]*=[#>] ")
-      (setq-local sql-prompt-cont-regexp "^[[:alnum:]_]*[-(][#>] ")))
+      (setq-local sql-prompt-cont-regexp "^[[:alnum:]_]*[-(][#>] "))
+    (setq comint-scroll-to-bottom-on-output t))
 
   (add-hook 'sql-interactive-mode-hook 'sanityinc/fix-postgres-prompt-regexp)
 
