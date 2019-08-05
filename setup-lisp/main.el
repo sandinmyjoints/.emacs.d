@@ -970,7 +970,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :diminish
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
+  ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer) ;; giving this a try
   (global-set-key (kbd "H-0 f") 'counsel-find-file)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
