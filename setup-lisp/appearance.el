@@ -94,6 +94,7 @@
 ;; https://github.com/tonsky/FiraCode/wiki
 ;; https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
 (set-face-attribute 'default nil :family "Fira Code" :height 140)
+;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
 
 ;; set a fallback
 (set-fontset-font t nil "Courier New" nil 'append)
@@ -199,6 +200,8 @@
 
   (wjb/custom-appearance))
 
+;; Another theme to try: https://github.com/ianpan870102/Emacs-Wilmersdorf-Theme
+
 ;; TODO: try counsel-load-theme
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defun change-theme (&rest args)
@@ -212,7 +215,7 @@
 
 (defvar wjb/dark t)
 (defvar wjb/dark-cursor-color "#30F0F0")
-(defvar wjb/light-cursor-color "purple")
+(defvar wjb/light-cursor-color "green")
 
 (defun wjb/gruvbox-dark ()
   ;; instead of red:
@@ -292,7 +295,7 @@
   (let ((color
          (if buffer-read-only (if wjb/dark "white" "#116")
            (if overwrite-mode "red"
-             wjb/dark-cursor-color))))
+             (if wjb/dark wjb/dark-cursor-color wjb/light-cursor-color)))))
     (unless (and
              (string= color wjb/set-cursor-color-color)
              (string= (buffer-name) wjb/set-cursor-color-buffer))

@@ -64,6 +64,9 @@
   (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
 
+  ;; remove a repo;
+  ;; (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
+
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
 

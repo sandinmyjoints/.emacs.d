@@ -329,7 +329,6 @@
       text-quoting-style 'straight
       search-default-mode #'character-fold-to-regexp
       auto-window-vscroll nil
-      source-directory "/Users/william/scm/vendor/emacs-mac/src"
       compile-command "npm test"
       compilation-always-kill t
       recenter-positions '(0.33 top bottom))

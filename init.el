@@ -115,7 +115,7 @@
   ;; value.
   (setq wjb/gc-timer
         (run-with-idle-timer 15 nil (lambda ()
-                                     (message "GCing while idle.")
+                                     (message "Garbage collecting while idle.")
                                      (garbage-collect)
                                      (setq gc-cons-threshold wjb/gc-cons-threshold)
                                      (makunbound 'wjb/gc-timer)))))

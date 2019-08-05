@@ -2480,7 +2480,8 @@ Interactively also sends a terminating newline."
   :diminish
   :config
   (setq hungry-delete-chars-to-skip " \t"
-        hungry-delete-except-modes '(help-mode minibuffer-inactive-mode calc-mode))
+        hungry-delete-except-modes '(help-mode minibuffer-inactive-mode calc-mode org-mode))
+
   ;; TODO: turn off in some modes:
   ;; - org-mode?
   ;; - whitespace sensitive modes?

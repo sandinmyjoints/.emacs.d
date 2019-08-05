@@ -184,6 +184,7 @@ If buffer is not visiting a file, do nothing."
       js2-rebind-eol-bol-keys nil
       js2-concat-multiline-strings 'eol
       js-indent-level preferred-javascript-indent-level
+      js2r-prefer-let-over-var t
       js-doc-mail-address "william.bert@gmail.com"
       js-doc-author (format "William Bert <%s>" js-doc-mail-address)
       js-doc-url "williambert.online"
@@ -256,7 +257,7 @@ If buffer is not visiting a file, do nothing."
                         (expand-file-name "node_modules/eslint/bin/eslint.js"
                                           root)))
            (eslint_d (executable-find "eslint_d")))
-      (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
+      ;; (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
       (if (file-executable-p (format "%s" eslint_d))
             (setq-local flycheck-javascript-eslint-executable eslint_d)
         (when (and eslint (file-executable-p (format "%s" eslint)))
