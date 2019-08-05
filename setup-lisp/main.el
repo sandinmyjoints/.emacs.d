@@ -469,6 +469,18 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; entry, instead of having to mark it
   (define-key org-mode-map (kbd "C-c e") #'org-slack-export-to-clipboard-as-slack)
 
+  ;; org-export-registered-backends is the variable that knows what backends exist
+  ;; TODO: replace with copy-as-format
+  (defun org-export-to-clipboard-as-md ()
+    "Export region to Markdown, and copy to the kill ring for
+pasting into other programs."
+    (interactive)
+    (let* ((org-export-with-toc nil)
+           (org-export-with-smart-quotes nil))
+      (kill-new (s-replace-all '(("\\_" . "_")) (org-export-as 'md) ))))
+
+  (define-key org-mode-map (kbd "C-c m") #'org-export-to-clipboard-as-md)
+
   ;; what do these do?
   ;; (define-key global-map "\C-cl" 'org-store-link)
   ;; (define-key global-map "\C-ca" 'org-agenda)
