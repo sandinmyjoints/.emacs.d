@@ -2270,78 +2270,76 @@ Interactively also sends a terminating newline."
   (recompile-on-save-advice compile)
   (recompile-on-save-advice recompile))
 
-(require 'jest)
+;; jest-mode is derived from comint:
+;; (define-derived-mode jest-mode
+;; comint-mode "jest"
+;; "Major mode for jest sessions (derived from comint-mode)."
+;; (compilation-setup t))
+;;
+;; - in buffers as specified by dir-locals (js, jsx, etc):  run jest-minor-mode so that compile and recompile run jest, but not g
+;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
+;; - in *grep* buffers: nothing jest. g re-runs grep.
 (use-package jest
   :bind (
          :map jest-mode-map
-         ("g" . jest-repeat)
-         ("M-n" . compilation-next-error)
-         ("M-p" . compilation-previous-error)
-         ("C-c RET" . jest-popup)
-         ("C-c <C-return>" . jest-repeat)
-         :map compilation-minor-mode-map
-         ;; TODO not sure both of these are required -- not sure what the
-         ;; defaults are for this map
-         ("C-c RET" . jest-popup)
-         ("C-c C-<return>" . jest-repeat)
          ([remap compile] . jest-popup)
          ([remap recompile] . jest-repeat)
+
+         ;; TODO: none of this seems to be needed anymore. Delete it.
+         ;; ("g" . jest-repeat)
+         ;; ("M-n" . compilation-next-error)
+         ;; ("M-p" . compilation-previous-error)
+         ;; ("C-c RET" . jest-popup)
+         ;; ("C-c <C-return>" . jest-repeat)
+         ;; :map compilation-minor-mode-map
+         ;; ;; TODO not sure both of these are required -- not sure what the
+         ;; ;; defaults are for this map
+         ;; ("C-c RET" . jest-popup)
+         ;; ("C-c C-<return>" . jest-repeat)
+         ;; ([remap compile] . jest-popup)
+         ;; ([remap recompile] . jest-repeat)
          )
   :config
-  ;; not sure which of this is preferable to use. shell-minor seems to not have
+  ;; Not sure which is preferable to use. shell-minor seems to not have
   ;; as many key bindings I want, however, it allows sending input into the
   ;; buffer.
   ;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
-  (add-hook 'jest-mode-hook #'compilation-minor-mode)
-
-  ;; should be redundant due to :bind above
-  (define-key jest-mode-map [remap recompile] 'jest-repeat)
-  )
-
-;; (define-key compilation-mode-map [remap compile] 'jest-popup)
-;; (define-key compilation-mode-map [remap recompile] 'jest-repeat)
-;; (define-key compilation-mode-map (kbd "C-c RET") 'jest-popup)
-;; (define-key compilation-mode-map (kbd "C-c C-<return>") 'jest-repeat)
-
+  (add-hook 'jest-mode-hook #'compilation-minor-mode))
 
 (defcustom jest-compile-function 'jest-popup
   "Command to run when compile and friends are called."
   :group 'jest
   :type 'function)
 
+;; change
+;; (setq jest-compile-function #'jest-popup)
+;; (setq jest-compile-function #'jest-file-dwim)
+
 (defun jest-compile-command ()
   (interactive)
   (call-interactively (symbol-value 'jest-compile-function)))
 
-;; (define-minor-mode jest-compilation-minor-mode
-;;   "Minor mode to run jest-mode commands for compile and friends inside compilation buffers."
-;;   :keymap (let ((map (make-sparse-keymap)))
-;;             (define-key map [remap recompile] 'jest-repeat)
-;;             map)
+(defun jest-minor-inhibit-self ()
+  "Add this hook to modes that should not use jest-minor but otherwise would."
+  (add-hook 'after-change-major-mode-hook
+            (lambda () (jest-minor-mode 0))
+            :append :local))
+
+(add-hook 'grep-mode-hook 'jest-minor-inhibit-self)
 
 ;; I have been activating this via dir-locals, though that also turns it on for
-;; other kinds of buffers (non-JS), like grep, which is annoying because its bindings shadow recompile
+;; other kinds of buffers (non-JS), like grep, which is annoying because its bindings shadow recompile.
 ;;;###autoload
 (define-minor-mode jest-minor-mode
   "Minor mode to run jest-mode commands for compile and friends."
   :lighter " Jest Minor"
-  :diminish
-  :after-hook (when (equal mode-name "Grep") (jest-minor-mode -1))
   :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
             (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
             (define-key jest-minor-mode-keymap [remap recompile] 'jest-repeat)
             (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
-            jest-minor-mode-keymap)
-  )
+            jest-minor-mode-keymap))
 
 (diminish 'jest-minor-mode)
-
-;; when starting a test run, activate jest-compilation-minor-mode
-;; whose keymap remaps recompile to jest-repeat
-
-;; change
-;; (setq jest-compile-function #'jest-popup)
-;; (setq jest-compile-function #'jest-file-dwim)
 
 ;; unbind
 ;; (fmakunbound 'jest-minor-mode)
