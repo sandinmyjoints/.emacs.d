@@ -1144,7 +1144,6 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (setq counsel-find-file-at-point t
         counsel-preselect-current-file t
-        counsel-yank-pop-height 12
         counsel-yank-pop-preselect-last t)
   ;; from https://emacs.stackexchange.com/a/33706/2163
   (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
