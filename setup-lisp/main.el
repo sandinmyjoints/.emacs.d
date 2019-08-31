@@ -446,9 +446,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
       1 'org-checkbox-done-text prepend))
    'append)
 
-  (set-face-attribute 'org-headline-done nil :foreground nil)
-  (set-face-attribute 'org-headline-done nil :inherit 'shadow)
-
   (setq org-src-fontify-natively t
         org-directory "~/notes"
         org-agenda-files "~/.emacs.d/org-agenda-files-list.txt"
@@ -492,6 +489,8 @@ pasting into other programs."
     (set-fill-column 80)
     (company-mode -1)
     (hungry-delete-mode -1)
+    (set-face-attribute 'org-headline-done nil :foreground nil)
+    (set-face-attribute 'org-headline-done nil :inherit 'shadow)
 
     ;; reset it:
     ;; (setq-default prettify-symbols-alist '(("lambda" . 955)))
