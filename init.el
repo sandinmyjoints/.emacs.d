@@ -103,22 +103,32 @@
 
 (defvar wjb/gc-cons-threshold (eval-when-compile (* 40 1024 1024)))
 (defvar wjb/gc-timer)
-(setq garbage-collection-messages t)
+(setq garbage-collection-messages nil)
 
 (let
     ((file-name-handler-alist nil)
-     (gc-cons-threshold most-positive-fixnum))
+     (gc-cons-threshold most-positive-fixnum)
+     (garbage-collection-messages t))
   (init)
   ;; This would result in a big GC after init finishes, right when I want to
-  ;; start using Emacs. Instead, schedule gc to run once after some amount of
-  ;; idle time, then when it finishes, reset the threshold to a reasonable
-  ;; value.
-  (setq wjb/gc-timer
-        (run-with-idle-timer 15 nil (lambda ()
-                                     (message "Garbage collecting while idle.")
-                                     (garbage-collect)
-                                     (setq gc-cons-threshold wjb/gc-cons-threshold)
-                                     (makunbound 'wjb/gc-timer)))))
+  ;; start using Emacs. Instead, give init a while to run, then schedule gc to
+  ;; run once after some amount of idle time, then when it finishes, reset the
+  ;; threshold to a reasonable value. The key to this is that when I start
+  ;; Emacs, the idle timer starts counting, and I usually don't touch it until
+  ;; init is done, by which time the idle timer is going to go off.
+  (add-hook 'post-gc-hook (lambda ()
+                            (when (fboundp 'wjb/gc-timer)
+                                (when (timerp 'wjb/gc-timer)
+                                     (cancel-timer 'wjb/gc-timer))
+                                (makunbound 'wjb/gc-timer))))
+  (run-with-timer
+   10 nil (lambda ()
+            (setq wjb/gc-timer
+                  (run-with-idle-timer
+                   5 nil (lambda ()
+                           ;; (message "Garbage collecting while idle.")
+                           (garbage-collect)
+                           (setq gc-cons-threshold wjb/gc-cons-threshold)))))))
 
 (provide 'init)
 
