@@ -161,7 +161,7 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c C-SPC") 'just-one-space)
 
-(global-set-key (kbd "C-c w") 'whitespace-mode)
+;; (global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
 
 (global-set-key (kbd "C-!") 'shell-command-on-buffer)

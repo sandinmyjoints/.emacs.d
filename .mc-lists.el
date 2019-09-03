@@ -17,6 +17,7 @@
         coffee-newline-and-indent
         comment-region
         counsel-M-x
+        counsel-find-file
         dired-do-delete
         dired-next-line
         easy-mark

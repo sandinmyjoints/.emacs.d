@@ -325,13 +325,20 @@
 
 (setq message-log-max t
       suggest-key-bindings nil
-      large-file-warning-threshold 2500000
+      large-file-warning-threshold 25000000
       text-quoting-style 'straight
       search-default-mode #'character-fold-to-regexp
       auto-window-vscroll nil
       compile-command "npm test"
       compilation-always-kill t
-      recenter-positions '(0.33 top bottom))
+      recenter-positions '(0.33 top bottom)
+      ediff-window-setup-function 'ediff-setup-windows-plain
+      revert-without-query '("TAGS"))
+
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (if (fboundp 'global-prettify-symbols-mode)
     (progn  (global-prettify-symbols-mode 1)
