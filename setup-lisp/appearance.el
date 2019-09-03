@@ -1,3 +1,4 @@
+;; *** rainbow-mode: t
 ;;; appearance.el ---
 ;;
 ;; Filename: appearance.el
@@ -93,7 +94,14 @@
 ;; But wow, this is great!
 ;; https://github.com/tonsky/FiraCode/wiki
 ;; https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
+;;
+;; More fonts to try:
+;; - https://www.reddit.com/r/emacs/comments/cymay9/variable_pitch_fonts_for_programming/
+
+;; Good for laptop
 (set-face-attribute 'default nil :family "Fira Code" :height 140)
+
+;; Good for external monitor
 ;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
 
 ;; set a fallback
@@ -143,21 +151,26 @@
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
 
-(defun wjb/go-light ()
+(defun wjb/light-theme ()
   (interactive)
   (setq wjb/dark nil)
   (change-theme 'gruvbox-light-hard t)
   (wjb/gruvbox-light)
   (global-hl-line-mode -1)
-  (wjb/custom-appearance))
+  (wjb/custom-appearance)
+  ;; region is #d5c4a1
+  ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
+  ;; they are too close
+  ;; make it #ebdbcc
+  (set-face-background 'easy-kill-selection "#ebdbcc"))
 
 (use-package gruvbox-theme ;; light
   :defer 1
   :disabled
   :config
-  (call-interactively #'wjb/go-light))
+  (call-interactively #'wjb/light-theme))
 
-(defun wjb/go-dark ()
+(defun wjb/dark-theme ()
   "Activate my dark theme."
   (interactive)
   (setq wjb/dark t)
@@ -169,7 +182,7 @@
   :defer 1
   :disabled
   :config
-  (call-interactively #'wjb/go-dark))
+  (call-interactively #'wjb/dark-theme))
 
 ;; Nice theme but not updated since 2014. Enabling it produces a warning;
 ;; https://stackoverflow.com/a/1322978/599258 might help with debugging it.
@@ -214,8 +227,12 @@
          #'load-theme args))
 
 (defvar wjb/dark t)
-(defvar wjb/dark-cursor-color "#30F0F0")
-(defvar wjb/light-cursor-color "green")
+
+;; https://github.com/morhetz/gruvbox
+(defvar wjb/dark-cursor-color "#30F0F0") ;; #458588 #076678 #blue #0000FF #0766FF
+(defvar wjb/light-cursor-color "#98FF1a") ;; #98971a #79740e #green #00FF00
+(defvar wjb/read-only-cursor-dark "white")
+(defvar wjb/read-only-cursor-light "#d65d0e") ;; "#116"
 
 (defun wjb/gruvbox-dark ()
   ;; instead of red:
@@ -227,9 +244,8 @@
   ;; to make background true black:
   ;; (set-face-background 'default "#000")
 
-  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
   ;; (set-face-background 'markdown-code-face "#000")
-  )
+  (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130))
 
 (defun wjb/gruvbox-light ()
   ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
@@ -293,7 +309,7 @@
   "change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
   (let ((color
-         (if buffer-read-only (if wjb/dark "white" "#116")
+         (if buffer-read-only (if wjb/dark wjb/read-only-cursor-dark wjb/read-only-cursor-light)
            (if overwrite-mode "red"
              (if wjb/dark wjb/dark-cursor-color wjb/light-cursor-color)))))
     (unless (and
@@ -315,6 +331,18 @@
 ;; (set-face-background 'region "#464740")
 ;; (set-face-foreground 'font-lock-warning-face "#ff6666")
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
+
+;; transparency:
+(defvar wjb/alpha 90)
+
+;; TODO transparency looks good with dark theme, not so good with light theme
+(add-hook 'focus-out-hook (lambda () (set-frame-parameter (selected-frame) 'alpha wjb/alpha)))
+(add-hook 'focus-in-hook (lambda () (set-frame-parameter (selected-frame) 'alpha 100)))
+
+;; To make it default, you can add this:
+
+;; (add-to-list 'default-frame-alist
+;;              '(alpha . 84))
 
 (provide 'appearance)
 
