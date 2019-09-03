@@ -870,7 +870,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :defer t
   :diminish rainbow-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+  ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
   (add-hook 'coffee-mode-hook 'rainbow-mode)
   (add-hook 'less-css-mode-hook 'rainbow-mode)
   (add-hook 'css-mode-hook 'rainbow-mode)
@@ -1426,6 +1426,7 @@ If PROJECT is not specified the command acts on the current project."
 (defun wjb/disable-show-paren-mode ()
   ;; See http://endlessparentheses.com/locally-configure-or-disable-show-paren-mode.html
   (setq-local show-paren-mode nil))
+
 ;; Highlight matching parentheses when point is on them.
 ;;
 (use-package paren
@@ -1441,7 +1442,8 @@ If PROJECT is not specified the command acts on the current project."
 ;; Dims parens in certain modes.
 (use-package paren-face
   ;; TODO: dolist :hook over all the applicable modes
-  ;; :defer t
+  :defer 1
+  :disabled
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
@@ -1541,6 +1543,17 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; (require 'lisp-stuff)
 
+;; EPG.
+(use-package epa-file
+  :defer t
+  :config
+  (epa-file-enable)
+  (setenv "GPG_AGENT_INFO" nil))
+
+(use-package password-cache
+  :config
+  (setq password-cache-expiry (* 15 60)))
+
 ;; Lines in this file take the form of:
 ;; machine api.github.com login sandinmyjoints^magit password SECRET_THING
 ;;
@@ -1572,13 +1585,6 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package org-pivotal
   :defer 1)
-
-;; EPG.
-(use-package epa-file
-  :defer t
-  :config
-  (epa-file-enable)
-  (setenv "GPG_AGENT_INFO" nil))
 
 ;; Usage
 ;;
@@ -1926,6 +1932,7 @@ If PROJECT is not specified the command acts on the current project."
   (define-key company-mode-map (kbd "M-/") 'company-complete)
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
+  (setq company-selection-wrap-around t)
   ;; trial:
   (company-statistics-mode -1)
   (company-quickhelp-mode -1)
@@ -2825,9 +2832,6 @@ resized horizontally or vertically."
 (defvar desktop-restore-eager 16)
 (desktop-save-mode 1)
 
-;; This is voodoo...
-(-remove-item "/Users/william/scm/sd/hegemone/TAGS" tags-table-list)
-
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
 
@@ -2846,17 +2850,7 @@ resized horizontally or vertically."
 
 ;; Experimental:
 (add-to-list 'load-path "../elisp/emacs-libvterm/build")
-(let (vterm-install)
-  (require 'vterm)
-  (define-key vterm-mode-map [up]    '(lambda () (interactive) (vterm-send-key "<up>")))
-  (define-key vterm-mode-map [down]  '(lambda () (interactive) (vterm-send-key "<down>")))
-  (define-key vterm-mode-map [right] '(lambda () (interactive) (vterm-send-key "<right>")))
-  (define-key vterm-mode-map [left]  '(lambda () (interactive) (vterm-send-key "<left>")))
-  (define-key vterm-mode-map [tab]   '(lambda () (interactive) (vterm-send-key "<tab>")))
-  (define-key vterm-mode-map (kbd "DEL") '(lambda () (interactive) (vterm-send-key "<backspace>")))
-  (define-key vterm-mode-map (kbd "RET") '(lambda () (interactive) (vterm-send-key "<return>")))
-  (define-key vterm-mode-map (kbd "C-]") #'vterm--self-insert)
-  )
+(add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
 (use-package hi-lock
   :diminish)
