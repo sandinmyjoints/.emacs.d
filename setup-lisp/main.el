@@ -1233,7 +1233,27 @@ If PROJECT is not specified the command acts on the current project."
 (use-package helm-xref
   :after helm
   :config
-  (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs
+        helm-xref-candidate-formatting-function 'wjb/helm-xref-format-candidate-long)
+
+  ;; see https://github.com/brotzeit/helm-xref/issues/19
+  (defun wjb/helm-xref-format-candidate-long (file line summary)
+    "Build long form of candidate format with FILE, LINE, and SUMMARY."
+
+    (setq modified-file (s-replace (projectile-project-root) "" file))
+    (setq modified-file (s-replace-regexp abbreviated-home-dir "" modified-file))
+    (setq modified-file (s-replace "scm/" "" modified-file))
+    (setq modified-file (s-replace "sd/" "" modified-file))
+    (concat
+     ;; (propertize file 'font-lock-face 'helm-xref-file-name)
+     (propertize modified-file 'font-lock-face 'helm-xref-file-name)
+     (when (string= "integer" (type-of line))
+       (concat
+        ""
+        (propertize (int-to-string line)
+                    'font-lock-face 'helm-xref-line-number)))
+     ":"
+     summary)))
 
 (use-package helm-aws
   :after helm)
@@ -1267,13 +1287,42 @@ If PROJECT is not specified the command acts on the current project."
   (smart-jump-setup-default-registers)
   ;; this binds to M-. and M-, in prog-mode-map:
   (smart-jump-bind-jump-keys 'prog-mode)
+  ;; heuristic is used to know whether the jump succeeded or not.
+  ;; error means it failed if an error was signaled.
+  ;; point means it failed if point is the same after the jump as before.
   (smart-jump-register :modes 'js2-mode
                        :jump-fn 'js2-jump-to-definition
                        :should-jump t
                        :heuristic 'point
                        :async nil
+                       :order 1)
+  (smart-jump-register :modes 'js2-mode
+                       :jump-fn 'counsel-etags-find-tag-at-point
+                       :should-jump t
+                       :heuristic 'error
+                       :async nil
                        :order 0)
     )
+
+;; counsel-etags-scan-code
+(use-package counsel-etags
+  :defer t
+  ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
+  :init
+  (add-hook 'prog-mode-hook
+        (lambda ()
+          (add-hook 'after-save-hook
+            'counsel-etags-virtual-update-tags 'append 'local)))
+  :config
+  ;; this is how smart-jump heuristic error works:
+  (defun counsel-etags-grep (&optional default-keyword hint root)
+    (error "Signaling error instead of grepping"))
+
+  (setq counsel-etags-update-interval 60)
+  (add-to-list 'counsel-etags-ignore-directories "build")
+  (add-to-list 'counsel-etags-ignore-directories "dist")
+  (add-to-list 'counsel-etags-ignore-directories "local_notes")
+  (add-to-list 'counsel-etags-ignore-filenames "*.org"))
 
 (require 'setup-tramp)
 
