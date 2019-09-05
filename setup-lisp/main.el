@@ -113,6 +113,41 @@
 (load custom-file t t)
 
 ;; ========================================
+;; Helper defuns.
+;; ========================================
+
+;; counsel-switch-buffer and magit-status, when run in a dedicated window
+;; (dirtree), aren't useful. Switch to another (non-dedicated) window in such
+;; cases.
+
+(defun wjb/counsel-switch-buffer-other-window ()
+  "Switch to another buffer in another window.
+Display a preview of the selected ivy completion candidate buffer
+in the current window."
+  (interactive)
+  (ivy-read "Switch to buffer in other window: " 'internal-complete-buffer
+            :preselect (buffer-name (window-buffer (window-in-direction 'right)))
+            :action #'ivy--switch-buffer-other-window-action
+            :matcher #'ivy--switch-buffer-matcher
+            :caller 'counsel-switch-buffer-other-window
+            :unwind #'counsel--switch-buffer-unwind
+            :update-fn 'counsel--switch-buffer-update-fn))
+
+(defun wjb/smart-counsel-switch-buffer ()
+  (interactive)
+  (if (window-dedicated-p (get-buffer-window))
+      (call-interactively #'counsel-switch-buffer-other-window)
+    (call-interactively #'counsel-switch-buffer)))
+
+(defun wjb/smart-magit-status ()
+  (interactive)
+  (if (window-dedicated-p (get-buffer-window))
+      (progn
+        (other-window 1)
+        (call-interactively #'magit-status))
+    (call-interactively #'magit-status)))
+
+;; ========================================
 ;; Package management.
 ;; ========================================
 
@@ -711,7 +746,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; Magit.
 (use-package magit
-  :bind (("C-x g" . magit-status))
+  :bind (("C-x g" . wjb/smart-magit-status))
   :config
   (setq ghub-use-workaround-for-emacs-bug nil
         ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
@@ -970,7 +1005,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
   ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
-  (global-set-key (kbd "C-x b") 'counsel-switch-buffer) ;; giving this a try
+  (global-set-key (kbd "C-x b") #'wjb/smart-counsel-switch-buffer) ;; giving this a try
   (global-set-key (kbd "H-0 f") 'counsel-find-file)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
