@@ -58,14 +58,14 @@
   (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
   (defvar org '("org" . "https://orgmode.org/elpa/"))
 
+  ;; Generally not upgrading packages in this archive:
+  (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
+
   (add-to-list 'package-archives org)
   (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
-
-  ;; remove a repo;
-  ;; (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
 
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
@@ -156,6 +156,7 @@
      (cons 'expand-region melpa)
      (cons 'easy-kill melpa)
      (cons 'easy-kill-extras melpa)
+     (cons 'copy-as-format melpa)
      (cons 'page-break-lines melpa)
      (cons 'centered-cursor-mode melpa)
      (cons 'eyebrowse melpa)
@@ -263,6 +264,7 @@
      (cons 'ivy-hydra melpa)
      (cons 'ivy-posframe melpa)
      (cons 'counsel melpa)
+     (cons 'counsel-etags melpa)
      (cons 'counsel-projectile melpa)
      (cons 'counsel-css melpa)
      (cons 'counsel-tramp melpa)
