@@ -1,4 +1,4 @@
-;; *** rainbow-mode: t
+;; -*- rainbow-mode: t; -*-
 ;;; appearance.el ---
 ;;
 ;; Filename: appearance.el
@@ -156,7 +156,7 @@
   (setq wjb/dark nil)
   (change-theme 'gruvbox-light-hard t)
   (wjb/gruvbox-light)
-  (global-hl-line-mode -1)
+  (wjb/turn-on-hl-line)
   (wjb/custom-appearance)
   ;; region is #d5c4a1
   ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
@@ -176,6 +176,7 @@
   (setq wjb/dark t)
   (change-theme 'nimbus)
   (wjb/turn-on-hl-line)
+  ;; (set-face-background 'default "#000")
   (wjb/custom-appearance))
 
 (use-package nimbus-theme
@@ -252,6 +253,14 @@
   ;; (set-face-background 'default "#000")
   ;; (set-cursor-color wjb/dark-cursor-color)
   ;; (set-face-background 'region "#2d3d45")
+
+  ;; gruvbox-light-hard doesn't define these.
+  (set-face-background 'diredp-dir-priv nil)
+  (set-face-background 'diredp-dir-priv nil)
+  (set-face-background 'diredp-exec-priv nil)
+  (set-face-background 'diredp-link-priv nil)
+  (set-face-background 'diredp-read-priv nil)
+  (set-face-background 'diredp-write-priv nil)
   )
 
 (declare-function color-lighten-name "colors.el")
@@ -269,9 +278,12 @@
                        (color-darken-name
                         (face-attribute 'default :background) 4)))
 
+;; (global-hl-line-mode -1)
 (defun wjb/turn-on-hl-line ()
   "Turn on highlighted line."
-  (use-package hl-line)
+  (use-package hl-line
+    :config
+    (setq hl-line-sticky-flag nil))
   (wjb/set-hl-line-bg)
   (global-hl-line-mode 1))
 
@@ -333,11 +345,21 @@
 ;; (set-face-foreground 'font-lock-comment-face "tan1")
 
 ;; transparency:
-(defvar wjb/alpha 90)
+(defvar wjb/more-transparent 90)
+(defvar wjb/less-transparent 98)
 
-;; TODO transparency looks good with dark theme, not so good with light theme
-(add-hook 'focus-out-hook (lambda () (set-frame-parameter (selected-frame) 'alpha wjb/alpha)))
-(add-hook 'focus-in-hook (lambda () (set-frame-parameter (selected-frame) 'alpha 100)))
+;; TODO transparency looks good enough with dark theme to always be one, but
+;; not so good with light theme.
+(defun wjb/focus-in-hook ()
+  (if wjb/dark
+      (set-frame-parameter (selected-frame) 'alpha wjb/more-transparent)
+    (set-frame-parameter (selected-frame) 'alpha wjb/less-transparent)))
+
+(defun wjb/focus-out-hook ()
+  (set-frame-parameter (selected-frame) 'alpha wjb/more-transparent))
+
+(add-hook 'focus-in-hook #'wjb/focus-in-hook)
+(add-hook 'focus-out-hook #'wjb/focus-out-hook)
 
 ;; To make it default, you can add this:
 
