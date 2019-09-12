@@ -103,7 +103,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (define-key js2-mode-map [remap move-beginning-of-line] 'js2-beginning-of-line)
   (define-key js2-mode-map [remap move-end-of-line] 'js2-end-of-line)
   (define-key js2-mode-map [remap forward-sexp] 'js2-mode-forward-sexp)
-  (define-key js2-mode-map [remap yafolding-toggle-element] 'js2-mode-toggle-element)
+  (define-key js2-mode-map (kbd "C-c C-o") 'js2-mode-toggle-element)
 
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
@@ -244,11 +244,13 @@ If buffer is not visiting a file, do nothing."
 ;; Flycheck.
 ;;
 (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
+(setq flycheck-eslint-args '("--no-color"))
 
 ;; from http://emacs.stackexchange.com/a/21207
 (defun my/use-eslint-from-node-modules ()
   ;; TODO: may need to add web-mode or some js-specific minor mode from it to
   ;; this to get proper eslint when using web-mode for jsx files
+  ;; TODO: use flycheck-executable-find
   (when (derived-mode-p 'js-mode)
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
