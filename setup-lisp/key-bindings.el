@@ -57,7 +57,9 @@
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
-(global-set-key (kbd "H-a") #'wjb/switch-to-dirtree)
+
+;; (global-set-key (kbd "H-a") #'wjb/switch-to-dirtree)
+(global-set-key (kbd "H-a") #'windmove-left)
 
 (global-set-key (kbd "C-/") 'hippie-expand) ;; clobbers undo, but I never use it at this binding anyway
 
@@ -134,17 +136,18 @@ Also converts full stops to commas."
          ("C-x l" . ace-window))
   :config
   (setq aw-scope 'frame
-        aw-ignore-current t
+        aw-background nil
+        aw-ignore-current nil
+        aw-ignored-buffers '(dirtree-mode)
+        aw-ignore-on t
         aw-keys '(?1 ?2 ?3 ?4)))
 
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
-;(global-set-key (kbd "C-x C-o") 'other-window) ; Clobbers delete-blank-lines.
+(global-set-key (kbd "C-x C-o") 'helm-mini) ; Clobbers delete-blank-lines.
 
 (global-set-key (kbd "C-x p") 'bury-buffer)
 
 (global-set-key (kbd "M-/") 'hippie-expand)
-
-(global-set-key (kbd "C-c s") 'ansi-term)
 
 ;; (global-set-key (kbd "C-c r") 'query-replace-regexp)
 ;; (global-set-key (kbd "C-c C-r") 're-builder)
@@ -161,7 +164,6 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c C-SPC") 'just-one-space)
 
-;; (global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
 
 (global-set-key (kbd "C-!") 'shell-command-on-buffer)
@@ -175,8 +177,6 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-c j") 'join-line)
 (global-set-key (kbd "C-c C-j") 'join-line)
-
-(global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 
 (global-set-key (kbd "C-x C-g") 'keyboard-quit)
 
