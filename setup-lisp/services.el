@@ -75,7 +75,17 @@
 
 (use-package hydra
   :config
-  (setq hydra-hint-display-type 'posframe))
+  (setq hydra--work-around-dedicated nil
+        hydra-hint-display-type 'posframe)
+  (setq hydra-posframe-show-params
+        '(:internal-border-width 1
+          :internal-border-color "red"
+          :poshandler posframe-poshandler-frame-above-center)))
+
+(use-package hydra-posframe
+  :hook (after-init . hydra-posframe-enable)
+  :config
+  (setq hydra-posframe-poshandler 'posframe-poshandler-frame-above-center))
 
 ;; TODO: rewrite using defhydra+
 ;; see https://github.com/abo-abo/hydra/issues/185
