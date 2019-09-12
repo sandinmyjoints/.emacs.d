@@ -410,6 +410,17 @@
 (setq visible-bell t)
 (wjb/visible-bell-mode 1)
 
+(defvar desktop-restore-eager 16)
+(desktop-save-mode 1)
+
+;; emacs 27
+(setq auto-save-no-message t
+      tooltip-resize-echo-area t
+      ;; I think I want this:
+      switch-to-buffer-obey-display-actions t
+      ;; this is actual buffer-local:
+      display-fill-column-indicator t)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

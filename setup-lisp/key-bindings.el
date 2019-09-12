@@ -27,6 +27,12 @@
   `(define-key (current-global-map) ,new
      (lookup-key (current-global-map) ,old)))
 
+;; - newline RET (old binding)
+;; - electric-newline-and-maybe-indent C-j
+;; - comment-indent-new-line M-j -- going to try using that as RET bc it seems more useful
+(global-set-key (kbd "RET") #'comment-indent-new-line)
+(global-set-key (kbd "C-m") #'newline)
+
 (global-unset-key (kbd "C-x ."))  ;; unset set-fill-prefix
 
 ;; Used by Alfred.

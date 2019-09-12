@@ -2944,8 +2944,26 @@ is already narrowed."
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
 
-(defvar desktop-restore-eager 16)
-(desktop-save-mode 1)
+(use-package hi-lock
+  :diminish)
+
+(use-package minions
+  :config
+  (setq minions-direct '(flycheck-mode))
+  (minions-mode 1))
+
+(require 'wjb)
+
+(defun wjb/after-init-hook ()
+  (setq source-directory "/Users/william/scm/vendor/emacs-mac"
+        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src"))
+(add-hook 'after-init-hook #'wjb/after-init-hook)
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+;; Experimental:
+(add-to-list 'load-path "../elisp/emacs-libvterm/build")
+(add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
@@ -2962,27 +2980,6 @@ is already narrowed."
 ;;   ;; TODO: need unique name for thing
 ;;   (setq thing (wjb/generate-idle-callback fun))
 ;;   (add-hook 'auto-save-hook thing))
-
-;; Experimental:
-(add-to-list 'load-path "../elisp/emacs-libvterm/build")
-(add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
-
-(use-package hi-lock
-  :diminish)
-
-(require 'wjb)
-
-(require 'services)
-
-(use-package minions
-  :config
-  (setq minions-direct '(flycheck-mode))
-  (minions-mode 1))
-
-(use-package smooth-scrolling
-  :init
-  :disabled
-  (smooth-scrolling-mode nil))
 
 (provide 'main)
 

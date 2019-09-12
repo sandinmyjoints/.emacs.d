@@ -50,6 +50,13 @@
 (set-register ?t "TODO ")
 (set-register ?h "TODO HERE: ")
 
+;; my SD user id
+(set-register ?u 843103)
+;; la niña
+(set-register ?g 49945)
+;; rachel's user id
+(set-register ?r 1138584)
+
 ;; Set custom markers.
 ;; Args:
 ;; 1. Marker.
