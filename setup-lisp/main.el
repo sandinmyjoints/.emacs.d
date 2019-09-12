@@ -1576,6 +1576,11 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key [remap kill-ring-save] 'easy-kill)
   (global-set-key [remap mark-sexp] 'easy-mark))
 
+(use-package copy-as-format
+  :config
+  (global-set-key (kbd "C-c w s") 'copy-as-format-slack)
+  (global-set-key (kbd "C-c w g") 'copy-as-format-github))
+
 (require 'setup-dirtree)
 (with-eval-after-load 'dirtree
   (progn
@@ -1793,8 +1798,8 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package sane-term
   :commands (sane-term sane-term-create)
-  :bind (("C-x t" . sane-term)
-         ("C-x T" . sane-term-create))
+  :bind (("C-c s" . sane-term)
+         ("C-c S" . sane-term-create))
   :ensure t
   :defer t)
 
@@ -2792,7 +2797,7 @@ resized horizontally or vertically."
   (eyebrowse-mode t))
 
 (use-package eyezoom
-  :after eyebrowse
+  :after (eyebrowse zoom)
   :config
   (setq eyezoom-tags-that-zoom '("sql" "rest")))
 
@@ -2869,6 +2874,8 @@ resized horizontally or vertically."
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
+
+(setq term-suppress-hard-newline t)
 
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook
