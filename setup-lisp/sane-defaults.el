@@ -374,6 +374,42 @@
 (minibuffer-depth-indicate-mode 1)
 (setq enable-recursive-minibuffers t)
 
+;; The visible bell is usually fine, but still horrid in certain terminals.
+;; We can make a nicer version. See http://pragmaticemacs.com/emacs/using-a-visible-bell-in-emacs/
+;; and
+;; (defun wjb/visible-bell ()
+;;   "A friendlier visual bell effect (invert)."
+;;   (invert-face 'mode-line)
+;;   (run-with-timer 0.05 nil #'invert-face 'mode-line))
+
+(defun wjb/visible-bell ()
+  "A friendlier visual bell effect (alarm color)."
+  (unless (memq this-command
+                '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit keyboard-escape-quit))
+    (let ((orig-bg (face-background 'mode-line))
+          (wjb/alarm-color "#F2804F"))
+      (set-face-background 'mode-line wjb/alarm-color)
+      (run-with-idle-timer 0.1 nil
+                           (lambda (bg) (set-face-background 'mode-line bg))
+                           orig-bg))))
+
+(define-minor-mode wjb/visible-bell-mode
+  "Use `wjb/visible-bell' as the `ring-bell-function'."
+  :global t
+  (let ((this 'wjb/visible-bell-mode))
+    (if wjb/visible-bell-mode
+        (progn
+          (put this 'visible-bell-backup visible-bell)
+          (put this 'ring-bell-function-backup ring-bell-function)
+          (setq visible-bell nil
+                ring-bell-function #'wjb/visible-bell))
+      ;; Restore the original values when disabling.
+      (setq visible-bell (get this 'visible-bell-backup)
+            ring-bell-function (get this 'ring-bell-function-backup)))))
+
+(setq visible-bell t)
+(wjb/visible-bell-mode 1)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
