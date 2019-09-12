@@ -1025,10 +1025,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
         ivy-count-format "%d/%d "
         ivy-height 20
         ivy-on-del-error-function 'ignore
-        ;; overlay would be great if:
-        ;; - border around the box
-        ;; - consistent placement of the box; it seems to be related to where point is
-        ;; ivy-display-function #'ivy-display-function-overlay
         ivy-format-function 'ivy-format-function-arrow
         ivy-virtual-abbreviate 'abbreviate
         ivy-magic-tilde nil
@@ -1045,17 +1041,18 @@ Fix for the above hasn't been released as of Emacs 25.2."
                                 (t . ivy--regex-fuzzy)))
   (ivy-mode 1))
 
+(use-package posframe
+  :config
+  (setq posframe-arghandler #'wjb/posframe-arghandler)
+  (defun wjb/posframe-arghandler (buffer-or-name arg-name value)
+    (let ((info '(:internal-border-width 2 :width 90 :height 12)))
+      (or (plist-get info arg-name) value))))
+
 (use-package ivy-posframe
   :after ivy
   :config
-  ;; (set-variable 'debug-on-error t)
-
   (defun posframe-poshandler-frame-above-center (info)
-    "Posframe's position handler.
-
-Get a position which let posframe stay onto its
-parent-frame's center.  The structure of INFO can
-be found in docstring of `posframe-show'."
+    "A custom posframe position handler."
     (cons (/ (- (plist-get info :parent-frame-width)
                 (plist-get info :posframe-width))
              2)
@@ -1069,9 +1066,21 @@ be found in docstring of `posframe-show'."
   (setq ivy-posframe-width 90
         ivy-display-function #'ivy-posframe-display-at-frame-above-center
         ;; for some reason this has to be changed to take effect
-        ivy-posframe-border-width 1)
+        ivy-posframe-border-width 2
+        ivy-posframe-parameters
+        '((left-fringe . 2)
+          (right-fringe . 2)))
+
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center)))
   (ivy-posframe-mode 1))
+
+;; uses hydra, hydra-posframe
+(require 'services)
+
+(use-package which-key-posframe
+  :defer 1
+  :config
+  (which-key-posframe-mode))
 
 (use-package ivy-rich
   :config
