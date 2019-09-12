@@ -19,20 +19,11 @@
 ;;    (set-face-attribute 'magit-item-highlight nil
 ;;                        :weight 'normal))
 
+;; New magit diff colors:
 (set-face-bold 'magit-diff-file-heading nil)
-(set-face-background 'magit-diff-context-highlight "grey10")
-(set-face-background 'magit-diff-context "grey10")
+;; (set-face-background 'magit-diff-context-highlight "grey10")
+;; (set-face-background 'magit-diff-context "grey10")
 
-(setq magit-last-seen-setup-instructions "1.4.0"
-      magit-diff-auto-show '(stage-all log-oneline log-follow log-select blame-follow)
-      magit-status-expand-stashes nil
-      magit-commit-show-diff nil
-      magit-revert-buffers 1 ;; important for not slowing down everything
-      ;; magit-completing-read-function 'magit-ido-completing-read
-      magit-completing-read-function 'ivy-completing-read
-      magit-push-always-verify nil
-      magit-revision-insert-related-refs nil
-      magit-branch-read-upstream-first nil)
 
 ;; TODO: ideally, push-remote would be the remote tracking branch, not
 ;; master -- this can probably be configred in magit somehow In other

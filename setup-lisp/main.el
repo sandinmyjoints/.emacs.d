@@ -749,8 +749,20 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :bind (("C-x g" . wjb/smart-magit-status))
   :config
   (setq ghub-use-workaround-for-emacs-bug nil
+        magit-last-seen-setup-instructions "1.4.0"
+        magit-diff-auto-show '(stage-all log-oneline log-follow log-select blame-follow)
+        magit-status-expand-stashes nil
+        magit-commit-show-diff nil
+        magit-revert-buffers 1 ;; important for not slowing down everything
+        ;; magit-completing-read-function 'magit-ido-completing-read
+        magit-completing-read-function 'ivy-completing-read
+        magit-push-always-verify nil
+        magit-revision-insert-related-refs nil
+        magit-branch-read-upstream-first nil)
         ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
-        magit-branch-prefer-remote-upstream '(master))
+        magit-branch-prefer-remote-upstream '(master)
+        ;; experimental:
+        magit-process-connection-type nil
   (autoload 'magit-log "magit"))
 
 ;; Experiment, might want to do this for everything:
