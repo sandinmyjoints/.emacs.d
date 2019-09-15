@@ -101,7 +101,7 @@
 
   (require 'main))
 
-(defvar wjb/gc-cons-threshold (eval-when-compile (* 40 1024 1024)))
+(defvar wjb/gc-cons-threshold (eval-when-compile (* 2 800000)))
 (defvar wjb/gc-timer)
 (setq garbage-collection-messages nil)
 
