@@ -1035,7 +1035,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "
-        ivy-height 20
+        ivy-height 18
         ivy-on-del-error-function 'ignore
         ivy-format-function 'ivy-format-function-arrow
         ivy-virtual-abbreviate 'abbreviate
@@ -1057,7 +1057,17 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   (setq posframe-arghandler #'wjb/posframe-arghandler)
   (defun wjb/posframe-arghandler (buffer-or-name arg-name value)
-    (let ((info '(:internal-border-width 2 :width 90 :height 12)))
+    ;; see
+    ;; https://github.com/tumashu/posframe/blob/bfd2e55219e0911980f4ea97b5995ce8553dce60/posframe.el#L439
+    ;; for a list of parameters
+    (let ((info '(
+                  :min-width 80
+                  :min-height 10
+                  :internal-border-width 2
+                  :internal-border-color "#000"
+                  :left-fringe 4
+                  :right-fringe 4
+                  :font "Fira Code-14")))
       (or (plist-get info arg-name) value))))
 
 (use-package ivy-posframe
@@ -1075,13 +1085,14 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (defun ivy-posframe-display-at-frame-above-center (str)
     (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
 
-  (setq ivy-posframe-width 90
+  (setq ivy-posframe-min-width 80
+        ivy-posframe-min-height 10
         ivy-display-function #'ivy-posframe-display-at-frame-above-center
         ;; for some reason this has to be changed to take effect
         ivy-posframe-border-width 2
         ivy-posframe-parameters
-        '((left-fringe . 2)
-          (right-fringe . 2)))
+        '((left-fringe . 4)
+          (right-fringe . 4)))
 
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center)))
   (ivy-posframe-mode 1))
