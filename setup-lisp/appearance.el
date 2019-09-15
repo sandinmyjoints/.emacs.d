@@ -68,15 +68,32 @@
 
 ;; Fonts.
 ;;
-;; This makes the font the default on all graphical frames.
-(add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-13"))
+(setq-default line-spacing 2)
 
-;; list all known fonts:
+(add-to-list 'default-frame-alist
+             '(line-spacing . 2))
+
+;; List all known fonts:
 ;; (font-family-list)
 ;;
 ;; Examine font of char at point: C-u C-x =
 ;;
+;; This makes the font the default on all graphical frames.
+(add-to-list 'default-frame-alist
+             '(font . "Fira Code"))
+;; (add-to-list 'default-frame-alist
+;;              '(font . "DejaVu Sans Mono-13"))
+
+(use-package asoc)
+
+;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
+
+;; Good for laptop
+(set-face-attribute 'default nil :family "Fira Code" :height 140)
+
+;; Good for external monitor
+;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
+
 ;; Too wide!
 ;;(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
 ;;
@@ -88,8 +105,8 @@
 ;; (set-face-attribute 'default nil :family "Iosevka" :height 144 :weight 'light)
 ;;
 ;; Just right.
-;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
-;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140 :weight 'normal)
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150 :weight 'normal)
 ;;
 ;; But wow, this is great!
 ;; https://github.com/tonsky/FiraCode/wiki
@@ -98,19 +115,11 @@
 ;; More fonts to try:
 ;; - https://www.reddit.com/r/emacs/comments/cymay9/variable_pitch_fonts_for_programming/
 
-;; Good for laptop
-(set-face-attribute 'default nil :family "Fira Code" :height 140)
-
-;; Good for external monitor
-;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
-
 ;; set a fallback
-(set-fontset-font t nil "Courier New" nil 'append)
 
 (if (functionp 'set-fontset-font) ; nil in Terminal
-    (set-fontset-font "fontset-default" 'unicode "Menlo"))
-
-(setq-default line-spacing 2)
+    (progn (set-fontset-font t nil "Courier New" nil 'append)
+           (set-fontset-font "fontset-default" 'unicode "Menlo")))
 
 ;; TODO: leave some blank space at right on large monitors
 ;; (set-window-margins nil 0 4)
@@ -151,6 +160,7 @@
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance))
 
+;; gruvbox colors for slack: #F9F5D7,#F8F8FA,#61ACBB,#FFFFFF,#FFFFFF,#282828,#427B58,#9D0006
 (defun wjb/light-theme ()
   (interactive)
   (setq wjb/dark nil)
