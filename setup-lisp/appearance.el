@@ -146,10 +146,34 @@
 ;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
 ;; applications.
 ;; 5. nimbus (use-package nimbus-theme)
+;; - tron-legacy
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/")
+;; (change-theme 'tron-legacy)
+;; - tomorrow themes
+;; (require 'color-theme-sanityinc-tomorrow)
+;; M-x color-theme-sanityinc-tomorrow-day
+;; M-x color-theme-sanityinc-tomorrow-night
+;; M-x color-theme-sanityinc-tomorrow-blue
+;; M-x color-theme-sanityinc-tomorrow-bright
+;; M-x color-theme-sanityinc-tomorrow-eighties
+;; - kaolin themes
+;; (change-theme 'kaolin-bubblegum)
+;; (change-theme 'kaolin-temple)
+;; (change-theme 'kaolin-valley-light)
+;; - wilmersdorf
+;; - eziam (light)
+;; (change-theme 'eziam-light)
+;; (change-theme 'eziam-dusk)
+;; (change-theme 'eziam-dark)
+;; - leuven (light)
+;; (change-theme 'leuven)
+;; - parchment (light)
+;; (change-theme 'parchment)
 ;;
 ;; Themes to try:
 ;; - https://github.com/mswift42/reykjavik-theme
 ;;
+
 (use-package gruvbox-theme ;; dark
   :defer 1
   :disabled
@@ -165,6 +189,7 @@
   (interactive)
   (setq wjb/dark nil)
   (change-theme 'gruvbox-light-hard t)
+  ;; (change-theme 'gruvbox-light-medium t)
   (wjb/gruvbox-light)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance)
@@ -300,6 +325,9 @@
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
 (defun wjb/custom-appearance ()
+  ;; some themes try to jack this
+  (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+
   (if wjb/dark
       (progn
         (set-mouse-color "light gray")
