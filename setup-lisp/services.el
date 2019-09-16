@@ -56,6 +56,11 @@
     "neodarwin"
     "sd-router"))
 
+(defvar wjb/wjb-projects
+  '(
+    ".emacs.d"
+    "git-mine"))
+
 ;; (head-binding head-command head-hint head-plist)
 ;; TODO: compute
 (defvar wjb/projects/hydra '())
