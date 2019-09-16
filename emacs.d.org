@@ -680,6 +680,8 @@ react-redux
    - https://github.com/theia-ide/typescript-language-server (lighter weight? faster)
    - comparison: https://github.com/eclipse/wildwebdeveloper/issues/22
    - this one uses tern: https://github.com/tbodt/js-langserver
+** lsp-mode
+   - great description on how to configure it: https://www.reddit.com/r/emacs/comments/c524mo/do_you_use_lspmode/
 ** lsp eglot
   - fs. should complete using lsp, NOT company
   - eglot uses capf
@@ -1940,10 +1942,23 @@ local bindings in certain buffers.
 * startup bugs
   - org-agenda-files is not set correctly, it always has local-dev.org in it --
     why? should be "~/.emacs.d/org-agenda-files-list.txt"
+* convert to pass
+   - https://www.passwordstore.org/
+   - [ ] import from lastpass with https://git.zx2c4.com/password-store/tree/contrib/importers/lastpass2pass.rb
+   - [ ] lots of emacs packages available for it
+   - [ ] firefox plugin: https://github.com/passff/passff#readme
+** convert off of lastpass
+   - some packages available for it too
 * wishlist                                                         :wishlist:
+  - from webstorm:
+    - when open tag, offer only Components for completion (want)
+    - offer props as well (want)
+    - when error, offer menu of fixes, including add new import (want)
+    - highlight the assertion which failed (want)
+    - debug test -- drop into debugger, set breakpoint (want)
+  - [ ] dumb-jump or smart-jump for jsx
   - [ ] flycheck shows error if point is immediately after it
   - [ ] minions exception for flycheck-emoji
-  - dumb-jump or smart-jump for jsx
   - magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
   - [ ] fill comment paragraphs nicely, including when they contain bulleted
@@ -1966,11 +1981,9 @@ local bindings in certain buffers.
 ``` shell
 $ aws ecs update-service --cluster <cluster name> --service <service name> --force-new-deployment
 ```
-   - automatically open project in dirtree when switch to it
+   - [ ] automatically open project in dirtree, if not already opened when switch to it
      - probably can use projectile hook of some kind
    - [X] Use compile buffer, jump to failing tests
-     - [X] unit tests
-     - integration tests
    - [X] project commands work from local_notes
      - SOLVED with # -*- default-directory: "/Users/william/scm/sd/sd-playground"; -*-
      - helpful for .rest and .org files
@@ -2002,7 +2015,7 @@ fatal: not a git repository (or any of the parent directories): .git
        NEODARWIN_SKIP_PRECOMMIT before lint-staged (which includes prettier) runs.
      - If/when we upgrade husky, this will probably get overwritten... Use
        HUSKY_SKIP_INSTALL (see https://github.com/typicode/husky/issues/172)
-** $sh mode
+** $sh-mode
    - knows about shell commands written out like so:
 #+BEGIN_SRC
 $ ls
@@ -2042,3 +2055,5 @@ $ ls
   - set-variable debug-on-error t
   - edebug-trace-mode
   - macrostep-mode and macrostep-expand
+* emacs package development handbook
+- https://github.com/alphapapa/emacs-package-dev-handbook
