@@ -300,6 +300,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
                 flycheck-temp-prefix ".flycheck")
+  ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
+  (flycheck-add-next-checker 'python-flake8 'python-pylint)
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
