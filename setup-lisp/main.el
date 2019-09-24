@@ -178,6 +178,44 @@ in the current window."
 ;; Require/autoload and config packages.
 ;; ========================================
 
+(use-package smart-mode-line
+  :ensure t
+  ;; :after minions
+  :config
+  ;; Helpful reading:
+  ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
+  ;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html
+
+  (setq wjb/mode-line-format-original (-copy mode-line-format))
+
+  ;; (setq mode-line-format wjb/mode-line-format-original)
+  ;; (setq-default mode-line-format wjb/mode-line-format-original)
+
+  (add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
+
+  ;; 'automatic works if :defer is used, but if :defer is used then minor modes
+  ;; aren't reliably diminished...
+  (setq sml/theme 'automatic
+        sml/name-width 32
+        mode-line-percent-position '(-3 "%o")
+        mode-line-end-spaces " "
+        sml/position-percentage-format "%o")
+
+  (defun wjb/sml-after-setup-hook ()
+    ;; Splice in virtualenv name and nvm.
+    (setq mode-line-format
+          (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
+    (setq-default mode-line-format mode-line-format))
+
+  ;; try setting it as the global default
+  (message "!!! this code ran")
+  (setq-default mode-line-format
+                (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
+
+  ;; TODO why doesn't this run? Or does it, but it gets overwritten? Is minions messing with it somehow?
+  ;; (add-hook 'sml/after-setup-hook #'wjb/sml-after-setup-hook)
+  )
+
 (require 'setup-grep)
 
 (require 'sane-defaults)
@@ -1817,35 +1855,10 @@ If PROJECT is not specified the command acts on the current project."
   :ensure t
   :defer t)
 
-(use-package smart-mode-line
-  :ensure t
+(use-package minions
   :config
-  ;; Helpful reading:
-  ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
-  ;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html
-
-  (setq wjb/mode-line-format-original (-copy mode-line-format))
-
-  ;; (setq mode-line-format wjb/mode-line-format-original)
-  ;; (setq-default mode-line-format wjb/mode-line-format-original)
-
-  (add-to-list 'sml/replacer-regexp-list '("local_notes" ":LN:") t)
-
-  ;; 'automatic works if :defer is used, but if :defer is used then minor modes
-  ;; aren't reliably diminished...
-  (setq sml/theme 'automatic
-        sml/name-width 32
-        mode-line-percent-position '(-3 "%o")
-        mode-line-end-spaces " "
-        sml/position-percentage-format "%o")
-
-  (defun wjb/sml-after-setup-hook ()
-    ;; Splice in virtualenv name and nvm.
-    (setq mode-line-format
-          (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
-    (setq-default mode-line-format mode-line-format))
-
-  (add-hook 'sml/after-setup-hook #'wjb/sml-after-setup-hook))
+  (setq minions-direct '(flycheck-mode))
+  (minions-mode 1))
 
 (use-package web-mode
   :mode "\\.html?\\'"
@@ -2963,11 +2976,6 @@ is already narrowed."
 
 (use-package hi-lock
   :diminish)
-
-(use-package minions
-  :config
-  (setq minions-direct '(flycheck-mode))
-  (minions-mode 1))
 
 (require 'wjb)
 
