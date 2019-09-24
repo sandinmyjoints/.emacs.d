@@ -955,10 +955,10 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
   (counsel-projectile-mode))
 
-(use-package ido
-  :disabled
-  :config
-  (require 'setup-ido))
+;; (use-package ido
+;;   :disabled
+;;   :config
+;;   (require 'setup-ido))
 
 ;; ibuffer.
 (autoload 'ibuffer "ibuffer" "List buffers." t)
@@ -974,15 +974,16 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (when (require 'imenu nil t)
   (autoload 'idomenu "idomenu" nil t))
 
-(defadvice ido-imenu (before push-mark activate)
-  (push-mark))
+;; (defadvice ido-imenu (before push-mark activate)
+;;   (push-mark))
 
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
 (use-package flx)
 
-(use-package amx)
+(use-package amx
+  :disabled)
 
 (use-package smex
   :disabled
@@ -2688,6 +2689,8 @@ Interactively also sends a terminating newline."
     (round (* (ccm-visible-text-lines) .38)))
   (setq-default ccm-vpos-init (wjb/set-ccm-vpos-init))
 
+  (add-hook 'woman-mode-hook #'centered-cursor-mode)
+  (add-hook 'woman-mode-hook #'wjb/set-ccm-vpos-init)
   (add-hook 'text-mode-hook #'centered-cursor-mode)
   (add-hook 'text-mode-hook #'wjb/set-ccm-vpos-init))
 
@@ -2822,6 +2825,7 @@ resized horizontally or vertically."
 (use-package pcre2el
   :commands reb-change-syntax)
 
+;; TODO this messes with .. in Python
 (use-package electric-operator
   :defer t
   :hook
