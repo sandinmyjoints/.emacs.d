@@ -123,11 +123,15 @@
                                 (makunbound 'wjb/gc-timer))))
   (run-with-timer
    10 nil (lambda ()
+            (message "Initial timer done. Preparing to run gc.")
             (setq wjb/gc-timer
                   (run-with-idle-timer
                    5 nil (lambda ()
-                           ;; (message "Garbage collecting while idle.")
+                           (message "Garbage collecting while idle.")
                            (garbage-collect)
+                           ;; see https://www.reddit.com/r/emacs/comments/bqu69o/making_emacs_snappier_i_need_a_second_opinion/
+                           ;; This might be messing with Zoom screen sharing!
+                           ;; (add-hook 'focus-out-hook #'garbage-collect t)
                            (setq gc-cons-threshold wjb/gc-cons-threshold)))))))
 
 (provide 'init)
