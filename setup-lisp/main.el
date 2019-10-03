@@ -101,8 +101,13 @@
 ;; Filesystem.
 (use-package f
   :ensure t)
+;; Hashtables.
 (use-package ht
   :ensure t)
+;; Alists.
+(use-package asoc
+  :defer 1
+  :load-path "elisp/asoc.el")
 
 (when is-mac (require 'setup-mac))
 
