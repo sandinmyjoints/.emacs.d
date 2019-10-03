@@ -876,6 +876,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
                                 (hack-local-variables)
                                 (setq fill-column 79)
                                 (set-face-background 'highlight-indentation-face "#111")
+                                (pyvenv-tracking-mode)
                                 (when (boundp 'project-venv-name)
                                   (venv-workon project-venv-name)
                                   (pyvenv-workon project-venv-name))))
