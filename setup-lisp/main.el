@@ -423,7 +423,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
-  (setq dired-listing-switches "-lahp"
+  (setq dired-listing-switches "-lahF"
         dired-dwim-target t
         dired-recursive-copies 'always))
 
