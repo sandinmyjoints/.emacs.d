@@ -836,17 +836,17 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :commands highlight-indentation-current-column-mode
   :diminish highlight-indentation-current-column-mode
   :defer 4
-  :disabled
+  ;; :disabled
   :config
   (require 'color)
-  (mapc (lambda (hook)
-          (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
-          (add-hook hook 'highlight-indentation-current-column-mode))
-        '(coffee-mode-hook
-          yaml-mode-hook
-          ;; python-mode-hook ;; let elpy set this up
-          ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
-          sass-mode-hook))
+  ;; (mapc (lambda (hook)
+  ;;         (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
+  ;;         (add-hook hook 'highlight-indentation-current-column-mode))
+  ;;       '(coffee-mode-hook
+  ;;         yaml-mode-hook
+  ;;         ;; python-mode-hook ;; let elpy set this up
+  ;;         ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
+  ;;         sass-mode-hook))
   )
 
 (use-package elpy
