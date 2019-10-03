@@ -2988,8 +2988,11 @@ is already narrowed."
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 ;; Experimental:
-(add-to-list 'load-path "../elisp/emacs-libvterm/build")
+;; (add-to-list 'load-path "../elisp/emacs-libvterm")
+(use-package vterm
+  :load-path "elisp/emacs-libvterm")
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
+
 
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
