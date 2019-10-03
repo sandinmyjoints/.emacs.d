@@ -66,6 +66,7 @@
         orgtbl-self-insert-command
         paredit-backward-kill-word
         paredit-forward-kill-word
+        paredit-forward-slurp-sexp
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         query-replace
@@ -112,6 +113,7 @@
         find-in-project-glob-by-name
         ido-find-file
         ido-switch-buffer
+        isearch-forward-regexp
         js2r-rename-var
         mac-mwheel-scroll
         mark-whole-buffer
