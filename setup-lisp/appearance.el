@@ -66,66 +66,127 @@
 ;; Set to always be fullscreen.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
-;; Fonts.
-;;
 (setq-default line-spacing 2)
-
 (add-to-list 'default-frame-alist
              '(line-spacing . 2))
 
+;; Fonts.
 ;; List all known fonts:
 ;; (font-family-list)
 ;;
 ;; Examine font of char at point: C-u C-x =
 ;;
-;; This makes the font the default on all graphical frames.
-(add-to-list 'default-frame-alist
-             '(font . "Fira Code"))
-;; (add-to-list 'default-frame-alist
-;;              '(font . "DejaVu Sans Mono-13"))
-
-(use-package asoc)
-
+;; Remove a font from the default frame alist:
 ;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
+;;
+(set-face-font 'default "Fira Code-15")
 
-;; Good for laptop
-(set-face-attribute 'default nil :family "Fira Code" :height 140)
+;; This makes the font the default on all graphical frames:
+;; (add-to-list 'default-frame-alist
+;;              '(font . "Cascadia Code"))
 
-;; Good for external monitor
-;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
+;; (add-to-list 'default-frame-alist
+;;              '(font . "Fira Code"))
 
-;; Too wide!
-;;(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
+;; (add-to-list 'default-frame-alist
+;;              '(font . "DejaVu Sans Mono-14"))
+
+;; Define fonts for specific Unicode ranges or blocks, or set a general fallback.
+;; See: https://github.com/jletourneau/emacs.d/blob/97b0965d04255edab69f7a2f62a634bc1e755a51/include/_char_ranges.el
+;; See: https://www.reddit.com/r/emacs/comments/8tz1r0/how_to_set_font_according_to_languages_that_i/
 ;;
-;; Too thick!
-;; (set-face-attribute 'default nil :family "Menlo" :height 140)
+;; Desired behavior: use my chosen font (based on theme, probably) for all the
+;; characters it supports, use Noto Sans for anything else if it's installed,
+;; else fall back to a mono system font like Courier.
 ;;
-;; Kind of broken...
-;; http://typeof.net/Iosevka/
-;; (set-face-attribute 'default nil :family "Iosevka" :height 144 :weight 'light)
+;; (cl-prettyprint (fontset-list))
+;; ("-*-Fira Code-normal-normal-normal-*-15-*-*-*-m-0-fontset-auto3"
+;;  "-*-Noto Sans-normal-normal-normal-*-14-*-*-*-p-0-fontset-auto2"
+;;  "-*-Fira Code-normal-normal-normal-*-14-*-*-*-m-0-fontset-auto1"
+;;  "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-fontset-startup"
+;;  "-*-*-*-*-*-*-*-*-*-*-*-*-fontset-default")
+
+;; (describe-fontset "fonset-auto3")
+;; (describe-fontset "fonset-startup")
+;; (describe-fontset "fonset-standard")
+;; (describe-fontset "fonset-default")
+
+;; (call-interactively #'list-character-sets)
+;; (fontset-info "fontset-default")
 ;;
-;; Just right.
-;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
-;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150 :weight 'normal)
+;; (set-face-attribute 'default nil :family "Noto Sans" :height 140)
+;; I would expect Noto Sans to be used for these, but it is not:
+;; 。⺉
+;; It is used for this:
+;; ᪰ code point 1ab0
+;;😊
+;; (member "Symbola" (font-family-list))
+;; (length (font-family-list))
+;; (set-fontset-font t ?😊 "Segoe UI Emoji")
+;; (when (functionp 'set-fontset-font) ; nil in Terminal
+;;   (set-fontset-font "fontset-default" '(#x2e80 . #x2eff) "Noto Sans")
+;;   (set-fontset-font "fontset-default" '(#x3000 . #x303f) "Noto Sans"))
+
+;; Font heights
+;; 140 Good for laptop
+;; 150 Good for external monitor
+
+;; ######## Font reviews ########
 ;;
-;; But wow, this is great!
+;; Fira Code
+;; - Looks especially good in light themes.
+;; - Nice ligatures.
+;;
 ;; https://github.com/tonsky/FiraCode/wiki
 ;; https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
 ;;
+;; (set-face-attribute 'default nil :family "Fira Code" :height 140)
+;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
+
+;; Cascadia Code
+;; - looks *great* with nimbus, eighties
+;; - Nice ligatures
+;;
+;; (set-face-attribute 'default nil :family "Cascadia Code" :height 140)
+;; (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
+
+;; DejaVu Sans Mono
+;; - very good Unicode support
+;; - no ligatures
+;;
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 140)
+;; (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150 :weight 'normal)
+
+;; Iosevka
+;;
+;; http://typeof.net/Iosevka/
+;; https://github.com/be5invis/Iosevka/
+;;
+;; (set-face-attribute 'default nil :family "Iosevka" :height 150 :weight 'normal)
+
+;; Anonymous Pro
+;; - readable at very small sizes
+;;
+;;(set-face-attribute 'default nil :family "Anonymous Pro" :height 160)
+
+;; Menlo
+;; Too thick!
+;; (set-face-attribute 'default nil :family "Menlo" :height 140)
+
 ;; More fonts to try:
+;; - Input
+;; - Hack
+;; - Source Code Pro
+;; - Noto (huge Unicode support)
 ;; - https://www.reddit.com/r/emacs/comments/cymay9/variable_pitch_fonts_for_programming/
 
-;; set a fallback
-
-(if (functionp 'set-fontset-font) ; nil in Terminal
-    (progn (set-fontset-font t nil "Courier New" nil 'append)
-           (set-fontset-font "fontset-default" 'unicode "Menlo")))
-
-;; TODO: leave some blank space at right on large monitors
+;; TODO: leave some blank space at right (padding) on large monitors
 ;; (set-window-margins nil 0 4)
 
+;; TODO
 (use-package auto-dim-other-buffers
   :defer 1
+  :disabled
   :diminish auto-dim-other-buffers-mode
   :config
   (setq auto-dim-other-buffers-dim-on-focus-out nil
@@ -145,34 +206,48 @@
 ;;       orange. They look like errors.
 ;; 4. Haven't tried it but https://github.com/arcticicestudio/nord works across multiple
 ;; applications.
-;; 5. nimbus (use-package nimbus-theme)
-;; - tron-legacy
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/")
-;; (change-theme 'tron-legacy)
-;; - tomorrow themes
+;; 5. nimbus (use-package nimbus-theme) -- fantastic!
+;; - tomorrow themes -- very nice!
 ;; (require 'color-theme-sanityinc-tomorrow)
-;; M-x color-theme-sanityinc-tomorrow-day
-;; M-x color-theme-sanityinc-tomorrow-night
-;; M-x color-theme-sanityinc-tomorrow-blue
-;; M-x color-theme-sanityinc-tomorrow-bright
-;; M-x color-theme-sanityinc-tomorrow-eighties
+;; light, icy M-x color-theme-sanityinc-tomorrow-day
+;; dark M-x color-theme-sanityinc-tomorrow-night
+;; dark M-x color-theme-sanityinc-tomorrow-blue
+;; actually dark M-x color-theme-sanityinc-tomorrow-bright
+;; dark, cool M-x color-theme-sanityinc-tomorrow-eighties
+;; - wilmersdorf -- nice!
+;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/wilmersdorf-emacs-theme"))
+;; (change-theme 'wilmersdorf)
+;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+;; - tron-legacy -- interesting
+;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/tron-legacy-emacs-theme"))
+;; (change-theme 'tron-legacy)
+;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+;; - seti -- interesting
+;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/seti-theme"))
+;; (change-theme 'seti)
+;; - emacs-synthwave-theme -- too crazy
+;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/emacs-synthwave-theme"))
+;; (change-theme 'synthwave)
+;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
 ;; - kaolin themes
 ;; (change-theme 'kaolin-bubblegum)
 ;; (change-theme 'kaolin-temple)
 ;; (change-theme 'kaolin-valley-light)
-;; - wilmersdorf
 ;; - eziam (light)
-;; (change-theme 'eziam-light)
+;; X mucks with org-mode (change-theme 'eziam-light)
 ;; (change-theme 'eziam-dusk)
 ;; (change-theme 'eziam-dark)
 ;; - leuven (light)
 ;; (change-theme 'leuven)
 ;; - parchment (light)
-;; (change-theme 'parchment)
-;;
+;; X mucks with org-mode (change-theme 'parchment)
+;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+;; - flatui
+;; X bad for magit (change-theme 'flatui)
 ;; Themes to try:
 ;; - https://github.com/mswift42/reykjavik-theme
 ;;
+;; modes with trouble in various themes: easy-kill is not themed by eighties
 
 (use-package gruvbox-theme ;; dark
   :defer 1
@@ -188,11 +263,12 @@
 (defun wjb/light-theme ()
   (interactive)
   (setq wjb/dark nil)
-  (change-theme 'gruvbox-light-hard t)
+  (change-theme 'gruvbox-light-soft t)
   ;; (change-theme 'gruvbox-light-medium t)
   (wjb/gruvbox-light)
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance)
+  (set-face-attribute 'default nil :family "Fira Code" :height 150)
   ;; region is #d5c4a1
   ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
   ;; they are too close
@@ -210,6 +286,7 @@
   (interactive)
   (setq wjb/dark t)
   (change-theme 'nimbus)
+    (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
   (wjb/turn-on-hl-line)
   ;; (set-face-background 'default "#000")
   (wjb/custom-appearance))
@@ -249,8 +326,6 @@
 
   (wjb/custom-appearance))
 
-;; Another theme to try: https://github.com/ianpan870102/Emacs-Wilmersdorf-Theme
-
 ;; TODO: try counsel-load-theme
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defun change-theme (&rest args)
@@ -262,7 +337,9 @@
   (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
          #'load-theme args))
 
-(defvar wjb/dark t)
+(defvar wjb/dark t "Non-nil when a dark theme is active.")
+;; (setq wjb/dark t)
+;; (setq wjb/dark nil)
 
 ;; https://github.com/morhetz/gruvbox
 (defvar wjb/dark-cursor-color "#30F0F0") ;; #458588 #076678 #blue #0000FF #0766FF
