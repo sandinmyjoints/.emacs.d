@@ -210,19 +210,19 @@ If buffer is not visiting a file, do nothing."
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
-;; Use lambda for anonymous functions. TODO: prettify may take care of this
-(font-lock-add-keywords
- 'js2-mode `(("\\(function\\) *("
-              (0 (progn (compose-region (match-beginning 1)
-                                        (match-end 1) "\u0192")
-                        nil)))))
+;; Disabled b/c not worth it to run yet another regex
+;; (font-lock-add-keywords
+;;  'js2-mode `(("\\(function\\) *("
+;;               (0 (progn (compose-region (match-beginning 1)
+;;                                         (match-end 1) "\u0192")
+;;                         nil)))))
 
 ;; Use right arrow for return in one-line functions.
-(font-lock-add-keywords
- 'js2-mode `(("function *([^)]*) *{ *\\(return\\) "
-              (0 (progn (compose-region (match-beginning 1)
-                                        (match-end 1) "\u2190")
-                        nil)))))
+;; (font-lock-add-keywords
+;;  'js2-mode `(("function *([^)]*) *{ *\\(return\\) "
+;;               (0 (progn (compose-region (match-beginning 1)
+;;                                         (match-end 1) "\u2190")
+;;                         nil)))))
 
 ;; Did this predate using gruvbox, or do I still want it?
 ;; (set-face-foreground 'js2-object-property "light goldenrod")
