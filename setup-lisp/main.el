@@ -406,6 +406,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :defer 1
   :config
   (setq beacon-blink-duration 0.1)
+  ;; TODO don't use beacon-mode in shell-mode
   (beacon-mode 1))
 
 (use-package dired
