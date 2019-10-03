@@ -1062,7 +1062,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (global-set-key (kbd "H-0 f") 'counsel-find-file)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
-  (global-set-key (kbd "C-x d") 'ido-dired) ;; TODO: want to replace this with counsel
+  ;; (global-set-key (kbd "C-x d") 'ido-dired) ;
+  (global-set-key (kbd "C-x d") 'counsel-dired)
   (global-set-key (kbd "C-x C-w") 'ido-write-file) ;; TODO: want to replace this with counsel
   ;; consider:
   ;; (global-set-key (kbd "C-s") 'swiper)
