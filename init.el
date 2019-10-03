@@ -96,6 +96,8 @@
   (add-to-list 'load-path setup-lisp-dir t)
 
   ;; Add all subdirs of site-lisp-dir.
+  ;; TODO this is problematic b/c so many subdirs in emacs-libvterm
+  ;; https://www.emacswiki.org/emacs/LoadPath
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
 
