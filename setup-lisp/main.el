@@ -2844,12 +2844,17 @@ resized horizontally or vertically."
 (use-package pcre2el
   :commands reb-change-syntax)
 
-;; TODO this messes with .. in Python
+;; TODO this messes with file paths (.., /) in Python, it should not apply
+;; within strings
 (use-package electric-operator
   :defer t
   :hook
   ((coffee-mode python-mode) . electric-operator-mode)
   :config
+  (electric-operator-add-rules-for-mode 'python-mode
+                                        (cons "." nil)) ;; doesnt work as intended
+  (electric-operator-add-rules-for-mode 'python-mode
+                                        (cons "/" nil))
   (setq electric-operator-enable-in-docs t))
 
 ;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
