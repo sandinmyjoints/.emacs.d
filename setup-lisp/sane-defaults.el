@@ -412,6 +412,7 @@
 
 (defvar desktop-restore-eager 16)
 (desktop-save-mode 1)
+(setq desktop-restore-frames nil)
 
 ;; emacs 27
 (setq auto-save-no-message t
