@@ -264,6 +264,7 @@
   (wjb/turn-on-hl-line)
   (wjb/custom-appearance)
   (set-face-attribute 'default nil :family "Fira Code" :height 150)
+  (set-frame-parameter nil 'alpha '(98 . 50))
   ;; region is #d5c4a1
   ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
   ;; they are too close
@@ -281,8 +282,9 @@
   (interactive)
   (setq wjb/dark t)
   (change-theme 'nimbus)
-    (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
+  (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
   (wjb/turn-on-hl-line)
+  (set-frame-parameter nil 'alpha '(90 . 50))
   ;; (set-face-background 'default "#000")
   (wjb/custom-appearance))
 
@@ -427,6 +429,7 @@
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
 (defvar wjb/set-cursor-color-color "")
 (defvar wjb/set-cursor-color-buffer "")
+
 (defun wjb/set-cursor-color-according-to-mode ()
   "change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
