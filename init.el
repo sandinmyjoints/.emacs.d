@@ -46,11 +46,6 @@
 ;;; Code:
 
 (defun init ()
-  ;; Initial and default frame settings.
-  ;; - good default-frame-alist https://www.gnu.org/software/emacs/manual/html_node/elisp/Frame-Parameters.html#Frame-Parameters
-  ;; - update defaults to match initial-frame-alist
-  ;; - set these in init.el?
-
   ;; Initial and default settings. Should match these:
   ;; defaults write org.gnu.Emacs Width 120
   ;; defaults write org.gnu.Emacs Height 40
@@ -61,13 +56,28 @@
                               (height . 40)
                               (top . 40)
                               (left . 200)
+                              (line-spacing . 2)
+                              (cursor-type . box)
+                              (cursor-in-non-selected-windows . hollow)
                               ;; Menu and tool bar will be disabled but don't
                               ;; show them even before getting to the code that
                               ;; disables them.
                               (tool-bar-lines . 0)
                               (menu-bar-lines . 0)
                               (horizontal-scroll-bars . nil)
-                              (vertical-scroll-bars . nil)))
+                              (vertical-scroll-bars . nil)
+                              (font . "Fira Code-15")
+                              (alpha . 90)))
+
+  ;; Setting this to nil means it will use default-frame-alist.
+  (setq initial-frame-alist nil)
+
+  ;; Make this frame, the initial frame, fullscreen.
+  (set-frame-parameter nil 'fullscreen 'fullboth)
+  (set-frame-parameter nil 'alpha '(90 . 50))
+
+  ;; Never save cursor-type.
+  (push '(cursor-type . :never) frameset-filter-alist)
 
   ;; fullscreen frame settings -- depends on screen size, though
   ;; '(default-frame-alist

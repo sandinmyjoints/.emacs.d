@@ -63,14 +63,8 @@
   (tooltip-mode -1)
   (blink-cursor-mode 1))
 
-;; Set to always be fullscreen.
-(set-frame-parameter nil 'fullscreen 'fullboth)
-
-(setq-default line-spacing 2)
-(add-to-list 'default-frame-alist
-             '(line-spacing . 2))
-
 ;; Fonts.
+;;
 ;; List all known fonts:
 ;; (font-family-list)
 ;;
@@ -79,15 +73,16 @@
 ;; Remove a font from the default frame alist:
 ;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
 ;;
+;; Set default font, both for current frame and for all frames.
 (set-face-font 'default "Fira Code-15")
+(add-to-list 'default-frame-alist
+             '(font . "Fira Code-15"))
 
-;; This makes the font the default on all graphical frames:
+;; (set-face-font 'default "Cascadia Code-14")
 ;; (add-to-list 'default-frame-alist
-;;              '(font . "Cascadia Code"))
+;;              '(font . "Cascadia Code-14"))
 
-;; (add-to-list 'default-frame-alist
-;;              '(font . "Fira Code"))
-
+;; (set-face-font 'default "DejaVu Sans Mono-14")
 ;; (add-to-list 'default-frame-alist
 ;;              '(font . "DejaVu Sans Mono-14"))
 
