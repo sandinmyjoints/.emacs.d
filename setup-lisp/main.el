@@ -3149,6 +3149,71 @@ is already narrowed."
 ;;   (setq thing (wjb/generate-idle-callback fun))
 ;;   (add-hook 'auto-save-hook thing))
 
+(use-package project-shells
+  :config
+  (setf project-shells-setup
+        `(("sd-playground" .
+           (("1" .
+             ("server" "~/scm/sd/sd-playground"))
+            ("2" .
+             ("test" "~/scm/sd/sd-playground")))))))
+
+
+;; TODO: order by key (key name project), order replace - with ansi-term, 1
+;; with the key, 2 with the key, etc.
+(defun project-shells-shells-for-project ()
+  "List the shells for a project."
+  (let ((proj (project-shells--project-name))
+        (proj-shell-buffers (project-shells--buffer-list)))
+    (-filter (lambda (buf)
+               (let ((buf-name (buffer-name buf))
+                     (pattern (pcre-to-elisp (format "[*].+?[.].+?[.]%s[*]" proj))))
+                 (string-match pattern buf-name)))
+             proj-shell-buffers)))
+
+
+;; (setq projx "XXX")
+
+  ;; ^
+  ;; %s(-map (lambda (buf) (buffer-name buf)) (project-shells-shells-for-project))
+
+  ;; _,_ left window config            _0_ switch to shell
+  ;; _._ right window config           _1_ switch to shell
+  ;; ↦ previous window config  ^^        ...
+  ;; _r_ename current window config    _9_ switch to shell
+  ;; _c_reate new window config
+  ;; _C_lose current window config
+  p;; ^^
+
+(defhydra hydra-project-shells (:color blue)
+  "
+  Shells
+  ^
+  %s(-map (lambda (buf) (buffer-name buf)) (project-shells-shells-for-project))
+  ^^
+  "
+  ;; ("," eyebrowse-prev-window-config nil)
+  ;; ("." eyebrowse-next-window-config nil)
+  ;; ("<tab>" eyebrowse-last-window-config nil)
+  ;; ("r" eyebrowse-rename-window-config nil)
+  ;; ("c" eyebrowse-create-window-config nil)
+  ;; ("C" eyebrowse-close-window-config nil)
+  ;; ("9" eyebrowse-switch-to-window-config-9 nil)
+  ("1" project-shells-activate "1")
+  ("2" project-shells-activate "2")
+  ("3" project-shells-activate "3")
+  ("-" project-shells-activate "-")
+  ("=" project-shells-activate "=")
+  ("q" nil "cancel")
+  )
+
+(define-key global-map (kbd "M--") 'hydra-project-shells/body)
+(define-key global-map (kbd "H-=") 'hydra-project-shells/body)
+
+(advice-remove #'copy-to-register nil)
+;; This doesn't seem to work bc copy-to-register must be moving things around
+;; (advice-add #'copy-to-register :after (lambda (REGISTER START END &optional DELETE-FLAG REGION) (exchange-point-and-mark)))
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
