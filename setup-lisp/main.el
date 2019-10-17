@@ -2929,6 +2929,42 @@ resized horizontally or vertically."
   :config
   (setq eyezoom-tags-that-zoom '("sql" "rest")))
 
+(defhydra hydra-eyebrowse (:color blue)
+  "
+  ^Window configs^
+  ^
+  %s(eyebrowse-mode-line-indicator)
+  ^
+  ^Modify^                          ^Switch
+  -------------------------------------------------------------
+  _,_ left window config            _0_ switch to window config
+  _._ right window config           _1_ switch to window config
+  ↦ previous window config  ^^        ...
+  _r_ename current window config    _9_ switch to window config
+  _c_reate new window config
+  _C_lose current window config
+  ^^
+  "
+  ("," eyebrowse-prev-window-config nil)
+  ("." eyebrowse-next-window-config nil)
+  ("<tab>" eyebrowse-last-window-config nil)
+  ("r" eyebrowse-rename-window-config nil)
+  ("c" eyebrowse-create-window-config nil)
+  ("C" eyebrowse-close-window-config nil)
+  ("0" eyebrowse-switch-to-window-config-0 nil)
+  ("1" eyebrowse-switch-to-window-config-1 nil)
+  ("2" eyebrowse-switch-to-window-config-2 nil)
+  ("3" eyebrowse-switch-to-window-config-3 nil)
+  ("4" eyebrowse-switch-to-window-config-4 nil)
+  ("5" eyebrowse-switch-to-window-config-5 nil)
+  ("6" eyebrowse-switch-to-window-config-6 nil)
+  ("7" eyebrowse-switch-to-window-config-7 nil)
+  ("8" eyebrowse-switch-to-window-config-8 nil)
+  ("9" eyebrowse-switch-to-window-config-9 nil)
+  )
+
+(define-key global-map (kbd "M-0") 'hydra-eyebrowse/body)
+
 (use-package page-break-lines
   :diminish
   :config
