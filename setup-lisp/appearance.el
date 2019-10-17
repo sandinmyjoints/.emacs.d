@@ -399,6 +399,18 @@
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
 (defun wjb/custom-appearance ()
+  (setq window-divider-default-right-width 4)
+  (window-divider-mode)
+
+  ;; (set-face-attribute 'window-divider-first-pixel nil :weight 'bold)
+  ;; (set-face-attribute 'window-divider-last-pixel nil :weight 'bold)
+
+  ;; vertical-border applies only in a terminal.
+  ;; (set-display-table-slot standard-display-table
+  ;;                       'vertical-border
+  ;;                       (make-glyph-code ?┃))
+  ;; (set-face-inverse-video-p 'vertical-border nil)
+
   ;; some themes try to jack this
   (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
 
@@ -446,38 +458,30 @@
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
 (add-hook 'after-init-hook 'wjb/set-cursor-color-according-to-mode)
 
-;; Basic colors, if not using theme:
-;;
-;; (set-foreground-color "white")
-;; (set-background-color "black")
-;; (set-face-foreground 'default "white")
-;; (set-face-background 'default "black")
-;; (set-face-foreground 'region "gray60")
-;; (set-face-background 'region "#464740")
-;; (set-face-foreground 'font-lock-warning-face "#ff6666")
-;; (set-face-foreground 'font-lock-comment-face "tan1")
-
 ;; transparency:
+;; unfocused both: 50
+;; focused dark: 90
+;; focused light: 98
+(defvar wjb/most-transparent 50)
 (defvar wjb/more-transparent 90)
 (defvar wjb/less-transparent 98)
 
 ;; TODO transparency looks good enough with dark theme to always be one, but
 ;; not so good with light theme.
-(defun wjb/focus-in-hook ()
-  (if wjb/dark
-      (set-frame-parameter (selected-frame) 'alpha wjb/more-transparent)
-    (set-frame-parameter (selected-frame) 'alpha wjb/less-transparent)))
+;; (defun wjb/focus-in-hook ()
+;;   (if wjb/dark
+;;       (set-frame-parameter nil 'alpha wjb/more-transparent)
+;;     (set-frame-parameter nil 'alpha wjb/less-transparent)))
 
-(defun wjb/focus-out-hook ()
-  (set-frame-parameter (selected-frame) 'alpha wjb/more-transparent))
+;; (defun wjb/focus-out-hook ()
+;;   (set-frame-parameter nil 'alpha wjb/more-transparent))
 
-(add-hook 'focus-in-hook #'wjb/focus-in-hook)
-(add-hook 'focus-out-hook #'wjb/focus-out-hook)
+;; (remove-hook 'focus-in-hook #'wjb/focus-in-hook)
+;; (remove-hook 'focus-out-hook #'wjb/focus-out-hook)
 
-;; To make it default, you can add this:
-
-;; (add-to-list 'default-frame-alist
-;;              '(alpha . 84))
+;; (set-frame-parameter (nil 'alpha '(wjb/more-transparent . wjb/more-transparent))
+;; (set-frame-parameter (nil 'alpha '(90 . 50))
+;; (set-frame-parameter (nil 'alpha '(98 . 50))
 
 (provide 'appearance)
 
