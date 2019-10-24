@@ -3203,7 +3203,7 @@ is already narrowed."
   ;; _r_ename current window config    _9_ switch to shell
   ;; _c_reate new window config
   ;; _C_lose current window config
-  p;; ^^
+  ;; ^^
 
 (defhydra hydra-project-shells (:color blue)
   "
