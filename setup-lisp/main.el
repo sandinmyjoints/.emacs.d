@@ -1754,8 +1754,8 @@ If PROJECT is not specified the command acts on the current project."
         )
   (:map treemacs-mode-map
         ("e" . treemacs-TAB-action)
-        ("j" . treemacs-next-line)
-        ("k" . treemacs-previous-line)
+        ("j" . treemacs-next-neighbour)
+        ("k" . treemacs-previous-neighbour)
         )
   )
 
