@@ -256,7 +256,10 @@ in the current window."
   ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
   ;; only sort of uses it?
   (add-hook 'shell-mode-hook
-            'ansi-color-for-comint-mode-on))
+            'ansi-color-for-comint-mode-on)
+  (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
+  (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
+  )
 
 ;; Text and fill modes.
 (defun wjb/soft-wrap-text ()
