@@ -1583,7 +1583,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package multiple-cursors
   :defer t
   :bind (:map global-map
-              ;; ("C-x t" . 'set-rectangular-region-anchor) ;; sane-term
+              ;; ("C-x t" . 'set-rectangular-region-anchor) ;
               ("C->" . 'mc/mark-next-like-this)
               ("C-<" . 'mc/mark-previous-like-this)
               ("C-*" . 'mc/mark-all-like-this)
@@ -1966,6 +1966,7 @@ If PROJECT is not specified the command acts on the current project."
   :defer t)
 
 (use-package sane-term
+  :disabled
   :commands (sane-term sane-term-create)
   :bind (("C-c s" . sane-term)
          ("C-c S" . sane-term-create))
