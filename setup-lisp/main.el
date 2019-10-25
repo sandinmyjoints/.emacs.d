@@ -1728,15 +1728,15 @@ If PROJECT is not specified the command acts on the current project."
     ;; The default width and height of the icons is 22 pixels. If you are
     ;; using a Hi-DPI display, uncomment this to double the icon size.
     (treemacs-resize-icons 18)
-
-    ;; TODO cursor-type box in hook
-
-    (treemacs-follow-mode t)
+    (treemacs-follow-mode nil)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode t)
     (treemacs-git-mode -1)
     (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
-    (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
+    (defun wjb/treemacs-hook ()
+      (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
+      (setq-local cursor-type 'box))
+    (add-hook 'treemacs-mode-hook #'wjb/treemacs-hook)
     )
 
   (defun wjb/treemacs-ignore-compiled-files (filename filepath)
@@ -1748,7 +1748,7 @@ If PROJECT is not specified the command acts on the current project."
   :bind
   (:map global-map
         ("H-a"       . treemacs-select-window)
-        ("C-c d"     . treemacs-add-project)
+        ("C-c d"     . treemacs-add-project-to-workspace)
         ;; ("C-x t 1"   . treemacs-delete-other-windows)
         ;; ("C-x t t"   . treemacs)
         ;; ("C-x t B"   . treemacs-bookmark)
@@ -1770,11 +1770,6 @@ If PROJECT is not specified the command acts on the current project."
 ;;   :after treemacs dired
 ;;   :ensure t
 ;;   :config (treemacs-icons-dired-mode))
-
-(use-package treemacs-magit
-  :after treemacs magit
-  :disabled
-  :ensure t)
 
 ;; (require 'lisp-stuff)
 
@@ -3144,7 +3139,8 @@ is already narrowed."
 
 (defun wjb/after-init-hook ()
   (setq source-directory "/Users/william/scm/vendor/emacs-mac"
-        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src"))
+        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
+  (treemacs))
 (add-hook 'after-init-hook #'wjb/after-init-hook)
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
