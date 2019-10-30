@@ -250,17 +250,6 @@ in the current window."
   :config
   (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
-(use-package shell
-  :config
-  ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
-  ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
-  ;; only sort of uses it?
-  (add-hook 'shell-mode-hook
-            'ansi-color-for-comint-mode-on)
-  (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
-  (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
-  )
-
 ;; Text and fill modes.
 (defun wjb/soft-wrap-text ()
   "Soft wrap: sets fill-column to 10000. Doesn't auto-fill;
@@ -2238,6 +2227,21 @@ Interactively also sends a terminating newline."
      (get-buffer-process (current-buffer))
      string)))
 
+;; shell is derived from comint: (define-derived-mode shell-mode comint-mode "Shell"
+(use-package shell
+  :config
+  ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
+  ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
+  ;; only sort of uses it?
+  (add-hook 'shell-mode-hook
+            'ansi-color-for-comint-mode-on)
+  ;; want this for shell but not for compilation
+  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+  (setq comint-scroll-show-maximum-output nil)
+
+  (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
+  (define-key comint-mode-map (kbd "<down>") 'comint-next-input))
+
 (defun endless/send-self ()
   "Send the pressed key to the current process."
   (interactive)
@@ -2372,6 +2376,11 @@ Interactively also sends a terminating newline."
             (lambda () (visual-line-mode 1)))
 
   ;; Handle ANSI color in compilation buffers.
+  ;; First, some setup:
+  (make-variable-buffer-local 'comint-output-filter-functions)
+  (add-hook 'compilation-mode-hook
+            (lambda () (setq comint-output-filter-functions
+                    (remove 'ansi-color-process-output comint-output-filter-functions))))
 
   ;; Approach 1: xterm-color. This is promising, but disabled because it scrolls
   ;; test output when it should be overwriting. Is this related to the issue
@@ -2399,10 +2408,9 @@ Interactively also sends a terminating newline."
          (funcall 'compilation-filter proc
                   (xterm-color-filter string))))))
   (add-hook 'compilation-start-hook #'xterm-color-compilation-start-hook)
+  (setq xterm-color-debug nil)
 
-  (setq xterm-color-debug nil
-        comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
-
+  ;; reference: https://github.com/atomontage/xterm-color/issues/28#issuecomment-487251253
   (defun xristos/font-lock-function (_)
     nil)
 
@@ -2415,14 +2423,15 @@ Interactively also sends a terminating newline."
     (xristos/disable-font-lock)
     (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
 
-
     ;; TODO: The following depends on font-locking, it's better to write
     ;; my own mode for similar functionality at some point.
     ;; (compilation-shell-minor-mode 1)
     )
 
-  (add-hook 'shell-mode-hook 'xristos/shell-mode-hook)
-  ;; my own thing:
+  ;; xristos does this for shell mode:
+  ;; (add-hook 'shell-mode-hook 'xristos/shell-mode-hook)
+
+  ;; but I'm going to try keeping font lock for shell mode, and only disable for comint (which I use for compilation)
   (add-hook 'comint-mode-hook 'xristos/shell-mode-hook)
 
   ;; what I really want is to add-hook compilation-start-hook only when entering a grep mode buffer
