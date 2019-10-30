@@ -46,7 +46,7 @@
 ;;
 ;;; Code:
 
-(setq-default bidi-display-reordering nil)
+(setq-default bidi-display-reordering 'left-to-right)
 
 (setq inhibit-startup-echo-area-message "william")
 
