@@ -104,10 +104,10 @@
 ;;               (list (car x) (cadr x) (caddr x)))
             ;; wjb/projects/hydra))
 
-(mapc (lambda (project)
-        (defhydra+ hydra-projects () "docstring"
-          (list (car project) (cadr project) (caddr project))))
-        wjb/projects/hydra)
+;; (mapc (lambda (project)
+;;         (defhydra+ hydra-projects () "docstring"
+;;           (list (car project) (cadr project) (caddr project))))
+;;         wjb/projects/hydra)
 
 ;; (mapc (lambda (project)
 ;;         (eval `(defhydra+ hydra-projects () "docstring"
