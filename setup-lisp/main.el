@@ -3187,9 +3187,15 @@ is already narrowed."
              ("test" "~/scm/sd/sd-playground"))
             ("3" .
              ("bash" "~/scm/sd/sd-playground"))))
+          ("neodarwin" .
+           (("1" .
+             ("server" "~/scm/sd/neodarwin"))
+            ("2" .
+             ("test" "~/scm/sd/neodarwin"))
+            ("3" .
+             ("bash" "~/scm/sd/neodarwin"))))
           )
         ))
-
 
 ;; TODO: order by key (key name project), order replace - with ansi-term, 1
 ;; with the key, 2 with the key, etc.
