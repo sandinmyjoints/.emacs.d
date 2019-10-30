@@ -456,8 +456,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (setq diff-switches "-u"
         ediff-diff-options "-w"
         ediff-custom-diff-options "-w"
-        ediff-split-window-function 'split-window-horizontally
-        ediff-window-setup-function 'ediff-setup-windows-plain))
+        ediff-split-window-function 'split-window-horizontally))
 
 (use-package help-mode
   :init
