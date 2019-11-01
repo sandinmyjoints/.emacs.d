@@ -217,6 +217,7 @@
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
+     (cons 'indium melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
      (cons 'js2-highlight-vars melpa)
@@ -317,7 +318,6 @@
      ;; (cons 'slime-js marmalade)
      (cons 'edit-server melpa)
      (cons 'edit-server-htmlize melpa)
-     ;; (cons 'indium melpa)
      ;; (cons 'smart-indent-rigidly melpa)
      ;; (cons 'auto-install melpa)
      ))

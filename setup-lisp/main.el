@@ -1674,8 +1674,6 @@ If PROJECT is not specified the command acts on the current project."
   (redraw-display))
 
 (use-package treemacs
-  :ensure t
-  :defer t
   :config
   (progn
     (setq treemacs-collapse-dirs                 3

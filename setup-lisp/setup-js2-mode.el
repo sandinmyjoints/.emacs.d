@@ -196,6 +196,7 @@ If buffer is not visiting a file, do nothing."
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
 ;; Which mode(s) to use for JSX?
+;; - could try js2-jsx-mode by itself
 ;; - web-mode + js2-jsx-mode is pretty good but has some quirks, and js2r doesn't seem to work
 ;; - rsjx-mode works with js2r but it has had a tendency to hang when attributes are malformed.
 ;;

@@ -718,6 +718,26 @@ react-redux
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
 * TODO indium
+  - indium
+    - working for sd-playground
+  #+begin_src json
+{
+  "configurations": [
+    {
+      "name": "playground-tests",
+      "type": "node",
+      "port": "9329"
+    },
+    {
+      "name": "playground-docker",
+      "type": "node",
+      "remoteRoot": "/usr/src/app",
+      "port": "9329"
+    }
+  ]
+}
+  #+end_src
+
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -1955,7 +1975,7 @@ local bindings in certain buffers.
     - offer props as well (want)
     - when error, offer menu of fixes, including add new import (want)
     - highlight the assertion which failed (want)
-    - debug test -- drop into debugger, set breakpoint (want)
+    - [X] debug test -- drop into debugger, set breakpoint (want)
   - [ ] dumb-jump or smart-jump for jsx
   - [ ] flycheck shows error if point is immediately after it
   - [ ] minions exception for flycheck-emoji
@@ -2015,6 +2035,8 @@ fatal: not a git repository (or any of the parent directories): .git
        NEODARWIN_SKIP_PRECOMMIT before lint-staged (which includes prettier) runs.
      - If/when we upgrade husky, this will probably get overwritten... Use
        HUSKY_SKIP_INSTALL (see https://github.com/typicode/husky/issues/172)
+     - treemacs
+       - want treemacs-next-neighbour-or-up
 ** $sh-mode
    - knows about shell commands written out like so:
 #+BEGIN_SRC
