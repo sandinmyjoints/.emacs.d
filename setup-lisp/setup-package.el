@@ -291,6 +291,8 @@
      (cons 'gruvbox-theme melpa)
      (cons 'nimbus-theme melpa)
 
+     (cons 'bash-completion melpa)
+
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs

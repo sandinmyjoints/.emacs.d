@@ -3256,6 +3256,12 @@ is already narrowed."
 ;; This doesn't seem to work bc copy-to-register must be moving things around
 ;; (advice-add #'copy-to-register :after (lambda (REGISTER START END &optional DELETE-FLAG REGION) (exchange-point-and-mark)))
 
+(autoload 'bash-completion-dynamic-complete
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+          'bash-completion-dynamic-complete)
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
