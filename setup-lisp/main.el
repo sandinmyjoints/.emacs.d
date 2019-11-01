@@ -3177,6 +3177,7 @@ is already narrowed."
 
 (use-package project-shells
   :config
+  (setq project-shells-keymap-prefix "C-]") ;; just like in tmux!
   (setf project-shells-setup
         `(("sd-playground" .
            (("1" .
@@ -3191,7 +3192,12 @@ is already narrowed."
             ("2" .
              ("test" "~/scm/sd/neodarwin"))
             ("3" .
-             ("bash" "~/scm/sd/neodarwin"))))
+             ("build" "~/scm/sd/neodarwin"))))
+          ("po-intake" .
+           (("1" .
+             ("server" "~/scm/sd/po-intake"))
+            ("2" .
+             ("test" "~/scm/sd/po-intake"))))
           )
         ))
 
