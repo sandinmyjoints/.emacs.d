@@ -20,6 +20,7 @@
         counsel-find-file
         dired-do-delete
         dired-next-line
+        easy-kill
         easy-mark
         electric-newline-and-maybe-indent
         end-of-defun
