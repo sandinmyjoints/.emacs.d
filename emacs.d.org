@@ -737,7 +737,31 @@ react-redux
   ]
 }
   #+end_src
+  - working for neodarwin
+  #+begin_src json
+{
+  "configurations": [
+    {
+      "name": "Neodarwin node",
+      "type": "node",
+      "remoteRoot": "/usr/src/app",
+      "port": "9229"
+    },
+    {
+      "name": "Neodarwin webpack",
+      "type": "chrome",
+      "url": "https://www.sdlocal.com/lists/244186/confusables/quiz",
+      "sourceMapPathOverrides": {
+        "webpack:///./~/": "/${root}/node_modules/",
+        "webpack:///./": "/${root}/",
+        "webpack:///": "/",
+        "webpack:///src/": "/${root}/"
+      }
+    }
+  ]
+}
 
+  #+end_src
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
