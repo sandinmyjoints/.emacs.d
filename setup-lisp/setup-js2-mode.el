@@ -203,6 +203,7 @@ If buffer is not visiting a file, do nothing."
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
