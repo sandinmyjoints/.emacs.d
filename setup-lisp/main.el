@@ -620,6 +620,7 @@ pasting into other programs."
      (restclient . t))))
 
 (use-package ob
+  :disabled
   :after org
   :config
   (setq org-confirm-babel-evaluate
@@ -629,6 +630,7 @@ pasting into other programs."
 ;; alternative Org Babel backend for SQL:
 ;; https://github.com/nikclayton/ob-sql-mode
 (use-package ob-sql-mode
+  :disabled
   :after ob
   :config
   ;; HACK: remove ("Q" "#+BEGIN_SRC sql-mode ?\n\n#+END_SRC" "#+BEGIN_SRC
