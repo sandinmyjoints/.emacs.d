@@ -3264,6 +3264,27 @@ is already narrowed."
 (add-hook 'shell-dynamic-complete-functions
           'bash-completion-dynamic-complete)
 
+;; https://emacs.stackexchange.com/a/5531/2163
+(defvar walk-dir-locals-upward nil
+  "If non-nil, evaluate .dir-locals.el files starting in the
+  current directory and going up. Otherwise they will be
+  evaluated from the top down to the current directory.")
+
+(defadvice hack-dir-local-variables (around walk-dir-locals-file activate)
+  (let* ((dir-locals-list (list dir-locals-file))
+         (walk-dir-locals-file (first dir-locals-list)))
+    (while (file-readable-p (concat "../" walk-dir-locals-file))
+      (progn
+        (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
+        (add-to-list 'dir-locals-list walk-dir-locals-file
+                     walk-dir-locals-upward)
+        ))
+    (dolist (file dir-locals-list)
+      (let ((dir-locals-file (expand-file-name file)))
+        (message dir-locals-file)
+        ad-do-it
+        ))))
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
