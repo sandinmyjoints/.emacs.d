@@ -325,6 +325,8 @@ project."
 
 (add-hook 'js-mode-hook 'wjb/js-hook)
 
+(add-hook 'js-mode-hook #'indium-interaction-mode)
+
 (provide 'setup-js2-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
