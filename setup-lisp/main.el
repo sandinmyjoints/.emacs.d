@@ -3285,6 +3285,11 @@ is already narrowed."
         ad-do-it
         ))))
 
+(use-package indium
+  :config
+  (setq indium-chrome-use-temporary-profile nil
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger"))
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
