@@ -230,8 +230,6 @@
      ;; (cons 'jest-mode melpa) ;; using own fork.
 
      (cons 'eglot melpa)
-     (cons 'lsp-mode melpa)
-     (cons 'lsp-ui melpa)
 
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
@@ -246,7 +244,6 @@
      (cons 'company melpa)
      (cons 'company-restclient melpa)
      (cons 'company-emoji melpa)
-     (cons 'company-lsp melpa)
      (cons 'company-nginx melpa)
      (cons 'company-shell melpa)
      (cons 'company-web melpa)

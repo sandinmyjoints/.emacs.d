@@ -2030,7 +2030,7 @@ If PROJECT is not specified the command acts on the current project."
   (let (zing (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-lsp company-restclient company-css) zing)
+        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-restclient company-css) zing)
       (if (equal list 'company-capf)
         (push
          (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
@@ -2635,7 +2635,7 @@ Interactively also sends a terminating newline."
   (defun turn-off-fci ()
     (fci-mode -1))
 
-  (dolist (hook '(web-mode-hook lsp-ui-mode-hook))
+  (dolist (hook '(web-mode-hook))
     (add-hook hook 'turn-off-fci))
 
   ;; fci-mode doesn't play well with flycheck inlines
