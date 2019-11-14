@@ -120,7 +120,7 @@
             (lambda ()
               (interactive)
               (call-interactively
-               (eval `(defhydra hydra-projects (:color blue :columns 2)
+               (eval `(defhydra hydra-projects (:color blue :columns 3)
                         "Projects"
                         ,@(mapcar (lambda (x)
                                     (list (car x) (cadr x) (caddr x)))

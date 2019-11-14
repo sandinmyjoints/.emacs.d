@@ -213,7 +213,6 @@ in the current window."
     (setq-default mode-line-format mode-line-format))
 
   ;; try setting it as the global default
-  (message "!!! this code ran")
   (setq-default mode-line-format
                 (-insert-at 3 '(" " pyvenv-virtual-env-name " " (:eval (car nvm-current-version)) " ") mode-line-format))
 
@@ -865,7 +864,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; This is https://github.com/jorgenschaefer/pyvenv
   ;; - pyvenv-* commands
   ;; - comes with elpy
-  (defalias 'workon 'pyvenv-workon)
 
   (add-hook 'python-mode-hook (lambda ()
                                 (hack-local-variables)
@@ -1310,6 +1308,7 @@ If PROJECT is not specified the command acts on the current project."
    helm-buffers-fuzzy-matching t
    helm-ff-skip-boring-files t
    helm-buffer-max-length 24
+   helm-buffer-skip-remote-checking t
    helm-buffers-end-truncated-string "…"
    helm-echo-input-in-header-line t
    helm-buffer--pretty-names '((dired-mode . "Dired")
@@ -1359,7 +1358,7 @@ If PROJECT is not specified the command acts on the current project."
      (propertize modified-file 'font-lock-face 'helm-xref-file-name)
      (when (string= "integer" (type-of line))
        (concat
-        ""
+        ":"
         (propertize (int-to-string line)
                     'font-lock-face 'helm-xref-line-number)))
      ":"
@@ -3252,7 +3251,7 @@ is already narrowed."
   )
 
 (define-key global-map (kbd "M--") 'hydra-project-shells/body)
-(define-key global-map (kbd "H-=") 'hydra-project-shells/body)
+(define-key global-map (kbd "H--") 'hydra-project-shells/body)
 
 (advice-remove #'copy-to-register nil)
 ;; This doesn't seem to work bc copy-to-register must be moving things around
