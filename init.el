@@ -1,4 +1,4 @@
-;;; init.el --- Entry point into Emacs configuration.
+;;; init.el --- Entry point into configuration. -*- no-byte-compile: t -*-
 ;;
 ;; Filename: init.el
 ;; Description:
@@ -6,7 +6,7 @@
 ;; Maintainer:
 ;; Created: Sun Nov 12 11:16:22 2017 (-0800)
 ;; Version:
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "24.3"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0
@@ -45,6 +45,7 @@
 ;;
 ;;; Code:
 
+;; (setq debug-on-error t)
 (defun init ()
   ;; Initial and default settings. Should match these:
   ;; defaults write org.gnu.Emacs Width 120
@@ -121,6 +122,7 @@
     ((file-name-handler-alist nil)
      (gc-cons-threshold most-positive-fixnum)
      (garbage-collection-messages t))
+  (setq load-prefer-newer t)
   (init)
   ;; This would result in a big GC after init finishes, right when I want to
   ;; start using Emacs. Instead, give init a while to run, then schedule gc to

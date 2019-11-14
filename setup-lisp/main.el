@@ -1,5 +1,5 @@
-;;; -*- lexical-binding: t -*-
-;;; init.el --- Emacs configuration.
+;;; -*- lexical-binding: t no-byte-compile: t -*-
+;;; main.el --- Emacs configuration.
 ;;
 ;; Filename: init.el
 ;; Description:
@@ -7,7 +7,7 @@
 ;; Maintainer:
 ;; Created: Thu Oct  2 08:04:34 2014 (-0700)
 ;; Version:
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "24.3"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0
@@ -3184,12 +3184,12 @@ is already narrowed."
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
-
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
 
 ;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
-;;(byte-recompile-directory site-lisp-dir 0)
+;; (byte-recompile-directory site-lisp-dir 0)
+;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0)
 ;;
 ;; (defun wjb/run-once-when-idle (fun)
 ;;   "Run a command every once in a while, if possible when emacs is idle."

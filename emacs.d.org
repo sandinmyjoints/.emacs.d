@@ -294,6 +294,18 @@ EOF
      checker.
 ** DONE have flycheck show that a buffer has errors in mode line
    CLOSED: [2017-07-29 Sat 21:58]
+* REFERENCE
+** Debug init file
+   - at top of init.el: (setq debug-on-error t)
+** stringp nil error with autoloads after upgrading packages
+   - https://emacs.stackexchange.com/questions/33783/file-name-directory-how-does-emacs-know-what-is
+   - solution is to rm all elc files, then byte recompile
+gfind . -name "*.elc"
+gfind . -name "*.elc" -print0 | xargs -0 rm
+
+(byte-recompile-directory site-lisp-dir 0)
+(byte-recompile-directory "/Users/william/.emacs.d/elpa" 0)
+
 * INACTIVE coffee-mode sourcemap
   CLOSED: [2017-08-01 Tue 17:33]
   - https://github.com/syohex/emacs-sourcemap
