@@ -414,6 +414,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; unbind C-o (was diredp-find-file-other-frame) for use by helm-mini
   (unbind-key (kbd "C-o") dired-mode-map)
 
+  (autoload 'dired-async-mode "dired-async.el" nil t)
+  (dired-async-mode 1)
   ;; I think I am using auto-revert-mode globally
   ;; (add-hook 'dired-mode-hook 'auto-revert-mode)
   ;; (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
@@ -1343,7 +1345,8 @@ If PROJECT is not specified the command acts on the current project."
   :after helm
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs
-        helm-xref-candidate-formatting-function 'wjb/helm-xref-format-candidate-long)
+        helm-xref-candidate-formatting-function 'wjb/helm-xref-format-candidate-long
+        helm-xref-input "!test ")
 
   ;; see https://github.com/brotzeit/helm-xref/issues/19
   (defun wjb/helm-xref-format-candidate-long (file line summary)
