@@ -1381,11 +1381,27 @@ If PROJECT is not specified the command acts on the current project."
   ;; C-M-g dumb-jump-go -- would like to use M-.
   ;; C-M-p dumb-jump-back -- M-,
   :config
+  (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js" "*.jsx"))
+  (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee"))
+  (add-to-list 'semantic-symref-filepattern-alist '(helpful-mode "*"))
+  (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
+  (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org"))
+
   ;; (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-selector 'helm)
   (unbind-key "C-M-p" dumb-jump-mode-map)
+  (setq dumb-jump-force-searcher 'rg)
   ;; I think this is redundant because smart-jump uses dumb-jump as a fallback
   ;; (add-hook 'prog-mode-hook #'dumb-jump-mode)
+  (defhydra dumb-jump-hydra (:color blue :columns 3)
+    "Dumb Jump"
+    ("j" dumb-jump-go "Go")
+    ("o" dumb-jump-go-other-window "Other window")
+    ("e" dumb-jump-go-prefer-external "Go external")
+    ("x" dumb-jump-go-prefer-external-other-window "Go external other window")
+    ("i" dumb-jump-go-prompt "Prompt")
+    ("l" dumb-jump-quick-look "Quick look")
+    ("b" dumb-jump-back "Back"))
   )
 
 (use-package smart-jump
