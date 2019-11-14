@@ -1384,11 +1384,13 @@ If PROJECT is not specified the command acts on the current project."
   ;; C-M-g dumb-jump-go -- would like to use M-.
   ;; C-M-p dumb-jump-back -- M-,
   :config
-  (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js" "*.jsx"))
-  (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee"))
-  (add-to-list 'semantic-symref-filepattern-alist '(helpful-mode "*"))
-  (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
-  (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org"))
+  (use-package semantic/symref/grep
+    :config
+    (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js" "*.jsx"))
+    (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee"))
+    (add-to-list 'semantic-symref-filepattern-alist '(helpful-mode "*"))
+    (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
+    (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org")))
 
   ;; (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-selector 'helm)
