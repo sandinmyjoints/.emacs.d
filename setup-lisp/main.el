@@ -3169,10 +3169,16 @@ is already narrowed."
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
-;; Experimental:
-;; (add-to-list 'load-path "../elisp/emacs-libvterm")
 (use-package vterm
-  :load-path "elisp/emacs-libvterm")
+  ;; TODO: switch to melpa.
+  :load-path "elisp/emacs-libvterm"
+  :config
+  (defun vterm-send-close-square-bracket ()
+    "Sends `C-c' to the libvterm."
+    (interactive)
+    (vterm-send-key "]" nil nil t))
+  (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
+
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
 
@@ -3194,27 +3200,18 @@ is already narrowed."
 
 (use-package project-shells
   :config
+  (global-unset-key (kbd "C-]"))
   (setq project-shells-keymap-prefix "C-]") ;; just like in tmux!
   (setf project-shells-setup
         `(("sd-playground" .
            (("1" .
-             ("server" "~/scm/sd/sd-playground"))
-            ("2" .
-             ("test" "~/scm/sd/sd-playground"))
-            ("3" .
-             ("bash" "~/scm/sd/sd-playground"))))
+             ("tmux" "~/scm/sd/sd-playground" vterm))))
           ("neodarwin" .
            (("1" .
-             ("server" "~/scm/sd/neodarwin"))
-            ("2" .
-             ("test" "~/scm/sd/neodarwin"))
-            ("3" .
-             ("build" "~/scm/sd/neodarwin"))))
+             ("tmux" "~/scm/sd/neodarwin" vterm))))
           ("po-intake" .
            (("1" .
-             ("server" "~/scm/sd/po-intake"))
-            ("2" .
-             ("test" "~/scm/sd/po-intake"))))
+             ("tmux" "~/scm/sd/po-intake" vterm))))
           )
         ))
 
