@@ -718,7 +718,7 @@ react-redux
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
 * TODO indium
-  - indium
+** indium server configurations
     - working for sd-playground
   #+begin_src json
 {
@@ -762,6 +762,40 @@ react-redux
 }
 
   #+end_src
+** howto
+*** install
+    - note: indium (node server) needs to be on emacs' executable path
+*** node
+*** node running in docker container
+*** Chrome webpack
+    - chrome: you can't have it running already, unless you have it starting
+      with . Workarounds:
+      - use another browser as daily driver, for example,
+        Firefox or Chrome Beta
+      - start your daily driver with remote-debugging-port. Make sure your
+        firewall is on and blocking 9222!
+        - https://mathiasbynens.be/notes/shell-script-mac-apps
+        - https://stackoverflow.com/a/58457229/599258
+    - chrome: breakpoints don't seem to work for the indium session that starts
+      chrome, but they do work once chrome is already running.
+    - set indium-chrome-data-dir to a tmpdir
+    - do they only work once I add neodarwin to chrome devtools sources workspace?
+    - indium-list-sourcemap-sources is very helpful!
+    - you may need to kill the server manually, in case indium-quit doesn't kill
+      it -- check
+    - when doing indium-launch, it will open a new tab, but it may still be
+      connected to the last tab. do something in the repl and see in which tab
+      it is evaluated!
+    - CDP resources
+      - wire protocol: https://chromedevtools.github.io/devtools-protocol/
+      - https://developer.chrome.com/devtools/docs/integrating#debugging-protocol-clients
+    #+begin_quote
+Note: Currently, the Chrome debugging protocol supports only one client per page. So you can use the DevTools to inspect a page, or use a third-party client, but not both at the same time.
+    #+end_quote
+    #+begin_src bash
+#!/usr/bin/env bash
+/Applications/Google\ Chrome\ Beta.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 "${BASH_ARGV[0]}" &
+    #+end_src
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -1037,6 +1071,7 @@ true
   - jest mode defined in 'jest.el': Major mode for jest sessions (derived from comint-mode).
   - [X] to set defaults in magit-popup: C-t to show magit-popup common commands, set
     the values, then C-x C-s
+  - config for neodarwin components: jest --colors --watch --config=jest-components.config.js --color=no src/components/custom-hooks/test.jsx
 ** how it works
   - jest-mode uses comint-mode
   - I'm hooking it to use compilation-minor-mode

@@ -3293,14 +3293,16 @@ is already narrowed."
         ))
     (dolist (file dir-locals-list)
       (let ((dir-locals-file (expand-file-name file)))
-        (message dir-locals-file)
         ad-do-it
         ))))
 
 (use-package indium
   :config
   (setq indium-chrome-use-temporary-profile nil
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger"))
+        indium-client-debug t
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
+        ;; indium-chrome-executable (indium-chrome--default-executable)
+)
 
 (provide 'main)
 
