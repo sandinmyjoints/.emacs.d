@@ -461,8 +461,7 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   1) when it's cycling between list bullets, it's fine, point stays where it is
   2) but when it's going from a headline to a bullet, it puts point at BOL
      instead of leaving it where it is
-* TODO helm source: github
-* TODO helm source: pivotal
+* Build org dev: https://scripter.co/building-org-development-version/
 * TODO easy, nice-looking org export
    - to markdown
    - to HTML:
@@ -779,6 +778,9 @@ react-redux
     - note: indium (node server) needs to be on emacs' executable path
 *** node
 *** node running in docker container
+*** coffeescript in node in docker container
+  - inline source map support:
+    https://github.com/jashkenas/coffeescript/pull/4111, https://github.com/jashkenas/coffeescript/pull/4223
 *** Chrome webpack
     - chrome: you can't have it running already, unless you have it starting
       with . Workarounds:
@@ -1482,7 +1484,24 @@ fca1464b7749/sd_neodarwin_1                                sd_neodarwin         
   - https://github.com/laishulu/emacs-tmux-pane
 * vterm for tmux
   - https://launchpad.net/libvterm
-  - [ ] why doesn't the tmux status line appear?
+** TODO why doesn't the tmux status line appear?
+;; actual number of text rows I count is 58
+
+(window-height nil t)
+;; 66
+
+(window-body-height)
+;; reported is 64
+
+(window-body-height nil t)
+;; reported is 1162
+
+(window-text-height)
+;; 64
+
+;; line-spacing is 2
+;; 1162 / (15 + 2) = 68.352941176 = 68
+
   - [ ] resizing the pane (maximizing)
 
 * grep
@@ -1667,6 +1686,8 @@ C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
 * DONE diminish auto-fill-mode
   - https://www.wisdomandwonder.com/link/10214/httpsgithub-commagnars-emacs-dblobmastersite-lispdiminish-ell87wh
   - https://github.com/magnars/.emacs.d/blob/master/site-lisp/diminish.el#L87y-you-cant-diminish-auto-fill-mode
+* TODO helm source: github
+* TODO helm source: pivotal
 * TODO powerline
   - need to figure out how not to show the entire git branch name in modeline.
     or truncate it at n characters.
