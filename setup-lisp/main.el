@@ -2354,6 +2354,8 @@ Interactively also sends a terminating newline."
         compilation-save-buffers-predicate '(lambda () nil)
         ;; compilation-scroll-output 'first-error
         )
+  (make-variable-buffer-local 'comint-prompt-read-only)
+  (setq-default comint-prompt-read-only nil)
 
   (add-hook 'comint-mode-hook
           (lambda ()
