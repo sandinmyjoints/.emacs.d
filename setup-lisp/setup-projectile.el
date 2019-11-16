@@ -178,14 +178,12 @@
 				  :run "npm start"
           :src-dir "src"
 				  :test-dir "test"
-          ;; projectile looks up related files fn based on project type, but I
-          ;; want different functions for specific projects. So put this in
-          ;; dir-locals:
-          ;;
-          ;; (projectile-related-files-fn-function . (lambda (type) #'wjb/related-files-same-dir-components))
-          ;;
-          ;; This would set it for the npm project type:
-          ;; :related-files-fn #'wjb/related-files-corresponding-path-playground
+          :related-files-fn (list (projectile-related-files-fn-test-with-suffix "js" "test")
+                                  (projectile-related-files-fn-test-with-suffix "jsx" "test")
+                                  #'wjb/related-files-corresponding-path-playground
+                                  #'wjb/related-files-same-dir-components
+                                  #'wjb/related-files-corresponding-path-po-intake
+                                  #'wjb/related-files-corresponding-path)
           )
 
 ;; (projectile-register-project-type 'yarn '("yarn.lock")
