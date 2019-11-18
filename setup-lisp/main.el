@@ -1426,6 +1426,7 @@ If PROJECT is not specified the command acts on the current project."
                        :heuristic 'point
                        :async nil
                        :order 1)
+  (smart-jump-typescript-mode-register 'js2-mode)
   (smart-jump-register :modes 'js2-mode
                        :jump-fn 'counsel-etags-find-tag-at-point
                        :should-jump t
@@ -2150,6 +2151,7 @@ If PROJECT is not specified the command acts on the current project."
   ;; trial:
   (company-statistics-mode -1)
   (company-quickhelp-mode -1)
+  (push 'rjsx-mode company-etags-modes)
   )
 
 ;; trial:
