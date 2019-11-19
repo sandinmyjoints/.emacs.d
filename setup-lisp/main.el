@@ -333,10 +333,14 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (setq-default flycheck-display-errors-delay 0.8
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
-                flycheck-temp-prefix ".flycheck")
+                flycheck-temp-prefix ".flycheck"
+                flycheck-navigation-minimum-level 'warning)
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
   (flycheck-add-next-checker 'python-pycompile 'python-pylint)
+;; too many typescript errors, and doesn't know how to resolve components/
+  ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide)
+  ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide)
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
