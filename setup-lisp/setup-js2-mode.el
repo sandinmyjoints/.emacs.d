@@ -316,7 +316,14 @@ project."
   :hook (
          (rjsx-mode . tide-setup)
          (rjsx-mode . tide-hl-identifier-mode)
-         ))
+         (js2-mode . tide-setup)
+         (js2-mode . tide-hl-identifier-mode)
+         )
+  :config
+  (setq tide-default-mode "JS"
+        tide-hl-identifier-idle-time 0.1)
+  ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+)
 
 ;; (add-hook 'js2-mode-hook #'setup-tide-mode)
 ;; configure javascript-tide checker to run after your default javascript checker

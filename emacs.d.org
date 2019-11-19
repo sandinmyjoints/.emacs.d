@@ -631,6 +631,49 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 ** TODO tide
    CLOSED: [2018-06-13 Wed 21:45]
    - https://github.com/ananthakumaran/tide
+   - https://github.com/Microsoft/TypeScript/blob/17eaf50b73c1355d2fd15bdc3912aa64a73483dd/src/server/protocol.ts#L2684
+   - https://www.typescriptlang.org/docs/handbook/compiler-options.html
+   - https://www.typescriptlang.org/docs/handbook/module-resolution.html#base-url
+   - https://github.com/Microsoft/TypeScript/issues/24133
+   - sort of working
+   #+begin_src json
+   {
+  "compilerOptions": {
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "checkJs": false,
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "src/components/*", "src/client/*"],
+      "components/*": [
+        "src/components/*",
+        "src/*"
+      ],
+      "client/*": [
+        "src/client/*",
+        "src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "*-exports.js",
+    "dist",
+    "dist-server",
+    "local_notes",
+    "*-min.js",
+    "TAGS",
+    "node_modules",
+    "public/js"
+  ]
+}
+   #+end_src
 ** TODO lsp-javascript
    - https://github.com/emacs-lsp/lsp-mode
    - https://github.com/emacs-lsp/lsp-javascript

@@ -224,7 +224,7 @@
      (cons 'prettier-js melpa)
      (cons 'add-node-modules-path melpa)
      (cons 'discover-js2-refactor melpa)
-     (cons 'tide-mode melpa)
+     (cons 'tide melpa)
      (cons 'coffee-mode melpa)
      ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
