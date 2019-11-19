@@ -2592,6 +2592,7 @@ Interactively also sends a terminating newline."
          ;; ([remap recompile] . jest-repeat)
          )
   :config
+  (setq jest-pdb-track nil)
   ;; Not sure which is preferable to use. shell-minor seems to not have
   ;; as many key bindings I want, however, it allows sending input into the
   ;; buffer.
@@ -2629,6 +2630,7 @@ Interactively also sends a terminating newline."
             (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
             (define-key jest-minor-mode-keymap [remap recompile] 'jest-repeat)
             (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
+            (define-key jest-minor-mode-keymap (kbd "C-c ;") 'jest-file-dwim)
             jest-minor-mode-keymap))
 
 (diminish 'jest-minor-mode)
