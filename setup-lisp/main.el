@@ -1033,6 +1033,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
+(use-package imenu-anywhere)
+
 (use-package flx)
 
 (use-package amx
@@ -1595,7 +1597,11 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package restclient
   :defer t
-  :mode ("\\.rest\\'" . restclient-mode)
+  :mode
+  ("\\.rest\\'" . restclient-mode)
+  ("\\.http\\'" . restclient-mode)
+  :bind (:map restclient-mode-map
+              ("C-c C-f" . json-mode-beautify))
   :config
   (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
     (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
@@ -3234,6 +3240,9 @@ is already narrowed."
           ("neodarwin" .
            (("1" .
              ("tmux" "~/scm/sd/neodarwin" vterm))))
+          ("sd-auth" .
+           (("1" .
+             ("tmux" "~/scm/sd/sd-auth" vterm))))
           ("po-intake" .
            (("1" .
              ("tmux" "~/scm/sd/po-intake" vterm))))

@@ -315,9 +315,9 @@ project."
   :after (rjsx-mode company flycheck)
   :hook (
          (rjsx-mode . tide-setup)
-         (rjsx-mode . tide-hl-identifier-mode)
+         ;; (rjsx-mode . tide-hl-identifier-mode)
          (js2-mode . tide-setup)
-         (js2-mode . tide-hl-identifier-mode)
+         ;; (js2-mode . tide-hl-identifier-mode)
          )
   :config
   (setq tide-default-mode "JS"
