@@ -361,36 +361,36 @@
   (if list
       (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
 
-(defun wjb/camelize (s)
-  "Convert under_score string S to CamelCase string."
-  (mapconcat 'identity (mapcar
-                        #'(lambda (word) (capitalize (downcase word)))
-                        (split-string s "_")) ""))
+;; (defun wjb/camelize (s)
+;;   "Convert under_score string S to CamelCase string."
+;;   (mapconcat 'identity (mapcar
+;;                         #'(lambda (word) (capitalize (downcase word)))
+;;                         (split-string s "_")) ""))
 
-(defalias #'camelize #'wjb/camelize)
+;; (defalias #'camelize #'wjb/camelize)
 
-(defun wjb/camelize-method (s)
-  "Convert under_score string S to camelCase string."
-  (mapconcat 'identity (mapcar-head
-                        #'(lambda (word) (downcase word))
-                        #'(lambda (word) (capitalize (downcase word)))
-                        (split-string s "_")) ""))
+;; (defun wjb/camelize-method (s)
+;;   "Convert under_score string S to camelCase string."
+;;   (mapconcat 'identity (mapcar-head
+;;                         #'(lambda (word) (downcase word))
+;;                         #'(lambda (word) (capitalize (downcase word)))
+;;                         (split-string s "_")) ""))
 
-(defalias #'camelize-method #'wjb/camelize-method)
+;; (defalias #'camelize-method #'wjb/camelize-method)
 
-(defun wjb/camelize-thing-at-point ()
-  "Camelize thing at point."
-  (interactive)
-  (let ((thing (thing-at-point 'word)))
-    (setq bounds (bounds-of-thing-at-point 'word))
-    (setq pos1 (car bounds))
-    (setq pos2 (cdr bounds))
-    (save-excursion
-      (delete-region pos1 pos2)
-      (goto-char pos1)
-      (insert (camelize-method thing)))))
+;; (defun wjb/camelize-thing-at-point ()
+;;   "Camelize thing at point."
+;;   (interactive)
+;;   (let ((thing (thing-at-point 'word)))
+;;     (setq bounds (bounds-of-thing-at-point 'word))
+;;     (setq pos1 (car bounds))
+;;     (setq pos2 (cdr bounds))
+;;     (save-excursion
+;;       (delete-region pos1 pos2)
+;;       (goto-char pos1)
+;;       (insert (camelize-method thing)))))
 
-(defalias #'camelize-thing-at-point #'wjb/camelize-thing-at-point)
+;; (defalias #'camelize-thing-at-point #'wjb/camelize-thing-at-point)
 
 ;; Working:
 (defun split-name (s)
@@ -400,16 +400,18 @@
       (replace-regexp-in-string "\\([a-z]\\)\\([A-Z]\\)" "\\1 \\2" s)))
    "[^A-Za-z0-9]+"))
 
-(defun camelcase  (s) (mapconcat 'capitalize (split-name s) ""))
+(defun lowercase-first-character (s)
+  (format "%s%s" (downcase (cadr (split-string s ""))) (s-join "" (cddr (split-string s "")))))
+
+(defun camelcase  (s) (lowercase-first-character (mapconcat 'capitalize (split-name s) "")))
 (defun underscore (s) (mapconcat 'downcase   (split-name s) "_"))
 (defun dasherize  (s) (mapconcat 'downcase   (split-name s) "-"))
 (defun colonize   (s) (mapconcat 'capitalize (split-name s) "::"))
 
 (defun camelscore (s)
-  (cond ((string-match-p "\:"  s)	(camelcase s))
-        ((string-match-p "-" s)     (colonize s))
-        ((string-match-p "_" s)	(dasherize s))
-        (t   (underscore s)) ))
+  (cond ((string-match-p "-" s) (underscore s))
+        ((string-match-p "_" s)	(camelcase s))
+        (t   (dasherize s)) ))
 
 ;; Entrypoint:
 (defun camelscore-word-at-point ()
