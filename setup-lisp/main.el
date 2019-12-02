@@ -1382,6 +1382,7 @@ If PROJECT is not specified the command acts on the current project."
      summary)))
 
 (use-package helm-aws
+  :load-path "elisp/helm-aws"
   :after helm)
 
 (use-package quickrun
@@ -1841,6 +1842,7 @@ If PROJECT is not specified the command acts on the current project."
         (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
 (use-package org-pivotal
+  :load-path "elisp/org-pivotal"
   :defer 1)
 
 ;; Usage
@@ -2233,6 +2235,7 @@ If PROJECT is not specified the command acts on the current project."
   (setq wgrep-enable-key "w"))
 
 (use-package npm-mode
+  :load-path "elisp/npm-mode"
   :diminish
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
   ;; :config
@@ -2590,6 +2593,7 @@ Interactively also sends a terminating newline."
 ;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
 ;; - in *grep* buffers: nothing jest. g re-runs grep.
 (use-package jest
+  :load-path "elisp/emacs-jest"
   :bind (
          :map jest-mode-map
          ([remap compile] . jest-popup)
@@ -2996,6 +3000,7 @@ resized horizontally or vertically."
   (eyebrowse-mode t))
 
 (use-package eyezoom
+  :load-path "elisp/eyezoom"
   :after (eyebrowse zoom)
   :config
   (setq eyezoom-tags-that-zoom '("sql" "rest")))
