@@ -330,7 +330,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; (setq flycheck-global-modes
   ;;       '(not org-mode text-mode conf-mode restclient-mode))
   :config
-  (setq-default flycheck-display-errors-delay 0.8
+  (setq-default flycheck-display-errors-delay 0.03
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
                 flycheck-temp-prefix ".flycheck"
@@ -338,24 +338,36 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
   (flycheck-add-next-checker 'python-pycompile 'python-pylint)
-;; too many typescript errors, and doesn't know how to resolve components/
+
+  ;; too many typescript errors, and complains about missing definitions
+  ;; files. And can it find anything that eslint can't?
   ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide)
   ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide)
+
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
   (require 'setup-flycheck)
-
   (global-flycheck-mode))
 
 (use-package flycheck-package
   :after flycheck
   :config (flycheck-package-setup))
 
+;; This works fine, but I prefer tooltips as long as they're working OK.
 (use-package flycheck-inline
   :after flycheck
+  :disabled
   :config
-  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  (remove-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+
+(use-package flycheck-pos-tip
+  :after flycheck
+  :load-path "elisp/flycheck-pos-tip"
+  :config
+  (setq flycheck-pos-tip-timeout -1
+        flycheck-pos-tip-max-width 50)
+  (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode))
 
 (use-package flycheck-status-emoji
   :after flycheck

@@ -209,7 +209,7 @@
      (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck-package melpa)
      (cons 'flycheck-inline melpa)
-     ;; (cons 'flycheck-pos-tip melpa)
+     ;; (cons 'flycheck-pos-tip melpa) ;; using own fork.
 
      (cons 'nvm melpa)
      (cons 'json-reformat melpa)
@@ -224,8 +224,8 @@
      (cons 'discover-js2-refactor melpa)
      (cons 'tide melpa)
      (cons 'coffee-mode melpa)
-     ;; (cons 'npm-mode melpa) ;; using own fork.
      (cons 'yarn-mode melpa)
+     ;; (cons 'npm-mode melpa) ;; using own fork.
      ;; (cons 'jest-mode melpa) ;; using own fork.
 
      (cons 'eglot melpa)
