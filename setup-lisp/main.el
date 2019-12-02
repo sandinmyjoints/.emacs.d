@@ -247,6 +247,11 @@ in the current window."
 
 (use-package prog-mode
   :config
+  (defun auto-fill-comments ()
+    "Automatically fill comments, but nothing else"
+    (setq-local comment-auto-fill-only-comments t)
+    (setq truncate-lines nil))
+  (add-hook 'prog-mode-hook #'auto-fill-comments)
   (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
 ;; Text and fill modes.
@@ -395,13 +400,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (diminish 'eldoc-mode))
 
 (autoload 'auto-make-header "header2")
-
-(defun auto-fill-comments ()
-  "Automatically fill comments, but nothing else"
-  (setq-local comment-auto-fill-only-comments t)
-  (setq truncate-lines nil)
-  (setq-local truncate-partial-width-windows t))
-(add-hook 'prog-mode-hook 'auto-fill-comments)
 
 (use-package comment-dwim-2
   ;; Default for builtin comment-line is C-x C-;
