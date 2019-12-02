@@ -76,7 +76,7 @@
 ;; https://magit.vc/manual/magit/Performance.html
 (remove-hook 'server-switch-hook 'magit-commit-diff)
 (setq vc-handled-backends (delq 'Git vc-handled-backends)
-      magit-refresh-verbose t)
+      magit-refresh-verbose nil)
 
 ;; https://magit.vc/manual/magit/Diff-options.html
 ;; git diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
