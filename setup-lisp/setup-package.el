@@ -104,6 +104,7 @@
   ;; Install packages if they're missing.
   (defun init--install-packages ()
     (packages-install
+     (cons 'adaptive-wrap gnu)
      (cons 'auto-compile melpa)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
@@ -204,14 +205,11 @@
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
 
+     (cons 'flycheck melpa)
      (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck-package melpa)
-     (cons 'flycheck melpa)
+     (cons 'flycheck-inline melpa)
      ;; (cons 'flycheck-pos-tip melpa)
-     ;;
-     ;; two different flycheck-inlines, though they are about to
-     ;; merge: https://github.com/stardiviner/flycheck-inline/issues/4
-     ;; (cons 'flycheck-inline melpa) ;; using my own fork.
 
      (cons 'nvm melpa)
      (cons 'json-reformat melpa)

@@ -353,8 +353,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :config (flycheck-package-setup))
 
 (use-package flycheck-inline
-  ;; using my own fork of this, it's in /elisp
-  :load-path "elisp/flycheck-inline"
   :after flycheck
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
