@@ -3228,8 +3228,44 @@ is already narrowed."
   ;; TODO: switch to melpa.
   :load-path "elisp/emacs-libvterm"
   :config
+  (push "C-o" vterm-keymap-exceptions)
+  (vterm--exclude-keys vterm-keymap-exceptions)
+  ;; hack: exclude will overwrite these, so they need to be re-defined. Would
+  ;; be better if vterm defined them in a defun.
+  (define-key vterm-mode-map [tab]                       #'vterm-send-tab)
+  (define-key vterm-mode-map (kbd "TAB")                 #'vterm-send-tab)
+  (define-key vterm-mode-map [backtab]                   #'vterm--self-insert)
+  (define-key vterm-mode-map [backspace]                 #'vterm-send-backspace)
+  (define-key vterm-mode-map (kbd "DEL")                 #'vterm-send-backspace)
+  (define-key vterm-mode-map [M-backspace]               #'vterm-send-meta-backspace)
+  (define-key vterm-mode-map (kbd "M-DEL")               #'vterm-send-meta-backspace)
+  (define-key vterm-mode-map [return]                    #'vterm-send-return)
+  (define-key vterm-mode-map (kbd "RET")                 #'vterm-send-return)
+  (define-key vterm-mode-map [left]                      #'vterm-send-left)
+  (define-key vterm-mode-map [right]                     #'vterm-send-right)
+  (define-key vterm-mode-map [up]                        #'vterm-send-up)
+  (define-key vterm-mode-map [down]                      #'vterm-send-down)
+  (define-key vterm-mode-map [prior]                     #'vterm-send-prior)
+  (define-key vterm-mode-map [next]                      #'vterm-send-next)
+  (define-key vterm-mode-map [home]                      #'vterm--self-insert)
+  (define-key vterm-mode-map [end]                       #'vterm--self-insert)
+  (define-key vterm-mode-map [escape]                    #'vterm--self-insert)
+  (define-key vterm-mode-map [remap yank]                #'vterm-yank)
+  (define-key vterm-mode-map [remap yank-pop]            #'vterm-yank-pop)
+  (define-key vterm-mode-map [remap mouse-yank-primary]  #'vterm-yank-primary)
+  (define-key vterm-mode-map (kbd "C-SPC")               #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-_")                 #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-/")                 #'vterm-undo)
+  (define-key vterm-mode-map (kbd "M-.")                 #'vterm-send-meta-dot)
+  (define-key vterm-mode-map (kbd "M-,")                 #'vterm-send-meta-comma)
+  (define-key vterm-mode-map (kbd "C-c C-y")             #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-c C-c")             #'vterm-send-ctrl-c)
+  (define-key vterm-mode-map (kbd "C-c C-l")             #'vterm-clear-scrollback)
+  (define-key vterm-mode-map [remap self-insert-command] #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-c C-t")             #'vterm-copy-mode)
+
   (defun vterm-send-close-square-bracket ()
-    "Sends `C-c' to the libvterm."
+    "Sends `C-]' to libvterm."
     (interactive)
     (vterm-send-key "]" nil nil t))
   (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
@@ -3267,6 +3303,9 @@ is already narrowed."
           ("sd-auth" .
            (("1" .
              ("tmux" "~/scm/sd/sd-auth" vterm))))
+          ("emacsnyc-2019" .
+           (("1" .
+             ("tmux" "~/scm/wjb/emacsnyc-2019" vterm))))
           ("po-intake" .
            (("1" .
              ("tmux" "~/scm/sd/po-intake" vterm))))
