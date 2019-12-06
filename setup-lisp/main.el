@@ -1481,7 +1481,10 @@ If PROJECT is not specified the command acts on the current project."
   (defun counsel-etags-grep (&optional default-keyword hint root)
     (error "Signaling error instead of grepping"))
 
-  (setq counsel-etags-update-interval 60)
+  (setq counsel-etags-update-interval 60
+        counsel-etags-find-program "gfind"
+        counsel-etags-grep-program "ggrep"
+        counsel-etags-tags-program "ctags -e -L")
   (add-to-list 'counsel-etags-ignore-directories "build")
   (add-to-list 'counsel-etags-ignore-directories "dist")
   (add-to-list 'counsel-etags-ignore-directories "local_notes")
