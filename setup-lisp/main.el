@@ -2091,7 +2091,7 @@ If PROJECT is not specified the command acts on the current project."
   (let (zing (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-restclient company-css) zing)
+        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
       (if (equal list 'company-capf)
         (push
          (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
@@ -2114,6 +2114,7 @@ If PROJECT is not specified the command acts on the current project."
                ))
     (setq company-backends zing)))
 (wjb/experimental-company-backends)
+
 ;; elisp-completion-at-point
 ;; C-M-i is completion-at-point. How is it configured?
 
