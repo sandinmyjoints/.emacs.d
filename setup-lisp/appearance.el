@@ -323,6 +323,14 @@
 
   (wjb/custom-appearance))
 
+(use-package zerodark-theme
+  :disabled
+  :config
+  (setq wjb/dark t)
+  (change-theme 'zerodark t)
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance))
+
 ;; TODO: try counsel-load-theme
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
 (defun change-theme (&rest args)
