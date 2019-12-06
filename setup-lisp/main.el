@@ -2059,17 +2059,6 @@ If PROJECT is not specified the command acts on the current project."
                  company-oddmuse company-dabbrev)
   "Original value of company-backends, fwiw.")
 
-(defvar wjb/company-backends-js
-  '(
-    company-capf
- (company-capf :with company-dabbrev-code company-keywords)
- company-files
- (company-dabbrev-code company-gtags company-etags company-keywords)
- (company-emoji company-dabbrev))
-  "eglot hooks into capf, so favor that")
-
-;; (setq company-backends wjb/company-backends-js)
-
 (defun wjb/experimental-company-backends ()
   "Try some backend orderings."
   ;; mode-specific, smart
@@ -2101,14 +2090,19 @@ If PROJECT is not specified the command acts on the current project."
 
 (wjb/experimental-company-backends)
 
-(defun wjb/trying-tings-out ()
-  (setq company-backends '(company-css :with company-dabbrev-code))
-;; def
-)
+(defvar wjb/company-backends-js
+  '((company-tide :with company-capf company-keywords company-etags)
+    (company-capf company-keywords company-etags company-dabbrev-code company-dabbrev))
+  "eglot hooks into capf, so favor that")
+
+;; (setq company-backends wjb/company-backends-js)
+
+;; - a simple list gathers from all.
+;; - a list with :with only gathers if the(/a?) backend before :with succeeds at the prefix command
 
 ;; If the group contains keyword ':with', the backends listed after this
 ;; keyword are ignored for the purpose of the 'prefix' command.
-;; but I think if the first one doesn't return prefix, the :with ones will not be called either
+;; but I'm not sure whether the first one doesn't return prefix, the :with ones will be or not be called either?
 
 ;; :with means completions unconditionally; whereas the default is to only use them if
 ;; they return the same prefix as the first defined checker in the group
@@ -2116,15 +2110,14 @@ If PROJECT is not specified the command acts on the current project."
 ;; elisp-completion-at-point
 ;; C-M-i is completion-at-point. How is it configured? maybe assume it is configred will for each mode.
 
+;; I think this ordering is good with manual cycling
 ;; prog:
-;; (mode-primary :with company-capf company-keywords company-etags company-dabbrev-code company-dabbrev)
+;; (mode-primary :with company-capf company-keywords company-etags)
 ;; text:
 ;; (mode-primary :with company-capf company-keywords company-dabbrev-code company-dabbrev)
 ;; end:
 ;; (company-capf company-dabbrev-code company-etags company-emoji company-keywords)
-;; (company-files)
-;; (company-emoji)
-;; (company-dabbrev company-gtags company-etags company-keywords)
+;; (company-files company-emoji company-dabbrev)
 
 ;; commands:
 ;; company-complete
