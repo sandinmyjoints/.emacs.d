@@ -3396,10 +3396,23 @@ is already narrowed."
 (use-package indium
   :config
   (setq indium-chrome-use-temporary-profile nil
-        indium-client-debug t
+        indium-client-debug nil ;; t
         indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
         ;; indium-chrome-executable (indium-chrome--default-executable)
 )
+
+(use-package solaire-mode
+  :hook
+  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (solaire-global-mode +1)
+  (set-face-background 'solaire-default-face
+                       (color-darken-name
+                        (face-attribute 'default :background) 4))
+  (set-face-foreground 'solaire-default-face
+                       (color-lighten-name
+                        (face-attribute 'default :foreground) 3)))
 
 (provide 'main)
 

@@ -287,6 +287,7 @@
 
      (cons 'gruvbox-theme melpa)
      (cons 'nimbus-theme melpa)
+     (cons 'solaire-mode melpa)
 
      (cons 'bash-completion melpa)
 
