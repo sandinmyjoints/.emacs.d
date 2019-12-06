@@ -208,7 +208,7 @@ If buffer is not visiting a file, do nothing."
 ;;
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . rjsx-mode)) ;; rjsx can parse spread operator
 (add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
@@ -333,7 +333,9 @@ project."
          )
   :config
   (setq tide-default-mode "JS"
-        tide-hl-identifier-idle-time 0.1)
+        tide-hl-identifier-idle-time 0.1
+        tide-filter-out-warning-completions t
+        tide-server-max-response-length (* 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
