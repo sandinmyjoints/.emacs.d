@@ -2053,26 +2053,11 @@ If PROJECT is not specified the command acts on the current project."
 
 (require 'setup-markdown)
 
-(defun wjb/set-company-minimum-prefix-length ()
-  (setq-local company-minimum-prefix-length 3))
-
-(defun wjb/revert-company-backends ()
-  ;; current
-  (setq company-backends
-        '(
-          company-emoji
-          company-bbdb
-          company-eclim
-          company-semantic
-          company-clang
-          company-xcode
-          company-cmake
-          company-capf
-          company-files
-          (company-dabbrev-code company-gtags company-etags company-keywords)
-          company-oddmuse
-          company-dabbrev)))
-(wjb/revert-company-backends)
+(defvar wjb/company-backends-original
+  '(company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+                 (company-dabbrev-code company-gtags company-etags company-keywords)
+                 company-oddmuse company-dabbrev)
+  "Original value of company-backends, fwiw.")
 
 (defvar wjb/company-backends-js
   '(
@@ -2113,32 +2098,39 @@ If PROJECT is not specified the command acts on the current project."
                  )
                ))
     (setq company-backends zing)))
+
 (wjb/experimental-company-backends)
 
-;; elisp-completion-at-point
-;; C-M-i is completion-at-point. How is it configured?
+(defun wjb/trying-tings-out ()
+  (setq company-backends '(company-css :with company-dabbrev-code))
+;; def
+)
 
-;; ((company-css :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-restclient :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-lsp :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-shell :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-capf :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-cmake :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-xcode :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  (company-clang :with company-dabbrev-code company-dabbrev company-emoji company-keywords)
-;;  company-files
-;;  (company-dabbrev-code company-gtags company-etags company-keywords)
-;;  (company-emoji company-dabbrev))
+;; If the group contains keyword ':with', the backends listed after this
+;; keyword are ignored for the purpose of the 'prefix' command.
+;; but I think if the first one doesn't return prefix, the :with ones will not be called either
 
-
-;; :with means completions unconditionally; the default is to only use them if
+;; :with means completions unconditionally; whereas the default is to only use them if
 ;; they return the same prefix as the first defined checker in the group
 
+;; elisp-completion-at-point
+;; C-M-i is completion-at-point. How is it configured? maybe assume it is configred will for each mode.
 
-;; company-mode TODO:
-;; (company-emoji company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-;;                (company-dabbrev-code company-gtags company-etags company-keywords)
-;;                company-oddmuse company-dabbrev)
+;; prog:
+;; (mode-primary :with company-capf company-keywords company-etags company-dabbrev-code company-dabbrev)
+;; text:
+;; (mode-primary :with company-capf company-keywords company-dabbrev-code company-dabbrev)
+;; end:
+;; (company-capf company-dabbrev-code company-etags company-emoji company-keywords)
+;; (company-files)
+;; (company-emoji)
+;; (company-dabbrev company-gtags company-etags company-keywords)
+
+;; commands:
+;; company-complete
+;; company-complete-common-or-cycle
+;; company-other-backend
+;; company-diag
 
 ;; - order backends in a way that makes sense
 ;; - group backends
@@ -2161,17 +2153,6 @@ If PROJECT is not specified the command acts on the current project."
 ;; - company-shell
 ;; - company-web
 
-;; - push mutates, puts newelt in front
-;; (setq l '())
-;; (push 1 l)
-;; - add-to-list mutates, puts newelt in front
-;; (add-to-list 'l 2)
-;; - but with arg, it puts it in back
-;; (add-to-list 'l 4 t)
-;; - append does not mutate
-;; (append l '(5))
-;; - delq mutates
-;; (delq 5 l)
 (use-package company
   :defer 2
   :diminish
@@ -2185,15 +2166,24 @@ If PROJECT is not specified the command acts on the current project."
   (global-company-mode t)
 
   :config
+  (setq company-selection-wrap-around t)
   (define-key company-mode-map (kbd "M-/") 'company-complete)
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
+
+  (defun wjb/set-company-minimum-prefix-length ()
+    (setq-local company-minimum-prefix-length 3))
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
-  (setq company-selection-wrap-around t)
+
   ;; trial:
   (company-statistics-mode -1)
   (company-quickhelp-mode -1)
-  (push 'rjsx-mode company-etags-modes)
-  )
+
+  ;; rjsx-mode descends from js2-mode so I think this will cover both:
+  (push 'js2-mode company-etags-modes)
+
+  (global-set-key (kbd "H-0 y") #'company-yasnippet)
+  (global-set-key (kbd "C-c y") #'company-yasnippet)
+  (global-set-key (kbd "C-c C-y") #'company-yasnippet))
 
 ;; trial:
 (use-package company-flx
@@ -2204,10 +2194,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package company-buffer-line
   :commands (company-same-mode-buffer-lines)
   :bind ("C-x C-l" . company-same-mode-buffer-lines))
-
-(global-set-key (kbd "H-0 y") #'company-yasnippet)
-(global-set-key (kbd "C-c y") #'company-yasnippet)
-(global-set-key (kbd "C-c C-y") #'company-yasnippet)
 
 (use-package company-emoji
   :after company

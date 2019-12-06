@@ -334,6 +334,8 @@ project."
   :config
   (setq tide-default-mode "JS"
         tide-hl-identifier-idle-time 0.1)
+  ;; tide places company-tide first :(
+  (pop company-backends)
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
 )
 

@@ -821,7 +821,7 @@ react-redux
     - note: indium (node server) needs to be on emacs' executable path
 *** node
 *** node running in docker container
-*** coffeescript in node in docker container
+*** X coffeescript in node in docker container
   - inline source map support:
     https://github.com/jashkenas/coffeescript/pull/4111, https://github.com/jashkenas/coffeescript/pull/4223
 *** Chrome webpack
@@ -2214,3 +2214,17 @@ $ ls
   - macrostep-mode and macrostep-expand
 * emacs package development handbook
 - https://github.com/alphapapa/emacs-package-dev-handbook
+* working with lists
+  #+begin_src emacs-lisp
+;; - push mutates, puts newelt in front
+(setq l '())
+(push 1 l)
+;; - add-to-list mutates, puts newelt in front
+(add-to-list 'l 2)
+;; - but with arg, it puts it in back
+(add-to-list 'l 4 t)
+;; - append does not mutate
+(append l '(5))
+ll - delq mutates
+(delq 5 l)
+  #+end_src
