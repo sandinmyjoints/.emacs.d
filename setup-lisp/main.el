@@ -335,7 +335,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; (setq flycheck-global-modes
   ;;       '(not org-mode text-mode conf-mode restclient-mode))
   :config
-  (setq-default flycheck-display-errors-delay 0.03
+  (setq-default flycheck-display-errors-delay 0.2
                 flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
                 flycheck-temp-prefix ".flycheck"
@@ -366,12 +366,15 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :config
   (remove-hook 'flycheck-mode-hook #'flycheck-inline-mode))
 
+(use-package pos-tip
+  :load-path "elisp/pos-tip")
+
 (use-package flycheck-pos-tip
-  :after flycheck
+  :after (flycheck pos-tip)
   :load-path "elisp/flycheck-pos-tip"
   :config
   (setq flycheck-pos-tip-timeout -1
-        flycheck-pos-tip-max-width 50)
+        flycheck-pos-tip-max-width 120)
   (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode))
 
 (use-package flycheck-status-emoji
