@@ -3289,6 +3289,9 @@ is already narrowed."
           ("sd-auth" .
            (("1" .
              ("tmux" "~/scm/sd/sd-auth" vterm))))
+          ("hegemone" .
+           (("1" .
+             ("tmux" "~/scm/sd/hegemone/" vterm))))
           ("emacsnyc-2019" .
            (("1" .
              ("tmux" "~/scm/wjb/emacsnyc-2019" vterm))))
