@@ -91,6 +91,13 @@
         markdown-fontify-code-blocks-natively t
         markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
 
+  (defun wjb/markdown-mode-hook ()
+    (add-hook 'visual-line-mode-hook #'visual-fill-column-mode nil t)
+    ;; Preserve indents when wrapping lines in visual-line-mode.
+    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t))
+  (add-hook 'markdown-mode-hook #'wjb/markdown-mode-hook)
+  (add-hook 'markdown-mode-hook #'visual-line-mode t)
+
   (progn
     ;; Seamless editing of Markdown tables (allowed in GFM) using `orgtbl-mode'
     ;; http://stackoverflow.com/a/20912535/1219634
