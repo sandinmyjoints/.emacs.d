@@ -47,6 +47,11 @@
 
 (require-package 'js2-mode)
 
+(use-package js2-imenu-extras
+  :config
+  (progn
+    (js2-imenu-extras-setup)))
+
 ;; To jump back:
 ;; xref-pop-marker-stack
 
@@ -140,6 +145,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
                                (electric-pair-mode 1) ;; maybe?
                                (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   ;; TODO: make minor mode hook more like major mode hook
   (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 
@@ -239,6 +245,12 @@ If buffer is not visiting a file, do nothing."
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 (eval-after-load 'js2-minor-mode
   '(add-hook 'js2-minor-mode-hook #'add-node-modules-path))
+
+;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
+(eval-after-load 'js-mode
+  '(progn
+     ;; '$' is part of variable name like '$item'
+     (modify-syntax-entry ?$ "w" js-mode-syntax-table)))
 
 ;; The following defuns may be replaceable by
 ;; https://github.com/codesuki/add-node-modules-path
@@ -341,6 +353,73 @@ project."
 (add-hook 'js-mode-hook 'wjb/js-hook)
 
 (add-hook 'js-mode-hook #'indium-interaction-mode)
+
+;; this imenu generic expression aims to exclude for, while, if when aims to match functions in
+;; es6 js, e.g. ComponentDidMount(), render() function in React
+;; https://emacs-china.org/t/topic/4538/7
+(defun js-exception-imenu-generic-expression-regexp ()
+  ;; (async)? xxx (e) { }
+  (if (re-search-backward "^[ \t]*\(async\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$]+\)[ \t]*([a-zA-Z0-9, ]*) *\{ *$" nil t)
+      (progn
+        (if (member (match-string 2) '("for" "if" "while" "switch"))
+            (js-exception-imenu-generic-expression-regexp)
+          t))
+    nil))
+
+;; based on https://ztlevi.github.io/posts/Get%20your%20imenu%20ready%20for%20modern%20javascript/
+(defun js2-custom-imenu-make-index ()
+  (interactive)
+  (save-excursion
+    ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
+    (imenu--generic-function '(
+                               ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("it" "\s-*it\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("test" "\s-*test\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("before" "\s-*before\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("beforeEach" "\s-*beforeEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("after" "\s-*after\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("afterEach" "\s-*afterEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+
+                               ("Class" "^[ \t]*[0-9a-zA-Z_$ ]*[ \t]*class[ \t]*\([a-zA-Z_$.]*\)" 1)
+                               ("Class" "^[ \t]*\(var\|let\|const\)[ \t]*\([0-9a-zA-Z_$.]+\)[ \t]*=[ \t]*[a-zA-Z_$.]*.extend" 2)
+                               ("Class" "^[ \t]*cc\.\(.+\)[ \t]*=[ \t]*cc\..+\.extend" 1)
+
+                               ("Function" "\(async\)?[ \t]*function[ \t]+\([a-zA-Z0-9_$.]+\)[ \t]*(" 2) ;; (async)? function xxx (
+                               ("Function" "^[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*:[ \t]*\(async\)?[ \t]*function[ \t]*(" 1) ;; xxx : (async)? function (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*=[ \t]*\(async\)?[ \t]*function[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? function (
+
+                               ;; {{ es6 beginning
+                               ("Function" js-exception-imenu-generic-expression-regexp 2) ;; (async)? xxx (e) { }
+                               ("Function" "^[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*:[ \t]*\(async\)?[ \t]*(" 1) ;; xxx : (async)? (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*[A-Za-z_$][A-Za-z0-9_$.]*[ \t]*=>" 3) ;; (export)? (var|let|const)? xxx = (async)? e =>
+                               ;; }}
+                               ))))
+
+;; following defuns based on https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
+(defun js2-imenu--remove-duplicate-items (extra-rlt)
+  (delq nil (mapcar 'js2-imenu--check-single-item extra-rlt)))
+
+(defun js2-imenu--merge-imenu-items (rlt extra-rlt)
+  "RLT contains imenu items created from AST.
+EXTRA-RLT contains items parsed with simple regex.
+Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
+  ;; Clear the lines.
+  (set (make-variable-buffer-local 'js2-imenu-original-item-lines) nil)
+  ;; Analyze the original imenu items created from AST,
+  ;; I only care about line number.
+  (dolist (item rlt)
+    (js2-imenu--extract-line-info item)))
+
+(defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
+  (message "advice called")
+  (let (rlt extra-rlt)
+    ad-do-it
+    (setq extra-rlt
+          (save-excursion
+            (imenu--generic-function js2-custom-imenu-make-index)))
+    (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
+    ad-return-value))
 
 (provide 'setup-js2-mode)
 
