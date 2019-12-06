@@ -272,6 +272,7 @@
      (cons 'treemacs-icons-dired melpa)
 
      (cons 'ob-sql-mode melpa)
+     (cons 'ox-reveal melpa)
      (cons 'org-clock-csv melpa)
 
      (cons 'dumb-jump melpa)

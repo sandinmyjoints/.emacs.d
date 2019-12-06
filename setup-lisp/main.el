@@ -623,6 +623,9 @@ pasting into other programs."
 
   (require 'org-tempo))
 
+(use-package ox-reveal
+  :after org)
+
 (use-package org-src
   :ensure nil
   :after org
