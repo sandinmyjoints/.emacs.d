@@ -2218,6 +2218,21 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (google-this-mode 1))
 
+;; better than yafolding?
+(use-package origami
+  :config
+  (define-key origami-mode-map (kbd "C-<return>") #'origami-recursively-toggle-node)
+  (define-key origami-mode-map (kbd "M-<return>") #'origami-show-only-node)
+  (define-key origami-mode-map (kbd "H-<return>") #'origami-toggle-all-nodes)
+
+  (add-hook 'prog-mode-hook #'origami-mode))
+
+;; better than vimish-fold
+(use-package yafolding
+  :disabled
+  :config
+  (add-hook 'prog-mode-hook #'yafolding-mode))
+
 (use-package vimish-fold
   :disabled
   :config
@@ -2225,10 +2240,6 @@ If PROJECT is not specified the command acts on the current project."
   ;; TODO: make this only true in vimish-fold key map
   (global-set-key (kbd "C-c `") #'vimish-fold-toggle)
   (global-set-key (kbd "C-c ~") #'vimish-fold))
-
-(use-package yafolding
-  :config
-  (add-hook 'prog-mode-hook #'yafolding-mode))
 
 (use-package wgrep
   :config

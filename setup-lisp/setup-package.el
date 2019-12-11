@@ -147,7 +147,6 @@
      (cons 'auto-dim-other-buffers melpa)
      (cons 'diminish melpa-stable)
      (cons 'xterm-color melpa)
-     (cons 'vimish-fold melpa)
      (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
      (cons 'minions melpa-stable)
@@ -182,6 +181,8 @@
      (cons 'sqlformat melpa) ;; requires sqlformat binary
      (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
+     ;; (cons 'yafolding melpa)
+     (cons 'origami melpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      ;; (cons 'pivotal-tracker melpa)
@@ -274,6 +275,7 @@
      (cons 'ob-sql-mode melpa)
      (cons 'ox-reveal melpa)
      (cons 'org-clock-csv melpa)
+     (cons 'htmlize melpa)
 
      (cons 'dumb-jump melpa)
      (cons 'smart-jump melpa)
