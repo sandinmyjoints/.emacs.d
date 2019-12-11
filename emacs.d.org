@@ -2230,3 +2230,21 @@ $ ls
 ll - delq mutates
 (delq 5 l)
   #+end_src
+* deferral
+deferred
+X indium
+X company-restclient
+X ox-reveal
+X helm-org-file -- use :init to bind a key to command, use :commands to autoload on that command
+X shell-script-mode
+X sql
+X ghub
+X npm-mode
+X wgrep (autoload to grep-setup-hook)
+X markdown-toc
+X origami
+X vterm
+
+X try deferring company
+
+dired, writable dired

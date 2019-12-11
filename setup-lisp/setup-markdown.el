@@ -87,6 +87,7 @@
         markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
 
   (defun wjb/markdown-mode-hook ()
+    (setq company-backends wjb/company-backends-md)
     (add-hook 'visual-line-mode-hook #'visual-fill-column-mode nil t)
     ;; Preserve indents when wrapping lines in visual-line-mode.
     (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t))

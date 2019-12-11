@@ -406,7 +406,11 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 (use-package css-mode
   :defer t
   :config
-  (setq css-indent-offset 2))
+  (setq css-indent-offset 2)
+  (defun wjb/css-mode-hook ()
+    (setq company-backends wjb/company-backends-css))
+  (add-hook 'css-mode-hook #'wjb/css-mode-hook)
+)
 
 (use-package elisp-mode
   :mode "abbrev_defs"
@@ -595,7 +599,10 @@ pasting into other programs."
 
   (defun wjb/org-mode-hook ()
     (set-fill-column 80)
-    (company-mode -1)
+
+    (setq-local company-backends wjb/company-backends-org)
+    (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
+
     (hungry-delete-mode -1)
     (set-face-attribute 'org-headline-done nil :foreground nil)
     (set-face-attribute 'org-headline-done nil :inherit 'shadow)
@@ -626,7 +633,7 @@ pasting into other programs."
     (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
     (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
 
-  (add-hook 'org-mode-hook #'wjb/org-mode-hook)
+  (add-hook 'org-mode-hook #'wjb/org-mode-hook t)
 
   (global-set-key (kbd "H-c") #'org-capture)
 
@@ -747,9 +754,11 @@ pasting into other programs."
 ;;
 (use-package helm-org-rifle
   :after helm
+  :commands helm-org-rifle-agenda-files
+  :init
+  (global-set-key (kbd "C-0") #'helm-org-rifle-agenda-files)
   :config
   (setq helm-org-rifle-show-path t)
-  (global-set-key (kbd "C-0") #'helm-org-rifle-agenda-files)
 
   (defun helm-org-rifle-show-entry-in-real-buffer (candidate)
     "Show CANDIDATE in its real buffer. Modified: see https://github.com/alphapapa/helm-org-rifle/issues/22"
@@ -1114,7 +1123,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 ;;    - dired-do-rename and copy and other functions are also bad with counsel-find-file.
 ;;    - https://github.com/jixiuf/ivy-dired-history
 (use-package ivy
-  :demand
+  :defer
   :diminish
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -1312,6 +1321,10 @@ If PROJECT is not specified the command acts on the current project."
 (use-package counsel
   :defer t
   :config
+  (ivy-configure 'counsel-M-x
+    :initial-input ""
+    :display-transformer-fn #'counsel-M-x-transformer)
+
   (setq counsel-find-file-at-point t
         counsel-preselect-current-file t
         counsel-yank-pop-preselect-last t)
@@ -1322,17 +1335,21 @@ If PROJECT is not specified the command acts on the current project."
     (define-key counsel-find-file-map done #'ivy-alt-done)
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
-
 ;; TODO: C-g when helm-mini is showing actually quits
 (use-package helm
+  :defer t
+  :bind (("M-o" . helm-browse-project)
+         ("C-x C-b" . helm-buffers-list) 
+         ("C-o" . helm-mini)
+         ("C-x C-o" . helm-mini)) ; Clobbers delete-blank-lines.
   :config
   ;; (require 'helm-config)
 
-  (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
-  (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
+  ;; (global-set-key (kbd "M-o") #'helm-browse-project)
+  ;; (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
+  ;; (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
   ;; (global-set-key (kbd "H-x b") #'helm-buffers-list)
   ;; (global-set-key (kbd "H-o") #'helm-browse-project)
-  (global-set-key (kbd "M-o") #'helm-browse-project)
 
   ;; useful commands, but probably shouldn't be bound globally:
   ;; (global-set-key (kbd "C-'") 'helm-mark-all)
@@ -1532,86 +1549,8 @@ If PROJECT is not specified the command acts on the current project."
   :interpreter "lua")
 
 (use-package gitignore-mode
+  :defer t
   :mode "global.gitignore")
-
-(use-package json-mode
-  :defer t)
-
-;; Must come before js2-mode or coffee-mode so they can set proper nvm
-;; for file.
-(use-package nvm)
-
-(eval-when-compile (require 'cl))
-(defcustom preferred-javascript-mode
-  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
-  "Javascript mode to use for .js files."
-  :type 'symbol
-  :group 'programming
-  :options '(js2-mode js-mode))
-(defvar preferred-javascript-indent-level 2)
-
-(eval-after-load 'js2-mode '(require 'setup-js2-mode))
-
-(use-package js-comint
-  :defer t
-  :init
-  ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
-  (setenv "NODE_NO_READLINE" "1")
-
-  (setq js-comint-program-arguments '("--interactive"))
-
-  (defun inferior-js-mode-hook-setup ()
-    (add-hook 'comint-output-filter-functions 'js-comint-process-output))
-  (add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
-
-  (defvar inferior-js-minor-mode-map (make-sparse-keymap))
-  (define-key inferior-js-minor-mode-map "\C-x\C-e" 'js-send-last-sexp)
-  (define-key inferior-js-minor-mode-map "\C-\M-x" 'js-send-last-sexp-and-go)
-  ;;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
-  ;;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
-  ;;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
-  (define-minor-mode inferior-js-keys-mode
-    "Bindings for communicating with an inferior js interpreter."
-    nil "" inferior-js-minor-mode-map)
-  (dolist (hook '(js2-mode-hook js-mode-hook))
-    (add-hook hook 'inferior-js-keys-mode))
-
-  (autoload 'js-comint "js-select-node-version" "Add directory to tree view")
-  (autoload 'js-comint "run-js" "Add directory to tree view")
-
-  :config
-  (js-do-use-nvm))
-
-(use-package coffee-mode
-  :defer t
-  :mode "\\.coffee\\.erb\\'"
-  :init
-  (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
-
-  (defun my/use-coffeelint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (coffeelint (and root
-                            (expand-file-name "node_modules/coffeelint/bin/coffeelint"
-                                              root))))
-      (when (and coffeelint (file-executable-p coffeelint))
-        (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
-  (add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
-
-  (defun my/use-coffee-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (coffee (and root
-                        (expand-file-name "node_modules/.bin/coffee"
-                                          root))))
-      (when (and coffee (file-executable-p coffee))
-        (setq-local flycheck-coffee-executable coffee))))
-  (add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
-
-  :config
-  (setq coffee-tab-width preferred-javascript-indent-level))
 
 (use-package rainbow-delimiters
   :defer t
@@ -2061,36 +2000,107 @@ If PROJECT is not specified the command acts on the current project."
   :ensure t
   :defer t)
 
-(use-package minions
+(use-package pcomplete)
+
+;; - a simple list gathers from all.
+;; - a list with :with only gathers if the(/a?) backend before :with succeeds at the prefix command (more about with: https://github.com/company-mode/company-mode/issues/79)
+;; - TODO: use delete-consecutive-dups and company-transformers to remove duplicates (see https://github.com/company-mode/company-mode/issues/528)
+
+;; If the group contains keyword ':with', the backends listed after this
+;; keyword are ignored for the purpose of the 'prefix' command.
+;; but I'm not sure whether the first one doesn't return prefix, the :with ones will be or not be called either?
+
+;; :with means completions unconditionally; whereas the default is to only use them if
+;; they return the same prefix as the first defined checker in the group
+
+;; elisp-completion-at-point
+;; C-M-i is completion-at-point. How is it configured? maybe assume it is configred will for each mode.
+
+
+;; - order backends in a way that makes sense
+;; - group backends
+;; - set backends based on major mode. For example, higher minimum prefix in text modes (4)
+;;   (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
+;; - different behavior within comments
+;; - understand company-capf
+
+;; - how backends work: https://superuser.com/a/528407/93702
+;; - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
+;; - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
+
+;; - dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
+;; - strong backend:
+;; - text/markdow backend:
+;; - org backend:
+
+;; commands:
+;; company-complete
+;; company-complete-common-or-cycle
+;; company-other-backend
+;; company-diag
+
+;; - company-yasnippet -- specific binding for this
+;; - company-shell
+;; - company-web
+
+(use-package company
+  :defer t
+  :diminish
+  :custom  
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 4)
+  (company-show-numbers nil)
+  (company-tooltip-align-annotations 't)
+  (company-dabbrev-downcase nil)
+
   :config
-  (setq minions-direct '(flycheck-mode))
-  (minions-mode 1))
+  (global-company-mode t)
+  (make-variable-buffer-local 'company-backends)
 
-(use-package web-mode
-  :mode "\\.html?\\'"
-  "\\.hbs\\'"
-  "\\.ejs\\'"
+  (setq company-selection-wrap-around t)
+
+  (define-key company-mode-map (kbd "M-/") 'company-complete)
+  (define-key company-active-map (kbd "M-/") 'company-other-backend)
+
+  (defun wjb/set-company-minimum-prefix-length ()
+    (setq-local company-minimum-prefix-length 3))
+  (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
+  (add-hook 'restclient-mode-hook #'wjb/set-company-minimum-prefix-length)
+
+  ;; trial:
+  (company-statistics-mode -1)
+  (company-quickhelp-mode -1)
+
+  (global-set-key (kbd "H-0 y") #'company-yasnippet)
+  (global-set-key (kbd "C-c y") #'company-yasnippet)
+  (global-set-key (kbd "C-c C-y") #'company-yasnippet))
+
+;; trial:
+(use-package company-flx
+  :disabled
+  :after company
   :config
-  (setq-default web-mode-markup-indent-offset 2)
-  (setq-default web-mode-css-indent-offset 2)
-  (setq-default web-mode-code-indent-offset 2)
-  (setq-default web-mode-enable-current-element-highlight t)
-  (require 'setup-webmode)
+  (company-flx-mode -1))
 
-  ;; experimental:
-  (require 'company-web-html)
-  (require 'company-web-jade)
-  (defun wjb/web-mode-company ()
-    (set (make-local-variable 'company-backends)
-         '((company-web-html :with company-dabbrev-code company-gtags company-etags company-keywords)))
-    (company-mode t))
-  (add-hook 'web-mode-hook #'wjb/web-mode-company))
+(use-package company-buffer-line
+  :after company
+  :commands (company-same-mode-buffer-lines)
+  :bind ("C-x C-l" . company-same-mode-buffer-lines))
 
-(require 'key-bindings)
+(use-package company-emoji
+  :after company)
 
-(require 'setup-word)
+(use-package company-restclient
+  :hook restclient-mode
+  :after (company restclient))
 
-(require 'setup-markdown)
+(use-package company-ctags
+  :after company
+  :config
+  (company-ctags-auto-setup)
+  ;; rjsx-mode descends from js2-mode so I think this will cover both:
+  (push 'js2-mode company-ctags-modes))
 
 (defvar wjb/company-backends-original
   '(company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
@@ -2098,7 +2108,7 @@ If PROJECT is not specified the command acts on the current project."
                  company-oddmuse company-dabbrev)
   "Original value of company-backends, fwiw.")
 
-(defun wjb/experimental-company-backends ()
+(defun wjb/company-backends-generic ()
   "Try some backend orderings."
   ;; mode-specific, smart
   (let (zing (list))
@@ -2120,123 +2130,102 @@ If PROJECT is not specified the command acts on the current project."
     (setq zing (append zing
                '(
                  ;; code
-                 (company-dabbrev-code company-gtags company-etags company-keywords)
+                 (company-dabbrev-code company-gtags company-ctags company-keywords)
                  ;; text
                  (company-emoji company-dabbrev)
                  )
                ))
-    (setq company-backends zing)))
+    (setq-default company-backends zing)))
 
-(wjb/experimental-company-backends)
-
-(defvar wjb/company-backends-js
-  '((company-tide :with company-capf company-keywords company-etags)
-    (company-capf company-keywords company-etags company-dabbrev-code company-dabbrev))
-  "eglot hooks into capf, so favor that")
-
-;; (setq company-backends wjb/company-backends-js)
-
-;; - a simple list gathers from all.
-;; - a list with :with only gathers if the(/a?) backend before :with succeeds at the prefix command
-
-;; If the group contains keyword ':with', the backends listed after this
-;; keyword are ignored for the purpose of the 'prefix' command.
-;; but I'm not sure whether the first one doesn't return prefix, the :with ones will be or not be called either?
-
-;; :with means completions unconditionally; whereas the default is to only use them if
-;; they return the same prefix as the first defined checker in the group
-
-;; elisp-completion-at-point
-;; C-M-i is completion-at-point. How is it configured? maybe assume it is configred will for each mode.
+(wjb/company-backends-generic)
 
 ;; I think this ordering is good with manual cycling
 ;; prog:
-;; (mode-primary :with company-capf company-keywords company-etags)
+;; (mode-primary :with :separate company-ctags company-capf company-keywords company-dabbrev-code)
 ;; text:
-;; (mode-primary :with company-capf company-keywords company-dabbrev-code company-dabbrev)
+;; (company-capf company-keywords company-dabbrev-code company-dabbrev)
 ;; end:
-;; (company-capf company-dabbrev-code company-etags company-emoji company-keywords)
+;; (company-emoji company-capf company-dabbrev-code company-ctags company-keywords)
 ;; (company-files company-emoji company-dabbrev)
 
-;; commands:
-;; company-complete
-;; company-complete-common-or-cycle
-;; company-other-backend
-;; company-diag
+;; (setq completion-at-point-functions 'elisp-completion-at-point)
 
-;; - order backends in a way that makes sense
-;; - group backends
-;; - set backends based on major mode. For example, higher minimum prefix in text modes (4)
-;;   (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
-;; - different behavior within comments
-;; - understand company-capf
+;; - tags-completion-at-point-function doesn't seem to work with company, and
+;;   company has etags and ctags backends already, so it's unnecessary.
+;; - pcomplete-completions-at-point seems to work only in org-mode, otherwise complains about pcomplete-here.
 
-;; - how backends work: https://superuser.com/a/528407/93702
-;; - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
-;; - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
+;; (setq completion-at-point-functions '())
+;; (remove-hook completion-at-point-functions 'tags-completion-at-point-function)
+;; (add-hook completion-at-point-functions #'pcomplete-completions-at-point)
 
-;; - dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
-;; - strong backend:
-;; - text/markdow backend:
-;; - org backend:
+(defvar wjb/company-backends-js)
+(setq wjb/company-backends-js
+  '((company-tide :with :separate company-ctags company-capf company-keywords company-dabbrev-code)
+    (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
-;; - company-diag
-;; - company-yasnippet -- specific binding for this
-;; - company-shell
-;; - company-web
+(defvar wjb/company-backends-org)
+;; todo get company-capf working: pcomplete-completions-at-point. Maybe I need
+;; to teach pcomplete what to do?
+(setq wjb/company-backends-org 
+      '(company-emoji company-files company-capf company-dabbrev-code company-dabbrev))
+(setq wjb/company-backends-md wjb/company-backends-org)
 
-(use-package company
-  :defer 2
-  :diminish
-  :custom
-  (company-begin-commands '(self-insert-command))
-  (company-idle-delay .1)
-  (company-minimum-prefix-length 4)
-  (company-show-numbers nil)
-  (company-tooltip-align-annotations 't)
-  (company-dabbrev-downcase nil)
-  (global-company-mode t)
+(defvar wjb/company-backends-css)
+(setq wjb/company-backends-css 
+      '((company-css :with :separate company-capf company-keywords company-dabbrev-code)
+        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
+(defvar wjb/company-backends-el)
+(setq wjb/company-backends-el
+      '((company-capf :with :separate company-keywords company-dabbrev-code)
+        (company-ctags company-keywords company-dabbrev-code company-dabbrev)))
+
+(use-package compdef
+  :disabled
+  :load-path "elisp/compdef"
   :config
-  (setq company-selection-wrap-around t)
-  (define-key company-mode-map (kbd "M-/") 'company-complete)
-  (define-key company-active-map (kbd "M-/") 'company-other-backend)
 
-  (defun wjb/set-company-minimum-prefix-length ()
-    (setq-local company-minimum-prefix-length 3))
-  (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
+  (compdef
+   :modes #'org-mode
+   :company '(company-dabbrev company-capf company-emoji)
+   :capf '(#'tags-completion-at-point-function)))(require 'key-bindings)
 
-  ;; trial:
-  (company-statistics-mode -1)
-  (company-quickhelp-mode -1)
-
-  ;; rjsx-mode descends from js2-mode so I think this will cover both:
-  (push 'js2-mode company-etags-modes)
-
-  (global-set-key (kbd "H-0 y") #'company-yasnippet)
-  (global-set-key (kbd "C-c y") #'company-yasnippet)
-  (global-set-key (kbd "C-c C-y") #'company-yasnippet))
-
-;; trial:
-(use-package company-flx
-  :after company
+(use-package web-mode
+  :mode "\\.html?\\'"
+  "\\.hbs\\'"
+  "\\.ejs\\'"
   :config
-  (company-flx-mode -1))
+  (setq-default web-mode-markup-indent-offset 2)
+  (setq-default web-mode-css-indent-offset 2)
+  (setq-default web-mode-code-indent-offset 2)
+  (setq-default web-mode-enable-current-element-highlight t)
+  ;; TODO: web-mode-enable-auto-quoting only in html, not in JSX
+  (setq web-mode-auto-close-style 2
+        web-mode-auto-quote-style 1)    ;; uses double quotes
 
-(use-package company-buffer-line
-  :commands (company-same-mode-buffer-lines)
-  :bind ("C-x C-l" . company-same-mode-buffer-lines))
+  (require 'setup-webmode)
 
-(use-package company-emoji
-  :after company
-  :config
-  ;; TODO: this should probably only be used in non-prog-mode descendents.
-  )
+  ;; experimental:
+  (require 'company-web-html)
+  (require 'company-web-jade)
+  (defun wjb/web-mode-company ()
+    (set (make-local-variable 'company-backends)
+         '((company-web-html :with company-dabbrev-code company-gtags company-ctags company-keywords)))
+    (company-mode t))
+  (add-hook 'web-mode-hook #'wjb/web-mode-company))
 
-(use-package company-restclient
-  :after company)
+(require 'setup-word)
+
+(require 'setup-markdown)
+
+;; Generate a TOC from a markdown file: M-x markdown-toc-generate-toc
+;; This will compute the TOC at insert it at current position.
+;; Update existing TOC: C-u M-x markdown-toc-generate-toc
+(use-package markdown-toc
+  :defer t)
 
 (use-package shell-script-mode
+  :defer t
   :mode "\\.bash*")
 
 (use-package elisp-demos
@@ -2302,6 +2291,85 @@ If PROJECT is not specified the command acts on the current project."
   ;; :config
   ;; (npm-global-mode)
   )
+
+(use-package json-mode
+  :defer t)
+
+;; Must come before js2-mode or coffee-mode so they can set proper nvm
+;; for file.
+(use-package nvm)
+
+(eval-when-compile (require 'cl))
+(defcustom preferred-javascript-mode
+  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
+  "Javascript mode to use for .js files."
+  :type 'symbol
+  :group 'programming
+  :options '(js2-mode js-mode))
+(defvar preferred-javascript-indent-level 2)
+
+(eval-after-load 'js2-mode '(require 'setup-js2-mode))
+
+(use-package js-comint
+  :defer t
+  :init
+  ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
+  (setenv "NODE_NO_READLINE" "1")
+
+  (setq js-comint-program-arguments '("--interactive"))
+
+  (defun inferior-js-mode-hook-setup ()
+    (add-hook 'comint-output-filter-functions 'js-comint-process-output))
+  (add-hook 'inferior-js-mode-hook 'inferior-js-mode-hook-setup t)
+
+  (defvar inferior-js-minor-mode-map (make-sparse-keymap))
+  (define-key inferior-js-minor-mode-map "\C-x\C-e" 'js-send-last-sexp)
+  (define-key inferior-js-minor-mode-map "\C-\M-x" 'js-send-last-sexp-and-go)
+  ;;(define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
+  ;;(define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
+  ;;(define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
+  (define-minor-mode inferior-js-keys-mode
+    "Bindings for communicating with an inferior js interpreter."
+    nil "" inferior-js-minor-mode-map)
+  (dolist (hook '(js2-mode-hook js-mode-hook))
+    (add-hook hook 'inferior-js-keys-mode))
+
+  (autoload 'js-comint "js-select-node-version" "Add directory to tree view")
+  (autoload 'js-comint "run-js" "Add directory to tree view")
+
+  :config
+  (js-do-use-nvm))
+
+(use-package coffee-mode
+  :defer t
+  :mode "\\.coffee\\.erb\\'"
+  :init
+  (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
+
+  (defun my/use-coffeelint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (coffeelint (and root
+                            (expand-file-name "node_modules/coffeelint/bin/coffeelint"
+                                              root))))
+      (when (and coffeelint (file-executable-p coffeelint))
+        (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
+  (add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
+
+  (defun my/use-coffee-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (coffee (and root
+                        (expand-file-name "node_modules/.bin/coffee"
+                                          root))))
+      (when (and coffee (file-executable-p coffee))
+        (setq-local flycheck-coffee-executable coffee))))
+  (add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
+
+  :config
+  (setq coffee-tab-width preferred-javascript-indent-level))
 
 ;; See:
 ;; - comint-output-filter-functions
@@ -3258,6 +3326,8 @@ is already narrowed."
   :load-path "elisp/emacs-libvterm"
   :config
   (push "C-o" vterm-keymap-exceptions)
+  (push "C-u" vterm-keymap-exceptions)
+  ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
   (vterm--exclude-keys vterm-keymap-exceptions)
   ;; hack: exclude will overwrite these, so they need to be re-defined. Would
   ;; be better if vterm defined them in a defun.
@@ -3317,84 +3387,6 @@ is already narrowed."
 ;;   ;; TODO: need unique name for thing
 ;;   (setq thing (wjb/generate-idle-callback fun))
 ;;   (add-hook 'auto-save-hook thing))
-
-(use-package project-shells
-  :config
-  :disabled
-  (global-unset-key (kbd "C-]"))
-  (setq project-shells-keymap-prefix "C-]") ;; just like in tmux!
-  (setf project-shells-setup
-        `(("sd-playground" .
-           (("1" .
-             ("tmux" "~/scm/sd/sd-playground" vterm))))
-          ("neodarwin" .
-           (("1" .
-             ("tmux" "~/scm/sd/neodarwin" vterm))))
-          ("sd-auth" .
-           (("1" .
-             ("tmux" "~/scm/sd/sd-auth" vterm))))
-          ("hegemone" .
-           (("1" .
-             ("tmux" "~/scm/sd/hegemone/" vterm))))
-          ("emacsnyc-2019" .
-           (("1" .
-             ("tmux" "~/scm/wjb/emacsnyc-2019" vterm))))
-          ("po-intake" .
-           (("1" .
-             ("tmux" "~/scm/sd/po-intake" vterm))))
-          )
-        ))
-
-;; TODO: order by key (key name project), order replace - with ansi-term, 1
-;; with the key, 2 with the key, etc.
-(defun project-shells-shells-for-project ()
-  "List the shells for a project."
-  (let ((proj (project-shells--project-name))
-        (proj-shell-buffers (project-shells--buffer-list)))
-    (-filter (lambda (buf)
-               (let ((buf-name (buffer-name buf))
-                     (pattern (pcre-to-elisp (format "[*].+?[.].+?[.]%s[*]" proj))))
-                 (string-match pattern buf-name)))
-             proj-shell-buffers)))
-
-
-;; (setq projx "XXX")
-
-  ;; ^
-  ;; %s(-map (lambda (buf) (buffer-name buf)) (project-shells-shells-for-project))
-
-  ;; _,_ left window config            _0_ switch to shell
-  ;; _._ right window config           _1_ switch to shell
-  ;; ↦ previous window config  ^^        ...
-  ;; _r_ename current window config    _9_ switch to shell
-  ;; _c_reate new window config
-  ;; _C_lose current window config
-  ;; ^^
-
-(defhydra hydra-project-shells (:color blue)
-  "
-  Shells
-  ^
-  %s(-map (lambda (buf) (buffer-name buf)) (project-shells-shells-for-project))
-  ^^
-  "
-  ;; ("," eyebrowse-prev-window-config nil)
-  ;; ("." eyebrowse-next-window-config nil)
-  ;; ("<tab>" eyebrowse-last-window-config nil)
-  ;; ("r" eyebrowse-rename-window-config nil)
-  ;; ("c" eyebrowse-create-window-config nil)
-  ;; ("C" eyebrowse-close-window-config nil)
-  ;; ("9" eyebrowse-switch-to-window-config-9 nil)
-  ("1" project-shells-activate "1")
-  ("2" project-shells-activate "2")
-  ("3" project-shells-activate "3")
-  ("-" project-shells-activate "-")
-  ("=" project-shells-activate "=")
-  ("q" nil "cancel")
-  )
-
-(define-key global-map (kbd "M--") 'hydra-project-shells/body)
-(define-key global-map (kbd "H--") 'hydra-project-shells/body)
 
 (advice-remove #'copy-to-register nil)
 ;; This doesn't seem to work bc copy-to-register must be moving things around

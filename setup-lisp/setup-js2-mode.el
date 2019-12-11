@@ -139,18 +139,22 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   ;; TODO: fix this
   (load-file "~/.emacs.d/elisp/js-doc/js-doc.el")
 
-  (add-hook 'js2-mode-hook #'(lambda ()
-                               (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
-                               (setq mode-name "JS2")
-                               (electric-pair-mode 1) ;; maybe?
-                               (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (defun wjb/js2-mode-hook ()
+    (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
+    (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
+    (setq mode-name "JS2"
+          company-backends wjb/company-backends-js)
+    (electric-pair-mode 1)
+    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
+  (add-hook 'js2-mode-hook #'wjb/js2-mode-hook)
+
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  ;; TODO: make minor mode hook more like major mode hook
-  (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 
   ;; This might slow things down when loading large files?
-  ;; (add-hook 'js2-mode-hook  #'js2-imenu-extras-setup)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+
+  ;; TODO: make minor mode hook more like major mode hook
+  (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 
   ;; put towards the end so it runs early (hooks are added to
   ;; beginning of list). This hook only runs when a JS file is opened,
@@ -345,12 +349,13 @@ project."
   (let ((completion-ignore-case t))
     (all-completions (company-grab-symbol) candidates)))
 
-(defun wjb/js-hook nil
+(defun wjb/js-mode-hook nil
   (make-local-variable 'company-transformers)
   (push 'wjb/company-transformer company-transformers)
+  (setq-local prettify-symbols-alist nil)
   (setq-local fill-column 80))
 
-(add-hook 'js-mode-hook 'wjb/js-hook)
+(add-hook 'js-mode-hook 'wjb/js-mode-hook)
 
 (add-hook 'js-mode-hook #'indium-interaction-mode)
 
