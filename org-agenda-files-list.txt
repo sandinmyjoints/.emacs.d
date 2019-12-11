@@ -1,5 +1,5 @@
 budget.org
-characters.org
+characters/characters.org
 engineering-leads.org
 engineering-meetup.org
 perf.org
