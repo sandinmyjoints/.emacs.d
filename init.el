@@ -112,7 +112,8 @@
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
 
-  (require 'main))
+  (require 'main)
+)
 
 (defvar wjb/gc-cons-threshold (eval-when-compile (* 2 800000)))
 (defvar wjb/gc-timer)

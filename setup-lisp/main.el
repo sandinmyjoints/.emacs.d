@@ -595,6 +595,7 @@ pasting into other programs."
     ;; reset it:
     ;; (setq-default prettify-symbols-alist '(("lambda" . 955)))
 
+    ;; prettify-symbols-alist is buffer-local, so this only affects org-mode buffers
     (push '("[ ]" . "☐") prettify-symbols-alist) ;; ⚪
     (push '("[X]" . "☑") prettify-symbols-alist) ;; ⚫
     (push '("[-]" . "❆") prettify-symbols-alist) ;; ❍⮽🗳
@@ -1293,11 +1294,12 @@ If PROJECT is not specified the command acts on the current project."
     (define-key counsel-find-file-map done #'ivy-alt-done)
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
-(require 'helm-config)
 
 ;; TODO: C-g when helm-mini is showing actually quits
 (use-package helm
   :config
+  ;; (require 'helm-config)
+
   (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
   (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
   ;; (global-set-key (kbd "H-x b") #'helm-buffers-list)
@@ -3281,6 +3283,7 @@ is already narrowed."
 
 (use-package project-shells
   :config
+  :disabled
   (global-unset-key (kbd "C-]"))
   (setq project-shells-keymap-prefix "C-]") ;; just like in tmux!
   (setf project-shells-setup

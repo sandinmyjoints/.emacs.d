@@ -306,6 +306,8 @@ gfind . -name "*.elc" -print0 | xargs -0 rm
 (byte-recompile-directory site-lisp-dir 0)
 (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0)
 
+gfind . -name "*.elc" -print0 | xargs -0 rm && emacs -batch -Q --eval '(progn (byte-recompile-directory "/Users/william/.emacs.d/elisp" 0) (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0))'
+
 * INACTIVE coffee-mode sourcemap
   CLOSED: [2017-08-01 Tue 17:33]
   - https://github.com/syohex/emacs-sourcemap
