@@ -195,7 +195,6 @@ in the current window."
 ;; ========================================
 
 (use-package smart-mode-line
-  :ensure t
   ;; :after minions
   :config
   ;; Helpful reading:
@@ -231,7 +230,17 @@ in the current window."
   ;; (add-hook 'sml/after-setup-hook #'wjb/sml-after-setup-hook)
   )
 
+(use-package minions
+  :config
+  (setq minions-direct '(flycheck-mode))
+  (minions-mode 1))
+
 (require 'setup-grep)
+
+(use-package wgrep
+  :defer t
+  :config
+  (setq wgrep-enable-key "w"))
 
 (require 'sane-defaults)
 
@@ -250,7 +259,7 @@ in the current window."
   :diminish abbrev-mode)
 
 (use-package server
-  :defer 5
+  :defer 4
   :config
   (unless (server-running-p)
     (message "Starting server...")
@@ -296,16 +305,16 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;; - email composing/editing
 ;;
 (use-package olivetti
-  :diminish
+  :defer t
   :config
+  (defun wjb/olivetti ()
+    "Turn on settings for writing prose."
+    (interactive)
+    (gfm-mode)
+    (olivetti-mode))
+
   (setq-default olivetti-body-width 80)
   (add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text))
-
-(defun wjb/olivetti ()
-  "Turn on settings for writing prose."
-  (interactive)
-  (gfm-mode)
-  (olivetti-mode))
 
 (use-package which-key
   :diminish
@@ -316,6 +325,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (so-long-enable))
 
 (use-package vlf
+  :defer 6
   ;; put this in vlf-setup.el, L104:
   ;; ((string-equal filename "TAGS")
   ;;  (let ((large-file-warning-threshold nil))
@@ -442,9 +452,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
-  ;; I think I am using auto-revert-mode globally
-  ;; (add-hook 'dired-mode-hook 'auto-revert-mode)
-  ;; (add-hook 'dired-mode-hook  (lambda () (setq auto-revert-verbose nil)))
 
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
@@ -480,7 +487,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :diminish visual-line-mode)
 
 (use-package helpful
-  :defer 2
+  :defer 4
+  :after help-mode
   :config
   (add-hook 'helpful-mode-hook 'visual-line-mode)
 
@@ -625,10 +633,11 @@ pasting into other programs."
   (require 'org-tempo))
 
 (use-package ox-reveal
+  :defer 5
   :after org)
 
 (use-package org-src
-  :ensure nil
+  :defer 5
   :after org
   :config
   (setq-default
@@ -752,20 +761,26 @@ pasting into other programs."
 
   ;; Load ODT backend to allow for exporting to open document format.
 (use-package ox-odt
+  :defer 5
   :after org)
 (use-package ox-gfm
+  :defer 5
   :after org)
 (use-package ox-slack
+  :defer 5
   :after org)
 
 ;; Use `page-break-lines-mode' to enable the mode in specific buffers,
 ;; or customize `page-break-lines-modes' and enable the mode globally with
 ;; `global-page-break-lines-mode'.
 ;;
-(use-package page-break-lines)
+(use-package page-break-lines
+  :config
+  (global-page-break-lines-mode))
 
 ;; Fix sql-prompt-regexp: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27586
 (use-package sql
+  :defer t
   :after page-break-lines
   :config
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat)
@@ -813,7 +828,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
-(use-package ghub)
+(use-package ghub
+  :defer t)
 
 ;; Magit.
 (use-package magit
@@ -1019,11 +1035,13 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package projectile
   :diminish projectile-mode
   :config
-  (use-package counsel-projectile)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (require 'setup-projectile)
+  (require 'setup-projectile))
+
+(use-package counsel-projectile
+  :after (counsel projectile)
+  :config
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
-  (global-unset-key (kbd "C-]"))
 
   (defun wjb/switch-to-vterm ()
     (interactive)
@@ -1186,7 +1204,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (require 'services)
 
 (use-package which-key-posframe
-  :defer 1
+  :defer 4
   :config
   (which-key-posframe-mode))
 
@@ -1412,6 +1430,7 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package helm-aws
   :load-path "elisp/helm-aws"
+  :defer 6
   :after helm)
 
 (use-package quickrun
@@ -1619,9 +1638,7 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Dims parens in certain modes.
 (use-package paren-face
-  ;; TODO: dolist :hook over all the applicable modes
   :defer 1
-  :disabled
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
@@ -1748,6 +1765,7 @@ If PROJECT is not specified the command acts on the current project."
   (redraw-display))
 
 (use-package treemacs
+  :defer t
   :config
   (progn
     (setq treemacs-collapse-dirs                 3
@@ -2228,7 +2246,20 @@ If PROJECT is not specified the command acts on the current project."
   ;; this is specific to helpful:
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
+;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
+(use-package edit-server
+  :disabled
+  :defer 6
+  :config
+  (setq edit-server-new-frame nil)
+  (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
+  (add-hook 'edit-server-done-hook #'wjb/save-edit-server)
+  (add-hook 'edit-server-start-hook #'gfm-mode)
+  (edit-server-start))
+
 (use-package atomic-chrome
+  :disabled
+  :defer 5
   :config
   (atomic-chrome-start-server))
 
@@ -2239,8 +2270,9 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (google-this-mode 1))
 
-;; better than yafolding?
+;; better than yafolding
 (use-package origami
+  :defer t
   :config
   (define-key origami-mode-map (kbd "C-<return>") #'origami-recursively-toggle-node)
   (define-key origami-mode-map (kbd "M-<return>") #'origami-show-only-node)
@@ -2262,11 +2294,8 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key (kbd "C-c `") #'vimish-fold-toggle)
   (global-set-key (kbd "C-c ~") #'vimish-fold))
 
-(use-package wgrep
-  :config
-  (setq wgrep-enable-key "w"))
-
 (use-package npm-mode
+  :commands (npm npm-mode)
   :load-path "elisp/npm-mode"
   :diminish
   ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
@@ -2304,6 +2333,7 @@ Interactively also sends a terminating newline."
 
 ;; shell is derived from comint: (define-derived-mode shell-mode comint-mode "Shell"
 (use-package shell
+  :after comint
   :config
   ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
   ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
@@ -2848,6 +2878,7 @@ Interactively also sends a terminating newline."
   (global-hungry-delete-mode))
 
 (use-package nginx-mode
+  :defer
   :config
   (setq nginx-indent-level 2)
   (add-hook 'nginx-mode-hook #'company-nginx-keywords))
@@ -3073,11 +3104,6 @@ resized horizontally or vertically."
 
 (define-key global-map (kbd "M-0") 'hydra-eyebrowse/body)
 
-(use-package page-break-lines
-  :diminish
-  :config
-  (global-page-break-lines-mode))
-
 (use-package pcre2el
   :commands reb-change-syntax)
 
@@ -3093,15 +3119,6 @@ resized horizontally or vertically."
   (electric-operator-add-rules-for-mode 'python-mode
                                         (cons "/" nil))
   (setq electric-operator-enable-in-docs t))
-
-;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
-(use-package edit-server
-  :config
-  (setq edit-server-new-frame nil)
-  (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
-  (add-hook 'edit-server-done-hook #'wjb/save-edit-server)
-  (add-hook 'edit-server-start-hook #'gfm-mode)
-  (edit-server-start))
 
 ;; It doesn't seem to like this, it thinks the domain name is neodarwin
 ;; 	url = git@github.com:spanishdict/neodarwin.git
@@ -3236,6 +3253,7 @@ is already narrowed."
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 (use-package vterm
+  :defer t
   ;; TODO: switch to melpa.
   :load-path "elisp/emacs-libvterm"
   :config
@@ -3409,6 +3427,7 @@ is already narrowed."
         ))))
 
 (use-package indium
+  :commands (indium-interaction-mode indium-connect)
   :config
   (setq indium-chrome-use-temporary-profile nil
         indium-client-debug nil ;; t

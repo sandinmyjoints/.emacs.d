@@ -319,10 +319,6 @@ project."
           "--trailing-comma"
           "es5")))
 
-;; indium
-;; (when (require 'indium nil t)
-;;   (add-hook 'js-mode-hook #'indium-interaction-mode))
-
 (use-package tide
   :after (rjsx-mode company flycheck)
   :hook (

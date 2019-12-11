@@ -61,11 +61,6 @@
 
 (add-hook 'web-mode-hook #'js2-minor-mode)
 
-;; TODO: web-mode-enable-auto-quoting only in html, not in JSX
-(setq web-mode-auto-close-style 2
-      web-mode-markup-indent-offset 2
-      web-mode-auto-quote-style 1)    ;; uses double quotes
-
 (provide 'setup-webmode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

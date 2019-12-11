@@ -75,11 +75,6 @@
   (define-key markdown-mode-map (kbd "C-c <return>") 'markdown-follow-link-at-point)
   (define-key markdown-mode-map (kbd "M-<right>") 'markdown-indent-line)
 
-  ;; Generate a TOC from a markdown file: M-x markdown-toc-generate-toc
-  ;; This will compute the TOC at insert it at current position.
-  ;; Update existing TOC: C-u M-x markdown-toc-generate-toc
-  (use-package markdown-toc)
-
   ;; https://github.com/michaelamie/markdown-mode-css/tree/master/css
   ;; also see scm/vendor/markdown-css-theme
   ;; also see https://markdowncss.github.io/
