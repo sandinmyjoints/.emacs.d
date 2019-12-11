@@ -13,6 +13,7 @@
 ;; * C-c C-f
 ;; * C-c l
 ;; * C-c a
+;; * C-]
 ;;
 ;; * M-0?
 ;; * M-RET
@@ -34,6 +35,9 @@
 (global-set-key (kbd "C-m") #'newline)
 
 (global-unset-key (kbd "C-x ."))  ;; unset set-fill-prefix
+
+(global-unset-key (kbd "C-]"))
+
 
 ;; Used by Alfred.
 (global-unset-key (kbd "M-e"))
@@ -139,6 +143,7 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
 (use-package ace-window
+  :defer t
   :bind (("H-o" . ace-window)
          ("C-x o" . ace-window)
          ("C-x l" . ace-window))
@@ -151,7 +156,6 @@ Also converts full stops to commas."
         aw-keys '(?1 ?2 ?3 ?4)))
 
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
-(global-set-key (kbd "C-x C-o") 'helm-mini) ; Clobbers delete-blank-lines.
 
 (global-set-key (kbd "C-x p") 'bury-buffer)
 
