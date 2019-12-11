@@ -1794,16 +1794,25 @@ If PROJECT is not specified the command acts on the current project."
     (treemacs-git-mode -1)
     (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
     (defun wjb/treemacs-hook ()
+      ;; Preserve indents when wrapping lines in visual-line-mode.
+      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t)
       (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
       (setq-local cursor-type 'box))
     (add-hook 'treemacs-mode-hook #'wjb/treemacs-hook)
-    )
+    ;; for this to work with visual fill, treemacs tags would need to be able
+    ;; to handle wrapped lines
+    ;; (add-hook 'treemacs-mode-hook #'visual-line-mode t)
+
+    (treemacs-map-icons-with-auto-mode-alist
+     '(".less")
+     '(less-css-mode . (treemacs-get-icon-value "css")))
 
   (defun wjb/treemacs-ignore-compiled-files (filename filepath)
     (or
      (s-equals? (file-name-extension filename) "elc")
      (s-equals? (file-name-extension filename) "pyc")))
   (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
+  )
 
   :bind
   (:map global-map
