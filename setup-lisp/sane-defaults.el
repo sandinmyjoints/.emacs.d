@@ -410,6 +410,8 @@
 (setq visible-bell t)
 (wjb/visible-bell-mode 1)
 
+(setq tags-add-tables t)
+
 (defvar desktop-restore-eager 16)
 (desktop-save-mode 1)
 ;; (setq desktop-restore-frames nil)
