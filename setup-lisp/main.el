@@ -1019,9 +1019,19 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package projectile
   :diminish projectile-mode
   :config
+  (use-package counsel-projectile)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (require 'setup-projectile)
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
+  (global-unset-key (kbd "C-]"))
+
+  (defun wjb/switch-to-vterm ()
+    (interactive)
+    (push-mark)
+    (projectile-run-vterm))
+  (define-key projectile-mode-map (kbd "H-g") #'wjb/switch-to-vterm)
+  (define-key projectile-mode-map (kbd "C-M-g") #'wjb/switch-to-vterm)
+
   (counsel-projectile-mode))
 
 ;; (use-package ido
