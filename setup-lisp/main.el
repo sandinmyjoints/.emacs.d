@@ -1061,6 +1061,11 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
   (counsel-projectile-mode))
 
+(use-package counsel-css
+  :after (counsel)
+  :config
+  (add-hook 'css-mode-hook 'counsel-css-imenu-setup))
+
 ;; (use-package ido
 ;;   :disabled
 ;;   :config
