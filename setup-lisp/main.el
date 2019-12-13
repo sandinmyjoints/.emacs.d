@@ -1339,7 +1339,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package helm
   :defer t
   :bind (("M-o" . helm-browse-project)
-         ("C-x C-b" . helm-buffers-list) 
+         ("C-x C-b" . helm-buffers-list)
          ("C-o" . helm-mini)
          ("C-x C-o" . helm-mini)) ; Clobbers delete-blank-lines.
   :config
@@ -2046,7 +2046,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package company
   :defer t
   :diminish
-  :custom  
+  :custom
   (company-begin-commands '(self-insert-command))
   (company-idle-delay .1)
   (company-minimum-prefix-length 4)
@@ -2166,12 +2166,12 @@ If PROJECT is not specified the command acts on the current project."
 (defvar wjb/company-backends-org)
 ;; todo get company-capf working: pcomplete-completions-at-point. Maybe I need
 ;; to teach pcomplete what to do?
-(setq wjb/company-backends-org 
+(setq wjb/company-backends-org
       '(company-emoji company-files company-capf company-dabbrev-code company-dabbrev))
 (setq wjb/company-backends-md wjb/company-backends-org)
 
 (defvar wjb/company-backends-css)
-(setq wjb/company-backends-css 
+(setq wjb/company-backends-css
       '((company-css :with :separate company-capf company-keywords company-dabbrev-code)
         (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
