@@ -1740,7 +1740,7 @@ If PROJECT is not specified the command acts on the current project."
           treemacs-show-hidden-files             t
           treemacs-silent-filewatch              nil
           treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-desc
+          treemacs-sorting                       'alphabetic-case-insensitive-asc
           treemacs-space-between-root-nodes      nil
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
