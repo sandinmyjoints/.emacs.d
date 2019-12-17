@@ -468,6 +468,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :after dired
   :config
   (require 'dired+)
+  (unbind-key (kbd "C-o") dired-mode-map)
   (toggle-diredp-find-file-reuse-dir 1)
   (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
   (setq diredp-hide-details-propagate-flag t))
