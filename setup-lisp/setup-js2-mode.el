@@ -142,6 +142,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
+    ;; (setq-local imenu-create-index-function 'js2-custom-imenu-make-index)
     (setq mode-name "JS2"
           company-backends wjb/company-backends-js)
     (electric-pair-mode 1)
@@ -325,16 +326,12 @@ project."
 
 (use-package tide
   :after (rjsx-mode company flycheck)
-  :hook (
-         (rjsx-mode . tide-setup)
-         ;; (rjsx-mode . tide-hl-identifier-mode)
-         (js2-mode . tide-setup)
-         ;; (js2-mode . tide-hl-identifier-mode)
-         )
+  :hook ((js2-mode . tide-setup))
   :config
   (setq tide-default-mode "JS"
         tide-hl-identifier-idle-time 0.1
         tide-filter-out-warning-completions t
+        tide-sync-request-timeout 5
         tide-server-max-response-length (* 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
@@ -371,10 +368,64 @@ project."
           t))
     nil))
 
-;; based on https://ztlevi.github.io/posts/Get%20your%20imenu%20ready%20for%20modern%20javascript/
-(defun js2-custom-imenu-make-index ()
+;; See https://github.com/mooz/js2-mode/issues/274 -- looks promising, but I haven't wired it up yet.
+
+;; Below is from https://stackoverflow.com/a/21656063/599258
+;; this looks promising, but I haven't wired it up yet.
+(defun my-merge-imenu ()
+  (interactive)
+  (let ((mode-imenu (imenu-default-create-index-function))
+        (custom-imenu (imenu--generic-function imenu-generic-expression)))
+    (append mode-imenu custom-imenu)))
+
+(defun wjb/js2-mode-hook-poc ()
+    (add-to-list
+     'imenu-generic-expression
+     '("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)))
+
+(remove-hook 'js2-mode-hook #'wjb/js2-mode-hook-poc)
+
+(defun js2-custom-imenu-make-index-poc ()
   (interactive)
   (save-excursion
+    ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
+    (imenu--generic-function '(
+                               ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("describeX" "describe(\(.+\))" 1)
+                               ))))
+
+;; based on https://ztlevi.github.io/posts/Get%20your%20imenu%20ready%20for%20modern%20javascript/
+(defun js2-custom-imenu-make-index-interactive ()
+  (interactive)
+  (save-excursion
+    ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
+    (imenu--generic-function '(
+                               ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("describeX" "describe(\(.+\))" 1)
+                               ("it" "\s-*it\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("test" "\s-*test\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("before" "\s-*before\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("beforeEach" "\s-*beforeEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("after" "\s-*after\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                               ("afterEach" "\s-*afterEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+
+                               ("Class" "^[ \t]*[0-9a-zA-Z_$ ]*[ \t]*class[ \t]*\([a-zA-Z_$.]*\)" 1)
+                               ("Class" "^[ \t]*\(var\|let\|const\)[ \t]*\([0-9a-zA-Z_$.]+\)[ \t]*=[ \t]*[a-zA-Z_$.]*.extend" 2)
+                               ("Class" "^[ \t]*cc\.\(.+\)[ \t]*=[ \t]*cc\..+\.extend" 1)
+
+                               ("Function" "\(async\)?[ \t]*function[ \t]+\([a-zA-Z0-9_$.]+\)[ \t]*(" 2) ;; (async)? function xxx (
+                               ("Function" "^[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*:[ \t]*\(async\)?[ \t]*function[ \t]*(" 1) ;; xxx : (async)? function (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*=[ \t]*\(async\)?[ \t]*function[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? function (
+
+                               ;; {{ es6 beginning
+                               ("Function" js-exception-imenu-generic-expression-regexp 2) ;; (async)? xxx (e) { }
+                               ("Function" "^[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*:[ \t]*\(async\)?[ \t]*(" 1) ;; xxx : (async)? (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? (
+                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*[A-Za-z_$][A-Za-z0-9_$.]*[ \t]*=>" 3) ;; (export)? (var|let|const)? xxx = (async)? e =>
+                               ;; }}
+                               ))))
+
+(defun js2-custom-imenu-make-index ()
     ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
     (imenu--generic-function '(
                                ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
@@ -399,9 +450,102 @@ project."
                                ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? (
                                ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*[A-Za-z_$][A-Za-z0-9_$.]*[ \t]*=>" 3) ;; (export)? (var|let|const)? xxx = (async)? e =>
                                ;; }}
-                               ))))
+                               )))
 
-;; following defuns based on https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
+;; following based on https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
+(defvar js2-imenu-original-item-lines nil
+  "List of line information of original imenu items.")
+
+(defun js2-imenu--get-line-start-end (pos)
+  (let* (b e)
+    (save-excursion
+      (goto-char pos)
+      (setq b (line-beginning-position))
+      (setq e (line-end-position)))
+    (list b e)))
+
+(defun js2-imenu--get-pos (item)
+  (let* (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item))))
+
+    val))
+
+(defun js2-imenu--get-extra-item-pos (item)
+  (let* (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item)))
+
+     ;; plist
+     ((and (listp item) (listp (cdr item)))
+      (setq val (js2-imenu--get-extra-item-pos (cadr item))))
+
+     ;; alist
+     ((and (listp item) (not (listp (cdr item))))
+      (setq val (js2-imenu--get-extra-item-pos (cdr item)))))
+
+    val))
+
+(defun js2-imenu--extract-line-info (item)
+  "Recursively parse the original imenu items created by js2-mode.
+The line numbers of items will be extracted."
+  (let* (val)
+    (if item
+        (cond
+         ;; Marker or line number
+         ((setq val (js2-imenu--get-pos item))
+          (push (js2-imenu--get-line-start-end val)
+                js2-imenu-original-item-lines))
+
+         ;; The item is Alist, example: (hello . 163)
+         ((and (listp item) (not (listp (cdr item))))
+          (setq val (js2-imenu--get-pos (cdr item)))
+          (if val (push (js2-imenu--get-line-start-end val)
+                        js2-imenu-original-item-lines)))
+
+         ;; The item is a Plist
+         ((and (listp item) (listp (cdr item)))
+          (js2-imenu--extract-line-info (cadr item))
+          (js2-imenu--extract-line-info (cdr item)))
+
+         ;;Error handling
+         (t (message "Impossible to here! item=%s" item))))))
+
+(defun js2-imenu--item-exist (pos lines)
+  "Try to detect does POS belong to some LINE"
+  (let* (rlt)
+    (dolist (line lines)
+      (if (and (< pos (cadr line)) (>= pos (car line)))
+          (setq rlt t)))
+    rlt))
+
+(defun js2-imenu--is-item-already-created (item)
+  (unless (js2-imenu--item-exist
+           (js2-imenu--get-extra-item-pos item)
+           js2-imenu-original-item-lines)
+    item))
+
+(defun js2-imenu--check-single-item (r)
+  (cond
+   ((and (listp (cdr r)))
+    (let (new-types)
+      (setq new-types
+            (delq nil (mapcar 'js2-imenu--is-item-already-created (cdr r))))
+      (if new-types (setcdr r (delq nil new-types))
+        (setq r nil))))
+   (t (if (js2-imenu--item-exist (js2-imenu--get-extra-item-pos r)
+                                 js2-imenu-original-item-lines)
+          (setq r nil))))
+  r)
+
 (defun js2-imenu--remove-duplicate-items (extra-rlt)
   (delq nil (mapcar 'js2-imenu--check-single-item extra-rlt)))
 
@@ -416,15 +560,14 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   (dolist (item rlt)
     (js2-imenu--extract-line-info item)))
 
-(defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
-  (message "advice called")
-  (let (rlt extra-rlt)
-    ad-do-it
-    (setq extra-rlt
-          (save-excursion
-            (imenu--generic-function js2-custom-imenu-make-index)))
-    (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
-    ad-return-value))
+;; (defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
+;;   (let (rlt extra-rlt)
+;;     ad-do-it
+;;     (setq extra-rlt (js2-custom-imenu-make-index))
+;;           ;; (save-excursion
+;;           ;;   (imenu--generic-function js2-custom-imenu-make-index))
+;;     (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
+;;     ad-return-value))
 
 (provide 'setup-js2-mode)
 

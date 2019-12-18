@@ -1082,9 +1082,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 (advice-add 'ibuffer-visit-buffer :around #'wjb/bury-ibuffer)
 
-;; Imenu.
-(when (require 'imenu nil t)
-  (autoload 'idomenu "idomenu" nil t))
+;; (when (require 'imenu nil t)
+;;   (autoload 'idomenu "idomenu" nil t))
 
 ;; (defadvice ido-imenu (before push-mark activate)
 ;;   (push-mark))
@@ -1092,7 +1091,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
 ;; Always rescan buffer for imenu
 (set-default 'imenu-auto-rescan t)
 
-(use-package imenu-anywhere)
+(use-package imenu-anywhere
+  :bind (("C-." . ivy-imenu-anywhere)))
 
 (use-package flx)
 
@@ -1113,8 +1113,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 ;; switching/finding/opening/running things
 ;; - C-o = helm-mini -> buffers, recent files, bookmarks, more? (cf M-o)
 ;; - C-x b = switch buffer (among open buffers)
-;;   - C-x C-b = was ibuffer, now helm-mini
-;;   - H-x b = helm-buffers-list
+;;   - C-x C-b = was ibuffer, helm-buffers-list
 ;;   - switch buffer among buffers limited to current project?
 ;; - helm-mini limited to current project?-> M-o = helm-browse-project (cf C-o)
 ;; - M-x = commands to run
@@ -1326,6 +1325,8 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package counsel
   :defer t
+  ;; H-<space> would be better, but that goes to Alfred
+  :bind (("C-," . counsel-imenu))
   :config
   (ivy-configure 'counsel-M-x
     :initial-input ""
@@ -1354,7 +1355,6 @@ If PROJECT is not specified the command acts on the current project."
   ;; (global-set-key (kbd "M-o") #'helm-browse-project)
   ;; (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
   ;; (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
-  ;; (global-set-key (kbd "H-x b") #'helm-buffers-list)
   ;; (global-set-key (kbd "H-o") #'helm-browse-project)
 
   ;; useful commands, but probably shouldn't be bound globally:
