@@ -46,11 +46,8 @@
 
 ;; js2-refactor uses either H-c, H-r, or C-c C-r.
 
-(global-set-key (kbd "H-x H-e") 'eval-print-last-sexp)
-
 (global-set-key (kbd "H-v") #'scroll-up-command)
-(global-set-key (kbd "H-_") 'undo)
-(global-set-key (kbd "H-k") 'kill-sexp)
+(global-set-key (kbd "H-k") 'kill-sexp) ;; also C-M-k
 ;; H-d should be backward-kill-subword, but that doesn't exist
 (global-set-key (kbd "H-d") 'backward-kill-word) ;; or backward-kill-sexp?
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
@@ -216,8 +213,8 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 
-(global-set-key (kbd "H-x n e") 'next-error)
-(global-set-key (kbd "H-x p e") 'previous-error)
+;; (global-set-key (kbd "H-x n e") 'next-error)
+;; (global-set-key (kbd "H-x p e") 'previous-error)
 
 ;; move lines of text
 (global-set-key (kbd "M-<up>") 'move-text-up)
