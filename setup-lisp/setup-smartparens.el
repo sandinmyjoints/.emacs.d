@@ -113,7 +113,7 @@
 
 ;; For some reason, any combos with H and e seem not to work. Why?
 (define-key smartparens-mode-map (kbd "H-e") 'sp-up-sexp)
-(define-key smartparens-mode-map (kbd "H-x") 'sp-up-sexp)
+;; (define-key smartparens-mode-map (kbd "H-x") 'sp-up-sexp)
 (define-key emacs-lisp-mode-map (kbd "H-)") 'sp-up-sexp)
 (define-key smartparens-mode-map (kbd "H-u") 'sp-backward-up-sexp)
 (define-key smartparens-mode-map (kbd "H-t") 'sp-transpose-sexp)
