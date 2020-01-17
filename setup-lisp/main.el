@@ -3453,6 +3453,30 @@ is already narrowed."
                        (color-lighten-name
                         (face-attribute 'default :foreground) 3)))
 
+;; Reload dir-locals. From https://emacs.stackexchange.com/a/13096/2163
+(defun wjb/reload-dir-locals-for-current-buffer ()
+  "Reload dir locals for the current buffer."
+  (interactive)
+  (let ((enable-local-variables :all))
+    (hack-dir-local-variables-non-file-buffer)))
+
+;; TODO: make this reload them for all buffers in the project.
+(defun wjb/reload-dir-locals-for-all-buffer-in-this-directory ()
+  "For every buffer with the same `default-directory` as the
+current buffer's, reload dir-locals."
+  (interactive)
+  (let ((dir default-directory))
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (when (equal default-directory dir))
+        (wjb/reload-dir-locals-for-current-buffer)))))
+
+(global-set-key (kbd "H-r") #'wjb/reload-dir-locals-for-all-buffer-in-this-directory)
+
+(defun wjb/revert-without-query ()
+  (interactive)
+  (revert-buffer t t))
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
