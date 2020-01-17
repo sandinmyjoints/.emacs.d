@@ -848,6 +848,11 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package ghub
   :defer t)
 
+(use-package transient
+  :defer t
+  :config
+  (setq transient-highlight-mismatched-keys t))
+
 ;; Magit.
 (use-package magit
   :bind (("C-x g" . wjb/smart-magit-status))
