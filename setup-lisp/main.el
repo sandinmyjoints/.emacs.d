@@ -1760,7 +1760,7 @@ If PROJECT is not specified the command acts on the current project."
     (treemacs-resize-icons 18)
     (treemacs-follow-mode nil)
     (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode t)
+    (treemacs-fringe-indicator-mode nil)
     (treemacs-git-mode -1)
     (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
     (defun wjb/treemacs-hook ()
