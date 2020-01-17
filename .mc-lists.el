@@ -90,6 +90,7 @@
         symbol-overlay-jump-next
         transpose-words
         whack-whitespace
+        wjb-kill-this-node
         wjb-toggle-it-only
         wjb/backward-symbol
         wjb/forward-symbol
