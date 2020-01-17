@@ -271,6 +271,11 @@
         (onlyed "it.only(")
         (unonlyed "it(")
         (msg "No test found"))
+  ;; (let ((onlyed-re "\\(?:test\\|it\\)\.only\\([(]\\)")
+  ;;       (unonlyed-re "\\(?:test\\|it\\)\\([(]\\)")
+  ;;       (onlyed "\\(?:test\\|it\\).only(")
+  ;;       (unonlyed "\\(?:test\\|it\\)(")
+  ;;       (msg "No test found"))
     (save-excursion
       (progn
         (cond ((null arg)
