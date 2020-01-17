@@ -453,6 +453,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   :config
   ;; unbind C-o (was diredp-find-file-other-frame) for use by helm-mini
   (unbind-key (kbd "C-o") dired-mode-map)
+  ;; (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
 
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
@@ -460,17 +461,23 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
+  (setq counsel-dired-listing-switches "-lahFG")
   (setq dired-listing-switches "-lahF"
         dired-dwim-target t
         dired-recursive-copies 'always))
 
+(use-package diredfl
+  :after dired
+  :config
+  (diredfl-global-mode))
+
 (use-package dired+
+  :disabled
   :after dired
   :config
   (require 'dired+)
   (unbind-key (kbd "C-o") dired-mode-map)
   (toggle-diredp-find-file-reuse-dir 1)
-  (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
   (setq diredp-hide-details-propagate-flag t))
 
 (use-package ediff

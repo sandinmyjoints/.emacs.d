@@ -133,6 +133,7 @@
      (cons 'tree-mode melpa) ; dirtree requirement.
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
      ;; (cons 'dired+ melpa) ;; is in /elisp
+     (cons 'diredfl melpa)
      (cons 'yaml-mode melpa-stable)
      (cons 'web-mode melpa-stable)
      (cons 'less-css-mode melpa-stable)
