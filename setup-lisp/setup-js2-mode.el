@@ -59,7 +59,7 @@
   :diminish js2-refactor-mode
   :config
   (js2r-add-keybindings-with-prefix "H-c")
-  (js2r-add-keybindings-with-prefix "H-r")
+
   ;; hack to my liking
   (defun wjb/js2r-log-this (arg)
     "Log of the node at point, adding a 'console.log()' statement.
@@ -332,6 +332,7 @@ project."
         tide-hl-identifier-idle-time 0.1
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
+        tide-project-cleanup-delay nil
         tide-server-max-response-length (* 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
