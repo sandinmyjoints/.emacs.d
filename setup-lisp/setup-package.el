@@ -269,7 +269,7 @@
      (cons 'counsel-css melpa)
      (cons 'counsel-tramp melpa)
      (cons 'swiper melpa)
-     (cons 'project-shells melpa)
+     ;; (cons 'project-shells melpa)
 
      (cons 'treemacs melpa)
      (cons 'treemacs-icons-dired melpa)
