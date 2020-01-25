@@ -954,6 +954,16 @@ This function can be hooked into the modes of interest.  E.g.
           ".")
          nil)))))
 
+(defun wjb/arrayify (start end quote)
+  "Turn strings on newlines into a QUOTEd, comma-separated one-liner."
+  (interactive "r\nMQuote: ")
+  (let ((insertion
+         (mapconcat
+          (lambda (x) (format "%s%s%s" quote x quote))
+          (split-string (buffer-substring start end)) ", ")))
+    (delete-region start end)
+    (insert insertion)))
+
 ;; TODO:
 ;; Mixpanel event parser
 ;; - extract data query param
