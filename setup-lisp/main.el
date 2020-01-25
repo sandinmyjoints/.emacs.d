@@ -1768,6 +1768,8 @@ If PROJECT is not specified the command acts on the current project."
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode nil)
     (treemacs-git-mode -1)
+    (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal)
+
     (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
     (defun wjb/treemacs-hook ()
       ;; Preserve indents when wrapping lines in visual-line-mode.
