@@ -138,12 +138,12 @@
 ;; (set-face-attribute 'default nil :family "Fira Code" :height 140)
 ;; (set-face-attribute 'default nil :family "Fira Code" :height 150)
 
-;; Cascadia Code
+;; Cascadia Code PL
 ;; - looks *great* with nimbus, eighties
 ;; - Nice ligatures
 ;;
-;; (set-face-attribute 'default nil :family "Cascadia Code" :height 140)
-;; (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
+;; (set-face-attribute 'default nil :family "Cascadia Code PL" :height 140)
+;; (set-face-attribute 'default nil :family "Cascadia Code PL" :height 150)
 
 ;; DejaVu Sans Mono
 ;; - very good Unicode support
@@ -282,7 +282,7 @@
   (interactive)
   (setq wjb/dark t)
   (change-theme 'nimbus)
-  (set-face-attribute 'default nil :family "Cascadia Code" :height 150)
+  (set-face-attribute 'default nil :family "Cascadia Code PL" :height 150)
   (wjb/turn-on-hl-line)
   (set-frame-parameter nil 'alpha '(90 . 50))
   ;; (set-face-background 'default "#000")
