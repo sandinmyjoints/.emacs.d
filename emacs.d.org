@@ -1530,6 +1530,9 @@ fca1464b7749/sd_neodarwin_1                                sd_neodarwin         
 * vterm for tmux
   - https://launchpad.net/libvterm
 ** TODO why doesn't the tmux status line appear?
+   - it's because the tmux window is 7 or 8 lines taller than the emacs window,
+     but why is that? in other words, the tmux status line appears 7 or 8 lines
+     above the top of the emacs window. it's visible if I page up in vterm.
 ;; actual number of text rows I count is 58
 
 (window-height nil t)
@@ -2248,3 +2251,5 @@ X vterm
 X try deferring company
 
 dired, writable dired
+* imenu is slow?
+  - // -*- imenu-auto-rescan: nil; -*-
