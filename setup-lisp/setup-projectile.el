@@ -180,6 +180,7 @@
 				  :test-dir "test"
           :related-files-fn (list (projectile-related-files-fn-test-with-suffix "js" "test")
                                   (projectile-related-files-fn-test-with-suffix "jsx" "test")
+                                  (projectile-related-files-fn-test-with-suffix "js" "test.js")
                                   #'wjb/related-files-corresponding-path-playground
                                   #'wjb/related-files-same-dir-components
                                   #'wjb/related-files-corresponding-path-po-intake
