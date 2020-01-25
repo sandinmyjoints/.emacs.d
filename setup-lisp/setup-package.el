@@ -165,6 +165,9 @@
      (cons 'olivetti melpa)
      (cons 'writeroom-mode melpa)
 
+     (cons 'doom-themes melpa)
+     (cons 'all-the-icons melpa)
+
      (cons 'which-key melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.
      (cons 'google-this melpa)

@@ -457,6 +457,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better

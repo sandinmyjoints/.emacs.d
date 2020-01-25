@@ -421,6 +421,7 @@
 
   ;; some themes try to jack this
   (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal)
 
   (if wjb/dark
       (progn
@@ -444,6 +445,38 @@
   ;;                      (color-lighten-name
   ;;                       (face-attribute 'default :background) 5))
   )
+
+(use-package doom-themes
+  ;; :disabled
+  :config
+  ;; (change-theme 'doom-one t)
+  ;; (change-theme 'doom-vibrant t)
+  ;; (change-theme 'doom-challenger-deep t)
+  ;; (change-theme 'doom-city-lights t)
+  ;; (change-theme 'doom-dark+ t)
+  ;; (change-theme 'doom-gruvbox t)
+ ;; (change-theme 'doom-laserwave t) ;; bright pink modeline
+ ;; (change-theme 'doom-moonlight t) ;; great except parens are nearly invisible
+ ;; (change-theme 'doom-oceanic-next t) ;; ok
+ ;; (change-theme 'doom-palenight t) ;; nice
+ (change-theme 'doom-snazzy t)
+
+  ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
+
+  ;; seems to require all-the-icons
+  ;; (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  ;; (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  ;; (doom-themes-org-config)
+
+  (wjb/turn-on-hl-line)
+  (wjb/custom-appearance)               ;
+)
+
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode 1))
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
