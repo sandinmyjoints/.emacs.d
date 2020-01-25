@@ -74,17 +74,34 @@
 ;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
 ;;
 ;; Set default font, both for current frame and for all frames.
-(set-face-font 'default "Fira Code-15")
-(add-to-list 'default-frame-alist
-             '(font . "Fira Code-15"))
+(when t
+  (set-face-font 'default "Fira Code-15")
+  (set-face-attribute 'default nil :weight 'light) ;; light looks great on a laptop; not sure about larger monitor
+  (set-face-font 'variable-pitch "Fira Sans")
+  (set-face-attribute 'variable-pitch nil :weight 'light)
 
-;; (set-face-font 'default "Cascadia Code-14")
-;; (add-to-list 'default-frame-alist
-;;              '(font . "Cascadia Code-14"))
+  (add-to-list 'default-frame-alist
+               '(font . "Fira Code-15")))
 
-;; (set-face-font 'default "DejaVu Sans Mono-14")
+(when nil
+  (set-face-font 'default "DejaVu Sans Mono-15")
+  (set-face-attribute 'default nil :weight 'extralight) ;; light looks great on a laptop; not sure about larger monitor
+  (set-face-font 'variable-pitch "DejaVu Sans")
+  (set-face-attribute 'variable-pitch nil :weight 'light))
+
+(when nil
+  (set-face-font 'default "Cascadia Code PL-15")
+  (set-face-attribute 'default nil :weight 'light)
+  (set-face-font 'variable-pitch "Fira Sans")
+  (set-face-attribute 'variable-pitch nil :weight 'light))
+
+;; (set-face-font 'default "Cascadia Code PL-15")
 ;; (add-to-list 'default-frame-alist
-;;              '(font . "DejaVu Sans Mono-14"))
+;;              '(font . "Cascadia Code PL-15"))
+
+;; (set-face-font 'default "DejaVu Sans Mono-15")
+;; (add-to-list 'default-frame-alist
+;;              '(font . "DejaVu Sans Mono-15"))
 
 ;; Define fonts for specific Unicode ranges or blocks, or set a general fallback.
 ;; See: https://github.com/jletourneau/emacs.d/blob/97b0965d04255edab69f7a2f62a634bc1e755a51/include/_char_ranges.el
