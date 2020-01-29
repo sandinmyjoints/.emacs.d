@@ -168,12 +168,12 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
   ;; HACK
   (defun nvm-use-for-buffer ()
-  "Activate Node based on an .nvmrc for the current file.
+    "Activate Node based on an .nvmrc for the current file.
 If buffer is not visiting a file, do nothing."
-  (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
-    (condition-case err
-        (nvm-use-for buffer-file-name)
-      (error (message "%s" err))))))
+    (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
+      (condition-case err
+          (nvm-use-for buffer-file-name)
+        (error (message "%s" err))))))
 
 ;; TODO: default nvm to be used at startup, before any project has been activated.
 
@@ -202,7 +202,7 @@ If buffer is not visiting a file, do nothing."
       js-doc-license "MIT")
 
 (add-to-list 'js2-global-externs
-              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
+             '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
@@ -281,9 +281,9 @@ If buffer is not visiting a file, do nothing."
       ;; (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
       ;; eslint_d has stopped working in jsx files, so disabling it.
       (if (and nil (file-executable-p (format "%s" eslint_d)))
-            (setq-local flycheck-javascript-eslint-executable eslint_d)
+          (setq-local flycheck-javascript-eslint-executable eslint_d)
         (when (and eslint (file-executable-p (format "%s" eslint)))
-            (setq-local flycheck-javascript-eslint-executable eslint))))))
+          (setq-local flycheck-javascript-eslint-executable eslint))))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
@@ -325,8 +325,9 @@ project."
           "es5")))
 
 (use-package tide
-  :after (rjsx-mode company flycheck)
-  :hook ((js2-mode . tide-setup))
+  :after (js2-mode rjsx-mode company flycheck)
+  ;; (add-hook 'js2-mode-hook #'tide-setup)
+  :hook (js2-mode . tide-setup)
   :config
   (setq tide-default-mode "JS"
         tide-hl-identifier-idle-time 0.1
@@ -337,9 +338,8 @@ project."
   ;; tide places company-tide first :(
   (pop company-backends)
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-)
+  )
 
-;; (add-hook 'js2-mode-hook #'setup-tide-mode)
 ;; configure javascript-tide checker to run after your default javascript checker
 ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
 
@@ -354,8 +354,6 @@ project."
   (setq-local fill-column 80))
 
 (add-hook 'js-mode-hook 'wjb/js-mode-hook)
-
-(add-hook 'js-mode-hook #'indium-interaction-mode)
 
 ;; this imenu generic expression aims to exclude for, while, if when aims to match functions in
 ;; es6 js, e.g. ComponentDidMount(), render() function in React
@@ -380,9 +378,9 @@ project."
     (append mode-imenu custom-imenu)))
 
 (defun wjb/js2-mode-hook-poc ()
-    (add-to-list
-     'imenu-generic-expression
-     '("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)))
+  (add-to-list
+   'imenu-generic-expression
+   '("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)))
 
 (remove-hook 'js2-mode-hook #'wjb/js2-mode-hook-poc)
 
@@ -427,31 +425,31 @@ project."
                                ))))
 
 (defun js2-custom-imenu-make-index ()
-    ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
-    (imenu--generic-function '(
-                               ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("it" "\s-*it\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("test" "\s-*test\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("before" "\s-*before\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("beforeEach" "\s-*beforeEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("after" "\s-*after\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
-                               ("afterEach" "\s-*afterEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+  ;; (setq imenu-generic-expression '((nil "describe\(\"\(.+\)\"" 1)))
+  (imenu--generic-function '(
+                             ("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("it" "\s-*it\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("test" "\s-*test\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("before" "\s-*before\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("beforeEach" "\s-*beforeEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("after" "\s-*after\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
+                             ("afterEach" "\s-*afterEach\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)
 
-                               ("Class" "^[ \t]*[0-9a-zA-Z_$ ]*[ \t]*class[ \t]*\([a-zA-Z_$.]*\)" 1)
-                               ("Class" "^[ \t]*\(var\|let\|const\)[ \t]*\([0-9a-zA-Z_$.]+\)[ \t]*=[ \t]*[a-zA-Z_$.]*.extend" 2)
-                               ("Class" "^[ \t]*cc\.\(.+\)[ \t]*=[ \t]*cc\..+\.extend" 1)
+                             ("Class" "^[ \t]*[0-9a-zA-Z_$ ]*[ \t]*class[ \t]*\([a-zA-Z_$.]*\)" 1)
+                             ("Class" "^[ \t]*\(var\|let\|const\)[ \t]*\([0-9a-zA-Z_$.]+\)[ \t]*=[ \t]*[a-zA-Z_$.]*.extend" 2)
+                             ("Class" "^[ \t]*cc\.\(.+\)[ \t]*=[ \t]*cc\..+\.extend" 1)
 
-                               ("Function" "\(async\)?[ \t]*function[ \t]+\([a-zA-Z0-9_$.]+\)[ \t]*(" 2) ;; (async)? function xxx (
-                               ("Function" "^[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*:[ \t]*\(async\)?[ \t]*function[ \t]*(" 1) ;; xxx : (async)? function (
-                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*=[ \t]*\(async\)?[ \t]*function[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? function (
+                             ("Function" "\(async\)?[ \t]*function[ \t]+\([a-zA-Z0-9_$.]+\)[ \t]*(" 2) ;; (async)? function xxx (
+                             ("Function" "^[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*:[ \t]*\(async\)?[ \t]*function[ \t]*(" 1) ;; xxx : (async)? function (
+                             ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([a-zA-Z0-9_$.]+\)[ \t]*=[ \t]*\(async\)?[ \t]*function[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? function (
 
-                               ;; {{ es6 beginning
-                               ("Function" js-exception-imenu-generic-expression-regexp 2) ;; (async)? xxx (e) { }
-                               ("Function" "^[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*:[ \t]*\(async\)?[ \t]*(" 1) ;; xxx : (async)? (
-                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? (
-                               ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*[A-Za-z_$][A-Za-z0-9_$.]*[ \t]*=>" 3) ;; (export)? (var|let|const)? xxx = (async)? e =>
-                               ;; }}
-                               )))
+                             ;; {{ es6 beginning
+                             ("Function" js-exception-imenu-generic-expression-regexp 2) ;; (async)? xxx (e) { }
+                             ("Function" "^[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*:[ \t]*\(async\)?[ \t]*(" 1) ;; xxx : (async)? (
+                             ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*(" 3) ;; (export)? (var|let|const)? xxx = (async)? (
+                             ("Function" "^[ \t]*\(export\)?[ \t]*\(var\|let\|const\)?[ \t]*\([A-Za-z_$][A-Za-z0-9_$.]*\)[ \t]*=[ \t]*\(async\)?[ \t]*[A-Za-z_$][A-Za-z0-9_$.]*[ \t]*=>" 3) ;; (export)? (var|let|const)? xxx = (async)? e =>
+                             ;; }}
+                             )))
 
 ;; following based on https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
 (defvar js2-imenu-original-item-lines nil
