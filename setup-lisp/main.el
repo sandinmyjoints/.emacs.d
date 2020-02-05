@@ -3361,6 +3361,7 @@ is already narrowed."
 (require 'wjb)
 
 (defun wjb/after-init-hook ()
+  (setq garbage-collection-messages t)
   (setq source-directory "/Users/william/scm/vendor/emacs-mac"
         find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
   (treemacs))
