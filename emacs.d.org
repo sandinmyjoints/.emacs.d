@@ -2253,3 +2253,32 @@ X try deferring company
 dired, writable dired
 * imenu is slow?
   - // -*- imenu-auto-rescan: nil; -*-
+* latency/speed
+** best possible
+   #+begin_src
+   EMACS_APP=/usr/local/Cellar/emacs-mac/HEAD-19f1896/Emacs.app open -n "$EMACS_APP" --args -q --eval='(message "%s" (emacs-init-time))'
+   #+end_src>
+** lag when simply next-line'ing through a file
+     - [X] doom modeline was updating a lot
+     - list timers
+     - lots of GCs -- how to reduce?
+     - [X] which-key hide-popup is running frequently -- disabled
+     - check the functions in after-change-functions (which is a hook)
+*** post-command-hook
+ flycheck-hide-error-buffer
+ flycheck-display-error-at-point-soon
+ flycheck-error-list-highlight-errors
+ flycheck-error-list-update-source
+ flycheck-perform-deferred-syntax-check
+
+   - when I simply navigate with C-n or C-p:
+     - the timer is getting called
+     - flycheck-handle-signal is getting called; by what, what is the signal? I
+       think it's output from the checker process
+     - I wonder if it's checking even though nothing has changed in the buffer
+     - I wonder if it's redoing the error message output even though the errors
+       are the same
+** GCs
+   - interesting variable: gcs-done
+* switch to straight.el                                            :wishlist:
+  - https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
