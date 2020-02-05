@@ -333,4 +333,6 @@ Also converts full stops to commas."
 (define-key wjb-map (kbd "u") #'wjb/find-use-package)
 (define-key wjb-map (kbd "m") #'minions-minor-modes-menu)
 
+(global-set-key (kbd "C-9") 'profiler-report)
+
 (provide 'key-bindings)
