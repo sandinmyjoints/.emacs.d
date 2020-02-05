@@ -27,6 +27,7 @@
         end-of-visual-line
         eval-last-sexp
         fill-paragraph
+        flycheck-next-error
         goto-line
         hungry-delete-backward
         hungry-delete-forward
