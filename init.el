@@ -47,6 +47,11 @@
 
 ;; (setq debug-on-error t)
 (defun init ()
+  ;; Resizing the Emacs frame can be a terribly expensive part of changing the
+  ;; font. By inhibiting this, we easily halve startup times with fonts that are
+  ;; larger than the system default.
+  (setq frame-inhibit-implied-resize t)
+
   ;; Initial and default settings. Should match these:
   ;; defaults write org.gnu.Emacs Width 120
   ;; defaults write org.gnu.Emacs Height 40
@@ -112,6 +117,14 @@
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
 
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+
   (require 'main)
 )
 
@@ -135,7 +148,8 @@
                             (when (fboundp 'wjb/gc-timer)
                                 (when (timerp 'wjb/gc-timer)
                                      (cancel-timer 'wjb/gc-timer))
-                                (makunbound 'wjb/gc-timer))))
+                                (makunbound 'wjb/gc-timer)
+                                (setq post-gc-hook nil))))
   (run-with-timer
    10 nil (lambda ()
             (message "Initial timer done. Preparing to run gc.")
@@ -153,3 +167,4 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
+(put 'list-timers 'disabled nil)
