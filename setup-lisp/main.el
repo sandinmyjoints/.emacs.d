@@ -2324,9 +2324,12 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; better than yafolding
 (use-package origami
-  :defer t
+  ;; TODO: bind only prog-mode made, dont bind org-mode!
+  :bind   (("C-<return>" . #'origami-recursively-toggle-node)
+           ;; ("M-<return>" . #'origami-show-only-node)
+)
   :config
-  (define-key origami-mode-map (kbd "C-<return>") #'origami-recursively-toggle-node)
+  ;; (define-key origami-mode-map (kbd "C-<return>") #'origami-recursively-toggle-node)
   (define-key origami-mode-map (kbd "M-<return>") #'origami-show-only-node)
   (define-key origami-mode-map (kbd "H-<return>") #'origami-toggle-all-nodes)
 
