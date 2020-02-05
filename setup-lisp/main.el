@@ -2212,7 +2212,9 @@ If PROJECT is not specified the command acts on the current project."
   (compdef
    :modes #'org-mode
    :company '(company-dabbrev company-capf company-emoji)
-   :capf '(#'tags-completion-at-point-function)))(require 'key-bindings)
+   :capf '(#'tags-completion-at-point-function)))
+
+(require 'key-bindings)
 
 (use-package web-mode
   :mode "\\.html?\\'"
