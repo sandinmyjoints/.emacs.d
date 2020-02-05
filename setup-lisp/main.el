@@ -2741,6 +2741,18 @@ Interactively also sends a terminating newline."
   (recompile-on-save-advice compile)
   (recompile-on-save-advice recompile))
 
+;; unbind
+;; (fmakunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode-map)
+
+;; (makunbound 'jest-compile-command)
+;; (fmakunbound 'jest-compile-command)
+;; (makunbound 'jest-repeat-compile-command)
+;; (fmakunbound 'jest-repeat-compile-command)
+
+;; (makunbound 'jest-compile-function)
+
 ;; jest-mode is derived from comint:
 ;; (define-derived-mode jest-mode
 ;; comint-mode "jest"
@@ -2751,76 +2763,45 @@ Interactively also sends a terminating newline."
 ;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
 ;; - in *grep* buffers: nothing jest. g re-runs grep.
 (use-package jest
+  :after (js2-mode)
+  :hook (js2-mode . jest-minor-mode)
   :load-path "elisp/emacs-jest"
   :bind (
          :map jest-mode-map
          ([remap compile] . jest-popup)
          ([remap recompile] . jest-repeat)
-
-         ;; TODO: none of this seems to be needed anymore. Delete it.
-         ;; ("g" . jest-repeat)
-         ;; ("M-n" . compilation-next-error)
-         ;; ("M-p" . compilation-previous-error)
-         ;; ("C-c RET" . jest-popup)
-         ;; ("C-c <C-return>" . jest-repeat)
-         ;; :map compilation-minor-mode-map
-         ;; ;; TODO not sure both of these are required -- not sure what the
-         ;; ;; defaults are for this map
-         ;; ("C-c RET" . jest-popup)
-         ;; ("C-c C-<return>" . jest-repeat)
-         ;; ([remap compile] . jest-popup)
-         ;; ([remap recompile] . jest-repeat)
          )
   :config
   (setq jest-pdb-track nil)
-  ;; Not sure which is preferable to use. shell-minor seems to not have
-  ;; as many key bindings I want, however, it allows sending input into the
-  ;; buffer.
-  ;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
-  (add-hook 'jest-mode-hook #'compilation-minor-mode))
+  (add-hook 'jest-mode-hook #'compilation-minor-mode)
+)
 
-(defcustom jest-compile-function 'jest-popup
-  "Command to run when compile and friends are called."
-  :group 'jest
-  :type 'function)
+;; (package-generate-autoloads "jest" "~/.emacs.d/elisp/emacs-jest/")
 
-;; change
-;; (setq jest-compile-function #'jest-popup)
+;; Not sure which is preferable to use. shell-minor seems to not have
+;; as many key bindings I want, however, it allows sending input into the
+;; buffer.
+;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
+
+;; (defun jest-minor-inhibit-self ()
+;;   "Add this hook to modes that should not use jest-minor but otherwise would."
+;;   (add-hook 'after-change-major-mode-hook
+;;             (lambda () (jest-minor-mode 0))
+;;             :append :local))
+
+;; (add-hook 'grep-mode-hook 'jest-minor-inhibit-self)
+
+;; (lambda ()
+;;   (interactive)
+;;   (call-interactively (symbol-value
+;;                        'jest-compile-command)))
+
+;; change it
 ;; (setq jest-compile-function #'jest-file-dwim)
-
-(defun jest-compile-command ()
-  (interactive)
-  (call-interactively (symbol-value 'jest-compile-function)))
-
-(defun jest-minor-inhibit-self ()
-  "Add this hook to modes that should not use jest-minor but otherwise would."
-  (add-hook 'after-change-major-mode-hook
-            (lambda () (jest-minor-mode 0))
-            :append :local))
-
-(add-hook 'grep-mode-hook 'jest-minor-inhibit-self)
-
-;; I have been activating this via dir-locals, though that also turns it on for
-;; other kinds of buffers (non-JS), like grep, which is annoying because its bindings shadow recompile.
-;;;###autoload
-(define-minor-mode jest-minor-mode
-  "Minor mode to run jest-mode commands for compile and friends."
-  :lighter " Jest Minor"
-  :keymap (let ((jest-minor-mode-keymap (make-sparse-keymap)))
-            (define-key jest-minor-mode-keymap [remap compile] 'jest-compile-command)
-            (define-key jest-minor-mode-keymap [remap recompile] 'jest-repeat)
-            (define-key jest-minor-mode-keymap [remap projectile-test-project] 'jest-compile-command)
-            (define-key jest-minor-mode-keymap (kbd "C-c ;") 'jest-file-dwim)
-            jest-minor-mode-keymap))
-
-(diminish 'jest-minor-mode)
-
-;; unbind
-;; (fmakunbound 'jest-minor-mode)
-;; (makunbound 'jest-minor-mode)
-;; (makunbound 'jest-minor-mode-map)
-;; (makunbound 'jest-compile-command)
-;; (makunbound 'jest-compile-function)
+;; (use-package jest-minor-mode
+;;   :load-path "setup-lisp/jest-minor-mode"
+;;   :after jest
+;;   :hook js2-mode)
 
 ;; Fill column indicator.
 ;; See: https://github.com/alpaker/Fill-Column-Indicator
