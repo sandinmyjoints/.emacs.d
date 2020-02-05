@@ -63,6 +63,16 @@
   (tooltip-mode -1)
   (blink-cursor-mode 1))
 
+(defvar wjb/dark t "Non-nil when a dark theme is active.")
+;; (setq wjb/dark t)
+;; (setq wjb/dark nil)
+
+(defvar wjb/is-small-display t "Whether display is a small screen or not.")
+(defun wjb/is-small-display ()
+  (if (<= (display-pixel-width) 1440)
+      (setq wjb/is-small-display t)
+    (setq wjb/is-small-display nil)))
+
 ;; Fonts.
 ;;
 ;; List all known fonts:
@@ -74,26 +84,69 @@
 ;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
 ;;
 ;; Set default font, both for current frame and for all frames.
-(when t
+;; (add-to-list 'default-frame-alist
+;;                '(font . "Fira Code-15"))
+
+;; Example of doing this better:
+;; wjb-default-font `(("SauceCodePro Nerd Font Mono"
+;;                                 :size ,(if (> (display-pixel-width) 3000) 20 13)
+;;                                 :weight normal
+;;                                 :width normal)
+;;                                ("Source Code Pro"
+;;                                 :size ,(if (> (display-pixel-width) 3000) 20 13)
+;;                                 :weight normal
+;;                                 :width normal))
+
+;; small, light: medium
+;; small, dark: light
+;; large, light: medium
+;; large, dark: medium
+
+(defun wjb/font-fira ()
+  ""
+  (interactive)
   (set-face-font 'default "Fira Code-15")
-  (set-face-attribute 'default nil :weight 'light) ;; light looks great on a laptop; not sure about larger monitor
+  (if (and (wjb/is-small-display) wjb/dark)
+      (set-face-attribute 'default nil :weight 'light)
+      (set-face-attribute 'default nil :weight 'medium))
+
   (set-face-font 'variable-pitch "Fira Sans")
-  (set-face-attribute 'variable-pitch nil :weight 'light)
+  (if (or (wjb/is-small-display) wjb/dark)
+      (set-face-attribute 'variable-pitch nil :weight 'light)
+    (set-face-attribute 'variable-pitch nil :weight 'regular))
+)
 
-  (add-to-list 'default-frame-alist
-               '(font . "Fira Code-15")))
-
-(when nil
+(defun wjb/font-deja ()
+  "Use Deja Vu fonts. Has strong Unicode support."
+  (interactive)
   (set-face-font 'default "DejaVu Sans Mono-15")
-  (set-face-attribute 'default nil :weight 'extralight) ;; light looks great on a laptop; not sure about larger monitor
-  (set-face-font 'variable-pitch "DejaVu Sans")
-  (set-face-attribute 'variable-pitch nil :weight 'light))
+  (set-face-attribute 'default nil :weight 'book)
 
-(when nil
+  (if (wjb/is-small-display)
+      (progn
+        (set-face-font 'variable-pitch "DejaVu Sans")
+        (set-face-attribute 'variable-pitch nil :width 'normal) ;; condensed is the right width but it only has a heavy weight
+        (set-face-attribute 'variable-pitch nil :weight 'extralight))
+      (progn
+        (set-face-font 'variable-pitch "DejaVu Sans")
+        (set-face-attribute 'variable-pitch nil :width 'normal)
+        (set-face-attribute 'variable-pitch nil :weight 'book)))
+  )
+
+(defun wjb/font-cascadia ()
+  "Use Cascadia Code font. Works best with dark themes b/c only
+has one font weight and it's pretty heavy."
+  (interactive)
   (set-face-font 'default "Cascadia Code PL-15")
-  (set-face-attribute 'default nil :weight 'light)
+  (set-face-attribute 'default nil :weight 'normal)
+
   (set-face-font 'variable-pitch "Fira Sans")
   (set-face-attribute 'variable-pitch nil :weight 'light))
+
+(defvar wjb/font #'wjb/font-fira "defun to set fonts.")
+;; (setq wjb/font #'wjb/font-fira)
+
+(call-interactively wjb/font)
 
 ;; (set-face-font 'default "Cascadia Code PL-15")
 ;; (add-to-list 'default-frame-alist
@@ -230,6 +283,7 @@
 ;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/wilmersdorf-emacs-theme"))
 ;; (change-theme 'wilmersdorf)
 ;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+;; (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal)
 ;; - tron-legacy -- interesting
 ;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/tron-legacy-emacs-theme"))
 ;; (change-theme 'tron-legacy)
@@ -261,6 +315,56 @@
 ;;
 ;; modes with trouble in various themes: easy-kill is not themed by eighties
 
+(defun wjb/customize-appearance ()
+  (interactive)
+  (setq window-divider-default-right-width 4)
+  (window-divider-mode)
+
+  (global-paren-face-mode)
+
+  ;; (set-face-attribute 'window-divider-first-pixel nil :weight 'bold)
+  ;; (set-face-attribute 'window-divider-last-pixel nil :weight 'bold)
+
+  ;; vertical-border applies only in a terminal.
+  ;; (set-display-table-slot standard-display-table
+  ;;                       'vertical-border
+  ;;                       (make-glyph-code ?┃))
+  ;; (set-face-inverse-video-p 'vertical-border nil)
+
+  ;; some themes try to jack these
+  (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
+
+  (if wjb/dark
+      (progn
+        (set-mouse-color "light gray")
+        (set-cursor-color wjb/dark-cursor-color)
+        (set-face-foreground 'org-checkbox-done-text
+                             (color-darken-name
+                              (face-attribute 'default :foreground) 20)))
+    (progn
+      (set-mouse-color "black")
+      (set-cursor-color wjb/light-cursor-color)
+        (set-face-foreground 'org-checkbox-done-text
+                             (color-lighten-name
+                              (face-attribute 'default :foreground) 20))))
+
+  (call-interactively wjb/font)
+
+  ;; temporarily switch to treemacs window
+  (with-selected-window (treemacs-get-local-window)
+    (if (wjb/is-small-display) (treemacs--set-width 30) (treemacs--set-width 48)))
+
+  ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
+
+  ;; For themes that don't have adob faces defined (ample):
+  ;; (set-face-background 'auto-dim-other-buffers-face "#181818")
+  ;; (set-face-background 'auto-dim-other-buffers-face
+  ;;                      (color-lighten-name
+  ;;                       (face-attribute 'default :background) 5))
+  )
+
 (use-package gruvbox-theme ;; dark
   :defer 1
   :disabled
@@ -269,24 +373,19 @@
   (change-theme 'gruvbox-dark-hard t)
   (wjb/gruvbox-dark)
   (wjb/turn-on-hl-line)
-  (wjb/custom-appearance))
+  (wjb/customize-appearance))
 
 ;; gruvbox colors for slack: #F9F5D7,#F8F8FA,#61ACBB,#FFFFFF,#FFFFFF,#282828,#427B58,#9D0006
 (defun wjb/light-theme ()
   (interactive)
   (setq wjb/dark nil)
-  (change-theme 'gruvbox-light-soft t)
-  ;; (change-theme 'gruvbox-light-medium t)
-  (wjb/gruvbox-light)
+
+  ;; (wjb/gruvbox-light)
+  (change-theme 'doom-opera-light)
+
   (wjb/turn-on-hl-line)
-  (wjb/custom-appearance)
-  (set-face-attribute 'default nil :family "Fira Code" :height 150)
-  (set-frame-parameter nil 'alpha '(98 . 50))
-  ;; region is #d5c4a1
-  ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
-  ;; they are too close
-  ;; make it #ebdbcc
-  (set-face-background 'easy-kill-selection "#ebdbcc"))
+  (wjb/customize-appearance)
+)
 
 (use-package gruvbox-theme ;; light
   :defer 1
@@ -298,12 +397,13 @@
   "Activate my dark theme."
   (interactive)
   (setq wjb/dark t)
+
   (change-theme 'nimbus)
-  (set-face-attribute 'default nil :family "Cascadia Code PL" :height 150)
+
   (wjb/turn-on-hl-line)
+  (wjb/customize-appearance)
   (set-frame-parameter nil 'alpha '(90 . 50))
-  ;; (set-face-background 'default "#000")
-  (wjb/custom-appearance))
+)
 
 (use-package nimbus-theme
   :defer 1
@@ -319,7 +419,7 @@
   :config
   (change-theme 'afternoon)
   (wjb/turn-on-hl-line)
-  (wjb/custom-appearance))
+  (wjb/customize-appearance))
 
 (use-package ample-theme
   :defer 1
@@ -338,7 +438,7 @@
   ;; (change-theme 'ample-light)
   ;; (global-hl-line-mode -1)
 
-  (wjb/custom-appearance))
+  (wjb/customize-appearance))
 
 (use-package zerodark-theme
   :disabled
@@ -346,7 +446,7 @@
   (setq wjb/dark t)
   (change-theme 'zerodark t)
   (wjb/turn-on-hl-line)
-  (wjb/custom-appearance))
+  (wjb/customize-appearance))
 
 ;; TODO: try counsel-load-theme
 ;; See http://emacs.stackexchange.com/questions/3112/how-to-reset-color-theme
@@ -358,10 +458,6 @@
   (mapc #'disable-theme custom-enabled-themes)
   (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
          #'load-theme args))
-
-(defvar wjb/dark t "Non-nil when a dark theme is active.")
-;; (setq wjb/dark t)
-;; (setq wjb/dark nil)
 
 ;; https://github.com/morhetz/gruvbox
 (defvar wjb/dark-cursor-color "#30F0F0") ;; #458588 #076678 #blue #0000FF #0766FF
@@ -383,6 +479,14 @@
   (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130))
 
 (defun wjb/gruvbox-light ()
+  (change-theme 'gruvbox-light-soft t)
+  ;; (change-theme 'gruvbox-light-medium t)
+  ;; region is #d5c4a1
+  ;; easy-kill-selection inherits secondary-selection which is #ebdbb2
+  ;; they are too close
+  ;; make it #ebdbcc
+  (set-face-background 'easy-kill-selection "#ebdbcc")
+
   ;; (set-face-foreground 'font-lock-keyword-face "#a8a8a8")
   ;; (set-face-background 'default "#000")
   ;; (set-cursor-color wjb/dark-cursor-color)
@@ -423,60 +527,26 @@
 
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
-(defun wjb/custom-appearance ()
-  (setq window-divider-default-right-width 4)
-  (window-divider-mode)
-
-  ;; (set-face-attribute 'window-divider-first-pixel nil :weight 'bold)
-  ;; (set-face-attribute 'window-divider-last-pixel nil :weight 'bold)
-
-  ;; vertical-border applies only in a terminal.
-  ;; (set-display-table-slot standard-display-table
-  ;;                       'vertical-border
-  ;;                       (make-glyph-code ?┃))
-  ;; (set-face-inverse-video-p 'vertical-border nil)
-
-  ;; some themes try to jack this
-  (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal)
-
-  (if wjb/dark
-      (progn
-        (set-mouse-color "light gray")
-        (set-cursor-color wjb/dark-cursor-color)
-        (set-face-foreground 'org-checkbox-done-text
-                             (color-darken-name
-                              (face-attribute 'default :foreground) 20)))
-    (progn
-      (set-mouse-color "black")
-      (set-cursor-color wjb/light-cursor-color)
-        (set-face-foreground 'org-checkbox-done-text
-                             (color-lighten-name
-                              (face-attribute 'default :foreground) 20))))
-
-  ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
-
-  ;; For themes that don't have adob faces defined (ample):
-  ;; (set-face-background 'auto-dim-other-buffers-face "#181818")
-  ;; (set-face-background 'auto-dim-other-buffers-face
-  ;;                      (color-lighten-name
-  ;;                       (face-attribute 'default :background) 5))
-  )
-
 (use-package doom-themes
   ;; :disabled
   :config
   ;; (change-theme 'doom-one t)
-  ;; (change-theme 'doom-vibrant t)
-  ;; (change-theme 'doom-challenger-deep t)
-  ;; (change-theme 'doom-city-lights t)
-  ;; (change-theme 'doom-dark+ t)
-  ;; (change-theme 'doom-gruvbox t)
- ;; (change-theme 'doom-laserwave t) ;; bright pink modeline
- ;; (change-theme 'doom-moonlight t) ;; great except parens are nearly invisible
- ;; (change-theme 'doom-oceanic-next t) ;; ok
- ;; (change-theme 'doom-palenight t) ;; nice
- (change-theme 'doom-snazzy t)
+  ;; (change-theme 'doom-one-light t) ;; too light?
+  ;; (change-theme 'doom-vibrant t) ;; too dim
+  ;; (change-theme 'doom-challenger-deep t) ;; good, very high contrast
+  ;; (change-theme 'doom-city-lights t) ;; too dim
+  ;; (change-theme 'doom-dark+ t) ;; ok, modeline too red
+  ;; (change-theme 'doom-fairy-floss t) ;; low contrast
+  ;; (change-theme 'doom-gruvbox t) ;; not so good
+  ;; (change-theme 'doom-laserwave t) ;; bright pink modeline
+  ;; (change-theme 'doom-moonlight t) ;; great except parens are nearly invisible
+  ;; (change-theme 'doom-nord-light t) ;; good light theme
+  ;; (change-theme 'doom-oceanic-next t) ;; ok
+  ;; (change-theme 'doom-outrun-electric t) ;; synthwave, good
+  ;; (change-theme 'doom-opera t) ;; ok
+  ;; (change-theme 'doom-opera-light t) ;; ok
+  ;; (change-theme 'doom-palenight t) ;; nice
+  ;; (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
 
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
@@ -488,12 +558,14 @@
   ;; (doom-themes-org-config)
 
   (wjb/turn-on-hl-line)
-  (wjb/custom-appearance)               ;
+  (wjb/customize-appearance)
 )
 
+;; Looks nice but updates frequently and takes CPU/leads to GCs
 (use-package doom-modeline
+  :disabled
   :config
-  (doom-modeline-mode 1))
+  (doom-modeline-mode -1))
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
@@ -524,22 +596,20 @@
 (defvar wjb/more-transparent 90)
 (defvar wjb/less-transparent 98)
 
-;; TODO transparency looks good enough with dark theme to always be one, but
-;; not so good with light theme.
-;; (defun wjb/focus-in-hook ()
-;;   (if wjb/dark
-;;       (set-frame-parameter nil 'alpha wjb/more-transparent)
-;;     (set-frame-parameter nil 'alpha wjb/less-transparent)))
+(defun wjb/focus-in-hook ()
+  (if wjb/dark
+      (set-frame-parameter nil 'alpha wjb/more-transparent)
+    (set-frame-parameter nil 'alpha wjb/less-transparent)))
 
-;; (defun wjb/focus-out-hook ()
-;;   (set-frame-parameter nil 'alpha wjb/more-transparent))
+(defun wjb/focus-out-hook ()
+  (set-frame-parameter nil 'alpha wjb/more-transparent))
 
-;; (remove-hook 'focus-in-hook #'wjb/focus-in-hook)
-;; (remove-hook 'focus-out-hook #'wjb/focus-out-hook)
+(add-hook 'focus-in-hook #'wjb/focus-in-hook)
+(add-hook 'focus-out-hook #'wjb/focus-out-hook)
 
 ;; (set-frame-parameter (nil 'alpha '(wjb/more-transparent . wjb/more-transparent))
 ;; (set-frame-parameter (nil 'alpha '(90 . 50))
-;; (set-frame-parameter (nil 'alpha '(98 . 50))
+(set-frame-parameter nil 'alpha '(98 . 90))
 
 (provide 'appearance)
 
