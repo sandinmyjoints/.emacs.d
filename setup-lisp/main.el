@@ -370,14 +370,50 @@ instead, wraps at screen edge, thanks to visual-line-mode."
       python-mode
       perl-mode
       perl6-mode))
-  ;; (setq flycheck-global-modes
-  ;;       '(not org-mode text-mode conf-mode restclient-mode))
   :config
-  (setq-default flycheck-display-errors-delay 0.2
-                flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+  ;; Most basic way: flycheck errors in minibuffer (works in consoles).
+  ;; (unless (display-graphic-p (selected-frame))
+  ;;   (with-eval-after-load 'flycheck
+  ;;     (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)))
+
+  ;; for convenience, to turn off inline-mode:
+  ;; (flycheck-inline-mode -1)
+
+  ;; (when (display-graphic-p (selected-frame))
+  ;;   (eval-after-load 'flycheck
+  ;;     '(progn
+  ;;        ;; flycheck errors on a tooltip (doesn't work in consoles).
+  ;;        (flycheck-pos-tip-mode)
+  ;;        ;; See https://github.com/flycheck/flycheck-pos-tip/issues/6
+  ;;        (add-hook 'post-command-hook 'flycheck-pos-tip-hide-messages)
+  ;;        (custom-set-variables
+  ;;         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  ;;        )))
+
+  (setq-default flycheck-display-errors-delay 0.4
+                flycheck-idle-change-delay 0.6 ;; but this is really set below ↓
+                ;; flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+                flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
                 flycheck-temp-prefix ".flycheck"
-                flycheck-navigation-minimum-level 'warning)
+                flycheck-navigation-minimum-level 'warning
+                flycheck-error-list-minimum-level 'warning)
+
+  ;; Below from https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el:
+  (defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
+    "Adjust how often we check for errors based on if there are any.
+This lets us fix any errors as quickly as possible, but in a
+clean buffer we're laxer about checking."
+    (setq flycheck-idle-change-delay
+          (if flycheck-current-errors 0.6 2.0)))
+
+  ;; Each buffer gets its own idle-change-delay because of the
+  ;; buffer-sensitive adjustment above.
+  (make-variable-buffer-local 'flycheck-idle-change-delay)
+
+  (add-hook 'flycheck-after-syntax-check-hook
+            'magnars/adjust-flycheck-automatic-syntax-eagerness)
+
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
   (flycheck-add-next-checker 'python-pycompile 'python-pylint)
@@ -390,7 +426,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
-  (require 'setup-flycheck)
   (global-flycheck-mode))
 
 (use-package flycheck-package
