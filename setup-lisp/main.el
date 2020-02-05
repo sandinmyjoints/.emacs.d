@@ -66,6 +66,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
+;; TODO: can this be removed?
 (if (require 'cl-lib nil t)
     ;; Madness: cl-block-wrapper was an alias for identity in 24.2, then it was
     ;; renamed cl--block-wrapper in 24.3, but somehow my 10.6.8 machine still
@@ -86,6 +87,10 @@
 
 ;; Base packages.
 ;;
+(use-package recentf
+  ;; Loads after 1 second of idle time.
+  :defer 1)
+
 ;; Lists.
 (use-package dash
   :ensure t)
@@ -247,6 +252,7 @@ in the current window."
 (require 'defuns)
 
 (use-package autorevert
+  :defer 1
   :diminish auto-revert-mode)
 
 (use-package simple
@@ -306,6 +312,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;;
 (use-package olivetti
   :defer t
+  :disabled
   :config
   (defun wjb/olivetti ()
     "Turn on settings for writing prose."
@@ -316,16 +323,26 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (setq-default olivetti-body-width 80)
   (add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text))
 
+;; between which-key and which-key-posframe, they are making typing and
+;; navigation within buffers slow
 (use-package which-key
   :diminish
+  :disabled
   :config
   (which-key-mode))
+
+(use-package which-key-posframe
+  :defer 4
+  :disabled
+  :after (which-key posframe)
+  :config
+  (which-key-posframe-mode))
 
 (when (require 'so-long nil :noerror)
   (so-long-enable))
 
 (use-package vlf
-  :defer 6
+  :defer 4
   ;; put this in vlf-setup.el, L104:
   ;; ((string-equal filename "TAGS")
   ;;  (let ((large-file-warning-threshold nil))
@@ -901,7 +918,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :commands highlight-indentation-current-column-mode
   :diminish highlight-indentation-current-column-mode
   :defer 4
-  ;; :disabled
+  :disabled
   :config
   (require 'color)
   ;; (mapc (lambda (hook)
@@ -1229,11 +1246,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; uses hydra, hydra-posframe
 (require 'services)
-
-(use-package which-key-posframe
-  :defer 4
-  :config
-  (which-key-posframe-mode))
 
 (use-package ivy-rich
   :config
@@ -1682,13 +1694,6 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key (kbd "C-c w s") 'copy-as-format-slack)
   (global-set-key (kbd "C-c w g") 'copy-as-format-github))
 
-;; (require 'setup-dirtree)
-;; (with-eval-after-load 'dirtree
-;;   (progn
-;;     ;; Free up for helm-mini.
-;;     (unbind-key (kbd "C-o")  dirtree-mode-map)
-;;     (bind-key (kbd "<return>") 'dirtree-display dirtree-mode-map)))
-
 ;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
 ;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
@@ -1817,8 +1822,6 @@ If PROJECT is not specified the command acts on the current project."
 ;;   :after treemacs dired
 ;;   :ensure t
 ;;   :config (treemacs-icons-dired-mode))
-
-;; (require 'lisp-stuff)
 
 ;; EPG.
 (use-package epa-file
@@ -2315,6 +2318,10 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package json-mode
   :defer t)
+
+;; jsons-print-path
+(use-package json-snatcher
+  :disabled)
 
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm
 ;; for file.
