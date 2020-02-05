@@ -189,6 +189,7 @@
 
 ;; Add parts of each file's directory to the buffer name if not unique
 (use-package uniquify
+  :defer 1
   :config
   (setq uniquify-buffer-name-style 'post-forward))
 
@@ -425,6 +426,9 @@
       switch-to-buffer-obey-display-actions t
       ;; this is actual buffer-local:
       display-fill-column-indicator t)
+
+(setq kill-buffer-query-functions
+      (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (provide 'sane-defaults)
 
