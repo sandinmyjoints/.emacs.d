@@ -1790,12 +1790,13 @@ If PROJECT is not specified the command acts on the current project."
      '(".less")
      '(less-css-mode . (treemacs-get-icon-value "css")))
 
-  (defun wjb/treemacs-ignore-compiled-files (filename filepath)
-    (or
-     (s-equals? (file-name-extension filename) "elc")
-     (s-equals? (file-name-extension filename) "pyc")))
-  (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
-  )
+    ;; todo: consider conditionally adding node_modules
+    (defun wjb/treemacs-ignore-compiled-files (filename filepath)
+      (or
+       (s-equals? (file-name-extension filename) "elc")
+       (s-equals? (file-name-extension filename) "pyc")))
+    (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
+    )
 
   :bind
   (:map global-map
