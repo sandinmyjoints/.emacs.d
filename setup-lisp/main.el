@@ -1997,6 +1997,7 @@ If PROJECT is not specified the command acts on the current project."
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20190911.1259/snippets" t)
   (yas-global-mode 1)
 
   ;; Work-around for tab complaining when yas is active in ansi-term. See:
