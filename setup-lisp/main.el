@@ -3468,11 +3468,17 @@ is already narrowed."
 
 (use-package indium
   :commands (indium-interaction-mode indium-connect)
+  ;; :init
+  ;; because indium-interaction-mode is in some dir-locals files so it will be
+  ;; activated when those files load as part of the saved desktop.
+  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
   :config
+  (add-hook 'js-mode-hook #'indium-interaction-mode)
+
   (setq indium-chrome-use-temporary-profile nil
         indium-client-debug nil ;; t
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
         ;; indium-chrome-executable (indium-chrome--default-executable)
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
 )
 
 (use-package solaire-mode
