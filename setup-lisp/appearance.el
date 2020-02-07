@@ -529,26 +529,28 @@ has one font weight and it's pretty heavy."
   ;; (change-theme 'doom-one t)
   ;; (change-theme 'doom-one-light t) ;; too light?
   ;; (change-theme 'doom-vibrant t) ;; too dim
+  ;; (change-theme 'doom-acario-light t)
   ;; (change-theme 'doom-challenger-deep t) ;; good, very high contrast
   ;; (change-theme 'doom-city-lights t) ;; too dim
   ;; (change-theme 'doom-dark+ t) ;; ok, modeline too red
   ;; (change-theme 'doom-fairy-floss t) ;; low contrast
   ;; (change-theme 'doom-gruvbox t) ;; not so good
   ;; (change-theme 'doom-laserwave t) ;; bright pink modeline
-  ;; (change-theme 'doom-moonlight t) ;; great except parens are nearly invisible
+  ;; (change-theme 'doom-moonlight t) ;; great except parens in lisp mode are nearly invisible
   ;; (change-theme 'doom-nord-light t) ;; good light theme
   ;; (change-theme 'doom-oceanic-next t) ;; ok
   ;; (change-theme 'doom-outrun-electric t) ;; synthwave, good
   ;; (change-theme 'doom-opera t) ;; ok
   ;; (change-theme 'doom-opera-light t) ;; ok
   ;; (change-theme 'doom-palenight t) ;; nice
-  ;; (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
+  (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
+  ;; (change-theme 'doom-tomorrow-night t)
+  ;; (change-theme 'doom-tomorrow-day t)
 
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
   ;; seems to require all-the-icons
-  ;; (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  ;; (doom-themes-treemacs-config)
+  (doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
   ;; (doom-themes-org-config)
