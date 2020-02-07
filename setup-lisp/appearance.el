@@ -356,6 +356,8 @@ has one font weight and it's pretty heavy."
   (with-selected-window (treemacs-get-local-window)
     (if (wjb/is-small-display) (treemacs--set-width 30) (treemacs--set-width 48)))
 
+  (wjb/turn-on-hl-line)
+
   ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
 
   ;; For themes that don't have adob faces defined (ample):
@@ -372,7 +374,6 @@ has one font weight and it's pretty heavy."
   (setq wjb/dark t)
   (change-theme 'gruvbox-dark-hard t)
   (wjb/gruvbox-dark)
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance))
 
 ;; gruvbox colors for slack: #F9F5D7,#F8F8FA,#61ACBB,#FFFFFF,#FFFFFF,#282828,#427B58,#9D0006
@@ -383,7 +384,6 @@ has one font weight and it's pretty heavy."
   ;; (wjb/gruvbox-light)
   (change-theme 'doom-opera-light)
 
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance)
 )
 
@@ -400,7 +400,6 @@ has one font weight and it's pretty heavy."
 
   (change-theme 'nimbus)
 
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance)
   (set-frame-parameter nil 'alpha '(90 . 50))
 )
@@ -418,7 +417,6 @@ has one font weight and it's pretty heavy."
   :disabled
   :config
   (change-theme 'afternoon)
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance))
 
 (use-package ample-theme
@@ -432,7 +430,6 @@ has one font weight and it's pretty heavy."
   (setq wjb/dark t)
   ;; (change-theme 'ample)
   (change-theme 'ample-flat)
-  (wjb/turn-on-hl-line)
 
   ;; (setq wjb/dark nil)
   ;; (change-theme 'ample-light)
@@ -445,7 +442,6 @@ has one font weight and it's pretty heavy."
   :config
   (setq wjb/dark t)
   (change-theme 'zerodark t)
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance))
 
 ;; TODO: try counsel-load-theme
@@ -557,7 +553,6 @@ has one font weight and it's pretty heavy."
   ;; Corrects (and improves) org-mode's native fontification.
   ;; (doom-themes-org-config)
 
-  (wjb/turn-on-hl-line)
   (wjb/customize-appearance)
 )
 
