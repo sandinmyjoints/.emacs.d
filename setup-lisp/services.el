@@ -54,6 +54,7 @@
     "sd-playground"
     "sd-spelling"
     "neodarwin"
+    "hegemone"
     "sd-router"))
 
 (defvar wjb/wjb-projects
@@ -61,36 +62,73 @@
     ".emacs.d"
     "git-mine"))
 
-;; (head-binding head-command head-hint head-plist)
-;; TODO: compute
-(defvar wjb/projects/hydra '())
-(setq wjb/projects/hydra
-      '(
-        ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
-        ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
-        ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
-        ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
-        ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
-        ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
-        ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
-        ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
-        ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
-        ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
-        ))
 
 (use-package hydra
   :config
   (setq hydra--work-around-dedicated nil
         hydra-hint-display-type 'posframe)
   (setq hydra-posframe-show-params
-        '(:internal-border-width 1
-          :internal-border-color "red"
+        '(
+          :internal-border-width 2
+          ;; :internal-border-color "red"
           :poshandler posframe-poshandler-frame-above-center)))
 
+;; TODO is this needed, or is setting the hint-display-type to posframe enough?
 (use-package hydra-posframe
   :hook (after-init . hydra-posframe-enable)
   :config
   (setq hydra-posframe-poshandler 'posframe-poshandler-frame-above-center))
+
+(defun hydra-posframe-show (str)
+  "HACK: redefining in order to use the poshandler I want."
+  (require 'posframe)
+  (posframe-show
+   " *hydra-posframe*"
+   :string str
+   :poshandler #'posframe-poshandler-frame-above-center
+   :internal-border-width 3
+   ;; :internal-border-color "light gray"
+   :internal-border-color "dark gray"
+   :left-fringe 10
+   :right-fringe 10
+   :min-height 2
+   :min-width 50))
+
+
+;; TODO: ideal would be a hydra that first selects a project, then selects an action (vc, vterm).
+(defhydra wjb/projects/hydra (:color blue :columns 3)
+   "Switch to project"
+        ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
+        ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
+        ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+        ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
+        ("u" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
+        ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/hegemone") "hegemone")
+        ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
+        ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
+        ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
+        ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
+        ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency"))
+(global-set-key (kbd "H-i") 'wjb/projects/hydra/body)
+
+(defun wjb/switch-to-project-vterm (proj-dir)
+  (let ((projectile-switch-project-action #'projectile-run-vterm))
+    (projectile-switch-project-by-name proj-dir)))
+
+(defhydra wjb/projects/hydra/shell (:color blue :columns 3)
+   "Shell in project"
+        ("r" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-router") "sd-router")
+        ("n" (wjb/switch-to-project-vterm "/Users/william/scm/sd/neodarwin") "neodarwin")
+        ("a" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
+        ("d" (wjb/switch-to-project-vterm "/Users/william/scm/sd/darwin") "darwin")
+        ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
+        ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
+        ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
+        ("s" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-spelling") "sd-spelling")
+        ("g" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
+        ("e" (wjb/switch-to-project-vterm "/Users/william/.emacs.d") "emacs")
+        ("q" (wjb/switch-to-project-vterm "/Users/william/scm/sd/equivalency") "equivalency"))
+(global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
 ;; TODO: rewrite using defhydra+
 ;; see https://github.com/abo-abo/hydra/issues/185
@@ -114,32 +152,33 @@
 ;;                  (list (car project) (cadr project) (caddr project))))
 ;;         wjb/projects/hydra))
 
-;; recreates the hydra when activated, picking up new services. Based on
-;; https://github.com/abo-abo/hydra/issues/164
-(bind-keys ("H-i" .
-            (lambda ()
-              (interactive)
-              (call-interactively
-               (eval `(defhydra hydra-projects (:color blue :columns 3)
-                        "Projects"
-                        ,@(mapcar (lambda (x)
-                                    (list (car x) (cadr x) (caddr x)))
-                                  wjb/projects/hydra)))))))
-
-(defun hydra-posframe-show (str)
-  "HACK: redefining in order to use the poshandler I want."
-  (require 'posframe)
-  (posframe-show
-   " *hydra-posframe*"
-   :string str
-   :poshandler #'posframe-poshandler-frame-above-center
-   :internal-border-width 3
-   ;; :internal-border-color "light gray"
-   :internal-border-color "dark gray"
-   :left-fringe 10
-   :right-fringe 10
-   :min-height 2
-   :min-width 50))
+;; (head-binding head-command head-hint head-plist)
+;; TODO: compute
+;; (defvar wjb/projects/hydra '())
+;; (setq wjb/projects/hydra
+;;       '(
+;;         ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
+;;         ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
+;;         ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+;;         ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
+;;         ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
+;;         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
+;;         ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
+;;         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
+;;         ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
+;;         ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency")
+;;         ))
+;; ;; recreates the hydra when activated, picking up new services. Based on
+;; ;; https://github.com/abo-abo/hydra/issues/164
+;; (bind-keys ("H-i" .
+;;             (lambda ()
+;;               (interactive)
+;;               (call-interactively
+;;                (eval `(defhydra hydra-projects (:color blue :columns 3)
+;;                         "Projects"
+;;                         ,@(mapcar (lambda (x)
+;;                                     (list (car x) (cadr x) (caddr x)))
+;;                                   wjb/projects/hydra)))))))
 
 (defvar wjb/sd-services/prodigy '(
                                   ("sd-gimme-db" . 'docker)
