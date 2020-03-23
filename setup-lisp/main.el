@@ -415,8 +415,8 @@ clean buffer we're laxer about checking."
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
 
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
+  (flycheck-add-next-checker 'python-pycompile 'python-flake8)
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
-  (flycheck-add-next-checker 'python-pycompile 'python-pylint)
 
   ;; too many typescript errors, and complains about missing definitions
   ;; files. And can it find anything that eslint can't?
@@ -507,8 +507,9 @@ clean buffer we're laxer about checking."
   (unbind-key (kbd "C-o") dired-mode-map)
   ;; (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
 
-  (autoload 'dired-async-mode "dired-async.el" nil t)
-  (dired-async-mode 1)
+  ;; problem with dired-async is it doesn't update open buffers when files are moved
+  ;; (autoload 'dired-async-mode "dired-async.el" nil t)
+  ;; (dired-async-mode -1)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
@@ -580,6 +581,9 @@ clean buffer we're laxer about checking."
   ;; don't find this very useful, but it's frequently useful to only
   ;; look at interactive functions.
   (global-set-key (kbd "C-h C") #'helpful-command))
+
+(use-package ace-window
+  :defer 4)
 
 ;; from https://gitlab.petton.fr/nico/emacs.d/
 (use-package whitespace
@@ -664,7 +668,7 @@ pasting into other programs."
     (setq-local company-backends wjb/company-backends-org)
     (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
 
-    (hungry-delete-mode -1)
+    ;; (hungry-delete-mode -1)
     (set-face-attribute 'org-headline-done nil :foreground nil)
     (set-face-attribute 'org-headline-done nil :inherit 'shadow)
 
@@ -991,7 +995,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (add-hook 'python-mode-hook (lambda ()
                                 (hack-local-variables)
                                 (setq fill-column 79)
-                                (set-face-background 'highlight-indentation-face "#111")
+                                ;; (set-face-background 'highlight-indentation-face "#111")
                                 (pyvenv-tracking-mode)
                                 (when (boundp 'project-venv-name)
                                   (venv-workon project-venv-name)
@@ -1246,10 +1250,11 @@ Fix for the above hasn't been released as of Emacs 25.2."
                   :min-width 80
                   :min-height 10
                   :internal-border-width 2
-                  :internal-border-color "#000"
-                  :left-fringe 4
-                  :right-fringe 4
-                  :font "Fira Code-14")))
+                  ;; :internal-border-color "#000"
+                  ;; :left-fringe 4
+                  ;; :right-fringe 4
+                  :line-spacing 1.3
+                  :font "Fira Code-15")))
       (or (plist-get info arg-name) value))))
 
 (use-package ivy-posframe
@@ -2109,7 +2114,7 @@ If PROJECT is not specified the command acts on the current project."
   :diminish
   :custom
   (company-begin-commands '(self-insert-command))
-  (company-idle-delay .1)
+  (company-idle-delay .2)
   (company-minimum-prefix-length 4)
   (company-show-numbers nil)
   (company-tooltip-align-annotations 't)
@@ -2986,6 +2991,7 @@ Interactively also sends a terminating newline."
   (require 'setup-smartparens))
 
 (use-package hungry-delete
+  :disabled
   :diminish
   :config
   (setq hungry-delete-chars-to-skip " \t"
@@ -3364,7 +3370,6 @@ is already narrowed."
 (require 'wjb)
 
 (defun wjb/after-init-hook ()
-  (setq garbage-collection-messages t)
   (setq source-directory "/Users/william/scm/vendor/emacs-mac"
         find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
   (treemacs))
@@ -3422,6 +3427,11 @@ is already narrowed."
   (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
+
+(defun wjb/turn-off-global-hl-line ()
+  (global-hl-line-mode -1))
+;; TODO use global-hl-line-mode everywhere except vterm buffers
+;; (add-hook 'vterm-mode-hook #'wjb/turn-off-global-hl-line)
 
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
