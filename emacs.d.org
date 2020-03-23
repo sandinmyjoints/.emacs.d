@@ -465,10 +465,11 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
      instead of leaving it where it is
 * Build org dev: https://scripter.co/building-org-development-version/
 * TODO easy, nice-looking org export
-   - to markdown
-   - to HTML:
-     - https://github.com/fniessen/org-html-themes
-     - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
+  - good ideas: https://www.reddit.com/r/emacs/comments/eozyyv/exporting_orgmode_to_beautiful_websites/
+  - to markdown
+  - to HTML:
+    - https://github.com/fniessen/org-html-themes
+    - https://www.reddit.com/r/emacs/comments/6r32q4/orgmode_whats_your_html_export_look_like/
 ** TODO try https://github.com/xiaoxinghu/orgajs/
 * TODO notion integration                                          :wishlist:
   - approach: org to md for import into notion
@@ -1935,6 +1936,10 @@ company-active-map M-/
 ** python
 ** emacs-lisp
 ** css/less
+* TODO company merge backends
+  - https://github.com/company-mode/company-mode/issues/528
+  - https://github.com/company-mode/company-mode/issues/79
+  - https://gitlab.com/jjzmajic/compdef
 * ivy/counsel
   - [X] counsel-projectile-switch-project go directly to magit status buffer
     - counsel-projectile-switch-project with argument "v"
@@ -2208,6 +2213,8 @@ $ ls
      - kill -- don't kill the $, just the command
      - mark-region
      - new-line
+* TODO treemacs improvements
+  - https://github.com/sei40kr/spacemacs.d/blob/master/treemacs-custom.el
 * TODO dropdown shell console
 ;; TODO: use esc-mode-map M-~ instead
 ;; (global-set-key (kbd "~") (lambda ()
@@ -2280,5 +2287,12 @@ dired, writable dired
        are the same
 ** GCs
    - interesting variable: gcs-done
+** after-change reporter
+   #+begin_src lisp
+   (defun wjb/after-change-reporter (beg end len)
+  (message (format "after-change: %s %s %s" beg end len)))
+
+   (remove-hook 'after-change-functions 'wjb/after-change-reporter)
+   #+end_src
 * switch to straight.el                                            :wishlist:
   - https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
