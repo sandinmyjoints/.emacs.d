@@ -325,7 +325,7 @@ project."
           "es5")))
 
 (use-package tide
-  :after (js2-mode rjsx-mode company flycheck)
+  :after (js2-mode company)
   ;; (add-hook 'js2-mode-hook #'tide-setup)
   :hook (js2-mode . tide-setup)
   :config
