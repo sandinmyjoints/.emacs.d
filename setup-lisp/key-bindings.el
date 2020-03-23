@@ -48,8 +48,8 @@
 
 (global-set-key (kbd "H-v") #'scroll-up-command)
 (global-set-key (kbd "H-k") 'kill-sexp) ;; also C-M-k
-;; H-d should be backward-kill-subword, but that doesn't exist
-(global-set-key (kbd "H-d") 'backward-kill-word) ;; or backward-kill-sexp?
+;; H-d should be backward-kill-subword, but that doesn't
+;; (global-set-key (kbd "H-d") 'backward-kill-word) ;; or backward-kill-sexp?
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (global-set-key (kbd "H-s") 'save-buffer)
 
