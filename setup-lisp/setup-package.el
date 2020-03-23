@@ -164,6 +164,7 @@
      (cons 'nameframe melpa)
      (cons 'olivetti melpa)
      (cons 'writeroom-mode melpa)
+     (cons 'dashboard melpa)
 
      (cons 'doom-themes melpa)
      (cons 'all-the-icons melpa)
@@ -284,6 +285,7 @@
 
      (cons 'dumb-jump melpa)
      (cons 'smart-jump melpa)
+     (cons 'ag melpa) ;; smart-jump uses this
 
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
