@@ -117,6 +117,7 @@
         ido-find-file
         ido-switch-buffer
         isearch-forward-regexp
+        isearch-printing-char
         js2r-rename-var
         mac-mwheel-scroll
         mark-whole-buffer
@@ -128,4 +129,5 @@
         smex
         wdired-finish-edit
         wjb/switch-to-last-compilation-buffer
+        wjb/switch-to-vterm
         ))
