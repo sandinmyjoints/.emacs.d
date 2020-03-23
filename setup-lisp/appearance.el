@@ -103,7 +103,7 @@
 ;; large, dark: medium
 
 (defun wjb/font-fira ()
-  ""
+  "Works well with dark and light themes."
   (interactive)
   (set-face-font 'default "Fira Code-15")
   (if (and (wjb/is-small-display) wjb/dark)
@@ -117,7 +117,8 @@
 )
 
 (defun wjb/font-deja ()
-  "Use Deja Vu fonts. Has strong Unicode support."
+  "Has strong Unicode support. Works well with dark and light
+themes."
   (interactive)
   (set-face-font 'default "DejaVu Sans Mono-15")
   (set-face-attribute 'default nil :weight 'book)
@@ -134,8 +135,8 @@
   )
 
 (defun wjb/font-cascadia ()
-  "Use Cascadia Code font. Works best with dark themes b/c only
-has one font weight and it's pretty heavy."
+  "Works best with dark themes and large screen b/c only has one
+font weight and it's pretty heavy."
   (interactive)
   (set-face-font 'default "Cascadia Code PL-15")
   (set-face-attribute 'default nil :weight 'normal)
@@ -354,7 +355,7 @@ has one font weight and it's pretty heavy."
 
   ;; temporarily switch to treemacs window
   (with-selected-window (treemacs-get-local-window)
-    (if (wjb/is-small-display) (treemacs--set-width 30) (treemacs--set-width 48)))
+    (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48)))
 
   (wjb/turn-on-hl-line)
 
@@ -382,7 +383,8 @@ has one font weight and it's pretty heavy."
   (setq wjb/dark nil)
 
   ;; (wjb/gruvbox-light)
-  (change-theme 'doom-opera-light)
+  ;; (change-theme 'doom-opera-light)
+  (change-theme 'doom-nord-light)
 
   (wjb/customize-appearance)
 )
@@ -398,7 +400,8 @@ has one font weight and it's pretty heavy."
   (interactive)
   (setq wjb/dark t)
 
-  (change-theme 'nimbus)
+  ;; (change-theme 'nimbus)
+  (change-theme 'doom-snazzy)
 
   (wjb/customize-appearance)
   (set-frame-parameter nil 'alpha '(90 . 50))
@@ -512,14 +515,13 @@ has one font weight and it's pretty heavy."
                        (color-darken-name
                         (face-attribute 'default :background) 4)))
 
-;; (global-hl-line-mode -1)
 (defun wjb/turn-on-hl-line ()
   "Turn on highlighted line."
   (use-package hl-line
     :config
     (setq hl-line-sticky-flag nil))
   (wjb/set-hl-line-bg)
-  (global-hl-line-mode 1))
+  (global-hl-line-mode -1))
 
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
@@ -530,22 +532,22 @@ has one font weight and it's pretty heavy."
   ;; (change-theme 'doom-one-light t) ;; too light?
   ;; (change-theme 'doom-vibrant t) ;; too dim
   ;; (change-theme 'doom-acario-light t)
-  ;; (change-theme 'doom-challenger-deep t) ;; good, very high contrast
+  ;; (change-theme 'doom-challenger-deep t) ;; very good, high contrast
   ;; (change-theme 'doom-city-lights t) ;; too dim
   ;; (change-theme 'doom-dark+ t) ;; ok, modeline too red
   ;; (change-theme 'doom-fairy-floss t) ;; low contrast
   ;; (change-theme 'doom-gruvbox t) ;; not so good
   ;; (change-theme 'doom-laserwave t) ;; bright pink modeline
-  ;; (change-theme 'doom-moonlight t) ;; great except parens in lisp mode are nearly invisible
+  ;; (change-theme 'doom-moonlight t) ;; great except parens in lisp mode are nearly invisible with paren-face
   ;; (change-theme 'doom-nord-light t) ;; good light theme
   ;; (change-theme 'doom-oceanic-next t) ;; ok
   ;; (change-theme 'doom-outrun-electric t) ;; synthwave, good
   ;; (change-theme 'doom-opera t) ;; ok
   ;; (change-theme 'doom-opera-light t) ;; ok
-  ;; (change-theme 'doom-palenight t) ;; nice
+  ;; (change-theme 'doom-palenight t) ;; nice, dark but not too much contrast
   (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
   ;; (change-theme 'doom-tomorrow-night t)
-  ;; (change-theme 'doom-tomorrow-day t)
+  ;; (change-theme 'doom-tomorrow-day t) ;; comments unreadable, not enough contrast
 
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
@@ -560,9 +562,9 @@ has one font weight and it's pretty heavy."
 
 ;; Looks nice but updates frequently and takes CPU/leads to GCs
 (use-package doom-modeline
-  :disabled
+  ;; :disabled
   :config
-  (doom-modeline-mode -1))
+  (doom-modeline-mode 1))
 
 ;; Change cursor color according to mode.
 ;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
@@ -605,8 +607,7 @@ has one font weight and it's pretty heavy."
 (add-hook 'focus-out-hook #'wjb/focus-out-hook)
 
 ;; (set-frame-parameter (nil 'alpha '(wjb/more-transparent . wjb/more-transparent))
-;; (set-frame-parameter (nil 'alpha '(90 . 50))
-(set-frame-parameter nil 'alpha '(98 . 90))
+(set-frame-parameter nil 'alpha '(98 . 90)) ;; for some reason, doesn't like variables here
 
 (provide 'appearance)
 
