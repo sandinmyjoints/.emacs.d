@@ -115,12 +115,17 @@
   (let ((projectile-switch-project-action #'projectile-run-vterm))
     (projectile-switch-project-by-name proj-dir)))
 
+(defun wjb/switch-to-vterm ()
+  (interactive)
+  (push-mark)
+  (projectile-run-vterm))
+
 (defhydra wjb/projects/hydra/shell (:color blue :columns 3)
    "Shell in project"
         ("r" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-router") "sd-router")
         ("n" (wjb/switch-to-project-vterm "/Users/william/scm/sd/neodarwin") "neodarwin")
         ("a" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
-        ("d" (wjb/switch-to-project-vterm "/Users/william/scm/sd/darwin") "darwin")
+        ("d" #'wjb/switch-to-vterm)
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")

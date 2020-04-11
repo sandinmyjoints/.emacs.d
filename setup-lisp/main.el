@@ -1122,13 +1122,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
 
-  (defun wjb/switch-to-vterm ()
-    (interactive)
-    (push-mark)
-    (projectile-run-vterm))
-  (define-key projectile-mode-map (kbd "H-g") #'wjb/switch-to-vterm)
-  (define-key projectile-mode-map (kbd "C-M-g") #'wjb/switch-to-vterm)
-
   (counsel-projectile-mode))
 
 (use-package counsel-css
