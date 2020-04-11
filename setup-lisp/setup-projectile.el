@@ -133,6 +133,7 @@
 ;; playground
 ;; src/controller/file.js
 ;; test/controller/file.test.js
+;; test/controller/file.db.test.js
 (defun wjb/related-files-corresponding-path-playground (path)
   (if (string-match (rx (group (or "src" "test"))
                         (group "/" (+? anything))
@@ -181,6 +182,7 @@
           :related-files-fn (list (projectile-related-files-fn-test-with-suffix "js" "test")
                                   (projectile-related-files-fn-test-with-suffix "jsx" "test")
                                   (projectile-related-files-fn-test-with-suffix "js" "test.js")
+                                  (projectile-related-files-fn-test-with-suffix "js" "db.test.js")
                                   #'wjb/related-files-corresponding-path-playground
                                   #'wjb/related-files-same-dir-components
                                   #'wjb/related-files-corresponding-path-po-intake
