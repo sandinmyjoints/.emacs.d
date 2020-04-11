@@ -80,6 +80,8 @@
 
 ;; https://magit.vc/manual/magit/Diff-options.html
 ;; git diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
-(setq magit-diff-refine-hunk t)
+(setq magit-diff-refine-hunk t
+      magit-git-executable "/usr/local/Cellar/git/2.26.0/bin/git")
+
 
 (provide 'setup-magit)
