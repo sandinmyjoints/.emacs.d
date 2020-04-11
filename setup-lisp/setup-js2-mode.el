@@ -326,8 +326,7 @@ project."
 
 (use-package tide
   :after (js2-mode company)
-  ;; (add-hook 'js2-mode-hook #'tide-setup)
-  :hook (js2-mode . tide-setup)
+  :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
   :config
   (setq tide-default-mode "JS"
         tide-hl-identifier-idle-time 0.1

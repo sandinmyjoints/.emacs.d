@@ -358,6 +358,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (defvar flycheck-global-modes
     '(js2-mode
       js2-jsx-mode
+      typescript-mode
+      web-mode
       rjsx-mode
       json-mode
       coffee-mode
@@ -1073,7 +1075,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
           (remove-hook hook 'highlight-indent-guides-mode))
         '(coffee-mode-hook
           python-mode-hook
-          web-mode-hookp
+          web-mode-hook
           sass-mode-hook))
   :config
   (setq highlight-indent-guides-method 'column))
