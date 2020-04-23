@@ -3484,6 +3484,13 @@ is already narrowed."
         ad-do-it
         ))))
 
+(use-package eldoc-box
+  :after (tide)
+  :hook (prog-mode . eldoc-box-hover-mode)
+  :config
+  (setq tide-always-show-documentation t)
+  (setq eldoc-box-only-multi-line nil))
+
 (use-package indium
   :commands (indium-interaction-mode indium-connect)
   ;; :init
