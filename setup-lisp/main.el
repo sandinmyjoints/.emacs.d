@@ -2219,6 +2219,11 @@ If PROJECT is not specified the command acts on the current project."
 ;; (remove-hook completion-at-point-functions 'tags-completion-at-point-function)
 ;; (add-hook completion-at-point-functions #'pcomplete-completions-at-point)
 
+(defvar wjb/company-backends-ts)
+(setq wjb/company-backends-ts
+  '(company-tide
+    (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+
 (defvar wjb/company-backends-js)
 (setq wjb/company-backends-js
   '((company-tide :with :separate company-ctags company-capf company-keywords company-dabbrev-code)

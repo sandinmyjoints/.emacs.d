@@ -340,7 +340,16 @@ project."
   ;; tide places company-tide first :(
   (pop company-backends)
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+
+  ;; what might actually be helpful:
+  ;; ;; (encoded-command (json-encode command)) ;; WJB
+  ;; (encoded-command (json-serialize command))
+  ;; and converting json-read-object in tide-decode-response
   )
+
+(defun wjb/ts-mode-hook ()
+  (setq company-backends wjb/company-backends-ts))
+(add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
 
 ;; configure javascript-tide checker to run after your default javascript checker
 ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
