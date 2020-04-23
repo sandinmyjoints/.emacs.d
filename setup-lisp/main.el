@@ -3235,7 +3235,7 @@ resized horizontally or vertically."
 ;; TODO this messes with file paths (.., /) in Python, it should not apply
 ;; within strings
 (use-package electric-operator
-  :defer t
+  :disabled
   :hook
   ((coffee-mode python-mode) . electric-operator-mode)
   :config

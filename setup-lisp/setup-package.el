@@ -206,7 +206,6 @@
      (cons 'elisp-demos melpa)
      (cons 'smart-dash melpa)
      (cons 'prodigy melpa)
-     (cons 'electric-operator melpa)
 
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
@@ -306,6 +305,7 @@
 
      ;; Uninstalled, but consider:
 
+     ;; (cons 'electric-operator melpa)
      ;; (cons 'gh melpa)
      ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
