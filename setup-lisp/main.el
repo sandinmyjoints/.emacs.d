@@ -2923,37 +2923,41 @@ Interactively also sends a terminating newline."
 ;;
 ;; - TODO: defer starting lsp javascript server until nvm is figured
 ;;   out.
+(setq lsp-keymap-prefix "M-l")
 (use-package lsp-mode
-  :disabled
-  :commands lsp
-  :hook (less-mode . lsp)
-  :hook (sh-mode . lsp)
-  :hook (html-mode . lsp)
-  :hook (js-mode . lsp)
-  :hook (js2-mode . lsp)
-  :hook (python-mode. lsp)
+  :commands (lsp lsp-deferred)
+  :hook (less-css-mode . lsp-deferred)
+  :hook (sh-mode . lsp-deferred)
+  :hook (html-mode . lsp-deferred)
+  :hook (dockerfile-mode . lsp-deferred)
+  :hook (yaml-mode . lsp-deferred)
+  :hook (web-mode . lsp-deferred)
+  :hook (json-mode . lsp-deferred)
+  ;; :hook (js-mode . lsp-deferred)
+  ;; :hook (js2-mode . lsp-deferred)
+  ;; :hook (tidescript-mode . lsp-deferred)
+  ;; :hook (python-mode. lsp-deferred)
   :init
   (setq lsp-prefer-flymake nil)
   :config
   (setq lsp-auto-guess-root t
         lsp-eldoc-enable-hover nil
         lsp-response-timeout 5
+        lsp-prefer-capf t
         lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
-
 (use-package lsp-ui
-  :disabled
   :after lsp-mode
   :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode)
   :config
-  ;; TODO: call lsp-ui-flycheck-enable per mode or buffer
-  (setq lsp-ui-flycheck-enable nil
-        lsp-ui-peek-enable nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-flycheck nil
-        lsp-ui-doc-enable nil
-        lsp-ui-imenu-enable nil
-        lsp-ui-sideline-ignore-duplicate t)
+  (setq lsp-ui-doc-enable nil
+  ;;       lsp-ui-flycheck-enable nil
+  ;;       lsp-ui-peek-enable nil
+  ;;       lsp-ui-sideline-enable nil
+  ;;       lsp-ui-sideline-show-flycheck nil
+  ;;       lsp-ui-doc-enable nil
+  ;;       lsp-ui-imenu-enable nil
+  ;;       lsp-ui-sideline-ignore-duplicate t
+        )
   ;; (require 'lsp-ui-flycheck)
 
   ;; once lsp-ui is registered as a checker, somehow it seems to stop

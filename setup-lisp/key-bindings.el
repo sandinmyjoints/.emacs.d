@@ -89,7 +89,7 @@
 (global-set-key (kbd "C-+") 'align-on-equal)
 
 (global-set-key "\M-c" 'endless/capitalize)
-(global-set-key "\M-l" 'endless/downcase)
+;; (global-key "\M-l" 'endless/downcase) ;; using for lsp-mode
 (global-set-key "\M-u" 'endless/upcase)
 
 (defun endless/convert-punctuation (rg rp)
