@@ -1798,8 +1798,7 @@ If PROJECT is not specified the command acts on the current project."
           treemacs-space-between-root-nodes      nil
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
-          ;; 55 is good for widescreen. (treemacs-set-width 45) is good for laptop.
-          treemacs-width                         55)
+          treemacs-width                         48)
 
     ;; The default width and height of the icons is 22 pixels. If you are
     ;; using a Hi-DPI display, uncomment this to double the icon size.
@@ -1815,7 +1814,9 @@ If PROJECT is not specified the command acts on the current project."
       ;; Preserve indents when wrapping lines in visual-line-mode.
       (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t)
       (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
-      (setq-local cursor-type 'box))
+      (setq-local cursor-type 'box)
+      (with-selected-window (treemacs-get-local-window)
+        (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
     (add-hook 'treemacs-mode-hook #'wjb/treemacs-hook)
     ;; for this to work with visual fill, treemacs tags would need to be able
     ;; to handle wrapped lines
