@@ -419,6 +419,9 @@
 (desktop-save-mode 1)
 ;; (setq desktop-restore-frames nil)
 
+(setq register-preview-delay nil
+      confirm-kill-processes nil)
+
 ;; emacs 27
 (setq auto-save-no-message t
       tooltip-resize-echo-area t
