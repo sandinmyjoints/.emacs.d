@@ -351,6 +351,13 @@ font weight and it's pretty heavy."
                              (color-lighten-name
                               (face-attribute 'default :foreground) 20))))
 
+  (set-face-background 'solaire-default-face
+                       (color-darken-name
+                        (face-attribute 'default :background) 4))
+  (set-face-foreground 'solaire-default-face
+                       (color-lighten-name
+                        (face-attribute 'default :foreground) 3))
+
   (call-interactively wjb/font)
 
   ;; temporarily switch to treemacs window
@@ -532,7 +539,7 @@ font weight and it's pretty heavy."
   ;; (change-theme 'doom-one-light t) ;; too light?
   ;; (change-theme 'doom-vibrant t) ;; too dim
   ;; (change-theme 'doom-acario-light t)
-  ;; (change-theme 'doom-challenger-deep t) ;; very good, high contrast
+  ;; (change-theme 'doom-challenger-deep t) ;; very good, decently high contrast
   ;; (change-theme 'doom-city-lights t) ;; too dim
   ;; (change-theme 'doom-dark+ t) ;; ok, modeline too red
   ;; (change-theme 'doom-fairy-floss t) ;; low contrast
@@ -608,6 +615,30 @@ font weight and it's pretty heavy."
 
 ;; (set-frame-parameter (nil 'alpha '(wjb/more-transparent . wjb/more-transparent))
 (set-frame-parameter nil 'alpha '(98 . 90)) ;; for some reason, doesn't like variables here
+
+;; light
+(use-package modus-operandi-theme
+  :disabled
+  :ensure t)
+(when nil
+  (progn
+    (change-theme 'modus-operandi)
+    (solaire-global-mode -1)
+    (setq wjb/dark nil)
+    (wjb/customize-appearance))
+)
+
+;; dark
+(use-package modus-vivendi-theme
+  :disabled
+  :ensure t)
+(when nil
+  (progn
+    (change-theme 'modus-vivendi)
+    (solaire-global-mode -1)
+    (setq wjb/dark t)
+    (wjb/customize-appearance))
+)
 
 (provide 'appearance)
 
