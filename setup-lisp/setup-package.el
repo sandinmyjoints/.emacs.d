@@ -153,7 +153,6 @@
      (cons 'minions melpa-stable)
      (cons 'multiple-cursors melpa)
      (cons 'mc-extras melpa)
-     (cons 'highlight-thing melpa)
      (cons 'expand-region melpa)
      (cons 'easy-kill melpa)
      (cons 'easy-kill-extras melpa)
@@ -169,7 +168,8 @@
      (cons 'doom-themes melpa)
      (cons 'all-the-icons melpa)
 
-     (cons 'which-key melpa)
+     ;; (cons 'which-key melpa)
+     ;; (cons 'which-key-posframe melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.
      (cons 'google-this melpa)
      (cons 'atomic-chrome melpa)
@@ -306,14 +306,12 @@
 
      ;; Uninstalled, but consider:
 
+     ;; (cons 'highlight-thing melpa)
+     ;; (cons 'equake melpa)
      ;; (cons 'electric-operator melpa)
      ;; (cons 'gh melpa)
      ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
-
-     ;; (cons 'counsel-etags melpa)
-     ;; (setq-default counsel-etags-find-program "gfind")
-     ;; (setq-default counsel-etags-grep-program "ggrep")
 
      ;; (cons 'fill-column-indicator melpa-stable)
 
@@ -322,7 +320,6 @@
      ;; (cons 'smart-forward)
      ;; (cons 'move-text melpa-stable)
      ;; (cons 'gist melpa-stable)
-     ;; (cons 'htmlize melpa-stable)
      ;; (cons 'elisp-slime-nav melpa-stable)
      ;; (cons 'elnode marmalade)
      ;; (cons 'slime-js marmalade)
