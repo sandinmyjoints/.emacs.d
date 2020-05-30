@@ -62,6 +62,20 @@
     ".emacs.d"
     "git-mine"))
 
+(defvar wjb/projects (list
+                      "adhoc"
+                      "sd-router"
+                      "neodarwin"
+                      "atalanta"
+                      "sd-auth"
+                      "hegemone"
+                      "sd-playground"
+                      "sd-gimme-db"
+                      ".emacs.d"
+                      "equivalency"
+                      "use-async-queue"
+                      "git-mine"
+                      ))
 
 (use-package hydra
   :config
@@ -98,40 +112,49 @@
 ;; TODO: ideal would be a hydra that first selects a project, then selects an action (vc, vterm).
 (defhydra wjb/projects/hydra (:color blue :columns 3)
    "Switch to project"
+        ("a" (wjb/switch-to-project-vterm "/Users/william") "adhoc")
         ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
         ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
-        ("a" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
+        ("t" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
         ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
         ("u" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
-        ("s" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-spelling") "sd-spelling")
         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
-        ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs")
+        ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs.d")
         ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-i") 'wjb/projects/hydra/body)
 
 (defun wjb/switch-to-project-vterm (proj-dir)
   (let ((projectile-switch-project-action #'projectile-run-vterm))
-    (projectile-switch-project-by-name proj-dir)))
+    (if (equal proj-dir "/Users/william")
+        (let ((default-directory "/Users/william"))
+          (if (get-buffer "*vterm adhoc*")
+              (switch-to-buffer "*vterm adhoc*")
+            (vterm "*vterm adhoc*")))
+      (projectile-switch-project-by-name proj-dir))))
 
 (defun wjb/switch-to-vterm ()
   (interactive)
   (push-mark)
-  (projectile-run-vterm))
+  (let ((project (projectile-project-name)))
+    (when (member project wjb/projects)
+      (progn
+        (setq hydra-deactivate t)
+        (projectile-run-vterm)))))
 
 (defhydra wjb/projects/hydra/shell (:color blue :columns 3)
    "Shell in project"
+        ("a" (wjb/switch-to-project-vterm "/Users/william") "adhoc")
         ("r" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-router") "sd-router")
         ("n" (wjb/switch-to-project-vterm "/Users/william/scm/sd/neodarwin") "neodarwin")
-        ("a" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
-        ("d" #'wjb/switch-to-vterm)
+        ("d" #'wjb/switch-to-vterm "current" :exit nil)
+        ("t" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
-        ("s" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-spelling") "sd-spelling")
         ("g" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
-        ("e" (wjb/switch-to-project-vterm "/Users/william/.emacs.d") "emacs")
+        ("e" (wjb/switch-to-project-vterm "/Users/william/.emacs.d") "emacs.d")
         ("q" (wjb/switch-to-project-vterm "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
