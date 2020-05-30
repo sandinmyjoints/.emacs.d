@@ -335,7 +335,7 @@ project."
         tide-hl-identifier-idle-time 0.1
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
-        tide-project-cleanup-delay nil
+        tide-project-cleanup-delay (* 20 60)
         tide-server-max-response-length (* 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
