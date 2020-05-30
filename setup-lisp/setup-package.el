@@ -168,8 +168,8 @@
      (cons 'doom-themes melpa)
      (cons 'all-the-icons melpa)
 
-     ;; (cons 'which-key melpa)
-     ;; (cons 'which-key-posframe melpa)
+     (cons 'which-key melpa)
+     (cons 'which-key-posframe melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.
      (cons 'google-this melpa)
      (cons 'atomic-chrome melpa)

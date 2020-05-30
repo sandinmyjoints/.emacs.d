@@ -327,13 +327,11 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;; navigation within buffers slow
 (use-package which-key
   :diminish
-  :disabled
   :config
   (which-key-mode))
 
 (use-package which-key-posframe
-  :defer 4
-  :disabled
+  ;; :defer 4
   :after (which-key posframe)
   :config
   (which-key-posframe-mode))
