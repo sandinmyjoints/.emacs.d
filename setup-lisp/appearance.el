@@ -144,8 +144,8 @@ font weight and it's pretty heavy."
   (set-face-font 'variable-pitch "Fira Sans")
   (set-face-attribute 'variable-pitch nil :weight 'light))
 
-(defvar wjb/font #'wjb/font-fira "defun to set fonts.")
-;; (setq wjb/font #'wjb/font-fira)
+(defvar wjb/font #'wjb/font-deja "defun to set fonts.")
+(setq wjb/font #'wjb/font-fira)
 
 (call-interactively wjb/font)
 
@@ -333,9 +333,9 @@ font weight and it's pretty heavy."
   ;; (set-face-inverse-video-p 'vertical-border nil)
 
   ;; some themes try to jack these
-  (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
+  (when (facep 'org-level-1) (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal))
+  (when (facep 'outline-1) (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal))
+  (when (facep 'org-level-1) (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil))
 
   (if wjb/dark
       (progn
@@ -552,7 +552,7 @@ font weight and it's pretty heavy."
   ;; (change-theme 'doom-opera t) ;; ok
   ;; (change-theme 'doom-opera-light t) ;; ok
   ;; (change-theme 'doom-palenight t) ;; nice, dark but not too much contrast
-  (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
+  ;; (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
   ;; (change-theme 'doom-tomorrow-night t)
   ;; (change-theme 'doom-tomorrow-day t) ;; comments unreadable, not enough contrast
 
