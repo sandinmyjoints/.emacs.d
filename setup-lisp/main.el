@@ -1558,25 +1558,44 @@ If PROJECT is not specified the command acts on the current project."
   :bind (("M-." . smart-jump-go)
          ("M-," . smart-jump-back))
   :config
-  (smart-jump-setup-default-registers)
   ;; this binds to M-. and M-, in prog-mode-map:
   (smart-jump-bind-jump-keys 'prog-mode)
+
+  ;; give some room for my custom jumps
+  (setq smart-jump-default-order-weight 5)
+
+  ;; set up all the default registers
+  (smart-jump-setup-default-registers)
+
+  ;; define custom.
   ;; heuristic is used to know whether the jump succeeded or not.
   ;; error means it failed if an error was signaled.
   ;; point means it failed if point is the same after the jump as before.
+  ;; smart-jump-list is buffer-local variable that contains the jumps that are in effect.
+
+  ;; dont think I need this anymore now that I explicitly include tide-jump-to-definition for js2-mode
+  ;; (smart-jump-typescript-mode-register 'js2-mode)
+
+  (smart-jump-register :modes 'js2-mode
+                       :jump-fn 'tide-jump-to-definition
+                       :pop-fn 'tide-jump-back
+                       :refs-fn 'tide-references
+                       :should-jump t
+                       :heuristic 'point
+                       :async t
+                       :order 1)
   (smart-jump-register :modes 'js2-mode
                        :jump-fn 'js2-jump-to-definition
                        :should-jump t
                        :heuristic 'point
                        :async nil
-                       :order 1)
-  (smart-jump-typescript-mode-register 'js2-mode)
+                       :order 2)
   (smart-jump-register :modes 'js2-mode
                        :jump-fn 'counsel-etags-find-tag-at-point
                        :should-jump t
                        :heuristic 'error
                        :async nil
-                       :order 0)
+                       :order 3) ;; might be better make this 6, so it comes after xhref-find-definitions
     )
 
 ;; counsel-etags-scan-code
