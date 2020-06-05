@@ -1614,12 +1614,24 @@ If PROJECT is not specified the command acts on the current project."
 
   (setq counsel-etags-update-interval 60
         counsel-etags-find-program "gfind"
-        counsel-etags-grep-program "ggrep"
-        counsel-etags-tags-program "ctags -e -L")
+        counsel-etags-grep-program "rg"  ;; ggrep
+        counsel-etags-tags-program "ctags"
+        counsel-ctags-tags-program "ctags")
+        ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
+  (add-to-list 'counsel-etags-ignore-directories "local_notes")
   (add-to-list 'counsel-etags-ignore-directories "build")
   (add-to-list 'counsel-etags-ignore-directories "dist")
-  (add-to-list 'counsel-etags-ignore-directories "local_notes")
-  (add-to-list 'counsel-etags-ignore-filenames "*.org"))
+  (add-to-list 'counsel-etags-ignore-directories "dist-server")
+  (add-to-list 'counsel-etags-ignore-directories "yarn-offline-mirror")
+  (add-to-list 'counsel-etags-ignore-directories "public/webpack-assets")
+  (add-to-list 'counsel-etags-ignore-directories "mysql_data")
+  ;; (pop counsel-etags-ignore-directories)
+  (add-to-list 'counsel-etags-ignore-filenames "local_notes") ;; symlink
+  (add-to-list 'counsel-etags-ignore-filenames "*.org")
+  (add-to-list 'counsel-etags-ignore-filenames "*-min.js")
+  (add-to-list 'counsel-etags-ignore-filenames "*-min-async.js")
+  (add-to-list 'counsel-etags-ignore-filenames "*.csv")
+  (add-to-list 'counsel-etags-ignore-filenames "*.json"))
 
 (require 'setup-tramp)
 
