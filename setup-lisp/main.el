@@ -1930,8 +1930,7 @@ If PROJECT is not specified the command acts on the current project."
         (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
 (use-package org-pivotal
-  :load-path "elisp/org-pivotal"
-  :defer 1)
+  :defer 5)
 
 ;; Usage
 ;;
