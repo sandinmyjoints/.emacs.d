@@ -1115,6 +1115,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :diminish projectile-mode
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "H-p") 'projectile-command-map)
+  (setq projectile-completion-system 'ivy)
   (require 'setup-projectile))
 
 (use-package counsel-projectile
