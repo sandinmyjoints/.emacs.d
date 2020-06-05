@@ -2837,6 +2837,11 @@ Interactively also sends a terminating newline."
 ;; (global-recompile-on-save-mode -1).
 ;;
 
+(use-package restclient
+  :config
+  ;; for restclient, maybe helps?
+  (make-variable-buffer-local 'url-max-redirections))
+
 ;; use M-x (reset-recompile-on-save).
 ;;
 ;; TODO: mesh this with --watch
