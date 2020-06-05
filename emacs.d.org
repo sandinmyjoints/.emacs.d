@@ -2222,7 +2222,17 @@ $ ls
 ;;                             (nameframe-switch-frame "olivetti")))
 * debugging emacs
   - set-variable debug-on-error t
+** debug
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Debugging.html
+  - debug: Place explicit calls to function debug at particular places (breakpoints) in
+    your code, to enter the debugger at those places:
+
+    (debug)
+
+** debug
   - edebug-trace-mode
+  - http://blog.binchen.org/posts/my-work-flow-to-debug-emacs-plugin.html
+** macros
   - macrostep-mode and macrostep-expand
 * emacs package development handbook
 - https://github.com/alphapapa/emacs-package-dev-handbook
@@ -2339,3 +2349,16 @@ dired, writable dired
   - in light theme, echo area with dark background shows whenever counsel or
     other thing is open
   - in dark theme, black text on black bg in vterm (deploying with surge)
+* catalina
+  - https://spin.atomicobject.com/2019/12/12/fixing-emacs-macos-catalina/
+* gccemacs
+  - http://akrl.sdf.org/gccemacs.html#org576df84
+  - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
+  - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
+* hydras
+  - https://www.reddit.com/r/emacs/comments/gr2zaj/what_are_your_useful_hydras/
+* "Match data clobbered by buffer modification hooks"
+  - it's origami
+  - fix: https://github.com/gregsexton/origami.el/pull/93
+* assoc lists (alists) and plists
+  - a.el has a-get for getting a prop from an alist
