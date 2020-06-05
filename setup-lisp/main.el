@@ -390,7 +390,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;;         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
   ;;        )))
 
-  (setq-default flycheck-display-errors-delay 0.4
+  (setq-default flycheck-display-errors-delay 0.7
                 flycheck-idle-change-delay 0.6 ;; but this is really set below ↓
                 ;; flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch)
@@ -405,7 +405,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 This lets us fix any errors as quickly as possible, but in a
 clean buffer we're laxer about checking."
     (setq flycheck-idle-change-delay
-          (if flycheck-current-errors 0.6 2.0)))
+          (if flycheck-current-errors 0.7 2.0)))
 
   ;; Each buffer gets its own idle-change-delay because of the
   ;; buffer-sensitive adjustment above.
