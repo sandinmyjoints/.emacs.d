@@ -3137,6 +3137,7 @@ Interactively also sends a terminating newline."
 
 (use-package eyebrowse
   :after zoom
+  :disabled
   :init
   ;; (setq eyebrowse-keymap-prefix (kbd "C-c C-z"))
   (setq eyebrowse-keymap-prefix (kbd "H-w"))
@@ -3252,6 +3253,7 @@ resized horizontally or vertically."
 (use-package eyezoom
   :load-path "elisp/eyezoom"
   :after (eyebrowse zoom)
+  :disabled
   :config
   (setq eyezoom-tags-that-zoom '("sql" "rest")))
 
