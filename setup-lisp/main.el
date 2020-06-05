@@ -3299,6 +3299,7 @@ resized horizontally or vertically."
 (define-key global-map (kbd "M-0") 'hydra-eyebrowse/body)
 
 (use-package pcre2el
+  :defer 5
   :commands reb-change-syntax)
 
 ;; TODO this messes with file paths (.., /) in Python, it should not apply
