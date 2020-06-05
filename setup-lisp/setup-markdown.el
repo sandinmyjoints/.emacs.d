@@ -59,6 +59,8 @@
          ;; markdeep: http://casual-effects.com/markdeep/
          ("\\.md.html\\'" . gfm-mode))
   :config
+  (modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
+
   (add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
   (add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
   (add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
