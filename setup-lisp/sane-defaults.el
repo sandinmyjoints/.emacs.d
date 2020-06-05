@@ -436,6 +436,26 @@
 ;; for communicating with subprocesses
 (setq read-process-output-max (* 1024 1024))
 
+(setq term-suppress-hard-newline t)
+
+;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
+(defun my-keyboard-quit-advice (fn &rest args)
+  (let ((region-was-active (region-active-p)))
+    (unwind-protect
+        (apply fn args)
+      (when region-was-active
+        (activate-mark t)))))
+
+(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+
+;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
+;; make zap-to-char act like zap-up-to-char
+(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
+  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
+  The CHAR is replaced and the point is put before CHAR."
+  (insert char)
+  (forward-char -1))
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

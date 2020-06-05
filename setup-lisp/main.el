@@ -63,7 +63,12 @@
 (setq user-full-name "William Bert"
       user-mail-address "william.bert@gmail.com")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar initial-file (expand-file-name "init.el" user-emacs-directory))
+
+(when (file-readable-p initial-file)
+  (setq initial-buffer-choice initial-file))
+
+
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
 ;; TODO: can this be removed?
@@ -3328,44 +3333,160 @@ resized horizontally or vertically."
                                               ("git.savannah.gnu.org" . "gnu")
                                               ("gist.github.com" . "gist"))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package hi-lock
+  :diminish)
 
-;; Ctags.
-(setq path-to-ctags "/usr/local/bin/ctags") ;; <- your ctags path here
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "%s -f TAGS -e -R --exclude=node_modules --exclude=local_notes --exclude=test --exclude=lib-cov %s" path-to-ctags (directory-file-name dir-name))))
+(defun wjb/turn-off-global-hl-line ()
+  (global-hl-line-mode -1))
+;; TODO use global-hl-line-mode everywhere except vterm buffers
+;; (add-hook 'vterm-mode-hook #'wjb/turn-off-global-hl-line)
 
-;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
-(defun my-keyboard-quit-advice (fn &rest args)
-  (let ((region-was-active (region-active-p)))
-    (unwind-protect
-        (apply fn args)
-      (when region-was-active
-        (activate-mark t)))))
+(use-package vterm
+  :config
+  (push "C-o" vterm-keymap-exceptions)
+  (push "C-u" vterm-keymap-exceptions)
+  ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
+  (vterm--exclude-keys vterm-keymap-exceptions)
+  ;; hack: exclude will overwrite these, so they need to be re-defined. Would
+  ;; be better if vterm defined them in a defun.
+  ;; this may not be needed anymore -- need to try without it
+  (define-key vterm-mode-map [tab]                       #'vterm-send-tab)
+  (define-key vterm-mode-map (kbd "TAB")                 #'vterm-send-tab)
+  (define-key vterm-mode-map [backtab]                   #'vterm--self-insert)
+  (define-key vterm-mode-map [backspace]                 #'vterm-send-backspace)
+  (define-key vterm-mode-map (kbd "DEL")                 #'vterm-send-backspace)
+  (define-key vterm-mode-map [M-backspace]               #'vterm-send-meta-backspace)
+  (define-key vterm-mode-map (kbd "M-DEL")               #'vterm-send-meta-backspace)
+  (define-key vterm-mode-map [return]                    #'vterm-send-return)
+  (define-key vterm-mode-map (kbd "RET")                 #'vterm-send-return)
+  (define-key vterm-mode-map [left]                      #'vterm-send-left)
+  (define-key vterm-mode-map [right]                     #'vterm-send-right)
+  (define-key vterm-mode-map [up]                        #'vterm-send-up)
+  (define-key vterm-mode-map [down]                      #'vterm-send-down)
+  (define-key vterm-mode-map [prior]                     #'vterm-send-prior)
+  (define-key vterm-mode-map [next]                      #'vterm-send-next)
+  (define-key vterm-mode-map [home]                      #'vterm--self-insert)
+  (define-key vterm-mode-map [end]                       #'vterm--self-insert)
+  (define-key vterm-mode-map [escape]                    #'vterm--self-insert)
+  (define-key vterm-mode-map [remap yank]                #'vterm-yank)
+  (define-key vterm-mode-map [remap yank-pop]            #'vterm-yank-pop)
+  (define-key vterm-mode-map [remap mouse-yank-primary]  #'vterm-yank-primary)
+  (define-key vterm-mode-map (kbd "C-SPC")               #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-_")                 #'vterm-undo)
+  (define-key vterm-mode-map (kbd "M-.")                 #'vterm-send-meta-dot)
+  (define-key vterm-mode-map (kbd "M-,")                 #'vterm-send-meta-comma)
+  (define-key vterm-mode-map (kbd "C-c C-y")             #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-c C-c")             #'vterm-send-C-c)
+  (define-key vterm-mode-map (kbd "C-c C-l")             #'vterm-clear-scrollback)
+  (define-key vterm-mode-map [remap self-insert-command] #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-c C-t")             #'vterm-copy-mode)
 
-(advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+  (defun vterm-send-close-square-bracket ()
+    "Sends `C-]' to libvterm."
+    (interactive)
+    (vterm-send-key "]" nil nil t))
+  (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
 
-;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
-;; make zap-to-char act like zap-up-to-char
-(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
-  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
-  The CHAR is replaced and the point is put before CHAR."
-  (insert char)
-  (forward-char -1))
+(add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
+
+(use-package eldoc-box
+  :after (tide)
+  :hook (prog-mode . eldoc-box-hover-mode)
+  :config
+  (setq tide-always-show-documentation t)
+  (setq eldoc-box-only-multi-line nil))
+
+(use-package indium
+  :commands (indium-interaction-mode indium-connect)
+  ;; :init
+  ;; because indium-interaction-mode is in some dir-locals files so it will be
+  ;; activated when those files load as part of the saved desktop.
+  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
+  :config
+  (add-hook 'js-mode-hook #'indium-interaction-mode)
+
+  (setq indium-chrome-use-temporary-profile nil
+        indium-client-debug nil ;; t
+        ;; indium-chrome-executable (indium-chrome--default-executable)
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
+)
+
+(use-package solaire-mode
+  :defer 3
+  :hook
+  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (solaire-global-mode 1)
+  ;; setting the solaire faces is in wjb/customize-appearance.
+  )
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+;; from https://protesilaos.com/dotemacs/
+;;
+;; from https://www.reddit.com/r/emacs/comments/fkqj9v/emacs_27_tabbarmode_for_macos_show_in_minibuffer/ :
+;; Generally speaking you can use (assoc 'name (tab-bar--current-tab)) to get the current tab name.
+(use-package tab-bar
+  :config
+  (setq tab-bar-close-button-show nil)
+  (setq tab-bar-close-last-tab-choice 'tab-bar-mode-disable)
+  (setq tab-bar-close-tab-select 'recent)
+  (setq tab-bar-new-tab-choice t)
+  (setq tab-bar-new-tab-to 'right)
+  (setq tab-bar-position nil)
+  (setq tab-bar-show nil)
+  (setq tab-bar-tab-hints t)
+
+  (tab-bar-mode 1)
+  (tab-bar-history-mode -1)
+
+  (defun prot/icomplete-tab-bar-tab-dwim ()
+    "Do-What-I-Mean function for getting to a `tab-bar-mode' tab.
+If no other tab exists, create one and switch to it.  If there is
+one other tab (so two in total) switch to it without further
+questions.  Else use completion to select the tab to switch to."
+    (interactive)
+    (let ((tabs (mapcar (lambda (tab)
+                          (alist-get 'name tab))
+                        (tab-bar--tabs-recent))))
+      (cond ((eq tabs nil)
+             (tab-new))
+            ((eq (length tabs) 1)
+             (tab-next))
+            (t
+             (icomplete-vertical-do ()
+               (tab-bar-switch-to-tab
+                (completing-read "Select tab: " tabs nil t)))))))
+
+  :bind (("M-1" . prot/icomplete-tab-bar-tab-dwim)
+         ("H-t" . prot/icomplete-tab-bar-tab-dwim)
+         ("M-1" . tab-bar-select-tab)
+         ("M-2" . tab-bar-select-tab)
+         ("M-3" . tab-bar-select-tab)
+         ("M-4" . tab-bar-select-tab)
+         ("H-1" . tab-bar-select-tab)
+         ("H-2" . tab-bar-select-tab)
+         ("H-3" . tab-bar-select-tab)
+         ("H-4" . tab-bar-select-tab)
+         ("M-0" . tab-switcher)))
+
+
+
+;; Syntax modifications.
 
 ;; Paired tick is useful in some modes.
 ;; TODO: Probably Can't run these until the mode has been loaded or something.
 ;; TODO: Could use smartparens for this instead.
-(modify-syntax-entry ?\` "$" markdown-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
 ;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
 
-(setq term-suppress-hard-newline t)
+
 
 ;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
 (add-hook 'term-mode-hook
@@ -3373,7 +3494,11 @@ resized horizontally or vertically."
             (define-key term-raw-map (kbd "C-y")
               (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
 
+
+
 (require 'appearance)
+
+
 
 ;; From http://endlessparentheses.com/the-toggle-map-and-wizardry.html
 (define-prefix-command 'endless/toggle-map)
@@ -3429,79 +3554,20 @@ is already narrowed."
 ;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
-(defvar initial-file (expand-file-name "init.el" user-emacs-directory))
-
-(when (file-readable-p initial-file)
-  (setq initial-buffer-choice initial-file))
-
-(use-package hi-lock
-  :diminish)
+
 
 (require 'wjb)
 
 (defun wjb/after-init-hook ()
   (setq source-directory "/Users/william/scm/vendor/emacs-mac"
         find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
-  (treemacs))
+  (treemacs)
+  ;; (with-current-buffer "init.el"
+  ;;   (treemacs-add-and-display-current-project))
+)
 (add-hook 'after-init-hook #'wjb/after-init-hook)
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
-
-(use-package vterm
-  :defer t
-  ;; TODO: switch to melpa.
-  :load-path "elisp/emacs-libvterm"
-  :config
-  (push "C-o" vterm-keymap-exceptions)
-  (push "C-u" vterm-keymap-exceptions)
-  ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
-  (vterm--exclude-keys vterm-keymap-exceptions)
-  ;; hack: exclude will overwrite these, so they need to be re-defined. Would
-  ;; be better if vterm defined them in a defun.
-  (define-key vterm-mode-map [tab]                       #'vterm-send-tab)
-  (define-key vterm-mode-map (kbd "TAB")                 #'vterm-send-tab)
-  (define-key vterm-mode-map [backtab]                   #'vterm--self-insert)
-  (define-key vterm-mode-map [backspace]                 #'vterm-send-backspace)
-  (define-key vterm-mode-map (kbd "DEL")                 #'vterm-send-backspace)
-  (define-key vterm-mode-map [M-backspace]               #'vterm-send-meta-backspace)
-  (define-key vterm-mode-map (kbd "M-DEL")               #'vterm-send-meta-backspace)
-  (define-key vterm-mode-map [return]                    #'vterm-send-return)
-  (define-key vterm-mode-map (kbd "RET")                 #'vterm-send-return)
-  (define-key vterm-mode-map [left]                      #'vterm-send-left)
-  (define-key vterm-mode-map [right]                     #'vterm-send-right)
-  (define-key vterm-mode-map [up]                        #'vterm-send-up)
-  (define-key vterm-mode-map [down]                      #'vterm-send-down)
-  (define-key vterm-mode-map [prior]                     #'vterm-send-prior)
-  (define-key vterm-mode-map [next]                      #'vterm-send-next)
-  (define-key vterm-mode-map [home]                      #'vterm--self-insert)
-  (define-key vterm-mode-map [end]                       #'vterm--self-insert)
-  (define-key vterm-mode-map [escape]                    #'vterm--self-insert)
-  (define-key vterm-mode-map [remap yank]                #'vterm-yank)
-  (define-key vterm-mode-map [remap yank-pop]            #'vterm-yank-pop)
-  (define-key vterm-mode-map [remap mouse-yank-primary]  #'vterm-yank-primary)
-  (define-key vterm-mode-map (kbd "C-SPC")               #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-_")                 #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-/")                 #'vterm-undo)
-  (define-key vterm-mode-map (kbd "M-.")                 #'vterm-send-meta-dot)
-  (define-key vterm-mode-map (kbd "M-,")                 #'vterm-send-meta-comma)
-  (define-key vterm-mode-map (kbd "C-c C-y")             #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-c C-c")             #'vterm-send-ctrl-c)
-  (define-key vterm-mode-map (kbd "C-c C-l")             #'vterm-clear-scrollback)
-  (define-key vterm-mode-map [remap self-insert-command] #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-c C-t")             #'vterm-copy-mode)
-
-  (defun vterm-send-close-square-bracket ()
-    "Sends `C-]' to libvterm."
-    (interactive)
-    (vterm-send-key "]" nil nil t))
-  (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
-
-(add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
-
-(defun wjb/turn-off-global-hl-line ()
-  (global-hl-line-mode -1))
-;; TODO use global-hl-line-mode everywhere except vterm buffers
-;; (add-hook 'vterm-mode-hook #'wjb/turn-off-global-hl-line)
 
 ;; TODO: am I handling safe-local-variable-values in a sensible way?
 ;; look at purcell, etc.
@@ -3549,41 +3615,6 @@ is already narrowed."
       (let ((dir-locals-file (expand-file-name file)))
         ad-do-it
         ))))
-
-(use-package eldoc-box
-  :after (tide)
-  :hook (prog-mode . eldoc-box-hover-mode)
-  :config
-  (setq tide-always-show-documentation t)
-  (setq eldoc-box-only-multi-line nil))
-
-(use-package indium
-  :commands (indium-interaction-mode indium-connect)
-  ;; :init
-  ;; because indium-interaction-mode is in some dir-locals files so it will be
-  ;; activated when those files load as part of the saved desktop.
-  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
-  :config
-  (add-hook 'js-mode-hook #'indium-interaction-mode)
-
-  (setq indium-chrome-use-temporary-profile nil
-        indium-client-debug nil ;; t
-        ;; indium-chrome-executable (indium-chrome--default-executable)
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
-)
-
-(use-package solaire-mode
-  :hook
-  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-  (minibuffer-setup . solaire-mode-in-minibuffer)
-  :config
-  (solaire-global-mode +1)
-  (set-face-background 'solaire-default-face
-                       (color-darken-name
-                        (face-attribute 'default :background) 4))
-  (set-face-foreground 'solaire-default-face
-                       (color-lighten-name
-                        (face-attribute 'default :foreground) 3)))
 
 (provide 'main)
 
