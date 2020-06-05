@@ -1410,7 +1410,8 @@ If PROJECT is not specified the command acts on the current project."
 (use-package helm
   :defer t
   :bind (("M-o" . helm-browse-project)
-         ("C-x C-b" . helm-buffers-list)
+         ;; ("C-x C-b" . helm-buffers-list)
+         ("C-x C-b" . helm-mini)
          ("C-o" . helm-mini)
          ("C-x C-o" . helm-mini)) ; Clobbers delete-blank-lines.
   :config
@@ -1418,7 +1419,6 @@ If PROJECT is not specified the command acts on the current project."
 
   ;; (global-set-key (kbd "M-o") #'helm-browse-project)
   ;; (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
-  ;; (global-set-key (kbd "C-x C-b") #'helm-buffers-list) ;; clobbers ibuffer
   ;; (global-set-key (kbd "H-o") #'helm-browse-project)
 
   ;; useful commands, but probably shouldn't be bound globally:
