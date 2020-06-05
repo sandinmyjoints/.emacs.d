@@ -988,6 +988,11 @@ current buffer's, reload dir-locals."
   (interactive)
   (revert-buffer t t))
 
+(defun yank-no-excursion (&optional arg)
+  "`yank' wrapped by `save-excursion'. Useful when pasting very long lines."
+  (interactive "P")
+  (save-excursion (yank arg)))
+
 ;; TODO:
 ;; Mixpanel event parser
 ;; - extract data query param
