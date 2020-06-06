@@ -1667,6 +1667,8 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package date-at-point)
 
+
+
 (defun wjb/disable-show-paren-mode ()
   ;; See http://endlessparentheses.com/locally-configure-or-disable-show-paren-mode.html
   (setq-local show-paren-mode nil))
@@ -1689,6 +1691,58 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
+
+(use-package smartparens-mode
+  :disabled
+  :config
+  (require 'setup-smartparens))
+
+;; (defvar paredit-everywhere-mode-map
+;;   (let ((m (make-sparse-keymap)))
+;;     (define-key m (kbd "C-)") 'paredit-forward-slurp-sexp)
+;;     (define-key m (kbd "C-}") 'paredit-forward-barf-sexp)
+;;     (define-key m (kbd "M-(") 'paredit-wrap-round)
+;;     (define-key m (kbd "M-)") 'paredit-close-round-and-newline)
+;;     (define-key m (kbd "M-]") 'paredit-close-square-and-newline)
+;;     (define-key m (kbd "M-\"") 'paredit-meta-doublequote)
+;;     (define-key m (kbd "M-S") 'paredit-split-sexp)
+;;     (define-key m (kbd "M-J") 'paredit-join-sexps)
+;;     (define-key m (kbd "M-s") 'paredit-splice-sexp)
+;;     (define-key m (kbd "M-r") 'paredit-raise-sexp)
+;;     (define-key m (kbd "M-DEL") 'paredit-backward-kill-word)
+;;     (define-key m (kbd "M-d") 'paredit-forward-kill-word)
+;;     m)
+;;   "Keymap for `paredit-everywhere-mode'.")
+;;
+(use-package paredit-everywhere
+  :diminish
+  :config
+  (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
+
+  ;; http://endlessparentheses.com/a-few-paredit-keys-that-take-over-the-world.html
+  ;;
+  ;; TODO: update these so that if these commands don't work (signal error),
+  ;; then fall back to something else, like next-defun and prev-defun.
+  ;; Think of down as "into" and up as "out of"
+  ;; Command           | default | notes
+  ;; forward up/down   | n/d     | forward-down is very useful, think of it as forward-descend or forward-into
+  ;; backwards up/down | u/p     |
+  (global-set-key (kbd "C-M-n") #'paredit-forward-up)
+  (global-set-key (kbd "C-M-d") #'paredit-forward-down)
+  (global-set-key (kbd "C-M-u") #'paredit-backward-up) ;; shadows backward-up-list
+  (global-set-key (kbd "C-M-p") #'paredit-backward-down)
+
+  (global-set-key (kbd "C-(") #'paredit-backward-slurp-sexp) ;; matches C-)
+
+  ;; ;; This one's surpisingly useful for writing prose.
+  ;; (global-set-key "\M-S"
+  ;;   #'paredit-splice-sexp-killing-backward)
+  (global-set-key "\M-R" #'paredit-raise-sexp)
+  (global-set-key "\M-(" #'paredit-wrap-round)
+  (global-set-key "\M-[" #'paredit-wrap-square)
+  (global-set-key "\M-{" #'paredit-wrap-curly))
+
+
 
 (use-package restclient
   :defer t
@@ -3063,11 +3117,6 @@ Interactively also sends a terminating newline."
   :config
   (global-smart-tab-mode))
 
-(use-package smartparens-mode
-  :disabled
-  :config
-  (require 'setup-smartparens))
-
 (use-package hungry-delete
   :disabled
   :diminish
@@ -3081,57 +3130,10 @@ Interactively also sends a terminating newline."
   (global-hungry-delete-mode))
 
 (use-package nginx-mode
-  :defer
+  :defer 5
   :config
   (setq nginx-indent-level 2)
   (add-hook 'nginx-mode-hook #'company-nginx-keywords))
-
-;;
-;; (defvar paredit-everywhere-mode-map
-;;   (let ((m (make-sparse-keymap)))
-;;     (define-key m (kbd "C-)") 'paredit-forward-slurp-sexp)
-;;     (define-key m (kbd "C-}") 'paredit-forward-barf-sexp)
-;;     (define-key m (kbd "M-(") 'paredit-wrap-round)
-;;     (define-key m (kbd "M-)") 'paredit-close-round-and-newline)
-;;     (define-key m (kbd "M-]") 'paredit-close-square-and-newline)
-;;     (define-key m (kbd "M-\"") 'paredit-meta-doublequote)
-;;     (define-key m (kbd "M-S") 'paredit-split-sexp)
-;;     (define-key m (kbd "M-J") 'paredit-join-sexps)
-;;     (define-key m (kbd "M-s") 'paredit-splice-sexp)
-;;     (define-key m (kbd "M-r") 'paredit-raise-sexp)
-;;     (define-key m (kbd "M-DEL") 'paredit-backward-kill-word)
-;;     (define-key m (kbd "M-d") 'paredit-forward-kill-word)
-;;     m)
-;;   "Keymap for `paredit-everywhere-mode'.")
-;;
-(use-package paredit-everywhere
-  :diminish
-  :config
-  (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
-
-  ;; http://endlessparentheses.com/a-few-paredit-keys-that-take-over-the-world.html
-  ;;
-  ;; TODO: update these so that if these commands don't work (signal error),
-  ;; then fall back to something else, like next-defun and prev-defun.
-  ;; Think of down as "into" and up as "out of"
-  ;; Command           | default | notes
-  ;; forward up/down   | n/d     | forward-down is very useful, think of it as forward-descend or forward-into
-  ;; backwards up/down | u/p     |
-  (global-set-key (kbd "C-M-n") #'paredit-forward-up)
-  (global-set-key (kbd "C-M-d") #'paredit-forward-down)
-  (global-set-key (kbd "C-M-u") #'paredit-backward-up) ;; shadows backward-up-list
-  (global-set-key (kbd "C-M-p") #'paredit-backward-down)
-
-  (global-set-key (kbd "C-(") #'paredit-backward-slurp-sexp) ;; matches C-)
-
-  ;; ;; This one's surpisingly useful for writing prose.
-  ;; (global-set-key "\M-S"
-  ;;   #'paredit-splice-sexp-killing-backward)
-  (global-set-key "\M-R" #'paredit-raise-sexp)
-  (global-set-key "\M-(" #'paredit-wrap-round)
-  (global-set-key "\M-[" #'paredit-wrap-square)
-  (global-set-key "\M-{" #'paredit-wrap-curly)
-  )
 
 (use-package centered-cursor-mode
   :config
