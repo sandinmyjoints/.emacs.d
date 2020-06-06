@@ -571,6 +571,7 @@ font weight and it's pretty heavy."
 (use-package doom-modeline
   ;; :disabled
   :config
+  (setq doom-modeline-continuous-word-count-modes '())
   (doom-modeline-mode 1))
 
 ;; Change cursor color according to mode.
