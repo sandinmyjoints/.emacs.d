@@ -3581,7 +3581,7 @@ is already narrowed."
 
 ;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
 ;; (byte-recompile-directory site-lisp-dir 0)
-;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0)
+;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
 ;;
 ;; (defun wjb/run-once-when-idle (fun)
 ;;   "Run a command every once in a while, if possible when emacs is idle."
