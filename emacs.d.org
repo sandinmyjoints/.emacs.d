@@ -631,8 +631,8 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 ** DONE xref-js2
    CLOSED: [2018-02-14 Wed 15:41]
     - but I don't want xref-goto-xref to open in a new buffer!
-** TODO tide
-   CLOSED: [2018-06-13 Wed 21:45]
+** DONE tide
+   CLOSED: [2020-06-06 Sat 16:39]
    - https://github.com/ananthakumaran/tide
    - https://github.com/Microsoft/TypeScript/blob/17eaf50b73c1355d2fd15bdc3912aa64a73483dd/src/server/protocol.ts#L2684
    - https://www.typescriptlang.org/docs/handbook/compiler-options.html
@@ -678,6 +678,7 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 }
    #+end_src
 ** TODO lsp-javascript
+   - https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
    - https://github.com/emacs-lsp/lsp-mode
    - https://github.com/emacs-lsp/lsp-javascript
    - https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
@@ -2095,10 +2096,6 @@ local bindings in certain buffers.
 
 ** DONE
   - zap-to-char (M-z and M-Z)
-  - Tramp:
-    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
-    - C-x C-f /docker:user@container:/path/to/file
-    - C-x C-f /ssh:wbert@wjb.sh:/etc
   - Smex (M-x, M-X)
     - updated fork: https://github.com/DarwinAwardWinner/smex
   - align-regexp (C-|)
@@ -2305,6 +2302,8 @@ dired, writable dired
 
    (remove-hook 'after-change-functions 'wjb/after-change-reporter)
    #+end_src
+** explain-pause-mode
+   - https://www.reddit.com/r/emacs/comments/gmh8bs/beta_testers_ann_lets_make_emacs_better/
 * switch to straight.el                                            :wishlist:
   - https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
 * tide
@@ -2362,3 +2361,15 @@ dired, writable dired
   - fix: https://github.com/gregsexton/origami.el/pull/93
 * assoc lists (alists) and plists
   - a.el has a-get for getting a prop from an alist
+* emacs lisp style guide
+  - https://github.com/bbatsov/emacs-lisp-style-guide
+* tramp                                                               :tramp:
+  - usage
+    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+    - multi: C-x C-f /ssh:bird@bastion|ssh:you@remotehost:/path
+    - C-x C-f /docker:user@container:/path/to/file
+    - C-x C-f /ssh:wbert@wjb.sh:/etc
+** hanging due to tramp
+   - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
+     Since I don't use ido anymore, generally save to just delete this file.
+   - also check ~/.recentf
