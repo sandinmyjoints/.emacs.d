@@ -428,6 +428,8 @@ clean buffer we're laxer about checking."
   ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide)
   ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide)
 
+  ;; (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
+
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
