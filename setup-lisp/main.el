@@ -492,15 +492,12 @@ clean buffer we're laxer about checking."
   ;; Default for builtin comment-line is C-x C-;
   :bind (("M-;" . comment-dwim-2)))
 
-;; there is some interaction with either doom or modus themes, where beacon
-;; works if I leave this disabled, but doesn't work if I enable this.
 (use-package beacon
   :diminish
-  :disabled
   :config
   (setq beacon-blink-duration 0.1
-        beacon-blink-when-point-moves-vertically t
-        beacon-blink-when-window-scrolls nil)
+        beacon-blink-when-point-moves-vertically 20
+        beacon-blink-when-window-scrolls t)
   ;; TODO don't use beacon-mode in shell-mode
   (beacon-mode 1))
 
