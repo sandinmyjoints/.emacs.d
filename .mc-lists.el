@@ -34,6 +34,7 @@
         indent-for-tab-command
         indent-relative
         insert-register
+        isearch-abort
         ivy-switch-buffer
         js2-beginning-of-line
         js2-end-of-line
@@ -129,5 +130,6 @@
         smex
         wdired-finish-edit
         wjb/switch-to-last-compilation-buffer
+        wjb/switch-to-project-jest-buffer
         wjb/switch-to-vterm
         ))
