@@ -622,7 +622,7 @@ font weight and it's pretty heavy."
   :ensure t)
 (when nil
   (progn
-    (change-theme 'modus-operandi)
+    (change-theme 'modus-operandi t)
     (solaire-global-mode -1)
     (setq wjb/dark nil)
     (wjb/customize-appearance))
@@ -634,7 +634,7 @@ font weight and it's pretty heavy."
   :ensure t)
 (when nil
   (progn
-    (change-theme 'modus-vivendi)
+    (change-theme 'modus-vivendi t)
     (solaire-global-mode -1)
     (setq wjb/dark t)
     (wjb/customize-appearance))
