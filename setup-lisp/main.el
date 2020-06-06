@@ -3046,6 +3046,10 @@ Interactively also sends a terminating newline."
   ;;   (add-hook hook 'lsp-ui-mode))
   )
 
+;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
 (use-package company-lsp
   :disabled
   :after lsp-mode
