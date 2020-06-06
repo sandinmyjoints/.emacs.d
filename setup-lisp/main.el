@@ -3349,6 +3349,7 @@ resized horizontally or vertically."
 
 (use-package vterm
   :config
+  (setq vterm-kill-buffer-on-exit t)
   (push "C-o" vterm-keymap-exceptions)
   (push "C-u" vterm-keymap-exceptions)
   ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
