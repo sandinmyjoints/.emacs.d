@@ -621,11 +621,11 @@ clean buffer we're laxer about checking."
 (use-package org ;; why org not org-mode: https://emacs.stackexchange.com/q/17710
   :defer t
   :diminish visual-line-mode
-  :config
+  :init
   (defface org-checkbox-done-text
     '((t (:strike-through t :slant italic :weight light) ))
     "Face for the text part of a checked org-mode checkbox.")
-
+  :config
   (font-lock-add-keywords
    'org-mode
    ;; from https://blog.jft.rocks/emacs/unicode-for-orgmode-checkboxes.html
