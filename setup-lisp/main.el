@@ -3418,7 +3418,6 @@ resized horizontally or vertically."
 )
 
 (use-package solaire-mode
-  :defer 3
   :hook
   ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
   (minibuffer-setup . solaire-mode-in-minibuffer)
