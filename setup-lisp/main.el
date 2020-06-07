@@ -469,7 +469,7 @@ clean buffer we're laxer about checking."
   (defun wjb/css-mode-hook ()
     (setq company-backends wjb/company-backends-css))
   (add-hook 'css-mode-hook #'wjb/css-mode-hook)
-)
+  )
 
 (use-package elisp-mode
   :mode "abbrev_defs"
@@ -841,7 +841,7 @@ pasting into other programs."
       (goto-char pos))
     (org-show-children)))
 
-  ;; Load ODT backend to allow for exporting to open document format.
+;; Load ODT backend to allow for exporting to open document format.
 (use-package ox-odt
   :defer 5
   :after org)
@@ -933,10 +933,10 @@ Fix for the above hasn't been released as of Emacs 25.2."
         magit-push-always-verify nil
         magit-revision-insert-related-refs nil
         magit-branch-read-upstream-first nil)
-        ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
-        magit-branch-prefer-remote-upstream '(master)
-        ;; experimental:
-        magit-process-connection-type nil
+  ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
+  magit-branch-prefer-remote-upstream '(master)
+  ;; experimental:
+  magit-process-connection-type nil
   (autoload 'magit-log "magit"))
 
 ;; Experiment, might want to do this for everything:
@@ -1269,8 +1269,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
                 (plist-get info :posframe-width))
              2)
           (round (/ (- (plist-get info :parent-frame-height)
-                        (plist-get info :posframe-height))
-                     3))))
+                       (plist-get info :posframe-height))
+                    3))))
 
   (defun ivy-posframe-display-at-frame-above-center (str)
     (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
@@ -1455,9 +1455,9 @@ If PROJECT is not specified the command acts on the current project."
    ;; helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
    ;; helm-ff-file-name-history-use-recentf t
    helm-echo-input-in-header-line t
-  ;; make helm-mini use fuzzy matching, so weborg will not match sd-web.org.
-  ;; Because ivy-switch-buffers is using fuzzy matching, want the muscle memory
-  ;; to be the same.
+   ;; make helm-mini use fuzzy matching, so weborg will not match sd-web.org.
+   ;; Because ivy-switch-buffers is using fuzzy matching, want the muscle memory
+   ;; to be the same.
    helm-recentf-fuzzy-match t
    helm-buffers-fuzzy-matching t
    helm-ff-skip-boring-files t
@@ -1491,7 +1491,7 @@ If PROJECT is not specified the command acts on the current project."
         ace-jump-helm-line-persistent-key ?p
         )
   (ace-jump-helm-line-idle-exec-add 'helm-mini)
-)
+  )
 
 (use-package helm-xref
   :after helm
@@ -1606,7 +1606,7 @@ If PROJECT is not specified the command acts on the current project."
                        :heuristic 'error
                        :async nil
                        :order 3) ;; might be better make this 6, so it comes after xhref-find-definitions
-    )
+  )
 
 ;; counsel-etags-scan-code
 (use-package counsel-etags
@@ -1614,9 +1614,9 @@ If PROJECT is not specified the command acts on the current project."
   ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
   :init
   (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
+            (lambda ()
+              (add-hook 'after-save-hook
+                        'counsel-etags-virtual-update-tags 'append 'local)))
   :config
   ;; this is how smart-jump heuristic error works:
   (defun counsel-etags-grep (&optional default-keyword hint root)
@@ -1627,7 +1627,7 @@ If PROJECT is not specified the command acts on the current project."
         counsel-etags-grep-program "rg"  ;; ggrep
         counsel-etags-tags-program "ctags"
         counsel-ctags-tags-program "ctags")
-        ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
+  ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
   (add-to-list 'counsel-etags-ignore-directories "local_notes")
   (add-to-list 'counsel-etags-ignore-directories "build")
   (add-to-list 'counsel-etags-ignore-directories "dist")
@@ -2270,9 +2270,9 @@ If PROJECT is not specified the command acts on the current project."
         ;; last ends up first
         (backend '(company-clang company-xcode company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
       (if (equal list 'company-capf)
-        (push
-         (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
-         zing)
+          (push
+           (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
+           zing)
 
         (push
          (list backend :with 'company-dabbrev-code 'company-keywords)
@@ -2282,13 +2282,13 @@ If PROJECT is not specified the command acts on the current project."
     (setq zing (append zing '(company-files)))
     ;; fallback backends -- likely to return in almost all cases
     (setq zing (append zing
-               '(
-                 ;; code
-                 (company-dabbrev-code company-gtags company-ctags company-keywords)
-                 ;; text
-                 (company-emoji company-dabbrev)
-                 )
-               ))
+                       '(
+                         ;; code
+                         (company-dabbrev-code company-gtags company-ctags company-keywords)
+                         ;; text
+                         (company-emoji company-dabbrev)
+                         )
+                       ))
     (setq-default company-backends zing)))
 
 (wjb/company-backends-generic)
@@ -2314,13 +2314,13 @@ If PROJECT is not specified the command acts on the current project."
 
 (defvar wjb/company-backends-ts)
 (setq wjb/company-backends-ts
-  '(company-tide
-    (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+      '(company-tide
+        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-js)
 (setq wjb/company-backends-js
-  '((company-tide :with :separate company-ctags company-capf company-keywords company-dabbrev-code)
-    (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+      '((company-tide :with :separate company-ctags company-capf company-keywords company-dabbrev-code)
+        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-org)
 ;; todo get company-capf working: pcomplete-completions-at-point. Maybe I need
@@ -2454,7 +2454,7 @@ header overlay should cover. Result is a cons cell of (begin . end)."
                      (forward-char 1)))
                  (point)))))
         (cons fold-begin fold-end))))
-)
+  )
 
 ;; better than vimish-fold
 (use-package yafolding
@@ -2627,7 +2627,7 @@ Interactively also sends a terminating newline."
   ;; (define-key global-map key
   ;;   #'endless/send-self)
   )
-  ;; (unbind-key "\C-c" compilation-minor-mode-map)
+;; (unbind-key "\C-c" compilation-minor-mode-map)
 
 (require 'cl-lib)
 (defun endless/toggle-comint-compilation ()
@@ -2702,10 +2702,10 @@ Interactively also sends a terminating newline."
   (setq-default comint-prompt-read-only nil)
 
   (add-hook 'comint-mode-hook
-          (lambda ()
-            (define-key comint-mode-map [remap kill-region] 'comint-kill-region)
-            (define-key comint-mode-map [remap kill-whole-line]
-              'comint-kill-whole-line)))
+            (lambda ()
+              (define-key comint-mode-map [remap kill-region] 'comint-kill-region)
+              (define-key comint-mode-map [remap kill-whole-line]
+                'comint-kill-whole-line)))
 
   ;; Add NodeJS error format
   ;; TODO:
@@ -2746,7 +2746,7 @@ Interactively also sends a terminating newline."
   (make-variable-buffer-local 'comint-output-filter-functions)
   (add-hook 'compilation-mode-hook
             (lambda () (setq comint-output-filter-functions
-                    (remove 'ansi-color-process-output comint-output-filter-functions))))
+                        (remove 'ansi-color-process-output comint-output-filter-functions))))
 
   ;; Approach 1: xterm-color. This is promising, but disabled because it scrolls
   ;; test output when it should be overwriting. Is this related to the issue
@@ -2942,7 +2942,7 @@ Interactively also sends a terminating newline."
   :config
   (setq jest-pdb-track nil)
   (add-hook 'jest-mode-hook #'compilation-minor-mode)
-)
+  )
 
 ;; (package-generate-autoloads "jest" "~/.emacs.d/elisp/emacs-jest/")
 
@@ -3071,13 +3071,13 @@ Interactively also sends a terminating newline."
   :commands lsp-ui-mode
   :config
   (setq lsp-ui-doc-enable nil
-  ;;       lsp-ui-flycheck-enable nil
-  ;;       lsp-ui-peek-enable nil
-  ;;       lsp-ui-sideline-enable nil
-  ;;       lsp-ui-sideline-show-flycheck nil
-  ;;       lsp-ui-doc-enable nil
-  ;;       lsp-ui-imenu-enable nil
-  ;;       lsp-ui-sideline-ignore-duplicate t
+        ;;       lsp-ui-flycheck-enable nil
+        ;;       lsp-ui-peek-enable nil
+        ;;       lsp-ui-sideline-enable nil
+        ;;       lsp-ui-sideline-show-flycheck nil
+        ;;       lsp-ui-doc-enable nil
+        ;;       lsp-ui-imenu-enable nil
+        ;;       lsp-ui-sideline-ignore-duplicate t
         )
   ;; (require 'lsp-ui-flycheck)
 
@@ -3239,8 +3239,8 @@ resized horizontally or vertically."
            (desired-delta (- min-window-size window-size))
            ;; fall back to the maximum available if the windows are too small
            (delta (window-resizable nil desired-delta horizontal)))
-        ;; actually resize the window
-        (window-resize nil delta horizontal)))
+      ;; actually resize the window
+      (window-resize nil delta horizontal)))
 
   ;; half-width windows
   ;; (setq zoom-size '(0.5 . 1.0))
@@ -3332,11 +3332,11 @@ resized horizontally or vertically."
   :defer t
   :config
   (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
-                                              ("github.com" . "github")
-                                              ("neodarwin" . "github")
-                                              ("gitlab.com" . "gitlab")
-                                              ("git.savannah.gnu.org" . "gnu")
-                                              ("gist.github.com" . "gist"))))
+                                               ("github.com" . "github")
+                                               ("neodarwin" . "github")
+                                               ("gitlab.com" . "gitlab")
+                                               ("git.savannah.gnu.org" . "gnu")
+                                               ("gist.github.com" . "gist"))))
 
 (use-package hi-lock
   :diminish)
@@ -3415,7 +3415,7 @@ resized horizontally or vertically."
         indium-client-debug nil ;; t
         ;; indium-chrome-executable (indium-chrome--default-executable)
         indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
-)
+  )
 
 (use-package solaire-mode
   :hook
@@ -3464,8 +3464,8 @@ questions.  Else use completion to select the tab to switch to."
              (tab-next))
             (t
              (icomplete-vertical-do ()
-               (tab-bar-switch-to-tab
-                (completing-read "Select tab: " tabs nil t)))))))
+                                    (tab-bar-switch-to-tab
+                                     (completing-read "Select tab: " tabs nil t)))))))
 
   :bind (("M-1" . prot/icomplete-tab-bar-tab-dwim)
          ("H-t" . prot/icomplete-tab-bar-tab-dwim)
@@ -3569,7 +3569,7 @@ is already narrowed."
   (treemacs)
   ;; (with-current-buffer "init.el"
   ;;   (treemacs-add-and-display-current-project))
-)
+  )
 (add-hook 'after-init-hook #'wjb/after-init-hook)
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
