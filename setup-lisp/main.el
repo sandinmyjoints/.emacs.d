@@ -1689,10 +1689,25 @@ If PROJECT is not specified the command acts on the current project."
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
 
-(use-package smartparens-mode
+;; experimental
+(use-package smartparens
   :disabled
+  :diminish
+  :init
+  (require 'smartparens-config)
+  (smartparens-global-strict-mode)
   :config
-  (require 'setup-smartparens))
+  (setq sp-highlight-pair-overlay nil
+        sp-highlight-wrap-overlay nil
+        sp-highlight-wrap-tag-overlay nil)
+
+  ;; (sp-use-smartparens-bindings) ;; even with this commented out, it still grabbed some bindings
+
+;; Not sure if I want this or not.
+  (show-smartparens-global-mode)
+
+  ;; (require 'setup-smartparens)
+  )
 
 ;; (defvar paredit-everywhere-mode-map
 ;;   (let ((m (make-sparse-keymap)))

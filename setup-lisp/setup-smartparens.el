@@ -45,14 +45,6 @@
 ;;
 ;;; Code:
 
-
-(require 'smartparens-config)
-
-(smartparens-global-mode t)
-
-;; Not sure if I want this or not.
-(show-smartparens-global-mode t)
-
 (dolist (mode '(dirtree-mode))
   (add-to-list 'sp-ignore-modes-list mode))
 
