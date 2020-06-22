@@ -456,6 +456,8 @@
   (insert char)
   (forward-char -1))
 
+(setq display-line-numbers-type nil)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
