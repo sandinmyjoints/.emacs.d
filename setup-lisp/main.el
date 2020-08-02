@@ -475,10 +475,34 @@ clean buffer we're laxer about checking."
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
 
 (use-package eldoc
-  :after elisp-mode
   :diminish eldoc-mode
+  :defer 3
   :config
-  (diminish 'eldoc-mode))
+  (diminish 'eldoc-mode)
+  (eldoc-add-command 'wjb/forward-symbol)
+  (eldoc-add-command 'wjb/backward-symbol)
+  (eldoc-add-command 'move-beginning-of-line)
+  (eldoc-add-command 'move-end-of-line)
+  (eldoc-add-command 'symbol-overlay-jump-prev)
+  (eldoc-add-command 'symbol-overlay-jump-next)
+  (eldoc-add-command 'backward-word)
+  (eldoc-add-command 'flycheck-next-error)
+  (eldoc-add-command 'flycheck-previous-error)
+  (eldoc-add-command 'jump-to-register)
+  (eldoc-add-command 'smart-jump-back)
+  (eldoc-add-command 'smart-jump-go)
+  )
+
+(use-package eldoc-box
+  :after (eldoc tide)
+  :hook (prog-mode . eldoc-box-hover-mode)
+  :config
+  (setq tide-always-show-documentation t)
+  (setq eldoc-box-only-multi-line nil)
+  ;; these must be integers -- floats turn into zero
+  (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
+        eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
+)
 
 (autoload 'auto-make-header "header2")
 
@@ -3403,13 +3427,6 @@ resized horizontally or vertically."
   (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
-
-(use-package eldoc-box
-  :after (tide)
-  :hook (prog-mode . eldoc-box-hover-mode)
-  :config
-  (setq tide-always-show-documentation t)
-  (setq eldoc-box-only-multi-line nil))
 
 (use-package indium
   :commands (indium-interaction-mode indium-connect)
