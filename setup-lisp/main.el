@@ -60,8 +60,7 @@
 ;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
 
-(setq user-full-name "William Bert"
-      user-mail-address "william.bert@gmail.com")
+(require 'sane-defaults)
 
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
 
@@ -104,9 +103,6 @@
   :ensure t)
 ;; Strings.
 (use-package s
-  :ensure t)
-;; Hash table.
-(use-package ht
   :ensure t)
 ;; Filesystem.
 (use-package f
@@ -251,8 +247,6 @@ in the current window."
   :defer t
   :config
   (setq wgrep-enable-key "w"))
-
-(require 'sane-defaults)
 
 (require 'defuns)
 

@@ -46,6 +46,9 @@
 ;;
 ;;; Code:
 
+(setq user-full-name "William Bert"
+      user-mail-address "william.bert@gmail.com")
+
 (setq-default bidi-display-reordering 'left-to-right)
 
 (setq inhibit-startup-echo-area-message "william")
@@ -221,8 +224,7 @@
     (set-window-buffer (next-window) (other-buffer)))
 
 ;;; Default for new buffers.
-(when (require 'markdown-mode nil t)
-  (setq-default major-mode 'fundamental-mode))
+(setq-default major-mode 'fundamental-mode)
 
 ;;; Avoid backslash madness.
 (use-package re-builder

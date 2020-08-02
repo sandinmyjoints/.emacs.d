@@ -92,7 +92,7 @@
 
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind")
-  (setq wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"#*#\" ! -name \"*.min.js\" ! -path \"*/node_modules*\" ! -path \"*/public/webpack-assets*\" ! -path \"*/public/js/vendors~components*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist*\" -type f -print0"))
+  (setq wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"PIE.htc\" ! -name \"#*#\" ! -name \"*.min.js\" ! -name \"*-min-*.js\" ! -name \"*-min.js\" ! -name \"*-min-async.js\" ! -name \"*-atf-min.css\" ! -name \"*-min.css\" ! -path \"*/node_modules*\" ! -path \"*/public/webpack-assets*\" ! -path \"*/public/js/vendors~components*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist*\" -not -size +500k -type f -print0"))
 
 ;; TODO: fd is often faster than GNU grep, but its arguments are "<pattern
 ;; path>", whereas grep is "<starting point> <expression>". So the the command
