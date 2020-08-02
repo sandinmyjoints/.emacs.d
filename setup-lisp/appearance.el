@@ -103,7 +103,8 @@
 ;; large, dark: medium
 
 (defun wjb/font-fira ()
-  "Works well with dark and light themes."
+  "Works well with dark and light themes, good on both big and
+small screens."
   (interactive)
   (set-face-font 'default "Fira Code-15")
   (if (and (wjb/is-small-display) wjb/dark)
@@ -135,17 +136,19 @@ themes."
   )
 
 (defun wjb/font-cascadia ()
-  "Works best with dark themes and large screen b/c only has one
-font weight and it's pretty heavy."
+  "Works well with dark and light themes, best on small screens,
+OK on large screens."
   (interactive)
   (set-face-font 'default "Cascadia Code PL-15")
-  (set-face-attribute 'default nil :weight 'normal)
+  (if (wjb/is-small-display)
+      (set-face-attribute 'default nil :weight 'light)
+      (set-face-attribute 'default nil :weight 'normal))
 
   (set-face-font 'variable-pitch "Fira Sans")
   (set-face-attribute 'variable-pitch nil :weight 'light))
 
 (defvar wjb/font #'wjb/font-deja "defun to set fonts.")
-(setq wjb/font #'wjb/font-fira)
+(setq wjb/font #'wjb/font-cascadia)
 
 (call-interactively wjb/font)
 
@@ -321,7 +324,7 @@ font weight and it's pretty heavy."
   (setq window-divider-default-right-width 4)
   (window-divider-mode)
 
-  (global-paren-face-mode)
+  (global-paren-face-mode) ;; incompatible with tree-sitter
 
   ;; (set-face-attribute 'window-divider-first-pixel nil :weight 'bold)
   ;; (set-face-attribute 'window-divider-last-pixel nil :weight 'bold)
@@ -361,8 +364,13 @@ font weight and it's pretty heavy."
   (call-interactively wjb/font)
 
   ;; temporarily switch to treemacs window
-  (with-selected-window (treemacs-get-local-window)
-    (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48)))
+  (when (treemacs-get-local-window)
+    (with-selected-window (treemacs-get-local-window)
+      (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
+
+  ;; these must be integers -- floats turn into zero
+  (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
+        eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
 
   (wjb/turn-on-hl-line)
 
@@ -535,7 +543,7 @@ font weight and it's pretty heavy."
 (use-package doom-themes
   ;; :disabled
   :config
-  ;; (change-theme 'doom-one t)
+  (change-theme 'doom-one t)
   ;; (change-theme 'doom-one-light t) ;; too light?
   ;; (change-theme 'doom-vibrant t) ;; too dim
   ;; (change-theme 'doom-acario-light t)
