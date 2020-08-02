@@ -84,6 +84,7 @@
 (setq projectile-switch-project-action 'projectile-vc)
 (setq-default projectile-indexing-method 'alien)
 
+(setq projectile-project-search-path '("~/scm/wjb" "~/scm/sd"))
 
 ;; fd is supposedly faster than find, but it might not be installed,
 ;; so better to use it via dir-locals. However, it keeps bugging me
