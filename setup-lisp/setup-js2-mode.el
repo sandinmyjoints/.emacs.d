@@ -78,7 +78,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
          (unless arg
 	         (progn (insert "console.log('DEBUG ' + '" stmt " = ');")
 		              (newline-and-indent)
-		              (insert "console.dir(" stmt ", { depth: null, colors: true });"))
+		              (insert "console.dir(" stmt ");"))
 	         ;; (insert "console.log('DEBUG ' + '" stmt " = ', " stmt ");")
            (insert "")
            )))))
@@ -146,8 +146,13 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
     (setq mode-name "JS2"
           company-backends wjb/company-backends-js)
     (electric-pair-mode 1)
+    ;; (require 'smartparens-javascript)
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
   (add-hook 'js2-mode-hook #'wjb/js2-mode-hook)
+
+  ;; not quite ready for prime time:
+  ;; (add-hook 'js2-mode-hook #'tree-sitter-mode)
+  ;; (add-hook 'js2-mode-hook #'tree-sitter-hl-mode)
 
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
@@ -208,13 +213,23 @@ If buffer is not visiting a file, do nothing."
 
 ;; Which mode(s) to use for JSX?
 ;; - could try js2-jsx-mode by itself
-;; - web-mode + js2-jsx-mode is pretty good but has some quirks, and js2r doesn't seem to work
+;; - web-mode + js2-jsx-mode is pretty good but has some quirks, and js2r doesn't work b/c it doesn't support the js2 parse tree.
 ;; - rsjx-mode works with js2r but it has had a tendency to hang when attributes are malformed.
+;; - in emacs 27, js-mode with js2-minor-mode is recommended for JSX, but js2 doesn't work.
 ;;
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . rjsx-mode)) ;; rjsx can parse spread operator
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)) ;; rjsx can parse spread operator
+(add-to-list 'auto-mode-alist '("\\.min\\.js\\'" . fundamental-mode))
 (add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
+(add-to-list 'auto-mode-alist '("-min-async\\.js\\'" . fundamental-mode))
+
+;; from https://github.com/felipeochoa/rjsx-mode/issues/112#issuecomment-530497532
+(defun +javascript-rjsx-electric-gt-a (n)
+  (when (and (looking-back "<>")
+             (looking-at-p "/>"))
+    (save-excursion (insert "<"))))
+(advice-add #'rjsx-electric-gt :after #'+javascript-rjsx-electric-gt-a)
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
@@ -327,11 +342,15 @@ project."
 (use-package tide
   ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
   :bind (("M-." . smart-jump-go)
-         ("M-," . smart-jump-back))
+         ("M-," . smart-jump-back)
+         ("M-?" . tide-references))
   :after (js2-mode company)
   :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
   :config
-  (setq tide-default-mode "JS"
+  (setq tide-tsserver-start-method 'manual
+        tide-disable-suggestions t ;; trying this out
+        tide-native-json-parsing t
+        tide-default-mode "JS"
         tide-hl-identifier-idle-time 0.1
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
@@ -352,7 +371,8 @@ project."
 (add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
 
 ;; configure javascript-tide checker to run after your default javascript checker
-;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+(flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
+(flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))
