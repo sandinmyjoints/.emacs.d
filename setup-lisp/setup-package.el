@@ -57,6 +57,7 @@
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
   (defvar org '("org" . "https://orgmode.org/elpa/"))
+  (defvar ubl '("ublt" . "https://elpa.ubolonton.org/packages/"))
 
   ;; Generally not upgrading packages in this archive:
   (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
@@ -64,8 +65,9 @@
   (add-to-list 'package-archives org)
   (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
-  (add-to-list 'package-archives melpa-mirror)
+  ;; (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
+  (add-to-list 'package-archives ubl)
 
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
