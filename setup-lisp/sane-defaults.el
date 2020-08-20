@@ -46,6 +46,10 @@
 ;;
 ;;; Code:
 
+(setq package-quickstart t
+      diff-font-lock-prettify t
+      isearch-lazy-count t)
+
 (setq user-full-name "William Bert"
       user-mail-address "william.bert@gmail.com")
 
