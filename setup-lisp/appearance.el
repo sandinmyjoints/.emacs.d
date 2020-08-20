@@ -252,15 +252,15 @@ OK on large screens."
 ;; TODO: leave some blank space at right (padding) on large monitors
 ;; (set-window-margins nil 0 4)
 
-;; TODO
+;; Disabled b/c causing a lot of flickering.
 (use-package auto-dim-other-buffers
   :defer 1
-  :disabled
   :diminish auto-dim-other-buffers-mode
   :config
+  :disabled
   (setq auto-dim-other-buffers-dim-on-focus-out nil
         auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
-  (auto-dim-other-buffers-mode t))
+  (auto-dim-other-buffers-mode -1))
 
 ;; Themes. Goal is to have one dark and one light theme that both work well, and
 ;; also have matching themes for Terminal.app.
@@ -543,7 +543,7 @@ OK on large screens."
 (use-package doom-themes
   ;; :disabled
   :config
-  (change-theme 'doom-one t)
+  ;; (change-theme 'doom-one t)
   ;; (change-theme 'doom-one-light t) ;; too light?
   ;; (change-theme 'doom-vibrant t) ;; too dim
   ;; (change-theme 'doom-acario-light t)
@@ -627,8 +627,13 @@ OK on large screens."
 
 ;; light
 (use-package modus-operandi-theme
-  :disabled
-  :ensure t)
+  :ensure t
+  :config
+  (setq modus-operandi-theme-3d-modeline t
+        modus-operandi-theme-variable-pitch-headings t)
+  (solaire-global-mode -1)
+  (setq wjb/dark nil))
+
 (when nil
   (progn
     (change-theme 'modus-operandi t)
@@ -639,15 +644,20 @@ OK on large screens."
 
 ;; dark
 (use-package modus-vivendi-theme
-  :disabled
-  :ensure t)
+  :ensure t
+  :config
+  (setq modus-vivendi-theme-3d-modeline t
+        modus-vivendi-theme-variable-pitch-headings t)
+  (solaire-global-mode -1)
+  (setq wjb/dark t))
+
 (when nil
   (progn
     (change-theme 'modus-vivendi t)
     (solaire-global-mode -1)
     (setq wjb/dark t)
-    (wjb/customize-appearance))
-)
+    (wjb/customize-appearance)))
+
 
 (provide 'appearance)
 
