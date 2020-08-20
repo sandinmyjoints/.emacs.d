@@ -91,6 +91,7 @@
         sp-wrap-tag-done
         symbol-overlay-jump-next
         transpose-words
+        wgrep-finish-edit
         whack-whitespace
         wjb-kill-this-node
         wjb-toggle-it-only
