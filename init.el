@@ -94,9 +94,9 @@
   ;;      (fullscreen . fullboth)))
 
   ;; This finds and sets up autoloads.
-  (package-initialize)
-  (setq package-enable-at-startup nil
-        package--init-file-ensured nil)
+(when (< emacs-major-version 27)
+  (setq package--init-file-ensured nil)
+  (package-initialize))
 
   ;; Set file containing machine-local customized settings.
   (setq custom-file
@@ -128,7 +128,7 @@
   (require 'main)
 )
 
-(defvar wjb/gc-cons-threshold (eval-when-compile (* 2 800000)))
+(defvar wjb/gc-cons-threshold (* 2 800000))
 (defvar wjb/gc-timer)
 (setq garbage-collection-messages nil)
 
@@ -163,8 +163,9 @@
                            ;; (add-hook 'focus-out-hook #'garbage-collect t)
                            (setq gc-cons-threshold wjb/gc-cons-threshold)))))))
 
+(put 'list-timers 'disabled nil)
+
 (provide 'init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
-(put 'list-timers 'disabled nil)
