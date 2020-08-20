@@ -2177,6 +2177,14 @@ fatal: not a git repository (or any of the parent directories): .git
        NEODARWIN_SKIP_PRECOMMIT before lint-staged (which includes prettier) runs.
      - If/when we upgrade husky, this will probably get overwritten... Use
        HUSKY_SKIP_INSTALL (see https://github.com/typicode/husky/issues/172)
+     #+begin_src lisp
+;; in .dir-locals.el
+     (eval progn
+        (make-local-variable 'process-environment)
+        (setq process-environment
+              (copy-sequence process-environment))
+        (setenv "SD_SKIP_PRECOMMIT" "1"))
+     #+end_src
      - treemacs
        - want treemacs-next-neighbour-or-up
 ** $sh-mode
@@ -2373,3 +2381,35 @@ dired, writable dired
    - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
      Since I don't use ido anymore, generally save to just delete this file.
    - also check ~/.recentf
+* autopairing/smartparens/paredit/etc
+  - [ ] fix autopairing/smartparens/paredit
+    - quotes in rjsx, js2-modes
+    - https://github.com/magnars/change-inner.el
+* typescript / tide                                         :tide:typescript:
+  - disable automatic type acquisition:
+    https://github.com/microsoft/TypeScript/issues/36358,
+    https://stackoverflow.com/questions/53335674/vscode-replace-typescript-definitions-with-node-modules-definitions, https://code.visualstudio.com/docs/nodejs/working-with-javascript
+  - compiler options: https://github.com/Microsoft/TypeScript/blob/17eaf50b/src/server/protocol.ts#L2684
+  - [X] tide intellisense when C-a, C-e, next-error, prev-error
+    - eldoc
+    - "eldoc" "forward-char" "backward-word"
+    - eldoc-message-commands
+    - (eldoc-add-command)
+  - get typescript version with tide-verify-setup
+* tide uses eldoc, I have things configured for eldoc to to use eldoc-box, eldoc-box-hover-mode in prog-mode hook
+* TODO cypress black text on black bg in terminal                :cypress:vterm:
+      - foreground: black
+      - background: #000000
+      - can it automatically do inverse video?
+      - https://emacs.stackexchange.com/questions/19947/unset-inherited-face-attribute
+      - font-lock-face property black
+  #+begin_src emacs-lisp
+    (set-face-attribute 'term-color-black nil
+                      :distant-foreground "yellow")
+  (set-face-attribute 'vterm-color-black nil
+                      :distant-foreground "yellow")
+  ;; (set-face-attribute 'font-lock-face nil
+  ;; 			              :distant-foreground "yellow")
+
+  #+end_src
+* TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
