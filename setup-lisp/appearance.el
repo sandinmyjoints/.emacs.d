@@ -254,7 +254,6 @@ OK on large screens."
 
 ;; Disabled b/c causing a lot of flickering.
 (use-package auto-dim-other-buffers
-  :defer 1
   :diminish auto-dim-other-buffers-mode
   :config
   :disabled
@@ -338,7 +337,7 @@ OK on large screens."
   ;; some themes try to jack these
   (when (facep 'org-level-1) (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal))
   (when (facep 'outline-1) (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal))
-  (when (facep 'org-level-1) (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil))
+  (when (facep 'treemacs-root-face) (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil))
 
   (if wjb/dark
       (progn
@@ -364,7 +363,7 @@ OK on large screens."
   (call-interactively wjb/font)
 
   ;; temporarily switch to treemacs window
-  (when (treemacs-get-local-window)
+  (when (functionp 'treemacs-get-local-window)
     (with-selected-window (treemacs-get-local-window)
       (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
 
@@ -384,7 +383,6 @@ OK on large screens."
   )
 
 (use-package gruvbox-theme ;; dark
-  :defer 1
   :disabled
   :config
   (setq wjb/dark t)
@@ -405,7 +403,6 @@ OK on large screens."
 )
 
 (use-package gruvbox-theme ;; light
-  :defer 1
   :disabled
   :config
   (call-interactively #'wjb/light-theme))
@@ -423,7 +420,6 @@ OK on large screens."
 )
 
 (use-package nimbus-theme
-  :defer 1
   :disabled
   :config
   (call-interactively #'wjb/dark-theme))
@@ -431,14 +427,12 @@ OK on large screens."
 ;; Nice theme but not updated since 2014. Enabling it produces a warning;
 ;; https://stackoverflow.com/a/1322978/599258 might help with debugging it.
 (use-package afternoon-theme
-  :defer 1
   :disabled
   :config
   (change-theme 'afternoon)
   (wjb/customize-appearance))
 
 (use-package ample-theme
-  :defer 1
   :disabled
   :init
   (load-theme 'ample t t)
@@ -541,6 +535,7 @@ OK on large screens."
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
 (use-package doom-themes
+  :after treemacs
   ;; :disabled
   :config
   ;; (change-theme 'doom-one t)
@@ -567,12 +562,10 @@ OK on large screens."
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
   ;; seems to require all-the-icons
-  (doom-themes-treemacs-config)
+  (add-hook 'treemacs-mode-hook #'doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
   ;; (doom-themes-org-config)
-
-  (wjb/customize-appearance)
 )
 
 ;; Looks nice but updates frequently and takes CPU/leads to GCs
@@ -601,7 +594,7 @@ OK on large screens."
       (setq wjb/set-cursor-color-buffer (buffer-name)))))
 
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
-(add-hook 'after-init-hook 'wjb/set-cursor-color-according-to-mode)
+(add-hook 'emacs-startup-hook 'wjb/set-cursor-color-according-to-mode)
 
 ;; transparency:
 ;; unfocused both: 50
@@ -656,7 +649,8 @@ OK on large screens."
     (change-theme 'modus-vivendi t)
     (solaire-global-mode -1)
     (setq wjb/dark t)
-    (wjb/customize-appearance)))
+    (wjb/customize-appearance))
+  )
 
 
 (provide 'appearance)

@@ -46,8 +46,23 @@
 ;;
 ;;; Code:
 
-(setq package-quickstart t
-      diff-font-lock-prettify t
+;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
+;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
+;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
+(setq display-buffer-alist
+      ;; Let popup buffers pop up.
+      '(("\*.*popup\*" . (display-buffer-pop-up-window))
+        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
+        ;; Catchall: always allow same window, which is the one reusable window.
+        (".*" .
+         ;; (display-buffer-use-some-window .
+         ;; (display-buffer-reuse-window .
+         (display-buffer-same-window .
+                                         '((inhibit-same-window . nil)
+                                           (inhibit-switch-frame . t))))
+        ))
+
+(setq diff-font-lock-prettify t
       isearch-lazy-count t)
 
 (setq user-full-name "William Bert"
@@ -196,7 +211,6 @@
 
 ;; Add parts of each file's directory to the buffer name if not unique
 (use-package uniquify
-  :defer 1
   :config
   (setq uniquify-buffer-name-style 'post-forward))
 
@@ -232,7 +246,7 @@
 
 ;;; Avoid backslash madness.
 (use-package re-builder
-  :defer t
+  :defer 5
   :config
   (setq reb-re-syntax 'string))
 
@@ -422,6 +436,8 @@
 (setq tags-add-tables t)
 
 (defvar desktop-restore-eager 16)
+(setq desktop-lazy-verbose nil
+      desktop-lazy-idle-delay 8)
 (desktop-save-mode 1)
 ;; (setq desktop-restore-frames nil)
 

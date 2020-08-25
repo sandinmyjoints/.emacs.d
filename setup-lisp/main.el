@@ -92,14 +92,10 @@
 ;; Base packages.
 ;;
 (use-package recentf
-  ;; Loads after 1 second of idle time.
-  :defer 1)
+  :defer 5)
 
 ;; Lists.
 (use-package dash
-  :ensure t)
-;; Sequences.
-(use-package seq
   :ensure t)
 ;; Strings.
 (use-package s
@@ -112,7 +108,6 @@
   :ensure t)
 ;; Alists.
 (use-package asoc
-  :defer 1
   :load-path "elisp/asoc.el")
 
 (use-package simple
@@ -127,12 +122,6 @@
   (remove-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
 (when is-mac (require 'setup-mac))
-
-;; ========================================
-;; Machine-local custom configuration.
-;; ========================================
-
-(load custom-file t t)
 
 ;; ========================================
 ;; Helper defuns.
@@ -190,7 +179,7 @@ in the current window."
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (use-package paradox
-  :defer t
+  :defer 5
   :config
   (paradox-enable))
 
@@ -244,27 +233,27 @@ in the current window."
 (require 'setup-grep)
 
 (use-package wgrep
-  :defer t
+  :defer 5
   :config
   (setq wgrep-enable-key "w"))
 
 (require 'defuns)
 
 (use-package autorevert
-  :defer 1
+  :defer 5
   :diminish auto-revert-mode)
 
 (use-package simple
   :diminish auto-fill-function)
 
 (use-package abbrev
-  :defer 4
+  :defer 5
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
   ;; (list-abbrevs)
   :diminish abbrev-mode)
 
 (use-package server
-  :defer 4
+  :defer 5
   :config
   (unless (server-running-p)
     (message "Starting server...")
@@ -283,14 +272,13 @@ in the current window."
 (defun wjb/soft-wrap-text ()
   "Soft wrap: sets fill-column to 10000. Doesn't auto-fill;
 instead, wraps at screen edge, thanks to visual-line-mode."
-  (set-fill-column 10000)
+  (setq fill-column 10000)
   (auto-fill-mode -1)
   (visual-line-mode 1))
 
 (defun wjb/hard-wrap-text ()
   "Hard wrap: sets fill-column to 80 and auto-fills."
-  ;; C-x f is set-fill-column
-  (set-fill-column 78)
+  (setq fill-column 78)
   (auto-fill-mode 1)
   (visual-line-mode -1))
 
@@ -310,7 +298,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;; - email composing/editing
 ;;
 (use-package olivetti
-  :defer t
+  :defer 5
   :disabled
   :config
   (defun wjb/olivetti ()
@@ -325,12 +313,12 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;; between which-key and which-key-posframe, they are making typing and
 ;; navigation within buffers slow
 (use-package which-key
+  :defer 5
   :diminish
   :config
   (which-key-mode))
 
 (use-package which-key-posframe
-  ;; :defer 4
   :after (which-key posframe)
   :config
   (which-key-posframe-mode))
@@ -339,7 +327,7 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (so-long-enable))
 
 (use-package vlf
-  :defer 4
+  :defer 5
   ;; put this in vlf-setup.el, L104:
   ;; ((string-equal filename "TAGS")
   ;;  (let ((large-file-warning-threshold nil))
@@ -440,6 +428,8 @@ clean buffer we're laxer about checking."
   :config
   (remove-hook 'flycheck-mode-hook #'flycheck-inline-mode))
 
+;; B/c of https://github.com/pitkali/pos-tip/pull/17/files
+;; This is also in /elpa, so monitor it for changes.
 (use-package pos-tip
   :load-path "elisp/pos-tip")
 
@@ -457,7 +447,7 @@ clean buffer we're laxer about checking."
   (add-hook 'flycheck-mode-hook #'flycheck-status-emoji-mode))
 
 (use-package css-mode
-  :defer t
+  :defer 5
   :config
   (setq css-indent-offset 2)
   (defun wjb/css-mode-hook ()
@@ -476,7 +466,7 @@ clean buffer we're laxer about checking."
 
 (use-package eldoc
   :diminish eldoc-mode
-  :defer 3
+  :defer 5
   :config
   (diminish 'eldoc-mode)
   (eldoc-add-command 'wjb/forward-symbol)
@@ -520,7 +510,7 @@ clean buffer we're laxer about checking."
   (beacon-mode 1))
 
 (use-package dired
-  :defer 1
+  :defer 5
   :init
   ;; This line must run *before* dired is loaded:
   ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
@@ -561,7 +551,7 @@ clean buffer we're laxer about checking."
   (setq diredp-hide-details-propagate-flag t))
 
 (use-package ediff
-  :defer t
+  :defer 5
   :init
   (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
   (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
@@ -579,7 +569,7 @@ clean buffer we're laxer about checking."
   :diminish visual-line-mode)
 
 (use-package helpful
-  :defer 4
+  :defer 5
   :after help-mode
   :config
   (add-hook 'helpful-mode-hook 'visual-line-mode)
@@ -607,9 +597,6 @@ clean buffer we're laxer about checking."
   ;; don't find this very useful, but it's frequently useful to only
   ;; look at interactive functions.
   (global-set-key (kbd "C-h C") #'helpful-command))
-
-(use-package ace-window
-  :defer 4)
 
 ;; from https://gitlab.petton.fr/nico/emacs.d/
 (use-package whitespace
@@ -689,7 +676,7 @@ pasting into other programs."
   (add-hook 'org-mode-hook #'auto-fill-mode)
 
   (defun wjb/org-mode-hook ()
-    (set-fill-column 80)
+    ;; (set-fill-column 80) ;; spams messages
 
     (setq-local company-backends wjb/company-backends-org)
     (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
@@ -880,7 +867,7 @@ pasting into other programs."
 
 ;; Fix sql-prompt-regexp: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27586
 (use-package sql
-  :defer t
+  :defer 5
   :after page-break-lines
   :config
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat)
@@ -929,10 +916,10 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
 (use-package ghub
-  :defer t)
+  :defer 5)
 
 (use-package transient
-  :defer t
+  :defer 5
   :config
   (setq transient-highlight-mismatched-keys t))
 
@@ -982,7 +969,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package highlight-indentation
   :commands highlight-indentation-current-column-mode
   :diminish highlight-indentation-current-column-mode
-  :defer 4
+  :defer 5
   :disabled
   :config
   (require 'color)
@@ -1008,7 +995,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; Python.
 (use-package python
-  :defer t
+  :defer 5
   :config
   (setq python-indent-guess-indent-offset-verbose nil)
   (setq python-indent-offset 2)
@@ -1089,8 +1076,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
         ("C-c C-g" . 'ein:notebooklist-open)))
 
 (use-package pip-requirements
-  :after python
-  :defer t)
+  :after python)
 
 (use-package highlight-indent-guides
   :disabled ;; doesn't seem to work right
@@ -1106,7 +1092,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; Rainbow mode.
 (use-package rainbow-mode
-  :defer t
+  :defer 5
   :diminish rainbow-mode
   :init
   ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
@@ -1120,7 +1106,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 (use-package tsv-mode
-  :defer t
+  :defer 5
   :disabled
   :mode "\\.tsv\\'"
   :init
@@ -1218,7 +1204,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
 ;;    - dired-do-rename and copy and other functions are also bad with counsel-find-file.
 ;;    - https://github.com/jixiuf/ivy-dired-history
 (use-package ivy
-  :defer
   :diminish
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -1494,6 +1479,9 @@ If PROJECT is not specified the command acts on the current project."
           helm-locate-command "mdfind -name %s %s"))
   )
 
+(use-package ace-window
+  :defer 5)
+
 (use-package ace-jump-helm-line
   :disabled
   :config
@@ -1543,7 +1531,7 @@ If PROJECT is not specified the command acts on the current project."
   :after helm)
 
 (use-package quickrun
-  :defer t
+  :defer 5
   :config
   (defalias #'runthis #'quickrun))
 
@@ -1628,7 +1616,7 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; counsel-etags-scan-code
 (use-package counsel-etags
-  :defer t
+  :defer 5
   ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
   :init
   (add-hook 'prog-mode-hook
@@ -1667,16 +1655,14 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Lua mode.
 (use-package lua
-  :defer t
   :mode "\\.lua\\'"
   :interpreter "lua")
 
 (use-package gitignore-mode
-  :defer t
   :mode "global.gitignore")
 
 (use-package rainbow-delimiters
-  :defer t
+  :defer 5
   :init
   (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
 
@@ -1702,7 +1688,7 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Dims parens in certain modes.
 (use-package paren-face
-  :defer 1
+  :defer 5
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
@@ -1775,7 +1761,6 @@ If PROJECT is not specified the command acts on the current project."
 
 
 (use-package restclient
-  :defer t
   :mode
   ("\\.rest\\'" . restclient-mode)
   ("\\.http\\'" . restclient-mode)
@@ -1791,7 +1776,6 @@ If PROJECT is not specified the command acts on the current project."
 ;; See: https://github.com/magnars/multiple-cursors.el
 ;;
 (use-package multiple-cursors
-  :defer t
   :bind (:map global-map
               ;; ("C-x t" . 'set-rectangular-region-anchor) ;
               ("C->" . 'mc/mark-next-like-this)
@@ -1832,7 +1816,6 @@ If PROJECT is not specified the command acts on the current project."
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
 (use-package expand-region
-  :defer t
   :bind (:map global-map
               ("C-=" . 'er/expand-region)))
 
@@ -1855,19 +1838,7 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key (kbd "C-c w s") 'copy-as-format-slack)
   (global-set-key (kbd "C-c w g") 'copy-as-format-github))
 
-;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
-;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
-;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
-(setq display-buffer-alist
-      ;; Let popup buffers pop up.
-      '(("\*.*popup\*" . (display-buffer-pop-up-window))
-        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
-        ;; Catchall: always allow same window, which is the one reusable window.
-        (".*" .
-         (display-buffer-use-some-window .
-                                         '((inhibit-same-window . nil)
-                                           (inhibit-switch-frame . t))))
-        ))
+
 
 ;; from http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
@@ -1889,67 +1860,66 @@ If PROJECT is not specified the command acts on the current project."
   (redraw-display))
 
 (use-package treemacs
-  :defer t
+  :hook (emacs-startup . #'treemacs-find-file)
   :config
-  (progn
-    (setq treemacs-collapse-dirs                 3
-          treemacs-deferred-git-apply-delay      0.5
-          treemacs-display-in-side-window        t
-          treemacs-eldoc-display                 t
-          treemacs-file-event-delay              5000
-          treemacs-file-follow-delay             0.2
-          treemacs-follow-after-init             t
-          treemacs-git-command-pipe              ""
-          treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2
-          treemacs-indentation-string            " "
-          treemacs-is-never-other-window         nil ;; TODO t
-          treemacs-max-git-entries               5000
-          treemacs-missing-project-action        'ask
-          treemacs-no-png-images                 nil
-          treemacs-no-delete-other-windows       t
-          treemacs-project-follow-cleanup        nil
-          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                      'left
-          treemacs-recenter-distance             0.1
-          treemacs-recenter-after-file-follow    'on-distance
-          treemacs-recenter-after-tag-follow     nil
-          treemacs-recenter-after-project-jump   'always
-          treemacs-recenter-after-project-expand 'on-distance
-          treemacs-show-cursor                   nil
-          treemacs-show-hidden-files             t
-          treemacs-silent-filewatch              nil
-          treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-case-insensitive-asc
-          treemacs-space-between-root-nodes      nil
-          treemacs-tag-follow-cleanup            t
-          treemacs-tag-follow-delay              1.5
-          treemacs-width                         48)
+  (setq treemacs-collapse-dirs                 3
+        treemacs-deferred-git-apply-delay      0.5
+        treemacs-display-in-side-window        t
+        treemacs-eldoc-display                 t
+        treemacs-file-event-delay              5000
+        treemacs-file-follow-delay             0.2
+        treemacs-follow-after-init             t
+        treemacs-git-command-pipe              ""
+        treemacs-goto-tag-strategy             'refetch-index
+        treemacs-indentation                   2
+        treemacs-indentation-string            " "
+        treemacs-is-never-other-window         nil ;; TODO t
+        treemacs-max-git-entries               5000
+        treemacs-missing-project-action        'ask
+        treemacs-no-png-images                 nil
+        treemacs-no-delete-other-windows       t
+        treemacs-project-follow-cleanup        nil
+        treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+        treemacs-position                      'left
+        treemacs-recenter-distance             0.1
+        treemacs-recenter-after-file-follow    'on-distance
+        treemacs-recenter-after-tag-follow     nil
+        treemacs-recenter-after-project-jump   'always
+        treemacs-recenter-after-project-expand 'on-distance
+        treemacs-show-cursor                   nil
+        treemacs-show-hidden-files             t
+        treemacs-silent-filewatch              nil
+        treemacs-silent-refresh                nil
+        treemacs-sorting                       'alphabetic-case-insensitive-asc
+        treemacs-space-between-root-nodes      nil
+        treemacs-tag-follow-cleanup            t
+        treemacs-tag-follow-delay              1.5
+        treemacs-width                         48)
 
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    (treemacs-resize-icons 18)
-    (treemacs-follow-mode nil)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode nil)
-    (treemacs-git-mode -1)
-    (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal)
+  ;; The default width and height of the icons is 22 pixels. If you are
+  ;; using a Hi-DPI display, uncomment this to double the icon size.
+  (treemacs-resize-icons 18)
+  (treemacs-follow-mode nil)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode nil)
+  (treemacs-git-mode -1)
+  (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal)
 
-    (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
-    (defun wjb/treemacs-hook ()
-      ;; Preserve indents when wrapping lines in visual-line-mode.
-      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t)
-      (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
-      (setq-local cursor-type 'box)
-      (with-selected-window (treemacs-get-local-window)
-        (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
-    (add-hook 'treemacs-mode-hook #'wjb/treemacs-hook)
-    ;; for this to work with visual fill, treemacs tags would need to be able
-    ;; to handle wrapped lines
-    ;; (add-hook 'treemacs-mode-hook #'visual-line-mode t)
+  (defun wjb/treemacs-hook ()
+    ;; Preserve indents when wrapping lines in visual-line-mode.
+    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t)
+    (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil)
+    (setq-local cursor-type 'box)
+    (with-selected-window (treemacs-get-local-window)
+      (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
+  (add-hook 'treemacs-mode-hook #'wjb/treemacs-hook)
+  (add-hook 'treemacs-mode-hook 'hidden-mode-line-mode)
+  ;; for this to work with visual fill, treemacs tags would need to be able
+  ;; to handle wrapped lines
+  ;; (add-hook 'treemacs-mode-hook #'visual-line-mode t)
 
-    (treemacs-map-icons-with-auto-mode-alist
-     '(".less")
+  (treemacs-map-icons-with-auto-mode-alist
+   '(".less")
      '(less-css-mode . (treemacs-get-icon-value "css")))
 
     ;; todo: consider conditionally adding node_modules
@@ -1958,7 +1928,6 @@ If PROJECT is not specified the command acts on the current project."
        (s-equals? (file-name-extension filename) "elc")
        (s-equals? (file-name-extension filename) "pyc")))
     (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
-    )
 
   :bind
   (:map global-map
@@ -1973,8 +1942,7 @@ If PROJECT is not specified the command acts on the current project."
   (:map treemacs-mode-map
         ("e" . treemacs-TAB-action)
         ("j" . treemacs-next-neighbour)
-        ("k" . treemacs-previous-neighbour)
-        )
+        ("k" . treemacs-previous-neighbour))
   )
 
 (use-package treemacs-projectile
@@ -2083,11 +2051,10 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package gitignore-mode
   :mode "\\.dockerignore\\'"
-  ".*gitignore\\'"
-  :defer t)
+  ".*gitignore\\'")
 
 (use-package docker
-  :defer t
+  :defer 5
   :bind (:map wjb-map
               ("d" . docker))
   :config
@@ -2095,22 +2062,22 @@ If PROJECT is not specified the command acts on the current project."
         docker-container-default-sort-key ""))
 
 (use-package dockerfile-mode
-  :mode "Dockerfile-*"
-  :defer t)
+  :mode "Dockerfile"
+  "Dockerfile-*\\'")
 
 (use-package docker-compose-mode
-  :defer t)
+  :mode "docker-compose*\\.yml")
 
 (use-package docker-tramp
-  :defer t)
+  :defer 5)
 
 (use-package conf-mode
-  :defer t
   :mode "credentials$"
   "pylintrc"
-  "ads.txt"
-  "robots.txt"
-  "requirements.*.txt"
+  "ads\\.txt"
+  "robots\\.txt"
+  "requirements\\.txt"
+  "requirements\\.*\\.txt"
   "\\.htaccess"
   "\\.curlrc"
   "\\..*rc\\'"
@@ -2138,14 +2105,13 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; RVM.
 (use-package rvm
-  :ensure t
-  :defer t
+  :defer 5
   :config
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
 
 (use-package beginend
   :diminish
-  :ensure t
+  :defer 5
   :config
   (beginend-global-mode)
   (diminish 'beginend-global-mode)
@@ -2154,38 +2120,19 @@ If PROJECT is not specified the command acts on the current project."
 (use-package dotenv-mode
   :mode "\\.env\\'")
 
-(use-package coffee-mode
-  :ensure t
-  :defer t
-  :config
-  (require 'setup-coffee)
-  (defun wjb/paragraph-boundaries-for-coffee-mode ()
-    ;; paragraph-start from js2-mode:    "[ 	]*\\(//+\\|\\**\\)[ 	]*\\(@[[:alpha:]]+\\>\\|$\\)\\|^"
-    ;; paragraph-separate from js2-mode: "[ 	]*\\(//+\\|\\**\\)[ 	]*$\\|^"
-    ;;
-    ;; TODO: remove the parts that have to deal with forward slash,
-    ;; which isn't in Coffeescript comments.
-    (setq-local paragraph-start "[ 	]*\\(//+\\|\\#*\\)[ 	]*\\(@[[:alpha:]]+\\>\\|$\\)\\|^")
-    (setq-local paragraph-separate "[ 	]*\\(//+\\|\\#*\\)[ 	]*$\\|^"))
-  (add-hook 'coffee-mode-hook #'wjb/paragraph-boundaries-for-coffee-mode))
-
 (use-package discover
-  :ensure t
-  :defer t
+  :defer 5
   :config
   (global-discover-mode 1))
 
 (use-package know-your-http-well
-  :ensure t
-  :defer t)
+  :defer 5)
 
 (use-package sane-term
   :disabled
   :commands (sane-term sane-term-create)
   :bind (("C-c s" . sane-term)
-         ("C-c S" . sane-term-create))
-  :ensure t
-  :defer t)
+         ("C-c S" . sane-term-create)))
 
 (use-package pcomplete)
 
@@ -2416,10 +2363,9 @@ If PROJECT is not specified the command acts on the current project."
 ;; This will compute the TOC at insert it at current position.
 ;; Update existing TOC: C-u M-x markdown-toc-generate-toc
 (use-package markdown-toc
-  :defer t)
+  :after markdown-mode)
 
 (use-package shell-script-mode
-  :defer t
   :mode "\\.bash*")
 
 (use-package elisp-demos
@@ -2447,7 +2393,7 @@ If PROJECT is not specified the command acts on the current project."
   (atomic-chrome-start-server))
 
 (use-package google-this
-  :defer t
+  :defer 5
   ;; C-c / n|SPC|l
   :diminish google-this-mode
   :config
@@ -2512,9 +2458,6 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   ;; (npm-global-mode)
   )
 
-(use-package json-mode
-  :defer t)
-
 ;; jsons-print-path
 (use-package json-snatcher
   :disabled)
@@ -2535,7 +2478,7 @@ header overlay should cover. Result is a cons cell of (begin . end)."
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
 (use-package js-comint
-  :defer t
+  :disabled
   :init
   ;; Fix garbage in prompt: http://stackoverflow.com/questions/13862471
   (setenv "NODE_NO_READLINE" "1")
@@ -2565,7 +2508,6 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   (js-do-use-nvm))
 
 (use-package coffee-mode
-  :defer t
   :mode "\\.coffee\\.erb\\'"
   :init
   (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
@@ -2593,6 +2535,7 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   (add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
 
   :config
+  (require 'setup-coffee)
   (setq coffee-tab-width preferred-javascript-indent-level))
 
 ;; See:
@@ -3062,7 +3005,7 @@ Interactively also sends a terminating newline."
   :mode "\\.knot\\'")
 
 (use-package eglot
-  :defer t
+  :disabled
   :config
   ;; TODO: find a language server that actually works with JSX
   ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
@@ -3160,7 +3103,6 @@ Interactively also sends a terminating newline."
   (global-hungry-delete-mode))
 
 (use-package nginx-mode
-  :defer 5
   :config
   (setq nginx-indent-level 2)
   (add-hook 'nginx-mode-hook #'company-nginx-keywords))
@@ -3362,7 +3304,7 @@ resized horizontally or vertically."
 ;; 	url = git@github.com:spanishdict/neodarwin.git
 ;;
 (use-package browse-at-remote
-  :defer t
+  :defer 5
   :config
   (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
                                                ("github.com" . "github")
@@ -3453,6 +3395,7 @@ resized horizontally or vertically."
   )
 
 (use-package dashboard
+  :disabled
   :ensure t
   :config
   (dashboard-setup-startup-hook))

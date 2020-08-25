@@ -103,7 +103,7 @@
   (mac-auto-operator-composition-mode))
 
 (use-package osx-plist
-  :defer t
+  :mode "\\.plist\\'"
   :ensure t)
 
 (provide 'setup-mac)
