@@ -3530,16 +3530,15 @@ is already narrowed."
 
 
 
-(require 'wjb)
-
-(defun wjb/after-init-hook ()
+(defun wjb/emacs-startup-hook ()
   (setq source-directory "/Users/william/scm/vendor/emacs-mac"
         find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
-  (treemacs)
+  (require 'appearance)
+  (wjb/customize-appearance)
   ;; (with-current-buffer "init.el"
   ;;   (treemacs-add-and-display-current-project))
   )
-(add-hook 'after-init-hook #'wjb/after-init-hook)
+(add-hook 'emacs-startup-hook #'wjb/emacs-startup-hook)
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
