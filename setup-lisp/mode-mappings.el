@@ -83,9 +83,9 @@
 ;(add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
 
 ;; Handlebars mode.
-(autoload 'handlebars-mode "handlebars-mode"
-  "Major mode for editing Handlebars")
-(add-to-list 'auto-mode-alist '("\\.handlebars\\'" . js2-mode))
+;; (autoload 'handlebars-mode "handlebars-mode"
+;;   "Major mode for editing Handlebars")
+;; (add-to-list 'auto-mode-alist '("\\.handlebars\\'" . js2-mode))
 
 ;; Snippets
 (add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))

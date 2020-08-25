@@ -79,7 +79,7 @@
   ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
   ;; TODO: as of Emacs 24.4, can use variable package-pinned-packages.
 
-  (package-initialize)
+  ;; (package-initialize)
 
   (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
                (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
@@ -98,10 +98,8 @@
               (when (not (package-installed-p name))
                 (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                     (let ((package-archives (list repo)))
-                      (package-initialize)
                       (package-install name))))))
-          packages)
-    (package-initialize))
+          packages))
 
   ;; Install packages if they're missing.
   (defun init--install-packages ()
@@ -119,7 +117,6 @@
      (cons 'flx-ido melpa)
      (cons 'ido-completing-read+ melpa)
      (cons 'amx melpa)
-     ;; (cons 'smex melpa)
 
      (cons 'elpy elpy)
      (cons 'pip-requirements melpa)
@@ -164,7 +161,6 @@
      (cons 'eyebrowse melpa)
      (cons 'nameframe melpa)
      (cons 'olivetti melpa)
-     (cons 'writeroom-mode melpa)
      (cons 'dashboard melpa)
 
      (cons 'doom-themes melpa)
@@ -178,10 +174,7 @@
      (cons 'quickrun melpa)
      (cons 'wgrep melpa)
      (cons 'symbol-overlay melpa)
-     (cons 'smartscan melpa)
-     (cons 'hungry-delete melpa)
      (cons 'launchctl melpa)
-     (cons 'smart-tab melpa)
      (cons 'ace-window melpa-stable)
      (cons 'vlf melpa)
      (cons 'nhexl-mode melpa)
@@ -308,6 +301,11 @@
 
      ;; Uninstalled, but consider:
 
+     ;; (cons 'smex melpa)
+     ;; (cons 'writeroom-mode melpa)
+     ;; (cons 'smartscan melpa)
+     ;; (cons 'hungry-delete melpa)
+     ;; (cons 'smart-tab melpa)
      ;; (cons 'highlight-thing melpa)
      ;; (cons 'equake melpa)
      ;; (cons 'electric-operator melpa)
@@ -334,7 +332,7 @@
   (condition-case nil
       (init--install-packages)
     (error
-     (package-refresh-contents)
+     ;; (package-refresh-contents) ;; this is running, making starting emacs dependent on the network
      (init--install-packages))))
 
 ;; A different take on a package installer, from

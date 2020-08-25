@@ -94,19 +94,19 @@
   ;;      (fullscreen . fullboth)))
 
   ;; This finds and sets up autoloads.
-(when (< emacs-major-version 27)
-  (setq package--init-file-ensured nil)
-  (package-initialize))
+  (when (< emacs-major-version 27)
+    (setq package--init-file-ensured nil)
+    (package-initialize))
 
   ;; Set file containing machine-local customized settings.
   (setq custom-file
         (expand-file-name "custom.el" user-emacs-directory))
 
   (defvar site-lisp-dir
-        (expand-file-name "elisp" user-emacs-directory))
+    (expand-file-name "elisp" user-emacs-directory))
 
   (defvar setup-lisp-dir
-        (expand-file-name "setup-lisp" user-emacs-directory))
+    (expand-file-name "setup-lisp" user-emacs-directory))
 
   (add-to-list 'load-path site-lisp-dir t)
   (add-to-list 'load-path setup-lisp-dir t)
