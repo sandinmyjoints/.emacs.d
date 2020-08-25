@@ -140,9 +140,7 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
 (use-package ace-window
-  :defer t
-  :bind (("H-o" . ace-window)
-         ("C-x o" . ace-window)
+  :bind (("C-x o" . ace-window)
          ("C-x l" . ace-window))
   :config
   (setq aw-scope 'frame
