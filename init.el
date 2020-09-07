@@ -45,6 +45,10 @@
 ;;
 ;;; Code:
 
+(add-to-list 'load-path (expand-file-name "elisp/gcmh" user-emacs-directory))
+(require 'gcmh)
+(gcmh-mode 1)
+
 ;; (setq debug-on-error t)
 (defun init ()
   ;; Resizing the Emacs frame can be a terribly expensive part of changing the
@@ -116,13 +120,16 @@
   ;; https://www.emacswiki.org/emacs/LoadPath
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
+  (setq package-user-dir "/Users/william/.emacs.d/elpa")
+  (let ((default-directory package-user-dir))
+    (normal-top-level-add-subdirs-to-load-path))
 
   (add-hook 'after-init-hook
             (lambda ()
               (message "after-init-hook after %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract (current-time) before-init-time)))
                        gcs-done)))
 
   (add-hook 'emacs-startup-hook
@@ -130,7 +137,7 @@
               (message "startup-hook after %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract (current-time) before-init-time)))
                        gcs-done)))
 
   )
@@ -142,27 +149,27 @@
 
 (let
     ((file-name-handler-alist nil)
-     (gc-cons-threshold most-positive-fixnum)
+     ;; (gc-cons-threshold most-positive-fixnum)
      (garbage-collection-messages t))
 
   (message "pre-init after %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract (current-time) before-init-time)))
                        gcs-done)
 
   (init)
   (message "init done after %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract (current-time) before-init-time)))
                        gcs-done)
 
   (require 'main)
   (message "main done after %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract (current-time) before-init-time)))
                        gcs-done)
 
   ;; ========================================
@@ -173,34 +180,35 @@
   (message "custom-file done after %s with %d garbage collections."
            (format "%.2f seconds"
                    (float-time
-                    (time-subtract after-init-time before-init-time)))
+                    (time-subtract (current-time) before-init-time)))
            gcs-done)
 
-  ;; This would result in a big GC after init finishes, right when I want to
-  ;; start using Emacs. Instead, give init a while to run, then schedule gc to
-  ;; run once after some amount of idle time, then when it finishes, reset the
-  ;; threshold to a reasonable value. The key to this is that when I start
-  ;; Emacs, the idle timer starts counting, and I usually don't touch it until
-  ;; init is done, by which time the idle timer is going to go off.
-  (add-hook 'post-gc-hook (lambda ()
-                            (when (fboundp 'wjb/gc-timer)
-                              (when (timerp 'wjb/gc-timer)
-                                (cancel-timer 'wjb/gc-timer))
-                              (makunbound 'wjb/gc-timer)
-                              (setq post-gc-hook nil))))
-  (run-with-timer
-   10 nil (lambda ()
-            (message "Initial timer done. Preparing to run gc.")
-            (setq wjb/gc-timer
-                  (run-with-idle-timer
-                   5 nil (lambda ()
-                           (message "Garbage collecting while idle.")
-                           (garbage-collect)
-                            (message "First gc done. Resetting gc-cons-threshold.")
-                           ;; see https://www.reddit.com/r/emacs/comments/bqu69o/making_emacs_snappier_i_need_a_second_opinion/
-                           ;; This might be messing with Zoom screen sharing!
-                           ;; (add-hook 'focus-out-hook #'garbage-collect t)
-                           (setq gc-cons-threshold wjb/gc-cons-threshold)))))))
+  ;; ;; This would result in a big GC after init finishes, right when I want to
+  ;; ;; start using Emacs. Instead, give init a while to run, then schedule gc to
+  ;; ;; run once after some amount of idle time, then when it finishes, reset the
+  ;; ;; threshold to a reasonable value. The key to this is that when I start
+  ;; ;; Emacs, the idle timer starts counting, and I usually don't touch it until
+  ;; ;; init is done, by which time the idle timer is going to go off.
+  ;; (add-hook 'post-gc-hook (lambda ()
+  ;;                           (when (fboundp 'wjb/gc-timer)
+  ;;                             (when (timerp 'wjb/gc-timer)
+  ;;                               (cancel-timer 'wjb/gc-timer))
+  ;;                             (makunbound 'wjb/gc-timer)
+  ;;                             (setq post-gc-hook nil))))
+  ;; (run-with-timer
+  ;;  10 nil (lambda ()
+  ;;           (message "Initial timer done. Preparing to run gc.")
+  ;;           (setq wjb/gc-timer
+  ;;                 (run-with-idle-timer
+  ;;                  5 nil (lambda ()
+  ;;                          (message "Garbage collecting while idle.")
+  ;;                          (garbage-collect)
+  ;;                           (message "First gc done. Resetting gc-cons-threshold.")
+  ;;                          ;; see https://www.reddit.com/r/emacs/comments/bqu69o/making_emacs_snappier_i_need_a_second_opinion/
+  ;;                          ;; This might be messing with Zoom screen sharing!
+  ;;                          ;; (add-hook 'focus-out-hook #'garbage-collect t)
+  ;;                          (setq gc-cons-threshold wjb/gc-cons-threshold))))))
+  )
 
 (put 'list-timers 'disabled nil)
 
