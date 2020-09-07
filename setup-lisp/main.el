@@ -454,6 +454,8 @@ clean buffer we're laxer about checking."
   (add-hook 'css-mode-hook #'wjb/css-mode-hook)
   )
 
+(use-package diminish)
+
 (use-package elisp-mode
   :mode "abbrev_defs"
   :config
