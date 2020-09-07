@@ -436,9 +436,9 @@
 (setq tags-add-tables t)
 
 (defvar desktop-restore-eager 16)
-(setq desktop-lazy-verbose nil
+(setq desktop-lazy-verbose t
       desktop-lazy-idle-delay 8)
-(desktop-save-mode 1)
+(desktop-save-mode -1)
 ;; (setq desktop-restore-frames nil)
 
 (setq register-preview-delay nil
