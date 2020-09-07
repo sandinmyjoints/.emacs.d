@@ -200,7 +200,7 @@
      (cons 'discover-my-major melpa)
      (cons 'elisp-demos melpa)
      (cons 'smart-dash melpa)
-     (cons 'prodigy melpa)
+     ;; (cons 'prodigy melpa)
 
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
@@ -257,7 +257,7 @@
      (cons 'helm-ls-git melpa)
      (cons 'helm-dired-recent-dirs melpa)
      (cons 'helm-org-rifle melpa)
-     (cons 'ace-jump-helm-line melpa)
+     ;; (cons 'ace-jump-helm-line melpa)
 
      (cons 'ivy melpa)
      (cons 'ivy-hydra melpa)
@@ -284,7 +284,7 @@
 
      (cons 'pcre2el melpa)
      (cons 'perl6-mode melpa)
-     (cons 'flycheck-perl6 melpa)
+     ;; (cons 'flycheck-perl6 melpa)
 
      (cons 'paredit melpa)
      (cons 'paredit-everywhere melpa)
