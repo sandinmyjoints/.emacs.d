@@ -340,6 +340,7 @@ project."
           "es5")))
 
 (use-package tide
+  :demand
   ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
   :bind (("M-." . smart-jump-go)
          ("M-," . smart-jump-back)
@@ -347,6 +348,8 @@ project."
   :after (js2-mode company)
   :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
   :config
+  (setq tide-tsserver-start-method 'manual)
+  (tide-setup)
   (setq tide-tsserver-start-method 'manual
         tide-disable-suggestions t ;; trying this out
         tide-native-json-parsing t
@@ -355,7 +358,7 @@ project."
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
         tide-project-cleanup-delay (* 20 60)
-        tide-server-max-response-length (* 256 1024))
+        tide-server-max-response-length (* 10 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
