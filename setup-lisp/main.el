@@ -1629,7 +1629,7 @@ If PROJECT is not specified the command acts on the current project."
   (defun counsel-etags-grep (&optional default-keyword hint root)
     (error "Signaling error instead of grepping"))
 
-  (setq counsel-etags-update-interval 60
+  (setq counsel-etags-update-interval 300
         counsel-etags-find-program "gfind"
         counsel-etags-grep-program "rg"  ;; ggrep
         counsel-etags-tags-program "ctags"
