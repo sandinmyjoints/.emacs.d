@@ -59,7 +59,7 @@
     (set-frame-parameter nil 'fullscreen fs)
     ;; (if (equal fs 'fullboth)
     ;;     (display-time-mode)
-    ;; (display-time-mode -1))
+    (display-time-mode 1)
   ))
 
 (defun wjb/margin-0 ()
