@@ -1955,6 +1955,8 @@ If PROJECT is not specified the command acts on the current project."
 ;;   :ensure t
 ;;   :config (treemacs-icons-dired-mode))
 
+
+
 ;; EPG.
 (use-package epa-file
   :defer t
@@ -1995,6 +1997,8 @@ If PROJECT is not specified the command acts on the current project."
         paradox-github-token
         (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
+
+
 (use-package org-pivotal
   :defer 5)
 
@@ -2015,7 +2019,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package symbol-overlay
   :defer t
   :bind (:map prog-mode-map
-              ("M-i" . 'symbol-overlay-put)
+              ;; ("M-i" . 'symbol-overlay-put) ;; not using
               ("M-n" . 'symbol-overlay-jump-next)
               ("M-p" . 'symbol-overlay-jump-prev)
               ("<f7>" .  'symbol-overlay-mode)
