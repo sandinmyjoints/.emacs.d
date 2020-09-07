@@ -2242,7 +2242,7 @@ If PROJECT is not specified the command acts on the current project."
   (push 'js2-mode company-ctags-modes))
 
 (defvar wjb/company-backends-original
-  '(company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+  '(company-bbdb company-eclim company-semantic company-clang company-cmake company-capf company-files
                  (company-dabbrev-code company-gtags company-etags company-keywords)
                  company-oddmuse company-dabbrev)
   "Original value of company-backends, fwiw.")
@@ -2253,7 +2253,7 @@ If PROJECT is not specified the command acts on the current project."
   (let (zing (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-xcode company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
+        (backend '(company-clang company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
       (if (equal list 'company-capf)
           (push
            (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
