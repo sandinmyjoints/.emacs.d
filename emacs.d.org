@@ -2220,6 +2220,12 @@ $ ls
      - new-line
 * TODO treemacs improvements
   - https://github.com/sei40kr/spacemacs.d/blob/master/treemacs-custom.el
+* treemacs startup
+  ;; (require 'treemacs)
+  ;; (pcase (treemacs-current-visibility)
+  ;;   ('exists  (treemacs-select-window))
+  ;;   ('none    (treemacs--init)))
+
 * TODO dropdown shell console
 ;; TODO: use esc-mode-map M-~ instead
 ;; (global-set-key (kbd "~") (lambda ()
