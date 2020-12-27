@@ -6,7 +6,7 @@
 ;; Maintainer:
 ;; Created: Wed Dec 31 17:03:23 2014 (-0800)
 ;; Version:
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "27.1"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0
@@ -458,7 +458,8 @@
 ;; for communicating with subprocesses
 (setq read-process-output-max (* 1024 1024))
 
-(setq term-suppress-hard-newline t)
+(setq term-suppress-hard-newline t
+      display-line-numbers-type nil)
 
 ;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
 (defun my-keyboard-quit-advice (fn &rest args)
@@ -478,7 +479,7 @@
   (insert char)
   (forward-char -1))
 
-(setq display-line-numbers-type nil)
+(global-so-long-mode)
 
 (provide 'sane-defaults)
 
