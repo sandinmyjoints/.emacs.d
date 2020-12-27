@@ -123,7 +123,7 @@
         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
         ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs.d")
         ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency"))
-(global-set-key (kbd "H-i") 'wjb/projects/hydra/body)
+(global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
 
 (defun wjb/switch-to-project-vterm (proj-dir)
   (let ((projectile-switch-project-action #'projectile-run-vterm))
