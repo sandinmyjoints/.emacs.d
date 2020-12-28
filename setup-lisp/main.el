@@ -446,7 +446,7 @@ clean buffer we're laxer about checking."
   (add-hook 'flycheck-mode-hook #'flycheck-status-emoji-mode))
 
 (use-package css-mode
-  :defer 5
+  :mode ("\\.css\\'")
   :config
   (setq css-indent-offset 2)
   (defun wjb/css-mode-hook ()
@@ -454,7 +454,8 @@ clean buffer we're laxer about checking."
   (add-hook 'css-mode-hook #'wjb/css-mode-hook)
   )
 
-(use-package diminish)
+(use-package less-css-mode
+  :mode ("\\.less\\'"))
 
 (use-package elisp-mode
   :mode "abbrev_defs"

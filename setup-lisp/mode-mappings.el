@@ -99,10 +99,6 @@
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
-;; less-css-mode
-(autoload 'less-css-mode "less-css-mode" "Major mode for LESS CSS." )
-(add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
-
 (add-to-list 'auto-mode-alist '("\\.knot\\'" . knot-mode))
 
 (provide 'mode-mappings)
