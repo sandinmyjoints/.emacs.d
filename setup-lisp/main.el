@@ -90,8 +90,20 @@
 
 ;; Base packages.
 ;;
-(use-package recentf
-  :defer 5)
+(use-package recentf)
+(use-package diminish)
+(use-package autorevert
+  :defer 5
+  :diminish auto-revert-mode)
+
+(use-package simple
+  :diminish auto-fill-function)
+
+(use-package abbrev
+  :defer 5
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
+  ;; (list-abbrevs)
+  :diminish abbrev-mode)
 
 ;; Lists.
 (use-package dash
@@ -178,7 +190,6 @@ in the current window."
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (use-package paradox
-  :defer 5
   :config
   (paradox-enable))
 
@@ -238,21 +249,8 @@ in the current window."
 
 (require 'defuns)
 
-(use-package autorevert
-  :defer 5
-  :diminish auto-revert-mode)
-
-(use-package simple
-  :diminish auto-fill-function)
-
-(use-package abbrev
-  :defer 5
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
-  ;; (list-abbrevs)
-  :diminish abbrev-mode)
-
 (use-package server
-  :defer 5
+  :defer 1
   :config
   (unless (server-running-p)
     (message "Starting server...")
@@ -297,7 +295,6 @@ instead, wraps at screen edge, thanks to visual-line-mode."
 ;; - email composing/editing
 ;;
 (use-package olivetti
-  :defer 5
   :disabled
   :config
   (defun wjb/olivetti ()
