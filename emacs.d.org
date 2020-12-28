@@ -2419,3 +2419,41 @@ dired, writable dired
 
   #+end_src
 * TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
+* gccemacs
+  - https://github.com/jimeh/build-emacs-for-macos
+  - in ~/scm/wjb/build-emacs-for-macos/
+  - HOWTO
+  #+begin_src bash
+rm Brewfile.lock.json
+brew bundle
+
+# check https://github.com/jimeh/build-emacs-for-macos/issues/6 for latest known good commit
+# 2020/12/07
+./build-emacs-for-macos --git-sha be907b0ba82c2a65e0468d50653cae8a7cf5f16b feature/native-comp
+
+# this one works well, from 9/2020
+./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
+
+# built on 2020-10-26, some small issues
+./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
+
+# then find it using dired in builds, rename the old app bundle, and do the default action on the bzip
+# then link it using alfred
+  #+end_src
+
+  - older notes:
+  #+begin_src bash
+# clone emacs-mac into ./sources/emacs-mac
+cd sources/emacs-mac
+git checkout feature/native-comp
+
+# exact dir depends, it's probably the commitish of feature/native-comp
+mv ./sources/emacs ./sources/emacs-mirror-emacs-eb87425
+
+# edit ruby file
+
+brew bundle
+./install-patched-gcc
+./build-emacs-for-macos feature/native-comp
+
+  #+end_src
