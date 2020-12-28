@@ -135,21 +135,23 @@
     (grep-find (concat wjb-default-find-command grep-string))))
 
 ;; C-x 9 -> 9 = p reversed
-(defun find-in-project-glob-by-path (path name-pattern grep-string)
-  "find|xargs in current project dir by path."
+(defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
+  "find|xargs in current project dir by path. Negate with prefix arg."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
                      (if (functionp #'ivy-read)
                          (ivy-read "path glob: " '() :require-match nil :initial-input "*")
                        (read-from-minibuffer "path glob: " "*"))
                      (if (functionp #'ivy-read)
                          (ivy-read "search for: " '() :require-match nil)
-                       (read-from-minibuffer "search for: "))))
+                       (read-from-minibuffer "search for: "))
+                     current-prefix-arg))
   (unless (equal grep-string "")
       (let* ((default-directory path)
              (wjb-path-or-iname (if (s-contains? "find" wjb-find-bin)
                                     "-ipath"
                                   ""))
-             (command-template (concat wjb-find-bin " . " wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
+             (negate-or-not (if prefix "! " ""))
+             (command-template (concat wjb-find-bin " . " negate-or-not wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
              (actual-command (format command-template name-pattern grep-string)))
         (grep-find actual-command))))
 
