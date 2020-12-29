@@ -118,10 +118,11 @@
      (cons 'ido-completing-read+ melpa)
      (cons 'amx melpa)
 
-     (cons 'elpy elpy)
      (cons 'pip-requirements melpa)
      (cons 'virtualenvwrapper melpa-stable)
-     (cons 'ein melpa)
+     ;; useful but both are kind of a pain:
+     ;; (cons 'elpy elpy)
+     ;; (cons 'ein melpa)
 
      (cons 'magit melpa-stable)
      (cons 'gitconfig-mode melpa)

@@ -654,7 +654,7 @@ pasting into other programs."
      (shell . t)
      (python . t)
      (sql . t)
-     (ein . t)
+     ;; (ein . t)
      (restclient . t))))
 
 (use-package ob
