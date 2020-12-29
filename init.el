@@ -83,8 +83,9 @@
   (setq initial-frame-alist nil)
 
   ;; Make this frame, the initial frame, fullscreen.
-  (set-frame-parameter nil 'fullscreen 'fullboth)
-  (set-frame-parameter nil 'alpha '(90 . 50))
+  ;; TODO(emacs-mac): Disabled for non-emacs-mac-port version.
+  ;; (set-frame-parameter nil 'fullscreen 'fullboth)
+  ;; (set-frame-parameter nil 'alpha '(90 . 50))
 
   ;; Never save cursor-type.
   (push '(cursor-type . :never) frameset-filter-alist)

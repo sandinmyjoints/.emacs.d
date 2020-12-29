@@ -30,8 +30,9 @@
 ;; Setting this to nil means it will use default-frame-alist.
 (setq initial-frame-alist nil)
 
-;; Make this frame, the initial frame, fullscreen.
-(set-frame-parameter nil 'fullscreen 'fullboth)
+;; Make this frame, the initial frame, fullscreen and add some transparency.
+;; TODO(emacs-mac): Disabling since the non-emacs-macport version has to be on another space.
+;; (set-frame-parameter nil 'fullscreen 'fullboth)
 (set-frame-parameter nil 'alpha '(90 . 50))
 
 ;; (setq package-enable-at-startup nil)
