@@ -56,17 +56,14 @@
   (require 'use-package)
   (setq use-package-verbose t))
 
-;; Are we on a mac?
 (defvar is-mac (equal system-type 'darwin))
-
-(require 'sane-defaults)
-
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
+
+;; TODO(mine)
+(require 'sane-defaults)
 
 (when (file-readable-p initial-file)
   (setq initial-buffer-choice initial-file))
-
-
 
 ;; Require Common Lisp. (cl in <=24.2, cl-lib in >=24.3.)
 ;; TODO: can this be removed?
@@ -88,6 +85,7 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
+
 ;; Base packages.
 ;;
 (use-package recentf)
@@ -121,6 +119,9 @@
 (use-package asoc
   :load-path "elisp/asoc.el")
 
+(use-package hi-lock
+  :diminish)
+
 (use-package simple
   :config
   ;; TODO: only use these in modes where it makes sense. Org is not one of
@@ -132,43 +133,7 @@
   ;; Preserve indents when wrapping lines in visual-line-mode.
   (remove-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
-(when is-mac (require 'setup-mac))
-
-;; ========================================
-;; Helper defuns.
-;; ========================================
-
-;; counsel-switch-buffer and magit-status, when run in a dedicated window
-;; (dirtree), aren't useful. Switch to another (non-dedicated) window in such
-;; cases.
-
-(defun wjb/counsel-switch-buffer-other-window ()
-  "Switch to another buffer in another window.
-Display a preview of the selected ivy completion candidate buffer
-in the current window."
-  (interactive)
-  (ivy-read "Switch to buffer in other window: " 'internal-complete-buffer
-            :preselect (buffer-name (window-buffer (window-in-direction 'right)))
-            :action #'ivy--switch-buffer-other-window-action
-            :matcher #'ivy--switch-buffer-matcher
-            :caller 'counsel-switch-buffer-other-window
-            :unwind #'counsel--switch-buffer-unwind
-            :update-fn 'counsel--switch-buffer-update-fn))
-
-(defun wjb/smart-counsel-switch-buffer ()
-  (interactive)
-  (if (window-dedicated-p (get-buffer-window))
-      (call-interactively #'counsel-switch-buffer-other-window)
-    (call-interactively #'counsel-switch-buffer)))
-
-(defun wjb/smart-magit-status ()
-  (interactive)
-  (if (window-dedicated-p (get-buffer-window))
-      (progn
-        (other-window 1)
-        (call-interactively #'magit-status))
-    (call-interactively #'magit-status)))
-
+
 ;; ========================================
 ;; Package management.
 ;; ========================================
@@ -190,14 +155,39 @@ in the current window."
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
 (use-package paradox
+  :commands (paradox-list-packages)
   :config
   (paradox-enable))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Mine
 
-;; ========================================
-;; Require/autoload and config packages.
-;; ========================================
+(when is-mac (require 'setup-mac))
+(require 'defuns)
+(require 'setup-tramp)
+(require 'mode-mappings)
+
+
+;; Modeline
+
+;; from http://bzg.fr/emacs-hide-mode-line.html
+(defvar-local hidden-mode-line-mode nil)
+
+(define-minor-mode hidden-mode-line-mode
+  "Minor mode to hide the mode-line in the current buffer."
+  :init-value nil
+  :global t
+  :variable hidden-mode-line-mode
+  :group 'editing-basics
+  (if hidden-mode-line-mode
+      (setq hide-mode-line mode-line-format
+            mode-line-format nil)
+    (setq mode-line-format hide-mode-line
+          hide-mode-line nil))
+  (force-mode-line-update)
+  ;; Apparently force-mode-line-update is not always enough to
+  ;; redisplay the mode-line
+  (redraw-display))
 
 (use-package smart-mode-line
   ;; :after minions
@@ -240,14 +230,18 @@ in the current window."
   (setq minions-direct '(flycheck-mode))
   (minions-mode 1))
 
+
+;; grep
+
+;; TODO(mine)
 (require 'setup-grep)
 
 (use-package wgrep
-  :defer 5
+  :after grep
   :config
   (setq wgrep-enable-key "w"))
 
-(require 'defuns)
+;; server
 
 (use-package server
   :defer 1
@@ -255,6 +249,36 @@ in the current window."
   (unless (server-running-p)
     (message "Starting server...")
     (server-start)))
+
+;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
+(use-package edit-server
+  :disabled
+  :defer 6
+  :config
+  (setq edit-server-new-frame nil)
+  (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
+  (add-hook 'edit-server-done-hook #'wjb/save-edit-server)
+  (add-hook 'edit-server-start-hook #'gfm-mode)
+  (edit-server-start))
+
+(use-package atomic-chrome
+  :disabled
+  :defer 5
+  :config
+  (atomic-chrome-start-server))
+
+
+;; prog and text modes
+
+;; TODO(mine)
+(require 'setup-word)
+(require 'setup-markdown)
+
+;; Generate a TOC from a markdown file: M-x markdown-toc-generate-toc
+;; This will compute the TOC at insert it at current position.
+;; Update existing TOC: C-u M-x markdown-toc-generate-toc
+(use-package markdown-toc
+  :after markdown-mode)
 
 (use-package prog-mode
   :config
@@ -266,19 +290,6 @@ in the current window."
   (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
 ;; Text and fill modes.
-(defun wjb/soft-wrap-text ()
-  "Soft wrap: sets fill-column to 10000. Doesn't auto-fill;
-instead, wraps at screen edge, thanks to visual-line-mode."
-  (setq fill-column 10000)
-  (auto-fill-mode -1)
-  (visual-line-mode 1))
-
-(defun wjb/hard-wrap-text ()
-  "Hard wrap: sets fill-column to 80 and auto-fills."
-  (setq fill-column 78)
-  (auto-fill-mode 1)
-  (visual-line-mode -1))
-
 (use-package text-mode
   :bind (:map text-mode-map
               ;; In textual modes, C-M-n and C-M-p are bound to
@@ -306,21 +317,8 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (setq-default olivetti-body-width 80)
   (add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text))
 
-;; between which-key and which-key-posframe, they are making typing and
-;; navigation within buffers slow
-(use-package which-key
-  :defer 5
-  :diminish
-  :config
-  (which-key-mode))
-
-(use-package which-key-posframe
-  :after (which-key posframe)
-  :config
-  (which-key-posframe-mode))
-
-(when (require 'so-long nil :noerror)
-  (so-long-enable))
+
+;; long lines and large files
 
 (use-package vlf
   :defer 5
@@ -330,6 +328,12 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   ;;    (ad-do-it)))
   :config
   (require 'vlf-setup))
+
+(when (require 'so-long nil :noerror)
+  (so-long-enable))
+
+
+;; flycheck
 
 (use-package flycheck
   :defer 5
@@ -442,26 +446,8 @@ clean buffer we're laxer about checking."
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-status-emoji-mode))
 
-(use-package css-mode
-  :mode ("\\.css\\'")
-  :config
-  (setq css-indent-offset 2)
-  (defun wjb/css-mode-hook ()
-    (setq company-backends wjb/company-backends-css))
-  (add-hook 'css-mode-hook #'wjb/css-mode-hook)
-  )
-
-(use-package less-css-mode
-  :mode ("\\.less\\'"))
-
-(use-package elisp-mode
-  :mode "abbrev_defs"
-  :config
-  (diminish 'lisp-interaction-mode)
-  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-  (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
-  ;; (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
-  (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
+
+;; eldoc
 
 (use-package eldoc
   :diminish eldoc-mode
@@ -493,20 +479,8 @@ clean buffer we're laxer about checking."
         eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
 )
 
-(autoload 'auto-make-header "header2")
-
-(use-package comment-dwim-2
-  ;; Default for builtin comment-line is C-x C-;
-  :bind (("M-;" . comment-dwim-2)))
-
-(use-package beacon
-  :diminish
-  :config
-  (setq beacon-blink-duration 0.1
-        beacon-blink-when-point-moves-vertically 20
-        beacon-blink-when-window-scrolls t)
-  ;; TODO don't use beacon-mode in shell-mode
-  (beacon-mode 1))
+
+;; dired
 
 (use-package dired
   :defer 5
@@ -549,68 +523,8 @@ clean buffer we're laxer about checking."
   (toggle-diredp-find-file-reuse-dir 1)
   (setq diredp-hide-details-propagate-flag t))
 
-(use-package ediff
-  :defer 5
-  :init
-  (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-  :config
-  (setq diff-switches "-u"
-        ediff-diff-options "-w"
-        ediff-custom-diff-options "-w"
-        ediff-split-window-function 'split-window-horizontally))
-
-(use-package help-mode
-  :init
-  (add-hook 'help-mode-hook 'visual-line-mode)
-  :diminish visual-line-mode)
-
-(use-package helpful
-  :defer 5
-  :after help-mode
-  :config
-  (add-hook 'helpful-mode-hook 'visual-line-mode)
-
-  ;; Note that the built-in `describe-function' includes both functions
-  ;; and macros. `helpful-function' is functions only, so we provide
-  ;; `helpful-callable' as a drop-in replacement.
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
-  ;; Lookup the current symbol at point. C-c C-d is a common keybinding
-  ;; for this in lisp modes.
-  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
-
-  ;; Look up *F*unctions (excludes macros).
-  ;;
-  ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
-  ;; already links to the manual, if a function is referenced there.
-  (global-set-key (kbd "C-h F") #'helpful-function)
-
-  ;; Look up *C*ommands.
-  ;;
-  ;; By default, C-h C is bound to describe `describe-coding-system'. I
-  ;; don't find this very useful, but it's frequently useful to only
-  ;; look at interactive functions.
-  (global-set-key (kbd "C-h C") #'helpful-command))
-
-;; from https://gitlab.petton.fr/nico/emacs.d/
-(use-package whitespace
-  :config
-  (setq whitespace-display-mappings
-        '(
-          (space-mark 32 [183] [46]) ; normal space, ·
-          (space-mark 160 [164] [95])
-          (space-mark 2208 [2212] [95])
-          (space-mark 2336 [2340] [95])
-          (space-mark 3616 [3620] [95])
-          (space-mark 3872 [3876] [95])
-          (newline-mark 10 [182 10]) ; newlne, ¶
-          (tab-mark 9 [9655 9] [92 9]) ; tab, ▷
-          )))
+
+;; org
 
 ;; Org-mode.
 ;; (require 'org-install)
@@ -721,7 +635,6 @@ pasting into other programs."
   :after org)
 
 (use-package org-src
-  :defer 5
   :after org
   :config
   (setq-default
@@ -747,6 +660,8 @@ pasting into other programs."
   :disabled
   :after org
   :config
+  ;; see https://github.com/arnm/ob-mermaid/blob/master/README.org
+  (setq ob-mermaid-cli-path "/Users/william/.nvm/versions/node/v12.16.1/bin/mmdc")
   (setq org-confirm-babel-evaluate
         (lambda (lang body)
           (not (string= lang "sql-mode")))))
@@ -821,6 +736,10 @@ pasting into other programs."
     (forward-line -1)
     (forward-line -1)))
 
+(use-package org-pivotal
+  :disabled
+  :defer 5)
+
 ;; How to search among org files:
 ;; - helm-org-agenda-files-headings -- search headings among org agenda files
 ;; - helm-org-rifle -- searches among headings and content
@@ -856,17 +775,12 @@ pasting into other programs."
   :defer 5
   :after org)
 
-;; Use `page-break-lines-mode' to enable the mode in specific buffers,
-;; or customize `page-break-lines-modes' and enable the mode globally with
-;; `global-page-break-lines-mode'.
-;;
-(use-package page-break-lines
-  :config
-  (global-page-break-lines-mode))
+
+;; sql
 
 ;; Fix sql-prompt-regexp: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27586
 (use-package sql
-  :defer 5
+  :defer
   :after page-break-lines
   :config
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat)
@@ -914,11 +828,21 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
   (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
 
+
+;; git and magit
+
+(defun wjb/smart-magit-status ()
+  (interactive)
+  (if (window-dedicated-p (get-buffer-window))
+      (progn
+        (other-window 1)
+        (call-interactively #'magit-status))
+    (call-interactively #'magit-status)))
+
 (use-package ghub
   :defer 5)
 
 (use-package transient
-  :defer 5
   :config
   (setq transient-highlight-mismatched-keys t))
 
@@ -957,30 +881,57 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   (setq github-review-fetch-top-level-and-review-comments t))
 
-(defun wjb/set-highlight-indentation-current-column-face ()
-  "Just a bit lighter than the background."
-  (set-face-background 'highlight-indentation-current-column-face
-                       (color-lighten-name
-                        (face-attribute 'default :background) 15)))
+(use-package gitignore-mode
+  :mode ("\\.dockerignore\\'" "global.gitignore" ".*gitignore\\'"))
 
-;; Highlight the current column in indentation-sensitive languages. Just want
-;; 0.6.0 because later versions cause breakage with elpy, I think.
-(use-package highlight-indentation
-  :commands highlight-indentation-current-column-mode
-  :diminish highlight-indentation-current-column-mode
-  :defer 5
-  :disabled
+;; It doesn't seem to like this, it thinks the domain name is neodarwin
+;; 	url = git@github.com:spanishdict/neodarwin.git
+;;
+(use-package browse-at-remote
+  :commands (browse-at-remote browse-at-remote-kill)
   :config
-  (require 'color)
-  ;; (mapc (lambda (hook)
-  ;;         (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
-  ;;         (add-hook hook 'highlight-indentation-current-column-mode))
-  ;;       '(coffee-mode-hook
-  ;;         yaml-mode-hook
-  ;;         ;; python-mode-hook ;; let elpy set this up
-  ;;         ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
-  ;;         sass-mode-hook))
+  (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
+                                               ("github.com" . "github")
+                                               ("neodarwin" . "github")
+                                               ("gitlab.com" . "gitlab")
+                                               ("git.savannah.gnu.org" . "gnu")
+                                               ("gist.github.com" . "gist")))
+  ;; HACK: use completing-read (which is ivy-read) instead of read-string so
+  ;; that the prompt shows up in the usual place instead of the minibuffer.
+  ;; It'd be nice to supply a list of remote branches, but the lib doesn't
+  ;; have that. EDIT OK, using magit instead to get a list of remote branches.
+  (defun browse-at-remote--get-remote-branch (local-branch)
+    "If LOCAL-BRANCH is tracking a remote branch, return
+\(REMOTE-NAME . REMOTE-BRANCH-NAME). Returns nil otherwise."
+    (let ((remote-and-branch
+           ;; Try pushRemote first
+           (let ((push-remote (vc-git--run-command-string
+                               nil "config"
+                               (format "branch.%s.pushRemote" local-branch))))
+             (if push-remote
+                 (format "%s/%s" (s-trim push-remote) local-branch)
+
+               ;; If there's no pushRemote, fall back to upstream
+               (vc-git--run-command-string
+                nil "rev-parse"
+                "--symbolic-full-name"
+                "--abbrev-ref"
+                (format "%s@{upstream}" local-branch))
+               ))))
+      ;; `remote-and-branch' is of the form "origin/master"
+      (if remote-and-branch
+          ;; Split into two-item list, then convert to a pair.
+          (apply #'cons
+                 (s-split-up-to "/" (s-trim remote-and-branch) 1))
+
+        ;; Ask user if worst case (TODO: replace with competing-read here)
+        ;; (let ((remote-branch (completing-read "Select remote branch: " (magit-list-remote-branch-names))))
+        (let ((remote-branch (magit-read-remote-branch "Select remote branch" "origin" "master")))
+          (cons (car (browse-at-remote--get-remotes)) remote-branch)))))
   )
+
+
+;; python
 
 (use-package elpy
   :disabled
@@ -994,7 +945,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; Python.
 (use-package python
-  :defer 5
+  :defer
   :config
   (setq python-indent-guess-indent-offset-verbose nil)
   (setq python-indent-offset 2)
@@ -1022,7 +973,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; (setq venv-location "path/to/virtualenvs/")
 
   ;; if you want interactive shell support
-  (venv-initialize-interactive-shells)
+  ;; (venv-initialize-interactive-shells) ;; broken
 
   ;; if you want eshell support
   ;;(venv-initialize-eshell)
@@ -1075,59 +1026,18 @@ Fix for the above hasn't been released as of Emacs 25.2."
         ("C-c C-g" . 'ein:notebooklist-open)))
 
 (use-package pip-requirements
-  :after python)
+  :mode
+  "requirements\\.txt"
+  "requirements\\.*\\.txt")
 
-(use-package highlight-indent-guides
-  :disabled ;; doesn't seem to work right
-  :init
-  (mapc (lambda (hook)
-          (remove-hook hook 'highlight-indent-guides-mode))
-        '(coffee-mode-hook
-          python-mode-hook
-          web-mode-hook
-          sass-mode-hook))
-  :config
-  (setq highlight-indent-guides-method 'column))
-
-;; Rainbow mode.
-(use-package rainbow-mode
-  :defer 5
-  :diminish rainbow-mode
-  :init
-  ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
-  (add-hook 'coffee-mode-hook 'rainbow-mode)
-  (add-hook 'less-css-mode-hook 'rainbow-mode)
-  (add-hook 'css-mode-hook 'rainbow-mode)
-  (add-hook 'web-mode-hook 'rainbow-mode)
-  (add-hook 'js2-mode-hook 'rainbow-mode)
-  (add-hook 'conf-mode-hook 'rainbow-mode)
-  (add-hook 'help-mode-hook 'rainbow-mode)
-  (add-hook 'html-mode-hook 'rainbow-mode))
-
-(use-package tsv-mode
-  :defer 5
-  :disabled
-  :mode "\\.tsv\\'"
-  :init
-  (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
-
-(use-package anzu
-  :diminish anzu-mode
-  :config
-  (setq anzu-search-threshold 1200)
-  (global-anzu-mode 1))
-
-(use-package phi-search
-  :disabled
-  :bind (("C-s" . phi-search)
-         ("C-r" . phi-search-backward))
-  :config)
+
+;; projectile
 
 (use-package projectile
   :diminish projectile-mode
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "H-p") 'projectile-command-map)
+  ;; (define-key projectile-mode-map (kbd "H-p") 'projectile-command-map)
   (setq projectile-completion-system 'ivy)
   (require 'setup-projectile))
 
@@ -1135,20 +1045,16 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :after (counsel projectile)
   :config
   (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
-
   (counsel-projectile-mode))
 
 (use-package counsel-css
-  :after (counsel)
+  :after (css counsel)
   :config
   (add-hook 'css-mode-hook 'counsel-css-imenu-setup))
 
-;; (use-package ido
-;;   :disabled
-;;   :config
-;;   (require 'setup-ido))
-
+
 ;; ibuffer.
+
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
 (defun wjb/bury-ibuffer (orig-fun &rest args)
@@ -1158,22 +1064,38 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 (advice-add 'ibuffer-visit-buffer :around #'wjb/bury-ibuffer)
 
+
+;; imenu
+
 ;; (when (require 'imenu nil t)
 ;;   (autoload 'idomenu "idomenu" nil t))
 
 ;; (defadvice ido-imenu (before push-mark activate)
 ;;   (push-mark))
 
-;; Always rescan buffer for imenu
+;; Always rescan buffer for imenu. Turn off locally with dir-locals.
 (set-default 'imenu-auto-rescan t)
+
+;; manual rescan.
+(defun imenu-rescan ()
+  (interactive)
+  (imenu--menubar-select imenu--rescan-item))
 
 (use-package imenu-anywhere
   :bind (("C-." . ivy-imenu-anywhere)))
 
+
+;; flx/amx/smex
+
+;; (use-package ido
+;;   :disabled
+;;   :config
+;;   (require 'setup-ido))
+
 (use-package flx)
 
-(use-package amx
-  :disabled)
+;; Use for ordering of commands in counsel-M-x.
+(use-package amx)
 
 (use-package smex
   :disabled
@@ -1185,6 +1107,32 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (setq smex-auto-update nil)
   (smex-auto-update 10)
   (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
+
+
+;; ivy/counsel/posframe
+
+;; counsel-switch-buffer and magit-status, when run in a dedicated window
+;; (dirtree), aren't useful. Switch to another (non-dedicated) window in such
+;; cases.
+
+(defun wjb/counsel-switch-buffer-other-window ()
+  "Switch to another buffer in another window.
+Display a preview of the selected ivy completion candidate buffer
+in the current window."
+  (interactive)
+  (ivy-read "Switch to buffer in other window: " 'internal-complete-buffer
+            :preselect (buffer-name (window-buffer (window-in-direction 'right)))
+            :action #'ivy--switch-buffer-other-window-action
+            :matcher #'ivy--switch-buffer-matcher
+            :caller 'counsel-switch-buffer-other-window
+            :unwind #'counsel--switch-buffer-unwind
+            :update-fn 'counsel--switch-buffer-update-fn))
+
+(defun wjb/smart-counsel-switch-buffer ()
+  (interactive)
+  (if (window-dedicated-p (get-buffer-window))
+      (call-interactively #'counsel-switch-buffer-other-window)
+    (call-interactively #'counsel-switch-buffer)))
 
 ;; switching/finding/opening/running things
 ;; - C-o = helm-mini -> buffers, recent files, bookmarks, more? (cf M-o)
@@ -1238,10 +1186,16 @@ Fix for the above hasn't been released as of Emacs 25.2."
         ;; - https://emacs.stackexchange.com/a/36748/2163
         ;; - https://oremacs.com/2016/01/06/ivy-flx/
         ;;
+        ;; Possible choices: ivy--regex, regexp-quote, ivy--regex-plus,
+        ;; ivy--regex-fuzzy, ivy--regex-ignore-order. ivy--regex-ignore-order
+        ;; requires spaces between tokens. ivy--regex-fuzzy does not, b/c it
+        ;; inserts .* between each character, but it's order-sensitive so
+        ;; doesn't handle typos/fat fingering.
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
                                 (swiper-isearch . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
                                 (ivy-switch-buffer . ivy--regex-fuzzy)
+                                (counsel-M-x . ivy--regex-fuzzy)
                                 (t . ivy--regex-fuzzy)))
   (ivy-mode 1))
 
@@ -1290,7 +1244,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center)))
   (ivy-posframe-mode 1))
 
-;; uses hydra, hydra-posframe
+;; uses hydra, hydra-posframe, so has to go after they've been defined
+;; TODO(mine)
 (require 'services)
 
 (use-package ivy-rich
@@ -1413,10 +1368,49 @@ If PROJECT is not specified the command acts on the current project."
     (define-key counsel-find-file-map done #'ivy-alt-done)
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
-;; TODO: C-g when helm-mini is showing actually quits
+;; counsel-etags-scan-code
+(use-package counsel-etags
+  :defer 5
+  ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
+  :init
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (add-hook 'after-save-hook
+                        'counsel-etags-virtual-update-tags 'append 'local)))
+  :config
+  ;; this is how smart-jump heuristic error works:
+  (defun counsel-etags-grep (&optional default-keyword hint root)
+    (error "Signaling error instead of grepping"))
+
+  (setq counsel-etags-update-interval 300
+        counsel-etags-find-program "gfind"
+        counsel-etags-grep-program "rg"  ;; ggrep
+        counsel-etags-tags-program "ctags"
+        counsel-ctags-tags-program "ctags")
+  ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
+  (add-to-list 'counsel-etags-ignore-directories "local_notes")
+  (add-to-list 'counsel-etags-ignore-directories "build")
+  (add-to-list 'counsel-etags-ignore-directories "dist")
+  (add-to-list 'counsel-etags-ignore-directories "dist-server")
+  (add-to-list 'counsel-etags-ignore-directories "node_modules*")
+  (add-to-list 'counsel-etags-ignore-directories "yarn-offline-mirror")
+  (add-to-list 'counsel-etags-ignore-directories "public/webpack-assets")
+  (add-to-list 'counsel-etags-ignore-directories "mysql_data")
+  ;; (pop counsel-etags-ignore-directories)
+  (add-to-list 'counsel-etags-ignore-filenames "local_notes") ;; symlink
+  (add-to-list 'counsel-etags-ignore-filenames "*.org")
+  (add-to-list 'counsel-etags-ignore-filenames "*-exports.js")
+  (add-to-list 'counsel-etags-ignore-filenames "*-min.js")
+  (add-to-list 'counsel-etags-ignore-filenames "*-min-async.js")
+  (add-to-list 'counsel-etags-ignore-filenames "*.csv")
+  (add-to-list 'counsel-etags-ignore-filenames "*.json"))
+
+
+;; helm
+
 (use-package helm
-  :defer t
-  :bind (("M-o" . helm-browse-project)
+  :demand
+  :bind (("C-M-o" . helm-browse-project) ;; Clobbers split-line.
          ;; ("C-x C-b" . helm-buffers-list)
          ("C-x C-b" . helm-mini)
          ("C-o" . helm-mini)
@@ -1464,7 +1458,7 @@ If PROJECT is not specified the command acts on the current project."
    helm-recentf-fuzzy-match t
    helm-buffers-fuzzy-matching t
    helm-ff-skip-boring-files t
-   helm-buffer-max-length 24
+   helm-buffer-max-length nil
    helm-buffer-skip-remote-checking t
    helm-buffers-end-truncated-string "…"
    helm-echo-input-in-header-line t
@@ -1477,26 +1471,6 @@ If PROJECT is not specified the command acts on the current project."
   (when is-mac
     (setq helm-locate-fuzzy-match nil
           helm-locate-command "mdfind -name %s %s"))
-  )
-
-(use-package ace-window
-  :defer 5)
-
-(use-package ace-jump-helm-line
-  :disabled
-  :config
-  (setq ace-jump-helm-line-idle-delay 3
-        ace-jump-helm-line-style 'pre
-        ;; ace-jump-helm-line-style 'de-bruijn
-
-        ;; Select by default
-        ace-jump-helm-line-default-action 'select
-        ;; Set the move-only and persistent keys
-        ace-jump-helm-line-select-key ?s ;; this line is not needed
-        ace-jump-helm-line-move-only-key ?m
-        ace-jump-helm-line-persistent-key ?p
-        )
-  (ace-jump-helm-line-idle-exec-add 'helm-mini)
   )
 
 (use-package helm-xref
@@ -1530,10 +1504,8 @@ If PROJECT is not specified the command acts on the current project."
   :defer 6
   :after helm)
 
-(use-package quickrun
-  :defer 5
-  :config
-  (defalias #'runthis #'quickrun))
+
+;; dumb-jump and smart-jump
 
 (use-package dumb-jump
   ;; :bind (("M-g o" . dumb-jump-go-other-window)
@@ -1544,13 +1516,13 @@ If PROJECT is not specified the command acts on the current project."
   ;; C-M-g dumb-jump-go -- would like to use M-.
   ;; C-M-p dumb-jump-back -- M-,
   :config
-  (use-package semantic/symref/grep
-    :config
-    (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js" "*.jsx"))
-    (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee"))
-    (add-to-list 'semantic-symref-filepattern-alist '(helpful-mode "*"))
-    (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
-    (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org")))
+  ;; (use-package semantic/symref/grep
+  ;;   :config
+  ;;   (add-to-list 'semantic-symref-filepattern-alist '(js2-mode "*.js" "*.jsx"))
+  ;;   (add-to-list 'semantic-symref-filepattern-alist '(coffee-mode "*.coffee"))
+  ;;   (add-to-list 'semantic-symref-filepattern-alist '(helpful-mode "*"))
+  ;;   (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
+  ;;   (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org")))
 
   ;; (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-selector 'helm)
@@ -1570,9 +1542,10 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package smart-jump
-  :defer t
-  :bind (("M-." . smart-jump-go)
-         ("M-," . smart-jump-back))
+  ;; trying not deferring so that keys are more likely to be set correctly in prog-mode
+  ;; :defer t
+  ;; :bind (("M-." . smart-jump-go)
+  ;;        ("M-," . smart-jump-back))
   :config
   ;; this binds to M-. and M-, in prog-mode-map:
   (smart-jump-bind-jump-keys 'prog-mode)
@@ -1614,61 +1587,8 @@ If PROJECT is not specified the command acts on the current project."
                        :order 3) ;; might be better make this 6, so it comes after xhref-find-definitions
   )
 
-;; counsel-etags-scan-code
-(use-package counsel-etags
-  :defer 5
-  ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
-  :init
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (add-hook 'after-save-hook
-                        'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  ;; this is how smart-jump heuristic error works:
-  (defun counsel-etags-grep (&optional default-keyword hint root)
-    (error "Signaling error instead of grepping"))
-
-  (setq counsel-etags-update-interval 300
-        counsel-etags-find-program "gfind"
-        counsel-etags-grep-program "rg"  ;; ggrep
-        counsel-etags-tags-program "ctags"
-        counsel-ctags-tags-program "ctags")
-  ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
-  (add-to-list 'counsel-etags-ignore-directories "local_notes")
-  (add-to-list 'counsel-etags-ignore-directories "build")
-  (add-to-list 'counsel-etags-ignore-directories "dist")
-  (add-to-list 'counsel-etags-ignore-directories "dist-server")
-  (add-to-list 'counsel-etags-ignore-directories "yarn-offline-mirror")
-  (add-to-list 'counsel-etags-ignore-directories "public/webpack-assets")
-  (add-to-list 'counsel-etags-ignore-directories "mysql_data")
-  ;; (pop counsel-etags-ignore-directories)
-  (add-to-list 'counsel-etags-ignore-filenames "local_notes") ;; symlink
-  (add-to-list 'counsel-etags-ignore-filenames "*.org")
-  (add-to-list 'counsel-etags-ignore-filenames "*-min.js")
-  (add-to-list 'counsel-etags-ignore-filenames "*-min-async.js")
-  (add-to-list 'counsel-etags-ignore-filenames "*.csv")
-  (add-to-list 'counsel-etags-ignore-filenames "*.json"))
-
-(require 'setup-tramp)
-
-(require 'mode-mappings)
-
-;; Lua mode.
-(use-package lua
-  :mode "\\.lua\\'"
-  :interpreter "lua")
-
-(use-package gitignore-mode
-  :mode "global.gitignore")
-
-(use-package rainbow-delimiters
-  :defer 5
-  :init
-  (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
-
-(use-package date-at-point)
-
 
+;; parens
 
 (defun wjb/disable-show-paren-mode ()
   ;; See http://endlessparentheses.com/locally-configure-or-disable-show-paren-mode.html
@@ -1688,27 +1608,29 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Dims parens in certain modes.
 (use-package paren-face
-  :defer 5
   :config
   (add-to-list 'paren-face-modes 'js-mode 'js2-mode)
   (global-paren-face-mode))
 
-;; experimental
+;; experimental -- try as replacement for electric-pair-mode, as doom uses it.
 (use-package smartparens
-  :disabled
   :diminish
   :init
   (require 'smartparens-config)
-  (smartparens-global-strict-mode)
+  ;; No thanks.
+  ;; (smartparens-global-strict-mode)
   :config
   (setq sp-highlight-pair-overlay nil
         sp-highlight-wrap-overlay nil
-        sp-highlight-wrap-tag-overlay nil)
+        sp-highlight-wrap-tag-overlay nil
+        sp-max-prefix-length 25
+        sp-max-pair-length 4
+        sp-escape-quotes-after-insert nil)
 
   ;; (sp-use-smartparens-bindings) ;; even with this commented out, it still grabbed some bindings
 
-;; Not sure if I want this or not.
-  (show-smartparens-global-mode)
+  ;; No thanks.
+  ;; (show-smartparens-global-mode)
 
   ;; (require 'setup-smartparens)
   )
@@ -1758,37 +1680,53 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key "\M-[" #'paredit-wrap-square)
   (global-set-key "\M-{" #'paredit-wrap-curly))
 
+
 
+;; highlighting
 
-(use-package restclient
-  :mode
-  ("\\.rest\\'" . restclient-mode)
-  ("\\.http\\'" . restclient-mode)
-  :bind (:map restclient-mode-map
-              ("C-c C-f" . json-mode-beautify))
+(defun wjb/turn-off-global-hl-line ()
+  (global-hl-line-mode -1))
+;; TODO use global-hl-line-mode everywhere except vterm buffers
+;; (add-hook 'vterm-mode-hook #'wjb/turn-off-global-hl-line)
+
+(defun wjb/set-highlight-indentation-current-column-face ()
+  "Just a bit lighter than the background."
+  (set-face-background 'highlight-indentation-current-column-face
+                       (color-lighten-name
+                        (face-attribute 'default :background) 15)))
+
+;; Highlight the current column in indentation-sensitive languages. Required
+;; by elpy. Just want 0.6.0 because later versions cause breakage with elpy, I
+;; think.
+(use-package highlight-indentation
+  :commands highlight-indentation-current-column-mode
+  :diminish highlight-indentation-current-column-mode
+  :defer 5
+  :disabled
   :config
-  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
-    (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
-      ad-do-it)))
+  (require 'color)
+  ;; (mapc (lambda (hook)
+  ;;         (add-hook hook #'wjb/set-highlight-indentation-current-column-face)
+  ;;         (add-hook hook 'highlight-indentation-current-column-mode))
+  ;;       '(coffee-mode-hook
+  ;;         yaml-mode-hook
+  ;;         ;; python-mode-hook ;; let elpy set this up
+  ;;         ;; web-mode-hook ;; breaks due to absence of web-mode-html-offset
+  ;;         sass-mode-hook))
+  )
 
-;; multiple-cursors.
-;;
-;; See: https://github.com/magnars/multiple-cursors.el
-;;
-(use-package multiple-cursors
-  :bind (:map global-map
-              ;; ("C-x t" . 'set-rectangular-region-anchor) ;
-              ("C->" . 'mc/mark-next-like-this)
-              ("C-<" . 'mc/mark-previous-like-this)
-              ("C-*" . 'mc/mark-all-like-this)
-              ("C-M-<" . 'mc/edit-beginnings-of-lines)
-              ("C-M->" . 'mc/edit-ends-of-lines)))
-
-(use-package mc-extras
-  :after multiple-cursors
+(use-package highlight-indent-guides
+  ;; :disabled ;; doesn't seem to work right
+  :hook (yaml-mode . highlight-indent-guides-mode)
   :config
-  (define-key mc/keymap (kbd "C-. d")   'mc/remove-duplicated-cursors)
-  (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines))
+  ;; (mapc (lambda (hook)
+  ;;         (remove-hook hook 'highlight-indent-guides-mode))
+  ;;       '(coffee-mode-hook
+  ;;         python-mode-hook
+  ;;         web-mode-hook
+  ;;         sass-mode-hook))
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'stack))
 
 (use-package highlight-thing
   :diminish
@@ -1813,53 +1751,11 @@ If PROJECT is not specified the command acts on the current project."
         highlight-thing-excluded-major-modes '(org-mode gitcommit-mode magit-status-mode text-mode gfm-mode)
         highlight-thing-limit-to-defun t))
 
-;; expand-region.
-;; See: https://github.com/magnars/expand-region.el
-(use-package expand-region
-  :bind (:map global-map
-              ("C-=" . 'er/expand-region)))
-
-(use-package easy-kill
-  :config
-  (setq easy-kill-try-things '(url email sexp)
-        easy-kill-alist '((?w word           " ")
-                          (?s sexp           "\n")
-                          (?l list           "\n")
-                          (?f filename       "\n")
-                          (?d defun          "\n\n")
-                          (?D defun-name     " ")
-                          (?L line           "\n")
-                          (?b buffer-file-name)))
-  (global-set-key [remap kill-ring-save] 'easy-kill)
-  (global-set-key [remap mark-sexp] 'easy-mark))
-
-(use-package copy-as-format
-  :config
-  (global-set-key (kbd "C-c w s") 'copy-as-format-slack)
-  (global-set-key (kbd "C-c w g") 'copy-as-format-github))
-
 
-
-;; from http://bzg.fr/emacs-hide-mode-line.html
-(defvar-local hidden-mode-line-mode nil)
-
-(define-minor-mode hidden-mode-line-mode
-  "Minor mode to hide the mode-line in the current buffer."
-  :init-value nil
-  :global t
-  :variable hidden-mode-line-mode
-  :group 'editing-basics
-  (if hidden-mode-line-mode
-      (setq hide-mode-line mode-line-format
-            mode-line-format nil)
-    (setq mode-line-format hide-mode-line
-          hide-mode-line nil))
-  (force-mode-line-update)
-  ;; Apparently force-mode-line-update is not always enough to
-  ;; redisplay the mode-line
-  (redraw-display))
+;; treemacs
 
 (use-package treemacs
+  :after (exec-path-from-shell)
   :hook (emacs-startup . #'treemacs-find-file)
   :config
   (setq treemacs-collapse-dirs                 3
@@ -1955,6 +1851,7 @@ If PROJECT is not specified the command acts on the current project."
 ;;   :config (treemacs-icons-dired-mode))
 
 
+;; auth / crypto / tls / security
 
 ;; EPG.
 (use-package epa-file
@@ -1996,66 +1893,61 @@ If PROJECT is not specified the command acts on the current project."
         paradox-github-token
         (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
+;; TODO(emacs-mac): needed when not using emacs-mac
+;; see:
+;; - https://github.com/cask/cask/issues/418
+;; - https://emacs.stackexchange.com/questions/18045/how-can-i-retrieve-an-https-url-on-mac-os-x-without-warnings-about-an-untrusted/18070#18070
+(setq gnutls-log-level 0)
+(with-eval-after-load 'gnutls
+  (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem")
+  (add-to-list 'gnutls-trustfiles "/usr/local/etc/gnutls/cert.pem")
+  (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem"))
+
 
+;; Yasnippet.
 
-(use-package org-pivotal
-  :defer 5)
-
-;; Usage
-;;
-;; To use `symbol-overlay' in your Emacs, you need only to bind these keys:
-;; (require 'symbol-overlay)
-;; (global-set-key (kbd "M-i") 'symbol-overlay-put)
-;; (global-set-key (kbd "M-n") 'symbol-overlay-jump-next)
-;; (global-set-key (kbd "M-p") 'symbol-overlay-jump-prev)
-;; (global-set-key (kbd "<f7>") 'symbol-overlay-mode)
-;; (global-set-key (kbd "<f8>") 'symbol-overlay-remove-all)
-;;
-;; Default key-bindings are defined in `symbol-overlay-map'.
-;; You can re-bind the commands to any keys you prefer by simply writing
-;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
-;; prog-mode-hook
-(use-package symbol-overlay
-  :defer t
-  :bind (:map prog-mode-map
-              ;; ("M-i" . 'symbol-overlay-put) ;; not using
-              ("M-n" . 'symbol-overlay-jump-next)
-              ("M-p" . 'symbol-overlay-jump-prev)
-              ("<f7>" .  'symbol-overlay-mode)
-              ("<f8>" .  'symbol-overlay-remove-all))
-  :bind (:map text-mode-map
-              ("M-n" . 'symbol-overlay-jump-next)
-              ("M-p" . 'symbol-overlay-jump-prev)))
-
-;; disabled: in jsx file, AudioToggle move next tries to go "audio" even when
-;; using symbol. Prefer symbol-overlay.
-(use-package smartscan
-  :disabled
-  :defer t
+;; TODO: get this to work with use-package, it doesn't like it.
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
   :config
-  ;; Turn off smartscan in these modes.
-  (mapc (lambda (hook)
-          (add-hook hook (lambda ()
-                           (smartscan-mode -1))))
-        '(git-rebase-mode-hook
-          magit-mode-hook
-          magit-popup-mode-hook
-          compilation-mode-hook))
+  ;; Work-around for tab complaining when yas is active in ansi-term. See:
+  ;; https://github.com/capitaomorte/yasnippet/issues/289
+  (defun wjb/disable-yas-minor-mode ()
+    (yas-minor-mode -1))
+  (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
 
-  ;; Use word instead of symbol in these modes.
-  (mapc (lambda (hook)
-          (add-hook hook (lambda ()
-                           (setq smartscan-symbol-selector "word"))))
-        '(text-mode-hook
-          fundamental-mode-hook
-          org-mode-hook))
-  ;; TODO: smartscan should use select "word" in comments!
-  (setq-default smartscan-symbol-selector "symbol")
-  (global-smartscan-mode 1))
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20200316.1144/snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/react-snippets-20181002.1046/snippets" t)
+  (yas-global-mode)
+  ;; (global-set-key (kbd "M-/") 'company-yasnippet)
+  ;; These are great snippets, but loading them is causing some warnings:
+  ;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
+  )
 
-(use-package gitignore-mode
-  :mode "\\.dockerignore\\'"
-  ".*gitignore\\'")
+;; (when (require 'yasnippet nil t)
+;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
+;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
+;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
+;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
+;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20200316.1144/snippets" t)
+;;   (yas-global-mode 1)
+
+;;   ;; Work-around for tab complaining when yas is active in ansi-term. See:
+;;   ;; https://github.com/capitaomorte/yasnippet/issues/289
+;;   (defun wjb/disable-yas-minor-mode ()
+;;     (yas-minor-mode -1))
+;;   (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
+;; )
+
+;; (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
+
+
+;; docker
 
 (use-package docker
   :defer 5
@@ -2075,43 +1967,148 @@ If PROJECT is not specified the command acts on the current project."
 (use-package docker-tramp
   :defer 5)
 
+
+;; various modes
+
+(use-package css-mode
+  :mode ("\\.css\\'")
+  :config
+  (setq css-indent-offset 2)
+  (defun wjb/css-mode-hook ()
+    (setq company-backends wjb/company-backends-css))
+  (add-hook 'css-mode-hook #'wjb/css-mode-hook)
+  )
+
+(use-package less-css-mode
+  :mode ("\\.less\\'"))
+
+(use-package elisp-mode
+  :mode "abbrev_defs"
+  :config
+  (diminish 'lisp-interaction-mode)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+  ;; (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 70)))
+  (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
+
+(use-package knot-mode
+  :mode "\\.knot\\'")
+
+;; TODO: set this after switching to a restclient buffer.
+;; TODO: add key-binding to get to last restclient buffer.
+(defvar wjb/last-restclient-buffer nil
+  "The last restclient buffer.")
+
+(use-package restclient
+  :defer t
+  :mode
+  ("\\.rest\\'" . restclient-mode)
+  ("\\.http\\'" . restclient-mode)
+  :bind (:map restclient-mode-map
+              ("C-c C-f" . json-mode-beautify))
+  :config
+  (push 'restclient-mode page-break-lines-modes)
+  (make-variable-buffer-local 'url-max-redirections)
+  ;; (advice-remove 'restclient-http-handle-response 'ad-Advice-restclient-http-handle-response)
+  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
+    (let ((display-buffer-overriding-action '(display-buffer-use-some-window)))
+      ad-do-it)))
+    ;; (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
+    ;;   ad-do-it)))
+
+(use-package shell-script-mode
+  :mode "\\.bash*")
+
 (use-package conf-mode
   :mode "credentials$"
   "pylintrc"
   "ads\\.txt"
   "robots\\.txt"
-  "requirements\\.txt"
-  "requirements\\.*\\.txt"
   "\\.htaccess"
   "\\.curlrc"
   "\\..*rc\\'"
   )
 
-;; Yasnippet.
-;; TODO: get this to work with use-package, it doesn't like it.
-(when (require 'yasnippet nil t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20200316.1144/snippets" t)
-  (yas-global-mode 1)
-
-  ;; Work-around for tab complaining when yas is active in ansi-term. See:
-  ;; https://github.com/capitaomorte/yasnippet/issues/289
-  (defun wjb/disable-yas-minor-mode ()
-    (yas-minor-mode -1))
-  (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode))
-
-(eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
-;; These are great snippets, but loading them is causing some warnings:
-;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
+(use-package nginx-mode
+  :config
+  (setq nginx-indent-level 2)
+  (add-hook 'nginx-mode-hook #'company-nginx-keywords))
 
 ;; RVM.
 (use-package rvm
-  :defer 5
+  :defer
   :config
   (rvm-use-default)) ;; use rvm's default ruby for the current Emacs session
+
+(use-package dotenv-mode
+  :mode "\\.env\\'")
+
+(use-package explain-pause-mode
+  :disabled  ;; I keep getting error in process sentinel: symbol's function definition is void
+  :load-path ("elisp/explain-pause-mode")
+  :config
+  (explain-pause-mode -1))
+
+(use-package tsv-mode
+  :disabled
+  :mode "\\.tsv\\'"
+  :init
+  (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
+
+
+;; various packages
+
+(autoload 'auto-make-header "header2")
+
+(use-package comment-dwim-2
+  ;; Default for builtin comment-line is C-x C-;
+  :bind (("M-;" . comment-dwim-2)))
+
+(use-package ediff
+  :defer
+  :init
+  (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
+  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  :config
+  (setq diff-switches "-u"
+        ediff-diff-options "-w"
+        ediff-custom-diff-options "-w"
+        ediff-split-window-function 'split-window-horizontally))
+
+(use-package quickrun
+  :disabled
+  :config
+  (defalias #'runthis #'quickrun))
+
+(use-package date-at-point)
+
+(use-package anzu
+  :diminish anzu-mode
+  :config
+  (setq anzu-search-threshold 1200)
+  (global-anzu-mode 1))
+
+(use-package phi-search
+  :disabled
+  :bind (("C-s" . phi-search)
+         ("C-r" . phi-search-backward))
+  :config)
+
+(use-package elisp-demos
+  :config
+  ;; this is for normal help:
+  ;; (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
+  ;; this is specific to helpful:
+  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
+
+(use-package google-this
+  :disabled
+  ;; C-c / n|SPC|l
+  :diminish google-this-mode
+  :config
+  (google-this-mode 1))
 
 (use-package beginend
   :diminish
@@ -2121,22 +2118,80 @@ If PROJECT is not specified the command acts on the current project."
   (diminish 'beginend-global-mode)
   (diminish 'beginend-prog-mode))
 
-(use-package dotenv-mode
-  :mode "\\.env\\'")
-
-(use-package discover
-  :defer 5
-  :config
-  (global-discover-mode 1))
-
 (use-package know-your-http-well
   :defer 5)
 
-(use-package sane-term
+(use-package dashboard
   :disabled
-  :commands (sane-term sane-term-create)
-  :bind (("C-c s" . sane-term)
-         ("C-c S" . sane-term-create)))
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+
+;; helpful / info
+
+(use-package help-mode
+  :init
+  (add-hook 'help-mode-hook 'visual-line-mode)
+  :diminish visual-line-mode)
+
+(use-package helpful
+  :defer
+  :after help-mode
+  :config
+  (add-hook 'helpful-mode-hook 'visual-line-mode)
+
+  ;; Note that the built-in `describe-function' includes both functions
+  ;; and macros. `helpful-function' is functions only, so we provide
+  ;; `helpful-callable' as a drop-in replacement.
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
+  ;; Lookup the current symbol at point. C-c C-d is a common keybinding
+  ;; for this in lisp modes.
+  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
+
+  ;; Look up *F*unctions (excludes macros).
+  ;;
+  ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+  ;; already links to the manual, if a function is referenced there.
+  (global-set-key (kbd "C-h F") #'helpful-function)
+
+  ;; Look up *C*ommands.
+  ;;
+  ;; By default, C-h C is bound to describe `describe-coding-system'. I
+  ;; don't find this very useful, but it's frequently useful to only
+  ;; look at interactive functions.
+  (global-set-key (kbd "C-h C") #'helpful-command))
+
+;; between which-key and which-key-posframe, they are making typing and
+;; navigation within buffers slow
+(use-package which-key
+  :disabled
+  :diminish
+  :config
+  (which-key-mode))
+
+(use-package which-key-posframe
+  :disabled
+  :after (which-key posframe)
+  :config
+  (which-key-posframe-mode))
+
+(use-package discover
+  :disabled
+  :config
+  (global-discover-mode 1))
+
+(use-package lua
+  :mode "\\.lua\\'"
+  :interpreter "lua")
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+
+;; company / completion
 
 (use-package pcomplete)
 
@@ -2182,7 +2237,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; - company-web
 
 (use-package company
-  :defer t
+  :demand
   :diminish
   :custom
   (company-begin-commands '(self-insert-command))
@@ -2208,11 +2263,20 @@ If PROJECT is not specified the command acts on the current project."
 
   ;; trial:
   (company-statistics-mode -1)
-  (company-quickhelp-mode -1)
+  ;; (company-quickhelp-mode -1)
+)
 
+(use-package company-yasnippet
+  :after (company yasnippet)
+  :config
+  ;; company-yasnippet returns matches (for example, for a partial name of a
+  ;; snippet) vs. yas-expand which expands a known snippet trigger.
+  ;; Typing these on empty point gives autocomplete list of all snippets.
+  ;; Hitting TAB (yas-expand) after an exact snippet trigger expands that snippet.
   (global-set-key (kbd "H-0 y") #'company-yasnippet)
   (global-set-key (kbd "C-c y") #'company-yasnippet)
-  (global-set-key (kbd "C-c C-y") #'company-yasnippet))
+  ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
+)
 
 ;; trial:
 (use-package company-flx
@@ -2333,7 +2397,8 @@ If PROJECT is not specified the command acts on the current project."
    :company '(company-dabbrev company-capf company-emoji)
    :capf '(#'tags-completion-at-point-function)))
 
-(require 'key-bindings)
+
+;; web-mode
 
 (use-package web-mode
   :mode "\\.html?\\'"
@@ -2359,49 +2424,8 @@ If PROJECT is not specified the command acts on the current project."
     (company-mode t))
   (add-hook 'web-mode-hook #'wjb/web-mode-company))
 
-(require 'setup-word)
-
-(require 'setup-markdown)
-
-;; Generate a TOC from a markdown file: M-x markdown-toc-generate-toc
-;; This will compute the TOC at insert it at current position.
-;; Update existing TOC: C-u M-x markdown-toc-generate-toc
-(use-package markdown-toc
-  :after markdown-mode)
-
-(use-package shell-script-mode
-  :mode "\\.bash*")
-
-(use-package elisp-demos
-  :config
-  ;; this is for normal help:
-  ;; (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
-  ;; this is specific to helpful:
-  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
-
-;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
-(use-package edit-server
-  :disabled
-  :defer 6
-  :config
-  (setq edit-server-new-frame nil)
-  (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
-  (add-hook 'edit-server-done-hook #'wjb/save-edit-server)
-  (add-hook 'edit-server-start-hook #'gfm-mode)
-  (edit-server-start))
-
-(use-package atomic-chrome
-  :disabled
-  :defer 5
-  :config
-  (atomic-chrome-start-server))
-
-(use-package google-this
-  :defer 5
-  ;; C-c / n|SPC|l
-  :diminish google-this-mode
-  :config
-  (google-this-mode 1))
+
+;; folding
 
 ;; better than yafolding
 (use-package origami
@@ -2453,6 +2477,24 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   (global-set-key (kbd "C-c `") #'vimish-fold-toggle)
   (global-set-key (kbd "C-c ~") #'vimish-fold))
 
+
+;; js
+
+(use-package indium
+  :commands (indium-interaction-mode indium-connect)
+  ;; :init
+  ;; because indium-interaction-mode is in some dir-locals files so it will be
+  ;; activated when those files load as part of the saved desktop.
+  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
+  :config
+  (add-hook 'js-mode-hook #'indium-interaction-mode)
+
+  (setq indium-chrome-use-temporary-profile nil
+        indium-client-debug nil ;; t
+        ;; indium-chrome-executable (indium-chrome--default-executable)
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
+  )
+
 (use-package npm-mode
   :commands (npm npm-mode)
   :load-path "elisp/npm-mode"
@@ -2480,6 +2522,9 @@ header overlay should cover. Result is a cons cell of (begin . end)."
 (defvar preferred-javascript-indent-level 2)
 
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
+
+;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+(setq tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096"))
 
 (use-package js-comint
   :disabled
@@ -2541,6 +2586,74 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   :config
   (require 'setup-coffee)
   (setq coffee-tab-width preferred-javascript-indent-level))
+
+
+;; jest
+
+;; unbind
+;; (fmakunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode)
+;; (makunbound 'jest-minor-mode-map)
+
+;; (makunbound 'jest-compile-command)
+;; (fmakunbound 'jest-compile-command)
+;; (makunbound 'jest-repeat-compile-command)
+;; (fmakunbound 'jest-repeat-compile-command)
+
+;; (makunbound 'jest-compile-function)
+
+;; jest-mode is derived from comint:
+;; (define-derived-mode jest-mode
+;; comint-mode "jest"
+;; "Major mode for jest sessions (derived from comint-mode)."
+;; (compilation-setup t))
+;;
+;; - in buffers as specified by dir-locals (js, jsx, etc):  run jest-minor-mode so that compile and recompile run jest, but not g
+;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
+;; - in *grep* buffers: nothing jest. g re-runs grep.
+(use-package jest
+  :after (js2-mode exec-path-from-shell)
+  :hook (js2-mode . jest-minor-mode)
+  :load-path "elisp/emacs-jest"
+  :bind (
+         :map jest-mode-map
+         ([remap compile] . jest-popup)
+         ([remap recompile] . jest-repeat)
+         )
+  :config
+  (setq jest-pdb-track nil)
+  (add-hook 'jest-mode-hook #'compilation-minor-mode)
+  )
+
+;; (package-generate-autoloads "jest" "~/.emacs.d/elisp/emacs-jest/")
+
+;; Not sure which is preferable to use. shell-minor seems to not have
+;; as many key bindings I want, however, it allows sending input into the
+;; buffer.
+;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
+
+;; (defun jest-minor-inhibit-self ()
+;;   "Add this hook to modes that should not use jest-minor but otherwise would."
+;;   (add-hook 'after-change-major-mode-hook
+;;             (lambda () (jest-minor-mode 0))
+;;             :append :local))
+
+;; (add-hook 'grep-mode-hook 'jest-minor-inhibit-self)
+
+;; (lambda ()
+;;   (interactive)
+;;   (call-interactively (symbol-value
+;;                        'jest-compile-command)))
+
+;; change it
+;; (setq jest-compile-function #'jest-file-dwim)
+;; (use-package jest-minor-mode
+;;   :load-path "setup-lisp/jest-minor-mode"
+;;   :after jest
+;;   :hook js2-mode)
+
+
+;; compilation / comint / shell
 
 ;; See:
 ;; - comint-output-filter-functions
@@ -2609,7 +2722,6 @@ Interactively also sends a terminating newline."
   )
 ;; (unbind-key "\C-c" compilation-minor-mode-map)
 
-(require 'cl-lib)
 (defun endless/toggle-comint-compilation ()
   "Restart compilation with (or without) `comint-mode'."
   (interactive)
@@ -2622,11 +2734,6 @@ Interactively also sends a terminating newline."
 
 (defvar wjb/last-grep-buffer nil
   "The last grep buffer.")
-
-;; TODO: set this after switching to a restclient buffer.
-;; TODO: add key-binding to get to last restclient buffer.
-(defvar wjb/last-restclient-buffer nil
-  "The last restclient buffer.")
 
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 ;; comint mode is interactive, compilation-shell-minor-mode runs compilation using shell-mode which is comint-mode, so it is interactive.
@@ -2875,11 +2982,6 @@ Interactively also sends a terminating newline."
 ;; (global-recompile-on-save-mode -1).
 ;;
 
-(use-package restclient
-  :config
-  ;; for restclient, maybe helps?
-  (make-variable-buffer-local 'url-max-redirections))
-
 ;; use M-x (reset-recompile-on-save).
 ;;
 ;; TODO: mesh this with --watch
@@ -2889,279 +2991,26 @@ Interactively also sends a terminating newline."
   (recompile-on-save-advice compile)
   (recompile-on-save-advice recompile))
 
-;; unbind
-;; (fmakunbound 'jest-minor-mode)
-;; (makunbound 'jest-minor-mode)
-;; (makunbound 'jest-minor-mode-map)
-
-;; (makunbound 'jest-compile-command)
-;; (fmakunbound 'jest-compile-command)
-;; (makunbound 'jest-repeat-compile-command)
-;; (fmakunbound 'jest-repeat-compile-command)
-
-;; (makunbound 'jest-compile-function)
-
-;; jest-mode is derived from comint:
-;; (define-derived-mode jest-mode
-;; comint-mode "jest"
-;; "Major mode for jest sessions (derived from comint-mode)."
-;; (compilation-setup t))
-;;
-;; - in buffers as specified by dir-locals (js, jsx, etc):  run jest-minor-mode so that compile and recompile run jest, but not g
-;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
-;; - in *grep* buffers: nothing jest. g re-runs grep.
-(use-package jest
-  :after (js2-mode)
-  :hook (js2-mode . jest-minor-mode)
-  :load-path "elisp/emacs-jest"
-  :bind (
-         :map jest-mode-map
-         ([remap compile] . jest-popup)
-         ([remap recompile] . jest-repeat)
-         )
-  :config
-  (setq jest-pdb-track nil)
-  (add-hook 'jest-mode-hook #'compilation-minor-mode)
-  )
-
-;; (package-generate-autoloads "jest" "~/.emacs.d/elisp/emacs-jest/")
-
-;; Not sure which is preferable to use. shell-minor seems to not have
-;; as many key bindings I want, however, it allows sending input into the
-;; buffer.
-;; (remove-hook 'jest-mode-hook #'compilation-shell-minor-mode)
-
-;; (defun jest-minor-inhibit-self ()
-;;   "Add this hook to modes that should not use jest-minor but otherwise would."
-;;   (add-hook 'after-change-major-mode-hook
-;;             (lambda () (jest-minor-mode 0))
-;;             :append :local))
-
-;; (add-hook 'grep-mode-hook 'jest-minor-inhibit-self)
-
-;; (lambda ()
-;;   (interactive)
-;;   (call-interactively (symbol-value
-;;                        'jest-compile-command)))
-
-;; change it
-;; (setq jest-compile-function #'jest-file-dwim)
-;; (use-package jest-minor-mode
-;;   :load-path "setup-lisp/jest-minor-mode"
-;;   :after jest
-;;   :hook js2-mode)
-
-;; Fill column indicator.
-;; See: https://github.com/alpaker/Fill-Column-Indicator
-;;
-;; Disabled because too flaky, too many problems with various modes.
-;;
-(use-package fci-mode
+(use-package sane-term
   :disabled
-  :config
-  (require 'setup-fci)
-  (setq fci-rule-color "#555")
+  :commands (sane-term sane-term-create)
+  :bind (("C-c s" . sane-term)
+         ("C-c S" . sane-term-create)))
 
-  ;; Turn on fci for these modes:
-  (dolist (hook '(prog-mode-hook yaml-mode-hook))
-    (add-hook hook 'fci-mode))
+(autoload 'bash-completion-dynamic-complete
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+          'bash-completion-dynamic-complete)
 
-  ;; ...except for these modes.
-  (defun turn-off-fci ()
-    (fci-mode -1))
+;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y")
+              (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
 
-  (dolist (hook '(web-mode-hook))
-    (add-hook hook 'turn-off-fci))
-
-  ;; fci-mode doesn't play well with flycheck inlines
-  (defun turn-off-fci-before-inlines (errors)
-    (when (bound-and-true-p fci-mode)
-      (set (make-local-variable 'wjb/fci-mode-was-on) t)
-      (turn-off-fci-mode)))
-
-  (defun restore-fci-after-inlines ()
-    (when (bound-and-true-p wjb/fci-mode-was-on)
-      (turn-on-fci-mode)
-      (setq wjb/fci-mode-was-on nil)))
-
-  (advice-add 'flycheck-inline-display-errors
-              :before #'turn-off-fci-before-inlines)
-
-  (advice-add 'flycheck-inline-hide-errors
-              :after #'restore-fci-after-inlines)
-
-  ;; (advice-remove 'flycheck-inline-display-errors #'turn-off-fci-before-inlines)
-  ;; (advice-remove 'flycheck-inline-hide-errors #'restore-fci-after-inlines)
-
-
-  ;; fci-mode doesn't play well with popups
-  (defun on-off-fci-before-company (command)
-    (when (and (bound-and-true-p fci-mode) (string= "show" command))
-      (set (make-local-variable 'wjb/fci-mode-was-on) t)
-      (turn-off-fci-mode))
-    (when (and (bound-and-true-p wjb/fci-mode-was-on) (string= "hide" command))
-      (turn-on-fci-mode)))
-
-  (advice-add 'company-call-frontends
-              :before #'on-off-fci-before-company))
-
-(use-package knot-mode
-  :mode "\\.knot\\'")
-
-(use-package eglot
-  :disabled
-  :config
-  ;; TODO: find a language server that actually works with JSX
-  ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
-  )
-
-;; Caveats about lsp for javascript:
-;;
-;; - Not sure if it is respecting jsconfig.json or not.
-;;
-;; - In Neodarwin, got (lsp-timed-out-error), probably because the
-;;   repo is so big. So, Neodarwin is on the lsp blacklist.
-;;
-;; - TODO: defer starting lsp javascript server until nvm is figured
-;;   out.
-(setq lsp-keymap-prefix "M-l")
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook (less-css-mode . lsp-deferred)
-  :hook (sh-mode . lsp-deferred)
-  :hook (html-mode . lsp-deferred)
-  :hook (dockerfile-mode . lsp-deferred)
-  :hook (yaml-mode . lsp-deferred)
-  :hook (web-mode . lsp-deferred)
-  :hook (json-mode . lsp-deferred)
-  ;; :hook (js-mode . lsp-deferred)
-  ;; :hook (js2-mode . lsp-deferred)
-  ;; :hook (tidescript-mode . lsp-deferred)
-  ;; :hook (python-mode. lsp-deferred)
-  :init
-  (setq lsp-prefer-flymake nil)
-  :config
-  (setq lsp-auto-guess-root t
-        lsp-eldoc-enable-hover nil
-        lsp-response-timeout 5
-        lsp-prefer-capf t
-        lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
-(use-package lsp-ui
-  :after lsp-mode
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-doc-enable nil
-        ;;       lsp-ui-flycheck-enable nil
-        ;;       lsp-ui-peek-enable nil
-        ;;       lsp-ui-sideline-enable nil
-        ;;       lsp-ui-sideline-show-flycheck nil
-        ;;       lsp-ui-doc-enable nil
-        ;;       lsp-ui-imenu-enable nil
-        ;;       lsp-ui-sideline-ignore-duplicate t
-        )
-  ;; (require 'lsp-ui-flycheck)
-
-  ;; once lsp-ui is registered as a checker, somehow it seems to stop
-  ;; other checkers from running. may be related to
-  ;; https://github.com/emacs-lsp/lsp-ui/issues/190 but when I checked
-  ;; the value of flycheck-checker, it was nil. So I don't understand
-  ;; how it is stopping other checkers. Here is how to disable lsp-ui:
-
-  ;; (setq flycheck-disabled-checkers (append '(lsp-ui) flycheck-disabled-checkers))
-
-  ;; Until it works better, instead of using lsp-ui always...
-  ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-
-  ;; just use it for a whitelist of modes.
-  ;; (dolist (hook '(sh-mode-hook))
-  ;;   (add-hook hook 'lsp-ui-mode))
-  )
-
-;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-(use-package company-lsp
-  :disabled
-  :after lsp-mode
-  :commands company-lsp)
-
-;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
-;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
-(use-package smart-tab
-  :disabled
-  :diminish smart-tab-mode
-  :config
-  (global-smart-tab-mode))
-
-(use-package hungry-delete
-  :disabled
-  :diminish
-  :config
-  (setq hungry-delete-chars-to-skip " \t"
-        hungry-delete-except-modes '(help-mode minibuffer-inactive-mode calc-mode org-mode))
-
-  ;; TODO: turn off in some modes:
-  ;; - org-mode?
-  ;; - whitespace sensitive modes?
-  (global-hungry-delete-mode))
-
-(use-package nginx-mode
-  :config
-  (setq nginx-indent-level 2)
-  (add-hook 'nginx-mode-hook #'company-nginx-keywords))
-
-(use-package centered-cursor-mode
-  :config
-  (setq ccm-recenter-at-end-of-file t)
-  (defun wjb/set-ccm-vpos-init ()
-    (setq ccm-vpos-init (wjb/calculate-ccm-vpos-init)))
-  (defun wjb/calculate-ccm-vpos-init ()
-    (round (* (ccm-visible-text-lines) .38)))
-  (setq-default ccm-vpos-init (wjb/set-ccm-vpos-init))
-
-  (add-hook 'woman-mode-hook #'centered-cursor-mode)
-  (add-hook 'woman-mode-hook #'wjb/set-ccm-vpos-init)
-  (add-hook 'text-mode-hook #'centered-cursor-mode)
-  (add-hook 'text-mode-hook #'wjb/set-ccm-vpos-init))
-
-(use-package pcre2el
-  :after re-builder
-  :commands reb-change-syntax)
-
-;; TODO this messes with file paths (.., /) in Python, it should not apply
-;; within strings
-(use-package electric-operator
-  :disabled
-  :hook
-  ((coffee-mode python-mode) . electric-operator-mode)
-  :config
-  (electric-operator-add-rules-for-mode 'python-mode
-                                        (cons "." nil)) ;; doesnt work as intended
-  (electric-operator-add-rules-for-mode 'python-mode
-                                        (cons "/" nil))
-  (setq electric-operator-enable-in-docs t))
-
-;; It doesn't seem to like this, it thinks the domain name is neodarwin
-;; 	url = git@github.com:spanishdict/neodarwin.git
-;;
-(use-package browse-at-remote
-  :defer 5
-  :config
-  (setq browse-at-remote-remote-type-domains '(("bitbucket.org" . "bitbucket")
-                                               ("github.com" . "github")
-                                               ("neodarwin" . "github")
-                                               ("gitlab.com" . "gitlab")
-                                               ("git.savannah.gnu.org" . "gnu")
-                                               ("gist.github.com" . "gist"))))
-
-(use-package hi-lock
-  :diminish)
-
-(defun wjb/turn-off-global-hl-line ()
-  (global-hl-line-mode -1))
-;; TODO use global-hl-line-mode everywhere except vterm buffers
-;; (add-hook 'vterm-mode-hook #'wjb/turn-off-global-hl-line)
+
+;; vterm
 
 (use-package vterm
   :config
@@ -3169,7 +3018,7 @@ Interactively also sends a terminating newline."
   (push "C-o" vterm-keymap-exceptions)
   (push "C-u" vterm-keymap-exceptions)
   ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
-  (vterm--exclude-keys vterm-keymap-exceptions)
+  (vterm--exclude-keys vterm-mode-map vterm-keymap-exceptions)
   ;; hack: exclude will overwrite these, so they need to be re-defined. Would
   ;; be better if vterm defined them in a defun.
   ;; this may not be needed anymore -- need to try without it
@@ -3212,35 +3061,289 @@ Interactively also sends a terminating newline."
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
-(use-package indium
-  :commands (indium-interaction-mode indium-connect)
-  ;; :init
-  ;; because indium-interaction-mode is in some dir-locals files so it will be
-  ;; activated when those files load as part of the saved desktop.
-  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
-  :config
-  (add-hook 'js-mode-hook #'indium-interaction-mode)
+
+;; lsp
 
-  (setq indium-chrome-use-temporary-profile nil
-        indium-client-debug nil ;; t
-        ;; indium-chrome-executable (indium-chrome--default-executable)
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
-  )
-
-(use-package solaire-mode
-  :hook
-  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-  (minibuffer-setup . solaire-mode-in-minibuffer)
-  :config
-  (solaire-global-mode 1)
-  ;; setting the solaire faces is in wjb/customize-appearance.
-  )
-
-(use-package dashboard
+(use-package eglot
   :disabled
-  :ensure t
   :config
-  (dashboard-setup-startup-hook))
+  ;; TODO: find a language server that actually works with JSX
+  ;; (add-to-list 'eglot-server-programs '(rjsx-mode . ("typescript-language-server" "--stdio")))
+  )
+
+;; Caveats about lsp for javascript:
+;;
+;; - Not sure if it is respecting jsconfig.json or not.
+;;
+;; - In Neodarwin, got (lsp-timed-out-error), probably because the
+;;   repo is so big. So, Neodarwin is on the lsp blacklist.
+;;
+;; - TODO: defer starting lsp javascript server until nvm is figured
+;;   out.
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (less-css-mode . lsp-deferred)
+  :hook (sh-mode . lsp-deferred)
+  :hook (html-mode . lsp-deferred)
+  :hook (dockerfile-mode . lsp-deferred)
+  :hook (yaml-mode . lsp-deferred)
+  :hook (web-mode . lsp-deferred)
+  :hook (json-mode . lsp-deferred)
+  ;; :hook (js-mode . lsp-deferred)
+  ;; :hook (js2-mode . lsp-deferred)
+  ;; :hook (typescript-mode . lsp-deferred)
+  ;; :hook (python-mode. lsp-deferred)
+  :init
+  (setq lsp-prefer-flymake nil
+        lsp-keymap-prefix "M-l")
+  :config
+  (setq lsp-auto-guess-root t
+        lsp-eldoc-enable-hover nil
+        lsp-response-timeout 5
+        lsp-prefer-capf t
+        lsp-completion-provider :capf
+        lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
+
+;;   (lsp-headerline-breadcrumb-mode . nil)
+
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable nil
+        ;;       lsp-ui-flycheck-enable nil
+        ;;       lsp-ui-peek-enable nil
+        ;;       lsp-ui-sideline-enable nil
+        ;;       lsp-ui-sideline-show-flycheck nil
+        ;;       lsp-ui-doc-enable nil
+        ;;       lsp-ui-imenu-enable nil
+        ;;       lsp-ui-sideline-ignore-duplicate t
+        )
+  ;; (require 'lsp-ui-flycheck)
+
+  ;; once lsp-ui is registered as a checker, somehow it seems to stop
+  ;; other checkers from running. may be related to
+  ;; https://github.com/emacs-lsp/lsp-ui/issues/190 but when I checked
+  ;; the value of flycheck-checker, it was nil. So I don't understand
+  ;; how it is stopping other checkers. Here is how to disable lsp-ui:
+
+  ;; (setq flycheck-disabled-checkers (append '(lsp-ui) flycheck-disabled-checkers))
+
+  ;; Until it works better, instead of using lsp-ui always...
+  ;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+  ;; just use it for a whitelist of modes.
+  ;; (dolist (hook '(sh-mode-hook))
+  ;;   (add-hook hook 'lsp-ui-mode))
+  )
+
+;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package company-lsp
+  :disabled
+  :after lsp-mode
+  :commands company-lsp)
+
+
+;; multiple-cursors
+;;
+;; See: https://github.com/magnars/multiple-cursors.el
+;;
+(use-package multiple-cursors
+  :bind (:map global-map
+              ;; ("C-x t" . 'set-rectangular-region-anchor) ;
+              ("C->" . 'mc/mark-next-like-this)
+              ("C-<" . 'mc/mark-previous-like-this)
+              ("C-*" . 'mc/mark-all-like-this)
+              ("C-M-<" . 'mc/edit-beginnings-of-lines)
+              ("C-M->" . 'mc/edit-ends-of-lines)))
+
+(use-package mc-extras
+  :after multiple-cursors
+  :config
+  (define-key mc/keymap (kbd "C-. d")   'mc/remove-duplicated-cursors)
+  (define-key mc/keymap (kbd "C-. C-o") 'mc/remove-cursors-on-blank-lines))
+
+
+;; navigation / editing / formatting
+
+;; expand-region.
+;; See: https://github.com/magnars/expand-region.el
+(use-package expand-region
+  :bind (:map global-map
+              ("C-=" . 'er/expand-region)))
+
+(use-package easy-kill
+  :config
+  (setq easy-kill-try-things '(url email sexp)
+        easy-kill-alist '((?w word           " ")
+                          (?s sexp           "\n")
+                          (?l list           "\n")
+                          (?f filename       "\n")
+                          (?d defun          "\n\n")
+                          (?D defun-name     " ")
+                          (?L line           "\n")
+                          (?b buffer-file-name)))
+  (global-set-key [remap kill-ring-save] 'easy-kill)
+  (global-set-key [remap mark-sexp] 'easy-mark))
+
+(use-package copy-as-format
+  :config
+  (global-set-key (kbd "C-c w s") 'copy-as-format-slack)
+  (global-set-key (kbd "C-c w g") 'copy-as-format-github))
+
+;; Usage
+;;
+;; To use `symbol-overlay' in your Emacs, you need only to bind these keys:
+;; (require 'symbol-overlay)
+;; (global-set-key (kbd "M-i") 'symbol-overlay-put)
+;; (global-set-key (kbd "M-n") 'symbol-overlay-jump-next)
+;; (global-set-key (kbd "M-p") 'symbol-overlay-jump-prev)
+;; (global-set-key (kbd "<f7>") 'symbol-overlay-mode)
+;; (global-set-key (kbd "<f8>") 'symbol-overlay-remove-all)
+;;
+;; Default key-bindings are defined in `symbol-overlay-map'.
+;; You can re-bind the commands to any keys you prefer by simply writing
+;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
+;; prog-mode-hook
+(use-package symbol-overlay
+  :defer t
+  :bind (:map prog-mode-map
+              ;; ("M-i" . 'symbol-overlay-put) ;; not using
+              ("M-n" . 'symbol-overlay-jump-next)
+              ("M-p" . 'symbol-overlay-jump-prev)
+              ("<f7>" .  'symbol-overlay-mode)
+              ("<f8>" .  'symbol-overlay-remove-all))
+  :bind (:map text-mode-map
+              ("M-n" . 'symbol-overlay-jump-next)
+              ("M-p" . 'symbol-overlay-jump-prev)))
+
+;; disabled: in jsx file, AudioToggle move next tries to go "audio" even when
+;; using symbol. Prefer symbol-overlay.
+(use-package smartscan
+  :disabled
+  :defer t
+  :config
+  ;; Turn off smartscan in these modes.
+  (mapc (lambda (hook)
+          (add-hook hook (lambda ()
+                           (smartscan-mode -1))))
+        '(git-rebase-mode-hook
+          magit-mode-hook
+          magit-popup-mode-hook
+          compilation-mode-hook))
+
+  ;; Use word instead of symbol in these modes.
+  (mapc (lambda (hook)
+          (add-hook hook (lambda ()
+                           (setq smartscan-symbol-selector "word"))))
+        '(text-mode-hook
+          fundamental-mode-hook
+          org-mode-hook))
+  ;; TODO: smartscan should use select "word" in comments!
+  (setq-default smartscan-symbol-selector "symbol")
+  (global-smartscan-mode 1))
+
+;; from https://gitlab.petton.fr/nico/emacs.d/
+(use-package whitespace
+  :config
+  (setq whitespace-display-mappings
+        '(
+          (space-mark 32 [183] [46]) ; normal space, ·
+          (space-mark 160 [164] [95])
+          (space-mark 2208 [2212] [95])
+          (space-mark 2336 [2340] [95])
+          (space-mark 3616 [3620] [95])
+          (space-mark 3872 [3876] [95])
+          (newline-mark 10 [182 10]) ; newlne, ¶
+          (tab-mark 9 [9655 9] [92 9]) ; tab, ▷
+          )))
+
+;; Smart-tab. See: https://raw.github.com/genehack/smart-tab/master/smart-tab.el
+;; and https://www.emacswiki.org/emacs/TabCompletion#SmartTab
+(use-package smart-tab
+  :disabled
+  :diminish smart-tab-mode
+  :config
+  (global-smart-tab-mode))
+
+(use-package hungry-delete
+  :disabled
+  :diminish
+  :config
+  (setq hungry-delete-chars-to-skip " \t"
+        hungry-delete-except-modes '(help-mode minibuffer-inactive-mode calc-mode org-mode))
+
+  ;; TODO: turn off in some modes:
+  ;; - org-mode?
+  ;; - whitespace sensitive modes?
+  (global-hungry-delete-mode))
+
+(use-package change-inner
+  :commands (change-inner change-outer)
+  :config
+  (global-set-key (kbd "M-i") 'change-inner)
+  (global-set-key (kbd "M-o") 'change-outer))
+
+;; Syntax modifications.
+
+;; Paired tick is useful in some modes.
+;; TODO: Probably Can't run these until the mode has been loaded or something.
+;; TODO: Could use smartparens for this instead.
+;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
+;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
+
+
+;; ace
+
+(use-package ace-window
+  :defer 1)
+
+(use-package ace-jump-helm-line
+  :disabled
+  :config
+  (setq ace-jump-helm-line-idle-delay 3
+        ace-jump-helm-line-style 'pre
+        ;; ace-jump-helm-line-style 'de-bruijn
+
+        ;; Select by default
+        ace-jump-helm-line-default-action 'select
+        ;; Set the move-only and persistent keys
+        ace-jump-helm-line-select-key ?s ;; this line is not needed
+        ace-jump-helm-line-move-only-key ?m
+        ace-jump-helm-line-persistent-key ?p
+        )
+  (ace-jump-helm-line-idle-exec-add 'helm-mini)
+  )
+
+
+;; appearance
+
+(use-package beacon
+  :diminish
+  :config
+  (setq beacon-blink-duration 0.1
+        beacon-blink-when-point-moves-vertically 20
+        beacon-blink-when-window-scrolls t)
+  ;; TODO don't use beacon-mode in shell-mode
+  (beacon-mode 1))
+
+;; Use `page-break-lines-mode' to enable the mode in specific buffers, or
+;; customize `page-break-lines-modes' and enable the mode globally with
+;; `global-page-break-lines-mode'.
+;;
+(use-package page-break-lines
+  :config
+  (global-page-break-lines-mode))
+
+;; TODO(nativecomp): why doesn't tab-bar show?
+;; X minibuffer-local-must-match-filename-map
+;; not real fullscreen?
+(setq tab-bar-show t)
 
 ;; from https://protesilaos.com/dotemacs/
 ;;
@@ -3290,31 +3393,117 @@ questions.  Else use completion to select the tab to switch to."
          ("H-4" . tab-bar-select-tab)
          ("M-0" . tab-switcher)))
 
+(use-package rainbow-delimiters
+  :defer 5
+  :init
+  (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
+
+(use-package rainbow-mode
+  :defer 5
+  :diminish rainbow-mode
+  :init
+  ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
+  (add-hook 'coffee-mode-hook 'rainbow-mode)
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'web-mode-hook 'rainbow-mode)
+  (add-hook 'js2-mode-hook 'rainbow-mode)
+  (add-hook 'conf-mode-hook 'rainbow-mode)
+  (add-hook 'help-mode-hook 'rainbow-mode)
+  (add-hook 'html-mode-hook 'rainbow-mode))
+
+(use-package centered-cursor-mode
+  :config
+  (setq ccm-recenter-at-end-of-file t)
+  (defun wjb/set-ccm-vpos-init ()
+    (setq ccm-vpos-init (wjb/calculate-ccm-vpos-init)))
+  (defun wjb/calculate-ccm-vpos-init ()
+    (round (* (ccm-visible-text-lines) .38)))
+  (setq-default ccm-vpos-init (wjb/set-ccm-vpos-init))
+
+  (add-hook 'woman-mode-hook #'centered-cursor-mode)
+  (add-hook 'woman-mode-hook #'wjb/set-ccm-vpos-init)
+  (add-hook 'text-mode-hook #'centered-cursor-mode)
+  (add-hook 'text-mode-hook #'wjb/set-ccm-vpos-init))
+
+(use-package solaire-mode
+  :disabled
+  :hook
+  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (solaire-global-mode 1)
+  ;; setting the solaire faces is in wjb/customize-appearance.
+  )
+
 
+;; startup
 
-;; Syntax modifications.
+(defun wjb/emacs-startup-hook ()
+  (setq source-directory "/Users/william/scm/vendor/emacs-mac"
+        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
+  (require 'appearance)
+  (wjb/customize-appearance)
+  ;; (with-current-buffer "init.el"
+  ;;   (treemacs-add-and-display-current-project))
+  )
+(add-hook 'emacs-startup-hook #'wjb/emacs-startup-hook)
 
-;; Paired tick is useful in some modes.
-;; TODO: Probably Can't run these until the mode has been loaded or something.
-;; TODO: Could use smartparens for this instead.
-;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
+;; TODO: am I handling safe-local-variable-values in a sensible way?
+;; look at purcell, etc.
+
+;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
+;; (byte-recompile-directory site-lisp-dir 0)
+;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
+;;
+;; (defun wjb/run-once-when-idle (fun)
+;;   "Run a command every once in a while, if possible when emacs is idle."
+;;   (defun wjb/generate-idle-callback (fun)
+;;     (defun ()
+;;         (call fun)
+;;       (remove-hook 'auto-save-hook thing)))
+;;   ;; TODO: need unique name for thing
+;;   (setq thing (wjb/generate-idle-callback fun))
+;;   (add-hook 'auto-save-hook thing))
 
 
+;; dir-locals
 
-;; Optional convenience binding. This allows C-y to paste even when in term-char-mode (see below).
-(add-hook 'term-mode-hook
-          (lambda ()
-            (define-key term-raw-map (kbd "C-y")
-              (lambda () (interactive) (term-line-mode) (yank) (term-char-mode)))))
+;; https://emacs.stackexchange.com/a/5531/2163
+(defvar walk-dir-locals-upward nil
+  "If non-nil, evaluate .dir-locals.el files starting in the
+  current directory and going up. Otherwise they will be
+  evaluated from the top down to the current directory.")
+
+(defadvice hack-dir-local-variables (around walk-dir-locals-file activate)
+  (let* ((dir-locals-list (list dir-locals-file))
+         (walk-dir-locals-file (first dir-locals-list)))
+    (while (file-readable-p (concat "../" walk-dir-locals-file))
+      (progn
+        (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
+        (add-to-list 'dir-locals-list walk-dir-locals-file
+                     walk-dir-locals-upward)
+        ))
+    (dolist (file dir-locals-list)
+      (let ((dir-locals-file (expand-file-name file)))
+        ad-do-it
+        ))))
+
+;; allow remembering risky variables. from https://emacs.stackexchange.com/a/44604/2163
+(defun risky-local-variable-p (sym &optional _ignored) nil)
 
 
+;; tree-sitter
 
-(require 'appearance)
+;; experimental:
+;; (require 'tree-sitter-langs)
+;; (global-tree-sitter-mode)
+;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 
+;; key-bindings
+
+(require 'key-bindings)
 
 ;; From http://endlessparentheses.com/the-toggle-map-and-wizardry.html
 (define-prefix-command 'endless/toggle-map)
@@ -3371,65 +3560,6 @@ is already narrowed."
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
 
-
-(defun wjb/emacs-startup-hook ()
-  (setq source-directory "/Users/william/scm/vendor/emacs-mac"
-        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
-  (require 'appearance)
-  (wjb/customize-appearance)
-  ;; (with-current-buffer "init.el"
-  ;;   (treemacs-add-and-display-current-project))
-  )
-(add-hook 'emacs-startup-hook #'wjb/emacs-startup-hook)
-
-(add-hook 'Info-selection-hook 'info-colors-fontify-node)
-
-;; TODO: am I handling safe-local-variable-values in a sensible way?
-;; look at purcell, etc.
-
-;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
-;; (byte-recompile-directory site-lisp-dir 0)
-;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
-;;
-;; (defun wjb/run-once-when-idle (fun)
-;;   "Run a command every once in a while, if possible when emacs is idle."
-;;   (defun wjb/generate-idle-callback (fun)
-;;     (defun ()
-;;         (call fun)
-;;       (remove-hook 'auto-save-hook thing)))
-;;   ;; TODO: need unique name for thing
-;;   (setq thing (wjb/generate-idle-callback fun))
-;;   (add-hook 'auto-save-hook thing))
-
-(advice-remove #'copy-to-register nil)
-;; This doesn't seem to work bc copy-to-register must be moving things around
-;; (advice-add #'copy-to-register :after (lambda (REGISTER START END &optional DELETE-FLAG REGION) (exchange-point-and-mark)))
-
-(autoload 'bash-completion-dynamic-complete
-  "bash-completion"
-  "BASH completion hook")
-(add-hook 'shell-dynamic-complete-functions
-          'bash-completion-dynamic-complete)
-
-;; https://emacs.stackexchange.com/a/5531/2163
-(defvar walk-dir-locals-upward nil
-  "If non-nil, evaluate .dir-locals.el files starting in the
-  current directory and going up. Otherwise they will be
-  evaluated from the top down to the current directory.")
-
-(defadvice hack-dir-local-variables (around walk-dir-locals-file activate)
-  (let* ((dir-locals-list (list dir-locals-file))
-         (walk-dir-locals-file (first dir-locals-list)))
-    (while (file-readable-p (concat "../" walk-dir-locals-file))
-      (progn
-        (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
-        (add-to-list 'dir-locals-list walk-dir-locals-file
-                     walk-dir-locals-upward)
-        ))
-    (dolist (file dir-locals-list)
-      (let ((dir-locals-file (expand-file-name file)))
-        ad-do-it
-        ))))
 
 (provide 'main)
 
