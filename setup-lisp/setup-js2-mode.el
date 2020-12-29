@@ -169,6 +169,8 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   ;; - hook where projectile knows when project changes?
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
   (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer)
+  (add-hook 'yml-mode-hook #'nvm-use-for-buffer)
+  (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer)
   (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
 
   ;; HACK
