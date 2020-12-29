@@ -52,7 +52,7 @@
 
 ;; Useful in fullscreen:
 ;; http://osxdaily.com/2012/03/27/remove-auto-hide-dock-delay-mac-os-x/
-(defun toggle-fullscreen ()
+(defun wjb/toggle-fullscreen ()
   "Toggle full screen. Especially useful on laptops."
   (interactive)
   (let ((fs (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
@@ -998,6 +998,20 @@ current buffer's, reload dir-locals."
 ;; - extract data query param
 ;; - url decode it
 ;; - base64 decode it to utf-8
+
+(defun wjb/soft-wrap-text ()
+  "Soft wrap: sets fill-column to 10000. Doesn't auto-fill;
+instead, wraps at screen edge, thanks to visual-line-mode."
+  (setq fill-column 10000)
+  (auto-fill-mode -1)
+  (visual-line-mode 1))
+
+(defun wjb/hard-wrap-text ()
+  "Hard wrap: sets fill-column to 80 and auto-fills."
+  (setq fill-column 78)
+  (auto-fill-mode 1)
+  (visual-line-mode -1))
+
 
 (provide 'defuns)
 
