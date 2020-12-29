@@ -1114,6 +1114,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package anzu
   :diminish anzu-mode
   :config
+  (setq anzu-search-threshold 1200)
   (global-anzu-mode 1))
 
 (use-package phi-search
