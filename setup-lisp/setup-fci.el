@@ -1,3 +1,60 @@
+
+;; fci
+
+;; Fill column indicator.
+;; See: https://github.com/alpaker/Fill-Column-Indicator
+;;
+;; Disabled because too flaky, too many problems with various modes.
+;;
+(use-package fci-mode
+  :disabled
+  :config
+  (require 'setup-fci)
+  (setq fci-rule-color "#555")
+
+  ;; Turn on fci for these modes:
+  (dolist (hook '(prog-mode-hook yaml-mode-hook))
+    (add-hook hook 'fci-mode))
+
+  ;; ...except for these modes.
+  (defun turn-off-fci ()
+    (fci-mode -1))
+
+  (dolist (hook '(web-mode-hook))
+    (add-hook hook 'turn-off-fci))
+
+  ;; fci-mode doesn't play well with flycheck inlines
+  (defun turn-off-fci-before-inlines (errors)
+    (when (bound-and-true-p fci-mode)
+      (set (make-local-variable 'wjb/fci-mode-was-on) t)
+      (turn-off-fci-mode)))
+
+  (defun restore-fci-after-inlines ()
+    (when (bound-and-true-p wjb/fci-mode-was-on)
+      (turn-on-fci-mode)
+      (setq wjb/fci-mode-was-on nil)))
+
+  (advice-add 'flycheck-inline-display-errors
+              :before #'turn-off-fci-before-inlines)
+
+  (advice-add 'flycheck-inline-hide-errors
+              :after #'restore-fci-after-inlines)
+
+  ;; (advice-remove 'flycheck-inline-display-errors #'turn-off-fci-before-inlines)
+  ;; (advice-remove 'flycheck-inline-hide-errors #'restore-fci-after-inlines)
+
+
+  ;; fci-mode doesn't play well with popups
+  (defun on-off-fci-before-company (command)
+    (when (and (bound-and-true-p fci-mode) (string= "show" command))
+      (set (make-local-variable 'wjb/fci-mode-was-on) t)
+      (turn-off-fci-mode))
+    (when (and (bound-and-true-p wjb/fci-mode-was-on) (string= "hide" command))
+      (turn-on-fci-mode)))
+
+  (advice-add 'company-call-frontends
+              :before #'on-off-fci-before-company))
+
 ;; From https://github.com/purcell/emacs.d/blob/190528091fd8f72e2fa5bbf89f8492c29f31db78/lisp/init-fci.el
 ;; Fill column indicator
 (when (eval-when-compile (> emacs-major-version 23))
