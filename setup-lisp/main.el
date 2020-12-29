@@ -514,14 +514,15 @@ clean buffer we're laxer about checking."
   :config
   (diredfl-global-mode))
 
-(use-package dired+
-  :disabled
-  :after dired
-  :config
-  (require 'dired+)
-  (unbind-key (kbd "C-o") dired-mode-map)
-  (toggle-diredp-find-file-reuse-dir 1)
-  (setq diredp-hide-details-propagate-flag t))
+;; (use-package dired+
+;;   :disabled
+;;   :load-path "elisp"
+;;   :after dired
+;;   :config
+;;   (require 'dired+)
+;;   (unbind-key (kbd "C-o") dired-mode-map)
+;;   (toggle-diredp-find-file-reuse-dir 1)
+;;   (setq diredp-hide-details-propagate-flag t))
 
 
 ;; org
