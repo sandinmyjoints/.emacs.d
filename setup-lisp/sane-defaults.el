@@ -481,6 +481,8 @@
 
 (global-so-long-mode)
 
+(setq warning-minimum-level :emergency)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
