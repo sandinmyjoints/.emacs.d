@@ -413,7 +413,7 @@
   ;; buffer-sensitive adjustment above.
   (make-variable-buffer-local 'flycheck-idle-change-delay)
 
-  (required wjb-byte-compile)
+  (require 'wjb-byte-compile)
   (add-hook 'flycheck-after-syntax-check-hook
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
 
