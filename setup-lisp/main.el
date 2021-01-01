@@ -1797,10 +1797,10 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-goto-tag-strategy             'refetch-index
         treemacs-indentation                   2
         treemacs-indentation-string            " "
-        treemacs-is-never-other-window         nil ;; TODO t
+        treemacs-is-never-other-window         t
         treemacs-max-git-entries               5000
         treemacs-missing-project-action        'ask
-        treemacs-no-png-images                 nil
+        treemacs-no-png-images                 nil  ;; set to t and kill/reopen treemacs if laggy
         treemacs-no-delete-other-windows       t
         treemacs-project-follow-cleanup        nil
         treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
@@ -1818,13 +1818,12 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-space-between-root-nodes      nil
         treemacs-tag-follow-cleanup            t
         treemacs-tag-follow-delay              0.5
-        treemacs-no-png-images                 t
         treemacs-width                         48)
 
   ;; The default width and height of the icons is 22 pixels. If you are
   ;; using a Hi-DPI display, uncomment this to double the icon size.
   (treemacs-resize-icons 18)
-  (treemacs-follow-mode nil)
+  (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode nil)
   (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal)
