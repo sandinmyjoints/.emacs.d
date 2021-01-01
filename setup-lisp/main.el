@@ -2212,6 +2212,8 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; between which-key and which-key-posframe, they are making typing and
 ;; navigation within buffers slow
+;; this probably has a fix: https://github.com/justbur/emacs-which-key/issues/226
+;; manual activation is probably the way to go: https://github.com/justbur/emacs-which-key#manual-activation
 (use-package which-key
   :disabled
   :diminish
