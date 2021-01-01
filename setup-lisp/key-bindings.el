@@ -72,7 +72,7 @@
 
 (global-set-key (kbd "C-/") 'hippie-expand) ;; clobbers undo, but I never use it at this binding anyway
 
-(global-set-key (kbd "C-<return>") 'goto-address-at-point)
+;; (global-set-key (kbd "C-<return>") 'goto-address-at-point) ;; dont need this b/c goto-address-mode
 
 (global-set-key (kbd "C-x 7") #'describe-char)
 

@@ -7,7 +7,7 @@
 ;; Maintainer:
 ;; Created: Thu Oct  2 08:04:34 2014 (-0700)
 ;; Version:
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "27.1"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0
@@ -58,6 +58,7 @@
 
 (defvar is-mac (equal system-type 'darwin))
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
+(defvar wjb/home-directory (getenv "HOME"))
 
 ;; TODO(mine)
 (require 'sane-defaults)
@@ -483,7 +484,7 @@ clean buffer we're laxer about checking."
 ;; dired
 
 (use-package dired
-  :defer 5
+  :commands (dired counsel-dired)
   :init
   ;; This line must run *before* dired is loaded:
   ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
@@ -1951,6 +1952,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; docker
 
 (use-package docker
+  :disabled
   :defer 5
   :bind (:map wjb-map
               ("d" . docker))
@@ -1993,6 +1995,7 @@ If PROJECT is not specified the command acts on the current project."
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header))
 
 (use-package knot-mode
+  :disabled
   :mode "\\.knot\\'")
 
 ;; TODO: set this after switching to a restclient buffer.
@@ -3467,6 +3470,10 @@ questions.  Else use completion to select the tab to switch to."
 ;;   (setq thing (wjb/generate-idle-callback fun))
 ;;   (add-hook 'auto-save-hook thing))
 
+;; TODO: am I handling safe-local-variable-values in a sensible way?
+;; look at purcell, etc.
+
+
 
 ;; dir-locals
 
@@ -3511,13 +3518,14 @@ questions.  Else use completion to select the tab to switch to."
 ;; The manual recommends C-c for user keys, but C-x t is
 ;; always free, whereas C-c t is used by some modes.
 (define-key ctl-x-map "t" 'endless/toggle-map)
+(define-key endless/toggle-map "m" #'toggle-frame-maximized)
 (define-key endless/toggle-map "c" #'column-number-mode)
 (define-key endless/toggle-map "d" #'toggle-debug-on-error)
 (define-key endless/toggle-map "e" #'toggle-debug-on-error)
 (define-key endless/toggle-map "f" #'auto-fill-mode)
 (define-key endless/toggle-map "l" #'toggle-truncate-lines)
 (define-key endless/toggle-map "q" #'toggle-debug-on-quit)
-(define-key endless/toggle-map "t" #'endless/toggle-theme)
+(define-key endless/toggle-map "t" #'treemacs-select-window)
 (define-key endless/toggle-map "D" #'toggle-window-dedicated)
 
 ;;; Generalized version of `read-only-mode'.

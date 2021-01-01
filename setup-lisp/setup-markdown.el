@@ -90,7 +90,7 @@
 
   (defun wjb/markdown-mode-hook ()
     (setq company-backends wjb/company-backends-md)
-    (add-hook 'visual-line-mode-hook #'visual-fill-column-mode nil t)
+    ;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode nil t)
     ;; Preserve indents when wrapping lines in visual-line-mode.
     (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t))
   (add-hook 'markdown-mode-hook #'wjb/markdown-mode-hook)

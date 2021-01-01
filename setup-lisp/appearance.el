@@ -321,7 +321,7 @@ OK on large screens."
 (defun wjb/customize-appearance ()
   (interactive)
   (setq window-divider-default-right-width 4)
-  (window-divider-mode)
+  (window-divider-mode 1)
 
   (global-paren-face-mode) ;; incompatible with tree-sitter
 
