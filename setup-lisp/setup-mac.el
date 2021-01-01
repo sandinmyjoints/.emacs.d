@@ -75,8 +75,8 @@
 ;; expected."
 ;;
 (use-package exec-path-from-shell
-  :defer 2 ;; exec-path-from-shell-initialize takes a couple seconds to run.
-  ;; :demand ;; try if having problems
+  ;; :defer 2 ;; exec-path-from-shell-initialize takes a couple seconds to run.
+  :demand ;; try if having problems
   :config
   ;; Copy vars in exec-path-from-shell-variables.
   ;; https://emacs.stackexchange.com/a/553/2163
