@@ -2001,10 +2001,26 @@ If PROJECT is not specified the command acts on the current project."
   :mode "docker-compose*\\.yml")
 
 (use-package docker-tramp
+  :disabled
   :defer 5)
 
 
 ;; various modes
+
+(use-package yaml-mode)
+
+(use-package yaml-imenu
+  :after yaml-mode)
+
+(use-package openapi-yaml-mode
+  :after yaml-mode
+  :load-path "elisp/openapi-yaml-mode"
+  :config
+  (openapi-yaml-mode-add-to-magic-mode-alist)
+  ;; (add-hook 'openapi-yaml-mode-hook (lambda () (push #'openapi-yaml-mode--openapi3-completion-at-point completion-at-point-functions)))
+  ;; eval this in the buffer:
+  ;; (push #'openapi-yaml-mode--openapi3-completion-at-point completion-at-point-functions)
+  )
 
 (use-package css-mode
   :mode ("\\.css\\'")
@@ -3134,6 +3150,22 @@ Interactively also sends a terminating newline."
   (setq lsp-prefer-flymake nil
         lsp-keymap-prefix "M-l")
   :config
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection
+                                     (lambda ()
+                                       `(,(or (executable-find (cl-first lsp-yaml-server-command))
+                                              (lsp-package-path 'yaml-language-server))
+                                         ,@(cl-rest lsp-yaml-server-command))))
+                    :major-modes '(openapi-yaml-mode yaml-mode docker-compose-mode)
+                    :priority 0
+                    :server-id 'yamlls
+                    :initialized-fn (lambda (workspace)
+                                      (with-lsp-workspace workspace
+                                        (lsp--set-configuration
+                                         (lsp-configuration-section "yaml"))))
+                    :download-server-fn (lambda (_client callback error-callback _update?)
+                                          (lsp-package-ensure 'yaml-language-server
+                                                              callback error-callback))))
   (setq lsp-auto-guess-root t
         lsp-eldoc-enable-hover nil
         lsp-response-timeout 5
