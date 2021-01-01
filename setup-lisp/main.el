@@ -1183,6 +1183,11 @@ in the current window."
 (use-package ivy
   :diminish
   :config
+  ;; when counsel-M-x is open, maybe others, then C-g calls
+  ;; minibuffer-keyboard-quit, by default. But I don't think I need what that
+  ;; does, I just need keyboard-escape-quit. So I'll try using that.
+  (define-key ivy-minibuffer-map "\C-g" 'keyboard-escape-quit)
+
   (global-set-key (kbd "M-x") 'counsel-M-x)
   ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
   (global-set-key (kbd "C-x b") #'wjb/smart-counsel-switch-buffer) ;; giving this a try
