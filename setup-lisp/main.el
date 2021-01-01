@@ -409,18 +409,11 @@
                 flycheck-navigation-minimum-level 'warning
                 flycheck-error-list-minimum-level 'warning)
 
-  ;; Below from https://github.com/magnars/.emacs.d/blob/master/settings/setup-flycheck.el:
-  (defun magnars/adjust-flycheck-automatic-syntax-eagerness ()
-    "Adjust how often we check for errors based on if there are any.
-This lets us fix any errors as quickly as possible, but in a
-clean buffer we're laxer about checking."
-    (setq flycheck-idle-change-delay
-          (if flycheck-current-errors 0.7 2.0)))
-
   ;; Each buffer gets its own idle-change-delay because of the
   ;; buffer-sensitive adjustment above.
   (make-variable-buffer-local 'flycheck-idle-change-delay)
 
+  (required wjb-byte-compile)
   (add-hook 'flycheck-after-syntax-check-hook
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
 
