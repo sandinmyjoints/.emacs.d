@@ -80,11 +80,29 @@
   ;; Else we're on an older version so require cl.
   (require 'cl))
 
+
+;; byte compiling / native-comp
+
 ;; Auto-compile elisp to bytecode. This should be as early as possible.
 (use-package auto-compile
   :init
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
+
+;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
+
+;; Byte-recompiled by directory:
+;; (byte-recompile-directory site-lisp-dir 0)
+;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
+
+;; HOWTO native-comp:
+;; 1. first, byte-recompile everything. Some elisp files will not be byte compiled, mostly pkg files that have a no-byte-compile flag.
+;; 2. then run these:
+;; (native-compile-async "/Users/william/.emacs.d/elpa" 'recursively)
+;; (native-compile-async "/Users/william/.emacs.d/elisp" 'recursively)
+;; TODO: move to a script
+
+(setq package-native-compile t)
 
 
 ;; Base packages.
