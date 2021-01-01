@@ -52,6 +52,7 @@
 (when (require 'package nil t)
 
   (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+  (defvar celpa '("celpa" . "https://celpa.conao3.com/packages/"))
   (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
   (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
