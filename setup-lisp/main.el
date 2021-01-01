@@ -1757,9 +1757,10 @@ If PROJECT is not specified the command acts on the current project."
 ;; treemacs
 
 (use-package treemacs
-  :after (exec-path-from-shell)
-  :hook (emacs-startup . #'treemacs-find-file)
+  ;; :after (exec-path-from-shell)
+  ;; :hook (emacs-startup . #'treemacs-find-file) ;; I manually add it to emacs-startup-hook so it can go after require appearance, before wjb/customize-appearance
   :config
+  (treemacs-git-mode -1)
   (setq treemacs-collapse-dirs                 3
         treemacs-deferred-git-apply-delay      0.5
         treemacs-display-in-side-window        t
@@ -1791,7 +1792,8 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-sorting                       'alphabetic-case-insensitive-asc
         treemacs-space-between-root-nodes      nil
         treemacs-tag-follow-cleanup            t
-        treemacs-tag-follow-delay              1.5
+        treemacs-tag-follow-delay              0.5
+        treemacs-no-png-images                 t
         treemacs-width                         48)
 
   ;; The default width and height of the icons is 22 pixels. If you are
@@ -1800,7 +1802,6 @@ If PROJECT is not specified the command acts on the current project."
   (treemacs-follow-mode nil)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode nil)
-  (treemacs-git-mode -1)
   (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal)
 
   (defun wjb/treemacs-hook ()
@@ -1844,7 +1845,7 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package treemacs-projectile
-  :after treemacs projectile
+  :after (treemacs projectile)
   :ensure t)
 
 ;; (use-package treemacs-icons-dired
@@ -3444,22 +3445,21 @@ questions.  Else use completion to select the tab to switch to."
 ;; startup
 
 (defun wjb/emacs-startup-hook ()
-  (setq source-directory "/Users/william/scm/vendor/emacs-mac"
-        find-function-C-source-directory "/Users/william/scm/vendor/emacs-mac/src")
+  (setq source-directory (expand-file-name "scm/vendor/emacs-mac" wjb/home-directory)
+        find-function-C-source-directory (expand-file-name "scm/vendor/emacs-mac/src" wjb/home-directory))
+  ;; first, appearance defines some defuns that are used by a treemacs hook
   (require 'appearance)
-  (wjb/customize-appearance)
-  ;; (with-current-buffer "init.el"
-  ;;   (treemacs-add-and-display-current-project))
+  ;; loads and starts treemacs, runs treemacs hooks
+  (treemacs-select-window)
+  ;; load theme and customize appearance
+  (progn
+    (change-theme 'modus-vivendi t)
+    (solaire-global-mode -1)
+    (setq wjb/dark t)
+    (wjb/customize-appearance))
   )
 (add-hook 'emacs-startup-hook #'wjb/emacs-startup-hook)
 
-;; TODO: am I handling safe-local-variable-values in a sensible way?
-;; look at purcell, etc.
-
-;; TODO: Byte-recompile site-lisp-dir during some idle time after startup.
-;; (byte-recompile-directory site-lisp-dir 0)
-;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
-;;
 ;; (defun wjb/run-once-when-idle (fun)
 ;;   "Run a command every once in a while, if possible when emacs is idle."
 ;;   (defun wjb/generate-idle-callback (fun)
