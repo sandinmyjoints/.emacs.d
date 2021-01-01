@@ -1,5 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
+;; Useful:
+;; * counsel-descbinds
+;; * describe-bindings
+;;
 ;; Available to use:
 ;; * C-z
 ;; * C-,
@@ -57,10 +61,10 @@
 (global-set-key (kbd "H-b") #'backward-word)
 (global-set-key (kbd "H-n") #'symbol-overlay-jump-next)
 
-(global-set-key (kbd "M-_") #'camelscore-word-at-point)
-
 (global-set-key (kbd "M-f") #'wjb/forward-symbol)
 (global-set-key (kbd "M-b") #'wjb/backward-symbol)
+
+(global-set-key (kbd "M-_") #'camelscore-word-at-point)
 
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
@@ -68,7 +72,8 @@
 (global-set-key (kbd "H-g") (kbd "C-g"))
 
 ;; (global-set-key (kbd "H-a") #'wjb/switch-to-dirtree)
-(global-set-key (kbd "H-a") #'windmove-left)
+;; (global-set-key (kbd "H-a") #'windmove-left) ;; treemacs-select-window
+(global-set-key (kbd "H-a") #'treemacs-select-window)
 
 (global-set-key (kbd "C-/") 'hippie-expand) ;; clobbers undo, but I never use it at this binding anyway
 
