@@ -269,6 +269,10 @@
     (message "Starting server...")
     (server-start)))
 
+;; Used by magit, and probably others. Under the hood, it uses server.
+(use-package with-editor
+  :defer)
+
 ;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
 (use-package edit-server
   :disabled
@@ -880,12 +884,17 @@ Fix for the above hasn't been released as of Emacs 25.2."
         magit-completing-read-function 'ivy-completing-read
         magit-push-always-verify nil
         magit-revision-insert-related-refs nil
-        magit-branch-read-upstream-first nil)
-  ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
-  magit-branch-prefer-remote-upstream '(master)
-  ;; experimental:
-  magit-process-connection-type nil
-  (autoload 'magit-log "magit"))
+        magit-branch-read-upstream-first nil
+        ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
+        magit-branch-prefer-remote-upstream '(master)
+        ;; experimental:
+        magit-process-connection-type nil)
+  (setq magit-credential-cache-daemon-socket ; location of credential socket
+        (if (getenv "XDG_CACHE_HOME")
+            (expand-file-name "git/credential/socket"
+                              (getenv "XDG_CACHE_HOME"))
+          (expand-file-name ".cache/git/credential/socket" (getenv "HOME"))))
+        (autoload 'magit-log "magit"))
 
 ;; Experiment, might want to do this for everything:
 (use-package setup-magit
