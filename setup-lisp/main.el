@@ -2557,6 +2557,9 @@ header overlay should cover. Result is a cons cell of (begin . end)."
   ;; (npm-global-mode)
   )
 
+(use-package json-reformat
+  :disabled)
+
 ;; jsons-print-path
 (use-package json-snatcher
   :disabled)
