@@ -461,15 +461,9 @@
 (setq term-suppress-hard-newline t
       display-line-numbers-type nil)
 
-;; Keep region active when hit C-g. From http://emacs.stackexchange.com/a/11064
-(defun my-keyboard-quit-advice (fn &rest args)
-  (let ((region-was-active (region-active-p)))
-    (unwind-protect
-        (apply fn args)
-      (when region-was-active
-        (activate-mark t)))))
-
+(require 'wjb-byte-compile)
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
+;; (define-key minibuffer-local-map "\C-g" 'minibuffer-keyboard-quit)
 
 ;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
 ;; make zap-to-char act like zap-up-to-char

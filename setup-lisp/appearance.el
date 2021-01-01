@@ -575,24 +575,7 @@ OK on large screens."
   (setq doom-modeline-continuous-word-count-modes '())
   (doom-modeline-mode 1))
 
-;; Change cursor color according to mode.
-;; From https://www.emacswiki.org/emacs/ChangingCursorDynamically
-(defvar wjb/set-cursor-color-color "")
-(defvar wjb/set-cursor-color-buffer "")
-
-(defun wjb/set-cursor-color-according-to-mode ()
-  "change cursor color according to some minor modes."
-  ;; set-cursor-color is somewhat costly, so we only call it when needed:
-  (let ((color
-         (if buffer-read-only (if wjb/dark wjb/read-only-cursor-dark wjb/read-only-cursor-light)
-           (if overwrite-mode "red"
-             (if wjb/dark wjb/dark-cursor-color wjb/light-cursor-color)))))
-    (unless (and
-             (string= color wjb/set-cursor-color-color)
-             (string= (buffer-name) wjb/set-cursor-color-buffer))
-      (set-cursor-color (setq wjb/set-cursor-color-color color))
-      (setq wjb/set-cursor-color-buffer (buffer-name)))))
-
+(require 'wjb-byte-compile)
 (add-hook 'post-command-hook 'wjb/set-cursor-color-according-to-mode)
 (add-hook 'emacs-startup-hook 'wjb/set-cursor-color-according-to-mode)
 
