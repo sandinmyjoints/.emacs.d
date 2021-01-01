@@ -400,7 +400,7 @@
   ;;         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
   ;;        )))
 
-  (setq-default flycheck-display-errors-delay 0.7
+  (setq-default flycheck-display-errors-delay 0.4
                 flycheck-idle-change-delay 0.6 ;; but this is really set below ↓
                 ;; flycheck-check-syntax-automatically '(save idle-change mode-enabled)
                 flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch)
