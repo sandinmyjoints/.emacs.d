@@ -95,6 +95,7 @@
     (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode nil t))
   (add-hook 'markdown-mode-hook #'wjb/markdown-mode-hook)
   (add-hook 'markdown-mode-hook #'visual-line-mode t)
+  (add-hook 'markdown-mode-hook 'imenu-add-menubar-index)
 
   (progn
     ;; Seamless editing of Markdown tables (allowed in GFM) using `orgtbl-mode'
