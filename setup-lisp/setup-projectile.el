@@ -152,8 +152,9 @@
 
 ;; playground
 ;; src/controller/file.js
+;; can work for either of these, but not both:
 ;; test/controller/file.test.js
-;; test/controller/file.db.test.js -- not handled yet
+;; test/controller/file.db.test.js
 (defun wjb/related-files-corresponding-path-playground (path)
   (if (string-match (rx (group (or "src" "test"))
                         (group "/" (+? anything))
@@ -163,8 +164,8 @@
              (filename (match-string 3 path))
              (filename-base (file-name-base filename))
              (filename-extension (file-name-extension filename t))
-             (filename-test (concat filename-base ".test" filename-extension))
-             (filename-impl (s-replace ".test" "" filename)))
+             (filename-test (concat filename-base ".db.test" filename-extension))
+             (filename-impl (s-replace ".db.test" "" filename)))
         ;; (if (equal path "/Users/william/scm/sd/sd-playground/test/controllers/reconcile.test.js")
         ;;     (debug))
         (if (equal top-dir "test")
