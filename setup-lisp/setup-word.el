@@ -56,10 +56,19 @@
 ;; - paragraphs
 ;; - pages
 ;;
+;; # Actions
+;; - forward, backward
+;; - next, previous
+;; - up, down
+;; - in, out
+;;
 ;; # Behavior appropriate to mdes
-;; - markdown, text, comments
 ;; - org
+;; - text
+;;   - markdown
+;;   - yaml
 ;; - prog
+;;   - js2
 ;;
 ;; - treat urls/links as words, with parts within them being subwords? or treat them as symbols or sexps?
 ;;
@@ -129,12 +138,23 @@
 
 ;; when subword-mode is off, forward-word treats these as words; when it's on, it's breaks them up. wjb/forward-symbol always treats them as words.
 ;; when superword-mode is on, forward-word skips over these.
+;;
 ;; python_uses serpent_case bash_too
 ;; css-and-coffee use kebab-case
 
-;; when subword-mode is off, forward-word treats these as words; when it's on, it's breaks them up. wjb/forward-symbol always treats them as words.
+;; when subword-mode is off, forward-word treats these as words; when it's on,
+;; it's breaks them up. wjb/forward-symbol always treats them as words.
+;;
 ;; jsAndRuby use camelCase
 ;; JavaUses PascalCase NSString GtkWindow
+;;
+;; note that modes appear to have different definitions of word/sub-word. In
+;; js2-mode, I'd like forward-symbol to treat kebab-case (esp in a string) as
+;; a symbol, but it doesn't. However, in emacs-lisp-mode, it does. Why?
+;; I think what I want is:
+;; "-" to be syntax class _ which is symbol
+;; currently "-" is syntax class . which is punctuation
+;; but only within strings!
 
 ;; I think what I want is global-subword-mode, thus enabling
 ;; navigation within words using -word commands, but "over" words
