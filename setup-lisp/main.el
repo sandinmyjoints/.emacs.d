@@ -3385,10 +3385,8 @@ Interactively also sends a terminating newline."
   (global-hungry-delete-mode))
 
 (use-package change-inner
-  :commands (change-inner change-outer)
-  :config
-  (global-set-key (kbd "M-i") 'change-inner)
-  (global-set-key (kbd "M-o") 'change-outer))
+  :bind (("M-i" . change-inner)
+         ("M-o" . change-outer)))
 
 ;; Syntax modifications.
 
