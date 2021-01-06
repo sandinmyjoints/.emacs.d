@@ -3611,7 +3611,7 @@ questions.  Else use completion to select the tab to switch to."
 ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 
-;; key-bindings
+;; key-bindings. Must be after defuns. Should be near the end, to avoid being overwritten.
 
 (require 'key-bindings)
 
