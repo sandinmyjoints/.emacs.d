@@ -1220,6 +1220,8 @@ in the current window."
   (global-set-key (kbd "C-x b") #'wjb/smart-counsel-switch-buffer) ;; giving this a try
   (global-set-key (kbd "H-0 f") 'counsel-find-file)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+  (global-set-key (kbd "C-h f") 'counsel-describe-function)
   ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
   ;; (global-set-key (kbd "C-x d") 'ido-dired) ;
   (global-set-key (kbd "C-x d") 'counsel-dired)
