@@ -118,6 +118,8 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (define-key js2-mode-map (kbd "M-,") 'smart-jump-back)
   ;; (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
   ;; (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
+  (define-key js2-mode-map (kbd "C-M-n") #'forward-paragraph)
+  (define-key js2-mode-map (kbd "C-M-p") #'backward-paragraph)
 
   (define-key js2-refactor-mode-map (kbd "H-c r l") 'remove-console-log-js)
   (define-key js2-refactor-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
