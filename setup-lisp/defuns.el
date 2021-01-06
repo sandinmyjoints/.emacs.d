@@ -1012,6 +1012,10 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (auto-fill-mode 1)
   (visual-line-mode -1))
 
+(defun wjb/switch-to-clock ()
+  "Switch to last clock buffer."
+  (interactive)
+  (switch-to-buffer "clock.org"))
 
 (provide 'defuns)
 
