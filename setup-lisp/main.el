@@ -1789,7 +1789,8 @@ If PROJECT is not specified the command acts on the current project."
   ;;         web-mode-hook
   ;;         sass-mode-hook))
   (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'stack))
+        highlight-indent-guides-responsive 'top
+        highlight-indent-guides-delay 0.0))
 
 (use-package highlight-thing
   :diminish
