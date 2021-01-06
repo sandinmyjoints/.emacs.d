@@ -3620,6 +3620,7 @@ questions.  Else use completion to select the tab to switch to."
 ;; The manual recommends C-c for user keys, but C-x t is
 ;; always free, whereas C-c t is used by some modes.
 (define-key ctl-x-map "t" 'endless/toggle-map)
+(define-key endless/toggle-map "a" #'wjb/customize-appearance)
 (define-key endless/toggle-map "m" #'toggle-frame-maximized)
 (define-key endless/toggle-map "c" #'column-number-mode)
 (define-key endless/toggle-map "d" #'toggle-debug-on-error)
