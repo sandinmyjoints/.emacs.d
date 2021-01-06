@@ -1116,17 +1116,42 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :bind (("C-." . ivy-imenu-anywhere)))
 
 
-;; flx/amx/smex
+;; flx/amx/smex/prescient
 
 ;; (use-package ido
 ;;   :disabled
 ;;   :config
 ;;   (require 'setup-ido))
 
-(use-package flx)
+;; use flx b/c ivy uses it for sorting ivy--regex-fuzzy.
+;; disabling b/c it may prevent ivy (and others?) from using prescient.
+(use-package flx
+  :disabled)
+
+;; I would expect prescient to remember history based on what I typed and then
+;; chose, but it doesn't seem to. For example, for counsel-M-x, I type "eval".
+;; "eval-defun" is top result. But I select "eval-region". "eval-region" is at
+;; the top when I hit M-x again, but when I type "eval", "eval-defun" is still
+;; the top result. It is not remembering that when I type "eval", I choose
+;; "eval-region".
+(use-package prescient
+  :config
+  ;; (add-to-list 'ivy-sort-functions-alist '(counsel-projectile-sort-projects . ivy-prescient-sort-function))
+  (prescient-persist-mode))
+
+(use-package ivy-prescient
+  :after (counsel ivy)
+  :config
+  (ivy-prescient-mode))
+
+(use-package company-prescient
+  :after (company)
+  :config
+  (company-prescient-mode))
 
 ;; Use for ordering of commands in counsel-M-x.
-(use-package amx)
+(use-package amx
+  :disabled)
 
 (use-package smex
   :disabled
