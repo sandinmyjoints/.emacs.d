@@ -3402,7 +3402,15 @@ Interactively also sends a terminating newline."
 ;; ace
 
 (use-package ace-window
-  :defer 1)
+  :bind (("C-x o" . ace-window)
+         ("C-x l" . ace-window))
+  :config
+  (setq aw-scope 'frame
+        aw-background nil
+        aw-ignore-current nil
+        aw-ignored-buffers '(dirtree-mode)
+        aw-ignore-on t
+        aw-keys '(?1 ?2 ?3 ?4)))
 
 (use-package ace-jump-helm-line
   :disabled
@@ -3416,10 +3424,8 @@ Interactively also sends a terminating newline."
         ;; Set the move-only and persistent keys
         ace-jump-helm-line-select-key ?s ;; this line is not needed
         ace-jump-helm-line-move-only-key ?m
-        ace-jump-helm-line-persistent-key ?p
-        )
-  (ace-jump-helm-line-idle-exec-add 'helm-mini)
-  )
+        ace-jump-helm-line-persistent-key ?p)
+  (ace-jump-helm-line-idle-exec-add 'helm-mini))
 
 
 ;; appearance
