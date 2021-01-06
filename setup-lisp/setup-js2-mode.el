@@ -50,6 +50,7 @@
 (use-package js2-imenu-extras
   :config
   (progn
+    (setq js2-imenu-enabled-frameworks '(jquery react))
     (js2-imenu-extras-setup)))
 
 ;; To jump back:
