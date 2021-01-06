@@ -275,6 +275,10 @@ If buffer is not visiting a file, do nothing."
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode
   '(progn
+     ;; experimental:
+     (modify-syntax-entry ?- "_" js-mode-syntax-table)
+     (modify-syntax-entry ?- "_" js2-mode-syntax-table)
+
      ;; '$' is part of variable name like '$item'
      (modify-syntax-entry ?$ "w" js-mode-syntax-table)))
 
