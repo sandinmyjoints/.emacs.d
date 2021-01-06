@@ -262,6 +262,8 @@
 ;; TODO(mine)
 (require 'setup-grep)
 
+;; writable grep. Similar to wdired, which is a builtin package. Different
+;; key-bindings, though.
 (use-package wgrep
   :after grep
   :config
