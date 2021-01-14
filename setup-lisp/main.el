@@ -285,7 +285,7 @@
 ;; see https://www.emacswiki.org/emacs/Edit_with_Emacs
 (use-package edit-server
   :disabled
-  :defer 6
+  :commands (edit-server-start)
   :config
   (setq edit-server-new-frame nil)
   (defun wjb/save-edit-server () (kill-ring-save (point-min) (point-max)))
