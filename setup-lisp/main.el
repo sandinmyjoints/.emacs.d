@@ -1144,7 +1144,10 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   (ivy-prescient-mode))
 
+;; Not useful in js-mode, as tide already sorts things smartly. Maybe useful
+;; in other modes? Not sure.
 (use-package company-prescient
+  :disabled
   :after (company)
   :config
   (company-prescient-mode))
