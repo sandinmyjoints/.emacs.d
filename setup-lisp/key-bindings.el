@@ -308,11 +308,6 @@ Also converts full stops to commas."
 (define-key wjb-map (kbd "e n") 'compilation-next-error)
 (define-key wjb-map (kbd "e p") 'compilation-previous-error)
 
-(defun wjb/switch-to-standup ()
-  (interactive)
-  (pop-to-buffer "sd-standup.org"))
-(define-key wjb-map (kbd "s") #'wjb/switch-to-standup)
-
 ;; TODO: use this for all switch-to-* buffer commands
 (defun wjb/command-to-switch-to-buffer (buffer)
   "Generate an interactive command to switch to BUFFER."
@@ -320,7 +315,11 @@ Also converts full stops to commas."
     (interactive)
     (pop-to-buffer buffer)))
 
-(define-key wjb-map (kbd "w") (wjb/command-to-switch-to-buffer "sd-web.org"))
+;; (define-key wjb-map (kbd "w") (wjb/command-to-switch-to-buffer "sd-web.org"))
+;; (define-key wjb-map (kbd "s") (wjb/command-to-switch-to-buffer "sd-standup.org"))
+
+(define-key wjb-map (kbd "w") (lambda () (interactive) (find-file "~/notes/sd-web.org")))
+(define-key wjb-map (kbd "s") (lambda () (interactive) (find-file "~/notes/sd-standup.org")))
 
 (defun wjb/find-use-package (package)
   (interactive "MPackage: ")
@@ -334,8 +333,8 @@ Also converts full stops to commas."
 
 ;; profiler
 
-(global-set-key (kbd "C-7") 'profiler-start)
-(global-set-key (kbd "C-8") 'profiler-reset)
+(global-set-key (kbd "C-7") 'profiler-reset)
+(global-set-key (kbd "C-8") 'profiler-start)
 (global-set-key (kbd "C-9") 'profiler-report)
 
 (provide 'key-bindings)
