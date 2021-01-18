@@ -77,6 +77,8 @@
         rebox-end-of-line
         rebox-space
         rjsx-delete-creates-full-tag
+        rjsx-electric-gt
+        rjsx-electric-lt
         set-rectangular-region-anchor
         sgml-slash
         sh-assignment
@@ -120,6 +122,7 @@
         ido-switch-buffer
         isearch-forward-regexp
         isearch-printing-char
+        jest-file-dwim
         js2r-rename-var
         mac-mwheel-scroll
         mark-whole-buffer
