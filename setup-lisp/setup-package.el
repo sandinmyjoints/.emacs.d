@@ -61,20 +61,21 @@
   (defvar ubl '("ublt" . "https://elpa.ubolonton.org/packages/"))
 
   ;; Generally not upgrading packages in this archive:
-  (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
+  ;; (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
 
-  (add-to-list 'package-archives org)
-  (add-to-list 'package-archives elpy)
+  (setq package-archives '())
+
+  ;; (add-to-list 'package-archives gnu)
+  ;; (add-to-list 'package-archives org)
+  ;; (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
+  (add-to-list 'package-archives celpa)
   ;; (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
   (add-to-list 'package-archives ubl)
 
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
-
-  ;; Use if melpa is down:
-  ;; (add-to-list 'package-archives melpa-mirror)
 
   ;; TODO: See http://www.lonecpluspluscoder.com/2014/11/using-elpa-pinned-packages-gnu-emacs-24-4/
   ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
