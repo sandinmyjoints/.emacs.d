@@ -3300,11 +3300,17 @@ Interactively also sends a terminating newline."
 
 ;; navigation / editing / formatting
 
+(use-package avy)
+
 ;; expand-region.
 ;; See: https://github.com/magnars/expand-region.el
 (use-package expand-region
   :bind (:map global-map
-              ("C-=" . 'er/expand-region)))
+              ("C-=" . 'er/expand-region))
+  :config
+  (setq expand-region-subword-enabled t
+        expand-region-smart-cursor t
+        expand-region-autocopy-register "e"))
 
 (use-package easy-kill
   :config
