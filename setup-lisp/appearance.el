@@ -109,13 +109,12 @@ small screens."
   (set-face-font 'default "Fira Code-15")
   (if (and (wjb/is-small-display) wjb/dark)
       (set-face-attribute 'default nil :weight 'light)
-      (set-face-attribute 'default nil :weight 'medium))
+    (set-face-attribute 'default nil :weight 'medium))
 
   (set-face-font 'variable-pitch "Fira Sans")
   (if (or (wjb/is-small-display) wjb/dark)
       (set-face-attribute 'variable-pitch nil :weight 'light)
-    (set-face-attribute 'variable-pitch nil :weight 'regular))
-)
+    (set-face-attribute 'variable-pitch nil :weight 'regular)))
 
 (defun wjb/font-deja ()
   "Has strong Unicode support. Works well with dark and light
@@ -129,10 +128,10 @@ themes."
         (set-face-font 'variable-pitch "DejaVu Sans")
         (set-face-attribute 'variable-pitch nil :width 'normal) ;; condensed is the right width but it only has a heavy weight
         (set-face-attribute 'variable-pitch nil :weight 'extralight))
-      (progn
-        (set-face-font 'variable-pitch "DejaVu Sans")
-        (set-face-attribute 'variable-pitch nil :width 'normal)
-        (set-face-attribute 'variable-pitch nil :weight 'book)))
+    (progn
+      (set-face-font 'variable-pitch "DejaVu Sans")
+      (set-face-attribute 'variable-pitch nil :width 'normal)
+      (set-face-attribute 'variable-pitch nil :weight 'book)))
   )
 
 (defun wjb/font-cascadia ()
@@ -142,7 +141,7 @@ OK on large screens."
   (set-face-font 'default "Cascadia Code PL-15")
   (if (wjb/is-small-display)
       (set-face-attribute 'default nil :weight 'light)
-      (set-face-attribute 'default nil :weight 'normal))
+    (set-face-attribute 'default nil :weight 'normal))
 
   (set-face-font 'variable-pitch "Fira Sans")
   (set-face-attribute 'variable-pitch nil :weight 'light))
