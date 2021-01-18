@@ -995,7 +995,15 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :disabled
   :hook (python-mode . smart-dash-mode))
 
-;; Python.
+(use-package pyvenv
+  :defer t
+  :config
+  (setenv "WORKON_HOME" (expand-file-name "~/.local/venvs/"))
+  (setq pyvenv-menu nil)
+  ;; Restart the python process when switching environments
+  (add-hook 'pyvenv-post-activate-hooks #'pyvenv-restart-python)
+  :hook (python-mode . pyvenv-mode))
+
 (use-package python
   :defer
   :config
@@ -1011,7 +1019,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
                                 (hack-local-variables)
                                 (setq fill-column 79)
                                 ;; (set-face-background 'highlight-indentation-face "#111")
-                                (pyvenv-tracking-mode)
+                                ;; (pyvenv-tracking-mode) ;; slows cursor down a lot
                                 (when (boundp 'project-venv-name)
                                   (venv-workon project-venv-name)
                                   (pyvenv-workon project-venv-name))))
