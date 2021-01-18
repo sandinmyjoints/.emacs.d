@@ -239,7 +239,7 @@ If buffer is not visiting a file, do nothing."
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
 (setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
-                            (loop for entry in auto-mode-alist
+                            (cl-loop for entry in auto-mode-alist
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
