@@ -350,9 +350,9 @@ OK on large screens."
     (progn
       (set-mouse-color "black")
       (set-cursor-color wjb/light-cursor-color)
-        (set-face-foreground 'org-checkbox-done-text
-                             (color-lighten-name
-                              (face-attribute 'default :foreground) 20))))
+      (set-face-foreground 'org-checkbox-done-text
+                           (color-lighten-name
+                            (face-attribute 'default :foreground) 20))))
 
   (set-face-background 'solaire-default-face
                        (color-darken-name
