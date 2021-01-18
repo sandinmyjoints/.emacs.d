@@ -3199,6 +3199,23 @@ Interactively also sends a terminating newline."
   (define-key vterm-mode-map [remap self-insert-command] #'vterm--self-insert)
   (define-key vterm-mode-map (kbd "C-c C-t")             #'vterm-copy-mode)
 
+  (defvar wjb/tmux-in-vterm nil)
+  (make-variable-buffer-local 'wjb/tmux-in-vterm)
+
+  (defun set-tmux-in-vterm (arg)
+    ;; (message (format "set-tmux-in-vterm: %s" arg))
+    (setq wjb/tmux-in-vterm (if (s-equals? arg "0") nil t)))
+  (push '("set-tmux-in-vterm" set-tmux-in-vterm) vterm-eval-cmds)
+
+  (defun wjb/vterm-maybe-send-C-v ()
+    "Send C-v if tmux is on, otherwise don't send and do scroll-up-command instead."
+    (interactive)
+    (if wjb/tmux-in-vterm
+        (call-interactively #'vterm-send-C-v)
+      (call-interactively #'scroll-up-command)))
+
+  (define-key vterm-mode-map (kbd "C-v")             #'wjb/vterm-maybe-send-C-v)
+
   (defun vterm-send-close-square-bracket ()
     "Sends `C-]' to libvterm."
     (interactive)
