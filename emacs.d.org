@@ -2118,8 +2118,8 @@ local bindings in certain buffers.
     - when error, offer menu of fixes, including add new import (want)
     - highlight the assertion which failed (want)
     - [X] debug test -- drop into debugger, set breakpoint (want)
-  - [ ] dumb-jump or smart-jump for jsx
-  - [ ] flycheck shows error if point is immediately after it
+  - [X] dumb-jump or smart-jump for jsx
+  - [X] flycheck shows error if point is immediately after it
   - [ ] minions exception for flycheck-emoji
   - magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
@@ -2143,7 +2143,7 @@ local bindings in certain buffers.
 ``` shell
 $ aws ecs update-service --cluster <cluster name> --service <service name> --force-new-deployment
 ```
-   - [ ] automatically open project in dirtree, if not already opened when switch to it
+   - [X] automatically open project in dirtree, if not already opened when switch to it
      - probably can use projectile hook of some kind
    - [X] Use compile buffer, jump to failing tests
    - [X] project commands work from local_notes
@@ -2220,12 +2220,7 @@ $ ls
      - new-line
 * TODO treemacs improvements
   - https://github.com/sei40kr/spacemacs.d/blob/master/treemacs-custom.el
-* treemacs startup
-  ;; (require 'treemacs)
-  ;; (pcase (treemacs-current-visibility)
-  ;;   ('exists  (treemacs-select-window))
-  ;;   ('none    (treemacs--init)))
-
+* DONE treemacs startup
 * TODO dropdown shell console
 ;; TODO: use esc-mode-map M-~ instead
 ;; (global-set-key (kbd "~") (lambda ()
@@ -2320,9 +2315,42 @@ dired, writable dired
    - https://www.reddit.com/r/emacs/comments/gmh8bs/beta_testers_ann_lets_make_emacs_better/
 * switch to straight.el                                            :wishlist:
   - https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
-* tide
+* modus themes
+  - in light theme, echo area with dark background shows whenever counsel or
+    other thing is open
+  - in dark theme, black text on black bg in vterm (deploying with surge)
+* catalina
+  - https://spin.atomicobject.com/2019/12/12/fixing-emacs-macos-catalina/
+* gccemacs
+  - http://akrl.sdf.org/gccemacs.html#org576df84
+  - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
+  - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
+* hydras
+  - https://www.reddit.com/r/emacs/comments/gr2zaj/what_are_your_useful_hydras/
+* "Match data clobbered by buffer modification hooks"
+  - it's origami
+  - fix: https://github.com/gregsexton/origami.el/pull/93
+* assoc lists (alists) and plists
+  - a.el has a-get for getting a prop from an alist
+* emacs lisp style guide
+  - https://github.com/bbatsov/emacs-lisp-style-guide
+* tramp                                                               :tramp:
+  - usage
+    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
+    - multi: C-x C-f /ssh:bird@bastion|ssh:you@remotehost:/path
+    - C-x C-f /docker:user@container:/path/to/file
+    - C-x C-f /ssh:wbert@wjb.sh:/etc
+** hanging due to tramp
+   - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
+     Since I don't use ido anymore, generally save to just delete this file.
+   - also check ~/.recentf
+* autopairing/smartparens/paredit/etc
+  - [ ] fix autopairing/smartparens/paredit
+    - quotes in rjsx, js2-modes
+    - https://github.com/magnars/change-inner.el
+* typescript / tide                                        :tide:typescript:
 ** tide-documentation-at-point opens in posframe, with key bound in keymap
-** use json-serialize, etc. from json.c
+** DONE use json-serialize, etc. from json.c
 ** tide bug
    #+begin_src emacs-lisp
             (-when-let (msg (plist-get ,response :message))
@@ -2358,40 +2386,7 @@ dired, writable dired
      at readableAddChunk (_stream_readable.js:273:9)
      at Socket.Readable.push (_stream_readable.js:214:10)
      at Pipe.onStreamRead (internal/stream_base_commons.js:186:23)
-* modus themes
-  - in light theme, echo area with dark background shows whenever counsel or
-    other thing is open
-  - in dark theme, black text on black bg in vterm (deploying with surge)
-* catalina
-  - https://spin.atomicobject.com/2019/12/12/fixing-emacs-macos-catalina/
-* gccemacs
-  - http://akrl.sdf.org/gccemacs.html#org576df84
-  - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
-  - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
-* hydras
-  - https://www.reddit.com/r/emacs/comments/gr2zaj/what_are_your_useful_hydras/
-* "Match data clobbered by buffer modification hooks"
-  - it's origami
-  - fix: https://github.com/gregsexton/origami.el/pull/93
-* assoc lists (alists) and plists
-  - a.el has a-get for getting a prop from an alist
-* emacs lisp style guide
-  - https://github.com/bbatsov/emacs-lisp-style-guide
-* tramp                                                               :tramp:
-  - usage
-    - C-x C-f /sudo:root@localhost:/private/etc/hosts  *or*  C-x C-f /sudo::/private/etc/hosts
-    - multi: C-x C-f /ssh:bird@bastion|ssh:you@remotehost:/path
-    - C-x C-f /docker:user@container:/path/to/file
-    - C-x C-f /ssh:wbert@wjb.sh:/etc
-** hanging due to tramp
-   - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
-     Since I don't use ido anymore, generally save to just delete this file.
-   - also check ~/.recentf
-* autopairing/smartparens/paredit/etc
-  - [ ] fix autopairing/smartparens/paredit
-    - quotes in rjsx, js2-modes
-    - https://github.com/magnars/change-inner.el
-* typescript / tide                                         :tide:typescript:
+** more
   - disable automatic type acquisition:
     https://github.com/microsoft/TypeScript/issues/36358,
     https://stackoverflow.com/questions/53335674/vscode-replace-typescript-definitions-with-node-modules-definitions, https://code.visualstudio.com/docs/nodejs/working-with-javascript
@@ -2457,3 +2452,35 @@ brew bundle
 ./build-emacs-for-macos feature/native-comp
 
   #+end_src
+* paradox
+- reloading all packages after an async install -- seems deliberate, but why does it take so long?
+* yml / openapi
+- better yml in general
+* TODO try lsp for js
+* TODO use-package
+** TODO use :commands to prevent the long loading after 5s problem
+** does :defer or :after take precedent?
+* js2 ideas
+- js2 mark-defun works for tests
+- js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
+* TODO origami
+- origami folding don't slow down in long file
+* TODO better imenu
+  - [ ] "cb" instead of "callback"
+* TODO narrowing / filtering / matching
+- [ ] flx: prioritize full strings over initialisms, so wjb matches wjb/
+    before other stuff
+- describe-variable: why doesn't vtermax match vterm-max?
+- why does counsel-M-x not work with spaces, but counsel-describe-variable
+  requires them?
+* TODO prescient
+  - prescient -- remember choices with matches
+
+* TODO better desktop-read
+* TODO things to check that they work after changes:
+vterm
+org
+markdown
+jest
+tide
+yml

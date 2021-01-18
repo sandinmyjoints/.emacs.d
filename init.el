@@ -121,6 +121,7 @@
   ;; https://www.emacswiki.org/emacs/LoadPath
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
+
   (setq package-user-dir "/Users/william/.emacs.d/elpa")
   (let ((default-directory package-user-dir))
     (normal-top-level-add-subdirs-to-load-path))
