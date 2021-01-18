@@ -570,11 +570,21 @@ OK on large screens."
   ;; (doom-themes-org-config)
 )
 
+(defun wjb/doom-modeline-env-node ()
+  (setq doom-modeline-env--command "node"
+        doom-modeline-env--command-args '("-v" "2>&1")
+        doom-modeline-env--parser (lambda (line) (car (split-string line)))))
+
 ;; Looks nice but updates frequently and takes CPU/leads to GCs
 (use-package doom-modeline
   ;; :disabled
+  :hook (after-init . doom-modeline-mode)
   :config
-  (setq doom-modeline-continuous-word-count-modes '())
+  (add-hook 'js-mode-hook #'wjb/doom-modeline-env-node)
+  (setq doom-modeline-continuous-word-count-modes '()
+        doom-modeline-gnus nil
+        doom-modeline-gnus-timer 0
+        doom-modeline-buffer-encoding nil)
   (doom-modeline-mode 1))
 
 (require 'wjb-byte-compile)
