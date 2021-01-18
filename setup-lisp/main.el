@@ -96,14 +96,15 @@
 
 ;; Byte-recompile by directory. 0 means compile even for files that do not
 ;; already have an elc file. t means recompile every el files that has an elc
-;; file.
+;; file. I have some shell functions for these but they don't set load-path
+;; correctly and so tend to not compile a bunch of files.
 ;;
 ;; (byte-recompile-directory site-lisp-dir 0 t) ;; /elisp
-;; (byte-recompile-directory "/Users/william/.emacs.d/elpa" 0 t)
-
+;; (byte-recompile-directory package-user-dir 0 t)
+;;
 ;; HOWTO native-comp safely:
 ;; 0. rm all elc files (elc_rm)
-;; 1. byte-recompile everything. Note that some elisp files will not be byte compiled, mostly pkg files that have a no-byte-compile flag. These will show up as warnings when running native-comp.
+;; 1. byte-recompile everything (see above). Note that some elisp files will not be byte compiled, mostly pkg files that have a no-byte-compile flag. These will show up as warnings when running native-comp.
 ;; 2. then run these:
 ;; (native-compile-async "/Users/william/.emacs.d/elpa" 'recursively)
 ;; (native-compile-async "/Users/william/.emacs.d/elisp" 'recursively)
