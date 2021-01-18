@@ -2011,6 +2011,8 @@ If PROJECT is not specified the command acts on the current project."
 ;; - https://github.com/cask/cask/issues/418
 ;; - https://emacs.stackexchange.com/questions/18045/how-can-i-retrieve-an-https-url-on-mac-os-x-without-warnings-about-an-untrusted/18070#18070
 (setq gnutls-log-level 0)
+;; requires restart to take effect. supposedly doesn't help in recent versions of emacs.
+;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (with-eval-after-load 'gnutls
   (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem")
   (add-to-list 'gnutls-trustfiles "/usr/local/etc/gnutls/cert.pem")
