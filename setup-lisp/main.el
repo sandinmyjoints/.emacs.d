@@ -865,6 +865,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
         (call-interactively #'magit-status))
     (call-interactively #'magit-status)))
 
+;; Magit Forge uses this.
 (use-package ghub
   :defer 5)
 
@@ -882,14 +883,12 @@ Fix for the above hasn't been released as of Emacs 25.2."
         magit-status-expand-stashes nil
         magit-commit-show-diff nil
         magit-revert-buffers 1 ;; important for not slowing down everything
-        ;; magit-completing-read-function 'magit-ido-completing-read
         magit-completing-read-function 'ivy-completing-read
         magit-push-always-verify nil
         magit-revision-insert-related-refs nil
         magit-branch-read-upstream-first nil
         ;; experimental, see https://magit.vc/manual/magit/The-Branch-Popup.html
         magit-branch-prefer-remote-upstream '(master)
-        ;; experimental:
         magit-process-connection-type nil)
   (setq magit-credential-cache-daemon-socket ; location of credential socket
         (if (getenv "XDG_CACHE_HOME")
@@ -902,10 +901,14 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package setup-magit
   :after magit)
 
+;; by the author of magit
 (use-package forge
   :disabled
   :after magit)
 
+;; separate from magit, but integrates: "You can use github-review with forge.
+;; When your cursor is over a pull request, you can call
+;; github-review-forge-pr-at-point to start a code review."
 (use-package github-review
   :after magit
   :disabled
