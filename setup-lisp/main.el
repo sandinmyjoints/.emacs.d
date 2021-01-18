@@ -196,6 +196,22 @@
 
 ;; Modeline
 
+(defun wjb/doom-modeline-env-node ()
+  (setq doom-modeline-env--command "node"
+        doom-modeline-env--command-args '("-v" "2>&1")
+        doom-modeline-env--parser (lambda (line) (car (split-string line)))))
+
+;; Looks nice but updates frequently and takes CPU/leads to GCs
+(use-package doom-modeline
+  ;; :disabled
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (add-hook 'js-mode-hook #'wjb/doom-modeline-env-node)
+  (setq doom-modeline-continuous-word-count-modes '()
+        doom-modeline-gnus nil
+        doom-modeline-gnus-timer 0
+        doom-modeline-buffer-encoding nil))
+
 ;; from http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
 
@@ -217,6 +233,7 @@
 
 (use-package smart-mode-line
   ;; :after minions
+  :disabled
   :config
   ;; Helpful reading:
   ;; - https://github.com/lunaryorn/blog/blob/master/posts/make-your-emacs-mode-line-more-useful.md
