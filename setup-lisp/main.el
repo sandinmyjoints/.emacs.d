@@ -2656,7 +2656,9 @@ header overlay should cover. Result is a cons cell of (begin . end)."
 
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm
 ;; for file.
-(use-package nvm)
+(use-package nvm
+  :config
+  (do-nvm-use "v14.15.0")) ;; default node
 
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
