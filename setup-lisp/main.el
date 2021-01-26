@@ -2437,7 +2437,6 @@ If PROJECT is not specified the command acts on the current project."
   :after company)
 
 (use-package company-restclient
-  :hook restclient-mode
   :after (company restclient))
 
 (use-package company-ctags
