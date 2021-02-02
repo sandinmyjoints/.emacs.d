@@ -2473,6 +2473,7 @@ brew bundle
 - describe-variable: why doesn't vtermax match vterm-max?
 - why does counsel-M-x not work with spaces, but counsel-describe-variable
   requires them?
+- why doesn't switch-to-project dotfiles put ~/dotfiles first?
 * TODO prescient
   - prescient -- remember choices with matches
 
