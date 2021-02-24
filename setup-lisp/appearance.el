@@ -334,11 +334,11 @@ OK on large screens."
   ;; (set-face-inverse-video-p 'vertical-border nil)
 
   ;; some themes try to jack these
-  (when (facep 'org-level-1) (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal))
+  (when (facep 'org-level-1) (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'bold))
   (when (facep 'outline-1) (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal))
   (when (facep 'treemacs-root-face) (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil))
 
-  (setq line-spacing 0.1)
+  (setq-default line-spacing 0.1)
 
   (if wjb/dark
       (progn
