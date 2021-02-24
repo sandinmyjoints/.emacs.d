@@ -65,13 +65,13 @@
 
   (setq package-archives '())
 
-  ;; (add-to-list 'package-archives gnu)
+  ;; (add-to-list 'package-archives gnu) ;; modus themes are on gnu
   ;; (add-to-list 'package-archives org)
   ;; (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives celpa)
   ;; (add-to-list 'package-archives melpa-mirror)
-  (add-to-list 'package-archives melpa-stable)
+  ;; (add-to-list 'package-archives melpa-stable)
   (add-to-list 'package-archives ubl)
 
   ;; TODO: package-archive-prioities: see
@@ -83,9 +83,9 @@
 
   ;; (package-initialize)
 
-  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-               (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
-    (package-refresh-contents))
+  ;; (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+  ;;              (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
+  ;;   (package-refresh-contents))
 
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
@@ -100,12 +100,13 @@
               (when (not (package-installed-p name))
                 (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                     (let ((package-archives (list repo)))
-                      (package-install name))))))
+                      (package-install name nil))))))
           packages))
 
   ;; Install packages if they're missing.
   (defun init--install-packages ()
     (packages-install
+     (cons 'modus-themes melpa) ;; someday on gnu
      (cons 'adaptive-wrap gnu)
      (cons 'auto-compile melpa)
      (cons 'dash melpa-stable)
@@ -136,7 +137,7 @@
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
      ;; (cons 'dired+ melpa) ;; is in /elisp
      (cons 'diredfl melpa)
-     (cons 'yaml-mode melpa-stable)
+     (cons 'yaml-mode melpa)
      (cons 'web-mode melpa-stable)
      (cons 'less-css-mode melpa-stable)
      (cons 'nginx-mode melpa)
@@ -150,7 +151,7 @@
      (cons 'auto-dim-other-buffers melpa)
      (cons 'diminish melpa-stable)
      (cons 'xterm-color melpa)
-     (cons 'unicode-troll-stopper melpa)
+     ;; (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
      (cons 'minions melpa-stable)
      (cons 'multiple-cursors melpa)
@@ -161,10 +162,9 @@
      (cons 'copy-as-format melpa)
      (cons 'page-break-lines melpa)
      (cons 'centered-cursor-mode melpa)
-     (cons 'eyebrowse melpa)
-     (cons 'nameframe melpa)
-     (cons 'olivetti melpa)
-     (cons 'dashboard melpa)
+     ;; (cons 'eyebrowse melpa)
+     ;; (cons 'nameframe melpa)
+     ;; (cons 'olivetti melpa)
 
      (cons 'doom-themes melpa)
      (cons 'all-the-icons melpa)
@@ -172,8 +172,8 @@
      (cons 'which-key melpa)
      (cons 'which-key-posframe melpa)
      (cons 'apu melpa) ;; Apropos Unicode characters.
-     (cons 'google-this melpa)
-     (cons 'atomic-chrome melpa)
+     ;; (cons 'google-this melpa)
+     ;; (cons 'atomic-chrome melpa)
      (cons 'quickrun melpa)
      (cons 'wgrep melpa)
      (cons 'symbol-overlay melpa)
@@ -185,7 +185,7 @@
      (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
      ;; (cons 'yafolding melpa)
-     (cons 'origami melpa)
+     (cons 'origami celpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      ;; (cons 'pivotal-tracker melpa)
@@ -200,9 +200,10 @@
      (cons 'posframe melpa)
 
      (cons 'helpful melpa)
-     (cons 'discover-my-major melpa)
+     ;; (cons 'discover-my-major melpa)
      (cons 'elisp-demos melpa)
      (cons 'smart-dash melpa)
+     (cons 'replace-from-region melpa)
      ;; (cons 'prodigy melpa)
 
      (cons 'know-your-http-well melpa)
@@ -221,17 +222,17 @@
      (cons 'indium melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
-     (cons 'js2-highlight-vars melpa)
+     ;; (cons 'js2-highlight-vars melpa)
      (cons 'prettier-js melpa)
      (cons 'add-node-modules-path melpa)
-     (cons 'discover-js2-refactor melpa)
+     ;; (cons 'discover-js2-refactor melpa)
      (cons 'tide melpa)
      (cons 'coffee-mode melpa)
      (cons 'yarn-mode melpa)
      ;; (cons 'npm-mode melpa) ;; using own fork.
      ;; (cons 'jest-mode melpa) ;; using own fork.
 
-     (cons 'eglot melpa)
+     ;; (cons 'eglot melpa)
      (cons 'eldoc-box melpa)
 
      (cons 'markdown-mode melpa)
@@ -252,7 +253,7 @@
      (cons 'company-web melpa)
      (cons 'company-flx melpa)
      (cons 'company-statistics melpa)
-     (cons 'company-quickhelp melpa)
+     ;; (cons 'company-quickhelp melpa)
      (cons 'company-ctags melpa)
 
      ;; (cons 'helm-aws melpa) ;; using own fork.
@@ -271,6 +272,9 @@
      (cons 'counsel-css melpa)
      (cons 'counsel-tramp melpa)
      (cons 'swiper melpa)
+     (cons 'prescient melpa)
+     (cons 'ivy-prescient melpa)
+     (cons 'company-prescient melpa)
      ;; (cons 'project-shells melpa)
 
      (cons 'treemacs melpa)
@@ -315,6 +319,7 @@
      ;; (cons 'gh melpa)
      ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
+     ;; (cons 'dashboard melpa)
 
      ;; (cons 'fill-column-indicator melpa-stable)
 
@@ -326,8 +331,8 @@
      ;; (cons 'elisp-slime-nav melpa-stable)
      ;; (cons 'elnode marmalade)
      ;; (cons 'slime-js marmalade)
-     (cons 'edit-server melpa)
-     (cons 'edit-server-htmlize melpa)
+     ;; (cons 'edit-server melpa)
+     ;; (cons 'edit-server-htmlize melpa)
      ;; (cons 'smart-indent-rigidly melpa)
      ;; (cons 'auto-install melpa)
      ))
