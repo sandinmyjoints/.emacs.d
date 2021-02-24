@@ -595,15 +595,27 @@ OK on large screens."
 ;; (set-frame-parameter (nil 'alpha '(wjb/more-transparent . wjb/more-transparent))
 (set-frame-parameter nil 'alpha '(98 . 90)) ;; for some reason, doesn't like variables here
 
-;; light
-(use-package modus-operandi-theme
-  :ensure t
+(use-package modus-themes
+  :init
+  ;; light
+  (setq modus-themes-mode-line '3d
+        modus-themes-fringes nil
+        modus-themes-diffs 'desaturated
+        modus-themes-prompts 'subtle
+        modus-themes-links 'neutral-underline
+        modus-themes-variable-pitch-headings nil
+        modus-themes-region 'bg-only-no-extend)
+  (modus-themes-load-themes)
   :config
-  (setq modus-operandi-theme-3d-modeline t
-        modus-operandi-theme-variable-pitch-headings t)
-  (solaire-global-mode -1)
-  (setq wjb/dark nil))
+  ;; dark
+  (setq wjb/dark t)
+  (modus-themes-load-vivendi)
+  ;; TODO: bind modus-themes-toggle, with advice
 
+  )
+
+;; TODO: replace with modus-themes-toggle, with advice
+;; light
 (when nil
   (progn
     (change-theme 'modus-operandi t)
@@ -613,14 +625,6 @@ OK on large screens."
 )
 
 ;; dark
-(use-package modus-vivendi-theme
-  :ensure t
-  :config
-  (setq modus-vivendi-theme-3d-modeline t
-        modus-vivendi-theme-variable-pitch-headings t)
-  (solaire-global-mode -1)
-  (setq wjb/dark t))
-
 (when nil
   (progn
     (change-theme 'modus-vivendi t)
