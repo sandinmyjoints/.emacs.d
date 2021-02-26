@@ -1008,6 +1008,9 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 (use-package python
   :defer
+  ;; bind M-q python-fill-paragraph
+  :bind (:map python-mode-map
+              ("M-q" . python-fill-paragraph))
   :config
   (setq python-indent-guess-indent-offset-verbose nil)
   (setq python-indent-offset 2)
