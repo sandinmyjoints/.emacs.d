@@ -740,6 +740,15 @@ react-redux
    - this one uses tern: https://github.com/tbodt/js-langserver
 ** lsp-mode
    - great description on how to configure it: https://www.reddit.com/r/emacs/comments/c524mo/do_you_use_lspmode/
+*** try lsp with typescript-language-server (theia ide) in neodarwin
+    - completion is not configured and/or is timing out. lsp uses capf, so I
+      think it is probably configured. Maybe is timing out, maybe due to
+      neodarwin being too big for the language-server?
+    - got component completion and autoimport -- great!
+    - jump-to-definition works
+    - flycheck isn't catching errors
+    - tsserver works with tide, why does typescript-language-server seem to
+      hang? it ran overnight using 100% of one core
 ** lsp eglot
   - fs. should complete using lsp, NOT company
   - eglot uses capf
@@ -2113,7 +2122,7 @@ local bindings in certain buffers.
    - some packages available for it too
 * wishlist                                                         :wishlist:
   - from webstorm:
-    - when open tag, offer only Components for completion (want)
+    - when open tag, offer only Components for completion (want) -- lsp has this
     - offer props as well (want)
     - when error, offer menu of fixes, including add new import (want)
     - highlight the assertion which failed (want)
@@ -2414,7 +2423,8 @@ dired, writable dired
 
   #+end_src
 * TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
-* gccemacs
+* gccemacs / native-cmp
+** HOWTO
   - https://github.com/jimeh/build-emacs-for-macos
   - in ~/scm/wjb/build-emacs-for-macos/
   - HOWTO
@@ -2452,8 +2462,15 @@ brew bundle
 ./build-emacs-for-macos feature/native-comp
 
   #+end_src
+** native-compiler-error-empty-byte
+   - probably from autoloads files:
+     https://github.com/raxod502/straight.el/issues/680, https://debbugs.gnu.org/cgi/bugreport.cgi?bug=44746
 * paradox
 - reloading all packages after an async install -- seems deliberate, but why does it take so long?
+* package management
+** why upgrading can fail
+   - https://www.reddit.com/r/emacs/comments/l2imue/is_it_normal_that_upgrading_fails_for_some/
+   - could maybe help: https://github.com/Silex/package-utils
 * yml / openapi
 - better yml in general
 * TODO try lsp for js
