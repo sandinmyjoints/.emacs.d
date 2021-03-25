@@ -315,7 +315,6 @@
 
 (use-package atomic-chrome
   :disabled
-  :defer 5
   :config
   (atomic-chrome-start-server))
 
@@ -1635,6 +1634,7 @@ If PROJECT is not specified the command acts on the current project."
   :after helm
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs
+        ;; TODO(wjb-byte-compile)
         helm-xref-candidate-formatting-function 'wjb/helm-xref-format-candidate-long
         helm-xref-input "!test ")
 
