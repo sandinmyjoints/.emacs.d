@@ -146,8 +146,8 @@ OK on large screens."
   (set-face-font 'variable-pitch "Fira Sans")
   (set-face-attribute 'variable-pitch nil :weight 'light))
 
-(defvar wjb/font #'wjb/font-deja "defun to set fonts.")
-(setq wjb/font #'wjb/font-deja)
+(defvar wjb/font #'wjb/font-fira "defun to set fonts.")
+(setq wjb/font #'wjb/font-fira)
 
 (call-interactively wjb/font)
 
