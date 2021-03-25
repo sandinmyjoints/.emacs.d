@@ -224,6 +224,7 @@ If buffer is not visiting a file, do nothing."
 ;;
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)) ;; rjsx can parse spread operator
 (add-to-list 'auto-mode-alist '("\\.min\\.js\\'" . fundamental-mode))
 (add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
