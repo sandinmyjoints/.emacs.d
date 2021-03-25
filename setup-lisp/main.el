@@ -1171,11 +1171,16 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package prescient
   :config
   ;; (add-to-list 'ivy-sort-functions-alist '(counsel-projectile-sort-projects . ivy-prescient-sort-function))
+  ;; (setq ivy-prescient-sort-commands (butlast ivy-prescient-sort-commands))
   (prescient-persist-mode))
 
 (use-package ivy-prescient
   :after (counsel ivy)
   :config
+  ;; if this is t, then ivy-prescient-re-builder is set as the default case in
+  ;; ivy-re-builders-alist, which requires spaces between tokens. So I
+  ;; disabled it.
+  (setq ivy-prescient-enable-filtering nil)
   (ivy-prescient-mode))
 
 ;; Not useful in js-mode, as tide already sorts things smartly. Maybe useful
@@ -1273,6 +1278,27 @@ in the current window."
                            (counsel--generic . 12)
                            (counsel-el . 12)))
 
+  (defun ivy--regex-fuzzy-ignore-space (str)
+    "Build a regex sequence from STR.
+Insert .* between each char."
+    (setq str (s-replace-all '((" " . "")) (ivy--trim-trailing-re str)))
+    (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
+        (prog1
+            (concat (match-string 1 str)
+                    (let ((lst (string-to-list (match-string 2 str))))
+                      (apply #'concat
+                             (cl-mapcar
+                              #'concat
+                              (cons "" (cdr (mapcar (lambda (c) (format "[^%c\n]*" c))
+                                                    lst)))
+                              (mapcar (lambda (x) (format "\\(%s\\)" (regexp-quote (char-to-string x))))
+                                      lst))))
+                    (match-string 3 str))
+          (setq ivy--subexps (length (match-string 2 str))))
+      str))
+  ;; (ivy--regex-fuzzy-ignore-space "a b")
+
+
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "
         ivy-height 18
@@ -1287,16 +1313,23 @@ in the current window."
         ;; - https://oremacs.com/2016/01/06/ivy-flx/
         ;;
         ;; Possible choices: ivy--regex, regexp-quote, ivy--regex-plus,
-        ;; ivy--regex-fuzzy, ivy--regex-ignore-order. ivy--regex-ignore-order
-        ;; requires spaces between tokens. ivy--regex-fuzzy does not, b/c it
-        ;; inserts .* between each character, but it's order-sensitive so
-        ;; doesn't handle typos/fat fingering.
+        ;; ivy--regex-fuzzy, ivy--regex-ignore-order.
+        ;;
+        ;; ivy--regex-ignore-order requires spaces between tokens.
+        ;; ivy--regex-fuzzy does not, b/c it inserts .* between each
+        ;; character, but it's order-sensitive so doesn't handle typos/fat
+        ;; fingering. See also prescient.
+        ;;
+        ;; I think what I want is ivy--regex-fuzzy-ignore-space, that pretends
+        ;; spaces in input aren't there.
+
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
                                 (swiper-isearch . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
-                                (ivy-switch-buffer . ivy--regex-fuzzy)
-                                (counsel-M-x . ivy--regex-fuzzy)
-                                (t . ivy--regex-fuzzy)))
+                                (counsel-imenu . ivy--regex)
+                                ;; (ivy-switch-buffer . ivy--regex-fuzzy)
+                                ;; (counsel-M-x . ivy--regex-fuzzy)
+                                (t . ivy--regex-fuzzy-ignore-space)))
   (ivy-mode 1))
 
 (use-package posframe
