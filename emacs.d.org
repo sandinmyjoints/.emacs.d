@@ -1507,9 +1507,9 @@ container 6ed09e37738f
 d7c575eac714149f2d9ae77f0d6971f264c1684d30497d7aee4128d7d13e73a0
 
 fca1464b7749/sd_neodarwin_1                                sd_neodarwin                           21 seconds ago ago   Created                       "npm start"
-* TODO prodigy for use docker startup script
+* INACTIVE prodigy for use docker startup script
 
-* TODO try perspective or persp-mode
+* INACTIVE try perspective or persp-mode
 * projectile
 * TODO make projectile-find-test-file work
   - projectile-find-test-file -> projectile-toggle-between-implementation-and-test
