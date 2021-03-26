@@ -2433,6 +2433,10 @@ rm Brewfile.lock.json
 brew bundle
 
 # check https://github.com/jimeh/build-emacs-for-macos/issues/6 for latest known good commit
+
+# 2021-03-25
+./build-emacs-for-macos --git-sha 79b9a262ffab37296a39c2d69cdabae153db10a7 feature/native-comp
+
 # 2020/12/07
 ./build-emacs-for-macos --git-sha be907b0ba82c2a65e0468d50653cae8a7cf5f16b feature/native-comp
 
