@@ -118,6 +118,7 @@
         electric-pair-delete-pair
         end-of-buffer
         find-in-project-glob-by-name
+        helm-browse-project
         ido-find-file
         ido-switch-buffer
         isearch-forward-regexp
