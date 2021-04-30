@@ -1038,6 +1038,14 @@ The result is pushed onto the kill ring."
     (kill-new new)
     (message "Copied %s" new)))
 
+;; from https://stackoverflow.com/questions/23378271/how-do-i-display-ansi-color-codes-in-emacs-for-any-mode
+;; Good for raw Travis logs.
+;; Not ideal b/c it modifies the file, but other solutions give do not.
+(defun display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
