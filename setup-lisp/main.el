@@ -2060,9 +2060,10 @@ If PROJECT is not specified the command acts on the current project."
 ;; requires restart to take effect. supposedly doesn't help in recent versions of emacs.
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (with-eval-after-load 'gnutls
-  (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem")
   (add-to-list 'gnutls-trustfiles "/usr/local/etc/gnutls/cert.pem")
-  (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem"))
+  ;; (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem")
+  ;; (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
+  )
 
 
 ;; Yasnippet.
