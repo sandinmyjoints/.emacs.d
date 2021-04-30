@@ -1017,6 +1017,27 @@ instead, wraps at screen edge, thanks to visual-line-mode."
   (interactive)
   (switch-to-buffer "clock.org"))
 
+(defun tinyurl (beg end)
+  "Get a tinyurl.com URL from the contents of the region.
+The result is pushed onto the kill ring."
+  (interactive "r")
+
+  (let ((old (buffer-substring beg end))
+	      new)
+    (unless old
+      (error "No region"))
+    (with-current-buffer (url-retrieve-synchronously
+			                    (format "https://tinyurl.com/api-create.php?url=%s"
+				                          (urlenc:encode-string old 'utf-8)))
+      (goto-char (point-min))
+      (when (search-forward "\n\n" nil t)
+	      (setq new (buffer-substring (point) (point-max))))
+      (kill-buffer (current-buffer)))
+    (unless new
+      (error "No response from tinyurl"))
+    (kill-new new)
+    (message "Copied %s" new)))
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
