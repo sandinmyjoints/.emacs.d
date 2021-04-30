@@ -596,6 +596,7 @@
 
   (setq org-src-fontify-natively t
         org-directory "~/notes"
+        org-startup-folded 'overview
         org-agenda-files "~/.emacs.d/org-agenda-files-list.txt"
         org-catch-invisible-edits 'smart
         org-log-done t
