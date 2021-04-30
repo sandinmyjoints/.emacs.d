@@ -1315,18 +1315,21 @@ Insert .* between each char."
         ;; Possible choices: ivy--regex, regexp-quote, ivy--regex-plus,
         ;; ivy--regex-fuzzy, ivy--regex-ignore-order.
         ;;
-        ;; ivy--regex-ignore-order requires spaces between tokens.
-        ;; ivy--regex-fuzzy does not, b/c it inserts .* between each
-        ;; character, but it's order-sensitive so doesn't handle typos/fat
-        ;; fingering. See also prescient.
+        ;; * ivy--regex-ignore-order requires spaces between tokens.
         ;;
-        ;; I think what I want is ivy--regex-fuzzy-ignore-space, that pretends
+        ;; * ivy--regex-fuzzy does not, b/c it inserts .* between each
+        ;; character, but it's order-sensitive so doesn't handle typos/fat
+        ;; fingering. See also prescient. It's quite aggressive on matching,
+        ;; so on long lists like all unicode characters, it doesn't work well.
+        ;;
+        ;; * I think what I want is ivy--regex-fuzzy-ignore-space, that pretends
         ;; spaces in input aren't there.
 
         ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
                                 (swiper-isearch . ivy--regex-ignore-order)
                                 (counsel-projectile-switch-project . ivy--regex-ignore-order)
                                 (counsel-imenu . ivy--regex)
+                                (counsel-unicode-char . ivy--regex-ignore-order)
                                 ;; (ivy-switch-buffer . ivy--regex-fuzzy)
                                 ;; (counsel-M-x . ivy--regex-fuzzy)
                                 (t . ivy--regex-fuzzy-ignore-space)))
