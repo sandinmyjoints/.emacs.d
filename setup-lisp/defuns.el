@@ -266,8 +266,9 @@
 (defun wjb-toggle-it-only-js (arg)
   "Toggle `only` on / off for the current test."
   (interactive "P")
-  (let ((onlyed-re "it\.only\\([(]\\)")
-        (unonlyed-re "it\\([(]\\)")
+  ;; use highlight-regexp to test
+  (let ((onlyed-re "[[:space:]]it\.only\\([(]\\)")
+        (unonlyed-re "[[:space:]]it\\([(]\\)")
         (onlyed "it.only(")
         (unonlyed "it(")
         (msg "No test found"))
