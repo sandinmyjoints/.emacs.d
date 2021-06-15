@@ -2235,7 +2235,7 @@ $ ls
 ;; (global-set-key (kbd "~") (lambda ()
 ;;                             (interactive)
 ;;                             (nameframe-switch-frame "olivetti")))
-* debugging emacs
+* debugging emacs                                                 :debugging:
   - set-variable debug-on-error t
 ** debug
   - https://www.gnu.org/software/emacs/manual/html_node/elisp/Debugging.html
@@ -2423,31 +2423,34 @@ dired, writable dired
 
   #+end_src
 * TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
-* gccemacs / native-cmp
+* gccemacs / native-comp
 ** HOWTO
   - https://github.com/jimeh/build-emacs-for-macos
   - in ~/scm/wjb/build-emacs-for-macos/
   - HOWTO
   #+begin_src bash
-rm Brewfile.lock.json
-brew bundle
+  rm Brewfile.lock.json
+  brew bundle
 
-# check https://github.com/jimeh/build-emacs-for-macos/issues/6 for latest known good commit
+  # check https://github.com/jimeh/build-emacs-for-macos/issues/6 for latest known good commit
 
-# 2021-03-25
-./build-emacs-for-macos --git-sha 79b9a262ffab37296a39c2d69cdabae153db10a7 feature/native-comp
+  # 2021-06-13
+  ./build-emacs-for-macos --git-sha 3f8b303ec087ba3d0bd524c7fc8c628ef15a3e4a feature/native-comp
 
-# 2020/12/07
-./build-emacs-for-macos --git-sha be907b0ba82c2a65e0468d50653cae8a7cf5f16b feature/native-comp
+  # 2021-03-25
+  ./build-emacs-for-macos --git-sha 79b9a262ffab37296a39c2d69cdabae153db10a7 feature/native-comp
 
-# this one works well, from 9/2020
-./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
+  # 2020/12/07
+  ./build-emacs-for-macos --git-sha be907b0ba82c2a65e0468d50653cae8a7cf5f16b feature/native-comp
 
-# built on 2020-10-26, some small issues
-./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
+  # this one works well, from 9/2020
+  ./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
 
-# then find it using dired in builds, rename the old app bundle, and do the default action on the bzip
-# then link it using alfred
+  # built on 2020-10-26, some small issues
+  ./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
+
+  # then find it using dired in builds, rename the old app bundle, and do the default action on the bzip
+  # then link it using alfred
   #+end_src
 
   - older notes:
@@ -2485,7 +2488,11 @@ brew bundle
 - js2 mark-defun works for tests
 - js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
 * TODO origami
-- origami folding don't slow down in long file
+  - fork on celpa: https://github.com/emacs-origami/origami.el
+  - celpa: https://celpa.conao3.com/
+  - can wget tar file, then install with package-install-file
+  - origami folding don't slow down in long file
+  - fewer errors
 * TODO better imenu
   - [ ] "cb" instead of "callback"
 * TODO narrowing / filtering / matching
@@ -2506,3 +2513,29 @@ markdown
 jest
 tide
 yml
+
+* yarn pnp
+  - https://yarnpkg.com/getting-started/editor-sdks#emacs
+* anybar / emybar
+  - https://github.com/plexus/plexmacs/blob/master/emybar/emybar.el
+
+* DONE fix matching when typing in unicode char names
+  CLOSED: [2021-04-15 Thu 11:24]
+  - it's too flexible now
+
+* js2-mode js2r buffer has parse errors
+  - it's from tailing comma in function arguments list
+  - https://github.com/mooz/js2-mode/issues/480
+  - simple repro
+  #+begin_src js
+const fn = (arg,) => {}
+  #+end_src
+  ((("msg.no.paren" nil)
+  24 1)
+ (("msg.no.paren.after.parms" nil)
+  19 2)
+ (("msg.no.parm" nil)
+  19 2))
+
+js2-parse-argument-list? I think that's for calling
+js2-parse-function-params?
