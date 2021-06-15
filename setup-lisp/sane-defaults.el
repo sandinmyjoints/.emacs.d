@@ -435,6 +435,7 @@
 
 (setq register-preview-delay nil
       confirm-kill-processes nil)
+(setq-default display-line-numbers-widen t)
 
 ;; emacs 27
 (setq auto-save-no-message t
