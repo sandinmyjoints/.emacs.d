@@ -45,6 +45,8 @@
 ;;
 ;;; Code:
 
+(add-to-list 'auto-mode-alist '("\\.asm\\'" . nasm-mode))
+
 ;; Jade and Stylus (sws = significant whitespace)
 (autoload 'sws-mode "sws-mode")
 (autoload 'jade-mode "jade-mode")
