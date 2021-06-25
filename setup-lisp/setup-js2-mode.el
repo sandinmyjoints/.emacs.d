@@ -241,8 +241,8 @@ If buffer is not visiting a file, do nothing."
 ;; may be in an arbitrary order
 (setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
                             (cl-loop for entry in auto-mode-alist
-                                  unless (eq preferred-javascript-mode (cdr entry))
-                                  collect entry)))
+                                     unless (eq preferred-javascript-mode (cdr entry))
+                                     collect entry)))
 
 ;; Disabled b/c not worth it to run yet another regex
 ;; (font-lock-add-keywords
