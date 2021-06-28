@@ -1,1 +1,0 @@
-../../scm/wjb/knot-lang/knot-mode.el
