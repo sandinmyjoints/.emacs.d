@@ -2130,7 +2130,7 @@ local bindings in certain buffers.
   - [X] dumb-jump or smart-jump for jsx
   - [X] flycheck shows error if point is immediately after it
   - [ ] minions exception for flycheck-emoji
-  - magit status buffer lets me next-line past worktrees
+  - [X] magit status buffer lets me next-line past worktrees
   - fix magit stash save -- it's always empty now -- why?
   - [ ] fill comment paragraphs nicely, including when they contain bulleted
     lists and such (need to fix paragraph-start variable)
@@ -2196,7 +2196,13 @@ fatal: not a git repository (or any of the parent directories): .git
      #+end_src
      - treemacs
        - want treemacs-next-neighbour-or-up
-** $sh-mode
+** great folding
+   - origami is good but slow and buggy
+   - hide-show mode is too limited -- needs hide-others
+   - selective-display is too limited
+   - ideally, on open, cypress and other files would be mostly hidden except
+     for top 2 or 3 levels (depending on describe blocks)
+* TODO $sh-mode
    - knows about shell commands written out like so:
 #+BEGIN_SRC
 $ ls
@@ -2247,6 +2253,9 @@ $ ls
 ** debug
   - edebug-trace-mode
   - http://blog.binchen.org/posts/my-work-flow-to-debug-emacs-plugin.html
+** edebug
+   - C-u C-M-x (eval-defun with prefix arg)
+   - http://dgutov.github.io/blog/2021/06/19/debugging-a-syntax-error-in-js2-mode/
 ** macros
   - macrostep-mode and macrostep-expand
 * emacs package development handbook
@@ -2474,6 +2483,11 @@ brew bundle
      https://github.com/raxod502/straight.el/issues/680, https://debbugs.gnu.org/cgi/bugreport.cgi?bug=44746
 * paradox
 - reloading all packages after an async install -- seems deliberate, but why does it take so long?
+** can't refresh from melpa
+   - sometimes it does really refresh, see
+     /elpa/archives/melpa/archive-contents and see if date is updated
+   - use prefix argument to package-list-packages to read directly from
+     archive file rather than refreshing from repository
 * package management
 ** why upgrading can fail
    - https://www.reddit.com/r/emacs/comments/l2imue/is_it_normal_that_upgrading_fails_for_some/
@@ -2524,6 +2538,7 @@ yml
   - it's too flexible now
 
 * js2-mode js2r buffer has parse errors
+** DONE
   - it's from tailing comma in function arguments list
   - https://github.com/mooz/js2-mode/issues/480
   - simple repro
@@ -2539,3 +2554,5 @@ const fn = (arg,) => {}
 
 js2-parse-argument-list? I think that's for calling
 js2-parse-function-params?
+** TODO https://github.com/mooz/js2-mode/issues/547
+** http://dgutov.github.io/blog/2021/06/19/debugging-a-syntax-error-in-js2-mode/
