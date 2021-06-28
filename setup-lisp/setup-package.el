@@ -154,6 +154,7 @@
      ;; (cons 'unicode-troll-stopper melpa)
      (cons 'smart-mode-line melpa-stable)
      (cons 'minions melpa-stable)
+     (cons 'visual-regexp melpa)
      (cons 'multiple-cursors melpa)
      (cons 'mc-extras melpa)
      (cons 'expand-region melpa)

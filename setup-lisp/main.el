@@ -3353,6 +3353,17 @@ Interactively also sends a terminating newline."
   :commands company-lsp)
 
 
+;; visual-regexp
+(use-package visual-regexp
+  :bind (("C-c q" . vr/query-replace))
+  ;; (define-key global-map (kbd "C-c r") 'vr/replace)
+  ;; if you use multiple-cursors, this is for you:
+  ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
+  )
+
+;; also see visual-regexp-on-steroids
+
+
 ;; multiple-cursors
 ;;
 ;; See: https://github.com/magnars/multiple-cursors.el
