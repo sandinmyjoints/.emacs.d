@@ -366,7 +366,7 @@ OK on large screens."
   ;; temporarily switch to treemacs window
   (when (functionp 'treemacs-get-local-window)
     (with-selected-window (treemacs-get-local-window)
-      (if (wjb/is-small-display) (treemacs--set-width 36) (treemacs--set-width 48))))
+      (if (wjb/is-small-display) (treemacs--set-width 40) (treemacs--set-width 50))))
 
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
