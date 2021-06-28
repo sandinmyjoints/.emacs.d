@@ -383,6 +383,36 @@ project."
   ;; ;; (encoded-command (json-encode command)) ;; WJB
   ;; (encoded-command (json-serialize command))
   ;; and converting json-read-object in tide-decode-response
+
+
+  ;; monkey patch tide-start-server to generate a new buffer name that includes the project name.
+  (defun tide-start-server ()
+    (when (tide-current-server)
+      (error "Server already exist"))
+
+    (message "(%s) Starting tsserver..." (tide-project-name))
+    (let* ((default-directory (tide-project-root))
+           (process-environment (append tide-tsserver-process-environment process-environment))
+           (buf (generate-new-buffer (concat tide-server-buffer-name "-" (file-name-nondirectory (directory-file-name default-directory)))))
+           (tsserverjs (tide-locate-tsserver-executable))
+           ;; Use a pipe to communicate with the subprocess. This fixes a hang
+           ;; when a >1k message is sent on macOS.
+           (process-connection-type nil)
+           (node-process-arguments (append tide-node-flags (list tsserverjs) tide-tsserver-flags))
+           (process
+            (apply #'start-file-process "tsserver" buf tide-node-executable node-process-arguments)))
+      (set-process-coding-system process 'utf-8-unix 'utf-8-unix)
+      (set-process-filter process #'tide-net-filter)
+      (set-process-sentinel process #'tide-net-sentinel)
+      (set-process-query-on-exit-flag process nil)
+      (with-current-buffer (process-buffer process)
+        (buffer-disable-undo))
+      (process-put process 'project-name (tide-project-name))
+      (process-put process 'project-root default-directory)
+      (puthash (tide-project-name) process tide-servers)
+      (message "(%s) tsserver server started successfully." (tide-project-name))
+      (tide-each-buffer (tide-project-name) #'tide-configure-buffer)))
+
   )
 
 (defun wjb/ts-mode-hook ()
