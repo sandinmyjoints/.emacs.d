@@ -372,7 +372,7 @@ OK on large screens."
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
         eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
 
-  (wjb/turn-on-hl-line)
+  ;; (wjb/turn-on-hl-line)
 
   ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)
 
