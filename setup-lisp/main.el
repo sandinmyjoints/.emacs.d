@@ -1488,7 +1488,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package counsel
   :defer t
   ;; H-<space> would be better, but that goes to Alfred
-  :bind (("C-," . counsel-imenu))
+  ;; :bind (("C-," . counsel-imenu))
   :config
   (ivy-configure 'counsel-M-x
     :initial-input ""
@@ -1547,6 +1547,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package helm
   :demand
   :bind (("C-M-o" . helm-browse-project) ;; Clobbers split-line.
+         ("C-," . helm-imenu)
          ;; ("C-x C-b" . helm-buffers-list)
          ("C-x C-b" . helm-mini)
          ("C-o" . helm-mini)
