@@ -2623,30 +2623,10 @@ If PROJECT is not specified the command acts on the current project."
   ;; (define-key origami-mode-map (kbd "C-<return>") #'origami-recursively-toggle-node)
   (define-key origami-mode-map (kbd "M-<return>") #'origami-show-only-node)
   (define-key origami-mode-map (kbd "H-<return>") #'origami-toggle-all-nodes)
+  (setq origami-indicators 'left-fringe)
 
-  (add-hook 'prog-mode-hook #'origami-mode)
-
-  ;; fix from https://github.com/gregsexton/origami.el/pull/93
-  (defun origami-header-overlay-range (fold-overlay)
-    "Given a `fold-overlay', return the range that the corresponding
-header overlay should cover. Result is a cons cell of (begin . end)."
-    (with-current-buffer (overlay-buffer fold-overlay)
-      (let ((fold-begin
-             (save-excursion
-               (goto-char (overlay-start fold-overlay))
-               (line-beginning-position)))
-            (fold-end
-             ;; Find the end of the folded region -- include the following
-             ;; newline if possible. The header will span the entire fold.
-             (save-excursion
-               (save-match-data
-                 (goto-char (overlay-end fold-overlay))
-                 (when (looking-at ".")
-                   (forward-char 1)
-                   (when (looking-at "\n")
-                     (forward-char 1)))
-                 (point)))))
-        (cons fold-begin fold-end))))
+  ;; (add-hook 'prog-mode-hook #'origami-mode)
+  (remove-hook 'prog-mode-hook #'origami-mode)
   )
 
 ;; better than vimish-fold
