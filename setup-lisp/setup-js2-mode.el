@@ -145,7 +145,10 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
+
+    ;; this doesn't seem to work:
     ;; (setq-local imenu-create-index-function 'js2-custom-imenu-make-index)
+    ;; but it's OK b/c tide has its own imenu function
     (setq mode-name "JS2"
           company-backends wjb/company-backends-js)
     (electric-pair-mode 1)
@@ -332,6 +335,8 @@ project."
            (prettier2 (and root
                            (expand-file-name "node_modules/prettier/bin-prettier.js"
                                              root))))
+      ;; (message (format "prettier: %s" prettier))
+      ;; (message (format "prettier2: %s" prettier))
       (when (and prettier (file-executable-p prettier))
         (setq prettier-js-command prettier)
         (prettier-js-mode))
