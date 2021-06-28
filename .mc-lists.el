@@ -68,6 +68,7 @@
         org-yank
         orgtbl-self-insert-command
         paredit-backward-kill-word
+        paredit-backward-slurp-sexp
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         python-indent-dedent-line-backspace
