@@ -1338,6 +1338,7 @@ Insert .* between each char."
 (use-package posframe
   :config
   (setq posframe-arghandler #'wjb/posframe-arghandler)
+  ;; (setq posframe-arghandler #'posframe-arghandler-default)
   (defun wjb/posframe-arghandler (buffer-or-name arg-name value)
     ;; see
     ;; https://github.com/tumashu/posframe/blob/bfd2e55219e0911980f4ea97b5995ce8553dce60/posframe.el#L439
@@ -1370,14 +1371,15 @@ Insert .* between each char."
 
   (setq ivy-posframe-min-width 80
         ivy-posframe-min-height 10
-        ivy-display-function #'ivy-posframe-display-at-frame-above-center
+        ivy-truncate-lines nil ;; ensures full path is shown in prompts
+        ;; ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
+        ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center))
         ;; for some reason this has to be changed to take effect
         ivy-posframe-border-width 2
         ivy-posframe-parameters
         '((left-fringe . 4)
           (right-fringe . 4)))
 
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center)))
   (ivy-posframe-mode 1))
 
 ;; uses hydra, hydra-posframe, so has to go after they've been defined
