@@ -78,6 +78,10 @@
               font-lock-maximum-decoration t
               truncate-partial-width-windows nil)
 
+;; Don't break lines for me, please
+;; what is relationship of this to visual-line-mode? and truncate-partial-width-windows?
+(setq-default truncate-lines t)
+
 ;; Prevent vulnerability. See https://bugzilla.redhat.com/show_bug.cgi?id=1490409.
 (eval-after-load "enriched"
   '(defun enriched-decode-display-prop (start end &optional param)
@@ -195,10 +199,6 @@
 ;; Show empty lines after buffer end?
 (setq-default indicate-empty-lines nil
               indicate-buffer-boundaries nil)
-
-;; Don't break lines for me, please
-;; what is relationship of this to visual-line-mode? and truncate-partial-width-windows?
-(setq-default truncate-lines t)
 
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
