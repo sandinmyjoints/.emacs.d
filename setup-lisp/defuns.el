@@ -267,8 +267,8 @@
   "Toggle `only` on / off for the current test."
   (interactive "P")
   ;; use highlight-regexp to test
-  (let ((onlyed-re "[[:space:]]it\.only\\([(]\\)")
-        (unonlyed-re "[[:space:]]it\\([(]\\)")
+  (let ((onlyed-re "\\(?:^\\|[[:space:]]\\)\\(?:it\\|test\\)\.only\\([(]\\)")
+        (unonlyed-re "\\(?:^\\|[[:space:]]\\)\\(?:it\\|test\\)\\([(]\\)")
         (onlyed "it.only(")
         (unonlyed "it(")
         (msg "No test found"))
@@ -284,13 +284,13 @@
                (unless (null (re-search-backward unonlyed-re (point-min) t))
                  (progn
                    (replace-match onlyed nil nil)
-                   (setq msg "Test only'ed."))))
+                   (setq msg "Test focused."))))
               (t
                ;; Non-null arg. Turn off.
                (unless (null (re-search-backward onlyed-re (point-min) t))
                  (progn
                    (replace-match unonlyed nil nil)
-                   (setq msg "Tests un-only'ed.")))))))
+                   (setq msg "Test unfocused.")))))))
 
     (save-buffer)
     (message msg)))
