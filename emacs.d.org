@@ -363,6 +363,20 @@ gfind . -name "*.elc" -print0 | xargs -0 rm && emacs -batch -Q --eval '(progn (b
 * TODO understand recursive editing
 * TODO fix recursive editing -- seems to be broken
 * TODO Master regexp syntax
+** builtin
+   - use \ to escape special chars
+   - emacs reader needs to escape \
+   - so, a capture group is
+#+begin_src emacs-lisp
+;; regular capture
+"\\(abc\\)"
+;; non-saving capture group with alternative
+"\\(?:a\\|b\\)"
+
+;; character class
+"[[:space:]]"
+   #+end_src
+** alternatives
   - use rx: http://www.emacswiki.org/emacs/rx to build regexps
   - even better: pcre2el: https://github.com/joddie/pcre2el
     - usage: https://github.com/joddie/pcre2el#use-from-lisp
@@ -482,6 +496,7 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
   - approach: edit with emacs or atomic chrome
   - approach: write org-walker, org-to-pt
   - approach: pt interface in emacs
+  - https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
 ** ideal flow
    - org to PT, creates PT tickets
      - top level is release or epic
@@ -490,21 +505,30 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
        - tags are labels
      - level 3 is sections within description
        - bullet points are description
-** try https://github.com/org-pivotal/org-pivotal
+** ACTIVE improve https://github.com/org-pivotal/org-pivotal
    - C-c ( i install, p push, f fetch
+   - fetch is really "replace everything in this buffer with the current
+      state in PT (applying filters)" so if I use it w/ that in mind, it works
 *** wishlist
-    - be collapsed after fetch all
-    - option to show ticket id in org headline (though the headline is the title)
-    - option to leave headlines that aren't PT tickets alone (currently it removes them
+    - [X] create stories
+    - [X] support updating other fields like points, labels, story_type
+    - [-] support multi-line description
+      - [X] create story with multi-line description
+      - [ ] pull story with multi-line description
+    - [ ] fill in id after story is created
+    - [ ] be collapsed after fetch all -- cycle
+    - [ ] option to show ticket id in org headline (though the headline is the title)
+    - [ ] option to leave headlines that aren't PT tickets alone (currently it removes them
       when doing a fetch)
-** try https://github.com/jxa/pivotal-tracker
+      - current behavior is understandable when thinking of it as refresh/replace
+** INACTIVE https://github.com/jxa/pivotal-tracker -- not super helpful
 *** forks
     - https://github.com/emacs-pe/pivotal-tracker/commits/development
     - https://github.com/emacs-pe/pivotal-tracker/commit/de40f942aed936c594d1512d8f4ac5eebb0f2bd1
     - https://github.com/shajith/pivotal-tracker/commit/553da679b7b40f80f4e48586563219c10f41e731
     - https://github.com/emacsfodder/pivotal-tracker/tree/master
     - https://github.com/zph/pivotal-tracker/commits/master
-** write org-walker, org-to-pt
+** TODO write org-walker, org-to-pt
    - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
    - https://github.com/org-pivotal/org-pivotal
 * TODO Pivotal tracker: search tickets
@@ -1925,6 +1949,8 @@ company-active-map M-/
    - less
 ** yasnippet
    - wjb-map y
+   - C-c y
+   - see docstring of company-yasnippet defun for suggestions
 ** company-buffer-lines
    - goal is to complete js import statements
    - company-same-mode-buffer-lines
@@ -2129,9 +2155,9 @@ local bindings in certain buffers.
     - [X] debug test -- drop into debugger, set breakpoint (want)
   - [X] dumb-jump or smart-jump for jsx
   - [X] flycheck shows error if point is immediately after it
-  - [ ] minions exception for flycheck-emoji
   - [X] magit status buffer lets me next-line past worktrees
-  - fix magit stash save -- it's always empty now -- why?
+  - [X] fix magit stash save -- it's always empty now -- why?
+  - [ ] minions exception for flycheck-emoji
   - [ ] fill comment paragraphs nicely, including when they contain bulleted
     lists and such (need to fix paragraph-start variable)
     - it should match lines that look like # - or * - or // * or // - for markdown style lists
@@ -2256,6 +2282,7 @@ $ ls
 ** edebug
    - C-u C-M-x (eval-defun with prefix arg)
    - http://dgutov.github.io/blog/2021/06/19/debugging-a-syntax-error-in-js2-mode/
+   - keys: https://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug-Execution-Modes.html
 ** macros
   - macrostep-mode and macrostep-expand
 * emacs package development handbook
@@ -2337,17 +2364,8 @@ dired, writable dired
   - in light theme, echo area with dark background shows whenever counsel or
     other thing is open
   - in dark theme, black text on black bg in vterm (deploying with surge)
-* catalina
-  - https://spin.atomicobject.com/2019/12/12/fixing-emacs-macos-catalina/
-* gccemacs
-  - http://akrl.sdf.org/gccemacs.html#org576df84
-  - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
-  - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
 * hydras
   - https://www.reddit.com/r/emacs/comments/gr2zaj/what_are_your_useful_hydras/
-* "Match data clobbered by buffer modification hooks"
-  - it's origami
-  - fix: https://github.com/gregsexton/origami.el/pull/93
 * assoc lists (alists) and plists
   - a.el has a-get for getting a prop from an alist
 * emacs lisp style guide
@@ -2366,6 +2384,7 @@ dired, writable dired
   - [ ] fix autopairing/smartparens/paredit
     - quotes in rjsx, js2-modes
     - https://github.com/magnars/change-inner.el
+* TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
 * typescript / tide                                        :tide:typescript:
 ** tide-documentation-at-point opens in posframe, with key bound in keymap
 ** DONE use json-serialize, etc. from json.c
@@ -2416,6 +2435,10 @@ dired, writable dired
     - (eldoc-add-command)
   - get typescript version with tide-verify-setup
 * tide uses eldoc, I have things configured for eldoc to to use eldoc-box, eldoc-box-hover-mode in prog-mode hook
+* TODO try lsp for js
+* js2 ideas
+  - [X] js2 mark-defun works for tests
+  - js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
 * TODO cypress black text on black bg in terminal                :cypress:vterm:
       - foreground: black
       - background: #000000
@@ -2431,8 +2454,10 @@ dired, writable dired
   ;; 			              :distant-foreground "yellow")
 
   #+end_src
-* TODO fix smart jump or dumb jump to use rg instead of ag, or make ag work with links
 * gccemacs / native-comp
+  - http://akrl.sdf.org/gccemacs.html#org576df84
+  - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
+  - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
 ** HOWTO
   - https://github.com/jimeh/build-emacs-for-macos
   - in ~/scm/wjb/build-emacs-for-macos/
@@ -2494,21 +2519,27 @@ brew bundle
    - could maybe help: https://github.com/Silex/package-utils
 * yml / openapi
 - better yml in general
-* TODO try lsp for js
 * TODO use-package
 ** TODO use :commands to prevent the long loading after 5s problem
 ** does :defer or :after take precedent?
-* js2 ideas
-- js2 mark-defun works for tests
-- js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
 * TODO origami
   - fork on celpa: https://github.com/emacs-origami/origami.el
   - celpa: https://celpa.conao3.com/
   - can wget tar file, then install with package-install-file
   - origami folding don't slow down in long file
   - fewer errors
-* TODO better imenu
+** DONE "Match data clobbered by buffer modification hooks"
+  - it's origami
+  - fix: https://github.com/gregsexton/origami.el/pull/93
+* TODO better imenu for js
   - [ ] "cb" instead of "callback"
+  - limit depth (just see 1 or 2 levels -- see describe and test names only,
+    for example)
+  - [ ] can hack this by monkey patching lsp-ui-imenu--insert-items
+    - (if (< depth 2) ...body)
+  - lsp-ui-imenu: collapse nodes
+    - https://github.com/emacs-lsp/lsp-ui/issues/254
+    - https://github.com/emacs-lsp/lsp-ui/pull/179/files
 * TODO narrowing / filtering / matching
 - [ ] flx: prioritize full strings over initialisms, so wjb matches wjb/
     before other stuff
@@ -2520,6 +2551,8 @@ brew bundle
   - prescient -- remember choices with matches
 
 * TODO better desktop-read
+* catalina
+  - https://spin.atomicobject.com/2019/12/12/fixing-emacs-macos-catalina/
 * TODO things to check that they work after changes:
 vterm
 org
@@ -2537,7 +2570,7 @@ yml
   CLOSED: [2021-04-15 Thu 11:24]
   - it's too flexible now
 
-* js2-mode js2r buffer has parse errors
+* DONE js2-mode js2r buffer has parse errors
 ** DONE
   - it's from tailing comma in function arguments list
   - https://github.com/mooz/js2-mode/issues/480
@@ -2556,3 +2589,6 @@ js2-parse-argument-list? I think that's for calling
 js2-parse-function-params?
 ** TODO https://github.com/mooz/js2-mode/issues/547
 ** http://dgutov.github.io/blog/2021/06/19/debugging-a-syntax-error-in-js2-mode/
+* TODO verdaccio before-save-buffer hook
+  - if yarn mode/yaml mode, replace storling.local with registry.npmjs.org
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Saving-Buffers.html
