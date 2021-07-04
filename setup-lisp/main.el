@@ -2085,34 +2085,15 @@ If PROJECT is not specified the command acts on the current project."
     (yas-minor-mode -1))
   (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
 
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20200316.1144/snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-react-redux-yasnippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/react-snippets-20181002.1046/snippets" t)
-  (yas-global-mode)
-  ;; (global-set-key (kbd "M-/") 'company-yasnippet)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
   ;; These are great snippets, but loading them is causing some warnings:
   ;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
-  )
 
-;; (when (require 'yasnippet nil t)
-;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
-;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
-;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
-;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/yasnippet-coffee-script-snippets/" t)
-;;   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/js-react-redux-yasnippets-20200316.1144/snippets" t)
-;;   (yas-global-mode 1)
-
-;;   ;; Work-around for tab complaining when yas is active in ansi-term. See:
-;;   ;; https://github.com/capitaomorte/yasnippet/issues/289
-;;   (defun wjb/disable-yas-minor-mode ()
-;;     (yas-minor-mode -1))
-;;   (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
-;; )
-
-;; (eval-after-load 'yasnippet '(diminish 'yas-minor-mode))
+  (yas-global-mode))
 
 
 ;; docker
@@ -2461,7 +2442,7 @@ If PROJECT is not specified the command acts on the current project."
   ;; snippet) vs. yas-expand which expands a known snippet trigger.
   ;; Typing these on empty point gives autocomplete list of all snippets.
   ;; Hitting TAB (yas-expand) after an exact snippet trigger expands that snippet.
-  (global-set-key (kbd "H-0 y") #'company-yasnippet)
+  (global-set-key (kbd "H-u") #'company-yasnippet) ;; H-y is awkward; H-u is close
   (global-set-key (kbd "C-c y") #'company-yasnippet)
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
 )
