@@ -83,9 +83,11 @@
 ;; - search pattern (regex)
 
 (require 'grep)
+(use-package wgrep
+  :after grep)
 
-;; Custom grep-find via find-in-project.
 
+
 ;; Setup find.
 (defvar wjb-find-bin "find")
 (defvar wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"#*#\" ! -wholename \"*/node_modules*\" ! -wholename \"*/.git*\" ! -wholename \"*local/Yarn*\" ! -wholename \"*/.storybook-static*\" -type f -print0 ")
@@ -102,6 +104,9 @@
 ;;   (setq wjb-find-bin "fd")
 ;;   (setq wjb-find-args "-E \"*local/Yarn*\" -E \"*/.storybook-static*\" -E \"*/_tmp*\" -E \"*/coverage*\" -E \"*/dist*\" --type f --print0"))
 
+(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+
+
 ;; Setup grep.
 (defvar wjb-grep-bin "grep")
 (defvar wjb-grep-args "--line-buffered -E -C 5 -niH -e ")
@@ -114,25 +119,28 @@
   (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
 
 (defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
+
 (defvar wjb-xargs-part "| xargs -0 -P 2 ")
 (defvar wjb-after-the-pipe (concat (format "%s %s" wjb-xargs-part wjb-grep-part) "%s"))
 
-(defvar wjb-find-part (format "%s . %s" wjb-find-bin wjb-find-args))
+
+;; Set it as the find command.
+
 (defvar wjb-default-find-command
   (format "%s %s %s " wjb-find-part wjb-xargs-part wjb-grep-part))
 
-;; Set it as the find command.
 ;; How to use grep-apply-setting: http://stackoverflow.com/a/25633595/599258
 (grep-compute-defaults)
 (grep-apply-setting 'grep-find-command wjb-default-find-command)
 
-(defvar wjb-find-in-project-default-dir ".")
-(defun find-in-project (path grep-string)
-  "rgrep in current project dir."
-  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "search for: ")))
-  (let ((default-directory path))
-    (grep-find (concat wjb-default-find-command grep-string))))
+;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
+;; TODO: make rgrep behave how I want, like my own find-in-project command.
+(add-to-list 'grep-find-ignored-directories "node_modules")
+(grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
+
+
+
+;; Commands.
 
 ;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
@@ -176,18 +184,15 @@
              (actual-command (format command-template negate-or-not name-pattern grep-string)))
         (grep-find actual-command))))
 
-(defun find-in-project-glob-by-name-old (path name-pattern grep-string prefix)
-  "find|xargs in current project dir by name. Negate with prefix arg."
+;; This is an older version that I don't really use anymore. Can probably unbind and archive it.
+;; C-x i
+(defvar wjb-find-in-project-default-dir ".")
+(defun find-in-project (path grep-string)
+  "rgrep in current project dir."
   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "name glob: " "*")
-                     (read-from-minibuffer "search for: ")
-                     current-prefix-arg))
-  (unless (equal grep-string "")
-      (let* ((default-directory path)
-             (command-template (concat "gfind . %s -iname '%s' " wjb-find-args wjb-after-the-pipe))
-             (negate-or-not (if prefix "!" ""))
-             (actual-command (format command-template negate-or-not name-pattern grep-string)))
-        (grep-find actual-command))))
+                     (read-from-minibuffer "search for: ")))
+  (let ((default-directory path))
+    (grep-find (concat wjb-default-find-command grep-string))))
 
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
@@ -199,20 +204,18 @@
 ;; without the leading *, it matches nothing.
 ;; gfind . -ipath '*selectors/index.js' ! -name "*~" ! -name "#*#" ! -path "*node_modules*" ! -path "*.git*" ! -path "*_tmp*" ! -path "*coverage*" ! -path "*dist*" -type f -print0 | xargs -0 -P 2 rg -C 5 --no-heading -niH -e part
 
-;; rgrep allows a shell wildcard pattern on filenames, but find-in-project does not.
-;; make rgrep behave how I want, like my own find-in-project command.
-(add-to-list 'grep-find-ignored-directories "node_modules")
-(grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; key bindings
 (global-set-key (kbd "C-c g") 'grep-find)
+
 ;; i is old/everything, 9 is by path, j is by name
 (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
+
 ;; (global-set-key (kbd "C-x 9") 'rgrep)
 (global-set-key (kbd "C-x 9") 'find-in-project-glob-by-path)
 (global-set-key (kbd "C-x C-9") 'find-in-project-glob-by-path)
+
 (global-set-key (kbd "C-x j") 'find-in-project-glob-by-name)
 (global-set-key (kbd "C-x C-j") 'find-in-project-glob-by-name)
 
@@ -255,9 +258,6 @@
     "Inhibit `set-window-dedicated-p'."
     (let ((my-inhibit-set-window-dedicated t))
       (apply orig-fun args))))
-
-(use-package wgrep
-  :after grep)
 
 ;; ag
 ;;(when (executable-find "ag")
