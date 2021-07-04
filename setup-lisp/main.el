@@ -783,8 +783,7 @@ pasting into other programs."
     (forward-line -1)))
 
 (use-package org-pivotal
-  :disabled
-  :defer 5)
+  :load-path "elisp/org-pivotal")
 
 ;; How to search among org files:
 ;; - helm-org-agenda-files-headings -- search headings among org agenda files
