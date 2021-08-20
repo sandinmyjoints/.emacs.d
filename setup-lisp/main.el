@@ -885,8 +885,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
     (call-interactively #'magit-status)))
 
 ;; Magit Forge uses this.
-(use-package ghub
-  :defer 5)
+(use-package ghub)
 
 (use-package transient
   :config
@@ -896,7 +895,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package magit
   :bind (("C-x g" . wjb/smart-magit-status))
   :config
-  (setq ghub-use-workaround-for-emacs-bug nil
+  (setq ghub-use-workaround-for-emacs-bug t
         magit-last-seen-setup-instructions "1.4.0"
         magit-diff-auto-show '(stage-all log-oneline log-follow log-select blame-follow)
         magit-status-expand-stashes nil
@@ -922,8 +921,18 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; by the author of magit
 (use-package forge
-  :disabled
-  :after magit)
+  :after magit
+  :config
+  ;; This seems to cause emacs to hang at startup:
+  (when nil
+    (progn
+      ;; Use SQLite WAL and non-synchronous modes.  See
+      ;; <https://github.com/magit/forge/issues/6#issuecomment-578589801>
+      ;; and <https://github.com/magit/forge/issues/257>.
+      (emacsql-close (forge-db))
+      (emacsql (forge-db) "PRAGMA journal_mode=WAL")
+      (emacsql (forge-db) "PRAGMA synchronous=OFF"))
+  ))
 
 ;; separate from magit, but integrates: "You can use github-review with forge.
 ;; When your cursor is over a pull request, you can call
