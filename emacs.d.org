@@ -381,9 +381,7 @@ gfind . -name "*.elc" -print0 | xargs -0 rm && emacs -batch -Q --eval '(progn (b
   - even better: pcre2el: https://github.com/joddie/pcre2el
     - usage: https://github.com/joddie/pcre2el#use-from-lisp
     - re-builder support: https://github.com/joddie/pcre2el#re-builder-support
-#+BEGIN_SRC
-
-#+END_SRC
+  - https://github.com/syohex/emacs-pcre
 * TODO Window and frame restore. See:
   - Seems
   - https://github.com/emacs-mirror/emacs/blob/master/lisp/frameset.el in Emacs 24.4
