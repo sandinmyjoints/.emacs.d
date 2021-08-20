@@ -707,7 +707,7 @@ pasting into other programs."
   :after org
   :config
   ;; see https://github.com/arnm/ob-mermaid/blob/master/README.org
-  (setq ob-mermaid-cli-path "/Users/william/.nvm/versions/node/v12.16.1/bin/mmdc")
+  (setq ob-mermaid-cli-path "/Users/william/.nvm/versions/node/v14.17.5/bin/mmdc")
   (setq org-confirm-babel-evaluate
         (lambda (lang body)
           (not (string= lang "sql-mode")))))
@@ -2663,7 +2663,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; for file.
 (use-package nvm
   :config
-  (do-nvm-use "v14.15.0")) ;; default node
+  (do-nvm-use "v14.17.5"))q ;; default node
 
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
