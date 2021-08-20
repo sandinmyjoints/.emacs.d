@@ -2677,7 +2677,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; for file.
 (use-package nvm
   :config
-  (do-nvm-use "v14.17.5"))q ;; default node
+  (do-nvm-use "v14.17.5")) ;; default node
 
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
