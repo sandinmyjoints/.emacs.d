@@ -3636,7 +3636,6 @@ questions.  Else use completion to select the tab to switch to."
   (add-hook 'text-mode-hook #'wjb/set-ccm-vpos-init))
 
 (use-package solaire-mode
-  :disabled
   :hook
   ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
   (minibuffer-setup . solaire-mode-in-minibuffer)
