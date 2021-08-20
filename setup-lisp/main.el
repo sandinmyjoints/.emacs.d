@@ -3348,6 +3348,23 @@ Interactively also sends a terminating newline."
   :after lsp-mode
   :commands company-lsp)
 
+(use-package dap-mode
+  :config
+  (dap-auto-configure-mode)
+  (require 'dap-node)
+  (setq dap-print-io t
+        dap-node-debug-program "")
+
+  (dap-debug
+   (list :type "node"
+         :request "attach"
+         :port 9329
+         :program "__ignored"
+         :localRoot "/Users/william/scm/sd/sd-playground/"
+         :remoteRoot "/usr/src/app"
+         :name "sd-playground"))
+  )
+
 
 ;; visual-regexp
 (use-package visual-regexp
