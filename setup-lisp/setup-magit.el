@@ -24,6 +24,11 @@
 ;; (set-face-background 'magit-diff-context-highlight "grey10")
 ;; (set-face-background 'magit-diff-context "grey10")
 
+;; default
+;; (setq magit-status-headers-hook '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header magit-insert-tags-header))
+
+;; remove tags-header
+(setq magit-status-headers-hook '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header))
 
 ;; TODO: ideally, push-remote would be the remote tracking branch, not
 ;; master -- this can probably be configred in magit somehow In other
@@ -42,7 +47,11 @@
         (unpushed . hide)
         (stashes . hide)))
 
+;; see worktrees
 (add-hook 'magit-status-sections-hook 'magit-insert-worktrees)
+
+;; did this for neodarwin in dir-locals
+;; (remove-hook 'magit-status-headers-hook 'magit-insert-tags-header)
 
 ;; this means it will only be shown/hidden by tab, not by killing and reopening
 ;; the magit-status buffer.
