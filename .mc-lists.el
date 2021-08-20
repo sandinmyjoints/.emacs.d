@@ -100,6 +100,7 @@
         wjb-toggle-it-only
         wjb/backward-symbol
         wjb/forward-symbol
+        wjb/smart-counsel-switch-buffer
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle
