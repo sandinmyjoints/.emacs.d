@@ -360,6 +360,7 @@ project."
   ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
   :bind (("M-." . smart-jump-go)
          ("M-," . smart-jump-back)
+         ("C-?" . tide-documentation-at-point)
          ("M-?" . tide-references))
   :after (js2-mode company)
   :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
