@@ -71,7 +71,7 @@
   (add-to-list 'package-archives melpa)
   (add-to-list 'package-archives celpa)
   ;; (add-to-list 'package-archives melpa-mirror)
-  ;; (add-to-list 'package-archives melpa-stable)
+  (add-to-list 'package-archives melpa-stable)
   (add-to-list 'package-archives ubl)
 
   ;; TODO: package-archive-prioities: see
