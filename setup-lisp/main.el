@@ -2074,7 +2074,6 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; Yasnippet.
 
-;; TODO: get this to work with use-package, it doesn't like it.
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -2094,6 +2093,12 @@ If PROJECT is not specified the command acts on the current project."
   ;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
 
   (yas-global-mode))
+
+(use-package yasnippet-snippets)
+
+(use-package js-react-redux-yasnippets
+    :after yasnippet ;; will not work if not adding this line
+    )
 
 
 ;; docker
