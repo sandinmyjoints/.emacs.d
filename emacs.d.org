@@ -793,6 +793,7 @@ react-redux
         "--stdio"))) It supports completions and goto definition, even when
         using imports in a jsx file. Eglot doesn't have all the bells and
         whistles of lsp-ui, which I like. "
+** dap-mode
 ** DONE dumb-jump
    CLOSED: [2018-09-01 Sat 22:17]
    - dumb-jump-go C-M-g
@@ -2317,8 +2318,6 @@ X vterm
 X try deferring company
 
 dired, writable dired
-* imenu is slow?
-  - // -*- imenu-auto-rescan: nil; -*-
 * latency/speed
 ** best possible
    #+begin_src
@@ -2458,13 +2457,16 @@ dired, writable dired
   - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
 ** HOWTO
   - https://github.com/jimeh/build-emacs-for-macos
-  - in ~/scm/wjb/build-emacs-for-macos/
+  -
   - HOWTO
   #+begin_src bash
+  cd ~/scm/wjb/build-emacs-for-macos/
   rm Brewfile.lock.json
   brew bundle
 
   # check https://github.com/jimeh/build-emacs-for-macos/issues/6 for latest known good commit
+  # 2021-08-28
+  ./build-emacs-for-macos --git-sha a45aed9479f610bcbc7a171b60d915fefc9b586a master
 
   # 2021-06-13
   ./build-emacs-for-macos --git-sha 3f8b303ec087ba3d0bd524c7fc8c628ef15a3e4a feature/native-comp
@@ -2481,7 +2483,7 @@ dired, writable dired
   # built on 2020-10-26, some small issues
   ./build-emacs-for-macos --git-sha fd9e9308d27138a16e2e93417bd7ad4448fea40a feature/native-comp
 
-  # then find it using dired in builds, rename the old app bundle, and do the default action on the bzip
+  # then find it using dired in builds, rename the old app bundle, and do tar -xjf on the bzip
   # then link it using alfred
   #+end_src
 
@@ -2529,15 +2531,28 @@ brew bundle
 ** DONE "Match data clobbered by buffer modification hooks"
   - it's origami
   - fix: https://github.com/gregsexton/origami.el/pull/93
-* TODO better imenu for js
-  - [ ] "cb" instead of "callback"
-  - limit depth (just see 1 or 2 levels -- see describe and test names only,
-    for example)
-  - [ ] can hack this by monkey patching lsp-ui-imenu--insert-items
-    - (if (< depth 2) ...body)
-  - lsp-ui-imenu: collapse nodes
-    - https://github.com/emacs-lsp/lsp-ui/issues/254
-    - https://github.com/emacs-lsp/lsp-ui/pull/179/files
+* imenu
+** DONE imenu is slow?
+   - // -*- imenu-auto-rescan: nil; -*-
+** TODO better imenu for js
+   - [ ] "cb" instead of "callback"
+   - limit depth (just see 1 or 2 levels -- see describe and test names only,
+     for example)
+   - [ ] can hack this by monkey patching lsp-ui-imenu--insert-items
+     - (if (< depth 2) ...body)
+   - lsp-ui-imenu: collapse nodes
+     - https://github.com/emacs-lsp/lsp-ui/issues/254
+     - https://github.com/emacs-lsp/lsp-ui/pull/179/files
+   - ivy-imenu-anywhere is flat, not very useful
+   - popup-imenu works OK
+   - https://github.com/rnkn/side-hustle might be worth a try
+   - https://github.com/bmag/imenu-list works OK
+** imenu options
+   - https://github.com/bmag/imenu-list/network/members -- forks that have changes
+   - https://github.com/takaxp/imenu-list/commits/master
+   - https://github.com/sten0/imenu-list/commits/master
+   - https://github.com/Ladicle/imenu-list/commits/master
+   - https://github.com/ilupin/imenu-list/commits/master
 * TODO narrowing / filtering / matching
 - [ ] flx: prioritize full strings over initialisms, so wjb matches wjb/
     before other stuff
