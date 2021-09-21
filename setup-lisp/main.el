@@ -2446,7 +2446,7 @@ If PROJECT is not specified the command acts on the current project."
   (add-hook 'restclient-mode-hook #'wjb/set-company-minimum-prefix-length)
 
   ;; trial:
-  (company-statistics-mode -1)
+  ;; (company-statistics-mode -1)
   ;; (company-quickhelp-mode -1)
 )
 
