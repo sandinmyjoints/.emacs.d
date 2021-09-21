@@ -420,7 +420,9 @@ project."
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
 
-;; configure javascript-tide checker to run after your default javascript checker
+;; configure javascript-eslint to run after tide checkers (but eslint is still
+;; the default checker; this only has an effect when the tide checkers are
+;; enabled)
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
 
