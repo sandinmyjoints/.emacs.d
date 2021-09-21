@@ -3283,7 +3283,7 @@ Interactively also sends a terminating newline."
   ;; (setq dap-print-io t)
   )
 
-(use-package dap-node
+(use-package dap-mode
   :disabled
   :config
   (dap-register-debug-template
