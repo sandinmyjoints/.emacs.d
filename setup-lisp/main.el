@@ -2096,8 +2096,8 @@ If PROJECT is not specified the command acts on the current project."
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-react-redux-yasnippets/snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/react-snippets-20181002.1046/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/react-snippets-20210430.1510/snippets" t)
   ;; These are great snippets, but loading them is causing some warnings:
   ;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
 
