@@ -605,8 +605,8 @@ OK on large screens."
         modus-themes-links 'neutral-underline
         modus-themes-variable-pitch-headings nil
         modus-themes-region 'bg-only-no-extend)
-  (modus-themes-load-themes)
   :config
+  (modus-themes-load-themes)
   ;; dark
   (setq wjb/dark t)
   (modus-themes-load-vivendi)
