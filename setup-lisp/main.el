@@ -2182,6 +2182,7 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package restclient
   :defer t
+  :after page-break-lines
   :mode
   ("\\.rest\\'" . restclient-mode)
   ("\\.http\\'" . restclient-mode)
