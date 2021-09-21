@@ -2610,8 +2610,16 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; folding
 
-;; better than yafolding
+(use-package bicycle
+  :disabled ;; couldnt get it to work
+  :after outline
+  :bind (:map outline-minor-mode-map
+              ([C-return] . bicycle-cycle)
+              ;; ([S-tab] . bicycle-cycle-global)
+              ))
+
 (use-package origami
+  :disabled
   ;; TODO: bind only prog-mode made, dont bind org-mode!
   :bind
   (("C-<return>" . #'origami-recursively-toggle-node)
@@ -2622,13 +2630,10 @@ If PROJECT is not specified the command acts on the current project."
   (define-key origami-mode-map (kbd "H-<return>") #'origami-toggle-all-nodes)
   (setq origami-indicators 'left-fringe)
 
-  ;; (add-hook 'prog-mode-hook #'origami-mode)
-  (remove-hook 'prog-mode-hook #'origami-mode)
-  )
+  (add-hook 'prog-mode-hook #'origami-mode))
 
 ;; better than vimish-fold
 (use-package yafolding
-  :disabled
   :config
   (add-hook 'prog-mode-hook #'yafolding-mode))
 
