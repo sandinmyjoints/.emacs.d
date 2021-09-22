@@ -2736,6 +2736,8 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (do-nvm-use "v14.17.5")) ;; default node
 
+(use-package add-node-modules-path)
+
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
   (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
