@@ -1979,6 +1979,8 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; treemacs
 
+(use-package cfrs)
+
 (use-package treemacs
   ;; :after (exec-path-from-shell)
   ;; :hook (emacs-startup . #'treemacs-find-file) ;; I manually add it to emacs-startup-hook so it can go after require appearance, before wjb/customize-appearance
