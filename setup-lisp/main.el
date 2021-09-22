@@ -449,6 +449,7 @@
   (flycheck-add-next-checker 'python-pycompile 'python-flake8)
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
+  ;; configure javascript-tide checker to run after your default javascript checker.
   ;; too many typescript errors, and complains about missing definitions
   ;; files. And can it find anything that eslint can't?
   ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide)
@@ -588,7 +589,7 @@
   :config
   (font-lock-add-keywords
    'org-mode
-   ;; from https://blog.jft.rocks/emacs/unicode-for-orgmode-checkboxes.html
+   ;; from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
    ;; TODO: it is striking through the newline at the end of the line
    `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
       1 'org-checkbox-done-text prepend))
