@@ -808,7 +808,27 @@ pasting into other programs."
     (forward-line -1)))
 
 (use-package org-pivotal
-  :load-path "elisp/org-pivotal")
+  :load-path "elisp/org-pivotal"
+  :config
+  (defun wjb/create-todo-for-story-id (story-id)
+    "Pull a given story and create an org TODO item for it."
+    (interactive "MID: ")
+    (funcall (-compose 'wjb/create-todo-for-story
+                       'org-pivotal-api--fetch-story)
+             "1967621" ;; engage
+             story-id))
+
+  (defun wjb/create-todo-for-story (story)
+    "Create a new todo item for STORY."
+    (progn
+      (call-interactively 'org-return-and-maybe-indent)
+      (let ((todo
+             (format "\n* TODO %s %s - %s"
+                     (s-capitalized-words (alist-get 'story_type story))
+                     (alist-get 'id story)
+                     (alist-get 'name story))))
+        (insert todo))))
+)
 
 ;; How to search among org files:
 ;; - helm-org-agenda-files-headings -- search headings among org agenda files
