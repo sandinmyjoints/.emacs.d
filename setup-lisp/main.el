@@ -1202,6 +1202,12 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package imenu-anywhere
   :bind (("C-." . ivy-imenu-anywhere)))
 
+(use-package imenu-list
+  :config
+  (setq imenu-list-size 0.5)
+  ;; TODO how to start collapsed?
+  )
+
 
 ;; flx/amx/smex/prescient
 
