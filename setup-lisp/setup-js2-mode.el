@@ -420,6 +420,21 @@ project."
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
 
+(setq typescript-indent-level 2)
+
+(defun tide-make-help-buffer (feature body)
+  (with-current-buffer (get-buffer-create (concat "*tide-" feature "*"))
+    (setq buffer-read-only t)
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (when body
+        (save-excursion
+          (tide-insert body))))
+    ;; wjb -- my change
+    (local-set-key (kbd "q") #'other-frame)
+    ;; (local-set-key (kbd "q") #'quit-window)
+    (current-buffer)))
+
 ;; configure javascript-eslint to run after tide checkers (but eslint is still
 ;; the default checker; this only has an effect when the tide checkers are
 ;; enabled)
@@ -437,6 +452,10 @@ project."
   (setq-local fill-column 80))
 
 (add-hook 'js-mode-hook 'wjb/js-mode-hook)
+
+
+
+;; 2021-11-15 I don't think anything below here is being used.
 
 ;; this imenu generic expression aims to exclude for, while, if when aims to match functions in
 ;; es6 js, e.g. ComponentDidMount(), render() function in React
