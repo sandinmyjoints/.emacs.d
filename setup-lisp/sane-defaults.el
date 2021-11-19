@@ -361,7 +361,19 @@
 
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
 
-;; C-] is abort-recursive-edit
+
+;; Recursive editing.
+;;
+;; C-] is abort-recursive-edit.
+
+;; From https://www.reddit.com/r/emacs/comments/qqnjse/comment/hk1zm4z/?utm_source=share&utm_medium=web2x&context=3
+(use-package emacs
+  :custom
+  (enable-recursive-minibuffers t "Allow minibuffer commands in the minibuffer"))
+
+(use-package mb-depth
+  :config
+  (minibuffer-depth-indicate-mode 1))
 
 ;; From: https://stackoverflow.com/a/39672208/599258
 (defun cancel-minibuffer-first (sub-read &rest args)
@@ -373,7 +385,8 @@
                     (abort-recursive-edit))
             (apply sub-read args))))
 
-(advice-add 'read-from-minibuffer :around #'cancel-minibuffer-first)
+;; (advice-add 'read-from-minibuffer :around #'cancel-minibuffer-first)
+(advice-remove 'read-from-minibuffer #'cancel-minibuffer-first)
 
 ;; from https://superuser.com/a/132454/93702
 (defun switch-to-minibuffer-window ()
@@ -382,12 +395,8 @@
   (when (active-minibuffer-window)
     (select-frame-set-input-focus (window-frame (active-minibuffer-window)))
     (select-window (active-minibuffer-window))))
-(global-set-key (kbd "<f7>") 'switch-to-minibuffer-window)
 
 (setq tab-always-indent 'complete)
-
-(minibuffer-depth-indicate-mode 1)
-(setq enable-recursive-minibuffers t)
 
 ;; The visible bell is usually fine, but still horrid in certain terminals.
 ;; We can make a nicer version. See http://pragmaticemacs.com/emacs/using-a-visible-bell-in-emacs/
