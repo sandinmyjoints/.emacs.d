@@ -634,6 +634,7 @@
         org-edit-src-content-indentation 0
         org-catch-invisible-edits 'show
         org-fontify-done-headline t
+        org-adapt-indentation t ;; trying this out
         org-return-follows-link t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
