@@ -1648,6 +1648,11 @@ If PROJECT is not specified the command acts on the current project."
                                     helm-source-buffer-not-found
                                     ))
 
+  (setq helm-ls-git-default-sources '(helm-source-ls-git-buffers
+                                      helm-source-ls-git
+                                      helm-source-ls-git-status
+                                      helm-ls-git-create-branch-source))
+
   (setq
    ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
    ;; helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
