@@ -119,7 +119,7 @@
 
 ;; capitalization, separators
 
-(global-set-key (kbd "M-_") #'camelscore-word-at-point)
+(global-set-key (kbd "M-_") #'wjb/camelscore-word-at-point)
 
 (global-set-key "\M-c" 'endless/capitalize)
 ;; (global-key "\M-l" 'endless/downcase) ;; using for lsp-mode

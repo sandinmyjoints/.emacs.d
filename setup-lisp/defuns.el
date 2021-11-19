@@ -420,7 +420,7 @@
         (t   (dasherize s)) ))
 
 ;; Entrypoint:
-(defun camelscore-word-at-point ()
+(defun wjb/camelscore-word-at-point ()
   (interactive)
   (let* ((case-fold-search nil)
          (beg (and (skip-chars-backward "[:alnum:]:_-") (point)))
