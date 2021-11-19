@@ -156,6 +156,10 @@
   ;; TODO: only use these in modes where it makes sense. Org is not one of
   ;; them. From https://www.reddit.com/r/emacs/comments/e1uyvk/weekly_tipstricketc_thread/f93y0qg?utm_source=share&utm_medium=web2x
   ;;
+  ;; I use them in org-pivotal mode because they prevent hard-wrap newlines
+  ;; from ending up breaking lines in odd places when the tickets are uploaded
+  ;; to PT.
+  ;;
   ;; Do word wrapping at fill column in visual-line-mode.
   (remove-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
