@@ -69,7 +69,7 @@
 
 (defvar wjb/is-small-display t "Whether display is a small screen or not.")
 (defun wjb/is-small-display ()
-  (if (<= (display-pixel-width) 1440)
+  (if (<= (display-pixel-width) 1512)
       (setq wjb/is-small-display t)
     (setq wjb/is-small-display nil)))
 
@@ -112,9 +112,9 @@ small screens."
     (set-face-attribute 'default nil :weight 'medium))
 
   (set-face-font 'variable-pitch "Fira Sans")
-  (if (or (wjb/is-small-display) wjb/dark)
+  (if (wjb/is-small-display)
       (set-face-attribute 'variable-pitch nil :weight 'light)
-    (set-face-attribute 'variable-pitch nil :weight 'regular)))
+    (set-face-attribute 'variable-pitch nil :weight 'medium)))
 
 (defun wjb/font-deja ()
   "Has strong Unicode support. Works well with dark and light
@@ -366,7 +366,7 @@ OK on large screens."
   ;; temporarily switch to treemacs window
   (when (functionp 'treemacs-get-local-window)
     (with-selected-window (treemacs-get-local-window)
-      (if (wjb/is-small-display) (treemacs--set-width 40) (treemacs--set-width 50))))
+      (if (wjb/is-small-display) (treemacs--set-width 42) (treemacs--set-width 56))))
 
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
