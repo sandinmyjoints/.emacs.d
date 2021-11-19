@@ -107,7 +107,6 @@
   (defun init--install-packages ()
     (packages-install
      (cons 'modus-themes melpa) ;; someday on gnu
-     (cons 'adaptive-wrap gnu)
      (cons 'auto-compile melpa)
      (cons 'dash melpa-stable)
      (cons 's melpa-stable)
@@ -302,6 +301,9 @@
      (cons 'solaire-mode melpa)
 
      (cons 'bash-completion melpa)
+
+     (cons 'adaptive-wrap gnu)
+     (cons 'visual-fill-column melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
