@@ -79,12 +79,6 @@
 
 (global-set-key (kbd "H-l") 'goto-line)
 
-;; Shift-arrow moves around windows, by default, which is fine.
-;; 'windmove-left ;;  Shift-left arrow is default, that's good
-;; 'windmove-right ;; Shift-right arrow is default, that's good
-;; (global-set-key (kbd "S-<up>") 'windmove-up)
-;; (global-set-key (kbd "S-<down>") 'windmove-down)
-
 ;; (global-set-key (kbd "<M-up>") 'scroll-down)
 ;; (global-set-key (kbd "<M-down>") 'scroll-up)
 (global-set-key (kbd "ESC <up>") 'scroll-down)
@@ -201,8 +195,6 @@ Also converts full stops to commas."
 ;; after using a keyboard macro.
 (global-set-key (kbd "H-g") (kbd "C-g"))
 
-;; (global-set-key (kbd "H-a") #'wjb/switch-to-dirtree)
-;; (global-set-key (kbd "H-a") #'windmove-left) ;; treemacs-select-window
 (global-set-key (kbd "H-a") #'treemacs-select-window)
 
 (global-set-key (kbd "C-/") 'hippie-expand) ;; clobbers undo, but I never use it at this binding anyway
