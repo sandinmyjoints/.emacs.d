@@ -80,6 +80,7 @@
 
 ;; Don't break lines for me, please
 ;; what is relationship of this to visual-line-mode? and truncate-partial-width-windows?
+;; use toggle-truncate-lines (C-x t l) to enable/disable
 (setq-default truncate-lines t)
 
 ;; Prevent vulnerability. See https://bugzilla.redhat.com/show_bug.cgi?id=1490409.
