@@ -619,7 +619,7 @@ OK on large screens."
 (when nil
   (progn
     (change-theme 'modus-operandi t)
-    (solaire-global-mode -1)
+    ;; (solaire-global-mode -1)
     (setq wjb/dark nil)
     (wjb/customize-appearance))
 )
@@ -628,7 +628,7 @@ OK on large screens."
 (when nil
   (progn
     (change-theme 'modus-vivendi t)
-    (solaire-global-mode -1)
+    ;; (solaire-global-mode -1)
     (setq wjb/dark t)
     (wjb/customize-appearance))
   )

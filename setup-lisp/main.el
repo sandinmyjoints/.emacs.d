@@ -3666,7 +3666,7 @@ questions.  Else use completion to select the tab to switch to."
 (use-package solaire-mode
   :hook
   ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-  (minibuffer-setup . solaire-mode-in-minibuffer)
+  ;; (minibuffer-setup . solaire-mode-in-minibuffer)
   :config
   (solaire-global-mode 1)
   ;; setting the solaire faces is in wjb/customize-appearance.
