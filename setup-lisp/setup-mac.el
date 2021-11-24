@@ -78,6 +78,8 @@
   ;; :defer 2 ;; exec-path-from-shell-initialize takes a couple seconds to run.
   :demand ;; try if having problems
   :config
+  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG"))
+    (add-to-list 'exec-path-from-shell-variables var))
   ;; Copy vars in exec-path-from-shell-variables.
   ;; https://emacs.stackexchange.com/a/553/2163
   ;;(add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
