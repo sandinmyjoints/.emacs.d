@@ -147,7 +147,7 @@
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'paren-face melpa)
      (cons 'beacon melpa)
-     (cons 'auto-dim-other-buffers melpa)
+     ;; (cons 'auto-dim-other-buffers melpa)
      (cons 'diminish melpa-stable)
      (cons 'xterm-color melpa)
      ;; (cons 'unicode-troll-stopper melpa)
