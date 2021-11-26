@@ -667,6 +667,16 @@ pasting into other programs."
   (defun wjb/org-mode-hook ()
     ;; (set-fill-column 80) ;; spams messages
 
+    ;; Override some bindings in windmove map that were conflicting with org
+    ;; bindings I use.
+    (let ((oldmap (cdr (assoc 'windmove-mode minor-mode-map-alist)))
+          (newmap (make-sparse-keymap)))
+      (set-keymap-parent newmap oldmap)
+      (define-key newmap (kbd "<S-up>") 'outline-previous-visible-heading)
+      (define-key newmap (kbd "<S-down>") 'outline-next-visible-heading)
+      (make-local-variable 'minor-mode-overriding-map-alist)
+      (push `(windmove-mode . ,newmap) minor-mode-overriding-map-alist))
+
     (setq-local company-backends wjb/company-backends-org)
     (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
 
@@ -696,9 +706,7 @@ pasting into other programs."
 
     (when (boundp 'fci-mode)
       (fci-mode -1))
-
-    (local-set-key (kbd "<S-up>") 'outline-previous-visible-heading)
-    (local-set-key (kbd "<S-down>") 'outline-next-visible-heading))
+    )
 
   (add-hook 'org-mode-hook #'wjb/org-mode-hook t)
 
