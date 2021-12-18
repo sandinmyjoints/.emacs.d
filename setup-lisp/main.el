@@ -1101,7 +1101,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (require-package 'virtualenvwrapper)
 
   ;; To use, put the following into custom.el:
-  ;; (setq venv-location "path/to/virtualenvs/")
+  (setq venv-location "~/.local/venvs/")
 
   ;; if you want interactive shell support
   ;; (venv-initialize-interactive-shells) ;; broken
