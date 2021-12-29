@@ -440,6 +440,8 @@ project."
 ;; enabled)
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
+(flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
+(flycheck-add-next-checker 'typescript-tide 'typescript-tslint 'append)
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))
