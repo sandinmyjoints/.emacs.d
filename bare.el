@@ -20,9 +20,6 @@
 ;;; Fewer pop-up windows.
 (setq pop-up-windows nil)
 
-;;; Default for new buffers.
-(setq-default major-mode 'text-mode)
-
 ;;; Avoid backslash madness.
 (setq reb-re-syntax 'string)
 
@@ -66,7 +63,6 @@
 (setq mac-command-modifier 'meta)
 
 (global-font-lock-mode t)
-
 
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
@@ -119,14 +115,6 @@
            (lambda ()
              (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
 
-;;; Text and fill modes.
-(defun textful-settings ()
-        (goto-address-mode 1)
-        (auto-fill-mode 1)
-        (set-fill-column 80))
-(add-hook 'rst-mode-hook 'textful-settings)
-(add-hook 'text-mode-hook 'textful-settings)
-
 ;;; Default fill column.
 (set-fill-column 80)
 
@@ -141,16 +129,12 @@
 ;; TODO: bind something to align-regexp with a regexp that aligns based on :
 (global-set-key (kbd "C-x l") 'other-window-reverse)
 (global-set-key (kbd "C-x p") 'bury-buffer)
-(global-set-key (kbd "C-c p") 'bury-buffer)
 (global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 (global-set-key (kbd "C-x p") 'bury-buffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-c s") 'ansi-term)
-(global-set-key (kbd "C-c r") 'query-replace-regexp)
-(global-set-key (kbd "C-c q") 'query-replace)
+(global-set-key (kbd "C-c q") 'query-replace-regexp)
 (global-set-key (kbd "C-c b") 'rename-buffer)
-(global-set-key (kbd "C-c v") 'describe-variable)
-(global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-c i") 'indent-relative)
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
@@ -166,25 +150,10 @@
 (global-set-key (kbd "C-x f") 'recentf-open-files)
 (global-set-key (kbd "C-c 0") 'kill-ring-save)
 
-;; Useful kbd macros.
-
-;; In json-mode, prettifies one line and leaves cursor at beginning of next.
-(fset 'json-prettify-one-line
-      [?\C-a ?\C-  ?\C-e ?\C-c ?\C-f ?\C-u ?\C-  ?\C-n])
-
-;; Inserts a log of "test " on newline after "test:"
-(fset 'insert-test-counter
-      "\C-stest:\C-e\C-j\C-x\C-k\C-i\355console.log \"test \C-e\"\C-d")
-
-;; Search and delete a console.log statement.
-(fset 'remove-console-log
-   "\C-sconsole.log\C-a\C-k\C-k")
-
-;; Remove a log entry for /api/version.
-(fset 'remove-api-version-log
-   "\C-s/api/version\C-a\C-k\C-k")
-
 (setq js-indent-level 2)
+
+(defalias 'exit-emacs 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
 ;; TODO: Add anything that needs Emacs>=24.
 (when (>= emacs-major-version 24)
