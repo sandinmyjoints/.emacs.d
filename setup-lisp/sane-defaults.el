@@ -481,6 +481,51 @@
 
 (setq warning-minimum-level :emergency)
 
+;; conflicts with easy-kill
+;; (defadvice kill-ring-save (before slick-copy activate compile)
+;;   "When called interactively with no active region, copy a single line instead."
+;;   (interactive
+;;    (if mark-active (list (region-beginning) (region-end))
+;;      (message "Single line killed")
+;;      (list (line-beginning-position)
+;; 	         (line-beginning-position 2)))))
+
+(defadvice kill-region (before slick-cut activate compile)
+  "When called interactively with no active region, kill a single line instead."
+  (interactive
+   (if mark-active (list (region-beginning) (region-end))
+     (list (line-beginning-position)
+	   (line-beginning-position 2)))))
+
+(defface kmacro-modeline '() "Face when kmacro is active")
+(set-face-attribute 'kmacro-modeline nil
+                    :background "Firebrick"
+                    :box `(:line-width -1 :color "salmon" :style released-button))
+
+(defun ad-kmacro-change-modebar ()
+  "Remap the mode-line face with our custom face"
+  (add-to-list 'face-remapping-alist '(mode-line . kmacro-modeline)))
+
+(defun ad-kmacro-restore-modebar ()
+  "Restore the mode-line face"
+  (setf face-remapping-alist
+        (assoc-delete-all 'mode-line face-remapping-alist)))
+
+(defadvice kmacro-start-macro (before kmacro-hl-modeline activate)
+  "Alters `kmacro-start-macro' so it highlights the modeline when
+  recording begins."
+  (ad-kmacro-change-modebar))
+
+(defadvice kmacro-keyboard-quit (before kmacro-rem-hl-modeline activate)
+  "Alters `kmacro-keyboard-quit' so it highlights the modeline when
+  recording begins."
+  (ad-kmacro-restore-modebar))
+
+(defadvice kmacro-end-macro (before kmacro-rem-hl-modeline activate)
+  "Alters `kmacro-end-macro' so it highlights the modeline when
+  recording begins."
+  (ad-kmacro-restore-modebar))
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
