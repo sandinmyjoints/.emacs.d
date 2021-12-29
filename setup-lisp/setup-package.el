@@ -282,7 +282,9 @@
 
      (cons 'ob-sql-mode melpa)
      (cons 'ox-reveal melpa)
+     (cons 'ox-pandoc melpa)
      (cons 'org-clock-csv melpa)
+
      (cons 'htmlize melpa)
 
      (cons 'dumb-jump melpa)
