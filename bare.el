@@ -1,36 +1,63 @@
 ;;; Bare-bones Emacs init.el.
 ;;; Works with Emacs >=23.3.3.
 
-;;; Tramp syntax:
-;;; C-x C-f /sudo:root@localhost:/etc/hosts
-;;; C-x C-f /sudo::/etc/hosts
-(setq tramp-default-method "ssh")
+;; Customize user interface.
+(menu-bar-mode 0)
+(when (display-graphic-p)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0))
+(setq inhibit-startup-screen t)
+(column-number-mode)
+;; Theme.
+(load-theme 'wombat)
+(set-face-background 'default "#111")
+(set-face-background 'cursor "#c96")
+(set-face-background 'isearch "#c60")
+(set-face-foreground 'isearch "#eee")
+(set-face-background 'lazy-highlight "#960")
+(set-face-foreground 'lazy-highlight "#ccc")
+(set-face-foreground 'font-lock-comment-face "#fc0")
 
-;;; No splash screen, thanks.
-(setq inhibit-splash-screen t)
+(global-font-lock-mode t)
 
-;; Use server.
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+;; Interactively do things.
+(ido-mode 1)
+(ido-everywhere)
+(setq ido-enable-flex-matching t)
 
-;;; Prevent extraneous tabs.
-(setq-default indent-tabs-mode nil)
+;; Show stray whitespace.
+(setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
 
-;;; Fewer pop-up windows.
-(setq pop-up-windows nil)
+;; Consider a period followed by a single space to be end of sentence.
+(setq sentence-end-double-space nil)
 
-;;; Avoid backslash madness.
-(setq reb-re-syntax 'string)
-
-;;; Set up 4-space tabs.
+;; Use spaces, not tabs, for indentation.
 ;;; See: http://stackoverflow.com/a/1819405/599258
 (setq-default indent-tabs-mode nil)
+
+(setq-default indent-line-function 'insert-tab)
+;; Display the distance between two tab stops as 4 characters wide.
 (setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
+
+;; Indentation setting for various languages.
+(setq c-basic-offset 4)
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
+
+;; Highlight matching pairs of parentheses.
+(setq show-paren-delay 0)
+(show-paren-mode)
 
 ;;; Sane backup files.
 ;;; See: http://www.emacswiki.org/emacs/BackupDirectory
+(make-directory "~/.emacs.d/backup/" t)
+;;; Keep auto-save files out of the filesystem.
+;;; See: http://emacswiki.org/emacs/AutoSave
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
@@ -41,10 +68,36 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
-;;; Keep auto-save files out of the filesystem.
-;;; See: http://emacswiki.org/emacs/AutoSave
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; Disable lockfiles.
+(setq create-lockfiles nil)
+
+;; Workaround for https://debbugs.gnu.org/34341 in GNU Emacs <= 26.3.
+(when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
+;; TODO: Add anything that needs Emacs>=24.
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (electric-pair-mode t)
+  ;; Scroll up without warning the first time.
+  (setq scroll-error-top-bottom t))
+
+;; Write customizations to ~/.emacs.d/custom.el instead of this file.
+(setq custom-file "~/.emacs.d/custom.el")
+
+;;; Tramp syntax:
+;;; C-x C-f /sudo:root@localhost:/etc/hosts
+;;; C-x C-f /sudo::/etc/hosts
+(setq tramp-default-method "ssh")
+
+;;; Fewer pop-up windows.
+(setq pop-up-windows nil)
+
+;;; Avoid backslash madness.
+(setq reb-re-syntax 'string)
 
 ;;; Visible bell.
 (setq-default visible-bell t)
@@ -61,8 +114,6 @@
 ;(setq-default mac-option-key-is-meta nil)
 (setq-default mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
-
-(global-font-lock-mode t)
 
 ;; Allow the very useful set-goal-column.
 (put 'set-goal-column 'disabled nil)
@@ -135,32 +186,22 @@
 (global-set-key (kbd "C-c s") 'ansi-term)
 (global-set-key (kbd "C-c q") 'query-replace-regexp)
 (global-set-key (kbd "C-c b") 'rename-buffer)
-(global-set-key (kbd "C-c i") 'indent-relative)
 (global-set-key (kbd "C-c SPC") 'just-one-space)
 (global-set-key (kbd "C-c h") 'whack-whitespace)
-(global-set-key (kbd "C-c e") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c c") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
-(global-set-key (kbd "C-c C-r") 're-builder)
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-c j") 'join-line)
 (global-set-key (kbd "C-c C-j") 'join-line)
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 (global-set-key (kbd "M-=") 'mark-sexp) ; Clobbers count-words-region.
 (global-set-key (kbd "C-x f") 'recentf-open-files)
-(global-set-key (kbd "C-c 0") 'kill-ring-save)
-
-(setq js-indent-level 2)
+(global-set-key (kbd "C-x C-f") 'find-file)
 
 (defalias 'exit-emacs 'save-buffers-kill-terminal)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
-;; TODO: Add anything that needs Emacs>=24.
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (electric-pair-mode t)
-  ;; Scroll up without warning the first time.
-  (setq scroll-error-top-bottom t))
+;; Use server.
+(require 'server)
+(unless (server-running-p)
+  (server-start))
