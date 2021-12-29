@@ -572,6 +572,7 @@
   ;; problem with dired-async is it doesn't update open buffers when files are moved
   ;; (autoload 'dired-async-mode "dired-async.el" nil t)
   ;; (dired-async-mode -1)
+
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
@@ -867,7 +868,6 @@ pasting into other programs."
       (goto-char pos))
     (org-show-children)))
 
-;; Load ODT backend to allow for exporting to open document format.
 (use-package ox-odt
   :defer 5
   :after org)
@@ -3450,7 +3450,6 @@ Interactively also sends a terminating newline."
 ;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
 ;; prog-mode-hook
 (use-package symbol-overlay
-  :defer t
   :bind (:map prog-mode-map
               ;; ("M-i" . 'symbol-overlay-put) ;; not using
               ("M-n" . 'symbol-overlay-jump-next)
@@ -3810,8 +3809,6 @@ is already narrowed."
 
 
 
-(define-key process-menu-mode-map (kbd "C-k") 'joaot/delete-process-at-point)
-
 (defun joaot/delete-process-at-point ()
   (interactive)
   (let ((process (get-text-property (point) 'tabulated-list-id)))
@@ -3821,27 +3818,9 @@ is already narrowed."
            (revert-buffer))
           (t
            (error "no process at point!")))))
+(define-key process-menu-mode-map (kbd "C-k") 'joaot/delete-process-at-point)
 
-(defun wjb/vterm-dwim (&optional argument)
-  "Invoke `vterm' according to context and current location.
-
-With a \\[universal-argument] prefix or if no project is found, force a new
-buffer to be created in place.
-
-If existing, pop to it. Otherwise create a new buffer with a unique name at the project
-root."
-  (interactive "P")
-  (if (or argument (not (projectile-project-root)))
-      (vterm)
-    (let* ((project (projectile-acquire-root))
-           (buffer (format "*vterm %s*" (projectile-project-name project))))
-      (if (buffer-live-p (get-buffer buffer))
-          (pop-to-buffer buffer)
-        (projectile-with-default-dir project
-          (unless (require 'vterm nil :noerror)
-            (error "Package 'vterm' not found"))
-          (vterm buffer))))))
-(global-set-key (kbd "H-`") #'wjb/vterm-dwim)
+;; (require 'wjb-org-static-blog)
 
 (provide 'main)
 
