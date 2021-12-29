@@ -529,6 +529,13 @@ Calls 'org-table-insert-hline', 'org-toggle-item', or
 ** TODO write org-walker, org-to-pt
    - based on https://github.com/xiaoxinghu/orgajs/, https://unifiedjs.github.io/
    - https://github.com/org-pivotal/org-pivotal
+** ox-pandoc to export org to markdown for PT tickets
+   - suppress author https://github.com/kawabata/ox-pandoc/issues/83
+   - but now it's from this fork: https://github.com/emacsorphanage/ox-pandoc
+   - org-pandoc-export-as-gfm -- how to run on a subtree of
+   - option:
+--wrap=preserve
+
 * TODO Pivotal tracker: search tickets
   - link org headline to ticket
 * TODO want to see what is ACTIVE and what was recently DONE
@@ -960,11 +967,9 @@ Note: Currently, the Chrome debugging protocol supports only one client per page
 
 ** elpy
 ** venv/pyenv
-  - pyvenv-workon -- from pyvenv lib. elpy uses this. workon is an alias for
-    this.
+  - pyvenv-workon -- from pyvenv lib. elpy uses this. doesn't seem to work for pylint.
   - venv-workon -- from virtualenvwrapper lib. but running this seems to be
-    needed for pylint to work?
-
+    needed for pylint to work.
 
 * pairing/paredit
 * TODO paredit
@@ -2605,3 +2610,10 @@ js2-parse-function-params?
 * TODO verdaccio before-save-buffer hook
   - if yarn mode/yaml mode, replace storling.local with registry.npmjs.org
   - https://www.gnu.org/software/emacs/manual/html_node/elisp/Saving-Buffers.html
+
+* yarn 3 / pnp with emacs
+  - https://old.reddit.com/r/emacs/comments/q1bj35/emacs_and_yarn_3/
+  - https://github.com/typescript-language-server/typescript-language-server/issues/193
+
+* tree-sitter
+  - apple silicon: https://github.com/emacs-tree-sitter/elisp-tree-sitter/issues/88#issuecomment-991636497
