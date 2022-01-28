@@ -585,7 +585,7 @@
   (wjb/switch-to-standup)
   ;; removed save-excursion
   (goto-char (point-min))
-  (insert (format "* %s\n  - [ ] \n" (format-time-string "%Y-%m-%d")))
+  (insert (format "* %s\n** work\n   - [ ] \n" (format-time-string "%Y-%m-%d")))
   (forward-line -1)
   (move-end-of-line nil))
   ;; (execute-kbd-macro 'wjb/add-standup-entry))
@@ -803,7 +803,7 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
 (defun wjb-kill-node (node)
   (let ((start (js2-node-abs-pos node))
         (end (js2-node-abs-end node)))
-    (delete-region start end)
+    (kill-region start end)
     (goto-char start)))
 
 (defun wjb-mark-this-node (leave-point-at-start)
