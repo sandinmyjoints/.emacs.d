@@ -18,6 +18,8 @@
 ;; * C-c l
 ;; * C-c a
 ;; * C-]
+;; * C-c i
+;; * C-c e
 ;;
 ;; * M-0?
 ;; * M-RET
@@ -187,8 +189,6 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-c q") 'query-replace)
 
 (global-set-key (kbd "C-c b") 'rename-buffer)
-
-(global-set-key (kbd "C-c i") 'indent-relative)
 
 ;; C-g runs whatever command it is bound to, and now H-g runs a keyboard macro
 ;; that consists of C-g, so when I hit it, I get the message related to quitting
