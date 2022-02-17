@@ -1656,6 +1656,10 @@ If PROJECT is not specified the command acts on the current project."
                                     helm-source-buffer-not-found
                                     ))
 
+  ;; see https://github.com/emacs-helm/helm-ls-git/issues/68
+  (delete '("/COMMIT_EDITMSG$" . helm-ls-git-commit-mode) auto-mode-alist)
+  (delete '("/git-rebase-todo$" . helm-ls-git-rebase-todo-mode) auto-mode-alist)
+
   (setq helm-ls-git-default-sources '(helm-source-ls-git-buffers
                                       helm-source-ls-git
                                       helm-source-ls-git-status
