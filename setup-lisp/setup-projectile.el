@@ -225,6 +225,7 @@
 ;; neodarwin components
 ;; src/components/test.js
 ;; src/components/test.jsx
+;; TODO: handle impl file names other than index.
 (defun wjb/related-files-same-dir-components (path)
   (if (string-match (rx (group (+? anything))
                         (group (1+ (not (any "/"))) (or ".js" ".jsx" ".less"))) path)
