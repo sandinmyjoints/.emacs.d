@@ -201,6 +201,32 @@
 (defalias 'exit-emacs 'save-buffers-kill-terminal)
 (global-set-key (kbd "C-x C-\\") 'save-buffers-kill-terminal)
 
+;; Show keystrokes in progress
+(setq echo-keystrokes 0.1)
+
+;; Real emacs knights don't use shift to mark things
+(setq shift-select-mode nil)
+
+;; Transparently open compressed files
+(auto-compression-mode t)
+
+;; Enable syntax highlighting for older Emacsen that have it off
+(global-font-lock-mode t)
+
+;; Answering just 'y' or 'n' will do
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; UTF-8 please
+(setq locale-coding-system 'utf-8) ; pretty
+(set-terminal-coding-system 'utf-8) ; pretty
+(set-keyboard-coding-system 'utf-8) ; pretty
+(set-selection-coding-system 'utf-8) ; please
+(prefer-coding-system 'utf-8) ; with sugar on top
+(set-language-environment "UTF-8")
+
+;; Undo/redo window configuration with C-c <left>/<right>
+(winner-mode 1)
+
 ;; Use server.
 (require 'server)
 (unless (server-running-p)
