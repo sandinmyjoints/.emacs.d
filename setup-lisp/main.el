@@ -166,6 +166,10 @@
   ;; Preserve indents when wrapping lines in visual-line-mode.
   (remove-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
+(use-package xref
+  :config
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
+
 
 ;; ========================================
 ;; Package management.
