@@ -2318,6 +2318,15 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (push 'restclient-mode page-break-lines-modes)
   (make-variable-buffer-local 'url-max-redirections)
+
+  ;; see https://github.com/joshwnj/json-mode/issues/28#issuecomment-363489644
+  (add-hook 'restclient-response-loaded-hook
+            (defun mad/js-to-cjson-mode ()
+              (when (equal major-mode 'js-mode)
+                (json-mode)
+                ;; Disable Flycheck so comments don't set off alarms
+                (flycheck-mode -1))))
+
   ;; (advice-remove 'restclient-http-handle-response 'ad-Advice-restclient-http-handle-response)
   (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
     (let ((display-buffer-overriding-action '(display-buffer-use-some-window)))
