@@ -918,6 +918,14 @@ pasting into other programs."
 (use-package ox-slack
   :defer 5
   :after org)
+(use-package ox-pandoc
+  :config
+  (setq org-pandoc-options-for-gfm '((wrap . preserve)))
+  (defun wjb/post-gfm-hook ()
+    (copy-to-register ?x (point-min) (point-max)))
+  (add-hook 'org-pandoc-after-processing-gfm-hook #'wjb/post-gfm-hook)
+  )
+
 
 
 ;; sql
