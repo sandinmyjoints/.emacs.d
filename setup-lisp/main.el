@@ -622,7 +622,8 @@
   (setq counsel-dired-listing-switches "-lahFG")
   (setq dired-listing-switches "-lahF"
         dired-dwim-target t
-        dired-recursive-copies 'always))
+        dired-recursive-copies 'always
+        dired-switches-in-mode-line 'as-is))
 
 (use-package diredfl
   :after dired
