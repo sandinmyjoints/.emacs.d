@@ -1459,8 +1459,8 @@ Insert .* between each char."
 
 (use-package posframe
   :config
-  (setq posframe-arghandler #'wjb/posframe-arghandler)
-  ;; (setq posframe-arghandler #'posframe-arghandler-default)
+  ;; (setq posframe-arghandler #'wjb/posframe-arghandler)
+  (setq posframe-arghandler #'posframe-arghandler-default)
   (defun wjb/posframe-arghandler (buffer-or-name arg-name value)
     ;; see
     ;; https://github.com/tumashu/posframe/blob/bfd2e55219e0911980f4ea97b5995ce8553dce60/posframe.el#L439
@@ -1500,7 +1500,8 @@ Insert .* between each char."
         ivy-posframe-border-width 2
         ivy-posframe-parameters
         '((left-fringe . 4)
-          (right-fringe . 4)))
+          (right-fringe . 4)
+          (alpha . 95)))
 
   (ivy-posframe-mode 1))
 
