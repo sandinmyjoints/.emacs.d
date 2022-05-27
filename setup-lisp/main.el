@@ -3391,6 +3391,27 @@ Interactively also sends a terminating newline."
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
+(defun wjb/vterm-dwim (&optional argument)
+  "Invoke `vterm' according to context and current location.
+
+With a \\[universal-argument] prefix or if no project is found, force a new
+buffer to be created in place.
+
+If existing, pop to it. Otherwise create a new buffer with a unique name at the project
+root."
+  (interactive "P")
+  (if (or argument (not (projectile-project-root)))
+      (vterm)
+    (let* ((project (projectile-acquire-root))
+           (buffer (format "*vterm %s*" (projectile-project-name project))))
+      (if (buffer-live-p (get-buffer buffer))
+          (pop-to-buffer buffer)
+        (projectile-with-default-dir project
+          (unless (require 'vterm nil :noerror)
+            (error "Package 'vterm' not found"))
+          (vterm buffer))))))
+(global-set-key (kbd "H-`") #'wjb/vterm-dwim)
+
 
 ;; lsp
 
