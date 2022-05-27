@@ -430,6 +430,7 @@
       web-mode
       rjsx-mode
       json-mode
+      cc-mode
       coffee-mode
       css-mode
       less-css-mode
