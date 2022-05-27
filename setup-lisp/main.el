@@ -1631,6 +1631,7 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; counsel-etags-scan-code
 (use-package counsel-etags
+  :disabled
   :defer 5
   ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
   :init
@@ -1643,7 +1644,7 @@ If PROJECT is not specified the command acts on the current project."
   (defun counsel-etags-grep (&optional default-keyword hint root)
     (error "Signaling error instead of grepping"))
 
-  (setq counsel-etags-update-interval 300
+  (setq counsel-etags-update-interval 3000
         counsel-etags-find-program "gfind"
         counsel-etags-grep-program "rg"  ;; ggrep
         counsel-etags-tags-program "ctags"
@@ -1653,9 +1654,9 @@ If PROJECT is not specified the command acts on the current project."
   (add-to-list 'counsel-etags-ignore-directories "build")
   (add-to-list 'counsel-etags-ignore-directories "dist")
   (add-to-list 'counsel-etags-ignore-directories "dist-server")
-  (add-to-list 'counsel-etags-ignore-directories "node_modules*")
+  (add-to-list 'counsel-etags-ignore-directories "node_modules")
   (add-to-list 'counsel-etags-ignore-directories "yarn-offline-mirror")
-  (add-to-list 'counsel-etags-ignore-directories "public/webpack-assets")
+  (add-to-list 'counsel-etags-ignore-directories "public")
   (add-to-list 'counsel-etags-ignore-directories "mysql_data")
   ;; (pop counsel-etags-ignore-directories)
   (add-to-list 'counsel-etags-ignore-filenames "local_notes") ;; symlink
