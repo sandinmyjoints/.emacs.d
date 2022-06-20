@@ -814,9 +814,9 @@ react-redux
 * TODO how to handle flycheck messages
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
-* TODO indium
+* TODO indium                                                       :debug:node:
 ** indium server configurations
-    - working for sd-playground
+*** working for sd-playground
   #+begin_src json
 {
   "configurations": [
@@ -834,7 +834,7 @@ react-redux
   ]
 }
   #+end_src
-  - working for neodarwin
+*** working for neodarwin server
   #+begin_src json
 {
   "configurations": [
@@ -859,14 +859,11 @@ react-redux
 }
 
   #+end_src
-** howto
+** HOWTO
 *** install
     - note: indium (node server) needs to be on emacs' executable path
 *** node
 *** node running in docker container
-*** X coffeescript in node in docker container
-  - inline source map support:
-    https://github.com/jashkenas/coffeescript/pull/4111, https://github.com/jashkenas/coffeescript/pull/4223
 *** Chrome webpack
     - chrome: you can't have it running already, unless you have it starting
       with . Workarounds:
@@ -896,6 +893,9 @@ Note: Currently, the Chrome debugging protocol supports only one client per page
 #!/usr/bin/env bash
 /Applications/Google\ Chrome\ Beta.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 "${BASH_ARGV[0]}" &
     #+end_src
+*** X coffeescript in node in docker container
+  - inline source map support:
+    https://github.com/jashkenas/coffeescript/pull/4111, https://github.com/jashkenas/coffeescript/pull/4223
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -2382,6 +2382,8 @@ dired, writable dired
    - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
      Since I don't use ido anymore, generally save to just delete this file.
    - also check ~/.recentf
+** vterm tramp
+   - for some reason, vterm buffers set their default-directory to a tramp connection
 * autopairing/smartparens/paredit/etc
   - [ ] fix autopairing/smartparens/paredit
     - quotes in rjsx, js2-modes
@@ -2617,3 +2619,5 @@ js2-parse-function-params?
 
 * tree-sitter
   - apple silicon: https://github.com/emacs-tree-sitter/elisp-tree-sitter/issues/88#issuecomment-991636497
+** restclient (wrong-type-argument unicode-string-p "HTTP/1.1 200 OK\nServer: nginx/1.19.1\nDate: Tue, 26...")
+   - unicode-string-p is part of emacs module code, tree-sitter is a module
