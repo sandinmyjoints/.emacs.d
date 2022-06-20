@@ -564,6 +564,7 @@ OK on large screens."
 
   ;; seems to require all-the-icons
   (doom-themes-treemacs-config)
+  (advice-remove #'treemacs-select-window #'doom-themes-hide-fringes-maybe) ;; fix for an error I'm seeing
 
   ;; Corrects (and improves) org-mode's native fontification.
   ;; (doom-themes-org-config)
@@ -598,20 +599,19 @@ OK on large screens."
 (use-package modus-themes
   :init
   ;; light
-  (setq modus-themes-mode-line '3d
+  (setq modus-themes-mode-line '(3d)
         modus-themes-fringes nil
         modus-themes-diffs 'desaturated
-        modus-themes-prompts 'subtle
-        modus-themes-links 'neutral-underline
-        modus-themes-variable-pitch-headings nil
-        modus-themes-region 'bg-only-no-extend)
+        ;; modus-themes-prompts 'subtle
+        ;; modus-themes-links 'neutral-underline
+        ;; modus-themes-variable-pitch-headings nil
+        modus-themes-region '(bg-only-no-extend))
   :config
   (modus-themes-load-themes)
   ;; dark
   (setq wjb/dark t)
   (modus-themes-load-vivendi)
   ;; TODO: bind modus-themes-toggle, with advice
-
   )
 
 ;; TODO: replace with modus-themes-toggle, with advice
