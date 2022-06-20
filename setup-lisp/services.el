@@ -55,7 +55,8 @@
     "sd-spelling"
     "neodarwin"
     "hegemone"
-    "sd-router"))
+    "sd-router"
+    "word-of-the-day"))
 
 (defvar wjb/wjb-projects
   '(
@@ -75,6 +76,7 @@
                       "equivalency"
                       "use-async-queue"
                       "git-mine"
+                      "word-of-the-day"
                       ))
 
 (use-package hydra
@@ -116,7 +118,7 @@
         ("r" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-router") "sd-router")
         ("n" (projectile-switch-project-by-name "/Users/william/scm/sd/neodarwin") "neodarwin")
         ("t" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
-        ("d" (projectile-switch-project-by-name "/Users/william/scm/sd/darwin") "darwin")
+        ("w" (projectile-switch-project-by-name "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
@@ -150,6 +152,7 @@
         ("n" (wjb/switch-to-project-vterm "/Users/william/scm/sd/neodarwin") "neodarwin")
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
         ("t" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
+        ("w" (wjb/switch-to-project-vterm "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
