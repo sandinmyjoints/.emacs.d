@@ -526,6 +526,11 @@
   recording begins."
   (ad-kmacro-restore-modebar))
 
+
+;; Emacs 28
+(setq help-enable-symbol-autoload t
+      describe-bindings-outline t)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
