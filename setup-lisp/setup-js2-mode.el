@@ -102,6 +102,12 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defalias 'js2r-debug-this #'wjb/js2r-debug-this)
   )
 
+(after-load 'typescript-mode
+  (define-key typescript-mode-map (kbd "H-c") 'tide-refactor)
+  (define-key typescript-mode-map "\C-c@" 'tide-jsdoc-template)
+
+  )
+
 (after-load 'js2-mode
   (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
   (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
@@ -144,6 +150,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
+    ;; (define-key js2-mode-map "\C-c@" 'tide-jsdoc-template)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
 
     ;; this doesn't seem to work:
@@ -319,13 +326,13 @@ If buffer is not visiting a file, do nothing."
 ;; Prettier.
 ;;
 ;; TODO: This can probably be updated to work with
-;; add-node-modules-to-path.
+;; add-node-modules-path.
 ;; or even better would be: $ "$(npm bin)/prettier"
 (defun my/use-prettier-if-in-node-modules ()
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
 project."
-  (when (derived-mode-p 'js-mode)
+  (when (or (derived-mode-p 'js-mode) (derived-mode-p 'typescript-mode))
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
                   "node_modules"))
@@ -349,6 +356,7 @@ project."
   (make-variable-buffer-local 'prettier-js-command)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
+  (add-hook 'typescript-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
   (setq prettier-js-args
         '("--single-quote"
@@ -365,7 +373,6 @@ project."
   :after (js2-mode company)
   :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
   :config
-  (setq tide-tsserver-start-method 'manual)
   (tide-setup)
   (setq tide-tsserver-start-method 'manual
         tide-disable-suggestions t ;; trying this out
@@ -413,7 +420,6 @@ project."
       (puthash (tide-project-name) process tide-servers)
       (message "(%s) tsserver server started successfully." (tide-project-name))
       (tide-each-buffer (tide-project-name) #'tide-configure-buffer)))
-
   )
 
 (defun wjb/ts-mode-hook ()
@@ -440,7 +446,7 @@ project."
 ;; enabled)
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
-(flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
+(flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append) ;; javascript-eslint must be configured to lint TS
 (flycheck-add-next-checker 'typescript-tide 'typescript-tslint 'append)
 
 (defun wjb/company-transformer (candidates)
