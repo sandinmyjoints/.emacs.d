@@ -260,7 +260,7 @@ Also converts full stops to commas."
 
 (define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
 (define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
-(define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+;; (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
 ;; want to prefer yas-snippet-expand, then fall back to company-complete, then indent-for-tab-command
 ;; this is what's in yasnippet itself: yas-maybe-expand is a conditional variable?!
 ;; (define-key yas-minor-mode-map (kbd "<tab>") yas-maybe-expand)
@@ -268,35 +268,8 @@ Also converts full stops to commas."
 
 (define-key wjb-map (kbd "/") #'hippie-expand)
 (define-key wjb-map (kbd "<tab>") #'company-complete)
-(define-key wjb-map (kbd "0") #'wjb/switch-to-clock)
-
-
-;; Projectile
-;;
-;; #+BEGIN_SRC
-;; C-c p C  = Configure project = ?
-;; C-c p c  = Compile project = build artifacts = npm run dev:build
-;; C-c p P  = Test Project = run tests = npm run test --colors --watch
-;; C-c p u  = Run project = start server = npm start
-;; C-c p t  = projectile-toggle-between-implementation-and-test ** set up and figure out how to use these!
-;; C-c p T  = projectile-find-test-file
-;; C-c p f  = projectile-find-file
-;; C-c p g  = projectile-find-file-dwim
-;; ?        = projectile-repeat-last-command
-;;
-;; C-c n v  = package.json
-;; #+END_SRC
-
-(define-key wjb-map (kbd "t") #'projectile-test-project)
-;; - projectile-configure-project
-;; - projectile-run-project
-;; what does compile typically do, vs run?
-(define-key wjb-map (kbd "c") #'projectile-compile-project)
-;; run = start
-(define-key wjb-map (kbd "r") #'projectile-run-project)
-
+;; (define-key wjb-map (kbd "0") #'wjb/switch-to-clock)
 (define-key wjb-map (kbd "W") #'widen)
-
 (define-key wjb-map (kbd "e n") 'compilation-next-error)
 (define-key wjb-map (kbd "e p") 'compilation-previous-error)
 
@@ -322,6 +295,31 @@ Also converts full stops to commas."
 
 (define-key wjb-map (kbd "u") #'wjb/find-use-package)
 (define-key wjb-map (kbd "m") #'minions-minor-modes-menu)
+
+
+;; Projectile
+;;
+;; #+BEGIN_SRC
+;; C-c p C  = Configure project = ?
+;; C-c p c  = Compile project = build artifacts = npm run dev:build
+;; C-c p P  = Test Project = run tests = npm run test --colors --watch
+;; C-c p u  = Run project = start server = npm start
+;; C-c p t  = projectile-toggle-between-implementation-and-test ** set up and figure out how to use these!
+;; C-c p T  = projectile-find-test-file
+;; C-c p f  = projectile-find-file
+;; C-c p g  = projectile-find-file-dwim
+;; ?        = projectile-repeat-last-command
+;;
+;; C-c n v  = package.json
+;; #+END_SRC
+
+(define-key wjb-map (kbd "t") #'projectile-test-project)
+;; - projectile-configure-project
+;; - projectile-run-project
+;; what does compile typically do, vs run?
+(define-key wjb-map (kbd "c") #'projectile-compile-project)
+;; run = start
+(define-key wjb-map (kbd "r") #'projectile-run-project)
 
 
 ;; profiler
