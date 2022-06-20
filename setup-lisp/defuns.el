@@ -321,7 +321,7 @@
 
 (defun shell-command-on-buffer (command)
   (interactive "sShell command on buffer: ")
-  (shell-command-on-region (point-min) (point-max) command nil))
+  (shell-command-on-region (point-min) (point-max) command nil t))
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
