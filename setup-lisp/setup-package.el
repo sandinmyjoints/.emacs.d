@@ -65,7 +65,7 @@
 
   (setq package-archives '())
 
-  ;; (add-to-list 'package-archives gnu) ;; modus themes are on gnu
+  (add-to-list 'package-archives gnu) ;; modus themes are on gnu
   ;; (add-to-list 'package-archives org)
   ;; (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
@@ -127,6 +127,8 @@
      ;; (cons 'ein melpa)
 
      (cons 'magit melpa-stable)
+     (cons 'forge melpa-stable)
+     (cons 'emacsql-sqlite-module melpa-stable)
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
      (cons 'browse-at-remote melpa)
@@ -210,7 +212,7 @@
      (cons 'restclient melpa)
 
      (cons 'flycheck melpa)
-     (cons 'flycheck-status-emoji melpa)
+     ;; (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck-package melpa)
      (cons 'flycheck-inline melpa)
      ;; (cons 'flycheck-pos-tip melpa) ;; using own fork.
