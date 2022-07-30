@@ -283,9 +283,14 @@ Also converts full stops to commas."
 ;; (define-key wjb-map (kbd "w") (wjb/command-to-switch-to-buffer "sd-web.org"))
 ;; (define-key wjb-map (kbd "s") (wjb/command-to-switch-to-buffer "sd-standup.org"))
 
+(defun wjb/switch-to-web () (interactive) (find-file "~/notes/sd-web.org"))
+(define-key wjb-map (kbd "w") #'wjb/switch-to-web)
+
 (defun wjb/switch-to-standup () (interactive) (find-file "~/notes/sd-standup.org"))
-(define-key wjb-map (kbd "w") (lambda () (interactive) (find-file "~/notes/sd-web.org")))
 (define-key wjb-map (kbd "s") #'wjb/switch-to-standup)
+
+(defun wjb/switch-to-family () (interactive) (find-file "~/Dropbox/family/family.org"))
+(define-key wjb-map (kbd "f") #'wjb/switch-to-family)
 
 (defun wjb/find-use-package (package)
   (interactive "MPackage: ")
