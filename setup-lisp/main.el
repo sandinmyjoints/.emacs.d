@@ -2726,6 +2726,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; web-mode
 
 (use-package web-mode
+  :load-path "elisp/web-mode"
   :mode "\\.html?\\'"
   "\\.hbs\\'"
   "\\.ejs\\'"
