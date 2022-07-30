@@ -412,9 +412,6 @@
   :config
   (require 'vlf-setup))
 
-(when (require 'so-long nil :noerror)
-  (so-long-enable))
-
 
 ;; flycheck
 
