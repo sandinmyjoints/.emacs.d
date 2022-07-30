@@ -2785,34 +2785,7 @@ If PROJECT is not specified the command acts on the current project."
   (setq rustic-format-on-save t)
   )
 
-
-;; js
-
-(use-package indium
-  :disabled
-  :commands (indium-interaction-mode indium-connect)
-  ;; :init
-  ;; because indium-interaction-mode is in some dir-locals files so it will be
-  ;; activated when those files load as part of the saved desktop.
-  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
-  :config
-  (add-hook 'js-mode-hook #'indium-interaction-mode)
-  (add-hook 'typescript-mode-hook #'indium-interaction-mode) ;; experimental
-
-  (setq indium-chrome-use-temporary-profile nil
-        indium-client-debug nil ;; t
-        ;; indium-chrome-executable (indium-chrome--default-executable)
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
-  )
-
-(use-package npm-mode
-  :commands (npm npm-mode)
-  :load-path "elisp/npm-mode"
-  :diminish
-  ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
-  ;; :config
-  ;; (npm-global-mode)
-  )
+;; json
 
 (use-package json-reformat
   :disabled)
@@ -2820,6 +2793,9 @@ If PROJECT is not specified the command acts on the current project."
 ;; jsons-print-path
 (use-package json-snatcher
   :disabled)
+
+
+;; js
 
 ;; TODO: this seems not be needed anymore thanks to
 ;; nvm-use-for-buffer being in js2-mode-hook, and nvm-use now updates exec-path. See https://github.com/rejeep/nvm.el/issues/16
@@ -2852,6 +2828,33 @@ If PROJECT is not specified the command acts on the current project."
 
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 (eval-after-load 'typescript-mode '(require 'setup-js2-mode))
+
+(use-package indium
+  :disabled
+  :commands (indium-interaction-mode indium-connect)
+  ;; :init
+  ;; because indium-interaction-mode is in some dir-locals files so it will be
+  ;; activated when those files load as part of the saved desktop.
+  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
+  :config
+  (add-hook 'js-mode-hook #'indium-interaction-mode)
+  (add-hook 'typescript-mode-hook #'indium-interaction-mode) ;; experimental
+
+  (setq indium-chrome-use-temporary-profile nil
+        indium-client-debug nil ;; t
+        ;; indium-chrome-executable (indium-chrome--default-executable)
+        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
+  )
+
+(use-package npm-mode
+  :disabled
+  :commands (npm npm-mode)
+  :load-path "elisp/npm-mode"
+  :diminish
+  ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
+  ;; :config
+  ;; (npm-global-mode)
+  )
 
 (use-package js-comint
   :disabled
