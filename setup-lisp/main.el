@@ -1741,31 +1741,6 @@ If PROJECT is not specified the command acts on the current project."
   (when is-mac
     (setq helm-locate-fuzzy-match nil
           helm-locate-command "mdfind -name %s %s"))
-
-  ;; locate-process  12425   run     *helm mini*               /dev/ttys030 Main         /usr/local/bin/bash -c mdfind -name  auth rest
-
-  ;; helm with mdfind as source is slow. maybe b/c it starts a new
-  ;; mdfind-process on each key stroke, then kills them as new keystrokes
-  ;; happen. so debounce it? it seems to be being killed with -9, is that
-  ;; desirable? presumably calling it triggers a search in a metadata service,
-  ;; so the ideal is to cancel the search.
-  ;;
-  ;; there is no helm debounce capability, and helm development is stopped.
-
-  ;; overriding this from helm-x-files.el to add the -name argument and
-  ;; process-connection-type.
-  ;;
-  ;; Spotlight (MacOS X desktop search)
-  (defclass helm-mac-spotlight-source (helm-source-async helm-type-file)
-    ((candidates-process :initform
-                         (lambda ()
-                           (let ((process-connection-type nil))
-                             (start-process
-                              "mdfind-process" "*scratch*" "mdfind" "-name" helm-pattern))))
-     (requires-pattern :initform 3)))
-  (setq helm-source-mac-spotlight
-        (helm-make-source "mdfind" 'helm-mac-spotlight-source))
-
   )
 
 (use-package helm-xref
