@@ -2093,7 +2093,8 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-space-between-root-nodes      nil
         treemacs-tag-follow-cleanup            t
         treemacs-tag-follow-delay              0.5
-        treemacs-width                         48)
+        treemacs-width                         48
+        treemacs-select-when-already-in-treemacs 'stay)
 
   ;; The default width and height of the icons is 22 pixels. If you are
   ;; using a Hi-DPI display, uncomment this to double the icon size.
