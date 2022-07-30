@@ -2826,7 +2826,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; for file.
 (use-package nvm
   :config
-  (do-nvm-use "v14.17.5")) ;; default node
+  (do-nvm-use "v16.13.0")) ;; default node
 
 (use-package add-node-modules-path)
 
