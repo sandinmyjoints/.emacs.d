@@ -158,7 +158,7 @@
 (defun wjb/related-files-corresponding-path-playground (path)
   (if (string-match (rx (group (or "src" "test"))
                         (group "/" (+? anything))
-                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".coffee"))) path)
+                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".ts"))) path)
       (let* ((top-dir (match-string 1 path))
              (mid-path (match-string 2 path))
              (filename (match-string 3 path))
