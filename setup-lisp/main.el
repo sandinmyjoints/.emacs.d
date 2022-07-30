@@ -2839,6 +2839,7 @@ If PROJECT is not specified the command acts on the current project."
 (defvar preferred-javascript-indent-level 2)
 
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
+(eval-after-load 'typescript-mode '(require 'setup-js2-mode))
 
 (use-package js-comint
   :disabled

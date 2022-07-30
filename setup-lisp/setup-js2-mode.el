@@ -370,10 +370,9 @@ project."
          ("M-," . smart-jump-back)
          ("C-?" . tide-documentation-at-point)
          ("M-?" . tide-references))
-  :after (js2-mode company)
-  :hook ((js2-mode . tide-setup) (typescript-mode . tide-setup))
+  :hook ((js2-mode . tide-setup)
+         (typescript-mode . tide-setup))
   :config
-  (tide-setup)
   (setq tide-tsserver-start-method 'manual
         tide-disable-suggestions t ;; trying this out
         tide-native-json-parsing t
@@ -382,14 +381,15 @@ project."
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
         tide-project-cleanup-delay (* 20 60)
+        tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096")
         tide-server-max-response-length (* 10 256 1024))
+  ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+
   ;; tide places company-tide first :(
   (pop company-backends)
 
-  ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-  (setq tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096"))
-
-  ;; monkey patch tide-start-server to generate a new buffer name that includes the project name.
+  ;; monkey patch tide-start-server to generate a new buffer name that includes
+  ;; the project name.
   (defun tide-start-server ()
     (when (tide-current-server)
       (error "Server already exist"))
@@ -443,7 +443,7 @@ project."
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append) ;; javascript-eslint must be configured to lint TS
-(flycheck-add-next-checker 'typescript-tide 'typescript-tslint 'append)
+;; (flycheck-add-next-checker 'typescript-tide 'typescript-tslint 'append)
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))
