@@ -2792,6 +2792,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; js
 
 (use-package indium
+  :disabled
   :commands (indium-interaction-mode indium-connect)
   ;; :init
   ;; because indium-interaction-mode is in some dir-locals files so it will be
@@ -2799,6 +2800,7 @@ If PROJECT is not specified the command acts on the current project."
   ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
   :config
   (add-hook 'js-mode-hook #'indium-interaction-mode)
+  (add-hook 'typescript-mode-hook #'indium-interaction-mode) ;; experimental
 
   (setq indium-chrome-use-temporary-profile nil
         indium-client-debug nil ;; t
