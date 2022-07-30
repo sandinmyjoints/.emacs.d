@@ -179,10 +179,8 @@
 (setq line-number-mode t
       column-number-mode t)
 
-;; Lines should be 80 characters wide, not 72. However, with the font size I'm
-;; using, on my laptop screen, there are 78 columns. And this builds in a little
-;; wiggle room.
-(setq-default fill-column 78)
+;; Lines should be 80 characters wide, not 72.
+(setq-default fill-column 80)
 
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)
@@ -193,9 +191,10 @@
 ;; Set up 2-space tabs.
 ;; See: http://stackoverflow.com/a/1819405/599258
 (setq-default tab-width 2)
-;;(setq indent-line-function 'insert-tab)
+
+(setq-default indent-line-function 'insert-tab)
 ;; TODO: check if this is what I really want in all modes:
-(setq indent-line-function 'indent-relative-maybe)
+;; (setq-default indent-line-function 'indent-relative-maybe)
 
 ;; Show empty lines after buffer end?
 (setq-default indicate-empty-lines nil
