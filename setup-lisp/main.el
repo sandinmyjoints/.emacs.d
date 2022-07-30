@@ -3790,6 +3790,7 @@ questions.  Else use completion to select the tab to switch to."
   (require 'appearance)
   ;; loads and starts treemacs, runs treemacs hooks
   (treemacs-select-window)
+  (global-display-fill-column-indicator-mode)
   ;; load theme and customize appearance
   (progn
     (change-theme 'modus-vivendi t)
