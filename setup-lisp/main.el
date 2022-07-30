@@ -3427,15 +3427,15 @@ root."
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :hook (js-mode . lsp-deferred)
+  :hook ((js-mode . lsp-deferred)
+         (typescript-mode . lsp-deferred))
   :commands lsp
   :config
   (setq lsp-headerline-breadcrumb-enable nil))
 
 (use-package lsp-ui
-  :disabled
   :commands lsp-ui-mode
-  :config
+  :after (lsp-mode)
   )
 
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
@@ -3444,13 +3444,19 @@ root."
 (use-package dap-mode
   :disabled
   :config
-  (dap-auto-configure-mode)
-  ;; (setq dap-print-io t)
-  )
+  ;; (dap-auto-configure-mode)
+  (setq dap-print-io nil)
 
-(use-package dap-mode
-  :disabled
-  :config
+  (dap-ui-mode -1)
+  ;; enables mouse hover support
+  (dap-tooltip-mode -1)
+  ;; use tooltips for mouse hover
+  ;; if it is not enabled `dap-mode' will use the minibuffer.
+  (tooltip-mode -1)
+  ;; displays floating panel with debug buttons
+  ;; requies emacs 26+
+  (dap-ui-controls-mode -1)
+
   (dap-register-debug-template
    "sd-playground"
    (list :type "node"
@@ -3460,6 +3466,9 @@ root."
          :localRoot "/Users/william/scm/sd/sd-playground/"
          :remoteRoot "/usr/src/app"
          :name "sd-playground"))
+
+  (require 'dap-node)
+  (dap-node-setup)
   )
 
 
