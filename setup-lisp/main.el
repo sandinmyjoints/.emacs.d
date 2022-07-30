@@ -2260,8 +2260,10 @@ If PROJECT is not specified the command acts on the current project."
   :mode "docker-compose*\\.yml")
 
 (use-package docker-tramp
-  :disabled
   :defer 5)
+
+(use-package docker-tramp-ext
+  :after docker-tramp)
 
 
 ;; various modes
