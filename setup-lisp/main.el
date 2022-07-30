@@ -2821,11 +2821,23 @@ If PROJECT is not specified the command acts on the current project."
 (use-package json-snatcher
   :disabled)
 
+;; TODO: this seems not be needed anymore thanks to
+;; nvm-use-for-buffer being in js2-mode-hook, and nvm-use now updates exec-path. See https://github.com/rejeep/nvm.el/issues/16
+;; nvm.el even appears to remove node from PATH as needed when switching versions.
+;;
+;; (defun do-nvm-use (version)
+;;   (interactive "sVersion: ")
+;;   (nvm-use version)
+;;   ;; exec-path-from-shell made a new login shell at startup and imported values,
+;;   ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
+;;   ;; update exec-path to the current PATH in the Emacs process.
+;;   (exec-path-from-shell-copy-env "PATH"))
+
 ;; Must come before js2-mode or coffee-mode so they can set proper nvm
 ;; for file.
 (use-package nvm
   :config
-  (do-nvm-use "v16.13.0")) ;; default node
+  (nvm-use "v16.13.0")) ;; default node
 
 (use-package add-node-modules-path)
 

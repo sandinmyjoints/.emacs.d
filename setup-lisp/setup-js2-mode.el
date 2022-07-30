@@ -186,7 +186,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer)
   (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
 
-  ;; HACK
+  ;; HACK to avoid running this in magit buffers
   (defun nvm-use-for-buffer ()
     "Activate Node based on an .nvmrc for the current file.
 If buffer is not visiting a file, do nothing."
@@ -282,6 +282,8 @@ If buffer is not visiting a file, do nothing."
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 (eval-after-load 'js2-minor-mode
   '(add-hook 'js2-minor-mode-hook #'add-node-modules-path))
+(eval-after-load 'typescript-mode
+  '(add-hook 'typescript-mode-hook #'add-node-modules-path))
 
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode

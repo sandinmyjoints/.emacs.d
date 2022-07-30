@@ -893,18 +893,6 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
             "coffee"
             (list "--interactive")))))
 
-;; TODO: this may not really be needed anymore thanks to
-;; nvm-use-for-buffer being in js2-mode-hook.
-;; TODO: Unset a Node. Remove node from PATH. Could use setenv with no
-;; argument.
-(defun do-nvm-use (version)
-  (interactive "sVersion: ")
-  (nvm-use version)
-  ;; exec-path-from-shell made a new login shell at startup and imported values,
-  ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
-  ;; update exec-path to the current PATH in the Emacs process.
-  (exec-path-from-shell-copy-env "PATH"))
-
 ;; Format markdown with prettier (>1.8.0)
 (fset 'format-markdown
    [?\C-x ?h ?\C-u ?\M-| ?~ ?/ ?. ?y ?r ?n backspace backspace ?a ?r ?n ?/ ?b ?i ?n ?/ ?p ?r ?e ?t ?t ?i ?e ?r ?  ?- ?- ?p ?a ?r ?s ?e ?r ?  ?m ?a ?r ?k ?d ?o ?w ?n return ?\C-x ?\C-s])
