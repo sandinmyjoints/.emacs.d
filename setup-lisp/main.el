@@ -2843,9 +2843,6 @@ If PROJECT is not specified the command acts on the current project."
 
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 
-;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-(setq tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096"))
-
 (use-package js-comint
   :disabled
   :init

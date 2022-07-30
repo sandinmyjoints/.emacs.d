@@ -385,13 +385,9 @@ project."
         tide-server-max-response-length (* 10 256 1024))
   ;; tide places company-tide first :(
   (pop company-backends)
+
   ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-
-  ;; what might actually be helpful:
-  ;; ;; (encoded-command (json-encode command)) ;; WJB
-  ;; (encoded-command (json-serialize command))
-  ;; and converting json-read-object in tide-decode-response
-
+  (setq tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096"))
 
   ;; monkey patch tide-start-server to generate a new buffer name that includes the project name.
   (defun tide-start-server ()
