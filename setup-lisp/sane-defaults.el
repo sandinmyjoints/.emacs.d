@@ -528,7 +528,11 @@
 
 ;; Emacs 28
 (setq help-enable-symbol-autoload t
-      describe-bindings-outline t)
+      describe-bindings-outline t
+      save-interprogram-paste-before-kill t
+      isearch-repeat-on-direction-change t
+      next-error-message-highlight t
+      eldoc-echo-area-display-truncation-message nil)
 
 (provide 'sane-defaults)
 
