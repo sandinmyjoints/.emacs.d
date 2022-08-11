@@ -525,6 +525,9 @@
   recording begins."
   (ad-kmacro-restore-modebar))
 
+(setq max-specpdl-size 32767)
+(setq max-lisp-eval-depth 16000)
+
 
 ;; Emacs 28
 (setq help-enable-symbol-autoload t
@@ -532,6 +535,7 @@
       save-interprogram-paste-before-kill t
       isearch-repeat-on-direction-change t
       next-error-message-highlight t
+      xref-show-definitions-function #'xref-show-definitions-completing-read
       eldoc-echo-area-display-truncation-message nil)
 
 (provide 'sane-defaults)
