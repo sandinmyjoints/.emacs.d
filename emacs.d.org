@@ -814,25 +814,34 @@ react-redux
 * TODO how to handle flycheck messages
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
+* TODO indium alternative: use chrome debugger to connect to node
 * TODO indium                                                       :debug:node:
 ** indium server configurations
 *** working for sd-playground
   #+begin_src json
-{
-  "configurations": [
-    {
-      "name": "playground-tests",
-      "type": "node",
-      "port": "9329"
-    },
-    {
-      "name": "playground-docker",
-      "type": "node",
-      "remoteRoot": "/usr/src/app",
-      "port": "9329"
-    }
-  ]
-}
+  {
+    "configurations": [
+      {
+        "name": "Debug",
+        "type": "node",
+        "port": "9329",
+        "remoteRoot": "/usr/src/app/src",
+        "localRoot": "${workspaceRoot}/src"
+      },
+      {
+        "name": "playground-tests",
+        "type": "node",
+        "port": "9329"
+      },
+      {
+        "name": "playground-docker",
+        "type": "node",
+        "port": "9329",
+        "remoteRoot": "/usr/src/app",
+        "localRoot": "${workspaceRoot}"
+      }
+    ]
+  }
   #+end_src
 *** working for neodarwin server
   #+begin_src json
@@ -857,13 +866,43 @@ react-redux
     }
   ]
 }
-
-  #+end_src
+#+end_src
 ** HOWTO
 *** install
     - note: indium (node server) needs to be on emacs' executable path
 *** node
 *** node running in docker container
+    - see playground branch chore-fix-playground-debugging-wjb
+    - playground setup works, but there are problems...
+    - when node restarts, indium loses the connection. need to re-connect.
+      wait until server is up. can take a few seconds for indium to connect --
+      watch the indium debug log to see messages.
+      - look out for "Starting inspector on 0.0.0.0:9229 failed: address
+        already in use" in logs -- seems like if server restarts before
+        debugger quits, it can get in a bad state
+    - note that debugger; statements seem to reliably break, whereas setting a
+      breakpoint is very unreliable
+    - in both cases, if the breakpoint does get hit, the sourcemap seems not
+      to be good in playground
+    - when hitting a breakpoint, it can take several seconds for indium to
+      start up for some reason. why?
+    - don't use browser/neodarwin to trigger breakpoints.
+      - neodarwin has short timeout, doesn't give time to do much
+      - browser repeats requests.
+    - instead, set up a request using rest-client, copy to curl, trigger from
+      shell.
+    - note that you can't step into async callbacks or promise results
+      (then/catch), so put another debugger statement inside of them
+    - sourcemaps are messed up, maybe due to ts-node?
+      - I have tried node --enable-source-maps
+      - I have tried in tsconfig:
+    "inlineSources": true,
+    "inlineSourceMap": true,
+      - ts-node says it always generates sourcemaps anyway
+      - Joey's Debug config seems to work better, but prompts to download always
+      - [ ] try breakpoints with joey's Debug config
+      - [ ] try (debug) emacs lisp breakpoint to figure out what it is looking
+        for that it does not find that causes it to want to download the file instead
 *** Chrome webpack
     - chrome: you can't have it running already, unless you have it starting
       with . Workarounds:
@@ -896,6 +935,23 @@ Note: Currently, the Chrome debugging protocol supports only one client per page
 *** X coffeescript in node in docker container
   - inline source map support:
     https://github.com/jashkenas/coffeescript/pull/4111, https://github.com/jashkenas/coffeescript/pull/4223
+** notes about my changes for debugging
+   - mv /usr/local/Cellar to Cellar-old trying to get it off PATH
+     - ideally any symlinks to Cellar would get rm'd
+   - brew unlink node to unlink /opt/homebrew/bin/node
+   - also yarn global bin in path is messed up
+
+example sourceMapURL =
+*json-process-client-process*
+
+ts-node
+nodemon
+docker
+?
+
+* TODO dap-mode
+** dap with typescript
+   - see https://github.com/emacs-lsp/dap-mode/issues/225
 * TODO refactor setup-js2-mode.el, move into use-package
 * TODO Javascript setup
   - https://www.reddit.com/r/emacs/comments/6ownl0/emacs_as_javascript_ide_in_2017_which_tools_do/
@@ -2362,6 +2418,7 @@ dired, writable dired
    - https://www.reddit.com/r/emacs/comments/gmh8bs/beta_testers_ann_lets_make_emacs_better/
 * switch to straight.el                                            :wishlist:
   - https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+  - good guide to use-package with straight: https://news.ycombinator.com/item?id=31833101
 * modus themes
   - in light theme, echo area with dark background shows whenever counsel or
     other thing is open
