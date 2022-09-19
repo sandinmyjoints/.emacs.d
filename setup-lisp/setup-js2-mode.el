@@ -676,6 +676,34 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
 ;;     (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
 ;;     ad-return-value))
 
+
+;; Below based on https://github.com/js-emacs/js2-refactor.el/pull/118
+(defun js2r--convert-string-delimiter (to-delim)
+  "Convert the delimiters of string at point to a specified delimiter TO-DELIM."
+  (let ((node (js2-node-at-point)))
+    (when (js2-string-node-p node)
+      (let* ((start (js2-node-abs-pos node))
+             (end (+ start (js2-node-len node)))
+             (prev-delim (char-after start)))
+        (when (memq prev-delim '(?' ?\" ?`))
+          (save-excursion
+            (goto-char end) (delete-char -1) (insert to-delim)
+            (goto-char start) (delete-char 1) (insert to-delim)
+            (perform-replace to-delim (concat "\\" to-delim) nil nil nil nil nil (1+ start) (1- end))
+            (perform-replace (concat "\\" (char-to-string prev-delim)) (char-to-string prev-delim) nil nil nil nil nil (1+ start) (1- end))))))))
+
+(defun js2r-cycle-string-literal-type ()
+  "Cycle: single -> double -> template -> single, etc."
+  (interactive)
+  (let ((node (js2-node-at-point)))
+    (when (js2-string-node-p node)
+      (let* ((start (js2-node-abs-pos node))
+             (prev-delim (char-after start)))
+        (pcase prev-delim
+          (?' (js2r--convert-string-delimiter "\""))
+          (?\" (js2r--convert-string-delimiter "`"))
+          (?` (js2r--convert-string-delimiter "'")))))))
+
 (provide 'setup-js2-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
