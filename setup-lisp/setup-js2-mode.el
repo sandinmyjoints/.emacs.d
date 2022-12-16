@@ -234,6 +234,7 @@ If buffer is not visiting a file, do nothing."
 ;;
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)) ;; rjsx can parse spread operator
 (add-to-list 'auto-mode-alist '("\\.min\\.js\\'" . fundamental-mode))
@@ -360,7 +361,7 @@ project."
   (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'typescript-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
-  (setq prettier-js-args
+  (setq-local prettier-js-args
         '("--single-quote"
           "--trailing-comma"
           "es5")))
@@ -693,16 +694,16 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
             (perform-replace (concat "\\" (char-to-string prev-delim)) (char-to-string prev-delim) nil nil nil nil nil (1+ start) (1- end))))))))
 
 (defun js2r-cycle-string-literal-type ()
-  "Cycle: single -> double -> template -> single, etc."
+  "Cycle: single -> template -> double -> single, etc."
   (interactive)
   (let ((node (js2-node-at-point)))
     (when (js2-string-node-p node)
       (let* ((start (js2-node-abs-pos node))
              (prev-delim (char-after start)))
         (pcase prev-delim
-          (?' (js2r--convert-string-delimiter "\""))
-          (?\" (js2r--convert-string-delimiter "`"))
-          (?` (js2r--convert-string-delimiter "'")))))))
+          (?' (js2r--convert-string-delimiter "`"))
+          (?\" (js2r--convert-string-delimiter "'"))
+          (?` (js2r--convert-string-delimiter "\"")))))))
 
 (provide 'setup-js2-mode)
 
