@@ -333,4 +333,6 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-8") 'profiler-start)
 (global-set-key (kbd "C-9") 'profiler-report)
 
+(global-set-key (kbd "C-x 8 <RET>") 'counsel-unicode-char)
+
 (provide 'key-bindings)
