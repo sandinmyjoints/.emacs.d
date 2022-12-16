@@ -66,7 +66,7 @@
                               (height . 40)
                               (top . 40)
                               (left . 200)
-                              (line-spacing . 2)
+                              (line-spacing . 0.12)
                               (cursor-type . box)
                               (cursor-in-non-selected-windows . hollow)
                               ;; Menu and tool bar will be disabled but don't
