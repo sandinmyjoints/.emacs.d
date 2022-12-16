@@ -2435,12 +2435,17 @@ dired, writable dired
     - multi: C-x C-f /ssh:bird@bastion|ssh:you@remotehost:/path
     - C-x C-f /docker:user@container:/path/to/file
     - C-x C-f /ssh:wbert@wjb.sh:/etc
+  - counsel-tramp
+** docker shell
+  - shell in a docker container: use counsel-tramp to open a file in the
+    container, then while visiting it, run M-x shell
 ** hanging due to tramp
    - check ido-save-directory-list-file (which is ~/.ido.last) for tramp files.
      Since I don't use ido anymore, generally save to just delete this file.
    - also check ~/.recentf
 ** vterm tramp
    - for some reason, vterm buffers set their default-directory to a tramp connection
+   - something due to prompt having user@host I think
 * autopairing/smartparens/paredit/etc
   - [ ] fix autopairing/smartparens/paredit
     - quotes in rjsx, js2-modes
@@ -2678,3 +2683,6 @@ js2-parse-function-params?
   - apple silicon: https://github.com/emacs-tree-sitter/elisp-tree-sitter/issues/88#issuecomment-991636497
 ** restclient (wrong-type-argument unicode-string-p "HTTP/1.1 200 OK\nServer: nginx/1.19.1\nDate: Tue, 26...")
    - unicode-string-p is part of emacs module code, tree-sitter is a module
+   - I think the problem was how I hacked restclient to switch to JSON mode,
+     with global-tree-sitter on, so tree-sitter was trying to run in the
+     restclient response buffer and having problems
