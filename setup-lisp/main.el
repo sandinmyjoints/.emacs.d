@@ -245,6 +245,7 @@
   (setq doom-modeline-continuous-word-count-modes '()
         doom-modeline-gnus nil
         doom-modeline-gnus-timer 0
+        doom-modeline-buffer-file-name-style 'relative-to-project ;; or 'truncate-upto-root
         doom-modeline-buffer-encoding nil))
 
 ;; from http://bzg.fr/emacs-hide-mode-line.html
