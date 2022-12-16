@@ -527,7 +527,13 @@
 
 (setq max-specpdl-size 32767)
 (setq max-lisp-eval-depth 16000)
+(setq ffap-machine-p-known 'accept)
 
+(defun disable-y-or-n-p (orig-fun &rest args)
+  (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
+    (apply orig-fun args)))
+
+(advice-add 'ediff-quit :around #'disable-y-or-n-p)
 
 ;; Emacs 28
 (setq help-enable-symbol-autoload t
