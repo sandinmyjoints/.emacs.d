@@ -3009,7 +3009,8 @@ If PROJECT is not specified the command acts on the current project."
 ;; - in *grep* buffers: nothing jest. g re-runs grep.
 (use-package jest
   :after (js2-mode exec-path-from-shell)
-  :hook (js2-mode . jest-minor-mode)
+  :hook ((js2-mode . jest-minor-mode)
+         (typescript-mode . jest-minor-mode))
   :load-path "elisp/emacs-jest"
   :bind (
          :map jest-mode-map
