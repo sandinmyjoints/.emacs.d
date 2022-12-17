@@ -102,24 +102,11 @@
 ;; large, light: medium
 ;; large, dark: medium
 
-(defun wjb/font-fira ()
-  "Works well with dark and light themes, good on both big and
-small screens."
-  (interactive)
-  (set-face-font 'default "Fira Code-15")
-  (if (and (wjb/is-small-display) wjb/dark)
-      (set-face-attribute 'default nil :weight 'light)
-    (set-face-attribute 'default nil :weight 'medium))
-
-  (set-face-font 'variable-pitch "Fira Sans")
-  (if (wjb/is-small-display)
-      (set-face-attribute 'variable-pitch nil :weight 'light)
-    (set-face-attribute 'variable-pitch nil :weight 'medium)))
-
 (defun wjb/font-deja ()
   "Has strong Unicode support. Works well with dark and light
 themes."
   (interactive)
+
   (set-face-font 'default "DejaVu Sans Mono-15")
   (set-face-attribute 'default nil :weight 'book)
 
@@ -131,20 +118,37 @@ themes."
     (progn
       (set-face-font 'variable-pitch "DejaVu Sans")
       (set-face-attribute 'variable-pitch nil :width 'normal)
-      (set-face-attribute 'variable-pitch nil :weight 'book)))
-  )
+      (set-face-attribute 'variable-pitch nil :weight 'book))))
+
+(defun wjb/font-fira ()
+  "Works well with dark and light themes, good on both big and
+small screens."
+  (interactive)
+
+  (set-face-font 'default "Fira Code-15")
+  (if (and (wjb/is-small-display) wjb/dark)
+      (set-face-attribute 'default nil :weight 'light)
+    (set-face-attribute 'default nil :weight 'medium))
+
+  (set-face-font 'variable-pitch "Fira Sans")
+  (if (wjb/is-small-display)
+      (set-face-attribute 'variable-pitch nil :weight 'light)
+    (set-face-attribute 'variable-pitch nil :weight 'medium)))
 
 (defun wjb/font-cascadia ()
   "Works well with dark and light themes, best on small screens,
 OK on large screens."
   (interactive)
+
   (set-face-font 'default "Cascadia Code PL-15")
   (if (wjb/is-small-display)
       (set-face-attribute 'default nil :weight 'light)
     (set-face-attribute 'default nil :weight 'normal))
 
   (set-face-font 'variable-pitch "Fira Sans")
-  (set-face-attribute 'variable-pitch nil :weight 'light))
+  (if (wjb/is-small-display)
+      (set-face-attribute 'variable-pitch nil :weight 'light)
+    (set-face-attribute 'variable-pitch nil :weight 'medium)))
 
 (defvar wjb/font #'wjb/font-fira "defun to set fonts.")
 (setq wjb/font #'wjb/font-fira)
@@ -338,7 +342,9 @@ OK on large screens."
   (when (facep 'outline-1) (set-face-attribute 'outline-1 nil :height 1.0 :weight 'normal))
   (when (facep 'treemacs-root-face) (set-face-attribute 'treemacs-root-face nil :height 1.0 :underline nil))
 
-  (setq-default line-spacing 0.1)
+  ;; This may be redundant with setting default-frame-alist in init.el.
+  ;; (setq-default line-spacing 0.12)
+  ;; (setq-default line-spacing nil)
 
   (if wjb/dark
       (progn
