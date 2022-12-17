@@ -3522,7 +3522,7 @@ root."
 ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode
-  :disabled
+  :after (lsp-mode)
   :config
   ;; (dap-auto-configure-mode)
   (setq dap-print-io nil)
@@ -3546,6 +3546,14 @@ root."
          :localRoot "/Users/william/scm/sd/sd-playground/"
          :remoteRoot "/usr/src/app"
          :name "sd-playground"))
+
+  (dap-register-debug-template
+   "indium-ts-sourcemap"
+   (list :type "node"
+         :request "attach"
+         :port 9229
+         :program "__ignored"
+         :name "indium-ts-sourcemap1"))
 
   (require 'dap-node)
   (dap-node-setup)
