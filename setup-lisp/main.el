@@ -444,6 +444,25 @@
       perl-mode
       perl6-mode))
   :config
+  (setq flycheck-global-modes
+    '(js2-mode
+      js2-jsx-mode
+      typescript-mode
+      web-mode
+      rjsx-mode
+      json-mode
+      cc-mode
+      coffee-mode
+      css-mode
+      less-css-mode
+      sql-mode
+      emacs-lisp-mode
+      sh-mode
+      yaml-mode
+      python-mode
+      perl-mode
+      perl6-mode))
+
   ;; Most basic way: flycheck errors in minibuffer (works in consoles).
   ;; (unless (display-graphic-p (selected-frame))
   ;;   (with-eval-after-load 'flycheck
@@ -484,6 +503,8 @@
   (flycheck-add-next-checker 'python-pycompile 'python-flake8)
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
+  (push 'rustic-clippy flycheck-checkers)
+
   ;; configure javascript-tide checker to run after your default javascript checker.
   ;; too many typescript errors, and complains about missing definitions
   ;; files. And can it find anything that eslint can't?
@@ -491,9 +512,38 @@
   ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide)
 
   ;; (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
+  ;; (flycheck-add-mode 'javascript-eslint 'web-mode)
 
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+  ;; override handlebars so the predicate works for word-of-the-day. I have
+  ;; commented out the flycheck definition of handlebars in flychec.el as a
+  ;; temporary hack b/c there doesn't seem to be a way to delete a check once
+  ;; it has been defined
+  (flycheck-define-checker handlebars
+  "A Handlebars syntax checker using the Handlebars compiler.
+
+See URL `http://handlebarsjs.com/'."
+  :command ("handlebars" "-i-")
+  :standard-input t
+  :error-patterns
+  ((error line-start
+          "Error: Parse error on line " line ":" (optional "\r") "\n"
+          (zero-or-more not-newline) "\n" (zero-or-more not-newline) "\n"
+          (message) line-end))
+  :modes (handlebars-mode handlebars-sgml-mode web-mode)
+  :predicate
+  (lambda ()
+    (if (eq major-mode 'web-mode)
+        ;; Check if this is a handlebars file since web-mode does not store the
+        ;; non-canonical engine name
+        (let* ((regexp-alist (bound-and-true-p web-mode-engine-file-regexps))
+               (pattern (cdr (assoc "handlebars" regexp-alist))))
+          (or
+           (string-equal (projectile-project-name) "word-of-the-day")
+           (and pattern (buffer-file-name)
+               (string-match-p pattern (buffer-file-name)))))
+      t)))
 
   (global-flycheck-mode))
 
@@ -555,7 +605,8 @@
   (setq flycheck-posframe-position 'window-top-right-corner
         flycheck-posframe-border-width 1
         ;; flycheck-posframe-border-color
-))
+        )
+  (setq flycheck-posframe-border-use-error-face t))
 
 (use-package flycheck-status-emoji
   :disabled
