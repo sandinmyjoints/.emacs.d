@@ -2608,6 +2608,7 @@ If PROJECT is not specified the command acts on the current project."
   (company-minimum-prefix-length 4)
   (company-show-numbers nil)
   (company-tooltip-align-annotations 't)
+  (company-tooltip-width-grow-only t)
   (company-dabbrev-downcase nil)
 
   :config
@@ -2641,7 +2642,6 @@ If PROJECT is not specified the command acts on the current project."
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
 )
 
-;; trial:
 (use-package company-flx
   :disabled
   :after company
