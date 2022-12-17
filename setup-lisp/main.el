@@ -2891,6 +2891,7 @@ If PROJECT is not specified the command acts on the current project."
   :options '(js2-mode js-mode))
 (defvar preferred-javascript-indent-level 2)
 
+;; TODO ensure these come after flycheck, otherwise checkers may not be set up correctly
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 (eval-after-load 'typescript-mode '(require 'setup-js2-mode))
 
