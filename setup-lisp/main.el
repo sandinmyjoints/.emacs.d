@@ -1675,51 +1675,7 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package helm
   :demand
-  :bind (("C-M-o" . helm-browse-project) ;; Clobbers split-line.
-         ("C-," . helm-imenu)
-         ;; ("C-x C-b" . helm-buffers-list)
-         ("C-x C-b" . helm-mini)
-         ("C-o" . helm-mini)
-         ("C-x C-o" . helm-mini)) ; Clobbers delete-blank-lines.
   :config
-  ;; (require 'helm-config)
-
-  ;; (global-set-key (kbd "M-o") #'helm-browse-project)
-  ;; (global-set-key (kbd "C-o") #'helm-mini)  ;; within helm-mini, helm-mini again jumps to next section -- nice!
-  ;; (global-set-key (kbd "H-o") #'helm-browse-project)
-
-  ;; useful commands, but probably shouldn't be bound globally:
-  ;; (global-set-key (kbd "C-'") 'helm-mark-all)
-  ;; (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
-
-  (require 'helm-dired-recent-dirs)
-  ;; TODO:
-  ;; - would like to add a source of files in the current project, maybe even all files
-  ;; - would like to add dirs as sources, like ~/notes, ~/notes/prof-dev/ Solution: https://stackoverflow.com/a/12708839/599258, also see https://www.reddit.com/r/emacs/comments/6ogkp3/how_to_add_more_source_to_helmfindfiles_or/
-  ;; - helm-for-files, helm-for-files-preferred-list, helm-source-locate
-  (setq helm-mini-default-sources '(helm-source-buffers-list
-                                    helm-source-recentf
-                                    helm-source-bookmarks
-                                    ;; TODO: improve spotlight, see: https://github.com/syl20bnr/spacemacs/issues/3280
-                                    ;; it doesn't order well, when query is myself.org, the result appears very low -- why?
-                                    ;; alfred does this when you prefix search query with space
-                                    helm-source-mac-spotlight ;; process name is mdfind-process. Does result highlighting.
-                                    ;; helm-source-locate ;; process name is locate-process. Does not do result highlighting.
-                                    helm-source-file-cache
-                                    ;; helm-source-files-in-current-dir
-                                    helm-source-dired-recent-dirs
-                                    helm-source-buffer-not-found
-                                    ))
-
-  ;; see https://github.com/emacs-helm/helm-ls-git/issues/68
-  (delete '("/COMMIT_EDITMSG$" . helm-ls-git-commit-mode) auto-mode-alist)
-  (delete '("/git-rebase-todo$" . helm-ls-git-rebase-todo-mode) auto-mode-alist)
-
-  (setq helm-ls-git-default-sources '(helm-source-ls-git-buffers
-                                      helm-source-ls-git
-                                      helm-source-ls-git-status
-                                      helm-ls-git-create-branch-source))
-
   (setq
    ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
    ;; helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
@@ -1742,7 +1698,58 @@ If PROJECT is not specified the command acts on the current project."
                                (magit-process-mode . "Magit proc")
                                (rest-client-mode . "REST")
                                (shell-script-mode . "Shell"))
-   )
+   ))
+(use-package helm-mode :config (helm-mode 1))
+(use-package helm-dired-recent-dirs
+  :after (helm))
+(use-package helm-imenu
+  :after (helm)
+  :bind (("C-," . helm-imenu)))
+(use-package helm-buffers
+  :after (helm)
+  :bind (;; ("C-x C-b" . helm-buffers-list)
+         ("C-x C-b" . helm-mini)
+         ("C-o" . helm-mini)
+         ("C-x C-o" . helm-mini))) ; Clobbers delete-blank-lines.
+(use-package helm-ls-git
+  :after (helm)
+  :config
+  ;; see https://github.com/emacs-helm/helm-ls-git/issues/68
+  (delete '("/COMMIT_EDITMSG$" . helm-ls-git-commit-mode) auto-mode-alist)
+  (delete '("/git-rebase-todo$" . helm-ls-git-rebase-todo-mode) auto-mode-alist)
+
+  (setq helm-ls-git-default-sources '(helm-source-ls-git-buffers
+                                      helm-source-ls-git
+                                      helm-source-ls-git-status
+                                      helm-ls-git-create-branch-source)))
+(use-package helm-files
+  :after (helm helm-buffers helm-ls-git)
+  :bind (("C-M-o" . helm-browse-project)) ;; bClobbers split-line.
+  :config
+  ;; useful commands, but probably shouldn't be bound globally:
+  ;; (global-set-key (kbd "C-'") 'helm-mark-all)
+  ;; (global-set-key (kbd "C-\"") 'helm-ff-run-marked-files-in-dired)
+
+  ;; TODO:
+  ;; - would like to add a source of files in the current project, maybe even all files
+  ;; - would like to add dirs as sources, like ~/notes, ~/notes/prof-dev/ Solution: https://stackoverflow.com/a/12708839/599258, also see https://www.reddit.com/r/emacs/comments/6ogkp3/how_to_add_more_source_to_helmfindfiles_or/
+  ;; - helm-for-files, helm-for-files-preferred-list, helm-source-locate
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                    helm-source-recentf
+                                    helm-source-bookmarks
+                                    ;; TODO: improve spotlight, see: https://github.com/syl20bnr/spacemacs/issues/3280
+                                    ;; it doesn't order well, when query is myself.org, the result appears very low -- why?
+                                    ;; alfred does this when you prefix search query with space
+                                    helm-source-mac-spotlight ;; process name is mdfind-process. Does result highlighting.
+                                    ;; helm-source-locate ;; process name is locate-process. Does not do result highlighting.
+                                    helm-source-file-cache
+                                    ;; helm-source-files-in-current-dir
+                                    helm-source-dired-recent-dirs
+                                    helm-source-buffer-not-found
+                                    ))
+
+
+
   (when is-mac
     (setq helm-locate-fuzzy-match nil
           helm-locate-command "mdfind -name %s %s"))
