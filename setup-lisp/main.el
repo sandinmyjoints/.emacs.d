@@ -2478,16 +2478,18 @@ If PROJECT is not specified the command acts on the current project."
 ;; this probably has a fix: https://github.com/justbur/emacs-which-key/issues/226
 ;; manual activation is probably the way to go: https://github.com/justbur/emacs-which-key#manual-activation
 (use-package which-key
-  :disabled
   :diminish
   :config
+  (setq which-key-popup-type 'side-window
+        which-key-side-window-location 'right)
   (which-key-mode))
 
 (use-package which-key-posframe
-  :disabled
   :after (which-key posframe)
   :config
-  (which-key-posframe-mode))
+  (which-key-posframe-mode)
+  (setq which-key-posframe-parameters '(line-spacing . nil)
+        which-key-posframe-poshandler #'posframe-poshandler-frame-above-center))
 
 (use-package discover
   :disabled
