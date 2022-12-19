@@ -712,6 +712,10 @@ See URL `http://handlebarsjs.com/'."
     '((t (:strike-through t :slant italic :weight light) ))
     "Face for the text part of a checked org-mode checkbox.")
   :config
+  ;; (modify-syntax-entry ?\= "\"" org-mode-syntax-table)
+  (modify-syntax-entry ?< "_" org-mode-syntax-table)
+  (modify-syntax-entry ?> "_" org-mode-syntax-table)
+
   (font-lock-add-keywords
    'org-mode
    ;; from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
