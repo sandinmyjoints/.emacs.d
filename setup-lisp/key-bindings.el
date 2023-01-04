@@ -86,7 +86,8 @@
 (global-set-key (kbd "ESC <up>") 'scroll-down)
 (global-set-key (kbd "ESC <down>") 'scroll-up)
 
-(global-set-key (kbd "M-Z") 'zap-up-to-char)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+(global-set-key (kbd "M-Z") 'zap-to-char)
 
 ;; move lines of text
 (global-set-key (kbd "M-<up>") 'move-text-up)
