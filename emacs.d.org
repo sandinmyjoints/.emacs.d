@@ -800,6 +800,12 @@ react-redux
         "--stdio"))) It supports completions and goto definition, even when
         using imports in a jsx file. Eglot doesn't have all the bells and
         whistles of lsp-ui, which I like. "
+** eglot with flycheck
+   - purcell: https://gist.github.com/purcell/ca33abbea9a98bb0f8a04d790a0cadcd
+     - similar: https://gist.github.com/zw963/b2f62dccd2b799111a208a2d47791334
+   - repo: https://github.com/akash-akya/eglot-flycheck-adaptor/blob/master/eglot-flycheck-adaptor.el
+     - currently using this
+   - thread: https://github.com/joaotavora/eglot/issues/42 and https://github.com/flycheck/flycheck/issues/1592
 ** dap-mode
 ** DONE dumb-jump
    CLOSED: [2018-09-01 Sat 22:17]
@@ -1647,6 +1653,8 @@ fca1464b7749/sd_neodarwin_1                                sd_neodarwin         
 
   - [ ] resizing the pane (maximizing)
 
+* eat - emulate a terminal
+  - https://codeberg.org/akib/emacs-eat
 * grep
 * TODO ripgrep https://github.com/dajva/rg.el
   - works well with unicode
@@ -2686,3 +2694,5 @@ js2-parse-function-params?
    - I think the problem was how I hacked restclient to switch to JSON mode,
      with global-tree-sitter on, so tree-sitter was trying to run in the
      restclient response buffer and having problems
+* canonical way to call process with region
+  - https://old.reddit.com/r/emacs/comments/101s14i/whats_the_canonical_correct_method_of_passing_a/j2rwi5j/
