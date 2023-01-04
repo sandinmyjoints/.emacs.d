@@ -429,6 +429,8 @@
          (cml (camelscore txt)) )
     (if cml (progn (delete-region beg end) (insert cml))) ))
 
+(defalias 'wjb/cycle-case #'wjb/camelscore-word-at-point)
+
 ;; TODO: camelize-all-like-thing-at-point
 
 
