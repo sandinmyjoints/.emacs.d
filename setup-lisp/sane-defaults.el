@@ -295,12 +295,6 @@
                         " "
                         filename-and-process)))))
 
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR.
-
-  \(fn arg char)"
-  'interactive)
-
 ;; Narrow to region is useful.
 (put 'narrow-to-region 'disabled nil)
 
@@ -468,17 +462,12 @@
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 ;; (define-key minibuffer-local-map "\C-g" 'minibuffer-keyboard-quit)
 
-;; from http://rawsyntax.com/blog/learn-emacs-use-defadvice-modify-functions/
-;; make zap-to-char act like zap-up-to-char
-(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
-  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
-  The CHAR is replaced and the point is put before CHAR."
-  (insert char)
-  (forward-char -1))
-
 (global-so-long-mode)
 
 (setq warning-minimum-level :emergency)
+
+;; allow remembering risky variables. from https://emacs.stackexchange.com/a/44604/2163
+(defun risky-local-variable-p (sym &optional _ignored) nil)
 
 ;; conflicts with easy-kill
 ;; (defadvice kill-ring-save (before slick-copy activate compile)
@@ -528,6 +517,7 @@
 (setq max-specpdl-size 32767)
 (setq max-lisp-eval-depth 16000)
 (setq ffap-machine-p-known 'accept)
+(setq completion-styles '(flex))
 
 (defun disable-y-or-n-p (orig-fun &rest args)
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
