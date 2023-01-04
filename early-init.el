@@ -52,6 +52,7 @@
 ;; larger than the system default.
 (setq frame-inhibit-implied-resize t
       package-quickstart t)
+;; (setq package-enable-at-startup nil)
 
 ;; Initial and default settings. Should match these:
 ;; defaults write org.gnu.Emacs Width 120
@@ -63,7 +64,6 @@
                             (height . 40)
                             (top . 40)
                             (left . 200)
-                            (line-spacing . 2)
                             (cursor-type . box)
                             (cursor-in-non-selected-windows . hollow)
                             ;; Menu and tool bar will be disabled but don't
@@ -74,17 +74,20 @@
                             (horizontal-scroll-bars . nil)
                             (vertical-scroll-bars . nil)
                             (font . "Fira Code-15")
-                            (alpha . 90)))
+                            ;; (alpha . 90)
+                            (alpha-background . 85)))
 
-;; Setting this to nil means it will use default-frame-alist.
+;; Setting this to nil means the initial frame will use default-frame-alist.
 (setq initial-frame-alist nil)
 
-;; Make this frame, the initial frame, fullscreen and add some transparency.
-;; TODO(emacs-mac): Disabling since the non-emacs-macport version has to be on another space.
+;; TODO(emacs-mac): Disabling since the non-emacs-macport version has to be on another space to be fullscreen.
 ;; (set-frame-parameter nil 'fullscreen 'fullboth)
-(set-frame-parameter nil 'alpha '(90 . 50))
 
-;; (setq package-enable-at-startup nil)
+;; Transparency.
+;; (active . inactive), ie, (focused . blurred)
+;; (set-frame-parameter nil 'alpha '(100 . 60))
+;; (set-frame-parameter nil 'alpha-background 85)
+;; (modify-frame-parameters nil '((alpha-background . 75)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; early-init.el ends here
