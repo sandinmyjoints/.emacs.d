@@ -587,7 +587,7 @@
   (wjb/switch-to-standup)
   ;; removed save-excursion
   (goto-char (point-min))
-  (insert (format "* %s\n** work\n   - [ ] \n" (format-time-string "%Y-%m-%d")))
+  (insert (format "* %s\n** Work\n   - [ ] \n" (format-time-string "%Y-%m-%d")))
   (forward-line -1)
   (move-end-of-line nil))
   ;; (execute-kbd-macro 'wjb/add-standup-entry))
