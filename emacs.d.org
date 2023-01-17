@@ -2694,5 +2694,7 @@ js2-parse-function-params?
    - I think the problem was how I hacked restclient to switch to JSON mode,
      with global-tree-sitter on, so tree-sitter was trying to run in the
      restclient response buffer and having problems
-* canonical way to call process with region
+* HOWTO canonical way to call process with region
   - https://old.reddit.com/r/emacs/comments/101s14i/whats_the_canonical_correct_method_of_passing_a/j2rwi5j/
+* HOWTO detect if point is in a comment
+  - https://github.com/Alexander-Miller/company-shell/commit/5f959a63a6e66eb0cbdac3168cad523a62cc2ccd#diff-e98797f56740b84814c67b1a843dca33b9f8eec3f12109de12a3c36c63bca5e8R209
