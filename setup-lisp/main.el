@@ -1530,7 +1530,7 @@ Insert .* between each char."
                   ;; :internal-border-color "#000"
                   ;; :left-fringe 4
                   ;; :right-fringe 4
-                  :line-spacing 1.3
+                  :line-spacing 0.05
                   :font "Fira Code-15")))
       (or (plist-get info arg-name) value))))
 
@@ -1559,7 +1559,8 @@ Insert .* between each char."
         ivy-posframe-parameters
         '((left-fringe . 4)
           (right-fringe . 4)
-          (alpha . 95)))
+          (line-spacing . 0.05)
+          (alpha-background . 95)))
 
   (ivy-posframe-mode 1))
 
