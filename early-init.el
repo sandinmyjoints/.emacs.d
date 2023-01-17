@@ -80,6 +80,7 @@
 ;; Setting this to nil means the initial frame will use default-frame-alist.
 (setq initial-frame-alist nil)
 
+;; Make this frame, the initial frame, fullscreen.
 ;; TODO(emacs-mac): Disabling since the non-emacs-macport version has to be on another space to be fullscreen.
 ;; (set-frame-parameter nil 'fullscreen 'fullboth)
 
