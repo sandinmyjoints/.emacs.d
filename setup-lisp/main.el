@@ -1755,7 +1755,7 @@ If PROJECT is not specified the command acts on the current project."
                                (rest-client-mode . "REST")
                                (shell-script-mode . "Shell"))
    ))
-(use-package helm-mode :config (helm-mode 1))
+(use-package helm-lib)
 (use-package helm-dired-recent-dirs
   :after (helm))
 (use-package helm-imenu
@@ -1779,7 +1779,7 @@ If PROJECT is not specified the command acts on the current project."
                                       helm-source-ls-git-status
                                       helm-ls-git-create-branch-source)))
 (use-package helm-files
-  :after (helm helm-buffers helm-ls-git)
+  :after (helm)
   :bind (("C-M-o" . helm-browse-project)) ;; bClobbers split-line.
   :config
   ;; useful commands, but probably shouldn't be bound globally:
