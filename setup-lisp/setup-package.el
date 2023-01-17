@@ -118,7 +118,7 @@
 
      (cons 'flx-ido melpa)
      (cons 'ido-completing-read+ melpa)
-     (cons 'amx melpa)
+     ;; (cons 'amx melpa)
 
      (cons 'pip-requirements melpa)
      (cons 'virtualenvwrapper melpa-stable)
@@ -133,6 +133,7 @@
      (cons 'gitignore-mode melpa)
      (cons 'browse-at-remote melpa)
      (cons 'github-review melpa)
+     (cons 'git-link melpa-stable)
 
      (cons 'tree-mode melpa) ; dirtree requirement.
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
@@ -253,7 +254,7 @@
      (cons 'company-nginx melpa)
      (cons 'company-shell melpa)
      (cons 'company-web melpa)
-     (cons 'company-flx melpa)
+     ;; (cons 'company-flx melpa)
      (cons 'company-statistics melpa)
      ;; (cons 'company-quickhelp melpa)
      (cons 'company-ctags melpa)
