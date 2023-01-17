@@ -87,11 +87,37 @@
 (setq vc-handled-backends (delq 'Git vc-handled-backends)
       magit-refresh-verbose nil)
 
+(defun wjb/magit-browse-pull-request ()
+  "In `magit-log-mode', open the associated pull request at point."
+  (interactive)
+  (let* ((remote-url
+          (car
+           (git-link--exec
+            "remote" "get-url"
+            (format "%s"
+                    (magit-get-current-remote)))))
+         (beg (line-beginning-position))
+         (end (line-end-position))
+         (region (buffer-substring-no-properties beg end)))
+    (save-match-data
+      (message (format "region: %s" region))
+      ;; TODO: this isn't working as expected. git@github.com:spanishdict/sd-playground.git
+      (message (format "remote: %s" remote-url))
+      (message (format "url: %s" (concat
+             (s-replace ".git" "" remote-url)
+             "/pull/"
+             (match-string 1 region))))
+      (and (string-match "(\\#\\([0-9]+\\))$" region)
+           (browse-url-default-macosx-browser
+            (concat
+             (s-replace ".git" "" remote-url)
+             "/pull/"
+             (match-string 1 region)))))))
+
 ;; https://magit.vc/manual/magit/Diff-options.html
 ;; git diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
 (setq magit-diff-refine-hunk t
-      ;; magit-git-executable "/usr/local/Cellar/git/2.33.1_1/bin/git"
-      magit-git-executable "/opt/homebrew/Cellar/git/2.36.1/bin/git")
-
+      ;; magit-git-executable "/opt/homebrew/Cellar/git/2.39.0/bin/git"
+      magit-git-executable "/opt/homebrew/bin/git")
 
 (provide 'setup-magit)
