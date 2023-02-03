@@ -3938,16 +3938,47 @@ questions.  Else use completion to select the tab to switch to."
         ad-do-it
         ))))
 
-;; allow remembering risky variables. from https://emacs.stackexchange.com/a/44604/2163
-(defun risky-local-variable-p (sym &optional _ignored) nil)
-
 
-;; tree-sitter
+;; tree-sitter (builtin)
+(use-package treesit
+  :config
+  (push '(js-json-mode . json-ts-mode) major-mode-remap-alist))
 
-;; experimental:
-;; (require 'tree-sitter-langs)
-;; (global-tree-sitter-mode)
-;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;; tree-sitter (third-party)
+;; experimental.
+(when nil
+  (require 'tree-sitter)
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+  (use-package combobulate
+    :hook ((python-mode . combobulate-mode)
+           (js-mode . combobulate-mode)
+           (typescript-mode . combobulate-mode))
+    :load-path "elisp/combobulate")
+
+  (defun tree-sitter-mark-bigger-node ()
+    "Useful, but it works with 3rd party tree-sitter, not builtin treesit package."
+    (interactive)
+    (when-let (root (tsc-root-node tree-sitter-tree))
+      (let* ((mark (or (mark) (point)))
+             (region-start (min (point) mark))
+             (region-end (max (point) mark))
+             (node (tsc-get-descendant-for-position-range root region-start region-end))
+             (node-start (tsc-node-start-position node))
+             (node-end (tsc-node-end-position node)))
+        ;; Node fits the region exactly. Try its parent node instead.
+        (when (and (= region-start node-start) (= region-end node-end))
+          (when-let ((node (tsc-get-parent node)))
+            (setq node-start (tsc-node-start-position node)
+                  node-end (tsc-node-end-position node))))
+        (set-mark node-end)
+        (goto-char node-start))))
+
+  (setq-default er/try-expand-list (append er/try-expand-list
+                                 '(tree-sitter-mark-bigger-node)))
+  )
 
 
 ;; key-bindings. Must be after defuns. Should be near the end, to avoid being overwritten.
