@@ -2393,6 +2393,7 @@ If PROJECT is not specified the command acts on the current project."
   "\\.htaccess"
   "\\.curlrc"
   "\\..*rc\\'"
+  "my.cnf"
   )
 
 (use-package nginx-mode
