@@ -2673,6 +2673,7 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package company-ctags
   :after company
+  :disabled
   :config
   (company-ctags-auto-setup)
   ;; rjsx-mode descends from js2-mode so I think this will cover both:
@@ -2737,12 +2738,12 @@ If PROJECT is not specified the command acts on the current project."
 (defvar wjb/company-backends-ts)
 (setq wjb/company-backends-ts
       '(company-tide
-        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+        (company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-js)
 (setq wjb/company-backends-js
-      '((company-tide :with :separate company-ctags company-capf company-keywords company-dabbrev-code)
-        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+      '((company-tide :with :separate company-capf company-keywords company-dabbrev-code)
+        (company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-org)
 ;; todo get company-capf working: pcomplete-completions-at-point. Maybe I need
@@ -2754,12 +2755,12 @@ If PROJECT is not specified the command acts on the current project."
 (defvar wjb/company-backends-css)
 (setq wjb/company-backends-css
       '((company-css :with :separate company-capf company-keywords company-dabbrev-code)
-        (company-ctags company-capf company-keywords company-dabbrev-code company-dabbrev)))
+        (company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-el)
 (setq wjb/company-backends-el
       '((company-capf :with :separate company-keywords company-dabbrev-code)
-        (company-ctags company-keywords company-dabbrev-code company-dabbrev)))
+        (company-keywords company-dabbrev-code company-dabbrev)))
 
 (use-package compdef
   :disabled
@@ -2795,7 +2796,7 @@ If PROJECT is not specified the command acts on the current project."
   (require 'company-web-jade)
   (defun wjb/web-mode-company ()
     (set (make-local-variable 'company-backends)
-         '((company-web-html :with company-dabbrev-code company-gtags company-ctags company-keywords)))
+         '((company-web-html :with company-dabbrev-code company-gtags company-keywords)))
     (company-mode t))
   (add-hook 'web-mode-hook #'wjb/web-mode-company))
 
