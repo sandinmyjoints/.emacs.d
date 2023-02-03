@@ -274,6 +274,10 @@ Also converts full stops to commas."
 (define-key wjb-map (kbd "e n") 'compilation-next-error)
 (define-key wjb-map (kbd "e p") 'compilation-previous-error)
 
+(define-key wjb-map (kbd "c") #'copy-as-format)
+(define-key wjb-map (kbd "g") #'git-link)
+(define-key wjb-map (kbd "b") #'browse-at-remote)
+
 ;; TODO: use this for all switch-to-* buffer commands
 (defun wjb/command-to-switch-to-buffer (buffer)
   "Generate an interactive command to switch to BUFFER."
@@ -323,7 +327,6 @@ Also converts full stops to commas."
 ;; - projectile-configure-project
 ;; - projectile-run-project
 ;; what does compile typically do, vs run?
-(define-key wjb-map (kbd "c") #'projectile-compile-project)
 ;; run = start
 (define-key wjb-map (kbd "r") #'projectile-run-project)
 
