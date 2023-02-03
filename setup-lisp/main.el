@@ -2648,7 +2648,11 @@ If PROJECT is not specified the command acts on the current project."
   (global-set-key (kbd "H-u") #'company-yasnippet) ;; H-y is awkward; H-u is close
   (global-set-key (kbd "C-c y") #'company-yasnippet)
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
-)
+  )
+
+(use-package company-shell
+  :custom
+  (company-shell-complete-in-comments nil))
 
 (use-package company-flx
   :disabled
