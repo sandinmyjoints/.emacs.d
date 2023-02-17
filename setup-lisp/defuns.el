@@ -564,13 +564,13 @@
     (setq fill-column fill-column-stashed)))
 
 ;; Journal command. Deprecated by wjb/olivetti.
-;; (defun journal ()
-;;   "Start journaling"
-;;   (interactive)
-;;   (switch-to-buffer "journal")
-;;   (text-mode)
-;;   (auto-fill-mode 1)
-;;   (set-fill-column 80))
+(defun wjb/journal ()
+  "Start journaling"
+  (interactive)
+  (switch-to-buffer "journal")
+  (text-mode)
+  (auto-fill-mode 1)
+  (set-fill-column 80))
 
 (fset 'fix-js-indent
    [?\M-x ?j ?s ?- ?m ?o ?d ?e return ?\C-x ?h tab ?\M-x ?j ?s ?2 ?- ?m ?o ?d ?e return])

@@ -25,6 +25,7 @@
   ;; :hook (js-mode . lsp-deferred)
   ;; :hook (js2-mode . lsp-deferred)
   ;; :hook (typescript-mode . lsp-deferred)
+  ;; :hook (typescript-ts-mode . lsp-deferred)
   ;; :hook (python-mode. lsp-deferred)
   :init
   (setq lsp-prefer-flymake nil
