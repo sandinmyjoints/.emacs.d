@@ -533,6 +533,8 @@
       xref-show-definitions-function #'xref-show-definitions-completing-read
       eldoc-echo-area-display-truncation-message nil)
 
+(setq use-dialog-box nil)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
