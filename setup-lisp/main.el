@@ -2630,12 +2630,16 @@ If PROJECT is not specified the command acts on the current project."
   (company-tooltip-align-annotations 't)
   (company-tooltip-width-grow-only t)
   (company-dabbrev-downcase nil)
+  (company-selection-wrap-around t)
+  ;; (company-global-modes '(not git-commit-mode))
 
   :config
   (global-company-mode t)
-  (make-variable-buffer-local 'company-backends)
+  (defun wjb/git-commit-mode-hook ()
+    (company-mode -1))
+  (add-hook 'git-commit-setup-hook #'wjb/git-commit-mode-hook)
 
-  (setq company-selection-wrap-around t)
+  (make-variable-buffer-local 'company-backends)
 
   (define-key company-mode-map (kbd "M-/") 'company-complete)
   (define-key company-active-map (kbd "M-/") 'company-other-backend)
@@ -2719,7 +2723,7 @@ If PROJECT is not specified the command acts on the current project."
     (setq zing (append zing
                        '(
                          ;; code
-                         (company-dabbrev-code company-gtags company-ctags company-keywords)
+                         (company-dabbrev-code company-gtags company-keywords)
                          ;; text
                          (company-emoji company-dabbrev)
                          )
