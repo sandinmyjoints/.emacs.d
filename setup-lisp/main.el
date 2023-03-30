@@ -660,6 +660,7 @@ See URL `http://handlebarsjs.com/'."
 
 
 ;; dired
+(use-package all-the-icons-dired)
 
 (use-package dired
   :commands (dired counsel-dired)
