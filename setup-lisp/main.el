@@ -2280,10 +2280,10 @@ If PROJECT is not specified the command acts on the current project."
     (yas-minor-mode -1))
   (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
 
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-react-redux-yasnippets/snippets" t)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elpa/react-snippets-20210430.1510/snippets" t)
   ;; These are great snippets, but loading them is causing some warnings:
   ;; (eval-after-load 'yasnippet '(use-package emacs-snippets))
@@ -2291,10 +2291,6 @@ If PROJECT is not specified the command acts on the current project."
   (yas-global-mode))
 
 (use-package yasnippet-snippets)
-
-(use-package js-react-redux-yasnippets
-    :after yasnippet ;; will not work if not adding this line
-    )
 
 
 ;; docker
