@@ -2403,6 +2403,7 @@ If PROJECT is not specified the command acts on the current project."
   "robots\\.txt"
   "\\.htaccess"
   "\\.curlrc"
+  "\\.flake8"
   "\\..*rc\\'"
   "my.cnf"
   )
