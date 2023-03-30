@@ -3962,43 +3962,47 @@ questions.  Else use completion to select the tab to switch to."
 ;; tree-sitter (builtin)
 (use-package treesit
   :config
-  (push '(js-json-mode . json-ts-mode) major-mode-remap-alist))
 
-;; tree-sitter (third-party)
-;; experimental.
-(when nil
-  (require 'tree-sitter)
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  ;; Optional, but recommended. Tree-sitter enabled major modes are
+  ;; distinct from their ordinary counterparts.
+  ;;
+  ;; You can remap major modes with `major-mode-remap-alist'. Note
+  ;; that this does *not* extend to hooks! Make sure you migrate them
+  ;; also
+  (dolist (mapping '(
+                     (python-mode . python-ts-mode)
+                     (css-mode . css-ts-mode)
+                     ;; (typescript-mode . typescript-ts-mode)
+                     (typescript-mode . tsx-ts-mode)
+                     ;; (js-mode . js-ts-mode)
+                     (js-json-mode . json-ts-mode)
+                     ;; (yaml-mode . yaml-ts-mode)
+                     ))
+    (add-to-list 'major-mode-remap-alist mapping))
 
   (use-package combobulate
-    :hook ((python-mode . combobulate-mode)
-           (js-mode . combobulate-mode)
-           (typescript-mode . combobulate-mode))
-    :load-path "elisp/combobulate")
+    ;; Optional, but recommended.
+    ;;
+    ;; You can manually enable Combobulate with `M-x
+    ;; combobulate-mode'.
+    :hook ((python-ts-mode . combobulate-mode)
+           (js-ts-mode . combobulate-mode)
+           (css-ts-mode . combobulate-mode)
+           (yaml-ts-mode . combobulate-mode)
+           (typescript-ts-mode . combobulate-mode)
+           (tsx-ts-mode . combobulate-mode))
+    :config
+    (setq combobulate-setup-functions-alist
+          '((python . combobulate-python-setup)
+            (tsx . combobulate-js-ts-setup)
+            (typescript . combobulate-js-ts-setup)
+            (jsx . combobulate-js-ts-setup)
+            (css . combobulate-css-setup)
+            (yaml . combobulate-yaml-setup)
+            ;; note: private mode; not yet released.
+            (html . combobulate-html-setup)))
+    :load-path ("elisp/combobulate")))
 
-  (defun tree-sitter-mark-bigger-node ()
-    "Useful, but it works with 3rd party tree-sitter, not builtin treesit package."
-    (interactive)
-    (when-let (root (tsc-root-node tree-sitter-tree))
-      (let* ((mark (or (mark) (point)))
-             (region-start (min (point) mark))
-             (region-end (max (point) mark))
-             (node (tsc-get-descendant-for-position-range root region-start region-end))
-             (node-start (tsc-node-start-position node))
-             (node-end (tsc-node-end-position node)))
-        ;; Node fits the region exactly. Try its parent node instead.
-        (when (and (= region-start node-start) (= region-end node-end))
-          (when-let ((node (tsc-get-parent node)))
-            (setq node-start (tsc-node-start-position node)
-                  node-end (tsc-node-end-position node))))
-        (set-mark node-end)
-        (goto-char node-start))))
-
-  (setq-default er/try-expand-list (append er/try-expand-list
-                                 '(tree-sitter-mark-bigger-node)))
-  )
 
 
 ;; key-bindings. Must be after defuns. Should be near the end, to avoid being overwritten.
