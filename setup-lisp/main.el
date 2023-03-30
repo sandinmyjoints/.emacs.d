@@ -430,6 +430,8 @@
     '(js2-mode
       js2-jsx-mode
       typescript-mode
+      typescript-ts-mode
+      tsx-ts-mode
       web-mode
       rjsx-mode
       json-mode
@@ -442,6 +444,7 @@
       sh-mode
       yaml-mode
       python-mode
+      python-ts-mode
       perl-mode
       perl6-mode))
   :config
@@ -449,6 +452,8 @@
     '(js2-mode
       js2-jsx-mode
       typescript-mode
+      typescript-ts-mode
+      tsx-ts-mode
       web-mode
       rjsx-mode
       json-mode
@@ -461,6 +466,7 @@
       sh-mode
       yaml-mode
       python-mode
+      python-ts-mode
       perl-mode
       perl6-mode))
 
@@ -503,6 +509,10 @@
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
   (flycheck-add-next-checker 'python-pycompile 'python-flake8)
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  (flycheck-add-mode 'python-flake8 'python-ts-mode)
+  (flycheck-add-mode 'python-pycompile 'python-ts-mode)
+  (flycheck-add-mode 'python-pylint 'python-ts-mode)
+
 
   (push 'rustic-clippy flycheck-checkers)
 
