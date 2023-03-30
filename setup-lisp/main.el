@@ -2923,6 +2923,7 @@ If PROJECT is not specified the command acts on the current project."
 ;; TODO ensure these come after flycheck, otherwise checkers may not be set up correctly
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 (eval-after-load 'typescript-mode '(require 'setup-js2-mode))
+(eval-after-load 'typescript-ts-mode '(require 'setup-js2-mode))
 
 (use-package indium
   :disabled
@@ -2934,6 +2935,7 @@ If PROJECT is not specified the command acts on the current project."
   :config
   (add-hook 'js-mode-hook #'indium-interaction-mode)
   (add-hook 'typescript-mode-hook #'indium-interaction-mode) ;; experimental
+  (add-hook 'typescript-ts-mode-hook #'indium-interaction-mode)
 
   (setq indium-chrome-use-temporary-profile nil
         indium-client-debug nil ;; t
@@ -2941,8 +2943,8 @@ If PROJECT is not specified the command acts on the current project."
         indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
   )
 
+;; TODO something depends on this -- what? I want to disable it.
 (use-package npm-mode
-  :disabled
   :commands (npm npm-mode)
   :load-path "elisp/npm-mode"
   :diminish
@@ -3039,6 +3041,7 @@ If PROJECT is not specified the command acts on the current project."
 (use-package jest
   :after (js2-mode exec-path-from-shell)
   :hook ((js2-mode . jest-minor-mode)
+         (typescript-ts-mode . jest-minor-mode)
          (typescript-mode . jest-minor-mode))
   :load-path "elisp/emacs-jest"
   :bind (
@@ -3537,6 +3540,7 @@ root."
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   :hook ((js-mode . lsp-deferred)
+         (typescript-ts-mode . lsp-deferred)
          (typescript-mode . lsp-deferred))
   :commands lsp
   :config
