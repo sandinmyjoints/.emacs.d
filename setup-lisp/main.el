@@ -1857,6 +1857,8 @@ If PROJECT is not specified the command acts on the current project."
   :defer 6
   :after helm)
 
+(use-package s3ed)
+
 
 ;; dumb-jump and smart-jump
 
