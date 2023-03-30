@@ -1685,7 +1685,6 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package counsel
-  :defer t
   ;; H-<space> would be better, but that goes to Alfred
   ;; :bind (("C-," . counsel-imenu))
   :config
