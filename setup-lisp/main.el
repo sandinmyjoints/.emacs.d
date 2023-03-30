@@ -1173,20 +1173,33 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; python
 
+;; use elpy-config to check on things
+;; use for integration with pipenv: https://github.com/jorgenschaefer/elpy/issues/1217
 (use-package elpy
-  :disabled
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
   :config
-  (elpy-enable)
-  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules)))
+  (defun wjb/elpy-hook ()
+    "From https://elpy.readthedocs.io/en/latest/customization_tips.html?highlight=black#auto-format-code-on-save"
+    (elpy-shell-set-local-shell (elpy-project-root))
+    (add-hook 'before-save-hook
+              'elpy-black-fix-code nil t))
+  (add-hook 'elpy-mode-hook #'wjb/elpy-hook)
 
+  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
+  (setq elpy-modules (-remove-item 'elpy-module-highlight-indentation elpy-modules)))
+
+;; This is https://github.com/jorgenschaefer/pyvenv
+;; - pyvenv-* commands
+;; - comes with elpy so not needed individually
+;;
 (use-package pyvenv
   :disabled
   :defer t
   :config
-  (setenv "WORKON_HOME" (expand-file-name "~/.local/venvs/"))
+  ;; (setenv "WORKON_HOME" (expand-file-name "~/.local/share/virtualenvs")) ;; this should be unnecessary b/c of exec-path-from-shell
   (setq pyvenv-menu nil)
-  ;; Restart the python process when switching environments
-  (add-hook 'pyvenv-post-activate-hooks #'pyvenv-restart-python)
   :hook (python-mode . pyvenv-mode))
 
 (use-package python
@@ -1199,39 +1212,22 @@ Fix for the above hasn't been released as of Emacs 25.2."
   (setq python-indent-offset 2)
   (setq-default python-fill-docstring-style 'django)
 
-  ;; This is https://github.com/jorgenschaefer/pyvenv
-  ;; - pyvenv-* commands
-  ;; - comes with elpy
-
-  (add-hook 'python-mode-hook (lambda ()
+  ;; Disabling this as an experiment:
+  (remove-hook 'python-mode-hook (lambda ()
                                 (hack-local-variables)
-                                (setq fill-column 79)
+                                (setq fill-column 79) ;; get rid of this?
                                 ;; (set-face-background 'highlight-indentation-face "#111")
                                 ;; (pyvenv-tracking-mode) ;; slows cursor down a lot
                                 (when (boundp 'project-venv-name)
                                   (venv-workon project-venv-name)
                                   (pyvenv-workon project-venv-name))))
 
-  ;; This is https://github.com/porterjamesj/virtualenvwrapper.el
-  ;; - venv-* commands.
-  ;; - TODO: might get rid of virtualenvwrapper.el now that using elpy.
-  (require-package 'virtualenvwrapper)
-
-  ;; To use, put the following into custom.el:
-  (setq venv-location "~/.local/venvs/")
-
-  ;; if you want interactive shell support
-  ;; (venv-initialize-interactive-shells) ;; broken
-
-  ;; if you want eshell support
-  ;;(venv-initialize-eshell)
-
   (defadvice run-python (before setup-repl ())
     "Use IPython if available."
     (if (executable-find "ipython")
         (setq
          python-shell-interpreter "ipython"
-         ;; python-shell-interpreter-args "--no-banner --gui=osx"
+         python-shell-interpreter-args "-i --no-banner --gui=osx"
          python-shell-prompt-regexp "In \\[[0-9]+\\]: "
          python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
          python-shell-completion-setup-code
@@ -1256,6 +1252,22 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :mode
   "requirements\\.txt"
   "requirements\\.*\\.txt")
+
+(when nil
+  ;; This is https://github.com/porterjamesj/virtualenvwrapper.el
+  ;; - venv-* commands.
+  ;; - TODO: might get rid of virtualenvwrapper.el now that using elpy.
+  (require-package 'virtualenvwrapper)
+
+  ;; To use, put the following into custom.el:
+  (setq venv-location "~/.local/share/virtualenvs/")
+
+  ;; if you want interactive shell support
+  ;; (venv-initialize-interactive-shells) ;; broken
+
+  ;; if you want eshell support
+  ;;(venv-initialize-eshell)
+  )
 
 (use-package smart-dash
   :disabled
