@@ -202,6 +202,7 @@
 ;; https://rawcdn.githack.com/Malabarba/paradox/acc1f792a078fcab673bc3928004d6fd64a4d18d/data-hashtables
 ;; https://raw.githack.com/Malabarba/paradox/data/data-hashtables
 (use-package paradox
+  :disabled
   :commands (paradox-list-packages)
   :config
   (setq paradox--data-url "https://raw.githack.com/Malabarba/paradox/data/")
