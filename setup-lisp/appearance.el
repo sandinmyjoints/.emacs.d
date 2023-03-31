@@ -407,6 +407,8 @@ OK on large screens."
   (change-theme 'doom-nord-light)
 
   (wjb/customize-appearance)
+  ;; alpha = (active . inactive)
+  (set-frame-parameter nil 'alpha '(95 . 30))
 )
 
 (use-package gruvbox-theme ;; light
