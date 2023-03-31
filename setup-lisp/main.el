@@ -54,6 +54,8 @@
 
 (setq load-prefer-newer t)
 
+(use-package compat)
+
 (defvar is-mac (equal system-type 'darwin))
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
 (defvar wjb/home-directory (getenv "HOME"))
