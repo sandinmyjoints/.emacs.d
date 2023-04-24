@@ -124,6 +124,8 @@
         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
         ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs.d")
+        ("s" (projectile-switch-project-by-name "/Users/william/scm/wjb/silver-mind") "silver-mind")
+        ("i" (projectile-switch-project-by-name "/Users/william/scm/wjb/nicer-email-extension") "nicer.email")
         ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
 
@@ -151,13 +153,13 @@
         ("r" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-router") "sd-router")
         ("n" (wjb/switch-to-project-vterm "/Users/william/scm/sd/neodarwin") "neodarwin")
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
-        ("t" (wjb/switch-to-project-vterm "/Users/william/scm/sd/atalanta") "atalanta")
         ("w" (wjb/switch-to-project-vterm "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
         ("e" (wjb/switch-to-project-vterm "/Users/william/.emacs.d") "emacs.d")
+        ("i" (wjb/switch-to-project-vterm "/Users/william/scm/wjb/nicer-email-extension") "nicer")
         ("q" (wjb/switch-to-project-vterm "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
