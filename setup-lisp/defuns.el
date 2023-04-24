@@ -1037,6 +1037,10 @@ The result is pushed onto the kill ring."
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
+(defalias 'convert-md-link-to-org
+   (kmacro "C-s \\ [ C-f C-s \\ ( <backspace> <backspace> ( C-SPC C-s ) C-b C-w C-r \\ [ C-f C-SPC C-s \\ ] C-b C-c C-l C-y <return> <return> C-d C-d C-d C-r \\ [ C-d"))
+
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
