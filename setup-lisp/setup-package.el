@@ -128,7 +128,6 @@
 
      (cons 'magit melpa-stable)
      (cons 'forge melpa-stable)
-     (cons 'emacsql-sqlite-module melpa-stable)
      (cons 'gitconfig-mode melpa)
      (cons 'gitignore-mode melpa)
      (cons 'browse-at-remote melpa)
@@ -343,6 +342,7 @@
      ;; (cons 'edit-server-htmlize melpa)
      ;; (cons 'smart-indent-rigidly melpa)
      ;; (cons 'auto-install melpa)
+     ;; (cons 'emacsql-sqlite-module melpa-stable)
      ))
 
   (condition-case nil
