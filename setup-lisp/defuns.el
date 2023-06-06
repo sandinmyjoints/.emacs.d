@@ -587,6 +587,7 @@
   (wjb/switch-to-standup)
   ;; removed save-excursion
   (goto-char (point-min))
+  (call-interactively 'next-line)
   (insert (format "* %s\n** Work\n   - [ ] \n" (format-time-string "%Y-%m-%d")))
   (forward-line -1)
   (move-end-of-line nil))
