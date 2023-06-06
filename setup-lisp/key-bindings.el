@@ -294,6 +294,12 @@ Also converts full stops to commas."
 (defun wjb/switch-to-standup () (interactive) (find-file "~/notes/sd-standup.org"))
 (define-key wjb-map (kbd "s") #'wjb/switch-to-standup)
 
+(defun wjb/switch-to-nicer () (interactive) (find-file "~/scm/wjb/nicer-email-extension/nicer.org"))
+(define-key wjb-map (kbd "i") #'wjb/switch-to-nicer)
+
+(defun wjb/switch-to-defoxify () (interactive) (find-file "~/scm/wjb/defoxify-extension/defoxify.org"))
+(define-key wjb-map (kbd "y") #'wjb/switch-to-defoxify)
+
 (defun wjb/switch-to-family () (interactive) (find-file "~/Dropbox/family/family.org"))
 (define-key wjb-map (kbd "f") #'wjb/switch-to-family)
 
