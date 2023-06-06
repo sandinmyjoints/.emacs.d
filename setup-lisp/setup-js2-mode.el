@@ -46,6 +46,7 @@
 ;;; Code:
 
 (require-package 'js2-mode)
+(use-package tide)
 
 (use-package js2-imenu-extras
   :config
@@ -102,10 +103,15 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defalias 'js2r-debug-this #'wjb/js2r-debug-this)
   )
 
+;; TODO convert to use-package :bind
 (after-load 'typescript-mode
   (define-key typescript-mode-map (kbd "H-c") 'tide-refactor)
   (define-key typescript-mode-map "\C-c@" 'tide-jsdoc-template)
+  )
 
+(after-load 'typescript-ts-mode
+  (define-key typescript-ts-mode-map (kbd "H-c") 'tide-refactor)
+  (define-key typescript-ts-mode-map "\C-c@" 'tide-jsdoc-template)
   )
 
 (after-load 'js2-mode
@@ -285,6 +291,8 @@ If buffer is not visiting a file, do nothing."
   '(add-hook 'js2-minor-mode-hook #'add-node-modules-path))
 (eval-after-load 'typescript-mode
   '(add-hook 'typescript-mode-hook #'add-node-modules-path))
+(eval-after-load 'typescript-ts-mode
+  '(add-hook 'typescript-ts-mode-hook #'add-node-modules-path))
 
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode
@@ -335,7 +343,10 @@ If buffer is not visiting a file, do nothing."
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
 project."
-  (when (or (derived-mode-p 'js-mode) (derived-mode-p 'typescript-mode))
+  (when (or (derived-mode-p 'js-mode)
+            (derived-mode-p 'typescript-mode)
+            (derived-mode-p 'typescript-ts-mode)
+            (derived-mode-p 'tsx-ts-mode))
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
                   "node_modules"))
@@ -360,6 +371,8 @@ project."
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'typescript-mode-hook #'my/use-prettier-if-in-node-modules)
+  (add-hook 'typescript-ts-mode-hook #'my/use-prettier-if-in-node-modules)
+  (add-hook 'tsx-ts-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
   (setq-local prettier-js-args
         '("--single-quote"
@@ -367,14 +380,17 @@ project."
           "es5")))
 
 (use-package tide
-  :demand
+  ;; :demand ;; when I use this, then I have to manually eval to load tide
+  :after (company flycheck)
   ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
   :bind (("M-." . smart-jump-go)
          ("M-," . smart-jump-back)
          ("C-?" . tide-documentation-at-point)
          ("M-?" . tide-references))
   :hook ((js2-mode . tide-setup)
-         (typescript-mode . tide-setup))
+         (typescript-mode . tide-setup)
+         (typescript-ts-mode . tide-setup)
+         (tsx-ts-mode . tide-setup))
   :config
   (setq tide-tsserver-start-method 'manual
         tide-disable-suggestions t ;; trying this out
@@ -390,6 +406,12 @@ project."
 
   ;; tide places company-tide first :(
   (pop company-backends)
+
+  ;; If I'm working with typescript, and eslint is configured to lint TS, then
+  ;; this is useful. For example, eslint is configured for TS in playground.
+  ;; Running eslint with TS type checking rules turned on can be pretty slow, so
+  ;; only do it if TS itself did not complain.
+  (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint) 'append)
 
   ;; monkey patch tide-start-server to generate a new buffer name that includes
   ;; the project name.
@@ -419,11 +441,19 @@ project."
       (puthash (tide-project-name) process tide-servers)
       (message "(%s) tsserver server started successfully." (tide-project-name))
       (tide-each-buffer (tide-project-name) #'tide-configure-buffer)))
+
+  (flycheck-add-mode 'typescript-tide 'typescript-ts-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
+  (flycheck-add-mode 'typescript-tide 'tsx-ts-mode)
+  (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode)
+  ;; For now, need to manually get flycheck to realize typescript-tide works for typescript-ts-mode
+
   )
 
 (defun wjb/ts-mode-hook ()
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
+(add-hook 'typescript-ts-mode-hook #'wjb/ts-mode-hook)
 
 (setq typescript-indent-level 2)
 
@@ -440,13 +470,15 @@ project."
     ;; (local-set-key (kbd "q") #'quit-window)
     (current-buffer)))
 
-;; configure javascript-eslint to run after tide checkers (but eslint is still
+;; - Configure javascript-eslint to run after tide checkers (but eslint is still
 ;; the default checker; this only has an effect when the tide checkers are
-;; enabled)
+;; enabled).
+;; - These should probably be moved inside tide-setup or :config or something.
+;;
+;; Generally, I only use javascript-eslint inside js and jsx files. If I want to use
+;; tide, then these lines will run ride as well as eslint:
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
-(flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append) ;; javascript-eslint must be configured to lint TS
-;; (flycheck-add-next-checker 'typescript-tide 'typescript-tslint 'append)
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))
