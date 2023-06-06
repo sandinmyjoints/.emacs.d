@@ -4063,6 +4063,8 @@ is already narrowed."
 
 
 
+(require 'setup-copilot)
+
 (defun joaot/delete-process-at-point ()
   (interactive)
   (let ((process (get-text-property (point) 'tabulated-list-id)))
