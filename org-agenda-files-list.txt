@@ -10,9 +10,6 @@ neodarwin/neodarwin.org
 atalanta/atalanta.org
 sd-router/router.org
 characters/characters.org
-perf.org
-budget.org
-darwin/darwin.org
 pn-logging/pn-logging.org
 hegemone/hegemone.org
 org-settings-template.org
