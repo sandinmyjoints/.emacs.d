@@ -2298,13 +2298,12 @@ If PROJECT is not specified the command acts on the current project."
 ;; docker
 
 (use-package docker
-  :disabled
   :defer 5
   :bind (:map wjb-map
               ("d" . docker))
   :config
-  (setq docker-container-ls-arguments ""
-        docker-container-default-sort-key ""))
+  (setq docker-container-default-sort-key '("")
+        docker-compose-command "sdc"))
 
 (use-package dockerfile-mode
   :mode "Dockerfile"
@@ -2313,8 +2312,10 @@ If PROJECT is not specified the command acts on the current project."
 (use-package docker-compose-mode
   :mode "docker-compose*\\.yml")
 
+;; TODO: use tramp-container instead
 (use-package docker-tramp
-  :defer 5)
+  :disabled)
+(use-package tramp-container)
 
 (use-package docker-tramp-ext
   :after docker-tramp)
