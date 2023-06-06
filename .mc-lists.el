@@ -64,6 +64,7 @@
         org-insert-todo-heading
         org-kill-line
         org-metadown
+        org-return-and-maybe-indent
         org-return-indent
         org-self-insert-command
         org-yank
@@ -112,6 +113,10 @@
 (setq mc/cmds-to-run-once
       '(
         ace-window
+        beginend-org-mode-goto-beginning
+        bury-buffer
+        combobulate-edit-cluster-dwim
+        combobulate-menu/combobulate-edit-cluster-dwim-and-exit
         create-cursor
         dired-create-directory
         dired-do-copy
@@ -131,6 +136,7 @@
         mac-mwheel-scroll
         mark-whole-buffer
         markdown-demote
+        narrow-or-widen-dwim
         org-meta-return
         orgtbl-hijacker-command-109
         other-window-reverse
