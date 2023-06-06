@@ -2561,7 +2561,7 @@ If PROJECT is not specified the command acts on the current project."
   :after (which-key posframe)
   :config
   (which-key-posframe-mode)
-  (setq which-key-posframe-parameters '(line-spacing . nil)
+  (setq which-key-posframe-parameters '((line-spacing . 0.0))
         which-key-posframe-poshandler #'posframe-poshandler-frame-above-center))
 
 (use-package discover
