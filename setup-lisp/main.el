@@ -1101,18 +1101,11 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; by the author of magit
 (use-package forge
+  ;; :disabled
   :after magit
-  :config
-  ;; This seems to cause emacs to hang at startup:
-  (when nil
-    (progn
-      ;; Use SQLite WAL and non-synchronous modes.  See
-      ;; <https://github.com/magit/forge/issues/6#issuecomment-578589801>
-      ;; and <https://github.com/magit/forge/issues/257>.
-      (emacsql-close (forge-db))
-      (emacsql (forge-db) "PRAGMA journal_mode=WAL")
-      (emacsql (forge-db) "PRAGMA synchronous=OFF"))
-  ))
+  :init
+  (setq forge-database-connector 'sqlite-builtin)
+  )
 
 ;; separate from magit, but integrates: "You can use github-review with forge.
 ;; When your cursor is over a pull request, you can call
