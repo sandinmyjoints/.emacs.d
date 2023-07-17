@@ -128,7 +128,7 @@ small screens."
   (set-face-font 'default "Fira Code-15")
   (if (and (wjb/is-small-display) wjb/dark)
       (set-face-attribute 'default nil :weight 'light)
-    (set-face-attribute 'default nil :weight 'medium))
+    (set-face-attribute 'default nil :weight 'regular)) ;; medium seems to mean bold, which causes lines to jump around
 
   (set-face-font 'variable-pitch "Fira Sans")
   (if (wjb/is-small-display)
@@ -421,11 +421,12 @@ OK on large screens."
   (interactive)
   (setq wjb/dark t)
 
-  ;; (change-theme 'nimbus)
-  (change-theme 'doom-snazzy)
+  (change-theme 'nimbus)
+  ;; (change-theme 'doom-snazzy)
 
   (wjb/customize-appearance)
-  (set-frame-parameter nil 'alpha '(90 . 50))
+  ;; alpha = (active . inactive)
+  (set-frame-parameter nil 'alpha '(96 . 50))
 )
 
 (use-package nimbus-theme
@@ -479,6 +480,7 @@ OK on large screens."
 ;; https://github.com/morhetz/gruvbox
 (defvar wjb/dark-cursor-color "#30F0F0") ;; #458588 #076678 #blue #0000FF #0766FF
 (defvar wjb/light-cursor-color "#98FF1a") ;; #98971a #79740e #green #00FF00
+(setq wjb/light-cursor-color "#fb4db3")
 (defvar wjb/read-only-cursor-dark "white")
 (defvar wjb/read-only-cursor-light "#d65d0e") ;; "#116"
 
@@ -538,8 +540,8 @@ OK on large screens."
   (use-package hl-line
     :config
     (setq hl-line-sticky-flag nil))
-  (wjb/set-hl-line-bg)
-  (global-hl-line-mode -1))
+  ;; (wjb/set-hl-line-bg)
+  (global-hl-line-mode 1))
 
 (defvar wjb/initial-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
 
