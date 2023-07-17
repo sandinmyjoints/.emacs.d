@@ -53,8 +53,10 @@ cleared, make sure the overlay doesn't come back too soon."
                               dired-mode-hook
                               compilation-mode-hook
                               flutter-mode-hook
+                              jest-mode
                               minibuffer-mode-hook)
   "Modes in which copilot is inconvenient.")
+
 
 (defvar rk/copilot-manual-mode nil
   "When `t' will only show completions when manually triggered, e.g. via M-C-<return>.")
