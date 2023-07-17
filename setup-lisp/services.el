@@ -51,6 +51,7 @@
     "atalanta"
     "darwin"
     "sd-auth"
+    "sd-scribe"
     "sd-playground"
     "sd-spelling"
     "neodarwin"
@@ -69,6 +70,7 @@
                       "neodarwin"
                       "atalanta"
                       "sd-auth"
+                      "sd-scribe"
                       "hegemone"
                       "sd-playground"
                       "sd-gimme-db"
@@ -120,12 +122,14 @@
         ("t" (projectile-switch-project-by-name "/Users/william/scm/sd/atalanta") "atalanta")
         ("w" (projectile-switch-project-by-name "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
+        ("c" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-scribe") "sd-scribe")
         ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
         ("e" (projectile-switch-project-by-name "/Users/william/.emacs.d") "emacs.d")
         ("s" (projectile-switch-project-by-name "/Users/william/scm/wjb/silver-mind") "silver-mind")
         ("i" (projectile-switch-project-by-name "/Users/william/scm/wjb/nicer-email-extension") "nicer.email")
+        ("y" (projectile-switch-project-by-name "/Users/william/scm/wjb/defoxify-extension") "defoxify")
         ("q" (projectile-switch-project-by-name "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
 
@@ -155,11 +159,13 @@
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
         ("w" (wjb/switch-to-project-vterm "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
+        ("c" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-scribe") "sd-scribe")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
         ("e" (wjb/switch-to-project-vterm "/Users/william/.emacs.d") "emacs.d")
         ("i" (wjb/switch-to-project-vterm "/Users/william/scm/wjb/nicer-email-extension") "nicer")
+        ("y" (wjb/switch-to-project-vterm "/Users/william/scm/wjb/defoxify-extension") "defoxify")
         ("q" (wjb/switch-to-project-vterm "/Users/william/scm/sd/equivalency") "equivalency"))
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
