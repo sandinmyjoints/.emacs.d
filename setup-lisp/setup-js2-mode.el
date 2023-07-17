@@ -355,6 +355,9 @@ project."
                                             root)))
            (prettier2 (and root
                            (expand-file-name "node_modules/prettier/bin-prettier.js"
+                                             root)))
+           (prettier3 (and root
+                           (expand-file-name "node_modules/prettier/prettier"
                                              root))))
       ;; (message (format "prettier: %s" prettier))
       ;; (message (format "prettier2: %s" prettier))
@@ -363,6 +366,9 @@ project."
         (prettier-js-mode))
       (when (and prettier2 (file-executable-p prettier2))
         (setq prettier-js-command prettier2)
+        (prettier-js-mode))
+      (when (and prettier3 (file-executable-p prettier3))
+        (setq prettier-js-command prettier3)
         (prettier-js-mode)))))
 
 (when (require 'prettier-js nil t)
