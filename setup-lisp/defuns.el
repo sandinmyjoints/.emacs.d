@@ -1041,6 +1041,9 @@ The result is pushed onto the kill ring."
 (defalias 'convert-md-link-to-org
    (kmacro "C-s \\ [ C-f C-s \\ ( <backspace> <backspace> ( C-SPC C-s ) C-b C-w C-r \\ [ C-f C-SPC C-s \\ ] C-b C-c C-l C-y <return> <return> C-d C-d C-d C-r \\ [ C-d"))
 
+(defalias 'fix-org-to-md-sub-tag
+   (kmacro "C-s < s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> _ C-s < / s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> <backspace>"))
+
 
 (provide 'defuns)
 
