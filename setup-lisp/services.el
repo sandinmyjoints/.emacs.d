@@ -51,6 +51,7 @@
     "atalanta"
     "darwin"
     "sd-auth"
+    "sd-leaderboards"
     "sd-scribe"
     "sd-playground"
     "sd-spelling"
@@ -71,6 +72,7 @@
                       "atalanta"
                       "sd-auth"
                       "sd-scribe"
+                      "sd-leaderboards"
                       "hegemone"
                       "sd-playground"
                       "sd-gimme-db"
@@ -123,6 +125,7 @@
         ("w" (projectile-switch-project-by-name "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("c" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-scribe") "sd-scribe")
+        ("l" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-leaderboards") "sd-leaderboards")
         ("h" (projectile-switch-project-by-name "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (projectile-switch-project-by-name "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
@@ -160,6 +163,7 @@
         ("w" (wjb/switch-to-project-vterm "/Users/william/scm/sd/word-of-the-day") "wotd")
         ("u" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-auth") "sd-auth")
         ("c" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-scribe") "sd-scribe")
+        ("l" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-leaderboards") "sd-leaderboards")
         ("h" (wjb/switch-to-project-vterm "/Users/william/scm/sd/hegemone") "hegemone")
         ("p" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-playground") "sd-playground")
         ("g" (wjb/switch-to-project-vterm "/Users/william/scm/sd/sd-gimme-db") "sd-gimme-db")
