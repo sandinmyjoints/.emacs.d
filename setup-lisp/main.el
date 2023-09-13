@@ -2285,7 +2285,10 @@ If PROJECT is not specified the command acts on the current project."
 
   (yas-global-mode))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :after yasnippet)
+(use-package js-react-redux-yasnippets
+  :after yasnippet)
 
 
 ;; docker
