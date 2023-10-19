@@ -3247,6 +3247,22 @@ Interactively also sends a terminating newline."
   (setq compilation-error-regexp-alist
         (cons 'node compilation-error-regexp-alist))
 
+  ;; vitest:
+
+  ;;  FAIL  test/controllers/document-transcription.test.js > POST /document-transcription > should 200 for multipage PDF <= 30 pages
+  ;; Error: expected 200 "OK", got 500 "Internal Server Error"
+  ;;  ❯ test/controllers/document-transcription.test.js:480:8
+  ;; "❯ ([^:]+):([^:]+):([^:]+)"
+
+  ;; I know this one works:
+  (defvar vitest-error-regexp "^ ❯ \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$")
+
+  ;; But this is simpler, but I need to test it.
+  ;; from https://github.com/flocks/dotfiles/blob/fc9548aaeecdc5bcdde3c4236efa20c1e8627fdd/emacs/.emacs.d/ft/ft-compile.el#L12
+  (setq vitest-error-regexp "^ ❯ \s?+\\(.*\\):\\([0-9]+\\):\\([0-9]+\\)")
+  (add-to-list 'compilation-error-regexp-alist-alist `(vitest ,vitest-error-regexp 1 2 3))
+  (add-to-list 'compilation-error-regexp-alist 'vitest)
+
   ;; Make *compilation* buffer use visual-line-mode
   ;; TODO: make a key binding for turning vlmode on and off
   (add-hook 'compilation-mode-hook
