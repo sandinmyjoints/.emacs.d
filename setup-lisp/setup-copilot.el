@@ -1,3 +1,8 @@
+(defun company-yasnippet-or-completion ()
+  (interactive)
+  (or (do-yas-expand)
+      (company-complete-common)))
+
 (defun rk/copilot-tab ()
   "Tab command that will complet with copilot if a completion is
 available. Otherwise will try company, yasnippet or normal
