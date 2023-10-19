@@ -342,6 +342,13 @@ If buffer is not visiting a file, do nothing."
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
+(defun check-file-executable (file-path)
+  "Check if the file at FILE-PATH exists and is executable."
+  (let ((file (expand-file-name file-path)))
+    (when (and (file-exists-p file)
+               (file-executable-p file))
+      file)))
+
 ;; Prettier.
 ;;
 ;; TODO: This can probably be updated to work with
@@ -358,25 +365,29 @@ project."
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
                   "node_modules"))
-           (prettier (and root
-                          (expand-file-name "node_modules/prettier/bin/prettier.js"
-                                            root)))
-           (prettier2 (and root
+
+           (prettier (or
+                      ;; emacs doesn't seem to execute this, perhaps b/c it's a symlink?
+                      ;; (and root
+                      ;;      (expand-file-name "node_modules/.bin/prettier"
+                      ;;                        root))
+                      (check-file-executable
+                           (expand-file-name "node_modules/prettier/bin/prettier.js"
+                                             root))
+                      (check-file-executable
+                           (expand-file-name "node_modules/prettier/bin/prettier.cjs"
+                                             root))
+                      (check-file-executable
                            (expand-file-name "node_modules/prettier/bin-prettier.js"
-                                             root)))
-           (prettier3 (and root
+                                             root))
+                      (check-file-executable
                            (expand-file-name "node_modules/prettier/prettier"
-                                             root))))
+                                             root)))))
+      ;; (message (format "root: %s" root))
       ;; (message (format "prettier: %s" prettier))
-      ;; (message (format "prettier2: %s" prettier))
+      ;; (debug)
       (when (and prettier (file-executable-p prettier))
         (setq prettier-js-command prettier)
-        (prettier-js-mode))
-      (when (and prettier2 (file-executable-p prettier2))
-        (setq prettier-js-command prettier2)
-        (prettier-js-mode))
-      (when (and prettier3 (file-executable-p prettier3))
-        (setq prettier-js-command prettier3)
         (prettier-js-mode)))))
 
 (when (require 'prettier-js nil t)
