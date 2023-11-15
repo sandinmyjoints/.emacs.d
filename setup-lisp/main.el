@@ -1697,43 +1697,6 @@ If PROJECT is not specified the command acts on the current project."
     (define-key counsel-find-file-map done #'ivy-alt-done)
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
-;; counsel-etags-scan-code
-(use-package counsel-etags
-  :disabled
-  :defer 5
-  ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
-  :init
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (add-hook 'after-save-hook
-                        'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  ;; this is how smart-jump heuristic error works:
-  (defun counsel-etags-grep (&optional default-keyword hint root)
-    (error "Signaling error instead of grepping"))
-
-  (setq counsel-etags-update-interval 3000
-        counsel-etags-find-program "gfind"
-        counsel-etags-grep-program "rg"  ;; ggrep
-        counsel-etags-tags-program "ctags"
-        counsel-ctags-tags-program "ctags")
-  ;; counsel-etags-tags-program "ctags -e -L") ;; for exuberant ctags, but I use universal
-  (add-to-list 'counsel-etags-ignore-directories "local_notes")
-  (add-to-list 'counsel-etags-ignore-directories "build")
-  (add-to-list 'counsel-etags-ignore-directories "dist")
-  (add-to-list 'counsel-etags-ignore-directories "dist-server")
-  (add-to-list 'counsel-etags-ignore-directories "node_modules")
-  (add-to-list 'counsel-etags-ignore-directories "yarn-offline-mirror")
-  (add-to-list 'counsel-etags-ignore-directories "public")
-  (add-to-list 'counsel-etags-ignore-directories "mysql_data")
-  ;; (pop counsel-etags-ignore-directories)
-  (add-to-list 'counsel-etags-ignore-filenames "local_notes") ;; symlink
-  (add-to-list 'counsel-etags-ignore-filenames "*.org")
-  (add-to-list 'counsel-etags-ignore-filenames "*-exports.js")
-  (add-to-list 'counsel-etags-ignore-filenames "*-min.js")
-  (add-to-list 'counsel-etags-ignore-filenames "*-min-async.js")
-  (add-to-list 'counsel-etags-ignore-filenames "*.csv")
-  (add-to-list 'counsel-etags-ignore-filenames "*.json"))
 
 
 ;; helm
@@ -1929,12 +1892,12 @@ If PROJECT is not specified the command acts on the current project."
                        :heuristic 'point
                        :async nil
                        :order 2)
-  (smart-jump-register :modes 'js2-mode
-                       :jump-fn 'counsel-etags-find-tag-at-point
-                       :should-jump t
-                       :heuristic 'error
-                       :async nil
-                       :order 3) ;; might be better make this 6, so it comes after xhref-find-definitions
+  ;; (smart-jump-register :modes 'js2-mode
+  ;;                      :jump-fn 'counsel-etags-find-tag-at-point
+  ;;                      :should-jump t
+  ;;                      :heuristic 'error
+  ;;                      :async nil
+  ;;                      :order 6)
   )
 
 
@@ -2386,8 +2349,8 @@ If PROJECT is not specified the command acts on the current project."
                 (flycheck-mode -1))))
 
   ;; (advice-remove 'restclient-http-handle-response 'ad-Advice-restclient-http-handle-response)
-  (defadvice restclient-http-handle-response (around my-compile-goto-error activate)
-    (let ((display-buffer-overriding-action '(display-buffer-use-some-window)))
+  (defadvice restclient-http-handle-response (around restclient-http-handle-response-advice activate)
+    (let ((display-buffer-overriding-action '(display-buffer-use-some-window) '((inhibit-switch-frame . t))))
       ad-do-it)))
     ;; (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
     ;;   ad-do-it)))
@@ -3252,14 +3215,20 @@ Interactively also sends a terminating newline."
   ;;  FAIL  test/controllers/document-transcription.test.js > POST /document-transcription > should 200 for multipage PDF <= 30 pages
   ;; Error: expected 200 "OK", got 500 "Internal Server Error"
   ;;  ❯ test/controllers/document-transcription.test.js:480:8
+
+  ;; different format when in a function, may includes frame.method, see https://github.com/vitest-dev/vitest/blob/main/packages/vitest/src/node/error.ts#L234 :
+  ;;  ❯ Object.send test/middleware/error-handler.test.js:59:45
+
   ;; "❯ ([^:]+):([^:]+):([^:]+)"
 
   ;; I know this one works:
-  (defvar vitest-error-regexp "^ ❯ \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$")
+  ;; (defvar vitest-error-regexp "^ ❯ \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$")
+  (defvar vitest-error-regexp "^ ❯ \\(?:[^ ]+ \\)?\\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$")
 
   ;; But this is simpler, but I need to test it.
   ;; from https://github.com/flocks/dotfiles/blob/fc9548aaeecdc5bcdde3c4236efa20c1e8627fdd/emacs/.emacs.d/ft/ft-compile.el#L12
-  (setq vitest-error-regexp "^ ❯ \s?+\\(.*\\):\\([0-9]+\\):\\([0-9]+\\)")
+  ;; (setq vitest-error-regexp "^ ❯ \s?+\\(.*\\):\\([0-9]+\\):\\([0-9]+\\)")
+
   (add-to-list 'compilation-error-regexp-alist-alist `(vitest ,vitest-error-regexp 1 2 3))
   (add-to-list 'compilation-error-regexp-alist 'vitest)
 
@@ -3996,6 +3965,7 @@ questions.  Else use completion to select the tab to switch to."
     (add-to-list 'major-mode-remap-alist mapping))
 
   (use-package combobulate
+    :disabled
     ;; Optional, but recommended.
     ;;
     ;; You can manually enable Combobulate with `M-x
@@ -4082,8 +4052,10 @@ is already narrowed."
 
 
 
+(use-package shell-maker)
 (use-package chatgpt-shell
   :ensure t
+  :after shell-maker
   :custom
   ((chatgpt-shell-openai-key
     (lambda ()
@@ -4102,6 +4074,7 @@ is already narrowed."
            (error "no process at point!")))))
 (define-key process-menu-mode-map (kbd "C-k") 'joaot/delete-process-at-point)
 
+;; moved to scm/wjb/wjb-org-static-blog
 ;; (require 'wjb-org-static-blog)
 
 (provide 'main)

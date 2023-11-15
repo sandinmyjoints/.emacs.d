@@ -269,7 +269,7 @@
      (cons 'ivy-hydra melpa)
      (cons 'ivy-posframe melpa)
      (cons 'counsel melpa)
-     (cons 'counsel-etags melpa)
+     ;; (cons 'counsel-etags melpa)
      (cons 'counsel-projectile melpa)
      (cons 'counsel-css melpa)
      (cons 'counsel-tramp melpa)
