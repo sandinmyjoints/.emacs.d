@@ -2649,14 +2649,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package company-restclient
   :after (company restclient))
 
-(use-package company-ctags
-  :after company
-  :disabled
-  :config
-  (company-ctags-auto-setup)
-  ;; rjsx-mode descends from js2-mode so I think this will cover both:
-  (push 'js2-mode company-ctags-modes))
-
 (defvar wjb/company-backends-original
   '(company-bbdb company-eclim company-semantic company-clang company-cmake company-capf company-files
                  (company-dabbrev-code company-gtags company-etags company-keywords)

@@ -256,7 +256,7 @@
      ;; (cons 'company-flx melpa)
      (cons 'company-statistics melpa)
      ;; (cons 'company-quickhelp melpa)
-     (cons 'company-ctags melpa)
+     ;; (cons 'company-ctags melpa)
 
      ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'helm-projectile melpa)
