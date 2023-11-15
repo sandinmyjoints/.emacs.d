@@ -2685,7 +2685,7 @@ If PROJECT is not specified the command acts on the current project."
     (setq zing (append zing
                        '(
                          ;; code
-                         (company-dabbrev-code company-gtags company-keywords)
+                         (company-dabbrev-code company-keywords)
                          ;; text
                          (company-emoji company-dabbrev)
                          )
@@ -2774,7 +2774,7 @@ If PROJECT is not specified the command acts on the current project."
   (require 'company-web-jade)
   (defun wjb/web-mode-company ()
     (set (make-local-variable 'company-backends)
-         '((company-web-html :with company-dabbrev-code company-gtags company-keywords)))
+         '((company-web-html :with company-dabbrev-code company-keywords)))
     (company-mode t))
   (add-hook 'web-mode-hook #'wjb/web-mode-company))
 
