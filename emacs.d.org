@@ -13,7 +13,14 @@
 #+KEYWORDS:
 #+LANGUAGE: en
 #+SELECT_TAGS: export
-* How to recover a frozen Emacs process
+* How to build/install Emacs                             :howto:installation:
+  - see https://github.com/d12frosted/homebrew-emacs-plus/
+  - old instructions for emacs-mac fork in dotfiles dev/bin/emacs-mac-install
+  - some stuff in ~/emacs-troubleshooting.rtf
+* How to troubleshoot macOS complaints about Emacs                    :howto:
+  - see ~/emacs-troubleshooting.rtf
+  - use =command emacs -Q=
+* How to recover a frozen Emacs process                               :howto:
   - kill -USR2
   - Then set debug-on-quit back to nil
 * cl- functions such as first/cl-first
@@ -873,7 +880,7 @@ react-redux
   ]
 }
 #+end_src
-** HOWTO
+** HOWTO                                                              :howto:
 *** install
     - note: indium (node server) needs to be on emacs' executable path
 *** node
@@ -2338,7 +2345,7 @@ $ ls
 ;; (global-set-key (kbd "~") (lambda ()
 ;;                             (interactive)
 ;;                             (nameframe-switch-frame "olivetti")))
-* debugging emacs                                                 :debugging:
+* HOWTO debug emacs                                         :debugging:howto:
   - set-variable debug-on-error t
 ** debug
   - https://www.gnu.org/software/emacs/manual/html_node/elisp/Debugging.html
@@ -2531,14 +2538,12 @@ dired, writable dired
   ;; 			              :distant-foreground "yellow")
 
   #+end_src
-* gccemacs / native-comp
+* gccemacs / native-comp with build-emacs-for-macos      :installation:howto:
   - http://akrl.sdf.org/gccemacs.html#org576df84
   - https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
   - https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab
 ** HOWTO
   - https://github.com/jimeh/build-emacs-for-macos
-  -
-  - HOWTO
   #+begin_src bash
   cd ~/scm/wjb/build-emacs-for-macos/
   rm Brewfile.lock.json
@@ -2567,7 +2572,7 @@ dired, writable dired
   # then link it using alfred
   #+end_src
 
-  - older notes:
+*** Older notes:
   #+begin_src bash
 # clone emacs-mac into ./sources/emacs-mac
 cd sources/emacs-mac
@@ -2704,11 +2709,19 @@ js2-parse-function-params?
 
 If LINES-TRUNCATE is non-nil, then lines will truncate in the
 posframe instead of wrap.
-* HOWTO canonical way to call process with region
+* HOWTO canonical way to call process with region                     :howto:
   - https://old.reddit.com/r/emacs/comments/101s14i/whats_the_canonical_correct_method_of_passing_a/j2rwi5j/
-* HOWTO detect if point is in a comment
+* HOWTO detect if point is in a comment                               :howto:
   - https://github.com/Alexander-Miller/company-shell/commit/5f959a63a6e66eb0cbdac3168cad523a62cc2ccd#diff-e98797f56740b84814c67b1a843dca33b9f8eec3f12109de12a3c36c63bca5e8R209
-* company / completion problems
+* etags taking too long for neodarwin
+  - "Making tag completion table for "
+  - https://emacs.stackexchange.com/questions/2919/making-tag-completion-table-freezes-blocks-how-to-disable
+  - seems like company gtags backend could be the problem. removed it. could
+    have been company-ctags but I disabled that a while ago. removed it for
+    good measure. Nope, the problem was capf having
+    tags-completion-at-point-function as an entry.
+  - last resort: could monkey patch etags-tags-completion-table when in neodarwin
+* company / completion etags problems
 ** completions triggering TAGS files for different repos
 ** completions from a different repo
   - [ ] when complation-at-point-functions contains t, it means fall back to
