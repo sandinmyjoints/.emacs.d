@@ -3939,46 +3939,50 @@ questions.  Else use completion to select the tab to switch to."
 (use-package treesit
   :config
 
+  ;; Note: I'm Using treesit-auto for this.
   ;; Optional, but recommended. Tree-sitter enabled major modes are
   ;; distinct from their ordinary counterparts.
   ;;
   ;; You can remap major modes with `major-mode-remap-alist'. Note
   ;; that this does *not* extend to hooks! Make sure you migrate them
   ;; also
-  (dolist (mapping '(
-                     (python-mode . python-ts-mode)
-                     (css-mode . css-ts-mode)
-                     ;; (typescript-mode . typescript-ts-mode)
-                     (typescript-mode . tsx-ts-mode)
-                     ;; (js-mode . js-ts-mode)
-                     (js-json-mode . json-ts-mode)
-                     ;; (yaml-mode . yaml-ts-mode)
-                     ))
-    (add-to-list 'major-mode-remap-alist mapping))
+  ;; (dolist (mapping '(
+  ;;                    (python-mode . python-ts-mode)
+  ;;                    (css-mode . css-ts-mode)
+  ;;                    ;; (typescript-mode . typescript-ts-mode)
+  ;;                    (typescript-mode . tsx-ts-mode)
+  ;;                    ;; (js-mode . js-ts-mode)
+  ;;                    (js-json-mode . json-ts-mode)
+  ;;                    ;; (yaml-mode . yaml-ts-mode)
+  ;;                    ))
+  ;;   (add-to-list 'major-mode-remap-alist mapping))
+)
 
-  (use-package combobulate
-    :disabled
-    ;; Optional, but recommended.
-    ;;
-    ;; You can manually enable Combobulate with `M-x
-    ;; combobulate-mode'.
-    :hook ((python-ts-mode . combobulate-mode)
-           (js-ts-mode . combobulate-mode)
-           (css-ts-mode . combobulate-mode)
-           (yaml-ts-mode . combobulate-mode)
-           (typescript-ts-mode . combobulate-mode)
-           (tsx-ts-mode . combobulate-mode))
-    :config
-    (setq combobulate-setup-functions-alist
-          '((python . combobulate-python-setup)
-            (tsx . combobulate-js-ts-setup)
-            (typescript . combobulate-js-ts-setup)
-            (jsx . combobulate-js-ts-setup)
-            (css . combobulate-css-setup)
-            (yaml . combobulate-yaml-setup)
-            ;; note: private mode; not yet released.
-            (html . combobulate-html-setup)))
-    :load-path ("elisp/combobulate")))
+(use-package combobulate
+  :after treesit
+  :preface
+  (setq combobulate-key-prefix "C-c o")
+
+  ;; Optional, but recommended.
+  ;;
+  ;; You can manually enable Combobulate with `M-x
+  ;; combobulate-mode'.
+  :hook ((python-ts-mode . combobulate-mode)
+         (js-ts-mode . combobulate-mode)
+         (css-ts-mode . combobulate-mode)
+         (yaml-ts-mode . combobulate-mode)
+         (json-ts-mode . combobulate-mode)
+         (typescript-ts-mode . combobulate-mode)
+         (tsx-ts-mode . combobulate-mode))
+  :load-path ("elisp/combobulate"))
+
+(use-package treesit-auto
+  :after treesit
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist '(awk bash bibtex c c-sharp clojure cmake commonlisp cpp css dart dockerfile elixir go gomod heex java javascript json julia kotlin latex lua make proto python r ruby rust toml tsx typescript typst verilog vhdl yaml))
+  (global-treesit-auto-mode))
 
 
 

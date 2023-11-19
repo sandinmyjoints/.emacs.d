@@ -145,6 +145,8 @@
      (cons 'log4j-mode melpa)
      (cons 'pandoc-mode melpa)
 
+     (cons 'treesit-auto melpa)
+
      (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'paren-face melpa)
