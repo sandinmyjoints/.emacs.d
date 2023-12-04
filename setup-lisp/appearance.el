@@ -617,10 +617,8 @@ OK on large screens."
         ;; modus-themes-variable-pitch-headings nil
         modus-themes-region '(bg-only-no-extend))
   :config
-  (modus-themes-load-themes)
   ;; dark
   (setq wjb/dark t)
-  (modus-themes-load-vivendi)
   ;; TODO: bind modus-themes-toggle, with advice
   )
 
