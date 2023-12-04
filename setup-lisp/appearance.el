@@ -151,7 +151,7 @@ OK on large screens."
     (set-face-attribute 'variable-pitch nil :weight 'medium)))
 
 (defvar wjb/font #'wjb/font-fira "defun to set fonts.")
-(setq wjb/font #'wjb/font-fira)
+(setq wjb/font #'wjb/font-cascadia)
 
 (call-interactively wjb/font)
 
