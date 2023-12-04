@@ -3838,18 +3838,21 @@ questions.  Else use completion to select the tab to switch to."
 (use-package rainbow-delimiters
   :defer 5
   :init
-  (add-hook 'json-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'json-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'json-ts-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :defer 5
   :diminish rainbow-mode
   :init
   ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
-  (add-hook 'coffee-mode-hook 'rainbow-mode)
-  (add-hook 'less-css-mode-hook 'rainbow-mode)
   (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'css-ts-mode-hook 'rainbow-mode)
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
   (add-hook 'web-mode-hook 'rainbow-mode)
   (add-hook 'js2-mode-hook 'rainbow-mode)
+  (add-hook 'typescript-base-mode-hook 'rainbow-mode)
+  (add-hook 'js-base-mode-hook 'rainbow-mode)
   (add-hook 'conf-mode-hook 'rainbow-mode)
   (add-hook 'help-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
@@ -3962,13 +3965,8 @@ questions.  Else use completion to select the tab to switch to."
   :after treesit
   :preface
   (setq combobulate-key-prefix "C-c o")
-
-  ;; Optional, but recommended.
-  ;;
-  ;; You can manually enable Combobulate with `M-x
-  ;; combobulate-mode'.
   :hook ((python-ts-mode . combobulate-mode)
-         (js-ts-mode . combobulate-mode)
+         (js-ts-mode . combobulate-mode) ;; combobulate only with js-ts-mode, not j2-mode
          (css-ts-mode . combobulate-mode)
          (yaml-ts-mode . combobulate-mode)
          (json-ts-mode . combobulate-mode)
