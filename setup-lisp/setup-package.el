@@ -245,7 +245,7 @@
      (cons 'docker melpa)
      (cons 'dockerfile-mode melpa)
      (cons 'docker-compose-mode melpa)
-     (cons 'docker-tramp melpa)
+     ;; (cons 'docker-tramp melpa)
 
      (cons 'projectile melpa)
 
