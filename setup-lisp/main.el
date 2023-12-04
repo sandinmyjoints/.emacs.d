@@ -411,7 +411,10 @@
 
 ;; long lines and large files
 
+;; (global-so-long-mode)
+
 (use-package vlf
+  :disabled
   :defer 5
   ;; put this in vlf-setup.el, L104:
   ;; ((string-equal filename "TAGS")

@@ -462,8 +462,6 @@
 (advice-add 'keyboard-quit :around #'my-keyboard-quit-advice)
 ;; (define-key minibuffer-local-map "\C-g" 'minibuffer-keyboard-quit)
 
-(global-so-long-mode)
-
 (setq warning-minimum-level :emergency)
 
 ;; allow remembering risky variables. from https://emacs.stackexchange.com/a/44604/2163
