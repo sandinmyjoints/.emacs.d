@@ -110,6 +110,9 @@ annoying, sometimes be useful, that's why this can be handly."
   :load-path ("elisp/copilot.el")
   :diminish
   :config
+  (setq copilot-indent-warning-suppress t)
+  (setq copilot-enable-predicates '(copilot--buffer-changed))
+
   ;; keybindings that are active when copilot shows completions
   (define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
   (define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
