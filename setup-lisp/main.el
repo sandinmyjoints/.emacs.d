@@ -2274,13 +2274,10 @@ If PROJECT is not specified the command acts on the current project."
 (use-package docker-compose-mode
   :mode "docker-compose*\\.yml")
 
-;; TODO: use tramp-container instead
-(use-package docker-tramp
-  :disabled)
+;; Open a file on a running Docker container:
+;;
+;;     C-x C-f /docker:USER@CONTAINER:/path/to/file
 (use-package tramp-container)
-
-(use-package docker-tramp-ext
-  :after docker-tramp)
 
 
 ;; various modes
