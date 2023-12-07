@@ -162,8 +162,9 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
     ;; this doesn't seem to work:
     ;; (setq-local imenu-create-index-function 'js2-custom-imenu-make-index)
     ;; but it's OK b/c tide has its own imenu function
-    (setq mode-name "JS2"
-          company-backends wjb/company-backends-js)
+
+    (setq mode-name "JS2" company-backends wjb/company-backends-js)
+
     (electric-pair-mode 1)
     ;; (require 'smartparens-javascript)
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
@@ -186,6 +187,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   ;; so TODO: give nvm more opportunities to switch to correct node.
   ;; - hook for switching buffers
   ;; - hook where projectile knows when project changes?
+  (add-hook 'js-base-mode-hook #'nvm-use-for-buffer)
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
   (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer)
   (add-hook 'yml-mode-hook #'nvm-use-for-buffer)
@@ -285,6 +287,8 @@ If buffer is not visiting a file, do nothing."
 ;;   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
 ;;(setq add-node-modules-path-debug t)
+(eval-after-load 'js-mode
+  '(add-hook 'js-base-mode-hook #'add-node-modules-path))
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 (eval-after-load 'js2-minor-mode
@@ -358,7 +362,7 @@ If buffer is not visiting a file, do nothing."
   "Use prettier-js-mode if prettier is found in this file's
 project's node_modules. Use the prettier binary from this
 project."
-  (when (or (derived-mode-p 'js-mode)
+  (when (or (derived-mode-p 'js-base-mode)
             (derived-mode-p 'typescript-mode)
             (derived-mode-p 'typescript-ts-mode)
             (derived-mode-p 'tsx-ts-mode))
@@ -393,6 +397,7 @@ project."
 (when (require 'prettier-js nil t)
   (diminish 'prettier-js-mode)
   (make-variable-buffer-local 'prettier-js-command)
+  (add-hook 'js-base-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
   (add-hook 'typescript-mode-hook #'my/use-prettier-if-in-node-modules)
@@ -477,8 +482,7 @@ project."
 
 (defun wjb/ts-mode-hook ()
   (setq company-backends wjb/company-backends-ts))
-(add-hook 'typescript-mode-hook #'wjb/ts-mode-hook)
-(add-hook 'typescript-ts-mode-hook #'wjb/ts-mode-hook)
+(add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
 
 (setq typescript-indent-level 2)
 
@@ -515,7 +519,7 @@ project."
   (setq-local prettify-symbols-alist nil)
   (setq-local fill-column 80))
 
-(add-hook 'js-mode-hook 'wjb/js-mode-hook)
+(add-hook 'js-base-mode-hook 'wjb/js-mode-hook)
 
 
 
@@ -542,13 +546,6 @@ project."
   (let ((mode-imenu (imenu-default-create-index-function))
         (custom-imenu (imenu--generic-function imenu-generic-expression)))
     (append mode-imenu custom-imenu)))
-
-(defun wjb/js2-mode-hook-poc ()
-  (add-to-list
-   'imenu-generic-expression
-   '("describe" "\s-*describe\s-*(\s-*[\"']\(.+\)[\"']\s-*,.*" 1)))
-
-(remove-hook 'js2-mode-hook #'wjb/js2-mode-hook-poc)
 
 (defun js2-custom-imenu-make-index-poc ()
   (interactive)
