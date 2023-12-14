@@ -2713,7 +2713,9 @@ If PROJECT is not specified the command acts on the current project."
 
 (defvar wjb/company-backends-js)
 (setq wjb/company-backends-js
-      '((company-tide :with :separate company-capf company-keywords company-dabbrev-code)
+      '(
+        ;; (company-tide :with :separate company-capf company-keywords company-dabbrev-code)
+        (company-tide :with :separate company-keywords company-dabbrev-code)
         (company-capf company-keywords company-dabbrev-code company-dabbrev)))
 
 (defvar wjb/company-backends-org)
