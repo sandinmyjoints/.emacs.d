@@ -20,6 +20,7 @@
 * How to troubleshoot macOS complaints about Emacs                    :howto:
   - see ~/emacs-troubleshooting.rtf
   - use =command emacs -Q=
+  - Check privacy & security settings: files and folders, full disk access
 * How to recover a frozen Emacs process                               :howto:
   - kill -USR2
   - Then set debug-on-quit back to nil
