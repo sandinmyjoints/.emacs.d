@@ -2368,6 +2368,7 @@ If PROJECT is not specified the command acts on the current project."
   "\\.flake8"
   "\\..*rc\\'"
   "my.cnf"
+  "Pipfile"
   )
 
 (use-package nginx-mode
