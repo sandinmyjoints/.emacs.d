@@ -2081,10 +2081,13 @@ If PROJECT is not specified the command acts on the current project."
   (setq treemacs-collapse-dirs                 3
         treemacs-deferred-git-apply-delay      0.5
         treemacs-display-in-side-window        t
-        treemacs-eldoc-display                 t
-        treemacs-file-event-delay              5000
+        treemacs-eldoc-display                 'simple
+        treemacs-file-event-delay              2000
+        treemacs-file-extension-regex          treemacs-last-period-regex-value
         treemacs-file-follow-delay             0.2
         treemacs-follow-after-init             t
+        treemacs-expand-after-init             t
+        treemacs-find-workspace-method           'find-for-file-or-pick-first
         treemacs-git-command-pipe              ""
         treemacs-goto-tag-strategy             'refetch-index
         treemacs-indentation                   2
@@ -2097,6 +2100,7 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-project-follow-cleanup        nil
         treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
         treemacs-position                      'left
+        treemacs-read-string-input             'from-minibuffer ;; 'from-child-frame  ;; consider 'from-minibuffer if laggy
         treemacs-recenter-distance             0.1
         treemacs-recenter-after-file-follow    'on-distance
         treemacs-recenter-after-tag-follow     nil
@@ -2110,6 +2114,10 @@ If PROJECT is not specified the command acts on the current project."
         treemacs-space-between-root-nodes      nil
         treemacs-tag-follow-cleanup            t
         treemacs-tag-follow-delay              0.5
+        treemacs-text-scale                      nil
+        treemacs-user-mode-line-format           nil
+        treemacs-user-header-line-format         nil
+        treemacs-wide-toggle-width               70
         treemacs-width                         48
         treemacs-select-when-already-in-treemacs 'stay)
 
