@@ -107,6 +107,7 @@ annoying, sometimes be useful, that's why this can be handly."
   (message "copilot for org is %s" (if rk/copilot-enable-for-org "enabled" "disabled")))
 
 (use-package copilot
+  :disabled ;; wondering if this causes random hangs
   :load-path ("elisp/copilot.el")
   :diminish
   :config
