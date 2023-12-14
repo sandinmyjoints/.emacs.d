@@ -4056,6 +4056,14 @@ is already narrowed."
     (lambda ()
       (auth-source-pick-first-password :host "api.openai.com")))))
 
+(use-package dall-e-shell
+  :ensure t
+  :after shell-maker
+  :custom
+  ((dall-e-shell-openai-key
+    (lambda ()
+      (auth-source-pick-first-password :host "api.openai.com")))))
+
 (require 'setup-copilot)
 
 (defun joaot/delete-process-at-point ()
