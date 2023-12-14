@@ -2629,6 +2629,9 @@ If PROJECT is not specified the command acts on the current project."
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
   )
 
+;; Prefer setting this in dir-locals files.
+(setq-default tags-table-list nil)
+
 (use-package company-shell
   :custom
   (company-shell-complete-in-comments nil))
