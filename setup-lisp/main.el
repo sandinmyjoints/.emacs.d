@@ -3975,12 +3975,19 @@ questions.  Else use completion to select the tab to switch to."
          (tsx-ts-mode . combobulate-mode))
   :load-path ("elisp/combobulate"))
 
+;; Rremove langs from this list that don't have ts modes yet (html, markdown) or I don't want to use their ts mode.
+;; Removed javascript because js2-mode has a lot of good stuff: js2-refactor, jest-mode, key bindings for tide...
+(setq wjb/treesit-auto-langs '(awk bash bibtex c c-sharp clojure cmake commonlisp cpp css dart dockerfile elixir go gomod heex java json julia kotlin latex lua make proto python r ruby rust toml tsx typescript typst verilog vhdl yaml))
+
 (use-package treesit-auto
   :after treesit
+  :init
+  (setq treesit-auto-langs wjb/treesit-auto-langs)
   :custom
   (treesit-auto-install 'prompt)
+  (treesit-auto-langs wjb/treesit-auto-langs)
   :config
-  (treesit-auto-add-to-auto-mode-alist '(awk bash bibtex c c-sharp clojure cmake commonlisp cpp css dart dockerfile elixir go gomod heex java javascript json julia kotlin latex lua make proto python r ruby rust toml tsx typescript typst verilog vhdl yaml))
+  (treesit-auto-add-to-auto-mode-alist treesit-auto-langs)
   (global-treesit-auto-mode))
 
 
