@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# key: inspect
+# contributor: wjb
+# name: inspect depth null
+## condition: "
+# --
+const inspect = (s) => require('util').inspect(s, {depth: null})
+console.log(inspect($0))
