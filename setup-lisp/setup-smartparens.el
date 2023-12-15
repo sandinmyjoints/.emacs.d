@@ -45,8 +45,8 @@
 ;;
 ;;; Code:
 
-(dolist (mode '(dirtree-mode))
-  (add-to-list 'sp-ignore-modes-list mode))
+;; (dolist (mode '(dirtree-mode))
+;;   (add-to-list 'sp-ignore-modes-list mode))
 
 ;; UPDATE: This variable has been removed. See
 ;; http://smartparens.readthedocs.io/en/latest/automatic-escaping.html for the

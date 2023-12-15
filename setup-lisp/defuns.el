@@ -908,30 +908,30 @@ Example: import sys; sys.stdout.write(sys.stdin.read())"
    "python -c 'import sys, sqlparse; print(sqlparse.format(sys.stdin.read(), reindent=True, wrap_after=10))'"
    t t))
 
-(defun wjb/switch-to-dirtree ()
-  "Switch to dirtree buffer."
-  (interactive)
-  ;; (pop-to-buffer "*dirtree*")
+;; (defun wjb/switch-to-dirtree ()
+;;   "Switch to dirtree buffer."
+;;   (interactive)
+;;   ;; (pop-to-buffer "*dirtree*")
 
-  ;; see display-buffer docs:
-  ;; action preserve-size
-  ;; (display-buffer-reuse-window . ((preserve-size . (t . t))))
-  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Action-Functions.html
+;;   ;; see display-buffer docs:
+;;   ;; action preserve-size
+;;   ;; (display-buffer-reuse-window . ((preserve-size . (t . t))))
+;;   ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Action-Functions.html
 
-  ;; why doesn't this work??
-  ;; this may be why: https://www.gnu.org/software/emacs/manual/html_node/elisp/Dedicated-Windows.html
-  ;; TODO: undedicate dirtree window while this runs, then re-dedicate it
-  ;; (pop-to-buffer "*dirtree*" '(display-buffer-reuse-window . ((preserve-size . (t . t)))) t)
+;;   ;; why doesn't this work??
+;;   ;; this may be why: https://www.gnu.org/software/emacs/manual/html_node/elisp/Dedicated-Windows.html
+;;   ;; TODO: undedicate dirtree window while this runs, then re-dedicate it
+;;   ;; (pop-to-buffer "*dirtree*" '(display-buffer-reuse-window . ((preserve-size . (t . t)))) t)
 
-  ;; with window-fixed-size set on dirtree window, this works unless
-  ;; there are 3+ windows, so TODO undedicate dirtree window
-  (unless (s-equals? (buffer-name) "*dirtree*")
-    (progn
-      (with-current-buffer "*dirtree*"
-        (setq-local window-size-fixed t))
-      (switch-to-buffer-other-window "*dirtree*" t)
-      (with-current-buffer "*dirtree*"
-        (setq-local window-size-fixed nil)))))
+;;   ;; with window-fixed-size set on dirtree window, this works unless
+;;   ;; there are 3+ windows, so TODO undedicate dirtree window
+;;   (unless (s-equals? (buffer-name) "*dirtree*")
+;;     (progn
+;;       (with-current-buffer "*dirtree*"
+;;         (setq-local window-size-fixed t))
+;;       (switch-to-buffer-other-window "*dirtree*" t)
+;;       (with-current-buffer "*dirtree*"
+;;         (setq-local window-size-fixed nil)))))
 
 (defun mw-lisp-butt-display ()
   "Function to produce nicer lisp butts.

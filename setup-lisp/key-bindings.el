@@ -261,7 +261,7 @@ Also converts full stops to commas."
 
 (define-key wjb-map (kbd ",") #'wjb/switch-to-last-compilation-buffer)
 (define-key wjb-map (kbd ".") #'wjb/switch-to-last-grep-buffer)
-;; (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree)
+;; (define-key wjb-map (kbd "d") #'wjb/switch-to-dirtree) ;; would want treemacs
 ;; want to prefer yas-snippet-expand, then fall back to company-complete, then indent-for-tab-command
 ;; this is what's in yasnippet itself: yas-maybe-expand is a conditional variable?!
 ;; (define-key yas-minor-mode-map (kbd "<tab>") yas-maybe-expand)
