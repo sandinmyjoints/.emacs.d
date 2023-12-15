@@ -863,7 +863,7 @@ pasting into other programs."
   :after org
   :config
   ;; see https://github.com/arnm/ob-mermaid/blob/master/README.org
-  (setq ob-mermaid-cli-path "/Users/william/.nvm/versions/node/v14.17.5/bin/mmdc")
+  (setq ob-mermaid-cli-path (home-subdir ".nvm/versions/node/v14.17.5/bin/mmdc"))
   (setq org-confirm-babel-evaluate
         (lambda (lang body)
           (not (string= lang "sql-mode")))))
@@ -3555,7 +3555,7 @@ root."
          :request "attach"
          :port 9329
          :program "__ignored"
-         :localRoot "/Users/william/scm/sd/sd-playground/"
+         :localRoot (home-subdir "scm/sd/sd-playground/")
          :remoteRoot "/usr/src/app"
          :name "sd-playground"))
 

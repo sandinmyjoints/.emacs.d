@@ -79,7 +79,7 @@
   (let ((default-directory site-lisp-dir))
     (normal-top-level-add-subdirs-to-load-path))
 
-  (setq package-user-dir "/Users/william/.emacs.d/elpa")
+  (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
   (let ((default-directory package-user-dir))
     (normal-top-level-add-subdirs-to-load-path))
 

@@ -45,6 +45,10 @@
 ;;
 ;;; Code:
 
+(defun home-subdir (subdir)
+  "Helper for subdirectories of $HOME."
+  (expand-file-name subdir "~"))
+
 (defun mine-goto-symbol-at-point ()
   "Will navigate to the symbol at the current point of the cursor."
   (interactive)

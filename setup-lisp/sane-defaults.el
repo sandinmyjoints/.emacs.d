@@ -46,6 +46,8 @@
 ;;
 ;;; Code:
 
+(defvar wjb/home (expand-file-name "~"))
+
 ;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
 ;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
