@@ -297,9 +297,6 @@ OK on large screens."
 ;; - seti -- interesting
 ;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/seti-theme"))
 ;; (change-theme 'seti)
-;; - emacs-synthwave-theme -- too crazy
-;; (add-to-list 'custom-theme-load-path (concat user-emacs-directory "elisp/emacs-synthwave-theme"))
-;; (change-theme 'synthwave)
 ;; (set-face-attribute 'org-level-1 nil :height 1.0 :weight 'normal)
 ;; - kaolin themes
 ;; (change-theme 'kaolin-bubblegum)
