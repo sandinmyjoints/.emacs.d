@@ -1322,9 +1322,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; imenu
 
-;; (when (require 'imenu nil t)
-;;   (autoload 'idomenu "idomenu" nil t))
-
 ;; (defadvice ido-imenu (before push-mark activate)
 ;;   (push-mark))
 
