@@ -1,3 +1,57 @@
 [submodule "elisp/js-snippets"]
 	path = elisp/js-snippets
 	url = git@github.com:sandinmyjoints/js-snippets.git
+[submodule "elisp/asoc.el"]
+	path = elisp/asoc.el
+	url = https://github.com/troyp/asoc.el.git
+[submodule "elisp/combobulate"]
+	path = elisp/combobulate
+	url = git@github.com:mickeynp/combobulate.git
+[submodule "elisp/copilot.el"]
+	path = elisp/copilot.el
+	url = git@github.com:zerolfx/copilot.el.git
+[submodule "elisp/eglot-flycheck-adaptor"]
+	path = elisp/eglot-flycheck-adaptor
+	url = git@github.com:akash-akya/eglot-flycheck-adaptor.git
+[submodule "elisp/emacs-jest"]
+	path = elisp/emacs-jest
+	url = git@github.com:sandinmyjoints/emacs-jest.git
+[submodule "elisp/es6-snippets"]
+	path = elisp/es6-snippets
+	url = git@github.com:CodyReichert/es6-snippets.git
+[submodule "elisp/flycheck-pos-tip"]
+	path = elisp/flycheck-pos-tip
+	url = git@github.com:sandinmyjoints/flycheck-pos-tip.git
+[submodule "elisp/gcmh"]
+	path = elisp/gcmh
+	url = https://gitlab.com/koral/gcmh.git
+[submodule "elisp/js-doc"]
+	path = elisp/js-doc
+	url = git@github.com:sandinmyjoints/js-doc.git
+[submodule "elisp/npm-mode"]
+	path = elisp/npm-mode
+	url = git@github.com:sandinmyjoints/npm-mode.git
+[submodule "elisp/org-static-blog"]
+	path = elisp/org-static-blog
+	url = git@github.com:sandinmyjoints/org-static-blog.git
+[submodule "elisp/svg-lib"]
+	path = elisp/svg-lib
+	url = git@github.com:rougier/svg-lib.git
+[submodule "elisp/web-mode"]
+	path = elisp/web-mode
+	url = git@github.com:sandinmyjoints/web-mode.git
+[submodule "elisp/js-react-redux-yasnippets"]
+	path = elisp/js-react-redux-yasnippets
+	url = git@github.com:sandinmyjoints/js-react-redux-yasnippets.git
+[submodule "elisp/pos-tip"]
+	path = elisp/pos-tip
+	url = git@github.com:sandinmyjoints/pos-tip.git
+[submodule "elisp/yasnippet-snippets"]
+	path = elisp/yasnippet-snippets
+	url = git@github.com:sandinmyjoints/yasnippet-snippets.git
+[submodule "elisp/org-pivotal"]
+	path = elisp/org-pivotal
+	url = git@github.com:sandinmyjoints/org-pivotal.git
+[submodule "elisp/svg-tag-mode"]
+	path = elisp/svg-tag-mode
+	url = git@github.com:rougier/svg-tag-mode.git
