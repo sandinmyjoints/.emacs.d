@@ -1817,8 +1817,8 @@ If PROJECT is not specified the command acts on the current project."
      summary)))
 
 (use-package helm-aws
+  :disabled
   :load-path "elisp/helm-aws"
-  :defer 6
   :after helm)
 
 (use-package s3ed)
