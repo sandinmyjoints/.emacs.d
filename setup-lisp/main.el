@@ -2252,7 +2252,6 @@ If PROJECT is not specified the command acts on the current project."
     (yas-minor-mode -1))
   (add-hook 'term-mode-hook #'wjb/disable-yas-minor-mode)
 
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/aws-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/es6-snippets/snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-snippets" t)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/elisp/js-react-redux-yasnippets/snippets" t)
