@@ -45,8 +45,8 @@
 ;;
 ;;; Code:
 
-(add-to-list 'load-path (expand-file-name "elisp/gcmh" user-emacs-directory))
-(gcmh-mode 1)
+;;(add-to-list 'load-path (expand-file-name "elisp/gcmh" user-emacs-directory))
+;;(gcmh-mode 1)
 
 ;; (setq debug-on-error t)
 (defun init ()
