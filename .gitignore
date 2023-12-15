@@ -20,3 +20,17 @@ custom.el
 projectile-bookmarks.eld
 projectile.cache
 image-dired/
+eln-cache/
+package-quickstart.el
+request/
+forge-database.sqlite
+.cache/
+chatgpt/
+dall-e/
+/.lsp-session-v1
+/amx-items
+/elpy/
+/network-security.data
+/setup-lisp/.emacs.desktop
+/transient/
+/tree-sitter/
