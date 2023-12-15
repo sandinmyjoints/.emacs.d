@@ -2297,16 +2297,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package yaml-imenu
   :after yaml-mode)
 
-(use-package openapi-yaml-mode
-  :after yaml-mode
-  :load-path "elisp/openapi-yaml-mode"
-  :config
-  (openapi-yaml-mode-add-to-magic-mode-alist)
-  ;; (add-hook 'openapi-yaml-mode-hook (lambda () (push #'openapi-yaml-mode--openapi3-completion-at-point completion-at-point-functions)))
-  ;; eval this in the buffer:
-  ;; (push #'openapi-yaml-mode--openapi3-completion-at-point completion-at-point-functions)
-  )
-
 (use-package css-mode
   :mode ("\\.css\\'")
   :config

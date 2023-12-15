@@ -93,7 +93,7 @@
                                        `(,(or (executable-find (cl-first lsp-yaml-server-command))
                                               (lsp-package-path 'yaml-language-server))
                                          ,@(cl-rest lsp-yaml-server-command))))
-                    :major-modes '(openapi-yaml-mode yaml-mode docker-compose-mode)
+                    :major-modes '(yaml-mode docker-compose-mode)
                     :priority 0
                     :server-id 'yamlls
                     :initialized-fn (lambda (workspace)
