@@ -138,6 +138,8 @@
   ;; (list-abbrevs)
   :diminish abbrev-mode)
 
+(require 'setup-package)
+
 ;; Lists.
 (use-package dash
   :ensure t)
@@ -180,8 +182,6 @@
 ;; ========================================
 ;; Package management.
 ;; ========================================
-
-(require 'setup-package)
 
 ;; From purcell. TODO: replace with use-package.
 (defmacro after-load (feature &rest body)
