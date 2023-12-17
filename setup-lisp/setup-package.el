@@ -172,6 +172,7 @@
 
      (cons 'doom-themes melpa)
      (cons 'all-the-icons melpa)
+     (cons 'all-the-icons-dired melpa)
 
      (cons 'which-key melpa)
      (cons 'which-key-posframe melpa)
