@@ -1,4 +1,4 @@
-# -*- default-directory: "/Users/william/.emacs.d"; -*-
+# -*- default-directory: "~/.emacs.d"; -*-
 #+TITLE: emacs.d.org
 #+DATE: <2017-07-28 Fri>
 #+AUTHOR: William Bert
