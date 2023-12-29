@@ -2343,14 +2343,7 @@ If PROJECT is not specified the command acts on the current project."
                 (json-mode)
                 (tree-sitter-mode -1)
                 ;; Disable Flycheck so comments don't set off alarms
-                (flycheck-mode -1))))
-
-  ;; (advice-remove 'restclient-http-handle-response 'ad-Advice-restclient-http-handle-response)
-  (defadvice restclient-http-handle-response (around restclient-http-handle-response-advice activate)
-    (let ((display-buffer-overriding-action '(display-buffer-use-some-window) '((inhibit-switch-frame . t))))
-      ad-do-it)))
-    ;; (let ((display-buffer-overriding-action '(display-buffer-reuse-window (inhibit-same-window . nil))))
-    ;;   ad-do-it)))
+                (flycheck-mode -1)))))
 
 (use-package shell-script-mode
   :mode "\\.bash*")
