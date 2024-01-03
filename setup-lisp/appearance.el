@@ -155,14 +155,7 @@ OK on large screens."
 
 (call-interactively wjb/font)
 
-;; (set-face-font 'default "Cascadia Code PL-15")
-;; (add-to-list 'default-frame-alist
-;;              '(font . "Cascadia Code PL-15"))
-
-;; (set-face-font 'default "DejaVu Sans Mono-15")
-;; (add-to-list 'default-frame-alist
-;;              '(font . "DejaVu Sans Mono-15"))
-
+
 ;; Define fonts for specific Unicode ranges or blocks, or set a general fallback.
 ;; See: https://github.com/jletourneau/emacs.d/blob/97b0965d04255edab69f7a2f62a634bc1e755a51/include/_char_ranges.el
 ;; See: https://www.reddit.com/r/emacs/comments/8tz1r0/how_to_set_font_according_to_languages_that_i/
