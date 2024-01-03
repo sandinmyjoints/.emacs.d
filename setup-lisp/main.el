@@ -1755,7 +1755,7 @@ If PROJECT is not specified the command acts on the current project."
                                       helm-ls-git-create-branch-source)))
 (use-package helm-files
   :after (helm)
-  :bind (("C-M-o" . helm-browse-project)) ;; bClobbers split-line.
+  :bind (("C-M-o" . helm-browse-project)) ;; Clobbers split-line.
   :config
   ;; useful commands, but probably shouldn't be bound globally:
   ;; (global-set-key (kbd "C-'") 'helm-mark-all)
@@ -3418,6 +3418,7 @@ Interactively also sends a terminating newline."
   ("H-`" . wjb/vterm-dwim)
   :config
   (setq vterm-kill-buffer-on-exit t)
+  (push "C-M-o" vterm-keymap-exceptions)
   (push "C-o" vterm-keymap-exceptions)
   (push "C-u" vterm-keymap-exceptions)
   ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
