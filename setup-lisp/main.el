@@ -665,6 +665,8 @@ See URL `http://handlebarsjs.com/'."
 
 
 ;; dired
+(use-package all-the-icons
+  :if (display-graphic-p))
 (use-package all-the-icons-dired)
 
 (use-package dired
