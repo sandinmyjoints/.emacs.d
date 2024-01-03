@@ -18,10 +18,11 @@
   - old instructions for emacs-mac fork in dotfiles dev/bin/emacs-mac-install
   - some stuff in ~/emacs-troubleshooting.rtf
 * How to troubleshoot macOS complaints about Emacs                    :howto:
-  - see ~/emacs-troubleshooting.rtf
+  - see .emacs.d/local_notes/emacs-troubleshooting.rtf and emacs-problems.rtf
+    - notes-personal directory
   - use =command emacs -Q=
-  - Check privacy & security settings: files and folders, full disk access
-  - check .emacs.desktop and custom.el, try deleting
+  - Check privacy & security settings: files and folders, full disk access.
+  - check .emacs.desktop and custom.el files; try deleting.
 * How to recover a frozen Emacs process                               :howto:
   - kill -USR2
   - Then set debug-on-quit back to nil
