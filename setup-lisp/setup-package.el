@@ -130,7 +130,7 @@
 
      (cons 'magit melpa-stable)
      (cons 'forge melpa-stable)
-     (cons 'git-modes melpa)
+     ;; (cons 'git-modes melpa) ;; installs several packages; they don't get recognized as installed
      (cons 'browse-at-remote melpa)
      (cons 'github-review melpa)
      (cons 'git-link melpa-stable)
