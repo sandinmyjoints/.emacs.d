@@ -128,8 +128,7 @@
 
      (cons 'magit melpa-stable)
      (cons 'forge melpa-stable)
-     (cons 'gitconfig-mode melpa)
-     (cons 'gitignore-mode melpa)
+     (cons 'git-modes melpa)
      (cons 'browse-at-remote melpa)
      (cons 'github-review melpa)
      (cons 'git-link melpa-stable)
