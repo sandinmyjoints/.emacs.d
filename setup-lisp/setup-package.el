@@ -52,6 +52,7 @@
 (when (require 'package nil t)
 
   (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+  (defvar nongnu '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
   (defvar celpa '("celpa" . "https://celpa.conao3.com/packages/"))
   (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
   (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
@@ -65,7 +66,8 @@
 
   (setq package-archives '())
 
-  (add-to-list 'package-archives gnu) ;; modus themes are on gnu
+  (add-to-list 'package-archives gnu)
+  (add-to-list 'package-archives nongnu)
   ;; (add-to-list 'package-archives org)
   ;; (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
