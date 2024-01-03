@@ -177,7 +177,7 @@
 
      (cons 'which-key melpa)
      (cons 'which-key-posframe melpa)
-     (cons 'apu melpa) ;; Apropos Unicode characters.
+     ;; (cons 'apu nongnu) ;; Apropos Unicode characters.
      ;; (cons 'google-this melpa)
      ;; (cons 'atomic-chrome melpa)
      (cons 'quickrun melpa)
@@ -186,7 +186,7 @@
      (cons 'launchctl melpa)
      (cons 'ace-window melpa-stable)
      (cons 'vlf melpa)
-     (cons 'nhexl-mode melpa)
+     ;; (cons 'nhexl-mode gnu)
      (cons 'sqlformat melpa) ;; requires sqlformat binary
      (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
@@ -197,8 +197,7 @@
      ;; (cons 'pivotal-tracker melpa)
      ;; (cons 'org-pivotal melpa) ;; using own fork
      ;; TODO: add css-comb and web-beautify
-     (cons 'header2 melpa)
-     (cons 'paradox melpa)
+     ;; (cons 'header2 nongnu)
      (cons 'date-at-point melpa)
      (cons 'recompile-on-save melpa)
      (cons 'comment-dwim-2 melpa)
@@ -298,7 +297,6 @@
      (cons 'ag melpa) ;; smart-jump uses this
 
      (cons 'pcre2el melpa)
-     (cons 'perl6-mode melpa)
      ;; (cons 'flycheck-perl6 melpa)
 
      (cons 'paredit melpa)
@@ -310,7 +308,7 @@
 
      (cons 'bash-completion melpa)
 
-     (cons 'adaptive-wrap gnu)
+     ;; (cons 'adaptive-wrap gnu)
      (cons 'visual-fill-column melpa)
 
      ;; Untried, but consider:
@@ -331,6 +329,7 @@
      ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
      ;; (cons 'dashboard melpa)
+     ;; (cons 'paradox melpa)
 
      ;; (cons 'fill-column-indicator melpa-stable)
 
@@ -347,6 +346,7 @@
      ;; (cons 'smart-indent-rigidly melpa)
      ;; (cons 'auto-install melpa)
      ;; (cons 'emacsql-sqlite-module melpa-stable)
+     ;; (cons 'perl6-mode melpa)
      ))
 
   (condition-case nil
