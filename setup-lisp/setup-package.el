@@ -148,8 +148,12 @@
 
      (cons 'treesit-auto melpa)
 
-     (cons 'rainbow-mode nongnu) ;; Emacs >=24 only
-     (cons 'rainbow-delimiters melpa-stable)
+     ;; It always thinks these two aren't installed even when they are, so
+     ;; disabling for now:
+     ;;
+     ;; (cons 'rainbow-mode gnu) ;; Emacs >=24 only
+     ;; (cons 'rainbow-delimiters melpa-stable)
+
      (cons 'paren-face melpa)
      (cons 'beacon melpa)
      ;; (cons 'auto-dim-other-buffers melpa)
@@ -172,8 +176,12 @@
      ;; (cons 'olivetti melpa)
 
      (cons 'doom-themes melpa)
-     (cons 'all-the-icons melpa)
-     (cons 'all-the-icons-dired melpa)
+
+     ;; It always thinks these two aren't installed even when they are, so
+     ;; disabling for now:
+     ;;
+     ;; (cons 'all-the-icons melpa)
+     ;; (cons 'all-the-icons-dired melpa)
 
      (cons 'which-key melpa)
      (cons 'which-key-posframe melpa)
