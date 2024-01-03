@@ -3841,7 +3841,6 @@ questions.  Else use completion to select the tab to switch to."
   (add-hook 'json-ts-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
-  :defer 5
   :diminish rainbow-mode
   :init
   ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-mode) ;; conflicts with paren-face
