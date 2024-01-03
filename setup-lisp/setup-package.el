@@ -148,7 +148,7 @@
 
      (cons 'treesit-auto melpa)
 
-     (cons 'rainbow-mode melpa-stable) ;; Emacs >=24 only
+     (cons 'rainbow-mode nongnu) ;; Emacs >=24 only
      (cons 'rainbow-delimiters melpa-stable)
      (cons 'paren-face melpa)
      (cons 'beacon melpa)
