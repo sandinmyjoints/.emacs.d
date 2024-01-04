@@ -232,6 +232,7 @@
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
+     (cons 'rjsx-mode melpa)
      (cons 'indium melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
