@@ -3646,7 +3646,7 @@ root."
 ;; Default key-bindings are defined in `symbol-overlay-map'.
 ;; You can re-bind the commands to any keys you prefer by simply writing
 ;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
-;; prog-mode-hook
+;;
 (use-package symbol-overlay
   :bind (:map prog-mode-map
               ;; ("M-i" . 'symbol-overlay-put) ;; not using
@@ -3654,6 +3654,9 @@ root."
               ("M-p" . 'symbol-overlay-jump-prev)
               ("<f7>" .  'symbol-overlay-mode)
               ("<f8>" .  'symbol-overlay-remove-all))
+  :bind (:map restclient-mode-map
+              ("M-n" . 'symbol-overlay-jump-next)
+              ("M-p" . 'symbol-overlay-jump-prev))
   :bind (:map text-mode-map
               ("M-n" . 'symbol-overlay-jump-next)
               ("M-p" . 'symbol-overlay-jump-prev)))
