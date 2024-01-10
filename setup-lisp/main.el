@@ -2343,7 +2343,8 @@ If PROJECT is not specified the command acts on the current project."
             (defun mad/js-to-cjson-mode ()
               (when (equal major-mode 'js-mode)
                 (json-mode)
-                (tree-sitter-mode -1)
+                (when (fboundp 'tree-sitter-mode)
+                  (tree-sitter-mode -1))
                 ;; Disable Flycheck so comments don't set off alarms
                 (flycheck-mode -1)))))
 
