@@ -239,6 +239,10 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold nil)
 
+;; prevents all splitting, but then restclient (and others?) will pop a new frame instead.
+;; (setq split-window-preferred-function nil)
+(setq split-window-preferred-function #'split-window-sensibly) ;; the default
+
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
