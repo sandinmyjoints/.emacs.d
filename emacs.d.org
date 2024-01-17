@@ -2772,3 +2772,21 @@ Completions:
 * [ ] Codeium? https://github.com/Exafunction/codeium.el
 * Installing emacs, troubleshooting installing
   - see emacs-troubleshooting.rtf
+
+* pinentry
+** Working solution
+  - When Mac GPG tools is installed, then put this line in gpg-agent.conf:
+#+begin_src
+pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pinentry-mac
+#+end_src
+   - Magit is able to use it. Anything else I tried, git still wanted to use
+     the pinentry-curses program which did not work, failing with =gpg: signing failed: Inappropriate ioctl for device=.
+** HOWTO reload gpg agent
+  - gpgconf --reload gpg-agent
+  - gpg-connect-agent reloadagent /bye
+** which should I be using?
+  - /usr/local/MacGPG2/bin vs /opt/homebrew/Cellar/gnupg/2.4.3/bin
+** links
+  - [[https://old.reddit.com/r/emacs/comments/qjrm7z/gpgagent_pinentry_and_loopback_how_to_make_it_work/][some discussion on reddit]], but all about linux...
+    - ...except for [[https://old.reddit.com/r/emacs/comments/qjrm7z/gpgagent_pinentry_and_loopback_how_to_make_it_work/kg778gi/][one comment]] that says pinentry-mac is the only way to get
+      it work on mac!
