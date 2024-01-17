@@ -159,6 +159,13 @@
 (use-package hi-lock
   :diminish)
 
+(use-package adaptive-wrap-prefix-mode)
+
+(use-package pinentry
+  :config
+  (setq epg-pinentry-mode 'loopback)
+  (pinentry-start))
+
 (use-package simple
   :config
   ;; TODO: only use these in modes where it makes sense. Org is not one of
