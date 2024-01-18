@@ -2442,6 +2442,7 @@ If PROJECT is not specified the command acts on the current project."
   :config)
 
 (use-package elisp-demos
+  :disabled
   :config
   ;; this is for normal help:
   ;; (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
