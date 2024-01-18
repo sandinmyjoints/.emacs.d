@@ -250,9 +250,12 @@
         doom-modeline-env--command-args '("-v" "2>&1")
         doom-modeline-env--parser (lambda (line) (car (split-string line)))))
 
+(use-package nerd-icons)
+
 ;; Looks nice but updates frequently and takes CPU/leads to GCs
 (use-package doom-modeline
   ;; :disabled
+  :after nerd-icons
   :hook (after-init . doom-modeline-mode)
   :config
   (add-hook 'js-mode-hook #'wjb/doom-modeline-env-node)

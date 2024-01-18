@@ -175,7 +175,9 @@
      ;; (cons 'nameframe melpa)
      ;; (cons 'olivetti melpa)
 
+     (cons 'nerd-icons melpa)
      (cons 'doom-themes melpa)
+     (cons 'doom-modeline melpa)
 
      ;; It always thinks these two aren't installed even when they are, so
      ;; disabling for now:
