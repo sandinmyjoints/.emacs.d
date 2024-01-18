@@ -108,15 +108,16 @@
 ;; 0. rm all elc files (elc_rm)
 ;; 1. byte-recompile everything (see above). Note that some elisp files will not be byte compiled, mostly pkg files that have a no-byte-compile flag. These will show up as warnings when running native-comp.
 ;; 2. then run these:
-;; (native-compile-async "/Users/william/.emacs.d/elisp" 'recursively t)
-;; (native-compile-async "/Users/william/.emacs.d/elpa" 'recursively t)
+;; (native-compile-async "~/.emacs.d/elisp" 'recursively)
+;; (native-compile-async "~/.emacs.d/elpa" 'recursively)
 ;; check comp-async-compilation variable to see if it's running.
 ;; TODO: move to a script
 
-(setq package-native-compile t ;; compile on install
-      comp-async-jobs-number 3)
+(setq package-native-compile t) ;; compile on install
+
 ;; see https://github.com/jrblevin/markdown-mode/issues/578#issuecomment-1126380098
 (setq native-comp-deferred-compilation-deny-list '("markdown-mode"))
+(setq native-comp-jit-compilation-deny-list '("markdown-mode\\.el$"))
 
 
 
