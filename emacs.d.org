@@ -2790,3 +2790,10 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   - [[https://old.reddit.com/r/emacs/comments/qjrm7z/gpgagent_pinentry_and_loopback_how_to_make_it_work/][some discussion on reddit]], but all about linux...
     - ...except for [[https://old.reddit.com/r/emacs/comments/qjrm7z/gpgagent_pinentry_and_loopback_how_to_make_it_work/kg778gi/][one comment]] that says pinentry-mac is the only way to get
       it work on mac!
+* restclient troubleshooting
+  - if auth won't work, lots of 401s,
+    - =(setq restclient-inhibit-cookies t)=
+    - look at actual cookie header being received by service. it may contain
+      multiple sd:sess values, some bad.
+    - look in .emacs.d/url/cookies. a bad auth cookie might be stored in
+      =url-cookie-secure-storage=. or check defun request--curl-cookie-jar.

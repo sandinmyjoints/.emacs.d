@@ -2345,6 +2345,7 @@ If PROJECT is not specified the command acts on the current project."
   :bind (:map restclient-mode-map
               ("C-c C-f" . json-mode-beautify))
   :config
+  (setq restclient-inhibit-cookies t)
   (push 'restclient-mode page-break-lines-modes)
   (make-variable-buffer-local 'url-max-redirections)
 
