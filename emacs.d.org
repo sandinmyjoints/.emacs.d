@@ -23,6 +23,10 @@
   - use =command emacs -Q=
   - Check privacy & security settings: files and folders, full disk access.
   - check .emacs.desktop and custom.el files; try deleting.
+  - check package-quickstart.el file, and try package-quickstart-refresh
+  - regenerate autoloads for a package with =(package-generate-autoloads
+    "shell-maker" "~/.emacs.d/elpa/shell-maker-20231210.1932/")= (they should
+    have been generated at install time but can get corrupted)
 * How to recover a frozen Emacs process                               :howto:
   - kill -USR2
   - Then set debug-on-quit back to nil
@@ -1850,6 +1854,8 @@ C-a	Toggle ignoring buffers listed in 'ido-ignore-buffers'.
 * DONE diminish auto-fill-mode
   - https://www.wisdomandwonder.com/link/10214/httpsgithub-commagnars-emacs-dblobmastersite-lispdiminish-ell87wh
   - https://github.com/magnars/.emacs.d/blob/master/site-lisp/diminish.el#L87y-you-cant-diminish-auto-fill-mode
+* speed up magit
+  - https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
 * TODO helm source: github
 * TODO helm source: pivotal
 * TODO powerline
