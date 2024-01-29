@@ -160,7 +160,9 @@
 (use-package hi-lock
   :diminish)
 
-(use-package adaptive-wrap-prefix-mode)
+(use-package adaptive-wrap
+  :defer t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 
 (use-package pinentry
   :config
