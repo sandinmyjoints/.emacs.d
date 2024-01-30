@@ -207,36 +207,6 @@
   :config
   (setq auto-install-directory "~/.emacs.d/elisp/"))
 
-;; See https://github.com/Malabarba/paradox/issues/185
-;; (url-retrieve-synchronously "https://raw.githubusercontent.com/Malabarba/paradox/data/data-hashtables")
-;; make a buffer named data-hashtables?
-;; use cdn?
-;; https://rawcdn.githack.com/Malabarba/paradox/acc1f792a078fcab673bc3928004d6fd64a4d18d/data-hashtables
-;; https://raw.githack.com/Malabarba/paradox/data/data-hashtables
-(use-package paradox
-  :disabled
-  :commands (paradox-list-packages)
-  :config
-  (setq paradox--data-url "https://raw.githack.com/Malabarba/paradox/data/")
-  (paradox-enable)
-
-  ;; (setq package--downloads-in-progress nil)
-
-  ;; TODO: monkey patch this, perhaps by grabbing the file and hard-coding it.
-  ;; (defun paradox--refresh-remote-data ()
-  ;; "Download metadata and populate the respective variables."
-  ;; (interactive)
-  ;; (when (boundp 'package--downloads-in-progress)
-  ;;   (add-to-list 'package--downloads-in-progress 'paradox--data))
-  ;; (condition-case-unless-debug nil
-  ;;     (paradox--with-work-buffer paradox--data-url "data-hashtables"
-  ;;       (setq paradox--star-count (read (current-buffer)))
-  ;;       (setq paradox--package-repo-list (read (current-buffer)))
-  ;;       (setq paradox--download-count (read (current-buffer)))
-  ;;       (setq paradox--wiki-packages (read (current-buffer))))
-  ;;   (error (paradox--handle-failed-download))))
-  )
-
 
 ;; Mine
 
