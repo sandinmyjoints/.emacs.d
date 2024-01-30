@@ -58,21 +58,16 @@
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
   (defvar org '("org" . "https://orgmode.org/elpa/"))
-  (defvar ubl '("ublt" . "https://elpa.ubolonton.org/packages/"))
-
-  ;; Generally not upgrading packages in this archive:
-  ;; (setq package-archives (--remove (s-equals? (car it) "gnu" ) package-archives))
 
   (setq package-archives '())
 
-  (add-to-list 'package-archives gnu)
-  (add-to-list 'package-archives nongnu)
-  ;; (add-to-list 'package-archives org)
-  ;; (add-to-list 'package-archives elpy)
-  (add-to-list 'package-archives melpa)
-  ;; (add-to-list 'package-archives melpa-mirror)
-  (add-to-list 'package-archives melpa-stable)
-  (add-to-list 'package-archives ubl)
+  (push gnu package-archives)
+  (push nongnu package-archives)
+  (push org package-archives)
+  (push elpy package-archives)
+  (push melpa package-archives)
+  (push melpa-mirror package-archives)
+  (push melpa-stable package-archives)
 
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
@@ -80,8 +75,9 @@
   ;; TODO: See http://www.lonecpluspluscoder.com/2014/11/using-elpa-pinned-packages-gnu-emacs-24-4/
   ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
   ;; TODO: as of Emacs 24.4, can use variable package-pinned-packages.
-
-  ;; (package-initialize)
+  ;;
+  ;; package.el adds installed packages to package-selected-packages in
+  ;; custom.el. I have the option of managing it myself.
 
   ;; (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
   ;;              (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
