@@ -465,17 +465,6 @@
   ;; for convenience, to turn off inline-mode:
   ;; (flycheck-inline-mode -1)
 
-  ;; (when (display-graphic-p (selected-frame))
-  ;;   (eval-after-load 'flycheck
-  ;;     '(progn
-  ;;        ;; flycheck errors on a tooltip (doesn't work in consoles).
-  ;;        (flycheck-pos-tip-mode)
-  ;;        ;; See https://github.com/flycheck/flycheck-pos-tip/issues/6
-  ;;        (add-hook 'post-command-hook 'flycheck-pos-tip-hide-messages)
-  ;;        (custom-set-variables
-  ;;         '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-  ;;        )))
-
   (setq-default flycheck-display-errors-delay 0.4
                 flycheck-idle-change-delay 0.6 ;; but this is really set below ↓
                 ;; flycheck-check-syntax-automatically '(save idle-change mode-enabled)

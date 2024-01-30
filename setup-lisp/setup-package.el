@@ -217,7 +217,6 @@
      ;; (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck-package melpa)
      (cons 'flycheck-inline melpa)
-     ;; (cons 'flycheck-pos-tip melpa) ;; using own fork.
 
      (cons 'nvm melpa)
      (cons 'json-reformat melpa)
