@@ -259,16 +259,6 @@
     (let ((my-inhibit-set-window-dedicated t))
       (apply orig-fun args))))
 
-;; ag
-;;(when (executable-find "ag")
-;;  (require-package 'ag)
-;;  (require-package 'wgrep-ag)
-;;  (setq-default ag-highlight-search t)
-;;  (add-to-list 'ag-arguments "-C 5")
-;;  (global-set-key (kbd "C-x 9") 'ag-project))
-
-;; (setq helm-ag-base-command "rg -C 5 --no-heading -niH -e")
-
 (provide 'setup-grep)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

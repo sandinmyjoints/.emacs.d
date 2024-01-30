@@ -45,7 +45,7 @@
 ;;
 ;;; Code:
 
-(require-package 'js2-mode)
+(use-package js2-mode)
 (use-package tide)
 
 (use-package js2-imenu-extras

@@ -1232,7 +1232,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   ;; This is https://github.com/porterjamesj/virtualenvwrapper.el
   ;; - venv-* commands.
   ;; - TODO: might get rid of virtualenvwrapper.el now that using elpy.
-  (require-package 'virtualenvwrapper)
+  (use-package virtualenvwrapper)
 
   ;; To use, put the following into custom.el:
   (setq venv-location "~/.local/share/virtualenvs/")
