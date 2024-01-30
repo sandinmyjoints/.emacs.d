@@ -50,25 +50,6 @@
 ;; https://github.com/magnars/.emacs.d/blob/master/setup-package.el
 
 (when (require 'package nil t)
-
-  (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
-  (defvar nongnu '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-  (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-  (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
-  (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
-  (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
-  (defvar org '("org" . "https://orgmode.org/elpa/"))
-
-  (setq package-archives '())
-
-  (push gnu package-archives)
-  (push nongnu package-archives)
-  (push org package-archives)
-  (push elpy package-archives)
-  (push melpa package-archives)
-  (push melpa-mirror package-archives)
-  (push melpa-stable package-archives)
-
   ;; TODO: package-archive-prioities: see
   ;; https://emacs.stackexchange.com/a/2989/2163
 
@@ -79,9 +60,29 @@
   ;; package.el adds installed packages to package-selected-packages in
   ;; custom.el. I have the option of managing it myself.
 
-  ;; (unless (and (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-  ;;              (file-exists-p "~/.emacs.d/elpa/archives/gnu"))
-  ;;   (package-refresh-contents))
+  (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+  (defvar nongnu '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+  (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
+  (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
+
+  (setq package-archives '())
+
+  (push gnu package-archives)
+  (push nongnu package-archives)
+  (push melpa package-archives)
+  (push melpa-stable package-archives)
+
+  ;; (defvar org '("org" . "https://orgmode.org/elpa/"))
+  ;; (push org package-archives)
+
+  ;; (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+  ;; (push elpy package-archives)
+
+  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
+               (file-exists-p "~/.emacs.d/elpa/archives/nongnu")
+               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+               (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable"))
+    (package-refresh-contents))
 
   (defun packages-install (&rest packages)
     (mapc (lambda (package)
