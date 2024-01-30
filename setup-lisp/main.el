@@ -562,17 +562,6 @@ See URL `http://handlebarsjs.com/'."
 (use-package pos-tip
   :load-path "elisp/pos-tip")
 
-
-;; background face: #191a1b
-(use-package flycheck-pos-tip
-  :after (flycheck pos-tip)
-  :disabled
-  :load-path "elisp/flycheck-pos-tip"
-  :config
-  (setq flycheck-pos-tip-timeout -1
-        flycheck-pos-tip-max-width 120)
-  (remove-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode))
-
 (use-package flycheck-posframe
   :ensure t
   :after flycheck
@@ -1798,11 +1787,6 @@ If PROJECT is not specified the command acts on the current project."
      ":"
      summary)))
 
-(use-package helm-aws
-  :disabled
-  :load-path "elisp/helm-aws"
-  :after helm)
-
 (use-package s3ed)
 
 
@@ -2356,12 +2340,6 @@ If PROJECT is not specified the command acts on the current project."
 (use-package dotenv-mode
   :mode "\\.env\\'")
 
-(use-package explain-pause-mode
-  :disabled  ;; I keep getting error in process sentinel: symbol's function definition is void
-  :load-path ("elisp/explain-pause-mode")
-  :config
-  (explain-pause-mode -1))
-
 (use-package tsv-mode
   :disabled
   :mode "\\.tsv\\'"
@@ -2709,16 +2687,6 @@ If PROJECT is not specified the command acts on the current project."
 (setq wjb/company-backends-el
       '((company-capf :with :separate company-keywords company-dabbrev-code)
         (company-keywords company-dabbrev-code company-dabbrev)))
-
-(use-package compdef
-  :disabled
-  :load-path "elisp/compdef"
-  :config
-
-  (compdef
-   :modes #'org-mode
-   :company '(company-dabbrev company-capf company-emoji)
-   :capf '(#'tags-completion-at-point-function)))
 
 
 ;; web-mode
