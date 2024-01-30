@@ -93,28 +93,6 @@
           ;; :internal-border-color "red"
           :poshandler posframe-poshandler-frame-above-center)))
 
-;; TODO is this needed, or is setting the hint-display-type to posframe enough?
-(use-package hydra-posframe
-  :hook (after-init . hydra-posframe-enable)
-  :config
-  (setq hydra-posframe-poshandler 'posframe-poshandler-frame-above-center))
-
-(defun hydra-posframe-show (str)
-  "HACK: redefining in order to use the poshandler I want."
-  (require 'posframe)
-  (posframe-show
-   " *hydra-posframe*"
-   :string str
-   :poshandler #'posframe-poshandler-frame-above-center
-   :internal-border-width 3
-   ;; :internal-border-color "light gray"
-   :internal-border-color "dark gray"
-   :left-fringe 10
-   :right-fringe 10
-   :min-height 2
-   :min-width 50))
-
-
 ;; TODO: ideal would be a hydra that first selects a project, then selects an action (vc, vterm).
 (defhydra wjb/projects/hydra (:color blue :columns 3)
    "Switch to project"
