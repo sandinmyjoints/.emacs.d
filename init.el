@@ -45,8 +45,6 @@
 ;;
 ;;; Code:
 
-;;(add-to-list 'load-path (expand-file-name "elisp/gcmh" user-emacs-directory))
-;;(gcmh-mode 1)
 (setq gc-cons-threshold (* 100 1000 1000))
 
 (setq mac-command-modifier 'meta)
