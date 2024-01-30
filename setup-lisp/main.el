@@ -2822,16 +2822,6 @@ If PROJECT is not specified the command acts on the current project."
         indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
   )
 
-;; TODO something depends on this -- what? I want to disable it.
-(use-package npm-mode
-  :commands (npm npm-mode)
-  :load-path "elisp/npm-mode"
-  :diminish
-  ;; Prefer dir locals activation: https://github.com/mojochao/npm-mode#project-activation
-  ;; :config
-  ;; (npm-global-mode)
-  )
-
 (use-package js-comint
   :disabled
   :init
@@ -3152,8 +3142,7 @@ Interactively also sends a terminating newline."
   ;; Make *compilation* buffer use visual-line-mode
   ;; TODO: make a key binding for turning vlmode on and off
   (add-hook 'compilation-mode-hook
-            (lambda () (visual-line-mode 1)
-              (npm-mode 1)))
+            (lambda () (visual-line-mode 1)))
 
   (add-hook 'compilation-minor-mode-hook
             (lambda () (visual-line-mode 1)))
