@@ -106,8 +106,7 @@
   (mac-auto-operator-composition-mode))
 
 (use-package osx-plist
-  :mode "\\.plist\\'"
-  :ensure t)
+  :mode "\\.plist\\'")
 
 ;; Allow editing of binary .plist files.
 (add-to-list 'jka-compr-compression-info-list

@@ -145,17 +145,13 @@
 (require 'setup-package)
 
 ;; Lists.
-(use-package dash
-  :ensure t)
+(use-package dash)
 ;; Strings.
-(use-package s
-  :ensure t)
+(use-package s)
 ;; Filesystem.
-(use-package f
-  :ensure t)
+(use-package f)
 ;; Hashtables.
-(use-package ht
-  :ensure t)
+(use-package ht)
 ;; Alists.
 (use-package asoc
   :load-path "elisp/asoc.el")
@@ -566,7 +562,6 @@ See URL `http://handlebarsjs.com/'."
   :load-path "elisp/pos-tip")
 
 (use-package flycheck-posframe
-  :ensure t
   :after flycheck
   :config
   ;; monkey patch for transparency
@@ -2137,12 +2132,10 @@ If PROJECT is not specified the command acts on the current project."
   )
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
+  :after (treemacs projectile))
 
 ;; (use-package treemacs-icons-dired
 ;;   :after treemacs dired
-;;   :ensure t
 ;;   :config (treemacs-icons-dired-mode))
 
 
@@ -2207,7 +2200,6 @@ If PROJECT is not specified the command acts on the current project."
 ;; Yasnippet.
 
 (use-package yasnippet
-  :ensure t
   :diminish yas-minor-mode
   :config
   ;; Work-around for tab complaining when yas is active in ansi-term. See:
@@ -2418,7 +2410,6 @@ If PROJECT is not specified the command acts on the current project."
 
 (use-package dashboard
   :disabled
-  :ensure t
   :config
   (dashboard-setup-startup-hook))
 
@@ -2748,7 +2739,6 @@ If PROJECT is not specified the command acts on the current project."
 
 ;; very helpful guide: https://robert.kra.hn/posts/rust-emacs-setup/
 (use-package rustic
-  :ensure
   :bind (:map rustic-mode-map
               ("M-j" . lsp-ui-imenu)
               ("M-?" . lsp-find-references)
@@ -3994,7 +3984,6 @@ is already narrowed."
 
 (use-package shell-maker)
 (use-package chatgpt-shell
-  :ensure t
   :after shell-maker
   :custom
   ((chatgpt-shell-openai-key
@@ -4002,7 +3991,6 @@ is already narrowed."
       (auth-source-pick-first-password :host "api.openai.com")))))
 
 (use-package dall-e-shell
-  :ensure t
   :after shell-maker
   :custom
   ((dall-e-shell-openai-key
