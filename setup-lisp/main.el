@@ -3632,6 +3632,7 @@ root."
 ;; (define-key symbol-overlay-map (kbd "your-prefer-key") 'any-command)
 ;;
 (use-package symbol-overlay
+  :after restclient
   :bind (:map prog-mode-map
               ;; ("M-i" . 'symbol-overlay-put) ;; not using
               ("M-n" . 'symbol-overlay-jump-next)
