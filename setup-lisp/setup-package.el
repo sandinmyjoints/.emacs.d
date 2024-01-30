@@ -53,7 +53,6 @@
 
   (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
   (defvar nongnu '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-  (defvar celpa '("celpa" . "https://celpa.conao3.com/packages/"))
   (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
   (defvar melpa '("melpa" . "https://melpa.org/packages/")) ;; tracks upstream
   (defvar melpa-mirror '("melpa-mirror" . "https://www.mirrorservice.org/sites/melpa.org/packages/")) ;; tracks upstream
@@ -71,7 +70,6 @@
   ;; (add-to-list 'package-archives org)
   ;; (add-to-list 'package-archives elpy)
   (add-to-list 'package-archives melpa)
-  (add-to-list 'package-archives celpa)
   ;; (add-to-list 'package-archives melpa-mirror)
   (add-to-list 'package-archives melpa-stable)
   (add-to-list 'package-archives ubl)
@@ -195,7 +193,6 @@
      (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
      ;; (cons 'yafolding melpa)
-     (cons 'origami celpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      ;; (cons 'pivotal-tracker melpa)
