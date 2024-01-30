@@ -3890,20 +3890,7 @@ questions.  Else use completion to select the tab to switch to."
   ;;   (add-to-list 'major-mode-remap-alist mapping))
 )
 
-(use-package combobulate
-  :after treesit
-  :preface
-  (setq combobulate-key-prefix "C-c o")
-  :hook ((python-ts-mode . combobulate-mode)
-         (js-ts-mode . combobulate-mode) ;; combobulate only with js-ts-mode, not j2-mode
-         (css-ts-mode . combobulate-mode)
-         (yaml-ts-mode . combobulate-mode)
-         (json-ts-mode . combobulate-mode)
-         (typescript-ts-mode . combobulate-mode)
-         (tsx-ts-mode . combobulate-mode))
-  :load-path ("elisp/combobulate"))
-
-;; Rremove langs from this list that don't have ts modes yet (html, markdown) or I don't want to use their ts mode.
+;; Remove langs from this list that don't have ts modes yet (html, markdown) or I don't want to use their ts mode.
 ;; Removed javascript because js2-mode has a lot of good stuff: js2-refactor, jest-mode, key bindings for tide...
 (setq wjb/treesit-auto-langs '(awk bash bibtex c c-sharp clojure cmake commonlisp cpp css dart dockerfile elixir go gomod heex java json julia kotlin latex lua make proto python r ruby rust toml tsx typescript typst verilog vhdl yaml))
 
