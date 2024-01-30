@@ -54,15 +54,19 @@
 
 (setq load-prefer-newer t)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package)
+  (setq use-package-verbose t))
+
 (use-package compat)
 
 (defvar is-mac (equal system-type 'darwin))
 (defvar initial-file (expand-file-name "init.el" user-emacs-directory))
 (defvar wjb/home-directory (getenv "HOME"))
-
-(eval-when-compile
-  (require 'use-package)
-  (setq use-package-verbose t))
 
 ;; TODO(mine)
 (require 'sane-defaults)
