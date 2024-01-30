@@ -2317,11 +2317,11 @@ If PROJECT is not specified the command acts on the current project."
 (use-package dotenv-mode
   :mode "\\.env\\'")
 
-(use-package tsv-mode
+(use-package csv-mode
   :disabled
-  :mode "\\.tsv\\'"
+  :mode "\\.tsv\\'" "\\.csv\\'"
   :init
-  (add-hook 'tsv-mode-hook #'display-line-numbers-mode))
+  (add-hook 'csv-mode-hook #'display-line-numbers-mode))
 
 
 ;; various packages

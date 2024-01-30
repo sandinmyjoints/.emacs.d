@@ -135,6 +135,7 @@
      (cons 'log4j-mode melpa)
      (cons 'pandoc-mode melpa)
      (cons 'dotenv-mode melpa)
+     (cons 'csv-mode gnu)
 
      (cons 'treesit-auto melpa)
 
