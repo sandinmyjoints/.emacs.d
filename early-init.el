@@ -45,14 +45,21 @@
 ;;
 ;;; Code:
 
+;; Precompute activation actions to speed up startup.
+;; (setq package-quickstart t)
+
+;; When non-nil (default), packages are available within startup files. When
+;; nil, they are not, (package-activate-all) or (package-initialize) must be
+;; called manually.
+;;
+;; (setq package-enable-at-startup nil)
+
 (setq load-prefer-newer t)
 
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
 ;; font. By inhibiting this, we easily halve startup times with fonts that are
 ;; larger than the system default.
-(setq frame-inhibit-implied-resize t
-      package-quickstart t)
-;; (setq package-enable-at-startup nil)
+(setq frame-inhibit-implied-resize t)
 
 ;; Initial and default settings. Should match these:
 ;; defaults write org.gnu.Emacs Width 120

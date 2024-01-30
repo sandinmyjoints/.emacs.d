@@ -113,12 +113,11 @@
 ;; check comp-async-compilation variable to see if it's running.
 ;; TODO: move to a script
 
-(setq package-native-compile t) ;; compile on install
+(setq package-native-compile t) ;; t means compile packages on install.
 
 ;; see https://github.com/jrblevin/markdown-mode/issues/578#issuecomment-1126380098
 (setq native-comp-deferred-compilation-deny-list '("markdown-mode"))
 (setq native-comp-jit-compilation-deny-list '("markdown-mode\\.el$"))
-
 
 
 
