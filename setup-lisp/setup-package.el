@@ -134,6 +134,7 @@
      (cons 'nginx-mode melpa)
      (cons 'log4j-mode melpa)
      (cons 'pandoc-mode melpa)
+     (cons 'dotenv-mode melpa)
 
      (cons 'treesit-auto melpa)
 
