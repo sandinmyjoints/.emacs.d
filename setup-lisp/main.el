@@ -2131,22 +2131,17 @@ If PROJECT is not specified the command acts on the current project."
    '(".less")
      '(less-css-mode . (treemacs-get-icon-value "css")))
 
-    ;; todo: consider conditionally adding node_modules
-    (defun wjb/treemacs-ignore-compiled-files (filename filepath)
-      (or
-       (s-equals? (file-name-extension filename) "elc")
-       (s-equals? (file-name-extension filename) "pyc")))
-    (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
+  ;; todo: consider conditionally adding node_modules
+  (defun wjb/treemacs-ignore-compiled-files (filename filepath)
+    (or
+     (s-equals? (file-name-extension filename) "elc")
+     (s-equals? (file-name-extension filename) "pyc")))
+  (push #'wjb/treemacs-ignore-compiled-files treemacs-ignored-file-predicates)
 
   :bind
   (:map global-map
         ("H-a"       . treemacs-select-window)
         ("C-c d"     . treemacs-add-project-to-workspace)
-        ;; ("C-x t 1"   . treemacs-delete-other-windows)
-        ;; ("C-x t t"   . treemacs)
-        ;; ("C-x t B"   . treemacs-bookmark)
-        ;; ("C-x t C-t" . treemacs-find-file)
-        ;; ("C-x t M-t" . treemacs-find-tag)
         )
   (:map treemacs-mode-map
         ("e" . treemacs-TAB-action)
