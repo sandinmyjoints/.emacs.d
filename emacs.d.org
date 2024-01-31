@@ -27,6 +27,9 @@
   - regenerate autoloads for a package with =(package-generate-autoloads
     "shell-maker" "~/.emacs.d/elpa/shell-maker-20231210.1932/")= (they should
     have been generated at install time but can get corrupted)
+  - network connection is required by setup-package.el to refresh package
+    contents if one of the archive files doesn't exist. To get around that if
+    no network, touch the files so they all exist.
 * How to recover a frozen Emacs process                               :howto:
   - kill -USR2
   - Then set debug-on-quit back to nil

@@ -82,7 +82,7 @@
                (file-exists-p "~/.emacs.d/elpa/archives/nongnu")
                (file-exists-p "~/.emacs.d/elpa/archives/melpa")
                (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable"))
-    (package-refresh-contents))
+    (package-refresh-contents)) ;; Network dependency.
 
   (defun packages-install (&rest packages)
     (mapc (lambda (package)
@@ -91,7 +91,8 @@
               (when (not (package-installed-p name))
                 (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                     (let ((package-archives (list repo)))
-                      (package-install name nil))))))
+                      ;; package-install adds to package-selected-packages.
+                      (package-install name))))))
           packages))
 
   ;; Install packages if they're missing.
@@ -353,8 +354,7 @@
   (condition-case nil
       (init--install-packages)
     (error
-     ;; (package-refresh-contents) ;; this is running, making starting emacs dependent on the network
-     (init--install-packages))))
+     (message "Error installing packages in setup-package.el. Try package-refresh-contents, then (init--install-packages)."))))
 
 (provide 'setup-package)
 
