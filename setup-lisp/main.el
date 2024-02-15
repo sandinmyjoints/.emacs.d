@@ -782,7 +782,7 @@ pasting into other programs."
 
   (add-hook 'org-mode-hook #'wjb/org-mode-hook t)
 
-  (global-set-key (kbd "H-c") #'org-capture)
+  ;; (global-set-key (kbd "H-c") #'org-capture) ;; clobbers js2r
 
   (require 'org-tempo))
 
