@@ -138,6 +138,7 @@
 (add-to-list 'grep-find-ignored-directories "node_modules")
 (grep-apply-setting 'grep-find-template "gfind . <X> -type f <F> -exec ggrep <C> -nH -C 5 -e <R> {} +")
 
+(defvar wjb-find-in-project-default-dir ".")
 
 
 ;; Commands.
@@ -184,16 +185,15 @@
              (actual-command (format command-template negate-or-not name-pattern grep-string)))
         (grep-find actual-command))))
 
+
 ;; This is an older version that I don't really use anymore. Can probably unbind and archive it.
 ;; C-x i
-(defvar wjb-find-in-project-default-dir ".")
-(defun find-in-project (path grep-string)
-  "rgrep in current project dir."
-  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (read-from-minibuffer "search for: ")))
-  (let ((default-directory path))
-    (grep-find (concat wjb-default-find-command grep-string))))
-
+;; (defun find-in-project (path grep-string)
+;;   "rgrep in current project dir."
+;;   (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
+;;                      (read-from-minibuffer "search for: ")))
+;;   (let ((default-directory path))
+;;     (grep-find (concat wjb-default-find-command grep-string))))
 
 ;; TODO: match multiple globs. It needs multiple ipaths and -o for "or":
 ;; $ gfind public -ipath '*.png' -o -ipath '*.js'
@@ -210,7 +210,7 @@
 (global-set-key (kbd "C-c g") 'grep-find)
 
 ;; i is old/everything, 9 is by path, j is by name
-(global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
+;; (global-set-key (kbd "C-x i") 'find-in-project)  ; Clobbers insert-file.
 
 ;; (global-set-key (kbd "C-x 9") 'rgrep)
 (global-set-key (kbd "C-x 9") 'find-in-project-glob-by-path)
