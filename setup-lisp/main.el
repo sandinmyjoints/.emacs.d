@@ -2462,6 +2462,11 @@ If PROJECT is not specified the command acts on the current project."
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 
 ;; company / completion
 
