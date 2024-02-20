@@ -100,6 +100,6 @@
 ;; git diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
 (setq magit-diff-refine-hunk t
       ;; magit-git-executable "/opt/homebrew/bin/git"
-      magit-git-executable "/opt/homebrew/Cellar/git/2.43.0/bin/git")
+      magit-git-executable "/opt/homebrew/Cellar/git/2.43.2/bin/git")
 
 (provide 'setup-magit)
