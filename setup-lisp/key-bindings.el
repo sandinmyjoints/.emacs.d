@@ -334,7 +334,8 @@ Also converts full stops to commas."
 ;; - projectile-run-project
 ;; what does compile typically do, vs run?
 ;; run = start
-(define-key wjb-map (kbd "r") #'projectile-run-project)
+
+(define-key wjb-map (kbd "r") #'reveal-in-osx-finder)
 
 
 ;; profiler

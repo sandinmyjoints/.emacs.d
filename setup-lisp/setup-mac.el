@@ -108,6 +108,8 @@
 (use-package osx-plist
   :mode "\\.plist\\'")
 
+(use-package reveal-in-osx-finder)
+
 ;; Allow editing of binary .plist files.
 (add-to-list 'jka-compr-compression-info-list
              ["\\.plist$"
