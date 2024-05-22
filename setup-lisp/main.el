@@ -3970,7 +3970,8 @@ is already narrowed."
 (use-package chatgpt-shell
   :after shell-maker
   :custom
-  ((chatgpt-shell-openai-key
+  ((comint-use-prompt-regexp t) ;; trying to get prompt to have a different face
+   (chatgpt-shell-openai-key
     (lambda ()
       (auth-source-pick-first-password :host "api.openai.com")))))
 
