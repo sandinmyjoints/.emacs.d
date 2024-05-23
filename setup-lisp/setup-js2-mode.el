@@ -396,7 +396,8 @@ project."
         (setq prettier-js-command prettier)
         (prettier-js-mode)))))
 
-(when (require 'prettier-js nil t)
+(use-package prettier-js
+  :config
   (diminish 'prettier-js-mode)
   (make-variable-buffer-local 'prettier-js-command)
   (add-hook 'js-base-mode-hook #'my/use-prettier-if-in-node-modules)
