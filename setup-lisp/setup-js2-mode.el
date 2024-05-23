@@ -348,64 +348,13 @@ If buffer is not visiting a file, do nothing."
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
-(defun check-file-executable (file-path)
-  "Check if the file at FILE-PATH exists and is executable."
-  (let ((file (expand-file-name file-path)))
-    (when (and (file-exists-p file)
-               (file-executable-p file))
-      file)))
-
 ;; Prettier.
 ;;
-;; TODO: This can probably be updated to work with
-;; add-node-modules-path.
-;; or even better would be: $ "$(npm bin)/prettier"
-(defun my/use-prettier-if-in-node-modules ()
-  "Use prettier-js-mode if prettier is found in this file's
-project's node_modules. Use the prettier binary from this
-project."
-  (when (or (derived-mode-p 'js-base-mode)
-            (derived-mode-p 'typescript-mode)
-            (derived-mode-p 'typescript-ts-mode)
-            (derived-mode-p 'tsx-ts-mode))
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-
-           (prettier (or
-                      ;; emacs doesn't seem to execute this, perhaps b/c it's a symlink?
-                      ;; (and root
-                      ;;      (expand-file-name "node_modules/.bin/prettier"
-                      ;;                        root))
-                      (check-file-executable
-                           (expand-file-name "node_modules/prettier/bin/prettier.js"
-                                             root))
-                      (check-file-executable
-                           (expand-file-name "node_modules/prettier/bin/prettier.cjs"
-                                             root))
-                      (check-file-executable
-                           (expand-file-name "node_modules/prettier/bin-prettier.js"
-                                             root))
-                      (check-file-executable
-                           (expand-file-name "node_modules/prettier/prettier"
-                                             root)))))
-      ;; (message (format "root: %s" root))
-      ;; (message (format "prettier: %s" prettier))
-      ;; (debug)
-      (when (and prettier (file-executable-p prettier))
-        (setq prettier-js-command prettier)
-        (prettier-js-mode)))))
-
 (use-package prettier-js
+  :hook ((js-base-mode . prettier-js-mode)
+         (typescript-ts-base-mode . prettier-js-mode))
   :config
   (diminish 'prettier-js-mode)
-  (make-variable-buffer-local 'prettier-js-command)
-  (add-hook 'js-base-mode-hook #'my/use-prettier-if-in-node-modules)
-  (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules)
-  (add-hook 'js2-minor-mode-hook #'my/use-prettier-if-in-node-modules)
-  (add-hook 'typescript-mode-hook #'my/use-prettier-if-in-node-modules)
-  (add-hook 'typescript-ts-mode-hook #'my/use-prettier-if-in-node-modules)
-  (add-hook 'tsx-ts-mode-hook #'my/use-prettier-if-in-node-modules)
   (setq prettier-js-width-mode 'fill)
   (setq-local prettier-js-args
         '("--single-quote"
