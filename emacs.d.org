@@ -2371,13 +2371,14 @@ $ ls
     (debug)
     #+end_src
   - commands: https://www.gnu.org/software/emacs/manual/html_node/elisp/Backtraces.html
-** debug
-  - edebug-trace-mode
-  - http://blog.binchen.org/posts/my-work-flow-to-debug-emacs-plugin.html
 ** edebug
    - C-u C-M-x (eval-defun with prefix arg)
+   - https://emacsdocs.org/docs/elisp/Jumping
+   - https://emacsdocs.org/docs/elisp/Edebug-Execution-Modes
    - http://dgutov.github.io/blog/2021/06/19/debugging-a-syntax-error-in-js2-mode/
    - keys: https://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug-Execution-Modes.html
+  - edebug-trace-mode
+  - http://blog.binchen.org/posts/my-work-flow-to-debug-emacs-plugin.html
 ** macros
   - macrostep-mode and macrostep-expand
 * emacs package development handbook
