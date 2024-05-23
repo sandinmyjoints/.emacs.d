@@ -315,38 +315,7 @@ If buffer is not visiting a file, do nothing."
 
 ;; Flycheck.
 ;;
-(make-variable-buffer-local 'flycheck-javascript-eslint-executable)
 (setq flycheck-eslint-args '("--no-color"))
-
-;; from http://emacs.stackexchange.com/a/21207
-(defun my/use-eslint-from-node-modules ()
-  ;; TODO: may need to add web-mode or some js-specific minor mode from it to
-  ;; this to get proper eslint when using web-mode for jsx files
-  ;; TODO: use flycheck-executable-find
-  (when (or (derived-mode-p 'js-mode)
-            (derived-mode-p 'typescript-mode)
-            (derived-mode-p 'typescript-ts-mode)
-            (derived-mode-p 'tsx-ts-mode))
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root)))
-           (eslint2 (and root
-                        (expand-file-name "node_modules/.bin/eslint"
-                                          root)))
-           (eslint_d (executable-find "eslint_d")))
-      ;; (message (format "vars: 1 %s 2 %s 3 %s" root eslint eslint_d))
-      ;; eslint_d has stopped working in jsx files, so disabling it.
-      (if (and nil (file-executable-p (format "%s" eslint_d)))
-          (setq-local flycheck-javascript-eslint-executable eslint_d)
-        (if (and eslint (file-executable-p (format "%s" eslint)))
-            (setq-local flycheck-javascript-eslint-executable eslint)
-          (when (and eslint2 (file-executable-p (format "%s" eslint2)))
-            (setq-local flycheck-javascript-eslint-executable eslint2)))))))
-
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 ;; Prettier.
 ;;
