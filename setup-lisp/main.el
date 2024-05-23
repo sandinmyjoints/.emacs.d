@@ -2843,29 +2843,6 @@ If PROJECT is not specified the command acts on the current project."
   :mode "\\.coffee\\.erb\\'"
   :init
   (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
-
-  (defun my/use-coffeelint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (coffeelint (and root
-                            (expand-file-name "node_modules/coffeelint/bin/coffeelint"
-                                              root))))
-      (when (and coffeelint (file-executable-p coffeelint))
-        (setq-local flycheck-coffee-coffeelint-executable coffeelint))))
-  (add-hook 'coffee-mode-hook #'my/use-coffeelint-from-node-modules)
-
-  (defun my/use-coffee-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (coffee (and root
-                        (expand-file-name "node_modules/.bin/coffee"
-                                          root))))
-      (when (and coffee (file-executable-p coffee))
-        (setq-local flycheck-coffee-executable coffee))))
-  (add-hook 'coffee-mode-hook #'my/use-coffee-from-node-modules)
-
   :config
   (require 'setup-coffee)
   (setq coffee-tab-width preferred-javascript-indent-level))
