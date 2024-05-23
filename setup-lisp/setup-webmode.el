@@ -59,9 +59,6 @@
     (when (equal web-mode-content-type "jsx")
       (flycheck-mode +1))))
 
-(eval-after-load 'web-mode
-  '(add-hook 'web-mode-hook #'add-node-modules-path))
-
 ;; (add-hook 'web-mode-hook #'js2-minor-mode)
 
 (provide 'setup-webmode)

@@ -231,7 +231,6 @@
      (cons 'js2-refactor melpa-stable)
      ;; (cons 'js2-highlight-vars melpa)
      (cons 'prettier-js melpa)
-     (cons 'add-node-modules-path melpa)
      ;; (cons 'discover-js2-refactor melpa)
      (cons 'tide melpa)
      (cons 'coffee-mode melpa)

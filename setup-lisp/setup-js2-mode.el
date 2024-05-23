@@ -288,18 +288,6 @@ If buffer is not visiting a file, do nothing."
 ;; (eval-after-load "js2-highlight-vars-autoloads"
 ;;   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
 
-;;(setq add-node-modules-path-debug t)
-(eval-after-load 'js-mode
-  '(add-hook 'js-base-mode-hook #'add-node-modules-path))
-(eval-after-load 'js2-mode
-  '(add-hook 'js2-mode-hook #'add-node-modules-path))
-(eval-after-load 'js2-minor-mode
-  '(add-hook 'js2-minor-mode-hook #'add-node-modules-path))
-(eval-after-load 'typescript-mode
-  '(add-hook 'typescript-mode-hook #'add-node-modules-path))
-(eval-after-load 'typescript-ts-mode
-  '(add-hook 'typescript-ts-mode-hook #'add-node-modules-path))
-
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode
   '(progn
