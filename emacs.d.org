@@ -2535,6 +2535,10 @@ dired, writable dired
     - eldoc-message-commands
     - (eldoc-add-command)
   - get typescript version with tide-verify-setup
+* replacement for tide
+  - https://github.com/yioneko/vtsls
+    - "it's pretty snappy with (fset #'jsonrpc--log-event #'ignore)"
+    - https://old.reddit.com/r/emacs/comments/1865s7b/recommended_setup_for_react_development/
 * tide uses eldoc, I have things configured for eldoc to to use eldoc-box, eldoc-box-hover-mode in prog-mode hook
 * TODO try lsp for js
 * js2 ideas
