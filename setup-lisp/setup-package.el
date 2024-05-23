@@ -107,6 +107,7 @@
 
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'reveal-in-osx-finder melpa)
+     (cons 'envrc melpa)
 
      (cons 'flx-ido melpa)
      (cons 'ido-completing-read+ melpa)

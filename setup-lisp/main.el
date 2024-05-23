@@ -3782,6 +3782,9 @@ questions.  Else use completion to select the tab to switch to."
   )
 (add-hook 'emacs-startup-hook #'wjb/emacs-startup-hook)
 
+(use-package envrc
+  :hook (after-init . envrc-global-mode))
+
 ;; (defun wjb/run-once-when-idle (fun)
 ;;   "Run a command every once in a while, if possible when emacs is idle."
 ;;   (defun wjb/generate-idle-callback (fun)
