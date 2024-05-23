@@ -1245,7 +1245,11 @@ true
 * projectile command
   - projectile-run-compilation runs compile without the comint arg!
   - [ ] check whether there's an issue for this
-* jest-mode
+* [[https://github.com/rymndhng/jest-test-mode][jest-test-mode]]
+  - not using it but worth a look
+  - https://old.reddit.com/r/emacs/comments/16v1vo3/what_to_do_without_vimtest_or_neotest/
+* [[https://github.com/edmundmiller/emacs-jest][jest-mode]]
+  - using my fork of it
   - jest mode defined in 'jest.el': Major mode for jest sessions (derived from comint-mode).
   - [X] to set defaults in magit-popup: C-t to show magit-popup common commands, set
     the values, then C-x C-s
@@ -1340,6 +1344,13 @@ Snapshots:   0 total
      XXX in the test name, then use -t flag
 ** TODO leverage debugger / integrate with indium?
 
+* TODO watch mode
+  - what movement terminal codes would comint need to support in order to work
+    with jest watch mode? same with vitest
+
+
+
+
 * projects in compilation-mode
 ** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
    CLOSED: [2018-10-08 Mon 11:47]
@@ -1406,13 +1417,6 @@ Snapshots:   0 total
    - see https://emacs.stackexchange.com/a/15219/2163
    - basically, adjust the regex match to change what is considered the
      hyperlink (which is underlined)
-
-* TODO watch mode
-  - what movement terminal codes would comint need to support in order to work
-    with jest watch mode?
-
-
-
 
 
 * My groupings of buffers
