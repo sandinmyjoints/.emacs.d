@@ -114,6 +114,15 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (define-key typescript-ts-mode-map "\C-c@" 'tide-jsdoc-template)
   )
 
+;; HACK to avoid running this in magit buffers
+(defun nvm-use-for-buffer ()
+  "Activate Node based on an .nvmrc for the current file.
+If buffer is not visiting a file, do nothing."
+  (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
+    (condition-case err
+        (nvm-use-for buffer-file-name)
+      (error (message "%s" err)))))
+
 (after-load 'js2-mode
   (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
   (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
@@ -193,15 +202,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (add-hook 'yml-mode-hook #'nvm-use-for-buffer)
   (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer)
   (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
-
-  ;; HACK to avoid running this in magit buffers
-  (defun nvm-use-for-buffer ()
-    "Activate Node based on an .nvmrc for the current file.
-If buffer is not visiting a file, do nothing."
-    (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
-      (condition-case err
-          (nvm-use-for buffer-file-name)
-        (error (message "%s" err))))))
+)
 
 ;; TODO: default nvm to be used at startup, before any project has been activated.
 
