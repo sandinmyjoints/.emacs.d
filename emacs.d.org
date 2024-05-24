@@ -2544,7 +2544,12 @@ dired, writable dired
 * js2 ideas
   - [X] js2 mark-defun works for tests
   - js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
+* replacing node_modules stuff with envrc.el
+  - add an .envrc file with [[https://direnv.net/man/direnv-stdlib.1.html#codelayout-nodecode][layout node]] in it
+  - confirm with (executable-find "prettier") or whatever
+  -
 * TODO cypress black text on black bg in terminal                :cypress:vterm:
+  - vitest in vterm seems to have this problem too
       - foreground: black
       - background: #000000
       - can it automatically do inverse video?
@@ -2838,3 +2843,14 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   #+end_src
 
 ** borg?
+* vitest color
+  - [[https://github.com/vitest-dev/vitest/discussions/3351][use FORCE_COLOR=1]]
+  - why weird output in jest-mode (comint)? maybe
+    https://github.com/vitest-dev/vitest/issues/1447
+  - https://emacs.stackexchange.com/a/45519
+  #+begin_src lisp
+(add-hook 'comint-mode-hook
+          (defun rm-comint-postoutput-scroll-to-bottom ()
+            (remove-hook 'comint-output-filter-functions
+                         'comint-postoutput-scroll-to-bottom)))
+  #+end_src
