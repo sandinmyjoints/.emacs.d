@@ -2546,6 +2546,7 @@ dired, writable dired
   - js2 mark-block. would mark the containing block + prefix and suffix (assignment, semicolon)
 * replacing node_modules stuff with envrc.el
   - add an .envrc file with [[https://direnv.net/man/direnv-stdlib.1.html#codelayout-nodecode][layout node]] in it
+  - call envrc-reload
   - confirm with (executable-find "prettier") or whatever
   -
 * TODO cypress black text on black bg in terminal                :cypress:vterm:
