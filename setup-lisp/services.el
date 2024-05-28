@@ -102,6 +102,7 @@
         ("a" (wjb/switch-to-project-vterm (expand-file-name "~")) "adhoc")
         ("e" (projectile-switch-project-by-name (home-subdir ".emacs.d")) "emacs.d")
         ("t" (projectile-switch-project-by-name (home-subdir "scm/sd/atalanta")) "atalanta")
+        ("i" (projectile-switch-project-by-name (home-subdir "scm/sd/cicero")) "cicero")
         ("q" (projectile-switch-project-by-name (home-subdir "scm/sd/equivalency")) "equivalency")
         ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/hegemone")) "hegemone")
         ("n" (projectile-switch-project-by-name (home-subdir "scm/sd/neodarwin")) "neodarwin")
@@ -111,7 +112,6 @@
         ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
         ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
-        ("i" (projectile-switch-project-by-name (home-subdir "scm/wjb/nicer-email-extension")) "nicer.email")
         ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
 )
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
@@ -139,6 +139,7 @@
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
         ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
         ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
+        ("i" (wjb/switch-to-project-vterm (home-subdir "scm/sd/cicero")) "cicero")
         ("q" (wjb/switch-to-project-vterm (home-subdir "scm/sd/equivalency")) "equivalency")
         ("h" (wjb/switch-to-project-vterm (home-subdir "scm/sd/hegemone")) "hegemone")
         ("n" (wjb/switch-to-project-vterm (home-subdir "scm/sd/neodarwin")) "neodarwin")
