@@ -47,18 +47,20 @@
 
 (defvar wjb/sd-services
   '(
-    "sd-gimme-db"
     "atalanta"
-    "darwin"
-    "sd-auth"
-    "sd-leaderboards"
-    "sd-scribe"
-    "sd-playground"
-    "sd-spelling"
-    "neodarwin"
+    "cicero"
     "hegemone"
+    "neodarwin"
+    "sd-auth"
+    "sd-scribe"
+    "sd-gimme-db"
+    "sd-leaderboards"
+    "sd-playground"
     "sd-router"
-    "word-of-the-day"))
+    "sd-scribe"
+    "sd-spelling"
+    "word-of-the-day"
+))
 
 (defvar wjb/wjb-projects
   '(
@@ -66,20 +68,21 @@
     "git-mine"))
 
 (defvar wjb/projects (list
+                      ".emacs.d"
                       "adhoc"
-                      "sd-router"
-                      "neodarwin"
                       "atalanta"
+                      "cicero"
+                      "equivalency"
+                      "git-mine"
+                      "hegemone"
+                      "neodarwin"
                       "sd-auth"
                       "sd-scribe"
-                      "sd-leaderboards"
-                      "hegemone"
-                      "sd-playground"
                       "sd-gimme-db"
-                      ".emacs.d"
-                      "equivalency"
-                      "use-async-queue"
-                      "git-mine"
+                      "sd-leaderboards"
+                      "sd-playground"
+                      "sd-router"
+                      "sd-scribe"
                       "word-of-the-day"
                       ))
 
@@ -97,21 +100,20 @@
 (defhydra wjb/projects/hydra (:color blue :columns 3)
    "Switch to project"
         ("a" (wjb/switch-to-project-vterm (expand-file-name "~")) "adhoc")
-        ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
-        ("n" (projectile-switch-project-by-name (home-subdir "scm/sd/neodarwin")) "neodarwin")
-        ("t" (projectile-switch-project-by-name (home-subdir "scm/sd/atalanta")) "atalanta")
-        ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
-        ("u" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-auth")) "sd-auth")
-        ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
-        ("l" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
-        ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/hegemone")) "hegemone")
-        ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
-        ("g" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
         ("e" (projectile-switch-project-by-name (home-subdir ".emacs.d")) "emacs.d")
-        ("s" (projectile-switch-project-by-name (home-subdir "scm/wjb/silver-mind")) "silver-mind")
+        ("t" (projectile-switch-project-by-name (home-subdir "scm/sd/atalanta")) "atalanta")
+        ("q" (projectile-switch-project-by-name (home-subdir "scm/sd/equivalency")) "equivalency")
+        ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/hegemone")) "hegemone")
+        ("n" (projectile-switch-project-by-name (home-subdir "scm/sd/neodarwin")) "neodarwin")
+        ("u" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-auth")) "sd-auth")
+        ("g" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
+        ("l" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
+        ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
+        ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
+        ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ("i" (projectile-switch-project-by-name (home-subdir "scm/wjb/nicer-email-extension")) "nicer.email")
-        ("y" (projectile-switch-project-by-name (home-subdir "scm/wjb/defoxify-extension")) "defoxify")
-        ("q" (projectile-switch-project-by-name (home-subdir "scm/sd/equivalency")) "equivalency"))
+        ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
+)
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
 
 (defun wjb/switch-to-project-vterm (proj-dir)
@@ -134,21 +136,21 @@
 
 (defhydra wjb/projects/hydra/shell (:color blue :columns 3)
    "Shell in project"
-        ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
-        ("r" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-router")) "sd-router")
-        ("n" (wjb/switch-to-project-vterm (home-subdir "scm/sd/neodarwin")) "neodarwin")
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
-        ("w" (wjb/switch-to-project-vterm (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
+        ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
+        ("q" (wjb/switch-to-project-vterm (home-subdir "scm/sd/equivalency")) "equivalency")
+        ("h" (wjb/switch-to-project-vterm (home-subdir "scm/sd/hegemone")) "hegemone")
+        ("n" (wjb/switch-to-project-vterm (home-subdir "scm/sd/neodarwin")) "neodarwin")
+        ("r" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-router")) "sd-router")
         ("u" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-auth")) "sd-auth")
         ("c" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ("l" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
-        ("h" (wjb/switch-to-project-vterm (home-subdir "scm/sd/hegemone")) "hegemone")
         ("p" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
-        ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
         ("i" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/nicer-email-extension")) "nicer")
-        ("y" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/defoxify-extension")) "defoxify")
-        ("q" (wjb/switch-to-project-vterm (home-subdir "scm/sd/equivalency")) "equivalency"))
+        ("w" (wjb/switch-to-project-vterm (home-subdir "scm/sd/word-of-the-day")) "wotd")
+)
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
 ;; TODO: rewrite using defhydra+
