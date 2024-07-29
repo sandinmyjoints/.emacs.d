@@ -340,9 +340,9 @@ If buffer is not visiting a file, do nothing."
         tide-filter-out-warning-completions t
         tide-sync-request-timeout 5
         tide-project-cleanup-delay (* 20 60)
-        tide-tsserver-process-environment '("NODE_OPTIONS='--max-old-space-size=4096")
-        tide-server-max-response-length (* 10 256 1024))
-  ;; (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+        tide-tsserver-process-environment '("NODE_OPTIONS=--max-old-space-size=4096")
+        ;; tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log" "NODE_OPTIONS=--max-old-space-size=8192")
+        tide-server-max-response-length (* 2 1024 1024))
 
   ;; tide places company-tide first :(
   (pop company-backends)
