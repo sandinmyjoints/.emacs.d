@@ -352,6 +352,7 @@ If buffer is not visiting a file, do nothing."
   ;; Running eslint with TS type checking rules turned on can be pretty slow, so
   ;; only do it if TS itself did not complain.
   (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint) 'append)
+  (flycheck-add-next-checker 'tsx-tide '(error . javascript-eslint) 'append)
 
   ;; monkey patch tide-start-server to generate a new buffer name that includes
   ;; the project name.
