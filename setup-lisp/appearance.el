@@ -69,7 +69,7 @@
 
 (defvar wjb/is-small-display t "Whether display is a small screen or not.")
 (defun wjb/is-small-display ()
-  (if (<= (display-pixel-width) 1512)
+  (if (<= (display-pixel-width) 1728)
       (setq wjb/is-small-display t)
     (setq wjb/is-small-display nil)))
 
@@ -362,7 +362,7 @@ OK on large screens."
   ;; temporarily switch to treemacs window
   (when (functionp 'treemacs-get-local-window)
     (with-selected-window (treemacs-get-local-window)
-      (if (wjb/is-small-display) (treemacs--set-width 42) (treemacs--set-width 56))))
+      (if (wjb/is-small-display) (treemacs--set-width 46) (treemacs--set-width 56))))
 
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
