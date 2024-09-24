@@ -60,6 +60,7 @@
     "sd-scribe"
     "sd-spelling"
     "word-of-the-day"
+    "sd-reword"
 ))
 
 (defvar wjb/wjb-projects
@@ -84,6 +85,7 @@
                       "sd-router"
                       "sd-scribe"
                       "word-of-the-day"
+                      "sd-reword"
                       ))
 
 (use-package hydra
@@ -113,6 +115,7 @@
         ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
         ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ("o" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
 
@@ -140,6 +143,7 @@
         ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
         ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
         ("i" (wjb/switch-to-project-vterm (home-subdir "scm/sd/cicero")) "cicero")
+        ;; ("i" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/nicer-email-extension")) "nicer")
         ("q" (wjb/switch-to-project-vterm (home-subdir "scm/sd/equivalency")) "equivalency")
         ("h" (wjb/switch-to-project-vterm (home-subdir "scm/sd/hegemone")) "hegemone")
         ("n" (wjb/switch-to-project-vterm (home-subdir "scm/sd/neodarwin")) "neodarwin")
@@ -149,8 +153,8 @@
         ("l" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
-        ("i" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/nicer-email-extension")) "nicer")
         ("w" (wjb/switch-to-project-vterm (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ("o" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
