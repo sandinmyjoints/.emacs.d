@@ -2862,3 +2862,5 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   - https://magit.vc/manual/ghub/Creating-and-Storing-a-Token.html
   - https://www.perplexity.ai/search/how-can-i-specify-my-github-cr-l9bqIdZ1Sy67LzSRXTca5g
   - also useful: https://magit.vc/manual/magit/Per_002dRepository-Configuration.html
+
+* [[https://news.ycombinator.com/item?id=41528919][speech mode]]
