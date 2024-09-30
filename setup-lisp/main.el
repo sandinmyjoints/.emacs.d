@@ -2599,11 +2599,11 @@ If PROJECT is not specified the command acts on the current project."
         (backend '(company-clang company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
       (if (equal list 'company-capf)
           (push
-           (list backend 'company-dabbrev-code :with 'company-dabbrev 'company-emoji 'company-keywords)
+           (list backend 'company-dabbrev-code :with :separate 'company-dabbrev 'company-emoji 'company-keywords)
            zing)
 
         (push
-         (list backend :with 'company-dabbrev-code 'company-keywords)
+         (list backend :with :separate 'company-dabbrev-code 'company-keywords)
          zing)))
 
     ;; generic
