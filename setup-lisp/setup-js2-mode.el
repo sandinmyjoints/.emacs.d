@@ -148,6 +148,8 @@ If buffer is not visiting a file, do nothing."
   (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill)
 
+  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
+
   ;; Disable js2 mode's syntax error highlighting by default...
   (setq-default js2-mode-show-parse-errors nil
                 js2-mode-show-strict-warnings nil
