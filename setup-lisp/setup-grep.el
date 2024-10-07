@@ -143,6 +143,17 @@
 
 ;; Commands.
 
+(defun wrap-in-single-quotes (str)
+  "Add single quotes to the beginning and ending of STR if not already present and not wrapped in double quotes."
+  (let ((trimmed (string-trim str)))
+    (if (or
+         (and (string-prefix-p "\"" trimmed)
+              (string-suffix-p "\"" trimmed))
+         (and (string-prefix-p "'" trimmed)
+              (string-suffix-p "'" trimmed)))
+        trimmed
+      (concat "'" trimmed "'"))))
+
 ;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
   "find|xargs in current project dir by path. Negate with prefix arg."
@@ -161,7 +172,7 @@
                                   ""))
              (negate-or-not (if prefix "! " ""))
              (command-template (concat wjb-find-bin " . " negate-or-not wjb-path-or-iname " '%s' "wjb-find-args wjb-after-the-pipe))
-             (actual-command (format command-template name-pattern grep-string)))
+             (actual-command (format command-template name-pattern (wrap-in-single-quotes grep-string))))
         (grep-find actual-command))))
 
 ;; C-x j -> j close to n for name
@@ -182,7 +193,7 @@
                                   ""))
              (command-template (concat wjb-find-bin " . %s " wjb-path-or-iname " '%s' "  wjb-find-args wjb-after-the-pipe))
              (negate-or-not (if prefix "!" ""))
-             (actual-command (format command-template negate-or-not name-pattern grep-string)))
+             (actual-command (format command-template negate-or-not name-pattern (wrap-in-single-quotes grep-string))))
         (grep-find actual-command))))
 
 
