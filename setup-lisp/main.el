@@ -2281,10 +2281,9 @@ If PROJECT is not specified the command acts on the current project."
   (add-hook 'restclient-response-loaded-hook
             (defun mad/js-to-cjson-mode ()
               (when (equal major-mode 'js-mode)
-                (json-mode)
+                (jsonc-mode)
                 (when (fboundp 'tree-sitter-mode)
                   (tree-sitter-mode -1))
-                ;; Disable Flycheck so comments don't set off alarms
                 (flycheck-mode -1)))))
 
 (use-package shell-script-mode
