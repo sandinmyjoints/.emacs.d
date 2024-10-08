@@ -37,7 +37,8 @@
 
 ;; this means it will only be shown/hidden by tab, not by killing and reopening
 ;; the magit-status buffer.
-(setq magit-section-cache-visibility '(stashes untracked))
+;; Setting to the value below caused sections to be hidden/closed after I staged a hunk.
+;; (setq magit-section-cache-visibility '(stashes untracked))
 
 (define-key magit-status-mode-map (kbd "M-u") 'magit-section-up)
 
