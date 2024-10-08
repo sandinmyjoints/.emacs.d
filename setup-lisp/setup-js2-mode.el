@@ -107,11 +107,13 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 (after-load 'typescript-mode
   (define-key typescript-mode-map (kbd "H-c") 'tide-refactor)
   (define-key typescript-mode-map "\C-c@" 'tide-jsdoc-template)
+  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   )
 
 (after-load 'typescript-ts-mode
   (define-key typescript-ts-mode-map (kbd "H-c") 'tide-refactor)
   (define-key typescript-ts-mode-map "\C-c@" 'tide-jsdoc-template)
+  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   )
 
 ;; HACK to avoid running this in magit buffers
@@ -147,8 +149,6 @@ If buffer is not visiting a file, do nothing."
   (define-key js2-refactor-mode-map (kbd "H-c m") 'wjb-mark-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill)
-
-  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
 
   ;; Disable js2 mode's syntax error highlighting by default...
   (setq-default js2-mode-show-parse-errors nil
