@@ -209,6 +209,7 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-c C-b") 'browse-at-remote)
 
+(global-set-key (kbd "C-c l") 'org-store-link)
 ;; (global-set-key (kbd "C-0") 'multi-occur-in-this-mode) ;; Using for helm-org-rifle
 (global-set-key (kbd "C-c 0") 'multi-occur-in-mode-string)
 ;; Example: \\*.org
