@@ -2995,6 +2995,9 @@ Interactively also sends a terminating newline."
 (defvar wjb/last-grep-buffer nil
   "The last grep buffer.")
 
+(defvar wjb/last-jest-buffer nil
+  "The last jest buffer.")
+
 ;; based on https://github.com/bhollis/dotfiles/blob/86a1c854050a9ac1e5a205471802373328ee0b4f/emacs.d/init.el#L378
 ;; comint mode is interactive, compilation-shell-minor-mode runs compilation using shell-mode which is comint-mode, so it is interactive.
 ;; C-c RET starts compilation, keys don't do anything
@@ -3204,13 +3207,16 @@ Interactively also sends a terminating newline."
   ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
   (defun wjb/switch-to-project-jest-buffer ()
-    "Switch to a project's jest buffer, falling back to last compilation buffer.*"
+    "Switch to a project's jest buffer, falling back to last jest buffer.*"
+    ;; needs to be updated for monorepos: cannot rely on projectile project name
     (interactive)
     (let* ((projectile-current-project-name (projectile-default-project-name (projectile-project-root)))
            (buffer-name (format "*jest*<%s>" projectile-current-project-name)))
       (if (buffer-live-p (get-buffer buffer-name))
           (switch-to-buffer buffer-name)
-        (funcall-interactively #'wjb/switch-to-last-compilation-buffer))))
+        (if (buffer-live-p wjb/last-jest-buffer)
+            (switch-to-buffer wjb/last-jest-buffer)
+          (user-error "No jest buffer")))))
 
   (defun wjb/switch-to-last-compilation-buffer ()
     "Switch to last compilation buffer, falling back to *compilation*."
