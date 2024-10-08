@@ -2967,10 +2967,11 @@ Interactively also sends a terminating newline."
 
 ;; - Enter is for compile-goto-error, unless I want to rebind it to something else
 ;;   - Maybe I could somehow remap so that pressing C-j or C-m tells Jest to do Enter?
-;; - p and t are for typing in patterns, so they don't workm
+;; - p and t are for typing in patterns, so they don't work
 ;; - a w f o are for changing watch mode
+;; - r is for re-running
 ;; - TODO don't echo the key I press
-(dolist (key '("\C-d" "\C-j" "a" "w" "f" "o"))
+(dolist (key '("\C-d" "\C-j" "a" "w" "f" "o" "r"))
   (define-key compilation-mode-map key
     #'endless/send-self)
   ;; I have jest set to run compilation-minor-mode, so this is the map that is active in my jest buffers:
