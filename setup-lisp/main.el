@@ -2872,6 +2872,7 @@ If PROJECT is not specified the command acts on the current project."
   :after (js2-mode exec-path-from-shell)
   :hook ((js2-mode . jest-minor-mode)
          (typescript-ts-mode . jest-minor-mode)
+         (tsx-ts-mode . jest-minor-mode)
          (typescript-mode . jest-minor-mode))
   :load-path "elisp/emacs-jest"
   :bind (
