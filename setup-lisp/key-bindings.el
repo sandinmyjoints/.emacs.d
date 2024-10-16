@@ -198,7 +198,13 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "H-a") #'treemacs-select-window)
 
-(global-set-key (kbd "C-/") 'hippie-expand) ;; clobbers undo, but I never use it at this binding anyway
+;; clobbers undo, but I never use it at this binding anyway
+(global-set-key (kbd "C-/")
+                (lambda ()
+                  (interactive)
+                  (if (fboundp 'copilot-mode)
+                      (call-interactively #'copilot-complete)
+                    (call-interactively #'hippie-expand))))
 
 ;; (global-set-key (kbd "C-<return>") 'goto-address-at-point) ;; dont need this b/c goto-address-mode
 
@@ -295,8 +301,8 @@ Also converts full stops to commas."
 (defun wjb/switch-to-standup () (interactive) (find-file "~/notes/sd-standup.org"))
 (define-key wjb-map (kbd "s") #'wjb/switch-to-standup)
 
-(defun wjb/switch-to-nicer () (interactive) (find-file "~/scm/wjb/nicer-email-extension/nicer.org"))
-(define-key wjb-map (kbd "i") #'wjb/switch-to-nicer)
+;; (defun wjb/switch-to-nicer () (interactive) (find-file "~/scm/wjb/nicer-email-extension/nicer.org"))
+;; (define-key wjb-map (kbd "i") #'wjb/switch-to-nicer)
 
 (defun wjb/switch-to-defoxify () (interactive) (find-file "~/scm/wjb/defoxify-extension/defoxify.org"))
 (define-key wjb-map (kbd "y") #'wjb/switch-to-defoxify)
