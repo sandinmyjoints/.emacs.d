@@ -3226,10 +3226,32 @@ Interactively also sends a terminating newline."
         (switch-to-buffer wjb/last-compilation-buffer)
       (funcall-interactively #'wjb/switch-to-compilation-buffer)))
 
+  (defun buffers-with-compilation-minor-mode ()
+    (let ((buffers '()))
+      (dolist (buffer (buffer-list))
+        (with-current-buffer buffer
+          (when (bound-and-true-p compilation-minor-mode)
+            (push (buffer-name buffer) buffers))))
+      buffers))
+
+  (defun buffers-for-jest ()
+    (let ((jest-buffers '()))
+      (dolist (buffer (buffer-list))
+        (let ((buffer-name (buffer-name buffer)))
+          (when (string-match-p "*jest*" buffer-name)
+            (push buffer-name jest-buffers))))
+      jest-buffers))
+
+  (defun most-recently-visited-buffer (buffer-list)
+    (car (sort (mapcar #'get-buffer (remove nil buffer-list))
+               (lambda (b1 b2)
+                 (time-less-p (buffer-local-value 'buffer-display-time b2)
+                              (buffer-local-value 'buffer-display-time b1))))))
+
   (defun wjb/switch-to-compilation-buffer ()
     "Switch to *compilation*"
     (interactive)
-    (let ((comp-buffer-name "*compilation*"))
+    (let ((comp-buffer-name (most-recently-visited-buffer (buffers-with-compilation-minor-mode))))
       (if (buffer-live-p (get-buffer comp-buffer-name))
           (switch-to-buffer comp-buffer-name)
         (message "no compilation buffer"))))
@@ -3241,13 +3263,13 @@ Interactively also sends a terminating newline."
       (switch-to-buffer wjb/last-grep-buffer)))
 
   ;; based on purcell
-  (defadvice compilation-start (after wjb/save-compilation-buffer activate)
-    "Save the compilation buffer to find it later."
-    (let ((buf-name (buffer-name next-error-last-buffer)))
-      (when (s-contains? "compil" buf-name t)
-        (setq wjb/last-compilation-buffer next-error-last-buffer))
-      (when (s-contains? "grep" buf-name t)
-        (setq wjb/last-grep-buffer next-error-last-buffer))))
+  ;; (defadvice compilation-start (after wjb/save-compilation-buffer activate)
+  ;;   "Save the compilation buffer to find it later."
+  ;;   (let ((buf-name (buffer-name next-error-last-buffer)))
+  ;;     (when (s-contains? "compil" buf-name t)
+  ;;       (setq wjb/last-compilation-buffer next-error-last-buffer))
+  ;;     (when (s-contains? "grep" buf-name t)
+  ;;       (setq wjb/last-grep-buffer next-error-last-buffer))))
 
   (defadvice recompile (around wjb/find-prev-compilation (&optional edit-command) activate)
     "Find the previous compilation buffer, if present, and recompile there."
