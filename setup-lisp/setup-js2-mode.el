@@ -104,17 +104,10 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   )
 
 ;; TODO convert to use-package :bind
-(after-load 'typescript-mode
-  (define-key typescript-mode-map (kbd "H-c") 'tide-refactor)
-  (define-key typescript-mode-map "\C-c@" 'tide-jsdoc-template)
-  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
-  )
-
-(after-load 'typescript-ts-mode
-  (define-key typescript-ts-mode-map (kbd "H-c") 'tide-refactor)
-  (define-key typescript-ts-mode-map "\C-c@" 'tide-jsdoc-template)
-  (define-key typescript-ts-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
-  )
+(after-load 'typescript-ts-base-mode
+  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
+  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
+  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))
 
 ;; HACK to avoid running this in magit buffers
 (defun nvm-use-for-buffer ()
