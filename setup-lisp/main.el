@@ -3578,7 +3578,6 @@ root."
                            (smartscan-mode -1))))
         '(git-rebase-mode-hook
           magit-mode-hook
-          magit-popup-mode-hook
           compilation-mode-hook))
 
   ;; Use word instead of symbol in these modes.
