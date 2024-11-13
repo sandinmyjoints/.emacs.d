@@ -1038,7 +1038,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
         magit-status-expand-stashes nil
         magit-commit-show-diff nil
         magit-revert-buffers 1 ;; important for not slowing down everything
-        magit-completing-read-function 'ivy-completing-read
+        magit-completing-read-function 'ivy-completing-read ;; magit does its own completing read, so I could try skipping this.
         magit-push-always-verify nil
         magit-revision-insert-related-refs nil
         magit-branch-read-upstream-first nil
