@@ -1332,6 +1332,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :config
   ;; (add-to-list 'ivy-sort-functions-alist '(counsel-projectile-sort-projects . ivy-prescient-sort-function))
   ;; (setq ivy-prescient-sort-commands (butlast ivy-prescient-sort-commands))
+  (setq ivy-prescient-sort-commands '(:not swiper swiper-isearch ivy-switch-buffer forge-checkout-pullreq))
   (prescient-persist-mode))
 
 (use-package ivy-prescient
