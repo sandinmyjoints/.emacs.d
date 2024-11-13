@@ -1254,6 +1254,8 @@ true
   - [X] to set defaults in magit-popup: C-t to show magit-popup common commands, set
     the values, then C-x C-s
   - config for neodarwin components: jest --colors --watch --config=jest-components.config.js --color=no src/components/custom-hooks/test.jsx
+  - =jest--project-root-projectile= (projectile) vs =jest--project-root=
+    (package.json for neodarwin apps, see github issue)
 ** how it works
   - jest-mode uses comint-mode
   - I'm hooking it to use compilation-minor-mode
@@ -1347,9 +1349,6 @@ Snapshots:   0 total
 * TODO watch mode
   - what movement terminal codes would comint need to support in order to work
     with jest watch mode? same with vitest
-
-
-
 
 * projects in compilation-mode
 ** DONE set compile-command in each repo .dir-locals.el yet still persist changes to it within a session
@@ -2363,6 +2362,7 @@ $ ls
 ;;                             (nameframe-switch-frame "olivetti")))
 * HOWTO debug emacs                                         :debugging:howto:
   - set-variable debug-on-error t
+  - try trace-function-foreground
 ** debug
   - https://www.gnu.org/software/emacs/manual/html_node/elisp/Debugging.html
   - debug: Place explicit calls to function debug at particular places (breakpoints) in
@@ -2850,6 +2850,7 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   - [[https://github.com/vitest-dev/vitest/discussions/3351][use FORCE_COLOR=1]]
   - why weird output in jest-mode (comint)? maybe
     https://github.com/vitest-dev/vitest/issues/1447
+    - probably because TERM=dumb in comint mode
   - https://emacs.stackexchange.com/a/45519
   #+begin_src lisp
 (add-hook 'comint-mode-hook
