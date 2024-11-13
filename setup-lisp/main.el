@@ -1307,6 +1307,21 @@ Fix for the above hasn't been released as of Emacs 25.2."
 (use-package flx
   :disabled)
 
+;; Use for ordering of commands in counsel-M-x.
+(use-package amx
+  :disabled)
+
+(use-package smex
+  :disabled
+  :bind (("M-X" . smex-major-mode-commands)
+         ;; ("M-x" . smex)
+         )
+  :config
+  (smex-initialize)
+  (setq smex-auto-update nil)
+  (smex-auto-update 10)
+  (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
+
 ;; I would expect prescient to remember history based on what I typed and then
 ;; chose, but it doesn't seem to. For example, for counsel-M-x, I type "eval".
 ;; "eval-defun" is top result. But I select "eval-region". "eval-region" is at
@@ -1335,21 +1350,6 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :after (company)
   :config
   (company-prescient-mode))
-
-;; Use for ordering of commands in counsel-M-x.
-(use-package amx
-  :disabled)
-
-(use-package smex
-  :disabled
-  :bind (("M-X" . smex-major-mode-commands)
-         ;; ("M-x" . smex)
-         )
-  :config
-  (smex-initialize)
-  (setq smex-auto-update nil)
-  (smex-auto-update 10)
-  (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
 
 ;; ivy/counsel/posframe
