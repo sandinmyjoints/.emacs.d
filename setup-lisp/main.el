@@ -1480,6 +1480,26 @@ Insert .* between each char."
                                 (t . ivy--regex-fuzzy-ignore-space)))
   (ivy-mode 1))
 
+(use-package counsel
+  :after (ivy)
+  ;; H-<space> would be better, but that goes to Alfred
+  ;; :bind (("C-," . counsel-imenu))
+  :config
+  (setq counsel-find-file-at-point t
+        counsel-preselect-current-file t
+        counsel-yank-pop-preselect-last t)
+
+  (ivy-configure 'counsel-M-x
+    :initial-input ""
+    :display-transformer-fn #'counsel-M-x-transformer)
+
+  ;; from https://emacs.stackexchange.com/a/33706/2163
+  (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
+        (alt  (where-is-internal #'ivy-alt-done ivy-minibuffer-map t)))
+    ;; TODO: Would like to do this for find-alternate-file as well, what map is active in that?
+    (define-key counsel-find-file-map done #'ivy-alt-done)
+    (define-key counsel-find-file-map alt  #'ivy-done)))
+
 (use-package posframe
   :config
   ;; (setq posframe-arghandler #'wjb/posframe-arghandler)
@@ -1532,24 +1552,6 @@ Insert .* between each char."
 ;; uses hydra, hydra-posframe, so has to go after they've been defined
 ;; TODO(mine)
 (require 'services)
-
-(use-package counsel
-  ;; H-<space> would be better, but that goes to Alfred
-  ;; :bind (("C-," . counsel-imenu))
-  :config
-  (ivy-configure 'counsel-M-x
-    :initial-input ""
-    :display-transformer-fn #'counsel-M-x-transformer)
-
-  (setq counsel-find-file-at-point t
-        counsel-preselect-current-file t
-        counsel-yank-pop-preselect-last t)
-  ;; from https://emacs.stackexchange.com/a/33706/2163
-  (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
-        (alt  (where-is-internal #'ivy-alt-done ivy-minibuffer-map t)))
-    ;; TODO: Would like to do this for find-alternate-file as well, what map is active in that?
-    (define-key counsel-find-file-map done #'ivy-alt-done)
-    (define-key counsel-find-file-map alt  #'ivy-done)))
 
 
 
