@@ -683,9 +683,16 @@ See URL `http://handlebarsjs.com/'."
     '((t (:strike-through t :slant italic :weight light) ))
     "Face for the text part of a checked org-mode checkbox.")
   :config
+  (setq org-export-with-sub-superscripts '{})
+
+  ;; underscore as word constituent
+  (modify-syntax-entry ?_ "w" org-mode-syntax-table)
+  ;; = as paired delimiter
+  (modify-syntax-entry ?\= "$$" org-mode-syntax-table)
+
   ;; (modify-syntax-entry ?\= "\"" org-mode-syntax-table)
-  (modify-syntax-entry ?< "_" org-mode-syntax-table)
-  (modify-syntax-entry ?> "_" org-mode-syntax-table)
+  ;; (modify-syntax-entry ?< "_" org-mode-syntax-table)
+  ;; (modify-syntax-entry ?> "_" org-mode-syntax-table)
 
   (font-lock-add-keywords
    'org-mode
@@ -944,7 +951,22 @@ pasting into other programs."
   :after org)
 (use-package ox-gfm
   :defer 5
-  :after org)
+  :after org
+  :config
+  ;; This is a convenience command. Same thing can accomplished with
+  ;; org-export-dispatch, then choosing GFM, then temp buffer. This is basically
+  ;; the same as org-gfm-export-as-markdown.
+  (defun org-export-to-gfm-temp-buffer ()
+    "Export current org buffer to GitHub Flavored Markdown in a temporary buffer."
+    (interactive)
+    (require 'ox-gfm)
+    (let ((temp-buffer (generate-new-buffer "*Org GFM Export*")))
+      (org-export-to-buffer 'gfm temp-buffer)
+      (switch-to-buffer temp-buffer)
+      (markdown-mode)
+      (mark-whole-buffer)
+      (easy-kill)))
+  )
 (use-package ox-slack
   :defer 5
   :after org)
