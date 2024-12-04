@@ -683,6 +683,32 @@ See URL `http://handlebarsjs.com/'."
     '((t (:strike-through t :slant italic :weight light) ))
     "Face for the text part of a checked org-mode checkbox.")
   :config
+  ;; HACK: redefine org-md-plain-text in order to drop ` from the chars to be
+  ;; protected.
+  (defun org-md-plain-text (text info)
+    "Transcode a TEXT string into Markdown format.
+TEXT is the string to transcode.  INFO is a plist holding
+contextual information."
+    (when (plist-get info :with-smart-quotes)
+      (setq text (org-export-activate-smart-quotes text :html info)))
+    ;; The below series of replacements in `text' is order sensitive.
+    ;; Protect `, *, _, and \ (wjb edit: dropped ` from this regex)
+    (setq text (replace-regexp-in-string "[*_\\]" "\\\\\\&" text))
+    ;; Protect ambiguous #.  This will protect # at the beginning of
+    ;; a line, but not at the beginning of a paragraph.  See
+    ;; `org-md-paragraph'.
+    (setq text (replace-regexp-in-string "\n#" "\n\\\\#" text))
+    ;; Protect ambiguous !
+    (setq text (replace-regexp-in-string "\\(!\\)\\[" "\\\\!" text nil nil 1))
+    ;; Handle special strings, if required.
+    (when (plist-get info :with-special-strings)
+      (setq text (org-html-convert-special-strings text)))
+    ;; Handle break preservation, if required.
+    (when (plist-get info :preserve-breaks)
+      (setq text (replace-regexp-in-string "[ \t]*\n" "  \n" text)))
+    ;; Return value.
+    text)
+
   (setq org-export-with-sub-superscripts '{})
 
   ;; underscore as word constituent
