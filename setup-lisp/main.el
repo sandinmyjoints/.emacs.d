@@ -140,7 +140,11 @@
   :defer 5
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Abbrevs.html#Editing-Abbrevs
   ;; (list-abbrevs)
-  :diminish abbrev-mode)
+  :diminish abbrev-mode
+  :config
+  (add-hook 'text-mode-hook #'abbrev-mode)
+  (add-hook 'prog-mode-hook #'abbrev-mode)
+  )
 
 (require 'setup-package)
 
