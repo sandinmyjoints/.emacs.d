@@ -2865,3 +2865,9 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   - also useful: https://magit.vc/manual/magit/Per_002dRepository-Configuration.html
 
 * [[https://news.ycombinator.com/item?id=41528919][speech mode]]
+* Filtering merged and draft PRs from magit / forge
+   - ivy-sort-functions-alist. An alist of sorting functions for each collection function. what is the collection function?
+     - I want ivy-sort-functions-alist to be nil for the collection function. forge-checkout-pullreq -> forge-read-pullreq
+     - adding forge-checkout-pullreq to ivy-prescient-sort-commands worked
+     - but how about filtering? I want to filter out closed/merged PRs. there is no ivy-prescient-filter-commands
+     - prescient-filter-method. https://www.perplexity.ai/search/i-am-using-ivy-and-prescient-i-mX0d.NeGSsOyvHsMZT88rw
