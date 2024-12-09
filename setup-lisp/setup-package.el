@@ -132,6 +132,8 @@
      ;; he updates it here: https://www.emacswiki.org/emacs/download/dired%2b.el
      ;; (cons 'dired+ melpa) ;; is in /elisp
      (cons 'diredfl melpa)
+     (cons 'dired-subtree melpa)
+     (cons 'trashed melpa)
      (cons 'yaml-mode melpa)
      (cons 'web-mode melpa-stable)
      (cons 'less-css-mode melpa-stable)

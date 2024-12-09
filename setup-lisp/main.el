@@ -627,6 +627,9 @@ See URL `http://handlebarsjs.com/'."
 
 (use-package dired
   :commands (dired counsel-dired)
+  :hook
+  ((dired-mode . all-the-icons-dired-mode)
+   (dired-mode . hl-line-mode))
   :init
   ;; This line must run *before* dired is loaded:
   ;; See http://emacs.stackexchange.com/questions/28016/dired-does-not-respect-listing-dired-listing-switches
@@ -643,8 +646,6 @@ See URL `http://handlebarsjs.com/'."
   ;; (autoload 'dired-async-mode "dired-async.el" nil t)
   ;; (dired-async-mode -1)
 
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
@@ -652,7 +653,29 @@ See URL `http://handlebarsjs.com/'."
   (setq dired-listing-switches "-lahF"
         dired-dwim-target t
         dired-recursive-copies 'always
+        dired-recursive-deletes 'always
+        delete-by-moving-to-trash 'always
         dired-switches-in-mode-line 'as-is))
+
+(use-package dired-subtree
+  :after dired
+  :bind
+  ( :map dired-mode-map
+    ("<tab>" . dired-subtree-toggle)
+    ("TAB" . dired-subtree-toggle)
+    ("<backtab>" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
+
+(use-package trashed
+  :ensure t
+  :commands (trashed)
+  :config
+  (setq trashed-action-confirmer 'y-or-n-p)
+  (setq trashed-use-header-line t)
+  (setq trashed-sort-key '("Date deleted" . t))
+  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 (use-package diredfl
   :after dired
