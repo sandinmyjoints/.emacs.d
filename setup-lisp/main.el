@@ -975,6 +975,13 @@ pasting into other programs."
         (insert todo))))
 )
 
+
+;; jira
+(setq org-link-abbrev-alist
+      '(("jira" . "https://ixl-learning-sandbox-128.atlassian.net/browse/%s")
+        ("jira?" . "https://jira.example.com/secure/QuickSearch.jspa?searchString=%s")
+        ))
+
 ;; How to search among org files:
 ;; - helm-org-agenda-files-headings -- search headings among org agenda files
 ;; - helm-org-rifle -- searches among headings and content
