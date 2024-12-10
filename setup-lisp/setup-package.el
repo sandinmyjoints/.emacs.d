@@ -175,6 +175,7 @@
      (cons 'nerd-icons melpa)
      (cons 'doom-themes melpa)
      (cons 'doom-modeline melpa)
+     (cons 'ligature melpa)
 
      ;; It always thinks these two aren't installed even when they are, so
      ;; disabling for now:
