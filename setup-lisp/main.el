@@ -1144,7 +1144,8 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :after magit
   :config
   ;; HACK to get it to stop completing, see if that fixes hangs
-  (defun forge-topic-completion-at-point () nil)
+  ;; (defun forge-topic-completion-at-point () nil)
+  (setq forge-topic-list-limit '(30 . -10))
   )
 
 ;; separate from magit, but integrates: "You can use github-review with forge.
