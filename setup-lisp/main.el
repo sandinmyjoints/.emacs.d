@@ -1209,43 +1209,14 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; python
 
-;; use elpy-config to check on things
-;; use for integration with pipenv: https://github.com/jorgenschaefer/elpy/issues/1217
-(use-package elpy
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
-  :config
-  (defun wjb/elpy-hook ()
-    "From https://elpy.readthedocs.io/en/latest/customization_tips.html?highlight=black#auto-format-code-on-save"
-    (elpy-shell-set-local-shell (elpy-project-root))
-    (add-hook 'before-save-hook
-              'elpy-black-fix-code nil t))
-  (add-hook 'elpy-mode-hook #'wjb/elpy-hook)
-
-  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
-  (setq elpy-modules (-remove-item 'elpy-module-highlight-indentation elpy-modules)))
-
-;; This is https://github.com/jorgenschaefer/pyvenv
-;; - pyvenv-* commands
-;; - comes with elpy so not needed individually
-;;
-(use-package pyvenv
-  :disabled
-  :defer t
-  :config
-  ;; (setenv "WORKON_HOME" (expand-file-name "~/.local/share/virtualenvs")) ;; this should be unnecessary b/c of exec-path-from-shell
-  (setq pyvenv-menu nil)
-  :hook (python-mode . pyvenv-mode))
-
 (use-package python
-  :defer
+  :mode ("\\.py\\'" . python-mode)
   ;; bind M-q python-fill-paragraph
   :bind (:map python-mode-map
               ("M-q" . python-fill-paragraph))
   :config
-  (setq python-indent-guess-indent-offset-verbose nil)
-  (setq python-indent-offset 2)
+  (setq python-indent-guess-indent-offset-verbose nil
+        python-indent-offset 2)
   (setq-default python-fill-docstring-style 'django)
 
   ;; Disabling this as an experiment:
@@ -1283,6 +1254,35 @@ Fix for the above hasn't been released as of Emacs 25.2."
        )))
   (ad-activate 'run-python)
   )
+
+;; use elpy-config to check on things
+;; use for integration with pipenv: https://github.com/jorgenschaefer/elpy/issues/1217
+(use-package elpy
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
+  :config
+  (defun wjb/elpy-hook ()
+    "From https://elpy.readthedocs.io/en/latest/customization_tips.html?highlight=black#auto-format-code-on-save"
+    (elpy-shell-set-local-shell (elpy-project-root))
+    (add-hook 'before-save-hook
+              'elpy-black-fix-code nil t))
+  (add-hook 'elpy-mode-hook #'wjb/elpy-hook)
+
+  (setq elpy-modules (-remove-item 'elpy-module-flymake elpy-modules))
+  (setq elpy-modules (-remove-item 'elpy-module-highlight-indentation elpy-modules)))
+
+;; This is https://github.com/jorgenschaefer/pyvenv
+;; - pyvenv-* commands
+;; - comes with elpy so not needed individually
+;;
+(use-package pyvenv
+  :disabled
+  :defer t
+  :config
+  ;; (setenv "WORKON_HOME" (expand-file-name "~/.local/share/virtualenvs")) ;; this should be unnecessary b/c of exec-path-from-shell
+  (setq pyvenv-menu nil)
+  :hook (python-mode . pyvenv-mode))
 
 (use-package pip-requirements
   :mode
