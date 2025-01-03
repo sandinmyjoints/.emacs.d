@@ -21,6 +21,7 @@
         counsel-find-file
         dired-do-delete
         dired-next-line
+        dired-unmark-backward
         easy-kill
         easy-mark
         electric-newline-and-maybe-indent
@@ -50,8 +51,10 @@
         magit-status
         makey-key-mode-popup-rectangles
         mark-sexp
+        markdown-beginning-of-line
         markdown-dedent-or-delete
         markdown-electric-backquote
+        markdown-end-of-line
         markdown-exdent-or-delete
         markdown-outdent-or-delete
         mc/maybe-multiple-cursors-mode
@@ -96,6 +99,7 @@
         sp-wrap-tag-done
         symbol-overlay-jump-next
         transpose-words
+        wdired--self-insert
         wgrep-finish-edit
         whack-whitespace
         wjb-kill-this-node
@@ -126,6 +130,7 @@
         electric-pair-delete-pair
         end-of-buffer
         find-in-project-glob-by-name
+        flycheck-previous-error
         helm-browse-project
         ido-find-file
         ido-switch-buffer
@@ -142,7 +147,9 @@
         other-window-reverse
         revert-buffer
         smex
+        tide-jump-to-definition
         wdired-finish-edit
+        wjb/smart-magit-status
         wjb/switch-to-last-compilation-buffer
         wjb/switch-to-project-jest-buffer
         wjb/switch-to-vterm
