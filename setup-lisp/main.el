@@ -3625,16 +3625,6 @@ root."
   :bind (("M-i" . change-inner)
          ("M-o" . change-outer)))
 
-;; Syntax modifications.
-
-;; Paired tick is useful in some modes.
-;; TODO: Probably Can't run these until the mode has been loaded or something.
-;; TODO: Could use smartparens for this instead.
-;; (modify-syntax-entry ?\` "$" text-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" rst-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" org-mode-syntax-table)
-;; (modify-syntax-entry ?\` "$" coffee-mode-syntax-table)
-
 
 ;; ace
 
