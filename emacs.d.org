@@ -2871,3 +2871,10 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
      - adding forge-checkout-pullreq to ivy-prescient-sort-commands worked
      - but how about filtering? I want to filter out closed/merged PRs. there is no ivy-prescient-filter-commands
      - prescient-filter-method. https://www.perplexity.ai/search/i-am-using-ivy-and-prescient-i-mX0d.NeGSsOyvHsMZT88rw
+
+* emacs-jira
+  - https://mbork.pl/2022-07-11_A_poor_man%27s_Emacs_-_Jira_integration
+  - https://old.reddit.com/r/orgmode/comments/152k366/have_anyone_had_sucess_with_integrating_orgmode/
+  - https://github.com/nyyManni/ejira
+  - https://github.com/ahungry/org-jira
+  - https://baohaojun.github.io/org-jira.html
