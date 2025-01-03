@@ -3310,6 +3310,15 @@ Interactively also sends a terminating newline."
   :bind
   ("H-`" . wjb/vterm-dwim)
   :config
+  (defun toggle-vterm-copy-mode-cursor ()
+    (if vterm-copy-mode
+        (progn
+          (setq last-color (face-background 'cursor))
+          (set-cursor-color "red"))
+      (progn
+        (set-cursor-color last-color))))
+  (add-hook 'vterm-copy-mode-hook #'toggle-vterm-copy-mode-cursor)
+
   (setq vterm-kill-buffer-on-exit t)
   (push "C-M-o" vterm-keymap-exceptions)
   (push "C-o" vterm-keymap-exceptions)
