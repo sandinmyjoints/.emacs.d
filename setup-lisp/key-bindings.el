@@ -67,12 +67,16 @@
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 
 ;; M for word, H for symbol, or vice versa?
-(global-set-key (kbd "H-f") #'forward-word)
-(global-set-key (kbd "H-b") #'backward-word)
+(global-set-key (kbd "M-f") #'forward-word)
+(global-set-key (kbd "M-b") #'backward-word)
+(global-set-key (kbd "H-M-f") #'forward-word)
+(global-set-key (kbd "H-M-b") #'backward-word)
+(global-set-key (kbd "C-H-f") #'forward-word)
+(global-set-key (kbd "C-H-b") #'backward-word)
 
+(global-set-key (kbd "H-f") #'wjb/forward-symbol)
+(global-set-key (kbd "H-b") #'wjb/backward-symbol)
 (global-set-key (kbd "H-n") #'symbol-overlay-jump-next)
-(global-set-key (kbd "M-f") #'wjb/forward-symbol)
-(global-set-key (kbd "M-b") #'wjb/backward-symbol)
 
 (global-set-key [H-up] 'beginning-of-defun)
 (global-set-key (kbd "H-1") 'beginning-of-defun)
