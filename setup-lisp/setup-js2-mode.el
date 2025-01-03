@@ -169,7 +169,6 @@ If buffer is not visiting a file, do nothing."
 
     (setq mode-name "JS2" company-backends wjb/company-backends-js)
 
-    (electric-pair-mode 1)
     ;; (require 'smartparens-javascript)
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
   (add-hook 'js2-mode-hook #'wjb/js2-mode-hook)
@@ -287,15 +286,12 @@ If buffer is not visiting a file, do nothing."
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode
   '(progn
-     ;; experimental:
+     ;; experimental: make underscore be a symbol, part of a name
      (modify-syntax-entry ?- "_" js-mode-syntax-table)
      (modify-syntax-entry ?- "_" js2-mode-syntax-table)
 
      ;; '$' is part of variable name like '$item'
      (modify-syntax-entry ?$ "w" js-mode-syntax-table)))
-
-;; The following defuns may be replaceable by
-;; https://github.com/codesuki/add-node-modules-path
 
 ;; Flycheck.
 ;;
