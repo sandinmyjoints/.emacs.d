@@ -228,7 +228,8 @@
   :hook (after-init . doom-modeline-mode)
   :config
   (add-hook 'js-mode-hook #'wjb/doom-modeline-env-node)
-  (setq doom-modeline-continuous-word-count-modes '()
+  (setq doom-modeline-minor-modes t
+        doom-modeline-continuous-word-count-modes '()
         doom-modeline-gnus nil
         doom-modeline-gnus-timer 0
         doom-modeline-buffer-file-name-style 'relative-to-project ;; or 'truncate-upto-root
@@ -292,7 +293,7 @@
 
 (use-package minions
   :config
-  (setq minions-direct '(flycheck-mode))
+  (setq minions-prominent-modes '(vterm-copy-mode))
   (minions-mode 1))
 
 
