@@ -49,9 +49,6 @@
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing CoffeeScript.")
 (add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
 
-(eval-after-load 'coffee-mode
-  '(define-key coffee-mode-map [(control j)] 'coffee-newline-and-indent))
-
 (defun coffee-tab-properly ()
   "Expand yasnippet and if it worked, don't tab after."
   (interactive)
@@ -60,7 +57,8 @@
     (unless (yas-expand)
       (indent-for-tab-command))))
 
-(after-load 'coffee-mode
+(with-eval-after-load 'coffee-mode
+  (define-key coffee-mode-map [(control j)] 'coffee-newline-and-indent)
   (define-key coffee-mode-map (kbd "TAB") 'coffee-tab-properly)
   (define-key coffee-mode-map (kbd "C-c C-b") 'browse-at-remote)
   (define-key coffee-mode-map (kbd "C-c r l") 'remove-console-log-coffee)

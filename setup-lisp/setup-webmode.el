@@ -54,10 +54,9 @@
       ad-do-it)
     ad-do-it))
 
-(eval-after-load 'web-mode
-  (lambda ()
-    (when (equal web-mode-content-type "jsx")
-      (flycheck-mode +1))))
+(with-eval-after-load 'web-mode
+  (when (equal web-mode-content-type "jsx")
+    (flycheck-mode +1)))
 
 ;; (add-hook 'web-mode-hook #'js2-minor-mode)
 

@@ -196,16 +196,7 @@
 ;; Package management.
 ;; ========================================
 
-;; From purcell. TODO: replace with use-package.
-(defmacro after-load (feature &rest body)
-  "After FEATURE is loaded, evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,feature
-     '(progn ,@body)))
-
-
 ;; Mine
-
 (when is-mac (require 'setup-mac))
 (require 'defuns)
 (require 'setup-tramp)

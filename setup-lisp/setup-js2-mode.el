@@ -103,12 +103,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defalias 'js2r-debug-this #'wjb/js2r-debug-this)
   )
 
-;; TODO convert to use-package :bind
-(after-load 'typescript-ts-base-mode
-  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
-  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
-  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))
-
 ;; HACK to avoid running this in magit buffers
 (defun nvm-use-for-buffer ()
   "Activate Node based on an .nvmrc for the current file.
@@ -118,7 +112,7 @@ If buffer is not visiting a file, do nothing."
         (nvm-use-for buffer-file-name)
       (error (message "%s" err)))))
 
-(after-load 'js2-mode
+(with-eval-after-load 'js2-mode
   (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
   (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
   ;; TODO js2-mode-show-all
@@ -379,10 +373,24 @@ If buffer is not visiting a file, do nothing."
   (flycheck-add-mode 'typescript-tide 'tsx-ts-mode)
   (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode)
   ;; For now, need to manually get flycheck to realize typescript-tide works for typescript-ts-mode
-
   )
 
+;; TODO convert to use-package :bind.
+(with-eval-after-load 'typescript-ts-mode
+  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
+  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
+  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))
+
+;; always nil!
+;; (with-eval-after-load 'tsx-ts-mode (message "loaded"))
+;; (with-eval-after-load 'typescript-ts-base-mode (message "loaded"))
+
 (defun wjb/ts-mode-hook ()
+  ;; these really only need to be run once, but with-eval-after-load doesn't run
+  ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
+  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
+  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
+  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
 
