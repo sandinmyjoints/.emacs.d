@@ -739,12 +739,12 @@ contextual information."
 
   (setq org-export-with-sub-superscripts '{})
 
-  ;; underscore as word constituent
-  (modify-syntax-entry ?_ "w" org-mode-syntax-table)
-  ;; = as paired delimiter
+  ;; = as paired delimiter, which keeps syntactic parsing inside of it...
   (modify-syntax-entry ?\= "$$" org-mode-syntax-table)
-
+  ;; ...as opposed to a string, which drops it
   ;; (modify-syntax-entry ?\= "\"" org-mode-syntax-table)
+  (modify-syntax-entry ?~ "$$" org-mode-syntax-table)
+
   ;; (modify-syntax-entry ?< "_" org-mode-syntax-table)
   ;; (modify-syntax-entry ?> "_" org-mode-syntax-table)
 
