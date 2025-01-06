@@ -258,9 +258,6 @@
 
 ;;; Emacs 24 and up.
 (when (>= emacs-major-version 24)
-  ;; Pair parens and other delimiters.
-  ;; Turn off electric-pair-mode if using smart-parens.
-  (electric-pair-mode)
   ;; Scroll up without warning the first time.
   (setq scroll-error-top-bottom t))
 
