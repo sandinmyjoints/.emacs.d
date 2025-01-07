@@ -471,13 +471,26 @@
   (add-hook 'flycheck-after-syntax-check-hook
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
 
+  (flycheck-define-checker python-pycodestyle
+    "A Python style guide checker using pycodestyle. See URL `https://pycodestyle.readthedocs.io/'."
+    :command ("pycodestyle" source-inplace)
+    :error-patterns
+    ((error   line-start (file-name) ":" line ":" column ": " "E" (id (one-or-more (not (any ": ")))) (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ": "
+              "W" (id (one-or-more (not (any ": ")))) (message) line-end))
+    :modes (python-mode python-ts-mode))
+
+  (add-to-list 'flycheck-checkers 'python-pycodestyle)
+
   ;; see https://github.com/flycheck/flycheck/issues/186#issuecomment-32773904
-  (flycheck-add-next-checker 'python-pycompile 'python-flake8)
-  (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  ;; (flycheck-add-next-checker 'python-pycompile 'python-flake8)
+  ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  (flycheck-add-next-checker 'python-pycompile 'python-pycodestyle)
+  (flycheck-add-next-checker 'python-pycodestyle 'python-pylint)
+
   (flycheck-add-mode 'python-flake8 'python-ts-mode)
   (flycheck-add-mode 'python-pycompile 'python-ts-mode)
   (flycheck-add-mode 'python-pylint 'python-ts-mode)
-
 
   (push 'rustic-clippy flycheck-checkers)
 
@@ -1266,15 +1279,13 @@ Fix for the above hasn't been released as of Emacs 25.2."
 
 ;; This is https://github.com/jorgenschaefer/pyvenv
 ;; - pyvenv-* commands
-;; - comes with elpy so not needed individually
+;; - comes with elpy
 ;;
 (use-package pyvenv
-  :disabled
-  :defer t
   :config
   ;; (setenv "WORKON_HOME" (expand-file-name "~/.local/share/virtualenvs")) ;; this should be unnecessary b/c of exec-path-from-shell
   (setq pyvenv-menu nil)
-  :hook (python-mode . pyvenv-mode))
+  :hook (python-base-mode . pyvenv-mode))
 
 (use-package pip-requirements
   :mode
