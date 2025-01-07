@@ -2846,19 +2846,21 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
   #+end_src
 
 ** borg?
-* vitest color
-  - [[https://github.com/vitest-dev/vitest/discussions/3351][use FORCE_COLOR=1]]
-  - why weird output in jest-mode (comint)? maybe
-    https://github.com/vitest-dev/vitest/issues/1447
-    - probably because TERM=dumb in comint mode
-  - https://emacs.stackexchange.com/a/45519
-  #+begin_src lisp
-(add-hook 'comint-mode-hook
-          (defun rm-comint-postoutput-scroll-to-bottom ()
-            (remove-hook 'comint-output-filter-functions
-                         'comint-postoutput-scroll-to-bottom)))
-  #+end_src
-
+* vitest
+** vitest animation not working in comint mode
+   - best solution is to use ~env FORCE_COLOR=1 CI=1~ for vitest invocations
+** vitest color
+   - [[https://github.com/vitest-dev/vitest/discussions/3351][use FORCE_COLOR=1]]
+   - why weird output in jest-mode (comint)? maybe
+     https://github.com/vitest-dev/vitest/issues/1447
+     - probably because TERM=dumb in comint mode
+   - https://emacs.stackexchange.com/a/45519
+   #+begin_src lisp
+ (add-hook 'comint-mode-hook
+           (defun rm-comint-postoutput-scroll-to-bottom ()
+             (remove-hook 'comint-output-filter-functions
+                          'comint-postoutput-scroll-to-bottom)))
+   #+end_src
 * magit with github enterprise
   - https://magit.vc/manual/ghub/Creating-and-Storing-a-Token.html
   - https://www.perplexity.ai/search/how-can-i-specify-my-github-cr-l9bqIdZ1Sy67LzSRXTca5g
