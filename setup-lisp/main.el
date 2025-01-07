@@ -2286,6 +2286,10 @@ Insert .* between each char."
                   (tree-sitter-mode -1))
                 (flycheck-mode -1)))))
 
+(use-package kill-dollar-mode
+  :hook ((org-mode . kill-dollar-mode)
+         (markdown-mode . kill-dollar-mode)))
+
 (use-package shell-script-mode
   :mode "\\.bash*")
 

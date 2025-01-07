@@ -319,6 +319,8 @@
      (cons 'visual-fill-column melpa)
      (cons 'change-inner melpa)
 
+     (cons 'kill-dollar-mode melpa)
+
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs
