@@ -11,3 +11,5 @@ them automatically. On Emacs 23, you'll need to install
 [package.el](http://bit.ly/pkg-el23) manually or with
 [auto-install](http://www.emacswiki.org/emacs/auto-install.el) (which itself
 must be installed manually).
+
+<https://ipv4.games/user.html?name=sandinmyjoints>
