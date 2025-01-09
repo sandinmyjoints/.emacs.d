@@ -105,6 +105,7 @@
         wjb-kill-this-node
         wjb-toggle-it-only
         wjb/backward-symbol
+        wjb/camelscore-word-at-point
         wjb/forward-symbol
         wjb/smart-counsel-switch-buffer
         yaml-electric-backspace
