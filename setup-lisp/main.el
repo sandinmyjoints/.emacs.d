@@ -343,6 +343,9 @@
   :after markdown-mode)
 
 (use-package prog-mode
+  :bind (:map prog-mode-map
+              ;; in text-mode, M-k is kill-sentence
+              ("M-k" . kill-whole-line))
   :config
   (defun auto-fill-comments ()
     "Automatically fill comments, but nothing else"
