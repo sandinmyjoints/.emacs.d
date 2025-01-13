@@ -1881,7 +1881,7 @@ Insert .* between each char."
      (and
       (eq (char-syntax (char-before (1- (point)))) ?w)
       (eq (preceding-char) char)
-      (not (eq (char-syntax (preceding-char)) 40) ;; 40 is open paren
+      (not (eq (char-syntax (preceding-char)) ?\()
            ))))
 
   (setq electric-pair-inhibit-predicate 'my/electric-pair-conservative-inhibit)
