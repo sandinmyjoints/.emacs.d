@@ -2973,7 +2973,7 @@ Interactively also sends a terminating newline."
 ;; - a w f o are for changing watch mode
 ;; - r is for re-running
 ;; - TODO don't echo the key I press
-(dolist (key '("\C-d" "\C-j" "a" "w" "f" "o" "r"))
+(dolist (key '("\C-d" "\C-j" "a" "w" "f" "o" "r" "u"))
   (define-key compilation-mode-map key
     #'endless/send-self)
   ;; I have jest set to run compilation-minor-mode, so this is the map that is active in my jest buffers:
