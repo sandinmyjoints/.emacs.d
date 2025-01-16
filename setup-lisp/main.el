@@ -744,7 +744,8 @@ contextual information."
     ;; Return value.
     text)
 
-  (setq org-export-with-sub-superscripts '{})
+  (setq org-export-with-sub-superscripts '{}
+        org-special-ctrl-a/e 'reversed)
 
   ;; = as paired delimiter, which keeps syntactic parsing inside of it...
   (modify-syntax-entry ?\= "$$" org-mode-syntax-table)
