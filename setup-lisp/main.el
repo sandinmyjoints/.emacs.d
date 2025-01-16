@@ -3798,9 +3798,12 @@ questions.  Else use completion to select the tab to switch to."
   (require 'appearance)
   ;; loads and starts treemacs, runs treemacs hooks
   (treemacs-select-window)
+
+  ;; display-fill-column-indicator is builtin. visual-fill-column-mode does something different.
   (global-display-fill-column-indicator-mode)
   (add-hook 'vterm-mode-hook (lambda ()
                                (display-fill-column-indicator-mode -1)))
+
   ;; load theme and customize appearance
   (progn
     (change-theme 'modus-vivendi t)
