@@ -61,3 +61,6 @@
 [submodule "elisp/s3ed"]
 	path = elisp/s3ed
 	url = git@github.com:mattusifer/s3ed.git
+[submodule "elisp/gptel"]
+	path = elisp/gptel
+	url = git@github.com:karthink/gptel.git
