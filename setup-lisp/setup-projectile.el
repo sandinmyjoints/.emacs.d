@@ -367,7 +367,8 @@
  :test-dir "test"
  :related-files-fn (list (projectile-related-files-fn-test-with-suffix "js" ".test")
                          ;; this seems like it should work, but it does not:
-                         (projectile-related-files-fn-test-with-suffix "js" ".db.test")))
+                         (projectile-related-files-fn-test-with-suffix "js" ".db.test")
+                         #'wjb/related-files-corresponding-path-playground))
 
 (provide 'setup-projectile)
 
