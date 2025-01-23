@@ -55,3 +55,6 @@
 [submodule "elisp/svg-tag-mode"]
 	path = elisp/svg-tag-mode
 	url = git@github.com:rougier/svg-tag-mode.git
+[submodule "elisp/csvorg"]
+	path = elisp/csvorg
+	url = git@github.com:orgtre/csvorg.git
