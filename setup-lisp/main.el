@@ -987,8 +987,8 @@ pasting into other programs."
 
 ;; jira
 (setq org-link-abbrev-alist
-      '(("jira" . "https://ixl-learning-sandbox-128.atlassian.net/browse/%s")
-        ("jira?" . "https://jira.example.com/secure/QuickSearch.jspa?searchString=%s")
+      '(("jira" . "https://ixl-learning.atlassian.net/browse/%s")
+        ("jira?" . "https://ixl-learning.atlassian.net/secure/QuickSearch.jspa?searchString=%s")
         ))
 
 ;; How to search among org files:
