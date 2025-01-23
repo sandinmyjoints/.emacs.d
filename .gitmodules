@@ -58,3 +58,6 @@
 [submodule "elisp/csvorg"]
 	path = elisp/csvorg
 	url = git@github.com:orgtre/csvorg.git
+[submodule "elisp/s3ed"]
+	path = elisp/s3ed
+	url = git@github.com:mattusifer/s3ed.git
