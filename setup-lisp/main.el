@@ -2356,12 +2356,16 @@ Insert .* between each char."
   (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
   (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
   (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+  ;; try cleanup hook
+  ;; (remove-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  (add-hook 'ediff-cleanup-hook 'winner-undo)
   :config
   (setq diff-switches "-u"
         ediff-diff-options "-w"
         ediff-custom-diff-options "-w"
-        ediff-split-window-function 'split-window-horizontally))
+        ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package quickrun
   :disabled
