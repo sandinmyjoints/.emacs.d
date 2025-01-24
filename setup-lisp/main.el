@@ -2353,13 +2353,9 @@ Insert .* between each char."
 (use-package ediff
   :defer
   :init
-  (add-hook 'ediff-startup-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-cleanup-hook 'ediff-toggle-wide-display)
-  (add-hook 'ediff-suspend-hook 'ediff-toggle-wide-display)
-
-  ;; try cleanup hook
-  ;; (remove-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  ;; this seems to work fine; no need to use the internal hook.
   (add-hook 'ediff-cleanup-hook 'winner-undo)
+  ;; (remove-hook 'ediff-after-quit-hook-internal 'winner-undo)
   :config
   (setq diff-switches "-u"
         ediff-diff-options "-w"
