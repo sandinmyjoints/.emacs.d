@@ -52,9 +52,27 @@
       user-mail-address "william.bert@gmail.com")
 
 
-;; Window splitting.
+;; Buffer display, frame management, and window splitting.
 
-;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
+;;; Fewer new frames and pop-up windows.
+(setq pop-up-frames nil)
+(setq pop-up-windows nil)
+
+;;; Discourage split-window-sensibly from splitting windows.
+(setq split-height-threshold nil) ;; will still fall back to splitting
+                                  ;; vertically if other windows in frame are
+                                  ;; dedicated
+(setq split-width-threshold nil)
+
+;; prevents all splitting, but then restclient (and others?) will pop a new frame instead...
+;; (setq split-window-preferred-function nil)
+(setq split-window-preferred-function #'split-window-sensibly) ;; ...so go with the default.
+
+;; Display a different buffer when splitting window vertically.
+(defadvice split-window-vertically
+    (after my-window-splitting-advice first () activate)
+    (set-window-buffer (next-window) (other-buffer)))
+
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
 ;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
 (setq display-buffer-alist
@@ -69,22 +87,6 @@
                                          '((inhibit-same-window . nil)
                                            (inhibit-switch-frame . t))))
         ))
-
-;;; Fewer new frames and pop-up windows.
-(setq pop-up-frames nil)
-(setq pop-up-windows nil)
-
-;;; Never split windows for me, split-window-sensibly.
-(setq split-height-threshold nil)
-(setq split-width-threshold nil)
-
-;; prevents all splitting, but then restclient (and others?) will pop a new frame instead.
-;; (setq split-window-preferred-function nil)
-(setq split-window-preferred-function #'split-window-sensibly) ;; the default
-
-(defadvice split-window-vertically
-    (after my-window-splitting-advice first () activate)
-    (set-window-buffer (next-window) (other-buffer)))
 
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)
