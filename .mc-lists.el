@@ -59,6 +59,8 @@
         markdown-outdent-or-delete
         mc/maybe-multiple-cursors-mode
         multiple-cursors-mode
+        mwim-beginning-of-code-or-line
+        mwim-end-of-code-or-line
         org-beginning-of-line
         org-ctrl-c-ctrl-c
         org-delete-char
