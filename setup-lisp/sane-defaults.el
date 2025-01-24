@@ -48,6 +48,12 @@
 
 (defvar wjb/home (expand-file-name "~"))
 
+(setq user-full-name "William Bert"
+      user-mail-address "william.bert@gmail.com")
+
+
+;; Window splitting.
+
 ;; To prevent opening stuff from dirtree from splitting the one reusable window that I use:
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
 ;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
@@ -64,15 +70,32 @@
                                            (inhibit-switch-frame . t))))
         ))
 
-(setq diff-font-lock-prettify t
-      isearch-lazy-count t)
+;;; Fewer new frames and pop-up windows.
+(setq pop-up-frames nil)
+(setq pop-up-windows nil)
 
-(setq user-full-name "William Bert"
-      user-mail-address "william.bert@gmail.com")
+;;; Never split windows for me, split-window-sensibly.
+(setq split-height-threshold nil)
+(setq split-width-threshold nil)
+
+;; prevents all splitting, but then restclient (and others?) will pop a new frame instead.
+;; (setq split-window-preferred-function nil)
+(setq split-window-preferred-function #'split-window-sensibly) ;; the default
+
+(defadvice split-window-vertically
+    (after my-window-splitting-advice first () activate)
+    (set-window-buffer (next-window) (other-buffer)))
+
+;; Undo/redo window configuration with C-c <left>/<right>
+(winner-mode 1)
+
+
 
 (setq-default bidi-display-reordering 'left-to-right)
 
-(setq inhibit-startup-echo-area-message "william")
+(setq diff-font-lock-prettify t
+      isearch-lazy-count t
+      inhibit-startup-echo-area-message t)
 
 ;; Turn on/off display stuff.
 ;;
@@ -184,9 +207,6 @@
 ;; Lines should be 80 characters wide, not 72.
 (setq-default fill-column 80)
 
-;; Undo/redo window configuration with C-c <left>/<right>
-(winner-mode 1)
-
 ;; Never insert tabs
 (setq-default indent-tabs-mode nil)
 
@@ -230,22 +250,6 @@
       ad-do-it)
     (dotimes (i 10)
       (when (= p (point)) ad-do-it))))
-
-;;; Fewer new frames and pop-up windows.
-(setq pop-up-frames nil)
-(setq pop-up-windows nil)
-
-;;; Never split windows for me, split-window-sensibly.
-(setq split-height-threshold nil)
-(setq split-width-threshold nil)
-
-;; prevents all splitting, but then restclient (and others?) will pop a new frame instead.
-;; (setq split-window-preferred-function nil)
-(setq split-window-preferred-function #'split-window-sensibly) ;; the default
-
-(defadvice split-window-vertically
-    (after my-window-splitting-advice first () activate)
-    (set-window-buffer (next-window) (other-buffer)))
 
 ;;; Default for new buffers.
 (setq-default major-mode 'fundamental-mode)
