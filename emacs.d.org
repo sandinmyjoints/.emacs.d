@@ -2848,6 +2848,8 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
 
 ** borg?
 * vitest
+** vitest slow output in jest-mode
+   - use =--reporter=basic=
 ** vitest animation not working in comint mode
    - best solution is to use ~env FORCE_COLOR=1 CI=1~ for vitest invocations
 ** vitest color
