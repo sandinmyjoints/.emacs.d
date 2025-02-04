@@ -753,6 +753,8 @@ contextual information."
   ;; (modify-syntax-entry ?\= "\"" org-mode-syntax-table)
   (modify-syntax-entry ?~ "$$" org-mode-syntax-table)
 
+  (modify-syntax-entry ?< "." org-mode-syntax-table)
+  (modify-syntax-entry ?> "." org-mode-syntax-table)
   ;; (modify-syntax-entry ?< "_" org-mode-syntax-table)
   ;; (modify-syntax-entry ?> "_" org-mode-syntax-table)
 
@@ -780,7 +782,8 @@ contextual information."
         org-catch-invisible-edits 'show
         org-fontify-done-headline t
         org-adapt-indentation t ;; trying this out
-        org-return-follows-link t)
+        org-return-follows-link t
+        org-export-copy-to-kill-ring t)
 
   ;; TODO: org-slack-export-to-clipboard-as-slack-dwim that copies the current
   ;; entry, instead of having to mark it
