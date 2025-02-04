@@ -67,6 +67,12 @@
   (modify-syntax-entry ?\" "$"  markdown-mode-syntax-table)
   (modify-syntax-entry ?\" "$"  gfm-mode-syntax-table)
 
+  ;; For some reason, with this, it does double less than: <<
+  ;; (modify-syntax-entry ?< "(" markdown-mode-syntax-table)
+  ;; (modify-syntax-entry ?> ")" markdown-mode-syntax-table)
+  ;; (modify-syntax-entry ?< "(" gfm-mode-syntax-table)
+  ;; (modify-syntax-entry ?> ")" gfm-mode-syntax-table)
+
   (add-to-list 'markdown-code-lang-modes  '("json" . json-mode))
   (add-to-list 'markdown-code-lang-modes  '("js" . js2-mode))
   (add-to-list 'markdown-code-lang-modes  '("coffee" . coffee-mode))
