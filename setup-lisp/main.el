@@ -3978,6 +3978,17 @@ is already narrowed."
 ;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
+(defun joaot/delete-process-at-point ()
+  (interactive)
+  (let ((process (get-text-property (point) 'tabulated-list-id)))
+    (cond ((and process
+                (processp process))
+           (delete-process process)
+           (revert-buffer))
+          (t
+           (error "no process at point!")))))
+(define-key process-menu-mode-map (kbd "C-k") 'joaot/delete-process-at-point)
+
 
 
 (use-package shell-maker)
@@ -3998,16 +4009,19 @@ is already narrowed."
 
 (require 'setup-copilot)
 
-(defun joaot/delete-process-at-point ()
-  (interactive)
-  (let ((process (get-text-property (point) 'tabulated-list-id)))
-    (cond ((and process
-                (processp process))
-           (delete-process process)
-           (revert-buffer))
-          (t
-           (error "no process at point!")))))
-(define-key process-menu-mode-map (kbd "C-k") 'joaot/delete-process-at-point)
+(use-package gptel
+  :disabled
+  :config
+  ;; (setq gptel-model 'gpt-4o-mini)
+  (setq
+   gptel-model 'deepseek-r1:7b
+   gptel-backend (gptel-make-ollama "Ollama"
+                   :host "localhost:11434"
+                   :stream t
+                   :models '(deepseek-r1:7b)
+                   :request-params '(:options (:num_ctx 131072 :num_predict 8192)))))
+
+
 
 ;; moved to scm/wjb/wjb-org-static-blog
 ;; (require 'wjb-org-static-blog)
