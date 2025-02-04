@@ -1048,6 +1048,10 @@ The result is pushed onto the kill ring."
 (defalias 'fix-org-to-md-sub-tag
    (kmacro "C-s < s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> _ C-s < / s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> <backspace>"))
 
+(defun md-to-org-region (start end)
+  "Convert region from markdown to org, replacing selection"
+  (interactive "r")
+  (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
 (provide 'defuns)
 
