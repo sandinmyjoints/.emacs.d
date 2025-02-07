@@ -366,7 +366,7 @@
 (defalias 'apply-kbd-macro-to-region-lines 'apply-macro-to-region-lines)
 
 
-;; Recursive editing.
+;; Minibuffer and recursive editing.
 ;;
 ;; C-] is abort-recursive-edit.
 
