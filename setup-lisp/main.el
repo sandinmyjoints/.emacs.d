@@ -2891,10 +2891,19 @@ Insert .* between each char."
          :map jest-mode-map
          ([remap compile] . jest-popup)
          ([remap recompile] . jest-repeat)
+         ;; ("u" . self-insert-command)
+         ;; ("u". comint/send-custom-input)
          )
   :config
   (setq jest-pdb-track nil)
   (add-hook 'jest-mode-hook #'compilation-minor-mode)
+
+  ;; compilation messes with Enter and regular keys. It binds Enter to
+  ;; goto-error and unbinds some keys. C-q h comint-send-input works. I want to
+  ;; disable compilation-minor-mode if at end of buffer. Or, I want to use Enter
+  ;; for comint-send-input if at end of buffer. Or, see
+  ;; https://endlessparentheses.com/provide-input-to-the-compilation-buffer.html,
+  ;; which I am doing further down in this file (see endless/send-self).
   )
 
 ;; (package-generate-autoloads "jest" "~/.emacs.d/elisp/emacs-jest/")
