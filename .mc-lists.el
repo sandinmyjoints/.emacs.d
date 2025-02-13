@@ -121,6 +121,7 @@
       '(
         ace-window
         beginend-org-mode-goto-beginning
+        beginend-org-mode-goto-end
         bury-buffer
         combobulate-edit-cluster-dwim
         combobulate-menu/combobulate-edit-cluster-dwim-and-exit

@@ -1039,9 +1039,11 @@ pasting into other programs."
       (mark-whole-buffer)
       (easy-kill)))
   )
+
 (use-package ox-slack
   :defer 5
   :after org)
+
 (use-package ox-pandoc
   :config
   (setq org-pandoc-options-for-gfm '((wrap . preserve)))
@@ -1861,7 +1863,8 @@ Insert .* between each char."
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t
         show-paren-highlight-openparen t)
-  (add-hook 'magit-status-mode-hook #'wjb/disable-show-paren-mode)
+  ;; unneeded as of 29.1:
+  ;; (add-hook 'magit-status-mode-hook #'wjb/disable-show-paren-mode)
   (show-paren-mode 1))
 
 ;; Dims parens in certain modes.
@@ -2327,7 +2330,12 @@ Insert .* between each char."
 (use-package nginx-mode
   :config
   (setq nginx-indent-level 2)
-  (add-hook 'nginx-mode-hook #'company-nginx-keywords))
+  )
+
+(use-package company-nginx
+  :ensure t
+  :after (nginx-mode)
+  :config (add-hook 'nginx-mode-hook (lambda () (add-to-list 'company-backends #'company-nginx))))
 
 ;; RVM.
 (use-package rvm
