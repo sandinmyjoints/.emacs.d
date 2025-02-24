@@ -2416,6 +2416,20 @@ Insert .* between each char."
   (diminish 'beginend-global-mode)
   (diminish 'beginend-prog-mode))
 
+(use-package mwim
+  :defer 1
+  :commands (mwim-beginning mwim-end)
+  :config
+  (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+  (define-key org-mode-map (kbd "C-a") #'org-beginning-of-line)
+
+  (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
+  (define-key text-mode-map (kbd "C-e") #'move-end-of-line)
+  (define-key org-mode-map (kbd "C-e") #'move-end-of-line)
+  ;; (global-set-key [remap move-beginning-of-line] #'mwim-beginning)
+  ;; (global-set-key [remap move-end-of-line] #'mwim-end)
+  )
+
 (use-package know-your-http-well
   :defer 5)
 
