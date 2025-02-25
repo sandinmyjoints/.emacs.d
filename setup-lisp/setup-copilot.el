@@ -1,6 +1,8 @@
+;; based on https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+
 (defun company-yasnippet-or-completion ()
   (interactive)
-  (or (do-yas-expand)
+  (or (yas-expand)
       (company-complete-common)))
 
 (defun rk/copilot-tab ()
@@ -63,7 +65,7 @@ cleared, make sure the overlay doesn't come back too soon."
   "Modes in which copilot is inconvenient.")
 
 
-(defvar rk/copilot-manual-mode nil
+(defvar rk/copilot-manual-mode t
   "When `t' will only show completions when manually triggered, e.g. via M-C-<return>.")
 
 (defvar rk/copilot-enable-for-org nil
@@ -107,7 +109,7 @@ annoying, sometimes be useful, that's why this can be handly."
   (message "copilot for org is %s" (if rk/copilot-enable-for-org "enabled" "disabled")))
 
 (use-package copilot
-  :disabled ;; wondering if this causes random hangs
+  ;; :disabled ;; wondering if this causes random hangs
   :load-path ("elisp/copilot.el")
   :diminish
   :config
@@ -121,8 +123,8 @@ annoying, sometimes be useful, that's why this can be handly."
   (define-key copilot-mode-map (kbd "M-C-<down>") #'copilot-accept-completion-by-line)
 
   ;; global keybindings
-  (define-key global-map (kbd "M-C-<return>") #'rk/copilot-complete-or-accept)
-  (define-key global-map (kbd "M-C-<escape>") #'rk/copilot-change-activation)
+  (define-key global-map (kbd "C-c <TAB>") #'rk/copilot-complete-or-accept)
+  ;; (define-key global-map (kbd "M-C-<escape>") #'rk/copilot-change-activation)
 
   ;; Do copilot-quit when pressing C-g
   (advice-add 'keyboard-quit :before #'rk/copilot-quit)
@@ -135,5 +137,10 @@ annoying, sometimes be useful, that's why this can be handly."
   ;; deactivate copilot for certain modes
   (add-to-list 'copilot-enable-predicates #'rk/copilot-enable-predicate)
   (add-to-list 'copilot-disable-predicates #'rk/copilot-disable-predicate))
+
+(use-package copilot-chat
+  :config
+  (define-key global-map (kbd "C-c o") #'copilot-chat-transient)
+  (setq copilot-chat-frontend 'shell-maker))
 
 (provide 'setup-copilot)
