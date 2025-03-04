@@ -97,16 +97,17 @@
   (interactive)
   (other-window -1))
 
-(defun toggle-window-dedicated ()
-  "Toggle whether the current active window is dedicated or not"
-  (interactive)
-  (message
-   (if (let (window (get-buffer-window (current-buffer)))
-         (set-window-dedicated-p window
-                                 (not (window-dedicated-p window))))
-       "'%s' is dedicated"
-     "'%s' is normal")
-   (current-buffer)))
+;; this is now builtin in emacs 30.1
+;; (defun toggle-window-dedicated ()
+;;   "Toggle whether the current active window is dedicated or not"
+;;   (interactive)
+;;   (message
+;;    (if (let (window (get-buffer-window (current-buffer)))
+;;          (set-window-dedicated-p window
+;;                                  (not (window-dedicated-p window))))
+;;        "'%s' is dedicated"
+;;      "'%s' is normal")
+;;    (current-buffer)))
 
 (defun whack-whitespace (arg)
   "Delete all white space from point to the next word.  With prefix ARG
