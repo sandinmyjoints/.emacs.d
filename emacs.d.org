@@ -838,6 +838,8 @@ react-redux
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
   - use flycheck-compile to see exactly what command flycheck is running
+* TODO flycheck/eslint issues
+  - sometimes the =--print-config= option doesn't work. this might help: https://github.com/eslint/eslint/issues/19361
 * TODO indium alternative: use chrome debugger to connect to node
 * TODO indium                                                       :debug:node:
 ** indium server configurations
