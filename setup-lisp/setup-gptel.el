@@ -67,8 +67,8 @@ guaranteed to be the response buffer."
   (setq gptel-model 'hf.co/sm54/Mistral-Small-24B-Instruct-2501-Q4_K_M-GGUF:latest)
 
   ;; (gptel-api-key-from-auth-source "api.openai.com" "apikey")
-  (setq gptel-model 'gpt-4o-mini)
-  ;; (setq gptel-model 'o3-mini)
+  ;; (setq gptel-model 'gpt-4o-mini)
+  (setq gptel-model 'o3-mini)
   )
 
 (provide 'setup-gptel)
