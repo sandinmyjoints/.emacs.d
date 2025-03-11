@@ -203,12 +203,8 @@ Also converts full stops to commas."
 (global-set-key (kbd "H-a") #'treemacs-select-window)
 
 ;; clobbers undo, but I never use it at this binding anyway
-(global-set-key (kbd "C-/")
-                (lambda ()
-                  (interactive)
-                  (if (fboundp 'copilot-mode)
-                      (call-interactively #'copilot-complete)
-                    (call-interactively #'hippie-expand))))
+(global-set-key (kbd "C-/") #'hippie-expand)
+;; Could use C-c / for hippie or copilot
 
 ;; (global-set-key (kbd "C-<return>") 'goto-address-at-point) ;; dont need this b/c goto-address-mode
 
