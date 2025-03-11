@@ -9,11 +9,18 @@
   ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
 
   ;; https://github.com/Aider-AI/aider/blob/main/aider/resources/model-settings.yml
-  ;; --no-gitignore
-  (setq aider-args `("--model" "o3-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)))
-  (setq aider-args `("--model" "gpt-4o-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)
+
+  ;; $0.15
+  ;; (setq aider-args `("--model" "gpt-4o-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)
+  ;;                    "--edit-format" "diff"
+  ;;                    "--editor-edit-format" "editor-diff"))
+
+  ;; $1.10
+  (setq aider-args `("--model" "o3-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)
+                     "--no-gitignore" "--reasoning-effort" "high"
                      "--edit-format" "diff"
                      "--editor-edit-format" "editor-diff"))
+
   ;; (setq aider-args '("--model" "ollama_chat/hf.co/sm54/Mistral-Small-24B-Instruct-2501-Q4_K_M-GGUF:latest"
   ;;                    "--edit-format" "diff"
   ;;                    "--editor-edit-format" "editor-diff"))
