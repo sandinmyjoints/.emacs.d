@@ -1056,13 +1056,10 @@ pasting into other programs."
 
 ;; sql
 
-;; Fix sql-prompt-regexp: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27586
 (use-package sql
   :defer
   :after page-break-lines
   :config
-  (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat)
-  (define-key sql-mode-map (kbd "C-c C-z") 'sanityinc/pop-to-sqli-buffer)
   (push 'sql-mode page-break-lines-modes)
 
   (setq-default sql-input-ring-file-name
@@ -1070,17 +1067,18 @@ pasting into other programs."
                 sql-product 'mysql)
 
   (add-to-list 'sql-mysql-login-params '(port :default 3311))
-  ;; (push "" sql-mysql-options)
-
-  (defun sanityinc/fix-postgres-prompt-regexp ()
-    "Work around https://debbugs.gnu.org/cgi/bugreport.cgi?bug=22596.
-Fix for the above hasn't been released as of Emacs 25.2."
-    (when (or (eq sql-product 'postgres) (eq sql-product 'mysql))
-      (setq-local sql-prompt-regexp "^[[:alnum:]_]*=[#>] ")
-      (setq-local sql-prompt-cont-regexp "^[[:alnum:]_]*[-(][#>] "))
-    (setq comint-scroll-to-bottom-on-output t))
-
-  (add-hook 'sql-interactive-mode-hook 'sanityinc/fix-postgres-prompt-regexp)
+  (setq sql-mysql-login-params
+        '((user :default "sd")
+          (database :default "sd_prod")
+          (server :default "127.0.0.1")
+          ))
+  (setq sql-connection-alist
+        '((dev (sql-product 'mysql)
+               (sql-port 3311)
+               (sql-server "127.0.0.1")
+               (sql-user "sd")
+               (sql-password "sd_password")
+               (sql-database "sd_prod"))))
 
   (defun sanityinc/pop-to-sqli-buffer ()
     "Switch to the corresponding sqli buffer."
@@ -1092,6 +1090,7 @@ Fix for the above hasn't been released as of Emacs 25.2."
       (sql-set-sqli-buffer)
       (when sql-buffer
         (sanityinc/pop-to-sqli-buffer))))
+  (define-key sql-mode-map (kbd "C-c C-z") 'sanityinc/pop-to-sqli-buffer)
 
   ;; See my answer to https://emacs.stackexchange.com/questions/657/why-do-sql-mode-and-sql-interactive-mode-not-highlight-strings-the-same-way/673
   (defun sanityinc/font-lock-everything-in-sql-interactive-mode ()
@@ -1103,8 +1102,9 @@ Fix for the above hasn't been released as of Emacs 25.2."
   :after sql
   :config
   ;; needs sqlparse package, which can be gotten with homebrew
-  ;; (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
-  (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat))
+  (setq sqlformat-command 'sqlformat)
+  (add-hook 'sql-mode-hook 'sqlformat-on-save-mode) ;; this was getting annoying
+  (define-key sql-mode-map (kbd "C-c C-f") 'sqlformat-buffer))
 
 
 ;; git and magit
