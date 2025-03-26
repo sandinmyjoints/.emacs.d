@@ -1,11 +1,26 @@
-;; aider:
+(defun api-key-from-auth-source (&optional host user)
+  "Lookup api key in the auth source.
+By default, the LLM host for the active backend is used as HOST,
+and \"apikey\" as USER."
+  (if-let* ((secret
+             (plist-get
+              (car (auth-source-search
+                    :host host
+                    :user (or user "apikey")
+                    :require '(:secret)))
+              :secret)))
+      (if (functionp secret)
+          (encode-coding-string (funcall secret) 'utf-8)
+        secret)
+    (user-error "No `whatever-key' found in the auth source")))
+
 (use-package aider
   :load-path ("elisp/aider.el")
   :config
   ;; Aider wants chat models (not coder/FIM).
   (define-key global-map (kbd "C-c a") #'aider-transient-menu)
-  ;; (setenv "OPENAI_API_KEY" (gptel-api-key-from-auth-source "api.openai.com" "apikey-aider"))
-  (setq openai-apikey-aider (gptel-api-key-from-auth-source "api.openai.com" "apikey-aider"))
+  ;; (setenv "OPENAI_API_KEY" (api-key-from-auth-source "api.openai.com" "apikey-aider"))
+  (setq openai-apikey-aider (api-key-from-auth-source "api.openai.com" "apikey-aider"))
   ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
 
   ;; https://github.com/Aider-AI/aider/blob/main/aider/resources/model-settings.yml
