@@ -19,6 +19,7 @@ and \"apikey\" as USER."
   :config
   ;; Aider wants chat models (not coder/FIM).
   (define-key global-map (kbd "C-c a") #'aider-transient-menu)
+
   ;; (setenv "OPENAI_API_KEY" (api-key-from-auth-source "api.openai.com" "apikey-aider"))
   (setq openai-apikey-aider (api-key-from-auth-source "api.openai.com" "apikey-aider"))
   ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
@@ -27,13 +28,22 @@ and \"apikey\" as USER."
   ;; See ~/.aider.conf.yml
   ;; "--no-gitignore"
 
+  ;; OpenAI.
   ;; $0.15 (4o is $2.50)
   ;; (setq aider-args `("--model" "gpt-4o-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)))
 
   ;; $1.10
-  (setq aider-args `("--model" "o3-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)
-                     "--reasoning-effort" "high"))
+  ;; (setq aider-args `("--model" "o3-mini" "--api-key" ,(format "openai=%s" openai-apikey-aider)
+  ;;                    "--reasoning-effort" "high"))
 
+  ;; Github.
+  (setq aider-program "uv"
+        aider-args
+        `("run" "aider" "--model" "github_copilot/o3-mini"
+          "--weak-model" "github_copilot/gpt-4o-mini"
+          "--editor-model" "github_copilot/gpt-4o"))
+
+  ;; Local models.
   ;; (setq aider-args '("--model" "ollama_chat/hf.co/sm54/Mistral-Small-24B-Instruct-2501-Q4_K_M-GGUF:latest"
   ;;                    "--edit-format" "diff"
   ;;                    "--editor-edit-format" "editor-diff"))
