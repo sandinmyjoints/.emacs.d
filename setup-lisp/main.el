@@ -1330,6 +1330,12 @@ pasting into other programs."
   (:map ein:notebook-mode-map
         ("C-c C-g" . 'ein:notebooklist-open)))
 
+(use-package reformatter
+  :config
+  (reformatter-define ruff-format
+    :program "ruff"
+    :args `("format" "--stdin-filename" ,buffer-file-name "-")))
+
 
 ;; projectile
 
