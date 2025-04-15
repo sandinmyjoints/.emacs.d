@@ -26,6 +26,12 @@ and \"apikey\" as USER."
 (use-package aider
   :load-path ("elisp/aider.el")
   :config
+  (add-hook 'aider-comint-mode-hook
+            (lambda ()
+              (toggle-truncate-lines 0)
+              (setq-local fill-column 120)
+              (visual-line-mode 1)))
+
   ;; Aider wants chat models (not coder/FIM).
   (define-key global-map (kbd "C-c a") #'aider-transient-menu)
 
