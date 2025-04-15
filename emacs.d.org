@@ -2852,6 +2852,21 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
 * vitest
 ** vitest slow output in jest-mode
    - use =--reporter=basic=
+ DEPRECATED  'basic' reporter is deprecated and will be removed in Vitest v3.
+Remove 'basic' from 'reporters' option. To match 'basic' reporter 100%, use configuration:
+{
+  "test": {
+    "reporters": [
+      [
+        "default",
+        {
+          "summary": false
+        }
+      ]
+    ]
+  }
+}
+
 ** vitest animation not working in comint mode
    - best solution is to use ~env FORCE_COLOR=1 CI=1~ for vitest invocations
 ** vitest color
