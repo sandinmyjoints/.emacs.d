@@ -98,12 +98,9 @@ cleared, make sure the overlay doesn't come back too soon."
         (message "deactivating copilot")
         (global-copilot-mode -1)
         (setq rk/copilot-manual-mode nil))
-    (if copilot-mode
-        (progn
+    (progn
           (message "activating copilot manual mode")
-          (setq rk/copilot-manual-mode t))
-      (message "activating copilot mode")
-      (global-copilot-mode))))
+          (setq rk/copilot-manual-mode t))))
 
 (defun rk/copilot-toggle-for-org ()
   "Toggle copilot activation in org mode. It can sometimes be
