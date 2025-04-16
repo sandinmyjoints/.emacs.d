@@ -1334,7 +1334,16 @@ pasting into other programs."
   :config
   (reformatter-define ruff-format
     :program "ruff"
-    :args `("format" "--stdin-filename" ,buffer-file-name "-")))
+    :args `("format" "--stdin-filename" ,buffer-file-name "-"))
+
+  (reformatter-define black-format
+    :program "black"
+    :args '("-"))
+
+  (reformatter-define black-hegemone
+    ;; docker run --entrypoint=/usr/bin/env --rm -v ${SD_HEGEMONE_VOLUME} sd-hegemone sh -c "/usr/src/app/.venv/bin/black
+    :program "/Users/wbert/scm/sd/hegemone/.venv/bin/black"
+    :args '("-")))
 
 
 ;; projectile
