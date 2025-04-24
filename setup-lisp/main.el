@@ -1910,6 +1910,28 @@ Insert .* between each char."
            ))))
 
   (setq electric-pair-inhibit-predicate 'my/electric-pair-conservative-inhibit)
+
+  (defun my/python-electric-pair-conservative-inhibit (char)
+    ;; (message (format "two back: %c  two back synax: %c  one back: %c  one back syntax: %c"
+    ;;                  (char-before (1- (point))) (char-syntax (char-before (1- (point)))) (preceding-char) (char-syntax (preceding-char))))
+    (or
+     ;; I find it more often preferable not to pair when the
+     ;; same char is next.
+     (eq char (char-after))
+     ;; Don't pair up when we insert the second of "" or of ((.
+     (and (eq char (char-before))
+	        (eq char (char-before (1- (point)))))
+     ;; I also find it often preferable not to pair next to a word.
+     (eq (char-syntax (following-char)) ?w)
+     ;; Don't pair at the end of a word, unless parens, or f-string.
+     (and
+      (eq (char-syntax (char-before (1- (point)))) ?w)
+      (eq (preceding-char) char)
+      (not (or
+            (eq (char-syntax (preceding-char)) ?\()
+            (eq (char-before (1- (point))) ?f)
+            )))))
+
   (electric-pair-mode))
 
 ;; experimental -- try as replacement for electric-pair-mode, as doom uses it.
