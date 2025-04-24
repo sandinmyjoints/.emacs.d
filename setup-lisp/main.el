@@ -474,13 +474,72 @@
   (add-hook 'flycheck-after-syntax-check-hook
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
 
+  (defun replace-path-prefix (filepath old-prefix new-prefix)
+    "Replace OLD-PREFIX in FILEPATH with NEW-PREFIX.
+Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
+    (if (string-prefix-p old-prefix filepath)
+        (concat new-prefix (substring filepath (length old-prefix)))
+      filepath))
+
+  (flycheck-define-checker python-hegemone-pycodestyle
+    "A Python syntax/style checker using a Docker command via invoke."
+    :command ("docker" "run"
+              "--entrypoint=/usr/bin/env"
+              "--rm"
+              "-v" "/Users/wbert/scm/sd/hegemone/sd_hegemone:/usr/src/app/sd_hegemone"
+              "sd-hegemone"
+              "/usr/src/app/.venv/bin/invoke"
+              "pycodestyle"
+              "--target"
+              (eval
+               (replace-path-prefix
+                (buffer-file-name)
+                "/Users/wbert/scm/sd/hegemone"
+                "/usr/src/app"))
+              )
+    :error-patterns
+    ((error   line-start (file-name) ":" line ":" column ": " "E" (id (one-or-more (not (any ": ")))) (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ": " "W" (id (one-or-more (not (any ": ")))) (message) line-end))
+    :modes (python-mode python-ts-mode))
+
+  (add-to-list 'flycheck-checkers 'python-hegemone-pycodestyle)
+
+  (flycheck-define-checker python-hegemone-pylint
+    "A Python syntax/style checker using a Docker command via invoke."
+    :command ("docker" "run"
+              "--entrypoint=/usr/bin/env"
+              "--rm"
+              "-v" "/Users/wbert/scm/sd/hegemone/sd_hegemone:/usr/src/app/sd_hegemone"
+              "sd-hegemone"
+              "/usr/src/app/.venv/bin/pylint"
+              "--output-format=text"
+              (eval
+               (replace-path-prefix
+                (buffer-file-name)
+                "/Users/wbert/scm/sd/hegemone"
+                "/usr/src/app"))
+              )
+    :error-patterns ;; appropriate for very old pylint
+
+    ;; ************* Module sd_hegemone.wordoftheday.admin
+    ;;            sd_hegemone/wordoftheday/admin.py:241:0: R0901: Too many ancestors (8/7) (too-many-ancestors)
+    ((info    line-start (file-name) ":" line ":" column ": C" (one-or-more (not (any ":"))) ": " (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ": R" (one-or-more (not (any ":"))) ": " (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ": W" (one-or-more (not (any ":"))) ": " (message) line-end)
+     (error   line-start (file-name) ":" line ":" column ": E" (one-or-more (not (any ":"))) ": " (message) line-end)
+     (error   line-start (file-name) ":" line ":" column ": F" (one-or-more (not (any ":"))) ": " (message) line-end))
+    ;; :error-parser flycheck-parse-pylint ;; needs newer pylint I think?
+    :modes (python-mode python-ts-mode))
+
+  (add-to-list 'flycheck-checkers 'python-hegemone-pylint)
+  (flycheck-add-next-checker 'python-hegemone-pycodestyle 'python-hegemone-pylint)
+
   (flycheck-define-checker python-pycodestyle
     "A Python style guide checker using pycodestyle. See URL `https://pycodestyle.readthedocs.io/'."
     :command ("pycodestyle" source-inplace)
     :error-patterns
     ((error   line-start (file-name) ":" line ":" column ": " "E" (id (one-or-more (not (any ": ")))) (message) line-end)
-     (warning line-start (file-name) ":" line ":" column ": "
-              "W" (id (one-or-more (not (any ": ")))) (message) line-end))
+     (warning line-start (file-name) ":" line ":" column ": " "W" (id (one-or-more (not (any ": ")))) (message) line-end))
     :modes (python-mode python-ts-mode))
 
   (add-to-list 'flycheck-checkers 'python-pycodestyle)
