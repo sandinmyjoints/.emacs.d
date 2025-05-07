@@ -157,7 +157,6 @@
      (cons 'diminish melpa-stable)
      (cons 'xterm-color melpa)
      ;; (cons 'unicode-troll-stopper melpa)
-     (cons 'smart-mode-line melpa-stable)
      (cons 'minions melpa-stable)
      (cons 'visual-regexp melpa)
      (cons 'multiple-cursors melpa)
