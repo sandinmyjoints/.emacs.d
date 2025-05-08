@@ -834,10 +834,13 @@ react-redux
   - support "index" by default
   - C-c p g project-find-file-dwim does a pretty good job of this
   - counsel has
-* TODO how to handle flycheck messages
+* TODO how to handle flycheck messages/flycheck debugging
   - POS tip repo seems unmaintained, doesn't work that well: https://github.com/flycheck/flycheck-pos-tip/issues
   - two different flycheck-inlines, though they seem to have merged: https://github.com/stardiviner/flycheck-inline/issues/4
-  - use flycheck-compile to see exactly what command flycheck is running
+  - Use flycheck-compile to see exactly what command flycheck is running
+  #+begin_src
+(flycheck-parse-output "sd_hegemone/wordoftheday/admin.py:200:21: E112 expected an indented block" 'python-hegemone (current-buffer))
+  #+end_src
 * TODO flycheck/eslint issues
   - sometimes the =--print-config= option doesn't work. this might help: https://github.com/eslint/eslint/issues/19361
 * TODO indium alternative: use chrome debugger to connect to node
@@ -2745,6 +2748,10 @@ posframe instead of wrap.
   - https://old.reddit.com/r/emacs/comments/101s14i/whats_the_canonical_correct_method_of_passing_a/j2rwi5j/
 * HOWTO detect if point is in a comment                               :howto:
   - https://github.com/Alexander-Miller/company-shell/commit/5f959a63a6e66eb0cbdac3168cad523a62cc2ccd#diff-e98797f56740b84814c67b1a843dca33b9f8eec3f12109de12a3c36c63bca5e8R209
+* tags stuff: ctags/etags/gtags
+  - using universal ctags, installed by brew
+  - https://www.perplexity.ai/search/what-is-the-preferred-code-tag-o6a1h907QbaUNaf0.DhKrA
+  - ~ctags -e --recurse=yes --exclude=.git --exclude=node_modules --exclude=*csv --exclude=.yarn~
 * etags taking too long for neodarwin
   - "Making tag completion table for "
   - https://emacs.stackexchange.com/questions/2919/making-tag-completion-table-freezes-blocks-how-to-disable
