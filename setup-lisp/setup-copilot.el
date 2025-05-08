@@ -136,7 +136,8 @@ annoying, sometimes be useful, that's why this can be handly."
   ;; deactivate copilot for certain modes
   (add-to-list 'copilot-enable-predicates #'rk/copilot-enable-predicate)
   (add-to-list 'copilot-disable-predicates #'rk/copilot-disable-predicate)
-  (global-copilot-mode))
+  ;; (global-copilot-mode) ;; seems to cause problems
+)
 
 (use-package copilot-chat
   :config
