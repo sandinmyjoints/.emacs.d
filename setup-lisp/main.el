@@ -3075,20 +3075,20 @@ Interactively also sends a terminating newline."
      string)))
 
 ;; shell is derived from comint: (define-derived-mode shell-mode comint-mode "Shell"
-(use-package shell
-  :after comint
-  :config
-  ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
-  ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
-  ;; only sort of uses it?
-  (add-hook 'shell-mode-hook
-            'ansi-color-for-comint-mode-on)
-  ;; want this for shell but not for compilation
-  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
-  (setq comint-scroll-show-maximum-output nil)
+;; (use-package shell
+;;   :after comint
+;;   :config
+;;   ;; Fix junk characters in shell-mode. This doesn't work to do ANSI color in
+;;   ;; compilation mode, though. Maybe compilation mode doesn't use comint-mode, or
+;;   ;; only sort of uses it?
+;;   (add-hook 'shell-mode-hook
+;;             'ansi-color-for-comint-mode-on)
+;;   ;; want this for shell but not for compilation
+;;   (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+;;   (setq comint-scroll-show-maximum-output nil)
 
-  (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
-  (define-key comint-mode-map (kbd "<down>") 'comint-next-input))
+;;   (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
+;;   (define-key comint-mode-map (kbd "<down>") 'comint-next-input))
 
 (defun endless/send-self ()
   "Send the pressed key to the current process."
@@ -3289,9 +3289,9 @@ Interactively also sends a terminating newline."
     (setq font-lock-function 'xristos/font-lock-function))
 
   (defun xristos/shell-mode-hook ()
-    (xristos/disable-font-lock)
-    (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
-
+    (unless (eq major-mode 'aider-comint-mode)
+      (xristos/disable-font-lock)
+      (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t))
     ;; TODO: The following depends on font-locking, it's better to write
     ;; my own mode for similar functionality at some point.
     ;; (compilation-shell-minor-mode 1)
@@ -4125,7 +4125,8 @@ is already narrowed."
 (use-package chatgpt-shell
   :after shell-maker
   :custom
-  ((comint-use-prompt-regexp t) ;; trying to get prompt to have a different face
+  (
+   ;; (comint-use-prompt-regexp t) ;; trying to get prompt to have a different face. But I should do this in a hook, not set it generally.
    (chatgpt-shell-openai-key
     (lambda ()
       (auth-source-pick-first-password :host "api.openai.com")))))
