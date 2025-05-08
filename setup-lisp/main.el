@@ -1231,7 +1231,7 @@ pasting into other programs."
   (setq github-review-fetch-top-level-and-review-comments t))
 
 (use-package gitignore-mode
-  :mode ("\\.dockerignore\\'" "global.gitignore" ".*gitignore\\'"))
+  :mode ("\\.dockerignore\\'" "\\.aiderignore\\'" "global.gitignore" ".*gitignore\\'"))
 
 ;; It doesn't seem to like this, it thinks the domain name is neodarwin
 ;; 	url = git@github.com:spanishdict/neodarwin.git
