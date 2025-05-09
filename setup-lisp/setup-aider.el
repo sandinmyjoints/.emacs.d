@@ -74,4 +74,18 @@ and \"apikey\" as USER."
 
   )
 
+(use-package aidermacs
+  :load-path ("elisp/aidermacs")
+  :bind (("C-c i" . aidermacs-transient-menu))
+  :config
+  (add-to-list 'aidermacs-extra-args
+               (format "--openai-api-key=%s" (api-key-from-auth-source "api.openai.com" "apikey-aider"))
+               )
+  :custom
+  ; See the Configuration section below
+  (aidermacs-use-architect-mode t)
+  (aidermacs-architect-model "o3-mini")
+  (aidermacs-default-model "gpt-4.1")
+  (aidermacs-editor-model "gpt-4.1"))
+
 (provide 'setup-aider)
