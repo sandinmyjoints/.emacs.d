@@ -1054,6 +1054,19 @@ The result is pushed onto the kill ring."
   (interactive "r")
   (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
+(defun wjb/org-gfm-export-and-copy ()
+  "Export Org to GFM Markdown (no TOC), copy to kill-ring, silent and restoring windows."
+  (interactive)
+  (require 'ox-gfm)
+  (let ((org-export-with-toc nil))             ;; This disables TOC globally during export
+    (save-window-excursion
+      (let ((export-buffer (org-export-to-buffer
+                            'gfm "*Org GFM Export*" nil t t nil)))
+        (with-current-buffer export-buffer
+          (kill-new (buffer-string)))
+        (kill-buffer export-buffer))))
+  (message "Markdown copied to kill-ring."))
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
