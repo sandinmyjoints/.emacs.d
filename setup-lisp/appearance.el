@@ -558,7 +558,7 @@ OK on large screens."
   ;; (change-theme 'doom-palenight t) ;; nice, dark but not too much contrast
   ;; (change-theme 'doom-snazzy t) ;; good, not as much contrast as outrun
   ;; (change-theme 'doom-tomorrow-night t)
-  ;; (change-theme 'doom-tomorrow-day t) ;; comments unreadable, not enough contrast
+  ;; (change-theme 'doom-tomorrow-day t) ;; ok light theme
 
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
