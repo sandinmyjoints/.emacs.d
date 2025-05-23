@@ -1067,6 +1067,24 @@ The result is pushed onto the kill ring."
         (kill-buffer export-buffer))))
   (message "Markdown copied to kill-ring."))
 
+(defun wjb/upcase-first-char-on-line ()
+  "Upcase the first alphabetic character at the start of a word on the current line."
+  (interactive)
+  (let ((start (if (use-region-p)
+                   (region-beginning)
+                 (line-beginning-position)))
+        (end (if (use-region-p)
+                 (region-end)
+               (line-end-position))))
+    (save-excursion
+      (goto-char start)
+      (while (< (point) end)
+        (let ((line-end (line-end-position)))
+          (when (re-search-forward "\\b\\([A-Za-z]\\)" line-end t)
+            (upcase-region (match-beginning 1) (match-end 1)))
+          (forward-line 1))))))
+
+
 (provide 'defuns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
