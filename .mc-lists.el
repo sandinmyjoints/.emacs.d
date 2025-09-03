@@ -16,6 +16,7 @@
         coffee-dedent-line-backspace
         coffee-indent-shift-left
         coffee-newline-and-indent
+        comint-delchar-or-maybe-eof
         comment-region
         counsel-M-x
         counsel-find-file
