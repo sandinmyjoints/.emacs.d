@@ -470,6 +470,11 @@
   ;; buffer-sensitive adjustment above.
   (make-variable-buffer-local 'flycheck-idle-change-delay)
 
+  (advice-add 'flycheck-jump-in-buffer :around
+              (lambda (orig-fun &rest args)
+                (let ((display-buffer-overriding-action '((display-buffer-same-window))))
+                  (apply orig-fun args))))
+
   (require 'wjb-byte-compile)
   (add-hook 'flycheck-after-syntax-check-hook
             'magnars/adjust-flycheck-automatic-syntax-eagerness)
