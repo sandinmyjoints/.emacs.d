@@ -1061,9 +1061,10 @@ The result is pushed onto the kill ring."
   (let ((org-export-with-toc nil))             ;; This disables TOC globally during export
     (save-window-excursion
       (let ((export-buffer (org-export-to-buffer
-                            'gfm "*Org GFM Export*" nil t t nil)))
+                            'gfm "*Org GFM Export*" nil t nil nil)))
         (with-current-buffer export-buffer
-          (kill-new (buffer-string)))
+          (kill-new (replace-regexp-in-string "\\\\_" "_" (buffer-string))))
+          ;; (kill-new (buffer-string)))
         (kill-buffer export-buffer))))
   (message "Markdown copied to kill-ring."))
 
