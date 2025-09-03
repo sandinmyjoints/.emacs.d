@@ -285,7 +285,6 @@
      (cons 'swiper melpa)
      (cons 'prescient melpa)
      (cons 'ivy-prescient melpa)
-     (cons 'company-prescient melpa)
      ;; (cons 'project-shells melpa)
 
      (cons 'treemacs melpa)
