@@ -2899,7 +2899,7 @@ Insert .* between each char."
 ;; for file.
 (use-package nvm
   :config
-  (nvm-use "v18.14.2")) ;; default node
+  (nvm-use "v22.12.0")) ;; default node
 
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
