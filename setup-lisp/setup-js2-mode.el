@@ -172,18 +172,6 @@ If buffer is not visiting a file, do nothing."
 
   ;; TODO: make minor mode hook more like major mode hook
   (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
-
-  ;; put towards the end so it runs early (hooks are added to
-  ;; beginning of list). This hook only runs when a JS file is opened,
-  ;; so TODO: give nvm more opportunities to switch to correct node.
-  ;; - hook for switching buffers
-  ;; - hook where projectile knows when project changes?
-  (add-hook 'js-base-mode-hook #'nvm-use-for-buffer -99)
-  (add-hook 'js2-mode-hook #'nvm-use-for-buffer -99)
-  (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer -99)
-  (add-hook 'yml-mode-hook #'nvm-use-for-buffer -99)
-  (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer -99)
-  (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer -99)
 )
 
 ;; TODO: default nvm to be used at startup, before any project has been activated.

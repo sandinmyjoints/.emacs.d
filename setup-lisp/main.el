@@ -2899,7 +2899,14 @@ Insert .* between each char."
 ;; for file.
 (use-package nvm
   :config
-  (nvm-use "v22.12.0")) ;; default node
+  (nvm-use "v22.12.0")  ;; default node
+  (add-hook 'js-base-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'js2-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'yml-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer -99)
+)
 
 (eval-when-compile (require 'cl))
 (defcustom preferred-javascript-mode
