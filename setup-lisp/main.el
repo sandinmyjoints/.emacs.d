@@ -2914,6 +2914,8 @@ If buffer is not visiting a file, do nothing."
   :options '(js2-mode js-mode))
 (defvar preferred-javascript-indent-level 2)
 
+(require 'setup-js-mode)
+
 ;; TODO ensure these come after flycheck, otherwise checkers may not be set up correctly
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
 (eval-after-load 'typescript-mode '(require 'setup-js2-mode))

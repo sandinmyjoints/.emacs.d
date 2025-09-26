@@ -103,6 +103,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   )
 
 (with-eval-after-load 'js2-mode
+  (modify-syntax-entry ?- "_" js2-mode-syntax-table)
   (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
   (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
   ;; TODO js2-mode-show-all
@@ -175,16 +176,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (require 'setup-rjsx-mode)
 
-;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
-(eval-after-load 'js-mode
-  '(progn
-     ;; experimental: make underscore be a symbol, part of a name
-     (modify-syntax-entry ?- "_" js-mode-syntax-table)
-     (modify-syntax-entry ?- "_" js2-mode-syntax-table)
-
-     ;; '$' is part of variable name like '$item'
-     (modify-syntax-entry ?$ "w" js-mode-syntax-table)))
-
 ;; Flycheck.
 ;;
 (setq flycheck-eslint-args '("--no-color"))
@@ -219,19 +210,8 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (setq typescript-indent-level 2)
 
-(defun wjb/company-transformer (candidates)
-  (let ((completion-ignore-case t))
-    (all-completions (company-grab-symbol) candidates)))
-
-(defun wjb/js-mode-hook nil
-  (make-local-variable 'company-transformers)
-  (push 'wjb/company-transformer company-transformers)
-  (setq-local prettify-symbols-alist nil)
-  (setq-local fill-column 80))
-
-(add-hook 'js-base-mode-hook 'wjb/js-mode-hook)
-
 
+;; js2r stuff
 
 ;; Below based on https://github.com/js-emacs/js2-refactor.el/pull/118
 (defun js2r--convert-string-delimiter (to-delim)
