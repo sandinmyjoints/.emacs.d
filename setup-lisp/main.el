@@ -682,7 +682,7 @@ See URL `http://handlebarsjs.com/'."
   )
 
 (use-package eldoc-box
-  :after (eldoc tide)
+  :after (eldoc)
   :hook (prog-mode . eldoc-box-hover-mode)
   :config
   (setq tide-always-show-documentation t)
@@ -1895,36 +1895,6 @@ Insert .* between each char."
 
   ;; set up all the default registers
   (smart-jump-setup-default-registers)
-
-  ;; define custom.
-  ;; heuristic is used to know whether the jump succeeded or not.
-  ;; error means it failed if an error was signaled.
-  ;; point means it failed if point is the same after the jump as before.
-  ;; smart-jump-list is buffer-local variable that contains the jumps that are in effect.
-
-  ;; dont think I need this anymore now that I explicitly include tide-jump-to-definition for js2-mode
-  ;; (smart-jump-typescript-mode-register 'js2-mode)
-
-  (smart-jump-register :modes 'js2-mode
-                       :jump-fn 'tide-jump-to-definition
-                       :pop-fn 'tide-jump-back
-                       :refs-fn 'tide-references
-                       :should-jump t
-                       :heuristic 'point
-                       :async t
-                       :order 1)
-  (smart-jump-register :modes 'js2-mode
-                       :jump-fn 'js2-jump-to-definition
-                       :should-jump t
-                       :heuristic 'point
-                       :async nil
-                       :order 2)
-  ;; (smart-jump-register :modes 'js2-mode
-  ;;                      :jump-fn 'counsel-etags-find-tag-at-point
-  ;;                      :should-jump t
-  ;;                      :heuristic 'error
-  ;;                      :async nil
-  ;;                      :order 6)
   )
 
 

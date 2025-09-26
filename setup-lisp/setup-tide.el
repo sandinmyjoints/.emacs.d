@@ -154,6 +154,20 @@
 (flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
 (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
 
+;; define custom.
+;; heuristic is used to know whether the jump succeeded or not.
+;; error means it failed if an error was signaled.
+;; point means it failed if point is the same after the jump as before.
+;; smart-jump-list is buffer-local variable that contains the jumps that are in effect.
+(with-eval-after-load 'smart-jump (smart-jump-register :modes 'js2-mode
+                                                       :jump-fn 'tide-jump-to-definition
+                                                       :pop-fn 'tide-jump-back
+                                                       :refs-fn 'tide-references
+                                                       :should-jump t
+                                                       :heuristic 'point
+                                                       :async t
+                                                       :order 1))
+
 (provide 'setup-tide)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
