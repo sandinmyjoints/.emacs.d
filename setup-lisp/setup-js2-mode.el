@@ -176,19 +176,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (require 'setup-rjsx-mode)
 
-;; Prettier.
-;;
-(use-package prettier-js
-  :hook ((js-base-mode . prettier-js-mode)
-         (typescript-ts-base-mode . prettier-js-mode))
-  :config
-  (diminish 'prettier-js-mode)
-  (setq prettier-js-width-mode 'fill)
-  (setq-local prettier-js-args
-        '("--single-quote"
-          "--trailing-comma"
-          "es5")))
-
 ;; TODO convert to use-package :bind.
 (with-eval-after-load 'typescript-ts-mode
   (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))

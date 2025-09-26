@@ -2922,6 +2922,19 @@ If buffer is not visiting a file, do nothing."
 (eval-after-load 'typescript-mode '(require 'setup-js2-mode))
 (eval-after-load 'typescript-ts-mode '(require 'setup-js2-mode))
 
+;; Prettier.
+;;
+(use-package prettier-js
+  :hook ((js-base-mode . prettier-js-mode)
+         (typescript-ts-base-mode . prettier-js-mode))
+  :config
+  (diminish 'prettier-js-mode)
+  (setq prettier-js-width-mode 'fill)
+  (setq-local prettier-js-args
+        '("--single-quote"
+          "--trailing-comma"
+          "es5")))
+
 (use-package indium
   :disabled
   :commands (indium-interaction-mode indium-connect)
