@@ -1816,6 +1816,7 @@ Insert .* between each char."
   )
 
 (use-package helm-xref
+  :disabled
   :after helm
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs
