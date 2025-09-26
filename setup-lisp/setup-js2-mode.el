@@ -173,26 +173,7 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
-(use-package rjsx-mode)
-
-;; Which mode(s) to use for JSX?
-;; - could try js2-jsx-mode by itself
-;; - web-mode + js2-jsx-mode is pretty good but has some quirks, and js2r doesn't work b/c it doesn't support the js2 parse tree.
-;; - rsjx-mode works with js2r but it has had a tendency to hang when attributes are malformed.
-;; - in emacs 27, js-mode with js2-minor-mode is recommended for JSX, but js2 doesn't work.
-;;
-;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.cjs\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.mjs\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)) ;; rjsx can parse spread operator
-
-;; from https://github.com/felipeochoa/rjsx-mode/issues/112#issuecomment-530497532
-(defun +javascript-rjsx-electric-gt-a (n)
-  (when (and (looking-back "<>")
-             (looking-at-p "/>"))
-    (save-excursion (insert "<"))))
-(advice-add #'rjsx-electric-gt :after #'+javascript-rjsx-electric-gt-a)
+(require 'setup-rjsx-mode)
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
