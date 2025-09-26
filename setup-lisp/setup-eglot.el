@@ -3,7 +3,7 @@
 ;; Integrates Eglot (LSP client) with:
 ;;   - typescript-ts-mode  (.ts)
 ;;   - tsx-ts-mode         (.tsx)
-;;   - jtsx-mode           (alt TS)
+;;   - jtsx-jsx-mode       (alt TS)
 ;;   - jtsx-tsx-mode       (alt TSX)
 ;;
 ;; Coexists with existing tide setup: in any buffer where Eglot starts,
@@ -17,7 +17,7 @@
   ;; Register (or extend) server mapping for TypeScript family.
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
-                 '((typescript-ts-mode tsx-ts-mode jtsx-mode jtsx-tsx-mode)
+                 '((typescript-ts-mode tsx-ts-mode jtsx-jsx-mode jtsx-tsx-mode)
                    . ("typescript-language-server" "--stdio"))))
 
   (defun wjb/eglot-setup-company ()
@@ -30,18 +30,18 @@
     "Start Eglot for TS/TSX/jtsx buffers unless tide-mode already active.
 Ensures correct Node version via nvm before launching the server."
     (when (and (not (bound-and-true-p tide-mode))
-               (derived-mode-p 'typescript-ts-mode 'tsx-ts-mode 'jtsx-mode 'jtsx-tsx-mode))
+               (derived-mode-p 'typescript-ts-mode 'tsx-ts-mode 'jtsx-jsx-mode 'jtsx-tsx-mode))
       (when (fboundp 'nvm-use-for-buffer)
         (ignore-errors (nvm-use-for-buffer)))
       (eglot-ensure)))
 
   :hook ((typescript-ts-mode . wjb/eglot-maybe-start)
          (tsx-ts-mode        . wjb/eglot-maybe-start)
-         (jtsx-mode          . wjb/eglot-maybe-start)
+         (jtsx-jsx-mode      . wjb/eglot-maybe-start)
          (jtsx-tsx-mode      . wjb/eglot-maybe-start)
          ;; After Eglot attaches, finalize per-buffer adjustments.
          (eglot-managed-mode . (lambda ()
-                                 (when (derived-mode-p 'typescript-ts-mode 'tsx-ts-mode 'jtsx-mode 'jtsx-tsx-mode)
+                                 (when (derived-mode-p 'typescript-ts-mode 'tsx-ts-mode 'jtsx-jsx-modesx-tsx-mode)
                                    ;; Turn off tide if it was auto-enabled elsewhere.
                                    (when (bound-and-true-p tide-mode)
                                      (tide-mode -1))
