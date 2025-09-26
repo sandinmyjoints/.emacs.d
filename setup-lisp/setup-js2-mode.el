@@ -127,40 +127,19 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (define-key js2-refactor-mode-map (kbd "H-c k") 'wjb-kill-this-node)
   (define-key js2-refactor-mode-map (kbd "H-c r k") 'js2r-kill)
 
-  ;; Disable js2 mode's syntax error highlighting by default...
-  (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil
-                js2-skip-preprocessor-directives t)
-  ;; ... but enable it if flycheck can't handle javascript
-  (autoload 'flycheck-get-checker-for-buffer "flycheck")
-  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
-    (unless (flycheck-get-checker-for-buffer)
-      (set (make-local-variable 'js2-mode-show-parse-errors) t)
-      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
-  ;;(add-hook 'js2-mode-hook #sanityinc/disable-js2-checks-if-flycheck-active)
-
   ;; TODO: fix this
   (load-file "~/.emacs.d/elisp/js-doc/js-doc.el")
 
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
-
     (setq mode-name "JS2" company-backends wjb/company-backends-js)
-
-    ;; (require 'smartparens-javascript)
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
+
   (add-hook 'js2-mode-hook #'wjb/js2-mode-hook)
-
-  ;; not quite ready for prime time:
-  ;; (add-hook 'js2-mode-hook #'tree-sitter-mode)
-  ;; (add-hook 'js2-mode-hook #'tree-sitter-hl-mode)
-
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
-
   ;; This might slow things down when loading large files?
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-
   ;; TODO: make minor mode hook more like major mode hook
   (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 )
