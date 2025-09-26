@@ -178,12 +178,12 @@ If buffer is not visiting a file, do nothing."
   ;; so TODO: give nvm more opportunities to switch to correct node.
   ;; - hook for switching buffers
   ;; - hook where projectile knows when project changes?
-  (add-hook 'js-base-mode-hook #'nvm-use-for-buffer)
-  (add-hook 'js2-mode-hook #'nvm-use-for-buffer)
-  (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer)
-  (add-hook 'yml-mode-hook #'nvm-use-for-buffer)
-  (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer)
-  (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer)
+  (add-hook 'js-base-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'js2-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'yml-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer -99)
+  (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer -99)
 )
 
 ;; TODO: default nvm to be used at startup, before any project has been activated.
