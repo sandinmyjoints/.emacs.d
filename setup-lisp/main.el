@@ -3005,6 +3005,9 @@ If buffer is not visiting a file, do nothing."
   :hook ((js2-mode . jest-minor-mode)
          (typescript-ts-mode . jest-minor-mode)
          (tsx-ts-mode . jest-minor-mode)
+         (jtsx-jsx-mode . jest-minor-mode)
+         (jtsx-tsx-mode . jest-minor-mode)
+         (jtsx-typescript-mode . jest-minor-mode)
          (typescript-mode . jest-minor-mode))
   :load-path "elisp/emacs-jest"
   :bind (
