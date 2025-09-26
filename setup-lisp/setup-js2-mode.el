@@ -171,16 +171,9 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 (add-to-list 'js2-global-externs
              '("module" "require" "jQuery" "$" "_" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "isNaN" "encodeURIComponent" "parseInt"))
 
-(add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
+(add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
 
 (require 'setup-rjsx-mode)
-
-;; Need to first remove from list if present, since elpa adds entries too, which
-;; may be in an arbitrary order
-(setq auto-mode-alist (cons `("\\.js\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
-                            (cl-loop for entry in auto-mode-alist
-                                     unless (eq preferred-javascript-mode (cdr entry))
-                                     collect entry)))
 
 ;; Disabled b/c not worth it to run yet another regex
 ;; (font-lock-add-keywords
