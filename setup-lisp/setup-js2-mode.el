@@ -46,7 +46,6 @@
 ;;; Code:
 
 (use-package js2-mode)
-(use-package tide)
 
 (use-package js2-imenu-extras
   :config
@@ -154,7 +153,6 @@ If buffer is not visiting a file, do nothing."
 
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
-    ;; (define-key js2-mode-map "\C-c@" 'tide-jsdoc-template)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
 
     (setq mode-name "JS2" company-backends wjb/company-backends-js)
@@ -300,81 +298,8 @@ If buffer is not visiting a file, do nothing."
           "--trailing-comma"
           "es5")))
 
-(use-package tide
-  ;; :demand ;; when I use this, then I have to manually eval to load tide
-  :after (company flycheck)
-  ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
-  :bind (("M-." . smart-jump-go)
-         ("M-," . smart-jump-back)
-         ("C-?" . tide-documentation-at-point)
-         ("M-?" . tide-references))
-  :hook ((js2-mode . tide-setup)
-         (typescript-mode . tide-setup)
-         (typescript-ts-mode . tide-setup)
-         (tsx-ts-mode . tide-setup))
-  :config
-  (setq tide-tsserver-start-method 'manual
-        tide-disable-suggestions t ;; trying this out
-        tide-native-json-parsing t
-        tide-default-mode "JS"
-        tide-hl-identifier-idle-time 0.1
-        tide-filter-out-warning-completions t
-        tide-sync-request-timeout 5
-        tide-project-cleanup-delay (* 20 60)
-        tide-tsserver-process-environment '("NODE_OPTIONS=--max-old-space-size=4096")
-        ;; tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log" "NODE_OPTIONS=--max-old-space-size=8192")
-        tide-server-max-response-length (* 2 1024 1024))
-
-  ;; tide places company-tide first :(
-  (pop company-backends)
-
-  ;; If I'm working with typescript, and eslint is configured to lint TS, then
-  ;; this is useful. For example, eslint is configured for TS in playground.
-  ;; Running eslint with TS type checking rules turned on can be pretty slow, so
-  ;; only do it if TS itself did not complain.
-  (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint) 'append)
-  (flycheck-add-next-checker 'tsx-tide '(error . javascript-eslint) 'append)
-
-  ;; monkey patch tide-start-server to generate a new buffer name that includes
-  ;; the project name.
-  (defun tide-start-server ()
-    (when (tide-current-server)
-      (error "Server already exist"))
-
-    (message "(%s) Starting tsserver..." (tide-project-name))
-    (let* ((default-directory (tide-project-root))
-           (process-environment (append tide-tsserver-process-environment process-environment))
-           (buf (generate-new-buffer (concat tide-server-buffer-name "-" (file-name-nondirectory (directory-file-name default-directory)))))
-           (tsserverjs (tide-locate-tsserver-executable))
-           ;; Use a pipe to communicate with the subprocess. This fixes a hang
-           ;; when a >1k message is sent on macOS.
-           (process-connection-type nil)
-           (node-process-arguments (append tide-node-flags (list tsserverjs) tide-tsserver-flags))
-           (process
-            (apply #'start-file-process "tsserver" buf tide-node-executable node-process-arguments)))
-      (set-process-coding-system process 'utf-8-unix 'utf-8-unix)
-      (set-process-filter process #'tide-net-filter)
-      (set-process-sentinel process #'tide-net-sentinel)
-      (set-process-query-on-exit-flag process nil)
-      (with-current-buffer (process-buffer process)
-        (buffer-disable-undo))
-      (process-put process 'project-name (tide-project-name))
-      (process-put process 'project-root default-directory)
-      (puthash (tide-project-name) process tide-servers)
-      (message "(%s) tsserver server started successfully." (tide-project-name))
-      (tide-each-buffer (tide-project-name) #'tide-configure-buffer)))
-
-  (flycheck-add-mode 'typescript-tide 'typescript-ts-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
-  (flycheck-add-mode 'typescript-tide 'tsx-ts-mode)
-  (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode)
-  ;; For now, need to manually get flycheck to realize typescript-tide works for typescript-ts-mode
-  )
-
 ;; TODO convert to use-package :bind.
 (with-eval-after-load 'typescript-ts-mode
-  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
-  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
   (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))
 
 ;; always nil!
@@ -384,36 +309,11 @@ If buffer is not visiting a file, do nothing."
 (defun wjb/ts-mode-hook ()
   ;; these really only need to be run once, but with-eval-after-load doesn't run
   ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
-  (define-key typescript-ts-base-mode-map (kbd "H-c") 'tide-refactor)
-  (define-key typescript-ts-base-mode-map "\C-c@" 'tide-jsdoc-template)
   (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
 
 (setq typescript-indent-level 2)
-
-(defun tide-make-help-buffer (feature body)
-  (with-current-buffer (get-buffer-create (concat "*tide-" feature "*"))
-    (setq buffer-read-only t)
-    (let ((inhibit-read-only t))
-      (erase-buffer)
-      (when body
-        (save-excursion
-          (tide-insert body))))
-    ;; wjb -- my change
-    (local-set-key (kbd "q") #'other-frame)
-    ;; (local-set-key (kbd "q") #'quit-window)
-    (current-buffer)))
-
-;; - Configure javascript-eslint to run after tide checkers (but eslint is still
-;; the default checker; this only has an effect when the tide checkers are
-;; enabled).
-;; - These should probably be moved inside tide-setup or :config or something.
-;;
-;; Generally, I only use javascript-eslint inside js and jsx files. If I want to use
-;; tide, then these lines will run ride as well as eslint:
-(flycheck-add-next-checker 'javascript-tide 'javascript-eslint 'append)
-(flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
 
 (defun wjb/company-transformer (candidates)
   (let ((completion-ignore-case t))
