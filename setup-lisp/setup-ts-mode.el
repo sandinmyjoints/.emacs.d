@@ -60,8 +60,6 @@
   (setq company-backends wjb/company-backends-ts))
 (add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
 
-(setq typescript-indent-level 2)
-
 (provide 'setup-ts-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
