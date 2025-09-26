@@ -175,29 +175,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (require 'setup-rjsx-mode)
 
-;; Disabled b/c not worth it to run yet another regex
-;; (font-lock-add-keywords
-;;  'js2-mode `(("\\(function\\) *("
-;;               (0 (progn (compose-region (match-beginning 1)
-;;                                         (match-end 1) "\u0192")
-;;                         nil)))))
-
-;; Use right arrow for return in one-line functions.
-;; (font-lock-add-keywords
-;;  'js2-mode `(("function *([^)]*) *{ *\\(return\\) "
-;;               (0 (progn (compose-region (match-beginning 1)
-;;                                         (match-end 1) "\u2190")
-;;                         nil)))))
-
-;; Did this predate using gruvbox, or do I still want it?
-;; (set-face-foreground 'js2-object-property "light goldenrod")
-
-;; Only use if js2-highlight-vars-mode is installed.
-;; TODO: diminish Js2-Highlight-Vars (indicator vars).
-;; TODO: make it stop complaing about no syntax tree available.
-;; (eval-after-load "js2-highlight-vars-autoloads"
-;;   '(add-hook 'js2-mode-hook (lambda () (js2-highlight-vars-mode))))
-
 ;; from https://github.com/redguardtoo/emacs.d/blob/def7e0496482e1830ff6d1182ff20b2a6fa68160/lisp/init-javascript.el#L66
 (eval-after-load 'js-mode
   '(progn
