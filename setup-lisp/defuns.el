@@ -1085,6 +1085,20 @@ The result is pushed onto the kill ring."
             (upcase-region (match-beginning 1) (match-end 1)))
           (forward-line 1))))))
 
+(defun wjb/kill-buffer-file-path ()
+  "Copy the current buffer's file path to the kill ring."
+  (interactive)
+  (when buffer-file-name
+    (kill-new buffer-file-name)
+    (message buffer-file-name)))
+
+(defun wjb/executable-find (exe)
+  "Prompt for EXE, search PATH, copy path to kill ring."
+  (interactive (list (read-string "Executable: ")))
+  (let ((found (executable-find exe)))
+    (if found
+        (message found)
+      (message "Not found: %s" exe))))
 
 (provide 'defuns)
 
