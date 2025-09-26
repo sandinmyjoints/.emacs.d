@@ -7,7 +7,7 @@
 ;; Maintainer:
 ;; Created: Thu Oct  2 08:04:34 2014 (-0700)
 ;; Version:
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "29.1"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0

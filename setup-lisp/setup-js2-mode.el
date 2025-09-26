@@ -6,7 +6,7 @@
 ;; Maintainer:
 ;; Created: Wed Jun 29 16:39:41 2016 (-0700)
 ;; Version:
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "29.1"))
 ;; Last-Updated:
 ;;           By:
 ;;     Update #: 0
