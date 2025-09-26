@@ -2907,12 +2907,6 @@ If buffer is not visiting a file, do nothing."
 )
 
 (eval-when-compile (require 'cl))
-(defcustom preferred-javascript-mode
-  (cl-first (cl-remove-if-not #'fboundp '(js2-mode js-mode)))
-  "Javascript mode to use for .js files."
-  :type 'symbol
-  :group 'programming
-  :options '(js2-mode js-mode))
 (defvar preferred-javascript-indent-level 2)
 
 (require 'setup-js-mode)
@@ -2991,7 +2985,7 @@ If buffer is not visiting a file, do nothing."
   (add-hook 'coffee-mode-hook #'nvm-use-for-buffer)
   :config
   (require 'setup-coffee)
-  (setq coffee-tab-width preferred-javascript-indent-level))
+  (setq coffee-tab-width 2))
 
 
 ;; jest
