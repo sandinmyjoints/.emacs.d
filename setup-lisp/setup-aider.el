@@ -54,9 +54,10 @@ and \"apikey\" as USER."
   ;;         "--weak-model" "github_copilot/gpt-4o-mini"
   ;;         "--editor-model" "github_copilot/gpt-4o"))
 
-  ;; can use /opt/homebrew/bin/aider in .dir-locals.el
-  (setq aider-program "uv"
-        aider-args '("run" "aider"))
+  ;; can use /opt/homebrew/bin/aider in .dir-locals.el.
+  ;; now that aider is installed by uv as a tool, no need for this.
+  ;; (setq aider-program "uv"
+  ;;       aider-args '("run" "aider"))
 
   ;; Local models.
   ;; (setq aider-args '("--model" "ollama_chat/hf.co/sm54/Mistral-Small-24B-Instruct-2501-Q4_K_M-GGUF:latest"
