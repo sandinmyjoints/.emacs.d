@@ -2880,11 +2880,27 @@ If buffer is not visiting a file, do nothing."
 (eval-when-compile (require 'cl))
 (defvar preferred-javascript-indent-level 2)
 
+
+;; Mode mappings
+;; - old
+;;   - js -> js2-mode.
+;;   - ts-> typescript-ts-mode.
+;;   - jsx -> rjsx-mode. not many left in neodarwin.
+;;   - tsx -> tsx-ts-mode.
+;;   - minified -> fundamental-mode.
+;; - new
+;;   - js -> js2-mode.
+;;   - ts-> typescript-ts-mode. (or try jtsx-typescript-mode.)
+;;   - jsx -> jtsx-mode.
+;;   - tsx -> jtsx-mode.
+;;   - minified -> fundamental.
+
 (require 'setup-js-mode)
 (require 'setup-ts-mode)
-(require 'setup-rjsx-mode)
+;; (require 'setup-rjsx-mode)
 (require 'setup-jtsx-mode)
 (require 'setup-eglot)
+(require 'setup-jtsx-mode)
 
 ;; TODO ensure these come after flycheck, otherwise checkers may not be set up correctly
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))

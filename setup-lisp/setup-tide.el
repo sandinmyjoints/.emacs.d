@@ -48,6 +48,7 @@
 (use-package tide)
 
 (use-package tide
+  :disabled
   ;; :demand ;; when I use this, then I have to manually eval to load tide
   :after (company flycheck)
   ;; tide-mode binds these to tide defuns, but I've set up smart-jump to do the tide stuff plus some fallbacks
