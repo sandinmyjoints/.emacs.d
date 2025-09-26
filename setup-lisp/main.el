@@ -2883,23 +2883,20 @@ Insert .* between each char."
 
 ;; js
 
-;; TODO: this seems not be needed anymore thanks to
-;; nvm-use-for-buffer being in js2-mode-hook, and nvm-use now updates exec-path. See https://github.com/rejeep/nvm.el/issues/16
-;; nvm.el even appears to remove node from PATH as needed when switching versions.
-;;
-;; (defun do-nvm-use (version)
-;;   (interactive "sVersion: ")
-;;   (nvm-use version)
-;;   ;; exec-path-from-shell made a new login shell at startup and imported values,
-;;   ;; including PATH to exec-path. But nvm-use does setenv "PATH". So we need to
-;;   ;; update exec-path to the current PATH in the Emacs process.
-;;   (exec-path-from-shell-copy-env "PATH"))
-
-;; Must come before js2-mode or coffee-mode so they can set proper nvm
-;; for file.
+;; Projects that use direnv files with layout: node don't actually need this.
 (use-package nvm
   :config
-  (nvm-use "v22.12.0")  ;; default node
+  (nvm-use "v22.12.0")
+
+  ;; HACK to avoid running this in magit buffers. Unclear if still needed.
+  (defun nvm-use-for-buffer ()
+    "Activate Node based on an .nvmrc for the current file.
+If buffer is not visiting a file, do nothing."
+    (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
+      (condition-case err
+          (nvm-use-for buffer-file-name)
+        (error (message "%s" err)))))
+
   (add-hook 'js-base-mode-hook #'nvm-use-for-buffer -99)
   (add-hook 'js2-mode-hook #'nvm-use-for-buffer -99)
   (add-hook 'js2-minor-mode-hook #'nvm-use-for-buffer -99)

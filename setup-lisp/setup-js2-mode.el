@@ -102,15 +102,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defalias 'js2r-debug-this #'wjb/js2r-debug-this)
   )
 
-;; HACK to avoid running this in magit buffers
-(defun nvm-use-for-buffer ()
-  "Activate Node based on an .nvmrc for the current file.
-If buffer is not visiting a file, do nothing."
-  (when (or buffer-file-name (string-match "\`\*magit" (buffer-name)))
-    (condition-case err
-        (nvm-use-for buffer-file-name)
-      (error (message "%s" err)))))
-
 (with-eval-after-load 'js2-mode
   (define-key js2-mode-map (kbd "H-0 n") 'js2-narrow-to-defun)
   (define-key js2-mode-map (kbd "H-0 h") 'js2-mode-toggle-hide-functions)
@@ -173,8 +164,6 @@ If buffer is not visiting a file, do nothing."
   ;; TODO: make minor mode hook more like major mode hook
   (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
 )
-
-;; TODO: default nvm to be used at startup, before any project has been activated.
 
 (setq-default js2-basic-offset 2)
 (setq js2-dynamic-idle-timer-adjust 0
