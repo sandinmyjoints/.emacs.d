@@ -2883,6 +2883,7 @@ If buffer is not visiting a file, do nothing."
 (require 'setup-ts-mode)
 (require 'setup-rjsx-mode)
 (require 'setup-jtsx-mode)
+(require 'setup-eglot)
 
 ;; TODO ensure these come after flycheck, otherwise checkers may not be set up correctly
 (eval-after-load 'js2-mode '(require 'setup-js2-mode))
