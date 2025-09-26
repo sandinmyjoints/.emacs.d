@@ -174,8 +174,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
 
-(require 'setup-rjsx-mode)
-
 
 ;; js2r stuff
 
