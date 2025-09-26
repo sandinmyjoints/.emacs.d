@@ -176,23 +176,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (require 'setup-rjsx-mode)
 
-;; TODO convert to use-package :bind.
-(with-eval-after-load 'typescript-ts-mode
-  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js))
-
-;; always nil!
-;; (with-eval-after-load 'tsx-ts-mode (message "loaded"))
-;; (with-eval-after-load 'typescript-ts-base-mode (message "loaded"))
-
-(defun wjb/ts-mode-hook ()
-  ;; these really only need to be run once, but with-eval-after-load doesn't run
-  ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
-  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
-  (setq company-backends wjb/company-backends-ts))
-(add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
-
-(setq typescript-indent-level 2)
-
 
 ;; js2r stuff
 
