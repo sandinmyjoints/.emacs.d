@@ -465,6 +465,7 @@
                 flycheck-temp-prefix ".flycheck"
                 flycheck-navigation-minimum-level 'warning
                 flycheck-error-list-minimum-level 'warning)
+  (setq flycheck-eslint-args '("--no-color"))
 
   ;; Each buffer gets its own idle-change-delay because of the
   ;; buffer-sensitive adjustment above.

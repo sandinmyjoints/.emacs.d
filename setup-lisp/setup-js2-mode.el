@@ -176,10 +176,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
 (require 'setup-rjsx-mode)
 
-;; Flycheck.
-;;
-(setq flycheck-eslint-args '("--no-color"))
-
 ;; Prettier.
 ;;
 (use-package prettier-js
