@@ -103,6 +103,10 @@
 
 (add-to-list 'auto-mode-alist '("\\.knot\\'" . knot-mode))
 
+(add-to-list 'auto-mode-alist '("\\.min\\.js\\'" . fundamental-mode))
+(add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
+(add-to-list 'auto-mode-alist '("-min-async\\.js\\'" . fundamental-mode))
+
 (provide 'mode-mappings)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

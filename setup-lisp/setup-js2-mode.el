@@ -186,9 +186,6 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 (add-to-list 'auto-mode-alist '("\\.cjs\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)) ;; rjsx can parse spread operator
-(add-to-list 'auto-mode-alist '("\\.min\\.js\\'" . fundamental-mode))
-(add-to-list 'auto-mode-alist '("-min\\.js\\'" . fundamental-mode))
-(add-to-list 'auto-mode-alist '("-min-async\\.js\\'" . fundamental-mode))
 
 ;; from https://github.com/felipeochoa/rjsx-mode/issues/112#issuecomment-530497532
 (defun +javascript-rjsx-electric-gt-a (n)
