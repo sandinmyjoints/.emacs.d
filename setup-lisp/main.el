@@ -690,7 +690,11 @@ See URL `http://handlebarsjs.com/'."
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
         eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
-)
+  )
+
+(use-package eldoc-mouse
+  :load-path "elisp/eldoc-mouse"
+  :hook (eglot-managed-mode . eldoc-mouse-mode))
 
 
 ;; dired
