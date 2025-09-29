@@ -11,11 +11,11 @@
   :init
   (defun wjb/jtsx-common-setup ()
     "Common setup for jtsx-jsx-mode and jtsx-tsx-mode."
-    ;; Match keybinding you use in typescript-ts modes.
+
     (define-key (current-local-map) (kbd "C-c C-y") #'wjb-toggle-it-only-js)
-    ;; Company backends like other TS buffers.
+
     (setq-local company-backends wjb/company-backends-ts)
-    ;; Keep indentation consistent with your preferred JS/TS indent.
+
     (when (boundp 'preferred-javascript-indent-level)
       (setq-local tab-width preferred-javascript-indent-level)
       (when (boundp 'typescript-indent-level)
@@ -27,12 +27,10 @@
   :hook ((jtsx-jsx-mode . wjb/jtsx-common-setup)
          (jtsx-tsx-mode . wjb/jtsx-common-setup))
   :config
-  ;; If you rely on nvm + per-buffer Node version selection:
   (when (fboundp 'nvm-use-for-buffer)
     (add-hook 'jtsx-jsx-mode-hook #'nvm-use-for-buffer -99)
     (add-hook 'jtsx-tsx-mode-hook #'nvm-use-for-buffer -99))
 
-  ;; Match your existing prettier setup (you enabled it for js-base & typescript-ts-base).
   (with-eval-after-load 'prettier-js
     (add-hook 'jtsx-jsx-mode-hook #'prettier-js-mode)
     (add-hook 'jtsx-tsx-mode-hook #'prettier-js-mode))
@@ -42,7 +40,6 @@
     (dolist (m '(jtsx-jsx-mode jtsx-tsx-mode))
       (flycheck-add-mode 'javascript-eslint m)))
 
-  ;; Eldoc / xref parity with other TS modes (optional — only if you use tide/lsp elsewhere).
   ;; (add-hook 'jtsx-jsx-mode-hook #'eldoc-mode)
   ;; (add-hook 'jtsx-tsx-mode-hook #'eldoc-mode)
 
