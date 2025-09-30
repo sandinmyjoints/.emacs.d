@@ -1819,34 +1819,6 @@ Insert .* between each char."
           helm-locate-command "mdfind -name %s %s"))
   )
 
-(use-package helm-xref
-  :disabled
-  :after helm
-  :config
-  (setq xref-show-xrefs-function 'helm-xref-show-xrefs
-        ;; TODO(wjb-byte-compile)
-        helm-xref-candidate-formatting-function 'wjb/helm-xref-format-candidate-long
-        helm-xref-input "!test ")
-
-  ;; see https://github.com/brotzeit/helm-xref/issues/19
-  (defun wjb/helm-xref-format-candidate-long (file line summary)
-    "Build long form of candidate format with FILE, LINE, and SUMMARY."
-
-    (setq modified-file (s-replace (projectile-project-root) "" file))
-    (setq modified-file (s-replace-regexp abbreviated-home-dir "" modified-file))
-    (setq modified-file (s-replace "scm/" "" modified-file))
-    (setq modified-file (s-replace "sd/" "" modified-file))
-    (concat
-     ;; (propertize file 'font-lock-face 'helm-xref-file-name)
-     (propertize modified-file 'font-lock-face 'helm-xref-file-name)
-     (when (string= "integer" (type-of line))
-       (concat
-        ":"
-        (propertize (int-to-string line)
-                    'font-lock-face 'helm-xref-line-number)))
-     ":"
-     summary)))
-
 (use-package s3ed)
 
 
