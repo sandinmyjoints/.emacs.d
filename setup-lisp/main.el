@@ -1845,6 +1845,9 @@ Insert .* between each char."
   (setq dumb-jump-selector 'helm)
   (unbind-key "C-M-p" dumb-jump-mode-map)
   (setq dumb-jump-force-searcher 'rg)
+
+  ;; to use dumb-jump with xref: (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
   ;; I think this is redundant because smart-jump uses dumb-jump as a fallback
   ;; (add-hook 'prog-mode-hook #'dumb-jump-mode)
   (defhydra dumb-jump-hydra (:color blue :columns 3)
@@ -1872,7 +1875,7 @@ Insert .* between each char."
 
   ;; set up all the default registers
   (smart-jump-setup-default-registers)
-  )
+   )
 
 
 ;; parens

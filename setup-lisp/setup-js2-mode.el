@@ -114,9 +114,15 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
 
   ;; (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command)
   (define-key js2-mode-map (kbd "C-M-h") 'js2-mark-defun)
+
   ;; replace with dumb-jump, or js2-mode-goto-definition, or xref-find-definitions
-  (define-key js2-mode-map (kbd "M-.") 'smart-jump-go)
-  (define-key js2-mode-map (kbd "M-,") 'smart-jump-back)
+  ;; (define-key js2-mode-map (kbd "M-.") 'smart-jump-go)
+  ;; (define-key js2-mode-map (kbd "M-,") 'smart-jump-back)
+
+  ;; I think these two are redundant -- I believe these bindings are the default:
+  (define-key js2-mode-map (kbd "M-.") 'xref-find-definitions)
+  (define-key js2-mode-map (kbd "M-,") 'xref-go-back)
+
   ;; (define-key js2-mode-map (kbd "C-c ! .") 'wjb-find-js-definition)
   ;; (define-key js2-mode-map (kbd "C-c ! ,") 'wjb-return-from-js-definition)
   (define-key js2-mode-map (kbd "C-M-n") #'forward-paragraph)
@@ -135,7 +141,8 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
     (setq mode-name "JS2" company-backends wjb/company-backends-js)
-    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
+    (add-hook 'xref-backend-functions #'xref-js2-xref-backend 0 t)
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate 10 t))
 
   (add-hook 'js2-mode-hook #'wjb/js2-mode-hook)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
