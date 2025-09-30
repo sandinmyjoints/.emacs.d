@@ -39,6 +39,7 @@ Ensures correct Node version via nvm before launching the server."
          (tsx-ts-mode        . wjb/eglot-maybe-start)
          (jtsx-jsx-mode      . wjb/eglot-maybe-start)
          (jtsx-tsx-mode      . wjb/eglot-maybe-start)
+         (js2-mode           . wjb/eglot-maybe-start) ;; note: eglot is not useful unless typescript is installed in project
          ;; After Eglot attaches, finalize per-buffer adjustments.
          (eglot-managed-mode . (lambda ()
                                  (when (derived-mode-p 'typescript-ts-mode 'tsx-ts-mode 'jtsx-jsx-modesx-tsx-mode)
