@@ -894,7 +894,7 @@ pasting into other programs."
 
     (when (and wjb/using-company (boundp 'wjb/company-backends-org))
       (setq-local company-backends wjb/company-backends-org))
-    (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
+    ;; (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
 
     ;; (hungry-delete-mode -1)
     (set-face-attribute 'org-headline-done nil :foreground nil)
@@ -2583,27 +2583,35 @@ Insert .* between each char."
   :init
   ;; Helper to append a list of CAPFs without losing existing (LSP/Eglot/pcomplete/etc).
   (defun wjb/append-capfs (&rest fns)
-    (dolist (fn (reverse fns))
+    (dolist (fn fns)
       (add-to-list 'completion-at-point-functions fn t)))
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
-  (add-hook 'text-mode-hook
-            (lambda ()
+  (defun wjb/cape-text-mode ()
+              (wjb/append-capfs
+               #'cape-dabbrev
+               #'cape-abbrev
+               #'cape-emoji
+               (cape-company-to-capf #'company-files)
+               #'cape-file))
+  (add-hook 'text-mode-hook #'wjb/cape-text-mode)
+
+  (defun wjb/cape-org-mode ()
               (wjb/append-capfs
                #'cape-dabbrev
                #'cape-file
-               #'cape-abbrev
-               #'cape-symbol
-               #'cape-keyword
-               #'cape-yasnippet)))
+               #'cape-emoji
+               (cape-company-to-capf #'company-files)
+               #'cape-file))
+  (add-hook 'org-mode-hook #'wjb/cape-org-mode)
+
   ;; Programming modes: closer to previous company stacked backends.
   (add-hook 'prog-mode-hook
             (lambda ()
               (wjb/append-capfs
-               #'cape-dabbrev-code
+               #'cape-dabbrev
                #'cape-file
-               #'cape-keyword
-               #'cape-symbol
-               #'cape-yasnippet)))
+               #'cape-keyword)))
+
   ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
   (defun wjb/set-corfu-minimum-prefix-length ()
     (setq-local corfu-auto-prefix 3))
