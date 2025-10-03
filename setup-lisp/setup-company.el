@@ -123,6 +123,11 @@
 (use-package company-restclient
   :after (company restclient))
 
+(use-package company-nginx
+  :ensure t
+  :after (nginx-mode)
+  :config (add-hook 'nginx-mode-hook (lambda () (add-to-list 'company-backends #'company-nginx))))
+
 (defvar wjb/company-backends-original
   '(company-bbdb company-eclim company-semantic company-clang company-cmake company-capf company-files
                  (company-dabbrev-code company-gtags company-etags company-keywords)

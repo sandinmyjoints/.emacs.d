@@ -48,6 +48,8 @@
 ;;
 ;;; Code:
 
+(setq wjb/using-company t)
+
 (let ((minver 24))
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
@@ -890,7 +892,7 @@ pasting into other programs."
       (make-local-variable 'minor-mode-overriding-map-alist)
       (push `(windmove-mode . ,newmap) minor-mode-overriding-map-alist))
 
-    (when (boundp 'wjb/company-backends-org)
+    (when (and wjb/using-company (boundp 'wjb/company-backends-org))
       (setq-local company-backends wjb/company-backends-org))
     (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
 
@@ -2304,9 +2306,10 @@ Insert .* between each char."
   :mode ("\\.css\\'")
   :config
   (setq css-indent-offset 2)
-  (defun wjb/css-mode-hook ()
-    (setq company-backends wjb/company-backends-css))
-  (add-hook 'css-mode-hook #'wjb/css-mode-hook)
+  (when wjb/using-company
+    (defun wjb/css-mode-hook ()
+      (setq company-backends wjb/company-backends-css))
+    (add-hook 'css-mode-hook #'wjb/css-mode-hook))
   )
 
 (use-package less-css-mode
@@ -2374,13 +2377,7 @@ Insert .* between each char."
 
 (use-package nginx-mode
   :config
-  (setq nginx-indent-level 2)
-  )
-
-(use-package company-nginx
-  :ensure t
-  :after (nginx-mode)
-  :config (add-hook 'nginx-mode-hook (lambda () (add-to-list 'company-backends #'company-nginx))))
+  (setq nginx-indent-level 2))
 
 ;; RVM.
 (use-package rvm
@@ -2539,7 +2536,8 @@ Insert .* between each char."
 
 
 ;; company
-(require 'setup-company)
+(when wjb/using-company
+  (require 'setup-company))
 
 
 ;; web-mode
@@ -2561,13 +2559,14 @@ Insert .* between each char."
   (require 'setup-webmode)
 
   ;; experimental:
-  (require 'company-web-html)
-  (require 'company-web-jade)
-  (defun wjb/web-mode-company ()
-    (set (make-local-variable 'company-backends)
-         '((company-web-html :with company-dabbrev-code company-keywords)))
-    (company-mode t))
-  (add-hook 'web-mode-hook #'wjb/web-mode-company))
+  (when wjb/using-company
+    (require 'company-web-html)
+    (require 'company-web-jade)
+    (defun wjb/web-mode-company ()
+      (set (make-local-variable 'company-backends)
+           '((company-web-html :with company-dabbrev-code company-keywords)))
+      (company-mode t))
+    (add-hook 'web-mode-hook #'wjb/web-mode-company)))
 
 
 ;; folding
