@@ -1523,14 +1523,6 @@ pasting into other programs."
   (setq ivy-prescient-enable-filtering nil)
   (ivy-prescient-mode))
 
-;; Not useful in js-mode, as tide already sorts things smartly. Maybe useful
-;; in other modes? Not sure.
-(use-package company-prescient
-  :disabled
-  :after (company)
-  :config
-  (company-prescient-mode))
-
 
 ;; ivy/counsel/posframe
 
