@@ -48,7 +48,7 @@
 ;;
 ;;; Code:
 
-(setq wjb/using-company t)
+(setq wjb/using-company nil) ;; Temporarily disable company while testing corfu
 
 (let ((minver 24))
   (unless (>= emacs-major-version minver)
@@ -2534,12 +2534,112 @@ Insert .* between each char."
   :config
   (editorconfig-mode 1))
 
-
-;; company
-(when wjb/using-company
-  (require 'setup-company))
 
-
+
+;; ======================
+;; Corfu / CAPF completion trial (replacing company temporarily)
+;; ======================
+(defvar wjb/using-corfu t)
+
+;; Keep history so Corfu can sort by recent usage.
+(use-package savehist
+  :init (savehist-mode 1))
+
+(use-package orderless
+  :when wjb/using-corfu
+  :init
+  ;; Orderless for richer matching (company was fuzzy-ish via backends).
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        ;; Keep file completion sane (orderless sometimes awkward for paths).
+        completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package corfu
+  :when wjb/using-corfu
+  :init
+  (global-corfu-mode)          ;; Enable Corfu globally.
+  (corfu-history-mode)         ;; Persist per-session usage ordering.
+  (corfu-popupinfo-mode)       ;; In-buffer docs (like company tooltip docs).
+  :custom
+  (corfu-auto t)               ;; Like company-idle completion.
+  (corfu-auto-delay 0.2)       ;; ≈ company-idle-delay
+  (corfu-auto-prefix 4)        ;; Global default (we lower to 3 in prog modes below).
+  (corfu-cycle t)              ;; Wrap around.
+  (corfu-preselect 'first)
+  (corfu-scroll-margin 2)
+  (corfu-quit-no-match 'separator)
+  (corfu-popupinfo-delay '(0.4 . 0.2)) ;; (show . hide)
+  :config
+  ;; Match old M-/ habit (was company-complete / company-other-backend).
+  (global-set-key (kbd "M-/") #'completion-at-point)
+  ;; Optional: TAB to move through candidates (comment out if it conflicts with indentation you rely on).
+  (define-key corfu-map (kbd "TAB") #'corfu-next)
+  (define-key corfu-map (kbd "<tab>") #'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
+  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
+
+(use-package cape
+  :when wjb/using-corfu
+  :init
+  ;; Helper to append a list of CAPFs without losing existing (LSP/Eglot/pcomplete/etc).
+  (defun wjb/append-capfs (&rest fns)
+    (dolist (fn (reverse fns))
+      (add-to-list 'completion-at-point-functions fn t)))
+  ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (wjb/append-capfs
+               #'cape-dabbrev
+               #'cape-file
+               #'cape-abbrev
+               #'cape-symbol
+               #'cape-keyword
+               #'cape-yasnippet)))
+  ;; Programming modes: closer to previous company stacked backends.
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (wjb/append-capfs
+               #'cape-dabbrev-code
+               #'cape-file
+               #'cape-keyword
+               #'cape-symbol
+               #'cape-yasnippet)))
+  ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
+  (defun wjb/set-corfu-minimum-prefix-length ()
+    (setq-local corfu-auto-prefix 3))
+  (add-hook 'prog-mode-hook #'wjb/set-corfu-minimum-prefix-length)
+  (add-hook 'restclient-mode-hook #'wjb/set-corfu-minimum-prefix-length)
+  :config
+  ;; Bridge company-only backends (e.g. tide) into CAPF if/when they load.
+  (with-eval-after-load 'tide
+    (add-hook 'tide-mode-hook
+              (lambda ()
+                (add-hook 'completion-at-point-functions
+                          (cape-company-to-capf #'company-tide) nil t)))))
+
+;; Icons in the margin (rough analogue to richer company tooltips).
+(use-package kind-icon
+  :when wjb/using-corfu
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  (kind-icon-use-icons (featurep 'nerd-icons))
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+;; Make TAB attempt completion after indent (nice with Corfu).
+(setq tab-always-indent 'complete
+      completion-cycle-threshold 3)
+
+;; Preserve existing Org pcomplete override; Corfu will display its results.
+;; (org-mode-hook already sets completion-at-point-functions for pcomplete.)
+
+;; ======================
+;; End Corfu trial block
+;; ======================
+
+
+
 ;; web-mode
 
 (use-package web-mode
