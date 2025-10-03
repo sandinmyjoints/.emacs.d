@@ -2621,6 +2621,7 @@ Insert .* between each char."
 (use-package kind-icon
   :when wjb/using-corfu
   :after corfu
+  :load-path "elisp/kind-icon"
   :custom
   (kind-icon-default-face 'corfu-default)
   (kind-icon-use-icons (featurep 'nerd-icons))
