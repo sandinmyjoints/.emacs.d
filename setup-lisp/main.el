@@ -2603,16 +2603,6 @@ Insert .* between each char."
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
   )
 
-(use-package company-shell
-  :custom
-  (company-shell-complete-in-comments nil))
-
-(use-package company-flx
-  :disabled
-  :after company
-  :config
-  (company-flx-mode -1))
-
 (use-package company-buffer-line
   :after company
   :commands (company-same-mode-buffer-lines)
