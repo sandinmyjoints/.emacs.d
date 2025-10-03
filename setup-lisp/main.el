@@ -2623,23 +2623,23 @@ Insert .* between each char."
 (defun wjb/company-backends-generic ()
   "Try some backend orderings."
   ;; mode-specific, smart
-  (let (zing (list))
+  (let (generic-backend (list))
     (dolist
         ;; last ends up first
-        (backend '(company-clang company-cmake company-capf company-shell company-restclient company-css company-tide) zing)
+        (backend '(company-clang company-cmake company-capf company-shell company-restclient company-css company-tide) generic-backend)
       (if (equal list 'company-capf)
           (push
            (list backend 'company-dabbrev-code :with :separate 'company-dabbrev 'company-emoji 'company-keywords)
-           zing)
+           generic-backend)
 
         (push
          (list backend :with :separate 'company-dabbrev-code 'company-keywords)
-         zing)))
+         generic-backend)))
 
     ;; generic
-    (setq zing (append zing '(company-files)))
+    (setq generic-backend (append generic-backend '(company-files)))
     ;; fallback backends -- likely to return in almost all cases
-    (setq zing (append zing
+    (setq generic-backend (append generic-backend
                        '(
                          ;; code
                          (company-dabbrev-code company-keywords)
@@ -2647,7 +2647,7 @@ Insert .* between each char."
                          (company-emoji company-dabbrev)
                          )
                        ))
-    (setq-default company-backends zing)))
+    (setq-default company-backends generic-backend)))
 
 (wjb/company-backends-generic)
 
