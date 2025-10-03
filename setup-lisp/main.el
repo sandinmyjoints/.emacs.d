@@ -890,7 +890,8 @@ pasting into other programs."
       (make-local-variable 'minor-mode-overriding-map-alist)
       (push `(windmove-mode . ,newmap) minor-mode-overriding-map-alist))
 
-    (setq-local company-backends wjb/company-backends-org)
+    (when (boundp 'wjb/company-backends-org)
+      (setq-local company-backends wjb/company-backends-org))
     (setq-local completion-at-point-functions '(pcomplete-completions-at-point))
 
     ;; (hungry-delete-mode -1)
