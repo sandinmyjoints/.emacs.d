@@ -2543,7 +2543,6 @@ Insert .* between each char."
 
 ;; - a simple list gathers from all.
 ;; - a list with :with only gathers if the(/a?) backend before :with succeeds at the prefix command (more about with: https://github.com/company-mode/company-mode/issues/79)
-;; - TODO: use delete-consecutive-dups and company-transformers to remove duplicates (see https://github.com/company-mode/company-mode/issues/528)
 
 ;; If the group contains keyword ':with', the backends listed after this
 ;; keyword are ignored for the purpose of the 'prefix' command.
@@ -2552,35 +2551,17 @@ Insert .* between each char."
 ;; :with means completions unconditionally; whereas the default is to only use them if
 ;; they return the same prefix as the first defined checker in the group
 
-;; elisp-completion-at-point
-;; C-M-i is completion-at-point. How is it configured? maybe assume it is configred will for each mode.
-
-
 ;; - order backends in a way that makes sense
 ;; - group backends
 ;; - set backends based on major mode. For example, higher minimum prefix in text modes (4)
-;;   (add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
 ;; - different behavior within comments
 ;; - understand company-capf
-
-;; - how backends work: https://superuser.com/a/528407/93702
-;; - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
-;; - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
-
-;; - dynamic backend: 1) mode-specific, grouped with dabbrev stuff in case mode-specific is not smart
-;; - strong backend:
-;; - text/markdow backend:
-;; - org backend:
 
 ;; commands:
 ;; company-complete
 ;; company-complete-common-or-cycle
 ;; company-other-backend
 ;; company-diag
-
-;; - company-yasnippet -- specific binding for this
-;; - company-shell
-;; - company-web
 
 (use-package company
   :demand
@@ -2611,10 +2592,6 @@ Insert .* between each char."
     (setq-local company-minimum-prefix-length 3))
   (add-hook 'prog-mode-hook #'wjb/set-company-minimum-prefix-length)
   (add-hook 'restclient-mode-hook #'wjb/set-company-minimum-prefix-length)
-
-  ;; trial:
-  ;; (company-statistics-mode -1)
-  ;; (company-quickhelp-mode -1)
 )
 
 (use-package company-yasnippet
@@ -2698,8 +2675,6 @@ Insert .* between each char."
 ;; end:
 ;; (company-emoji company-capf company-dabbrev-code company-ctags company-keywords)
 ;; (company-files company-emoji company-dabbrev)
-
-;; (setq completion-at-point-functions 'elisp-completion-at-point)
 
 ;; - tags-completion-at-point-function doesn't seem to work with company, and
 ;;   company has etags and ctags backends already, so it's unnecessary.

@@ -2907,3 +2907,8 @@ Remove 'basic' from 'reporters' option. To match 'basic' reporter 100%, use conf
   - https://github.com/nyyManni/ejira
   - https://github.com/ahungry/org-jira
   - https://baohaojun.github.io/org-jira.html
+
+* old company notes
+ - how backends work: https://superuser.com/a/528407/93702
+ - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
+ - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
