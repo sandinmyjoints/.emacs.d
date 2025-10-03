@@ -544,6 +544,8 @@
 
 (setq use-dialog-box nil)
 
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
