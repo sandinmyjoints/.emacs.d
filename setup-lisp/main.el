@@ -2575,13 +2575,10 @@ Insert .* between each char."
   (company-tooltip-width-grow-only t)
   (company-dabbrev-downcase nil)
   (company-selection-wrap-around t)
-  ;; (company-global-modes '(not git-commit-mode))
+  (company-global-modes '(not git-commit-mode))
 
   :config
   (global-company-mode t)
-  (defun wjb/git-commit-mode-hook ()
-    (company-mode -1))
-  (add-hook 'git-commit-setup-hook #'wjb/git-commit-mode-hook)
 
   (make-variable-buffer-local 'company-backends)
 
