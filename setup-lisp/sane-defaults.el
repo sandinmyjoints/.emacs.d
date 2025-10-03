@@ -439,6 +439,8 @@
 (wjb/visible-bell-mode 1)
 
 (setq tags-add-tables t)
+;; Prefer setting this in dir-locals files.
+(setq-default tags-table-list nil)
 
 (defvar desktop-restore-eager 16)
 (setq desktop-lazy-verbose t

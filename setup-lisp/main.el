@@ -2603,9 +2603,6 @@ Insert .* between each char."
   ;; (global-set-key (kbd "C-c C-y") #'company-yasnippet)
   )
 
-;; Prefer setting this in dir-locals files.
-(setq-default tags-table-list nil)
-
 (use-package company-shell
   :custom
   (company-shell-complete-in-comments nil))
