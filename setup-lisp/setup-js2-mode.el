@@ -140,7 +140,9 @@ Unless a prefix argument ARG, use JSON pretty-printing for logging."
   (defun wjb/js2-mode-hook ()
     (define-key js2-mode-map "\C-c@" 'js-doc-insert-function-doc-snippet)
     (define-key js2-mode-map (kbd "H-k") #'wjb-kill-this-node)
-    (setq mode-name "JS2" company-backends wjb/company-backends-js)
+    (setq mode-name "JS2")
+    (when wjb/using-company
+      (setq company-backends wjb/company-backends-js))
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend 0 t)
     (add-hook 'xref-backend-functions #'dumb-jump-xref-activate 10 t))
 
