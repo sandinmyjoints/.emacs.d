@@ -2587,8 +2587,9 @@ Insert .* between each char."
       (add-to-list 'completion-at-point-functions fn t)))
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
-              (wjb/append-capfs
-               #'cape-dabbrev
+    (wjb/append-capfs
+     (cape-company-to-capf #'company-dabbrev-code)
+               ;; #'cape-dabbrev
                #'cape-abbrev
                #'cape-emoji
                (cape-company-to-capf #'company-files)
@@ -2596,8 +2597,9 @@ Insert .* between each char."
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
 
   (defun wjb/cape-org-mode ()
-              (wjb/append-capfs
-               #'cape-dabbrev
+    (wjb/append-capfs
+     (cape-company-to-capf #'company-dabbrev-code)
+               ;; #'cape-dabbrev
                #'cape-file
                #'cape-emoji
                (cape-company-to-capf #'company-files)
