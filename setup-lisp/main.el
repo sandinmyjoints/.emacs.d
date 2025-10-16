@@ -469,6 +469,25 @@
                 flycheck-error-list-minimum-level 'info)
   (setq flycheck-eslint-args '("--no-color"))
 
+(defun flycheck-jump-in-buffer (buffer error)
+  "In BUFFER, jump to ERROR."
+  ;; FIXME: we assume BUFFER and the buffer of ERROR are the same.  We don't
+  ;; need the first argument then.
+
+  ;; wjb: unconditionally switch buffer within this window, instead of calling
+  ;; pop-to-buffer if running from within flycheck-error-list-buffer
+  (switch-to-buffer buffer)
+  (let ((pos (flycheck-error-pos error)))
+    (unless (eq (goto-char pos) (point))
+      ;; If widening gets in the way of moving to the right place, remove it
+      ;; and try again
+      (widen)
+      (goto-char pos)))
+  ;; Re-highlight the errors.  We have post-command-hook for that, but calls to
+  ;; `flycheck-jump-in-buffer' that come from other buffers (e.g. from the error
+  ;; list) won't trigger it.
+  (flycheck-error-list-highlight-errors 'preserve-pos))
+
   ;; Each buffer gets its own idle-change-delay because of the
   ;; buffer-sensitive adjustment above.
   (make-variable-buffer-local 'flycheck-idle-change-delay)
