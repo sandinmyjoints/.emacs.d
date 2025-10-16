@@ -653,7 +653,7 @@ See URL `http://handlebarsjs.com/'."
         flycheck-posframe-border-width 1
         ;; flycheck-posframe-border-color
         )
-  (setq flycheck-posframe-border-use-error-face t))
+  (setq flycheck-posframe-border-use-error-face nil))
 
 (use-package flycheck-status-emoji
   :disabled
