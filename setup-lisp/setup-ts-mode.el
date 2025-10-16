@@ -54,11 +54,13 @@
 ;; (with-eval-after-load 'typescript-ts-base-mode (message "loaded"))
 
 (defun wjb/ts-mode-hook ()
-  ;; these really only need to be run once, but with-eval-after-load doesn't run
-  ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
-  (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
-  (setq company-backends wjb/company-backends-ts))
-(add-hook 'typescript-base-mode-hook #'wjb/ts-mode-hook)
+  ;; ;; these really only need to be run once, but with-eval-after-load doesn't run
+  ;; ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
+  ;; (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
+  (when wjb/using-company
+    (setq company-backends wjb/company-backends-ts)))
+
+(add-hook 'typescript-ts-base-mode-hook #'wjb/ts-mode-hook)
 
 (provide 'setup-ts-mode)
 
