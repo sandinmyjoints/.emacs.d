@@ -626,25 +626,25 @@ See URL `http://handlebarsjs.com/'."
   :after flycheck
   :config
   ;; monkey patch for transparency
-(defun flycheck-posframe-show-posframe (errors)
-  "Display ERRORS, using posframe.el library."
-  (posframe-hide flycheck-posframe-buffer)
-  (when (and errors
-             (not (run-hook-with-args-until-success 'flycheck-posframe-inhibit-functions)))
-    (let ((poshandler (intern (format "posframe-poshandler-%s" flycheck-posframe-position))))
-      (unless (functionp poshandler)
-        (setq poshandler nil))
-      (flycheck-posframe-check-position)
-      (posframe-show
-       flycheck-posframe-buffer
-       :override-parameters '((alpha . 90))
-       :string (flycheck-posframe-format-errors errors)
-       :background-color (face-background 'flycheck-posframe-background-face nil t)
-       :position (point)
-       :internal-border-width flycheck-posframe-border-width
-       :internal-border-color (face-foreground 'flycheck-posframe-border-face nil t)
-       :poshandler poshandler
-       :hidehandler #'flycheck-posframe-hidehandler))))
+  (defun flycheck-posframe-show-posframe (errors)
+    "Display ERRORS, using posframe.el library."
+    (posframe-hide flycheck-posframe-buffer)
+    (when (and errors
+               (not (run-hook-with-args-until-success 'flycheck-posframe-inhibit-functions)))
+      (let ((poshandler (intern (format "posframe-poshandler-%s" flycheck-posframe-position))))
+        (unless (functionp poshandler)
+          (setq poshandler nil))
+        (flycheck-posframe-check-position)
+        (posframe-show
+         flycheck-posframe-buffer
+         :override-parameters '((alpha . 90))
+         :string (flycheck-posframe-format-errors errors)
+         :background-color (face-background 'flycheck-posframe-background-face nil t)
+         :position (point)
+         :internal-border-width flycheck-posframe-border-width
+         :internal-border-color (face-foreground 'flycheck-posframe-border-face nil t)
+         :poshandler poshandler
+         :hidehandler #'flycheck-posframe-hidehandler))))
 
   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
   (flycheck-posframe-configure-pretty-defaults)
