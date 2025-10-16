@@ -57,6 +57,7 @@
   ;; ;; these really only need to be run once, but with-eval-after-load doesn't run
   ;; ;; for tsx-ts-mode or typescript-ts-base-mode, so I'll put them into this hook.
   ;; (define-key typescript-ts-base-mode-map (kbd "C-c C-y") 'wjb-toggle-it-only-js)
+  (add-hook 'eldoc-box-buffer-setup-hook #'eldoc-box-prettify-ts-errors 0 t)
   (when wjb/using-company
     (setq company-backends wjb/company-backends-ts)))
 

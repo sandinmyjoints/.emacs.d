@@ -683,6 +683,7 @@ See URL `http://handlebarsjs.com/'."
 
 ;; eldoc
 
+
 (use-package eldoc
   :diminish eldoc-mode
   :defer 5
@@ -700,20 +701,39 @@ See URL `http://handlebarsjs.com/'."
   (eldoc-add-command 'jump-to-register)
   (eldoc-add-command 'smart-jump-back)
   (eldoc-add-command 'smart-jump-go)
+  ;; skip echo-area
+  (setq eldoc-display-functions '(eldoc-box--display))
+  (remove-hook 'eldoc-display-functions #'eldoc-display-in-echo-area)
+
+  ;; eldoc-flycheck bridge. obviates flycheck-posframe.
+  (defun my/eldoc-flycheck-errors (callback)
+    (when (bound-and-true-p flycheck-mode)
+      (let ((errs (flycheck-overlay-errors-at (point))))
+        (when errs
+          (funcall callback
+                   (mapconcat #'flycheck-error-message errs "\n\n")
+                   :thing 'flycheck
+                   :face 'error)))))
+  (add-hook 'eldoc-documentation-functions #'my/eldoc-flycheck-errors)
   )
 
+;; eldoc-box child frame is scrollable with mouse
 (use-package eldoc-box
   :after (eldoc)
   :hook (prog-mode . eldoc-box-hover-mode)
   :config
+  (add-hook 'eldoc-box-buffer-setup-hook #'eldoc-box-prettify-ts-errors 0 t)
   (setq tide-always-show-documentation t)
-  (setq eldoc-box-only-multi-line nil)
+  (setq eldoc-box-only-multi-line nil
+        eldoc-box-cleanup-interval 0.3
+        eldoc-box-clear-with-C-g t)
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
         eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
   )
 
 (use-package eldoc-mouse
+  :disabled
   :load-path "elisp/eldoc-mouse"
   :hook (eglot-managed-mode . eldoc-mouse-mode))
 
