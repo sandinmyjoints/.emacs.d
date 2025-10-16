@@ -465,8 +465,8 @@
                 flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch)
                 flycheck-disabled-checkers '(javascript-jshint html-tidy emacs-lisp-checkdoc)
                 flycheck-temp-prefix ".flycheck"
-                flycheck-navigation-minimum-level 'warning
-                flycheck-error-list-minimum-level 'warning)
+                flycheck-navigation-minimum-level 'error
+                flycheck-error-list-minimum-level 'info)
   (setq flycheck-eslint-args '("--no-color"))
 
   ;; Each buffer gets its own idle-change-delay because of the
