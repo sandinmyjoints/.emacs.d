@@ -2599,7 +2599,7 @@ Insert .* between each char."
   :init
   (global-corfu-mode)          ;; Enable Corfu globally.
   (corfu-history-mode)         ;; Persist per-session usage ordering.
-  (corfu-popupinfo-mode)       ;; In-buffer docs (like company tooltip docs).
+  ;; (corfu-popupinfo-mode)       ;; In-buffer docs (like company tooltip docs).
   :custom
   (corfu-auto t)               ;; Like company-idle completion.
   (corfu-auto-delay 0.2)       ;; ≈ company-idle-delay
