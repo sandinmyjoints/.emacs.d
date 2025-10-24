@@ -63,14 +63,10 @@
     "sd-reword"
 ))
 
-(defvar wjb/wjb-projects
-  '(
-    ".emacs.d"
-    "git-mine"))
-
 (defvar wjb/projects (list
                       ".emacs.d"
                       "adhoc"
+                      "amcat-ext"
                       "atalanta"
                       "cicero"
                       "equivalency"
@@ -109,7 +105,7 @@
         ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/hegemone")) "hegemone")
         ("n" (projectile-switch-project-by-name (home-subdir "scm/sd/neodarwin")) "neodarwin")
         ("u" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-auth")) "sd-auth")
-        ("m" (projectile-switch-project-by-name (home-subdir "scm/wjb/browser-use-poc")) "proxy")
+        ("m" (projectile-switch-project-by-name (home-subdir "scm/sandinmyjoints/amcat-ext")) "amcat-ext")
         ("g" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
         ("l" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
@@ -148,7 +144,7 @@
         ("q" (wjb/switch-to-project-vterm (home-subdir "scm/sd/equivalency")) "equivalency")
         ("h" (wjb/switch-to-project-vterm (home-subdir "scm/sd/hegemone")) "hegemone")
         ("n" (wjb/switch-to-project-vterm (home-subdir "scm/sd/neodarwin")) "neodarwin")
-        ("m" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/browser-use-poc")) "proxy")
+        ("m" (wjb/switch-to-project-vterm (home-subdir "scm/sandinmyjoints/amcat-ext")) "amcat-ext")
         ("r" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-router")) "sd-router")
         ("u" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-auth")) "sd-auth")
         ("c" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
