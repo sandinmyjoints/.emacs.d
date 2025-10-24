@@ -14,7 +14,8 @@
 
     (define-key (current-local-map) (kbd "C-c C-y") #'wjb-toggle-it-only-js)
 
-    (setq-local company-backends wjb/company-backends-ts)
+    (when wjb/using-company
+      (setq-local company-backends wjb/company-backends-ts))
 
     (when (boundp 'preferred-javascript-indent-level)
       (setq-local tab-width preferred-javascript-indent-level)
