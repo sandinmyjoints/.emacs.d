@@ -642,6 +642,7 @@ See URL `http://handlebarsjs.com/'."
   :load-path "elisp/pos-tip")
 
 (use-package flycheck-posframe
+  :disabled ;; trying eldoc-box
   :after flycheck
   :config
   ;; monkey patch for transparency
