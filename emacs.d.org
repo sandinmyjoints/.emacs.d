@@ -2912,3 +2912,9 @@ Remove 'basic' from 'reporters' option. To match 'basic' reporter 100%, use conf
  - how backends work: https://superuser.com/a/528407/93702
  - another reference: https://www.reddit.com/r/emacs/comments/8z4jcs/tip_how_to_integrate_company_as_completion/
  - another: https://www.reddit.com/r/emacs/comments/5q0vmz/anyone_using_yasnippet_companymode_tern/
+
+* flycheck
+   - [X] emacs: fix flycheck error minimum level
+     - check the severity of error at point: (flycheck-error-level-severity (flycheck-error-level (get-char-property (point) 'flycheck-error)))
+     - flycheck-error-level-interesting-p docstring says errors are interesting if there are not errors at or above above min level, but it only
+       checks for errors EXACTLY at min level
