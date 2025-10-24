@@ -267,6 +267,13 @@
      (cons 'company-statistics melpa)
      ;; (cons 'company-quickhelp melpa)
      ;; (cons 'company-ctags melpa)
+     (cons 'corfu melpa)
+     (cons 'cape melpa)
+     (cons 'orderless melpa)
+
+     (cons 'jtsx melpa)
+     (cons 'eldoc-box melpa)
+     (cons 'flycheck-eglot melpa)
 
      ;; (cons 'helm-aws melpa) ;; using own fork.
      (cons 'helm-projectile melpa)
