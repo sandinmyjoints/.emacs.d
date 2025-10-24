@@ -185,7 +185,9 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-x p") 'bury-buffer)
 
-(global-set-key (kbd "M-/") 'hippie-expand)
+;; clobbers undo, but I never use it at this binding anyway
+(global-set-key (kbd "C-/") #'hippie-expand)
+;; Could use C-c / for hippie or copilot
 
 (global-set-key (kbd "C-x C-d") #'dired-jump)  ;; was C-x j, but I want that for grepping
 
@@ -201,10 +203,6 @@ Also converts full stops to commas."
 (global-set-key (kbd "H-g") (kbd "C-g"))
 
 (global-set-key (kbd "H-a") #'treemacs-select-window)
-
-;; clobbers undo, but I never use it at this binding anyway
-(global-set-key (kbd "C-/") #'hippie-expand)
-;; Could use C-c / for hippie or copilot
 
 ;; (global-set-key (kbd "C-<return>") 'goto-address-at-point) ;; dont need this b/c goto-address-mode
 
