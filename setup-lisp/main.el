@@ -2628,21 +2628,21 @@ Insert .* between each char."
   (defun wjb/cape-text-mode ()
     (wjb/append-capfs
      (cape-company-to-capf #'company-dabbrev-code)
-               ;; #'cape-dabbrev
-               #'cape-abbrev
-               #'cape-emoji
-               (cape-company-to-capf #'company-files)
-               #'cape-file))
+     ;; #'cape-dabbrev
+     #'cape-abbrev
+     #'cape-emoji
+     (cape-company-to-capf #'company-files)
+     #'cape-file))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
 
   (defun wjb/cape-org-mode ()
     (wjb/append-capfs
      (cape-company-to-capf #'company-dabbrev-code)
-               ;; #'cape-dabbrev
-               #'cape-file
-               #'cape-emoji
-               (cape-company-to-capf #'company-files)
-               #'cape-file))
+     ;; #'cape-dabbrev
+     #'cape-file
+     #'cape-emoji
+     (cape-company-to-capf #'company-files)
+     #'cape-file))
   (add-hook 'org-mode-hook #'wjb/cape-org-mode)
 
   ;; Programming modes: closer to previous company stacked backends.
