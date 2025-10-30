@@ -702,8 +702,8 @@ See URL `http://handlebarsjs.com/'."
   (eldoc-add-command 'jump-to-register)
   (eldoc-add-command 'smart-jump-back)
   (eldoc-add-command 'smart-jump-go)
-  ;; skip echo-area
-  (setq eldoc-display-functions '(eldoc-box--display))
+
+  ;; skip echo-area b/c using eldoc-box-hover-mode
   (remove-hook 'eldoc-display-functions #'eldoc-display-in-echo-area)
 
   ;; eldoc-flycheck bridge. obviates flycheck-posframe.
