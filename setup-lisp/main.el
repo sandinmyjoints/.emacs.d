@@ -4076,7 +4076,7 @@ is already narrowed."
 (require 'setup-gptel)
 (require 'setup-aider)
 
-(use-package 'mediainfo-mode
+(use-package mediainfo-mode
   :load-path ("elisp/mediainfo-mode"))
 
 (provide 'main)
