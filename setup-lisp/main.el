@@ -2668,6 +2668,11 @@ Insert .* between each char."
   (add-hook 'prog-mode-hook #'wjb/set-corfu-minimum-prefix-length)
   (add-hook 'restclient-mode-hook #'wjb/set-corfu-minimum-prefix-length)
   :config
+  (setq company-dabbrev-code-ignore-case t
+        company-dabbrev-code-other-buffers 'code
+        company-dabbrev-code-time-limit 0.3
+        company-dabbrev-code-everywhere t)
+
   ;; Bridge company-only backends (e.g. tide) into CAPF if/when they load.
   (with-eval-after-load 'tide
     (add-hook 'tide-mode-hook
