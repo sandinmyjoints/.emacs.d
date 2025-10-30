@@ -231,7 +231,7 @@
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
      (cons 'rjsx-mode melpa)
-     (cons 'jtsx-mode melpa)
+     (cons 'jtsx melpa)
      (cons 'indium melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
@@ -271,7 +271,6 @@
      (cons 'cape melpa)
      (cons 'orderless melpa)
 
-     (cons 'jtsx melpa)
      (cons 'eldoc-box melpa)
      (cons 'flycheck-eglot melpa)
 
