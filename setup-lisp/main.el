@@ -366,6 +366,9 @@
   :config
   (add-hook 'text-mode-hook #'wjb/hard-wrap-text)
   (add-hook 'text-mode-hook #'goto-address-mode)
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (remove-hook 'completion-at-point-functions #'ispell-completion-at-point t)))
   )
 
 ;; TODO: Use a second frame for:
@@ -2601,9 +2604,11 @@ Insert .* between each char."
   (global-corfu-mode)          ;; Enable Corfu globally.
   (corfu-history-mode)         ;; Persist per-session usage ordering.
   ;; (corfu-popupinfo-mode)       ;; In-buffer docs (like company tooltip docs).
+  :bind (:map corfu-map
+              ("H-z" . corfu-insert-separator))
   :custom
   (corfu-auto t)               ;; Like company-idle completion.
-  (corfu-auto-delay 0.2)       ;; ≈ company-idle-delay
+  (corfu-auto-delay 0.0)       ;; ≈ company-idle-delay
   (corfu-auto-prefix 4)        ;; Global default (we lower to 3 in prog modes below).
   (corfu-cycle t)              ;; Wrap around.
   (corfu-preselect 'first)
@@ -2638,31 +2643,34 @@ Insert .* between each char."
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
     (wjb/append-capfs
-     (cape-company-to-capf #'company-dabbrev-code)
-     ;; #'cape-dabbrev
-     #'cape-abbrev
      #'cape-emoji
-     (cape-company-to-capf #'company-files)
-     #'cape-file))
+     #'cape-file
+     ;; (cape-company-to-capf #'company-files)
+     (cape-capf-super
+      (cape-company-to-capf #'company-dabbrev-code-for-text)
+      #'cape-abbrev
+      #'cape-dabbrev)
+     ))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
 
+  ;; note that org-mode runs text-mode-hook then org-mode-hook, so this is only
+  ;; needed if I want to append an additional backend for org.
   (defun wjb/cape-org-mode ()
-    (wjb/append-capfs
-     (cape-company-to-capf #'company-dabbrev-code)
-     ;; #'cape-dabbrev
-     #'cape-file
-     #'cape-emoji
-     (cape-company-to-capf #'company-files)
-     #'cape-file))
+    ;; (wjb/append-capfs)
+    )
   (add-hook 'org-mode-hook #'wjb/cape-org-mode)
 
   ;; Programming modes: closer to previous company stacked backends.
-  (add-hook 'prog-mode-hook
-            (lambda ()
+  (defun wjb/cape-prog-mode ()
               (wjb/append-capfs
-               #'cape-dabbrev
+               #'cape-keyword
                #'cape-file
-               #'cape-keyword)))
+               (cape-company-to-capf #'company-dabbrev-code)
+               ;; (cape-capf-super
+               ;;  (cape-company-to-capf #'company-dabbrev-code)
+               ;;  #'cape-dabbrev)
+               ))
+  (add-hook 'prog-mode-hook #'wjb/cape-prog-mode)
 
   ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
   (defun wjb/set-corfu-minimum-prefix-length ()
