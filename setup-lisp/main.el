@@ -724,7 +724,6 @@ See URL `http://handlebarsjs.com/'."
   :hook (prog-mode . eldoc-box-hover-mode)
   :config
   (add-hook 'eldoc-box-buffer-setup-hook #'eldoc-box-prettify-ts-errors 0 t)
-  (setq tide-always-show-documentation t)
   (setq eldoc-box-only-multi-line nil
         eldoc-box-cleanup-interval 0.3
         eldoc-box-clear-with-C-g t)

@@ -72,6 +72,7 @@
         tide-tsserver-process-environment '("NODE_OPTIONS=--max-old-space-size=4096")
         ;; tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log" "NODE_OPTIONS=--max-old-space-size=8192")
         tide-server-max-response-length (* 2 1024 1024))
+  (setq tide-always-show-documentation t)
 
   ;; tide places company-tide first :(
   (pop company-backends)
