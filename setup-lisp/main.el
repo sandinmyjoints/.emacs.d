@@ -2812,7 +2812,14 @@ If buffer is not visiting a file, do nothing."
   (add-hook 'yml-mode-hook #'nvm-use-for-buffer -99)
   (add-hook 'shell-script-mode-hook #'nvm-use-for-buffer -99)
   (add-hook 'projectile-after-switch-project-hook #'nvm-use-for-buffer -99)
-)
+
+  ;; Note that this doesn't seem to run when I switch files that are in
+  ;; different projects. Probably only runs when I use a projectile command that
+  ;; switches projects.
+  (add-hook 'projectile-after-switch-project-hook
+            (lambda ()
+              (let ((tags (expand-file-name "TAGS" (projectile-project-root))))
+                (when (file-exists-p tags) (visit-tags-table tags t))))))
 
 (eval-when-compile (require 'cl))
 (defvar preferred-javascript-indent-level 2)
