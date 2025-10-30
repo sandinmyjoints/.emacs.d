@@ -2620,10 +2620,19 @@ Insert .* between each char."
 (use-package cape
   :when wjb/using-corfu
   :init
-  ;; Helper to append a list of CAPFs without losing existing (LSP/Eglot/pcomplete/etc).
+  ;; Helper to append a list of CAPFs without losing existing
+  ;; (LSP/Eglot/pcomplete/etc). Note that by default,
+  ;; completion-at-point-functions includes tags-completion-at-point-function,
+  ;; and somehow completion-at-point-functions seems to behave like a
+  ;; buffer-local variable even though I can't find anywhere that sets it so.
+  ;; Sometimes tags-file-name persists after I visit a project that has a TAGS
+  ;; file, even when I visit a file that should have no TAGS file associated
+  ;; with (such as a file in notes). I can prevent that by using file-local or
+  ;; dir-local variables to set tags-file-name and tags-table-list to nil.
   (defun wjb/append-capfs (&rest fns)
     (dolist (fn fns)
-      (add-to-list 'completion-at-point-functions fn t)))
+      (add-hook 'completion-at-point-functions fn 10 t)))
+
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
     (wjb/append-capfs
