@@ -364,10 +364,6 @@ OK on large screens."
     (with-selected-window (treemacs-get-local-window)
       (if (wjb/is-small-display) (treemacs--set-width 46) (treemacs--set-width 56))))
 
-  ;; these must be integers -- floats turn into zero
-  (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
-        eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
-
   ;; (wjb/turn-on-hl-line)
 
   ;; (set-face-attribute 'markdown-code-face nil :family "DejaVu Sans Mono" :height 130)

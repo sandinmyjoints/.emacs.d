@@ -718,6 +718,9 @@ See URL `http://handlebarsjs.com/'."
   (add-hook 'eldoc-documentation-functions #'my/eldoc-flycheck-errors)
   )
 
+(defun wjb/eldoc-box-width () (- (frame-pixel-width) 120))
+(defun wjb/eldoc-box-height () (round (* 0.4 (frame-pixel-height))))
+
 ;; eldoc-box child frame is scrollable with mouse
 (use-package eldoc-box
   :after (eldoc)
@@ -728,9 +731,8 @@ See URL `http://handlebarsjs.com/'."
         eldoc-box-cleanup-interval 0.3
         eldoc-box-clear-with-C-g t)
   ;; these must be integers -- floats turn into zero
-  (setq eldoc-box-max-pixel-width (- (frame-pixel-width) 50)
-        eldoc-box-max-pixel-height (round (* 0.5 (frame-pixel-height))))
-  )
+  (setq eldoc-box-max-pixel-width #'wjb/eldoc-box-width
+        eldoc-box-max-pixel-height #'wjb/eldoc-box-height))
 
 (use-package eldoc-mouse
   :disabled
