@@ -2664,14 +2664,14 @@ Insert .* between each char."
 
   ;; Programming modes: closer to previous company stacked backends.
   (defun wjb/cape-prog-mode ()
-              (wjb/append-capfs
-               #'cape-keyword
-               #'cape-file
-               (cape-company-to-capf #'company-dabbrev-code)
-               ;; (cape-capf-super
-               ;;  (cape-company-to-capf #'company-dabbrev-code)
-               ;;  #'cape-dabbrev)
-               ))
+    (wjb/append-capfs
+     #'cape-keyword
+     #'cape-file
+     (cape-company-to-capf #'company-dabbrev-code)
+     ;; (cape-capf-super
+     ;;  (cape-company-to-capf #'company-dabbrev-code)
+     ;;  #'cape-dabbrev)
+     ))
   (add-hook 'prog-mode-hook #'wjb/cape-prog-mode)
 
   ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
