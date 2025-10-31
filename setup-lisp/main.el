@@ -2619,10 +2619,12 @@ Insert .* between each char."
   ;; Match old M-/ habit (was company-complete / company-other-backend).
   (global-set-key (kbd "M-/") #'completion-at-point)
   ;; Optional: TAB to move through candidates (comment out if it conflicts with indentation you rely on).
-  (define-key corfu-map (kbd "TAB") #'corfu-next)
-  (define-key corfu-map (kbd "<tab>") #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
-  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
+  (define-key corfu-map (kbd "TAB") #'corfu-insert)
+  (define-key corfu-map (kbd "<tab>") #'corfu-insert)
+  (define-key corfu-map (kbd "RET") #'corfu-insert)
+  (define-key corfu-map (kbd "j") #'corfu-next) ;; experi
+  ;; (define-key corfu-map (kbd "<backtab>") #'corfu-previous)
+  )
 
 (use-package cape
   :when wjb/using-corfu
