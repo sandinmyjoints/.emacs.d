@@ -2644,6 +2644,7 @@ Insert .* between each char."
 
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
+    (setq-local corfu-auto-delay 0.2)
     (wjb/append-capfs
      #'cape-emoji
      #'cape-file
@@ -2664,6 +2665,7 @@ Insert .* between each char."
 
   ;; Programming modes: closer to previous company stacked backends.
   (defun wjb/cape-prog-mode ()
+    (setq-local corfu-auto-delay 0.0)
     (wjb/append-capfs
      #'cape-keyword
      #'cape-file
