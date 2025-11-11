@@ -65,10 +65,8 @@
   '(define-key magit-mode-map "v"
      #'endless/visit-pull-request-url))
 
-;; https://magit.vc/manual/magit/Performance.html
 (remove-hook 'server-switch-hook 'magit-commit-diff)
-(setq vc-handled-backends (delq 'Git vc-handled-backends)
-      magit-refresh-verbose nil)
+(setq magit-refresh-verbose nil)
 
 (defun wjb/magit-browse-pull-request ()
   "In `magit-log-mode', open the associated pull request at point."
