@@ -2608,7 +2608,7 @@ Insert .* between each char."
               ("H-z" . corfu-insert-separator))
   :custom
   (corfu-auto t)               ;; Like company-idle completion.
-  (corfu-auto-delay 0.0)       ;; ≈ company-idle-delay
+  (corfu-auto-delay 0.2)       ;; ≈ company-idle-delay
   (corfu-auto-prefix 4)        ;; Global default (we lower to 3 in prog modes below).
   (corfu-cycle t)              ;; Wrap around.
   (corfu-preselect 'first)
@@ -2665,7 +2665,7 @@ Insert .* between each char."
 
   ;; Programming modes: closer to previous company stacked backends.
   (defun wjb/cape-prog-mode ()
-    (setq-local corfu-auto-delay 0.0)
+    (setq-local corfu-auto-delay 0.2)
     (wjb/append-capfs
      #'cape-keyword
      #'cape-file
