@@ -1244,6 +1244,13 @@ pasting into other programs."
 (use-package magit
   :bind (("C-x g" . wjb/smart-magit-status))
   :config
+  (defun my/git-commit-disable-tag-completion ()
+    (setq-local completion-at-point-functions
+                (remove 'tags-completion-at-point-function completion-at-point-functions))
+    (setq-local completion-at-point-functions
+                (remove 't completion-at-point-functions)))
+  (add-hook 'git-commit-mode-hook #'my/git-commit-disable-tag-completion 91)
+
   (setq ghub-use-workaround-for-emacs-bug t
         magit-last-seen-setup-instructions "1.4.0"
         magit-diff-auto-show '(stage-all log-oneline log-follow log-select blame-follow)
@@ -2655,8 +2662,13 @@ Insert .* between each char."
       (cape-company-to-capf #'company-dabbrev-code-for-text)
       #'cape-abbrev
       #'cape-dabbrev)
+     ;; (cape-capf-debug (cape-capf-super
+     ;;  (cape-company-to-capf #'company-dabbrev-code-for-text)
+     ;;  #'cape-abbrev
+     ;;  #'cape-dabbrev))
      ))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
+  (add-hook 'git-commit-mode-hook #'wjb/cape-text-mode 90)
 
   ;; note that org-mode runs text-mode-hook then org-mode-hook, so this is only
   ;; needed if I want to append an additional backend for org.
