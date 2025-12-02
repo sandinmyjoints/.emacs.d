@@ -583,16 +583,14 @@
 ;; (fset 'update-deploy-data-bag
 ;;    [?\C-s ?r ?e ?v ?\M-f ?\M-f ?\M-b ?\H-k ?\C-x ?r ?i ?c ?\C-s ?\C-s ?\M-f ?\M-f ?\M-b ?\H-k ?\C-x ?r ?i ?c ?\H-s])
 
-(fset 'wjb/add-standup-entry
-   [?\C-s ?# ?\S-  ?T ?o ?d ?a ?y ?\C-a ?\C-f ?\C-f ?\C-k ?P ?r ?e ?v ?i ?o ?u ?s ?l ?y ?\M-> return ?# ?\S-  ?T ?o ?d ?a ?y return ?- ? ])
-
 (defun wjb/do-standup ()
   "Do standup."
   (interactive)
   (wjb/switch-to-standup)
   ;; removed save-excursion
   (goto-char (point-min))
-  (call-interactively 'next-line)
+  (call-interactively 'org-next-visible-heading)
+  (call-interactively 'org-next-visible-heading)
   (insert (format "* %s\n** Work\n   - [ ] \n" (format-time-string "%Y-%m-%d")))
   (forward-line -1)
   (move-end-of-line nil))
@@ -1049,7 +1047,7 @@ The result is pushed onto the kill ring."
 (defalias 'fix-org-to-md-sub-tag
    (kmacro "C-s < s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> _ C-s < / s u b > <return> <backspace> <backspace> <backspace> <backspace> <backspace> <backspace>"))
 
-(defun md-to-org-region (start end)
+(defun wjb/md-to-org-region (start end)
   "Convert region from markdown to org, replacing selection"
   (interactive "r")
   (shell-command-on-region start end "pandoc -f markdown -t org" t t))
