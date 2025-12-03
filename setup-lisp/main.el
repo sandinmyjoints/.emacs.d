@@ -4127,6 +4127,29 @@ is already narrowed."
 (use-package mediainfo-mode
   :load-path ("elisp/mediainfo-mode"))
 
+(use-package inheritenv
+  :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
+
+(use-package eat :ensure t)
+
+(use-package claude-code :ensure t
+  :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+  :config
+  (setq claude-code-terminal-backend 'vterm) ;; has an issue with deleting the frame
+  ;; see https://github.com/stevemolitor/claude-code.el/blob/becece683bcf60f7b150a87a30ef14885dcf8ce3/claude-code.el#L742
+  ;; (setq claude-code-terminal-backend 'eat)
+  )
+
+(use-package ai-code-interface
+  :load-path "elisp/ai-code-interface"
+  :config
+  (setq ai-code-sed-command "gsed")
+  (ai-code-set-backend  'github-copilot-cli) ;; use claude-code-ide as backend
+  (global-set-key (kbd "C-c C-a") #'ai-code-menu)
+  ;; Optional: Set up Magit integration for AI commands in Magit popups
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))
+
 (provide 'main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
