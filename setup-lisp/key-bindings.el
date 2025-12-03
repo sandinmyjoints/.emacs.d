@@ -183,7 +183,7 @@ Also converts full stops to commas."
 
 (global-set-key (kbd "C-x C-l") 'other-window-reverse) ; Clobbers downcase-region. Too easy to hit accidentally.
 
-(global-set-key (kbd "C-x p") 'bury-buffer)
+(global-set-key (kbd "C-x p") #'previous-buffer) ;; previously bury-buffer
 
 ;; clobbers undo, but I never use it at this binding anyway
 (global-set-key (kbd "C-/") #'hippie-expand)
