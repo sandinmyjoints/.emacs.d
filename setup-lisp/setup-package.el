@@ -325,6 +325,12 @@
      (cons 'kill-dollar-mode melpa)
      (cons 'pcsv melpa)
 
+     ;; used by ai-code-interface
+     (cons 'claude-code melpa)
+     ;; using eat b/c claude-code vterm code has to do some dance with
+     ;; buffers/delete-window that causes an error for me
+     (cons 'eat melpa)
+
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
      ;; https://github.com/marsmining/ox-twbs
