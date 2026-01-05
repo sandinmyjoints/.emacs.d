@@ -2649,7 +2649,7 @@ Insert .* between each char."
     (dolist (fn fns)
       (add-hook 'completion-at-point-functions fn 10 t)))
 
-  (require 'company-dabbrev-code-for-text "company-dabbrev-code-for-text.el")
+  (require 'company-dabbrev-code-for-text "company-dabbrev-code-for-text")
 
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
