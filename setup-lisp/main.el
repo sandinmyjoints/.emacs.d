@@ -4103,9 +4103,20 @@ is already narrowed."
 
 
 
+(defun wjb/switch-to-chatgpt-or-run ()
+  (interactive)
+  (let ((buf (seq-find (lambda (b)
+                         (string-prefix-p "*chatgpt llm" (buffer-name b)))
+                       (buffer-list))))
+    (if buf
+        (switch-to-buffer buf)
+      (call-interactively #'chatgpt-shell))))
+
 (use-package shell-maker)
 (use-package chatgpt-shell
   :after shell-maker
+  :config
+  (global-set-key (kbd "C-c ~") #'wjb/switch-to-chatgpt-or-run)
   :custom
   (
    ;; (comint-use-prompt-regexp t) ;; trying to get prompt to have a different face. But I should do this in a hook, not set it generally.
