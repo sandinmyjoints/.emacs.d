@@ -2598,12 +2598,18 @@ Insert .* between each char."
 
 (use-package orderless
   :when wjb/using-corfu
+  :custom
+  ;; (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
+  ;; (completion-styles '(orderless partial-completion basic))
+  ;; (completion-category-defaults nil)
+  ;; (completion-category-overrides '((file (styles partial-completion))))
   :init
-  ;; Orderless for richer matching (company was fuzzy-ish via backends).
-  (setq completion-styles '(orderless basic)
+  ;; TODO: try orderless for richer matching (company was fuzzy-ish via backends).
+  (setq completion-styles '(basic partial-completion)
         completion-category-defaults nil
         ;; Keep file completion sane (orderless sometimes awkward for paths).
-        completion-category-overrides '((file (styles basic partial-completion)))))
+        completion-category-overrides '((file (styles basic partial-completion))))
+)
 
 (use-package corfu
   :when wjb/using-corfu
