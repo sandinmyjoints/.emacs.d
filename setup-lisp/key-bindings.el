@@ -306,7 +306,7 @@ Also converts full stops to commas."
 (define-key wjb-map (kbd "y") #'wjb/switch-to-defoxify)
 
 (defun wjb/switch-to-family () (interactive) (find-file "~/Dropbox/family/family.org"))
-(define-key wjb-map (kbd "f") #'wjb/switch-to-family)
+(define-key wjb-map (kbd "f") #'wjb/kill-current-buffer-file-path)
 
 (defun wjb/find-use-package (package)
   (interactive "MPackage: ")

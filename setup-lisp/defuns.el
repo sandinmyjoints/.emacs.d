@@ -1083,13 +1083,6 @@ The result is pushed onto the kill ring."
             (upcase-region (match-beginning 1) (match-end 1)))
           (forward-line 1))))))
 
-(defun wjb/kill-buffer-file-path ()
-  "Copy the current buffer's file path to the kill ring."
-  (interactive)
-  (when buffer-file-name
-    (kill-new buffer-file-name)
-    (message buffer-file-name)))
-
 (defun wjb/executable-find (exe)
   "Prompt for EXE, search PATH, copy path to kill ring."
   (interactive (list (read-string "Executable: ")))
@@ -1097,6 +1090,35 @@ The result is pushed onto the kill ring."
     (if found
         (message found)
       (message "Not found: %s" exe))))
+
+(defun wjb/org-copy-link-at-point ()
+  (interactive)
+  (let ((link (org-element-context)))
+    (when (eq (car link) 'link)
+      (kill-new (org-element-property :raw-link link))
+      (message "Link copied: %s" (org-element-property :raw-link link)))))
+
+(defun wjb/kill-current-buffer-file-path (arg)
+  "Copy the current buffer's file path to the kill ring.
+With a prefix ARG, copy the path relative to the Projectile project root.
+Otherwise, copy the absolute file path.
+Signals an error if not visiting a file or no Projectile project."
+  (interactive "P")
+  (let ((file (buffer-file-name)))
+    (unless file
+      (user-error "Current buffer is not visiting a file"))
+    (if arg
+        (progn
+          (unless (featurep 'projectile)
+            (user-error "Projectile is not loaded"))
+          (let ((project-root (projectile-project-root)))
+            (unless project-root
+              (user-error "Not in a Projectile project"))
+            (let ((rel-path (file-relative-name file project-root)))
+              (kill-new rel-path)
+        (message "Killed project-relative file path: %s" rel-path))))
+      (kill-new file)
+      (message "Killed absolute file path: %s" file))))
 
 (provide 'defuns)
 
