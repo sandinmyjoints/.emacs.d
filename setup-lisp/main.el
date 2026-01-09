@@ -708,6 +708,7 @@ See URL `http://handlebarsjs.com/'."
 
   ;; skip echo-area b/c using eldoc-box-hover-mode
   (remove-hook 'eldoc-display-functions #'eldoc-display-in-echo-area)
+  (remove-hook 'eldoc-display-functions #'eldoc-display-in-buffer)
 
   ;; eldoc-flycheck bridge. obviates flycheck-posframe.
   (defun my/eldoc-flycheck-errors (callback)
