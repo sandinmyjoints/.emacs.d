@@ -226,7 +226,8 @@
         doom-modeline-gnus nil
         doom-modeline-gnus-timer 0
         doom-modeline-buffer-file-name-style 'relative-to-project ;; or 'truncate-upto-root
-        doom-modeline-buffer-encoding nil))
+        doom-modeline-buffer-encoding nil
+        doom-modeline-vcs-max-length 45))
 
 ;; from http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
