@@ -3939,6 +3939,9 @@ questions.  Else use completion to select the tab to switch to."
 (use-package envrc
   :hook (after-init . envrc-global-mode))
 
+(use-package mediainfo-mode
+  :load-path ("elisp/mediainfo-mode"))
+
 ;; (defun wjb/run-once-when-idle (fun)
 ;;   "Run a command every once in a while, if possible when emacs is idle."
 ;;   (defun wjb/generate-idle-callback (fun)
@@ -4120,6 +4123,10 @@ is already narrowed."
         (switch-to-buffer buf)
       (call-interactively #'chatgpt-shell))))
 
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c ~")
+    (lambda () (interactive) (call-interactively #'wjb/switch-to-chatgpt-or-run))))
+
 (use-package shell-maker)
 (use-package chatgpt-shell
   :after shell-maker
@@ -4142,9 +4149,6 @@ is already narrowed."
 (require 'setup-copilot)
 (require 'setup-gptel)
 (require 'setup-aider)
-
-(use-package mediainfo-mode
-  :load-path ("elisp/mediainfo-mode"))
 
 (use-package inheritenv
   :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
