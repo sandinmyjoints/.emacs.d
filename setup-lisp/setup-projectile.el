@@ -226,7 +226,7 @@
 ;; TODO: handle impl file names other than index.
 (defun wjb/related-files-same-dir-components (path)
   (if (string-match (rx (group (+? anything))
-                        (group (1+ (not (any "/"))) (or ".js" ".jsx" ".less"))) path)
+                        (group (1+ (not (any "/"))) (or ".ts" ".tsx" ".js" ".jsx" ".scss" ".less"))) path)
       (let* ((dir (match-string 1 path))
              (filename (match-string 2 path))
              (filename-base (file-name-base filename))
@@ -239,7 +239,7 @@
              (filename-impl (concat "index" filename-extension-usable))
              (filename-test (concat "test" filename-extension-usable))
              (filename-translations "translations.js")
-             (filename-styles "styles.less")
+             (filename-styles "styles.scss")
              (filename-stories "stories.jsx"))
 
         ;; non-destructive
@@ -298,8 +298,11 @@
 				  :test "npm test"
           :src-dir "src"
 				  :test-dir "test"
+          :test-suffix ".test"
           :related-files-fn (list (projectile-related-files-fn-test-with-suffix "js" ".test")
                                   (projectile-related-files-fn-test-with-suffix "jsx" ".test")
+                                  (projectile-related-files-fn-test-with-suffix "ts" ".test")
+                                  (projectile-related-files-fn-test-with-suffix "tsx" ".test")
                                   #'wjb/related-files-same-dir-components
                                   #'wjb/related-files-corresponding-path-po-intake
                                   #'wjb/related-files-corresponding-path)
