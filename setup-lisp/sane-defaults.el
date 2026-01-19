@@ -546,6 +546,8 @@
 
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 
+(setq vc-handled-backends '(Git))
+
 (provide 'sane-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

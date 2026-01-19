@@ -4173,7 +4173,17 @@ is already narrowed."
   (with-eval-after-load 'magit
     (ai-code-magit-setup-transients))
   (with-eval-after-load 'js2-mode
-    (define-key js2-mode-map (kbd "C-c C-a") #'ai-code-menu)))
+    (define-key js2-mode-map (kbd "C-c C-a") #'ai-code-menu))
+  (with-eval-after-load 'prog-mode
+    (define-key prog-mode-map (kbd "C-c C-a") #'ai-code-menu)))
+
+(use-package agent-shell
+  :init (setq agent-shell-github-environment
+              (agent-shell-make-environment-variables
+               "NODE_EXTRA_CA_CERTS" "/Users/wbert/.ssl/ca-bundle.pem"
+               "NODE_OPTIONS" "--use-system-ca"))
+  (setq agent-shell-preferred-agent-config (agent-shell-github-make-copilot-config))
+  (setq agent-shell-github-command '( "copilot" "--acp")))
 
 (provide 'main)
 
