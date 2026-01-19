@@ -14,3 +14,4 @@ pn-logging/pn-logging.org
 hegemone/hegemone.org
 org-settings-template.org
 ~/.emacs.d/emacs.d.org
+~/notes-personal/llms.org
