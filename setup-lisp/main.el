@@ -455,14 +455,6 @@
       perl-mode
       perl6-mode))
 
-  ;; Most basic way: flycheck errors in minibuffer (works in consoles).
-  ;; (unless (display-graphic-p (selected-frame))
-  ;;   (with-eval-after-load 'flycheck
-  ;;     (setq-default flycheck-display-errors-function 'flycheck-display-error-messages)))
-
-  ;; for convenience, to turn off inline-mode:
-  ;; (flycheck-inline-mode -1)
-
   (setq-default flycheck-display-errors-delay 0.4
                 flycheck-idle-change-delay 0.6 ;; but this is really set below ↓
                 ;; flycheck-check-syntax-automatically '(save idle-change mode-enabled)
@@ -587,45 +579,7 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
 
   (push 'rustic-clippy flycheck-checkers)
 
-  ;; configure javascript-tide checker to run after your default javascript checker.
-  ;; too many typescript errors, and complains about missing definitions
-  ;; files. And can it find anything that eslint can't?
-  ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide)
-  ;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide)
-
-  ;; (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
-  ;; (flycheck-add-mode 'javascript-eslint 'web-mode)
-
   (add-to-list 'safe-local-variable-values '(flycheck-javascript-eslint-executable . "eslint_d"))
-
-  ;; override handlebars so the predicate works for word-of-the-day. I have
-  ;; commented out the flycheck definition of handlebars in flychec.el as a
-  ;; temporary hack b/c there doesn't seem to be a way to delete a check once
-  ;; it has been defined
-  (flycheck-define-checker handlebars
-  "A Handlebars syntax checker using the Handlebars compiler.
-
-See URL `http://handlebarsjs.com/'."
-  :command ("handlebars" "-i-")
-  :standard-input t
-  :error-patterns
-  ((error line-start
-          "Error: Parse error on line " line ":" (optional "\r") "\n"
-          (zero-or-more not-newline) "\n" (zero-or-more not-newline) "\n"
-          (message) line-end))
-  :modes (handlebars-mode handlebars-sgml-mode web-mode)
-  :predicate
-  (lambda ()
-    (if (eq major-mode 'web-mode)
-        ;; Check if this is a handlebars file since web-mode does not store the
-        ;; non-canonical engine name
-        (let* ((regexp-alist (bound-and-true-p web-mode-engine-file-regexps))
-               (pattern (cdr (assoc "handlebars" regexp-alist))))
-          (or
-           (string-equal (projectile-project-name) "word-of-the-day")
-           (and pattern (buffer-file-name)
-               (string-match-p pattern (buffer-file-name)))))
-      t)))
 
   (global-flycheck-mode))
 
