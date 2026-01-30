@@ -2736,7 +2736,8 @@ Insert .* between each char."
 ;; better than vimish-fold
 (use-package yafolding
   :config
-  (add-hook 'prog-mode-hook #'yafolding-mode))
+  (add-hook 'prog-mode-hook #'yafolding-mode)
+  (add-hook 'nxml-mode-hook #'yafolding-mode))
 
 (use-package vimish-fold
   :disabled
