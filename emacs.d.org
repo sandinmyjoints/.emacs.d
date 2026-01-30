@@ -2918,3 +2918,7 @@ Remove 'basic' from 'reporters' option. To match 'basic' reporter 100%, use conf
      - check the severity of error at point: (flycheck-error-level-severity (flycheck-error-level (get-char-property (point) 'flycheck-error)))
      - flycheck-error-level-interesting-p docstring says errors are interesting if there are not errors at or above above min level, but it only
        checks for errors EXACTLY at min level
+
+* java
+  - https://github.com/yveszoundi/eglot-java
+  - Eclipse JDT LSP server installed in folder "/Users/wbert/.emacs.d/share/eclipse.jdt.ls".
