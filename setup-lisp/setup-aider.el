@@ -70,7 +70,7 @@ and \"apikey\" as USER."
 
   ;; (auth-source-forget-all-cached)
   ;; (setenv "OPENAI_API_KEY" (api-key-from-auth-source "api.openai.com" "apikey-aider"))
-  (setq openai-apikey-aider (api-key-from-auth-source "api.openai.com" "apikey-aider"))
+  ;; (setq openai-apikey-aider (api-key-from-auth-source "api.openai.com" "apikey-aider"))
   ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
 
   )
