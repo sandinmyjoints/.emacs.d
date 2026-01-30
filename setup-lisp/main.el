@@ -4121,6 +4121,18 @@ is already narrowed."
 (use-package ai-code
   :load-path "elisp/ai-code-interface"
   :config
+  (setq ai-code-github-copilot-cli-program "copilot-sandbox")
+
+  ;; monkey patch to use switch-to-buffer
+  (defun ai-code-backends-infra--switch-to-session-buffer (buffer-name missing-message)
+    "Switch to BUFFER-NAME in an existing window, or in the current window if not visible.
+If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
+    (if-let ((buffer (get-buffer buffer-name)))
+        (if-let ((window (get-buffer-window buffer)))
+            (select-window window)
+          (switch-to-buffer buffer))   ;; <-- open in current window
+      (user-error "%s" missing-message)))
+
   (setq ai-code-sed-command "gsed")
   (ai-code-set-backend  'github-copilot-cli) ;; use claude-code-ide as backend
   (global-set-key (kbd "C-c C-a") #'ai-code-menu)
@@ -4133,7 +4145,7 @@ is already narrowed."
     (define-key prog-mode-map (kbd "C-c C-a") #'ai-code-menu)))
 
 (use-package agent-shell
-  :init (setq agent-shell-github-environment
+  :config (setq agent-shell-github-environment
               (agent-shell-make-environment-variables
                "NODE_EXTRA_CA_CERTS" "/Users/wbert/.ssl/ca-bundle.pem"
                "NODE_OPTIONS" "--use-system-ca"))
