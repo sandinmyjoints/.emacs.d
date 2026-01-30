@@ -433,6 +433,16 @@
       perl-mode
       perl6-mode))
   :config
+  ;; https://www.perplexity.ai/search/how-can-i-ensure-emacs-flychec-FwT937ZgRr2P.VWTz5otIw#3
+  (add-to-list
+   'display-buffer-alist
+   `(,(rx bos "*Flycheck error messages*" eos)
+     (display-buffer-reuse-window
+      display-buffer-in-side-window)
+     (side . bottom)
+     (window-height . 0.1)
+     (reusable-frames . nil)))
+
   (setq flycheck-global-modes
     '(js2-mode
       js2-jsx-mode
