@@ -66,5 +66,12 @@ Ensures correct Node version via nvm before launching the server."
   ;; (setq eglot-events-buffer-size 0)
   )
 
+(use-package eglot-java
+  :after eglot
+  :config
+  (add-hook 'java-mode-hook 'eglot-java-mode)
+  (add-hook 'java-ts-mode-hook 'eglot-java-mode)
+  )
+
 (provide 'setup-eglot)
 ;;; setup-eglot.el ends here
