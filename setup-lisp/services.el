@@ -86,13 +86,14 @@
 
 (use-package hydra
   :config
-  (setq hydra--work-around-dedicated nil
-        hydra-hint-display-type 'posframe)
-  (setq hydra-posframe-show-params
-        '(
-          :internal-border-width 2
-          ;; :internal-border-color "red"
-          :poshandler posframe-poshandler-frame-above-center)))
+  (setq hydra--work-around-dedicated nil)
+  ;; (setq hydra-hint-display-type 'posframe)
+  ;; (setq hydra-posframe-show-params
+  ;;       '(
+  ;;         :internal-border-width 2
+  ;;         ;; :internal-border-color "red"
+  ;;         :poshandler posframe-poshandler-frame-above-center))
+)
 
 ;; TODO: ideal would be a hydra that first selects a project, then selects an action (vc, vterm).
 (defhydra wjb/projects/hydra (:color blue :columns 3)

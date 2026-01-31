@@ -1086,6 +1086,7 @@ pasting into other programs."
 ;;
 (use-package helm-org-rifle
   :after helm
+  :disabled
   :commands helm-org-rifle-agenda-files
   :init
   (global-set-key (kbd "C-0") #'helm-org-rifle-agenda-files)
@@ -1587,6 +1588,7 @@ in the current window."
 ;;    - dired-do-rename and copy and other functions are also bad with counsel-find-file.
 ;;    - https://github.com/jixiuf/ivy-dired-history
 (use-package ivy
+  :disabled
   :diminish
   :config
   ;; when counsel-M-x is open, maybe others, then C-g calls
@@ -1673,6 +1675,7 @@ Insert .* between each char."
   (ivy-mode 1))
 
 (use-package counsel
+  :disabled
   :after (ivy)
   ;; H-<space> would be better, but that goes to Alfred
   ;; :bind (("C-," . counsel-imenu))
@@ -1693,6 +1696,7 @@ Insert .* between each char."
     (define-key counsel-find-file-map alt  #'ivy-done)))
 
 (use-package posframe
+  :disabled
   :config
   ;; (setq posframe-arghandler #'wjb/posframe-arghandler)
   (setq posframe-arghandler #'posframe-arghandler-default)
@@ -1712,6 +1716,7 @@ Insert .* between each char."
       (or (plist-get info arg-name) value))))
 
 (use-package ivy-posframe
+  :disabled
   :after ivy
   :config
   (defun posframe-poshandler-frame-above-center (info)
@@ -1750,7 +1755,7 @@ Insert .* between each char."
 ;; helm
 
 (use-package helm
-  :demand
+  :disabled
   :config
   (setq
    ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
@@ -1775,19 +1780,23 @@ Insert .* between each char."
                                (rest-client-mode . "REST")
                                (shell-script-mode . "Shell"))
    ))
-(use-package helm-lib)
+(use-package helm-lib
+  :disabled)
 (use-package helm-dired-recent-dirs
+  :disabled
   :after (helm))
 (use-package helm-imenu
   :after (helm)
   :bind (("C-," . helm-imenu)))
 (use-package helm-buffers
+  :disabled
   :after (helm)
   :bind (;; ("C-x C-b" . helm-buffers-list)
          ("C-x C-b" . helm-mini)
          ("C-o" . helm-mini)
          ("C-x C-o" . helm-mini))) ; Clobbers delete-blank-lines.
 (use-package helm-ls-git
+  :disabled
   :after (helm)
   :config
   ;; see https://github.com/emacs-helm/helm-ls-git/issues/68
@@ -1799,6 +1808,7 @@ Insert .* between each char."
                                       helm-source-ls-git-status
                                       helm-ls-git-create-branch-source)))
 (use-package helm-files
+  :disabled
   :after (helm)
   :bind (("C-M-o" . helm-browse-project)) ;; Clobbers split-line.
   :config
@@ -2532,8 +2542,9 @@ Insert .* between each char."
   :after (which-key posframe)
   :config
   (which-key-posframe-mode)
-  (setq which-key-posframe-parameters '((line-spacing . 0.0))
-        which-key-posframe-poshandler #'posframe-poshandler-frame-above-center))
+  ;; (setq which-key-posframe-parameters '((line-spacing . 0.0)))
+  ;; (setq which-key-posframe-poshandler #'posframe-poshandler-frame-above-center)
+  )
 
 (use-package discover
   :disabled
@@ -4161,6 +4172,59 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
                "NODE_OPTIONS" "--use-system-ca"))
   (setq agent-shell-preferred-agent-config (agent-shell-github-make-copilot-config))
   (setq agent-shell-github-command '( "copilot" "--acp")))
+
+
+
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  :config
+  (vertico-multiform-mode t)
+  :custom
+  (vertico-resize t)
+  (vertico-truncate-lines t)
+  (vertico-multiform-commands
+   '((consult-buffer buffer)
+     (execute-extended-command buffer) ;; vertico-posframe?
+     (consult-projectile-find-file buffer)
+     (consult-projectile-switch-project buffer)
+     (consult-projectile-switch-to-buffer buffer))))
+
+;; Configure how the Vertico buffer is displayed
+(with-eval-after-load 'vertico
+  (require 'vertico-buffer)
+
+  ;; Option A: take over the whole frame (truly “full window”)
+  (setq vertico-buffer-display-action '(display-buffer-full-frame)))
+
+(use-package consult
+  :ensure t
+  ;; :custom
+  :config
+  (setq consult-preview-key nil)
+  :bind (
+         ("C-o" . consult-buffer)
+         ("C-x C-o" . consult-buffer)
+         ("C-x C-b" . consult-buffer)
+         ;; ("C-x b" . consult-buffer)
+         ;; :map minibuffer-local-map
+         ;; ("C-r" . consult-history)
+         ))
+
+(use-package consult-projectile
+  :ensure t
+  :after (consult projectile)
+  ;; TODO: consult-projectile-find-file is slow, need to filter, and it needs to quit after one C-g, not two
+  :bind (("C-M-o" . consult-projectile-find-file))
+  )
+
+
+;; Optional: Enhanced file/buffer menu
+(use-package consult-dir
+  :ensure t
+  ;; :bind ("C-x C-d" . consult-dir)
+  )
 
 (provide 'main)
 
