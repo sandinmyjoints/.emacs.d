@@ -38,3 +38,7 @@ recentf
 forge-database*
 local*
 .aider*
+eglot-java-eclipse-jdt-cache/
+share/
+TAGS
+.chatgpt-shell.el
