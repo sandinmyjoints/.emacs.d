@@ -157,13 +157,9 @@
 ;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
   "find|xargs in current project dir by path. Negate with prefix arg."
-  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (if (functionp #'ivy-read)
-                         (ivy-read "path glob: " '() :require-match nil :initial-input "*")
-                       (read-from-minibuffer "path glob: " "*"))
-                     (if (functionp #'ivy-read)
-                         (ivy-read "search for: " '() :require-match nil)
-                       (read-from-minibuffer "search for: "))
+  (interactive (list (read-directory-name "starting point: " (file-name-as-directory wjb-find-in-project-default-dir))
+                     (read-from-minibuffer "path glob: " "*")
+                     (read-from-minibuffer "search for: ")
                      current-prefix-arg))
   (unless (equal grep-string "")
       (let* ((default-directory path)
@@ -178,13 +174,15 @@
 ;; C-x j -> j close to n for name
 (defun find-in-project-glob-by-name (path name-pattern grep-string prefix)
   "find|xargs in current project dir by name. Negate with prefix arg."
-  (interactive (list (read-directory-name "starting point: " wjb-find-in-project-default-dir)
-                     (if (functionp #'ivy-read)
-                         (ivy-read "name glob: " '() :require-match nil :initial-input "*")
-                       (read-from-minibuffer "name glob: " "*"))
-                     (if (functionp #'ivy-read)
-                         (ivy-read "search for: " '() :require-match nil)
-                       (read-from-minibuffer "search for: "))
+  (interactive (list (read-directory-name "starting point: "
+                                          (file-name-as-directory
+                                           (expand-file-name
+                                            (or wjb-find-in-project-default-dir
+                                                (when-let ((proj (project-current nil)))
+                                                  (project-root proj))))))
+                     ;; (read-directory-name "starting point: " (file-name-as-directory wjb-find-in-project-default-dir))
+                     (read-from-minibuffer "name glob: " "*")
+                     (read-from-minibuffer "search for: ")
                      current-prefix-arg))
   (unless (equal grep-string "")
       (let* ((default-directory path)
