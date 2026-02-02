@@ -4177,28 +4177,62 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   (vertico-mode)
   :config
   (vertico-multiform-mode t)
+  (setq vertico-multiform-categories
+       '((file (:keymap . vertico-directory-map))))
   :custom
   (vertico-resize t)
   (vertico-truncate-lines t)
+
+  ;; (setq minibuffer-default-prompt-format "→ ")
+
+  ;; these probably aren't necessary with vertico-buffer-mode mode!
   (vertico-multiform-commands
    '((consult-buffer buffer)
+     (find-file buffer)
+     (read-directory-name buffer)
+     (read-from-minibuffer buffer)
      (execute-extended-command buffer) ;; vertico-posframe?
+     (switch-to-buffer buffer)
      (consult-projectile-find-file buffer)
      (consult-projectile-switch-project buffer)
-     (consult-projectile-switch-to-buffer buffer))))
+     (consult-projectile-switch-to-buffer buffer)
+     (projectile-switch-project buffer)
+     (find-in-project-glob-by-name buffer)
+     (find-in-project-glob-by-path buffer)
+     (dired buffer)
+     )))
 
-;; Configure how the Vertico buffer is displayed
+(use-package vertico-directory
+  :after vertico
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)
+              ("RET" . vertico-directory-enter)))
+
 (with-eval-after-load 'vertico
   (require 'vertico-buffer)
+  (vertico-buffer-mode 1)
 
-  ;; Option A: take over the whole frame (truly “full window”)
   (setq vertico-buffer-display-action '(display-buffer-full-frame)))
 
 (use-package consult
   :ensure t
   ;; :custom
   :config
-  (setq consult-preview-key nil)
+  (setq consult-preview-key nil
+        consult-projectile-use-projectile-switch-project t)
+
+
+  ;; this is needed to get full buffer behavior, but then it doesn't do switch-project-action
+  ;; (defalias 'projectile-switch-project #'consult-projectile-switch-project)
+  (defalias 'projectile-find-file #'consult-projectile-find-file)
+  (defalias 'projectile-find-other-file #'consult-projectile-find-other-file)
+
+  ;; so have to set it manually
+  (setq consult-projectile-source-projectile-project-action
+        (lambda (project-root)
+          (magit-status project-root)))
+
   :bind (
          ("C-o" . consult-buffer)
          ("C-x C-o" . consult-buffer)
