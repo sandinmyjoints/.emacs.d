@@ -2574,7 +2574,9 @@ Insert .* between each char."
 (use-package orderless
   :when wjb/using-corfu
   :custom
-  (orderless-matching-styles '(orderless-prefixes orderless-literal orderless-flex orderless-initialism))
+  (orderless-matching-styles '(orderless-literal orderless-prefixes orderless-initialism
+                                                 ;; orderless-flex
+                                                 ))
   (completion-styles '(orderless basic partial-completion))
   (completion-ignore-case t)
   (completion-category-defaults nil)
