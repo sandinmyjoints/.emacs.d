@@ -47,8 +47,8 @@
 
 (defvar wjb/sd-services
   '(
-    "atalanta"
     "cicero"
+    "dcom-web"
     "hegemone"
     "neodarwin"
     "sd-auth"
@@ -67,8 +67,8 @@
                       ".emacs.d"
                       "adhoc"
                       "amcat-ext"
-                      "atalanta"
                       "cicero"
+                      "dcom-web"
                       "equivalency"
                       "git-mine"
                       "hegemone"
@@ -99,8 +99,8 @@
 (defhydra wjb/projects/hydra (:color blue :columns 3)
    "Switch to project"
         ("a" (wjb/switch-to-project-vterm (expand-file-name "~")) "adhoc")
+        ("d" (projectile-switch-project-by-name (home-subdir "git/dcom-web")) "dcom-web")
         ("e" (projectile-switch-project-by-name (home-subdir ".emacs.d")) "emacs.d")
-        ("t" (projectile-switch-project-by-name (home-subdir "scm/sd/atalanta")) "atalanta")
         ("i" (projectile-switch-project-by-name (home-subdir "scm/sd/cicero")) "cicero")
         ("q" (projectile-switch-project-by-name (home-subdir "scm/sd/equivalency")) "equivalency")
         ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/hegemone")) "hegemone")
@@ -139,6 +139,7 @@
    "Shell in project"
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
         ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
+        ("d" (wjb/switch-to-project-vterm (home-subdir "git/dcom-web")) "dcom-web")
         ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
         ("i" (wjb/switch-to-project-vterm (home-subdir "scm/sd/cicero")) "cicero")
         ;; ("i" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/nicer-email-extension")) "nicer")
@@ -186,7 +187,6 @@
 ;;       '(
 ;;         ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router") "sd-router")
 ;;         ("n" (projectile-switch-project-by-name (home-subdir "scm/sd/neodarwin") "neodarwin")
-;;         ("a" (projectile-switch-project-by-name (home-subdir "scm/sd/atalanta") "atalanta")
 ;;         ("d" (projectile-switch-project-by-name (home-subdir "scm/sd/darwin") "darwin")
 ;;         ("h" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-auth") "sd-auth")
 ;;         ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground") "sd-playground")
