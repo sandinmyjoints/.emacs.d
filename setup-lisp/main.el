@@ -857,7 +857,6 @@ contextual information."
         org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)) ;; can switch back to auto soon
         org-todo-keywords '((sequence "TODO" "ACTIVE" "|" "DONE" "INACTIVE"))
         org-outline-path-complete-in-steps nil
-        org-completion-use-ido t
         org-replace-disputed-keys t
         org-edit-src-content-indentation 0
         org-catch-invisible-edits 'show
@@ -1473,9 +1472,6 @@ pasting into other programs."
 
 
 ;; imenu
-
-;; (defadvice ido-imenu (before push-mark activate)
-;;   (push-mark))
 
 ;; Always rescan buffer for imenu. Turn off locally with dir-locals.
 (set-default 'imenu-auto-rescan t)
