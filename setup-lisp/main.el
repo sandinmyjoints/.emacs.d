@@ -1604,7 +1604,7 @@ in the current window."
   ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
   ;; (global-set-key (kbd "C-x d") 'ido-dired) ;
   (global-set-key (kbd "C-x d") 'counsel-dired)
-  (global-set-key (kbd "C-x C-w") 'ido-write-file) ;; TODO: want to replace this with counsel
+  ;; (global-set-key (kbd "C-x C-w") 'ido-write-file) ;; TODO: want to replace this with counsel
   ;; consider:
   ;; (global-set-key (kbd "C-s") 'swiper)
   ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
