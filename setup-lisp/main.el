@@ -1525,6 +1525,7 @@ pasting into other programs."
 ;; the top result. It is not remembering that when I type "eval", I choose
 ;; "eval-region".
 (use-package prescient
+  :disabled
   :config
   ;; (add-to-list 'ivy-sort-functions-alist '(counsel-projectile-sort-projects . ivy-prescient-sort-function))
   ;; (setq ivy-prescient-sort-commands (butlast ivy-prescient-sort-commands))
@@ -1532,6 +1533,7 @@ pasting into other programs."
   (prescient-persist-mode))
 
 (use-package ivy-prescient
+  :disabled
   :after (counsel ivy)
   :config
   ;; if this is t, then ivy-prescient-re-builder is set as the default case in
