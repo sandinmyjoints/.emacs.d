@@ -1217,13 +1217,12 @@ pasting into other programs."
                 (remove 't completion-at-point-functions)))
   (add-hook 'git-commit-mode-hook #'my/git-commit-disable-tag-completion 91)
 
-  (setq ghub-use-workaround-for-emacs-bug t
-        magit-last-seen-setup-instructions "1.4.0"
+  (setq magit-last-seen-setup-instructions "1.4.0"
         magit-diff-auto-show '(stage-all log-oneline log-follow log-select blame-follow)
         magit-status-expand-stashes nil
         magit-commit-show-diff nil
         magit-revert-buffers 1 ;; important for not slowing down everything
-        magit-completing-read-function 'ivy-completing-read ;; magit does its own completing read, so I could try skipping this.
+        magit-completing-read-function 'magit-builtin-completing-read
         magit-push-always-verify nil
         magit-revision-insert-related-refs nil
         magit-branch-read-upstream-first nil
@@ -1444,7 +1443,8 @@ pasting into other programs."
   ;; (define-key projectile-mode-map (kbd "H-w") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "H-o") 'projectile-command-map)
   ;; (define-key projectile-mode-map (kbd "H-p") 'projectile-command-map)
-  (setq projectile-completion-system 'ivy)
+  (setq projectile-completion-system 'default
+        projectile-sort-order 'recently-active)
   (require 'setup-projectile))
 
 (use-package counsel-projectile
