@@ -2718,6 +2718,7 @@ Insert .* between each char."
   :mode "\\.html?\\'"
   "\\.hbs\\'"
   "\\.ejs\\'"
+  "\\.jsp\\'"
   :config
   (setq-default web-mode-markup-indent-offset 2)
   (setq-default web-mode-css-indent-offset 2)
