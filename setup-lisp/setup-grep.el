@@ -94,7 +94,7 @@
 
 (when (executable-find "gfind")
   (setq wjb-find-bin "gfind")
-  (setq wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"PIE.htc\" ! -name \"#*#\" ! -name \"*.min.js\" ! -name \"*-min-*.js\" ! -name \"*-min.js\" ! -name \"*-min-async.js\" ! -name \"*-atf-min.css\" ! -name \"*-min.css\" ! -path \"*/node_modules*\" ! -path \"*/public/webpack-assets*\" ! -path \"*/public/js/vendors~components*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist/*\" ! -path \"*/dist-*\" -not -size +512k -type f -print0"))
+  (setq wjb-find-args "! -name \"TAGS\" ! -name \"*~\" ! -name \"PIE.htc\" ! -name \"#*#\" ! -name \"*.min.js\" ! -name \"*-min-*.js\" ! -name \"*-min.js\" ! -name \"*-min-async.js\" ! -name \"*-atf-min.css\" ! -name \"*-min.css\" ! -path \"*/node_modules*\" ! -path \"*/public/webpack-assets*\" ! -path \"*/public/js/vendors~components*\" ! -path \"*/.git*\" ! -path \"*local/Yarn*\" ! -path \"*/.storybook-static*\" ! -path \"*/_tmp*\" ! -path \"*/coverage*\" ! -path \"*/dist/*\" ! -path \"*/dist-*\" ! -path \"*/.eglot-java*\" -not -size +512k -type f -print0 "))
 
 ;; TODO: fd is often faster than GNU grep, but its arguments are "<pattern
 ;; path>", whereas grep is "<starting point> <expression>". So the the command
@@ -116,7 +116,7 @@
 
 (when (executable-find "rg")
   (setq wjb-grep-bin "rg")
-  (setq wjb-grep-args "-C 5 --no-heading -niH -e "))
+  (setq wjb-grep-args "--line-buffered -C 5 --no-heading -niH -e "))
 
 (defvar wjb-grep-part (format "%s %s" wjb-grep-bin wjb-grep-args))
 
@@ -153,6 +153,8 @@
               (string-suffix-p "'" trimmed)))
         trimmed
       (concat "'" trimmed "'"))))
+
+;; gfind . -ipath '*' ! -name "TAGS" ! -name "*~" ! -name "PIE.htc" ! -name "#*#" ! -name "*.min.js" ! -name "*-min-*.js" ! -name "*-min.js" ! -name "*-min-async.js" ! -name "*-atf-min.css" ! -name "*-min.css" ! -path "*/node_modules*" ! -path "*/public/webpack-assets*" ! -path "*/public/js/vendors~components*" ! -path "*/.git*" ! -path "*local/Yarn*" ! -path "*/.storybook-static*" ! -path "*/_tmp*" ! -path "*/coverage*" ! -path "*/dist/*" ! -path "*/dist-*" ! -path "*/.eglot-java*" -not -size +512k -type f -print0| xargs -0 -P 2  rg -C 5 --no-heading -niH -e 'fff'
 
 ;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
