@@ -2,5 +2,6 @@
 ;;; See Info node `(emacs) Directory Variables' for more information.
 
 ((nil .
-      ((tags-table-list . ()))
+      ((tags-table-list . ())
+       (projectile-indexing-method . hybrid))
 ))
