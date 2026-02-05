@@ -282,6 +282,7 @@ Also converts full stops to commas."
 (define-key wjb-map (kbd "c") #'copy-as-format)
 (define-key wjb-map (kbd "g") #'git-link)
 (define-key wjb-map (kbd "b") #'browse-at-remote)
+(define-key wjb-map (kbd "i") #'wjb/insert-date)
 
 ;; TODO: use this for all switch-to-* buffer commands
 (defun wjb/command-to-switch-to-buffer (buffer)
