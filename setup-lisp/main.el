@@ -2582,6 +2582,7 @@ Insert .* between each char."
   (completion-category-defaults nil)
   ;; Keep file completion sane (orderless sometimes awkward for paths).
   (completion-category-overrides '((file (styles basic partial-completion))))
+  (setq orderless-component-separator #'orderless-escapable-split-on-space)
 )
 
 (use-package corfu
@@ -4185,23 +4186,10 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   (vertico-truncate-lines t)
 
   ;; (setq minibuffer-default-prompt-format "→ ")
-
-  ;; these probably aren't necessary with vertico-buffer-mode mode!
   (vertico-multiform-commands
-   '((consult-buffer buffer)
-     (find-file buffer)
-     (read-directory-name buffer)
-     (read-from-minibuffer buffer)
-     (execute-extended-command buffer) ;; vertico-posframe?
-     (switch-to-buffer buffer)
-     (consult-projectile-find-file buffer)
-     (consult-projectile-switch-project buffer)
-     (consult-projectile-switch-to-buffer buffer)
-     (projectile-switch-project buffer)
-     (find-in-project-glob-by-name buffer)
-     (find-in-project-glob-by-path buffer)
-     (dired buffer)
-     )))
+   '((ai-code-apply-prompt-on-current-file
+      (styles . buffer))))
+  )
 
 (use-package vertico-directory
   :after vertico
@@ -4257,6 +4245,9 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   ;; :bind ("C-x C-d" . consult-dir)
   )
 
+;; (use-package consult-eglot)
+(use-package consult-yasnippet)
+
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
@@ -4272,6 +4263,13 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   ;; the mode gets enabled right away. Note that this forces loading the
   ;; package.
   (marginalia-mode))
+
+(use-package nerd-icons-completion
+  :after marginalia
+  :disabled
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (provide 'main)
 
