@@ -2209,10 +2209,6 @@ Insert .* between each char."
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-;; (use-package treemacs-icons-dired
-;;   :after treemacs dired
-;;   :config (treemacs-icons-dired-mode))
-
 
 ;; auth / crypto / tls / security
 
