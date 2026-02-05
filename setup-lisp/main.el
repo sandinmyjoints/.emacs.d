@@ -3546,6 +3546,7 @@ root."
 (use-package dap-mode
   :after (lsp-mode)
   :config
+  (dap-auto-configure-mode)
   ;; (dap-auto-configure-mode)
   (setq dap-print-io nil)
 
@@ -3558,6 +3559,12 @@ root."
   ;; displays floating panel with debug buttons
   ;; requies emacs 26+
   (dap-ui-controls-mode -1)
+
+  (dap-register-debug-template "DCOM web"
+  (list :type "java"
+        :request "attach"
+        :hostName "localhost"
+        :port 8000))
 
   (dap-register-debug-template
    "sd-playground"
@@ -3580,6 +3587,10 @@ root."
   (require 'dap-node)
   (dap-node-setup)
   )
+
+(use-package lsp-mode)
+(use-package lsp-java :after (lsp) :config (add-hook 'java-mode-hook 'lsp))
+(use-package dap-java :after (lsp-java) :ensure nil)
 
 
 ;; visual-regexp

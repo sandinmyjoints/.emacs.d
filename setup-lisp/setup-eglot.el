@@ -68,9 +68,10 @@ Ensures correct Node version via nvm before launching the server."
 
 (use-package eglot-java
   :after eglot
+  :disabled ;; while trying lsp-java
   :config
-  (add-hook 'java-mode-hook 'eglot-java-mode)
-  (add-hook 'java-ts-mode-hook 'eglot-java-mode)
+  (remove-hook 'java-mode-hook 'eglot-java-mode)
+  (remove-hook 'java-ts-mode-hook 'eglot-java-mode)
   )
 
 (provide 'setup-eglot)
