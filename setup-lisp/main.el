@@ -4127,9 +4127,9 @@ is already narrowed."
     (lambda ()
       (auth-source-pick-first-password :host "api.openai.com")))))
 
-(require 'setup-copilot)
-(require 'setup-gptel)
-(require 'setup-aider)
+;; (require 'setup-copilot)
+;; (require 'setup-gptel)
+;; (require 'setup-aider)
 
 (use-package inheritenv
   :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
