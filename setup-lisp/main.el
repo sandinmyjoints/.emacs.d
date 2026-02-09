@@ -1262,6 +1262,9 @@ pasting into other programs."
 (use-package gitignore-mode
   :mode ("\\.dockerignore\\'" "\\.aiderignore\\'" "global.gitignore" ".*gitignore\\'"))
 
+(use-package json-mode
+  :mode ("\\.json\\'" "\\.jsonl\\'" ".jsonnd"))
+
 ;; It doesn't seem to like this, it thinks the domain name is neodarwin
 ;; 	url = git@github.com:spanishdict/neodarwin.git
 ;;
