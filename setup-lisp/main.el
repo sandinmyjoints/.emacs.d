@@ -4150,8 +4150,10 @@ is already narrowed."
 
 (use-package ai-code
   :load-path "elisp/ai-code-interface"
+  :bind (("C-c a" . ai-code-menu))
   :config
-  (setq ai-code-github-copilot-cli-program "copilot-sandbox")
+  (setq ai-code-github-copilot-cli-program "copilot-sandbox"
+        ai-code-backends-infra-use-side-window nil)
 
   ;; monkey patch to use switch-to-buffer
   (defun ai-code-backends-infra--switch-to-session-buffer (buffer-name missing-message)
