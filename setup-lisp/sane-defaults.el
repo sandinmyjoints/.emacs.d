@@ -73,20 +73,47 @@
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
 
+(add-to-list
+ 'display-buffer-alist
+ '("\\*.*popup\\*"
+   (display-buffer-pop-up-window))
+ 'append)
+
+(add-to-list
+ 'display-buffer-alist
+ '("^ \\*Treemacs"
+   display-buffer-in-side-window
+   (side . left)
+   (window-width . 50))
+ 'append)
+
+;; Fallback: reuse a normal window, never a side window
+(add-to-list
+ 'display-buffer-alist
+ '(t
+   (display-buffer-reuse-window
+    display-buffer-use-some-window))
+ 'append)
+
 ;; From https://www.reddit.com/r/emacs/comments/80pd2q/anyone_could_help_me_with_window_management/dux9cme/
 ;; also potentially useful: https://emacs.stackexchange.com/a/338/2163
-(setq display-buffer-alist
-      ;; Let popup buffers pop up.
-      '(("\*.*popup\*" . (display-buffer-pop-up-window))
-        ("\*helm-imenu\*" . (display-buffer-pop-up-window))
-        ;; Catchall: always allow same window, which is the one reusable window.
-        (".*" .
-         ;; (display-buffer-use-some-window .
-         ;; (display-buffer-reuse-window .
-         (display-buffer-same-window .
-                                         '((inhibit-same-window . nil)
-                                           (inhibit-switch-frame . t))))
-        ))
+;; (setq display-buffer-alist
+;;       ;; Let popup buffers pop up.
+;;       '(("\*.*popup\*" . (display-buffer-pop-up-window))
+;;         ("\*helm-imenu\*" . (display-buffer-pop-up-window))
+;;         ("^ \\*Treemacs" display-buffer-in-side-window
+;;          (side . left)
+;;          (window-width . 50))
+;;         ;; Catchall: always allow same window, which is the one reusable window.
+;;         (".*" .
+;;          ;; (display-buffer-use-some-window .
+;;          ;; (display-buffer-reuse-window .
+;;          (display-buffer-same-window .
+;;                                          '((inhibit-same-window . nil)
+;;                                            (inhibit-switch-frame . t))))
+;;         ))
+
+(setq window-sides-vertical t)
 
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)
