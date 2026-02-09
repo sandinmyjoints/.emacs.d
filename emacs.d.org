@@ -2828,9 +2828,16 @@ pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pine
     - look in .emacs.d/url/cookies. a bad auth cookie might be stored in
       =url-cookie-secure-storage=. or check defun request--curl-cookie-jar.
 * Treemacs upgrade
+  - pre-display-buffer change:
+  drwxr-xr-x   45 wbert  staff   1.4K Dec 16  2023 treemacs-20220801.1910/
+  drwxr-xr-x    5 wbert  staff   160B Dec 29  2023 treemacs-icons-dired-20230930.1141/
+  drwxr-xr-x    5 wbert  staff   160B Dec 29  2023 treemacs-projectile-20230703.1929/
+
   - the version I want is
     https://melpa.org/packages/treemacs-treemacs-20220801.1910.tar, but melpa
     does not keep old packages, so it's not available.
+  - https://github.com/Alexander-Miller/treemacs/pull/971 was the culprit.
+
 * TODO improve package management
 ** package.el
    - very good writeup: https://old.reddit.com/r/emacs/comments/np6ey4/how_packageel_works_with_use_package/
