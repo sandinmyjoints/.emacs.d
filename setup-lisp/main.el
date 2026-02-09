@@ -2719,6 +2719,7 @@ Insert .* between each char."
   "\\.hbs\\'"
   "\\.ejs\\'"
   "\\.jsp\\'"
+  "\\.tag\\'"
   :config
   (setq-default web-mode-markup-indent-offset 2)
   (setq-default web-mode-css-indent-offset 2)
