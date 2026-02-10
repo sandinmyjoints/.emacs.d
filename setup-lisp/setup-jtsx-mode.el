@@ -13,6 +13,7 @@
     "Common setup for jtsx-jsx-mode and jtsx-tsx-mode."
 
     (define-key (current-local-map) (kbd "C-c C-y") #'wjb-toggle-it-only-js)
+    (setq-local indent-tabs-mode nil))
 
     (when wjb/using-company
       (setq-local company-backends wjb/company-backends-ts))
@@ -23,8 +24,7 @@
         (setq-local typescript-indent-level preferred-javascript-indent-level))
       (when (boundp 'jtsx-indent-offset)
         (setq-local jtsx-indent-offset preferred-javascript-indent-level)))
-    ;; Disable tabs explicitly (mirrors typical TS config).
-    (setq-local indent-tabs-mode nil))
+
   :hook ((jtsx-jsx-mode . wjb/jtsx-common-setup)
          (jtsx-tsx-mode . wjb/jtsx-common-setup))
   :config
