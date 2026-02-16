@@ -3584,7 +3584,7 @@ root."
   )
 
 (use-package lsp-mode)
-(use-package lsp-java :after (lsp-mode) :hook (java-ts-mode . lsp))
+(use-package lsp-java :after (lsp-mode) :hook (java-ts-mode . lsp-deferred))
 (use-package dap-java :after (lsp-java) :ensure nil)
 
 
