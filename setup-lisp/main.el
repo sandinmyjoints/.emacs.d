@@ -158,9 +158,6 @@
 (use-package f)
 ;; Hashtables.
 (use-package ht)
-;; Alists.
-(use-package asoc
-  :load-path "elisp/asoc.el")
 
 (use-package hi-lock
   :diminish)

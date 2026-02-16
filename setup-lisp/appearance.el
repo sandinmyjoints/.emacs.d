@@ -81,6 +81,8 @@
 ;; Examine font of char at point: C-u C-x =
 ;;
 ;; Remove a font from the default frame alist:
+;; (use-package asoc
+;;   :load-path "elisp/asoc.el")
 ;; (setq default-frame-alist (asoc-remove-keys (lambda (key) (equal key 'font)) default-frame-alist)
 ;;
 ;; Set default font, both for current frame and for all frames.
