@@ -32,8 +32,7 @@ and \"apikey\" as USER."
               (setq-local fill-column 120)
               (visual-line-mode 1)))
 
-  ;; Aider wants chat models (not coder/FIM).
-  (define-key global-map (kbd "C-c a") #'aider-transient-menu)
+  ;; (define-key global-map (kbd "C-c a") #'aider-transient-menu)
 
   ;; https://github.com/Aider-AI/aider/blob/main/aider/resources/model-settings.yml
   ;; See ~/.aider.conf.yml
