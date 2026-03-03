@@ -158,6 +158,30 @@
 )
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
+;; agent buffer name looks like *claude*:~/git/dcom-web/:default*
+
+(defhydra wjb/projects/hydra/agent (:color blue :columns 3)
+   "Agent in project"
+        ("d" #'wjb/switch-to-agent "current" :exit nil)
+        ("a" (wjb/switch-to-project-agent wjb/home) "adhoc")
+        ("d" (wjb/switch-to-project-agent (home-subdir "git/dcom-web")) "dcom-web")
+        ("e" (wjb/switch-to-project-agent (home-subdir ".emacs.d")) "emacs.d")
+        ("i" (wjb/switch-to-project-agent (home-subdir "scm/sd/cicero")) "cicero")
+        ("q" (wjb/switch-to-project-agent (home-subdir "scm/sd/equivalency")) "equivalency")
+        ("h" (wjb/switch-to-project-agent (home-subdir "scm/sd/hegemone")) "hegemone")
+        ("n" (wjb/switch-to-project-agent (home-subdir "scm/sd/neodarwin")) "neodarwin")
+        ("m" (wjb/switch-to-project-agent (home-subdir "scm/sandinmyjoints/amcat-ext")) "amcat-ext")
+        ("r" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-router")) "sd-router")
+        ("u" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-auth")) "sd-auth")
+        ("c" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
+        ("l" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
+        ("p" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-playground")) "sd-playground")
+        ("g" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
+        ("w" (wjb/switch-to-project-agent (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ("o" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-reword")) "sd-reword")
+)
+(global-set-key (kbd "H-c") 'wjb/projects/hydra/agent/body)
+
 ;; TODO: rewrite using defhydra+
 ;; see https://github.com/abo-abo/hydra/issues/185
 
