@@ -99,7 +99,7 @@
 (defhydra wjb/projects/hydra (:color blue :columns 3)
    "Switch to project"
         ("a" (wjb/switch-to-project-vterm (expand-file-name "~")) "adhoc")
-        ("d" (projectile-switch-project-by-name (home-subdir "git/dcom-web")) "dcom-web")
+        ("w" (projectile-switch-project-by-name (home-subdir "git/dcom-web")) "dcom-web")
         ("e" (projectile-switch-project-by-name (home-subdir ".emacs.d")) "emacs.d")
         ("i" (projectile-switch-project-by-name (home-subdir "scm/sd/cicero")) "cicero")
         ("q" (projectile-switch-project-by-name (home-subdir "scm/sd/equivalency")) "equivalency")
@@ -112,7 +112,7 @@
         ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
         ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
-        ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ;; ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
         ("o" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
 (global-set-key (kbd "H-p") 'wjb/projects/hydra/body) ;; analogous to C-c C-p
@@ -139,7 +139,7 @@
    "Shell in project"
         ("d" #'wjb/switch-to-vterm "current" :exit nil)
         ("a" (wjb/switch-to-project-vterm wjb/home) "adhoc")
-        ("d" (wjb/switch-to-project-vterm (home-subdir "git/dcom-web")) "dcom-web")
+        ("w" (wjb/switch-to-project-vterm (home-subdir "git/dcom-web")) "dcom-web")
         ("e" (wjb/switch-to-project-vterm (home-subdir ".emacs.d")) "emacs.d")
         ("i" (wjb/switch-to-project-vterm (home-subdir "scm/sd/cicero")) "cicero")
         ;; ("i" (wjb/switch-to-project-vterm (home-subdir "scm/wjb/nicer-email-extension")) "nicer")
@@ -153,18 +153,40 @@
         ("l" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
-        ("w" (wjb/switch-to-project-vterm (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ;; ("w" (wjb/switch-to-project-vterm (home-subdir "scm/sd/word-of-the-day")) "wotd")
         ("o" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
 ;; agent buffer name looks like *claude*:~/git/dcom-web/:default*
 
+(defun wjb/agent-buffer-name (proj-dir)
+  "Return the Claude agent buffer name for PROJ-DIR."
+  (let ((path (abbreviate-file-name (file-name-as-directory proj-dir))))
+    (format "*claude:%s:default*" path)))
+
+(defun wjb/switch-to-agent ()
+  (interactive)
+  (push-mark)
+  (let* ((proj-dir (projectile-project-root))
+         (buf-name (wjb/agent-buffer-name proj-dir))
+         (buf (get-buffer buf-name)))
+    (if buf
+        (switch-to-buffer buf)
+      (message "No agent buffer found: %s" buf-name))))
+
+(defun wjb/switch-to-project-agent (proj-dir)
+  (let* ((buf-name (wjb/agent-buffer-name proj-dir))
+         (buf (get-buffer buf-name)))
+    (if buf
+        (switch-to-buffer buf)
+      (message "No agent buffer found: %s" buf-name))))
+
 (defhydra wjb/projects/hydra/agent (:color blue :columns 3)
    "Agent in project"
         ("d" #'wjb/switch-to-agent "current" :exit nil)
         ("a" (wjb/switch-to-project-agent wjb/home) "adhoc")
-        ("d" (wjb/switch-to-project-agent (home-subdir "git/dcom-web")) "dcom-web")
+        ("w" (wjb/switch-to-project-agent (home-subdir "git/dcom-web")) "dcom-web")
         ("e" (wjb/switch-to-project-agent (home-subdir ".emacs.d")) "emacs.d")
         ("i" (wjb/switch-to-project-agent (home-subdir "scm/sd/cicero")) "cicero")
         ("q" (wjb/switch-to-project-agent (home-subdir "scm/sd/equivalency")) "equivalency")
@@ -177,7 +199,7 @@
         ("l" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
-        ("w" (wjb/switch-to-project-agent (home-subdir "scm/sd/word-of-the-day")) "wotd")
+        ;; ("w" (wjb/switch-to-project-agent (home-subdir "scm/sd/word-of-the-day")) "wotd")
         ("o" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
 (global-set-key (kbd "H-c") 'wjb/projects/hydra/agent/body)
