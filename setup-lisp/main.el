@@ -3584,7 +3584,23 @@ root."
   )
 
 (use-package lsp-mode)
-(use-package lsp-java :after (lsp-mode) :hook (java-ts-mode . lsp-deferred))
+(use-package lsp-java :after (lsp-mode)
+  :hook (java-ts-mode . lsp-deferred)
+  :custom
+  (defun my/java-capf-setup ()
+    (setq-local completion-at-point-functions
+                (list
+                 ;; LSP completion first
+                 (cape-capf-buster #'lsp-completion-at-point)
+                 ;; then add a few fallbacks
+                 #'cape-file
+                 #'cape-dabbrev))
+    (setq-local completion-at-point-functions
+              (remove #'forge-topic-completion-at-point
+                      completion-at-point-functions)))
+
+  (add-hook 'java-ts-mode-hook #'my/java-capf-setup)
+  )
 (use-package dap-java :after (lsp-java) :ensure nil)
 
 
