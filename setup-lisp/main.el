@@ -4173,15 +4173,19 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   (with-eval-after-load 'prog-mode
     (define-key prog-mode-map (kbd "C-c C-a") #'ai-code-menu)))
 
+(use-package acp
+  :load-path "elisp/acp.el")
+
 (use-package agent-shell
-  :config (setq agent-shell-github-environment
-              (agent-shell-make-environment-variables
-               "NODE_EXTRA_CA_CERTS" "/Users/wbert/.ssl/ca-bundle.pem"
-               "NODE_OPTIONS" "--use-system-ca"))
+  :after (acp)
+  :config
+  (setq agent-shell-github-environment
+        (agent-shell-make-environment-variables
+         "NODE_EXTRA_CA_CERTS" "/Users/wbert/.ssl/ca-bundle.pem"
+         ;; "NODE_OPTIONS" "--use-system-ca"
+         ))
   (setq agent-shell-preferred-agent-config (agent-shell-github-make-copilot-config))
   (setq agent-shell-github-command '( "copilot" "--acp")))
-
-
 
 (use-package vertico
   :ensure t
