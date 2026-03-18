@@ -4280,7 +4280,6 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
 
 (use-package nerd-icons-completion
   :after marginalia
-  :disabled
   :config
   (nerd-icons-completion-mode)
   (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
