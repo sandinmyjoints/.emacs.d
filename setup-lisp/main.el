@@ -3533,6 +3533,8 @@ root."
 (use-package lsp-ui
   :commands lsp-ui-mode
   :after (lsp-mode)
+  :config
+  (setq lsp-ui-doc-enable nil)
   )
 
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
@@ -3545,15 +3547,15 @@ root."
   ;; (dap-auto-configure-mode)
   (setq dap-print-io nil)
 
-  (dap-ui-mode -1)
+  ;; (dap-ui-mode -1)
   ;; enables mouse hover support
-  (dap-tooltip-mode -1)
+  ;; (dap-tooltip-mode -1)
   ;; use tooltips for mouse hover
   ;; if it is not enabled `dap-mode' will use the minibuffer.
-  (tooltip-mode -1)
+  ;; (tooltip-mode -1)
   ;; displays floating panel with debug buttons
   ;; requies emacs 26+
-  (dap-ui-controls-mode -1)
+  ;; (dap-ui-controls-mode -1)
 
   (dap-register-debug-template "DCOM web"
   (list :type "java"
