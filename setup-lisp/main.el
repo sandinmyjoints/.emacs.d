@@ -4143,6 +4143,10 @@ is already narrowed."
   (setq claude-code-terminal-backend 'vterm) ;; has an issue with deleting the frame
   ;; see https://github.com/stevemolitor/claude-code.el/blob/becece683bcf60f7b150a87a30ef14885dcf8ce3/claude-code.el#L742
   ;; (setq claude-code-terminal-backend 'eat)
+  :bind-keymap
+  ("C-c k" . claude-code-command-map)
+  :bind
+  ("M-c" . claude-code-transient)
   )
 
 (use-package ai-code

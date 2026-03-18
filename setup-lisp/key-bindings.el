@@ -122,7 +122,7 @@
 
 (global-set-key (kbd "M-_") #'wjb/camelscore-word-at-point)
 
-(global-set-key "\M-c" 'endless/capitalize)
+;; (global-set-key "\M-c" 'endless/capitalize)
 ;; (global-key "\M-l" 'endless/downcase) ;; using for lsp-mode
 (global-set-key "\M-u" 'endless/upcase)
 
