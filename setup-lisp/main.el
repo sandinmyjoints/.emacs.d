@@ -4151,6 +4151,7 @@ is already narrowed."
   :config
   (setq ai-code-github-copilot-cli-program "copilot-sandbox"
         ai-code-backends-infra-use-side-window nil)
+  (setq ai-code-github-copilot-cli-env-vars '("NODE_EXTRA_CA_CERTS=/Users/wbert/.ssl/ca-bundle.pem"))
 
   ;; monkey patch to use switch-to-buffer
   (defun ai-code-backends-infra--switch-to-session-buffer (buffer-name missing-message)
