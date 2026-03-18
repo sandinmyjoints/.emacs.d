@@ -156,6 +156,40 @@
 
 ;; gfind . -ipath '*' ! -name "TAGS" ! -name "*~" ! -name "PIE.htc" ! -name "#*#" ! -name "*.min.js" ! -name "*-min-*.js" ! -name "*-min.js" ! -name "*-min-async.js" ! -name "*-atf-min.css" ! -name "*-min.css" ! -path "*/node_modules*" ! -path "*/public/webpack-assets*" ! -path "*/public/js/vendors~components*" ! -path "*/.git*" ! -path "*local/Yarn*" ! -path "*/.storybook-static*" ! -path "*/_tmp*" ! -path "*/coverage*" ! -path "*/dist/*" ! -path "*/dist-*" ! -path "*/.eglot-java*" -not -size +512k -type f -print0| xargs -0 -P 2  rg -C 5 --no-heading -niH -e 'fff'
 
+(require 'mini-frame)
+
+(defun wjb-read-from-minibuffer-top (prompt &optional initial-contents keymap
+                                           read hist default inherit)
+  "Like `read-from-minibuffer', but show minibuffer in a top childframe temporarily."
+  (let ((was-on mini-frame-mode)
+        (mini-frame-resize nil)
+        (mini-frame-show-parameters
+         '(
+           (left . 0.5)
+           (top . 0.1)
+           (width . 0.4)
+
+           ;; Padding:
+           (internal-border-width . 10) ; main padding knob
+           (left-fringe . 10)           ; extra horizontal padding
+           (right-fringe . 10)
+
+           ;; Optional: visible border (separate from padding)
+           (border-width . 1)
+
+           (height . 2)
+
+           ;; Optional aesthetics
+           (undecorated . t))))
+    (unwind-protect
+        (progn
+          (unless was-on
+            (mini-frame-mode 1))
+          ;; You can also let-bind mini-frame vars here if you want per-call tweaks.
+          (read-from-minibuffer prompt initial-contents keymap read hist default inherit))
+      (unless was-on
+        (mini-frame-mode -1)))))
+
 ;; C-x 9 -> 9 = p reversed
 (defun find-in-project-glob-by-path (path name-pattern grep-string prefix)
   "find|xargs in current project dir by path. Negate with prefix arg."
@@ -183,8 +217,8 @@
                                                 (when-let ((proj (project-current nil)))
                                                   (project-root proj))))))
                      ;; (read-directory-name "starting point: " (file-name-as-directory wjb-find-in-project-default-dir))
-                     (read-from-minibuffer "name glob: " "*")
-                     (read-from-minibuffer "search for: ")
+                     (wjb-read-from-minibuffer-top "name glob: " "*")
+                     (wjb-read-from-minibuffer-top "search for: ")
                      current-prefix-arg))
   (unless (equal grep-string "")
       (let* ((default-directory path)
