@@ -64,6 +64,7 @@ COMMAND, ARG, and _IGNORED follow the `company-mode' backend protocol."
             (regexp (company-dabbrev-code--make-regexp arg)))
        (company-dabbrev-code--filter
         arg
+        ""
         (company-cache-fetch
          'dabbrev-code-for-text-candidates
          (lambda ()
