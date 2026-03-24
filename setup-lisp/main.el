@@ -2633,15 +2633,10 @@ Insert .* between each char."
     (wjb/append-capfs
      #'cape-emoji
      #'cape-file
-     ;; (cape-company-to-capf #'company-files)
      (cape-capf-super
       (cape-company-to-capf #'company-dabbrev-code-for-text)
       #'cape-abbrev
       #'cape-dabbrev)
-     ;; (cape-capf-debug (cape-capf-super
-     ;;  (cape-company-to-capf #'company-dabbrev-code-for-text)
-     ;;  #'cape-abbrev
-     ;;  #'cape-dabbrev))
      ))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
   (add-hook 'git-commit-mode-hook #'wjb/cape-text-mode 90)
@@ -2653,17 +2648,29 @@ Insert .* between each char."
     )
   (add-hook 'org-mode-hook #'wjb/cape-org-mode)
 
+  ;; this doesn't really replicate company-dabbrev-code. and the problem with
+  ;; using company-dabbrev-code is that it seems to activate company-mode in
+  ;; java files, which competes with cape. has something to do with lsp.
+
+  ;; (defun my-in-code-context-p (&rest _ignore)
+  ;;   "Non-nil if point is in code (not in string/comment)."
+  ;;   (let ((ppss (syntax-ppss)))
+  ;;     (and (not (nth 3 ppss))   ; string
+  ;;          (not (nth 4 ppss))))) ; comment
+
+  ;; (defalias 'my-cape-dabbrev-code
+  ;;   (cape-wrap-predicate #'cape-dabbrev #'my-in-code-context-p))
+
+  ;; (add-to-list 'completion-at-point-functions #'my-cape-dabbrev-code)
+
   ;; Programming modes: closer to previous company stacked backends.
   (defun wjb/cape-prog-mode ()
     (setq-local corfu-auto-delay 0.2)
     (wjb/append-capfs
      #'cape-keyword
-     #'cape-file
-     (cape-company-to-capf #'company-dabbrev-code)
-     ;; (cape-capf-super
-     ;;  (cape-company-to-capf #'company-dabbrev-code)
-     ;;  #'cape-dabbrev)
-     ))
+     #'cape-file)
+    (unless (derived-mode-p 'java-ts-mode)
+      (wjb/append-capfs (cape-company-to-capf #'company-dabbrev-code))))
   (add-hook 'prog-mode-hook #'wjb/cape-prog-mode)
 
   ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
