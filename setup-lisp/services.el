@@ -48,6 +48,7 @@
 (defvar wjb/sd-services
   '(
     "cicero"
+    "cms"
     "dcom-web"
     "hegemone"
     "neodarwin"
@@ -57,7 +58,7 @@
     "sd-leaderboards"
     "sd-playground"
     "sd-router"
-    "sd-scribe"
+    ;; "sd-scribe"
     "sd-spelling"
     "word-of-the-day"
     "sd-reword"
@@ -68,6 +69,7 @@
                       "adhoc"
                       "amcat-ext"
                       "cicero"
+                      "cms"
                       "dcom-web"
                       "equivalency"
                       "git-mine"
@@ -79,7 +81,7 @@
                       "sd-leaderboards"
                       "sd-playground"
                       "sd-router"
-                      "sd-scribe"
+                      ;; "sd-scribe"
                       "word-of-the-day"
                       "sd-reword"
                       ))
@@ -111,7 +113,8 @@
         ("l" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("r" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-router")) "sd-router")
-        ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
+        ("c" (projectile-switch-project-by-name (home-subdir "git/cms")) "cms")
+        ;; ("c" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ;; ("w" (projectile-switch-project-by-name (home-subdir "scm/sd/word-of-the-day")) "wotd")
         ("o" (projectile-switch-project-by-name (home-subdir "scm/sd/sd-reword")) "sd-reword")
 )
@@ -149,7 +152,8 @@
         ("m" (wjb/switch-to-project-vterm (home-subdir "scm/sandinmyjoints/amcat-ext")) "amcat-ext")
         ("r" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-router")) "sd-router")
         ("u" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-auth")) "sd-auth")
-        ("c" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
+        ("c" (wjb/switch-to-project-vterm (home-subdir "git/cms")) "cms")
+        ;; ("c" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ("l" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-vterm (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
@@ -195,7 +199,8 @@
         ("m" (wjb/switch-to-project-agent (home-subdir "scm/sandinmyjoints/amcat-ext")) "amcat-ext")
         ("r" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-router")) "sd-router")
         ("u" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-auth")) "sd-auth")
-        ("c" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
+        ("c" (wjb/switch-to-project-agent (home-subdir "git/cms")) "cms")
+        ;; ("c" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-scribe")) "sd-scribe")
         ("l" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-leaderboards")) "sd-leaderboards")
         ("p" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-playground")) "sd-playground")
         ("g" (wjb/switch-to-project-agent (home-subdir "scm/sd/sd-gimme-db")) "sd-gimme-db")
