@@ -3525,17 +3525,30 @@ root."
 ;; lsp
 
 ;; (require 'setup-lsp)
+
 (use-package lsp-mode
-  :disabled
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook ((js-mode . lsp-deferred)
-         (typescript-ts-mode . lsp-deferred)
-         (typescript-mode . lsp-deferred))
-  :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-enable nil))
+  (setq lsp-completion-provider :none
+        lsp-enable-snippet nil
+        lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
+
+(use-package lsp-java :after (lsp-mode)
+  :hook (java-ts-mode . lsp-deferred)
+  :custom
+  (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
+  :config
+  (defun my/java-capf-setup ()
+    ;; lsp-completion-mode adds lsp-completion-at-point to the front and
+    ;; sets up the lsp-passthrough completion style it needs.  Don't
+    ;; replace the list — just append fallbacks and clean up unwanted entries.
+    (when (derived-mode-p 'java-ts-mode)
+      (setq-local completion-at-point-functions
+                  (remove #'forge-topic-completion-at-point
+                          completion-at-point-functions))
+      (wjb/append-capfs #'cape-file #'cape-dabbrev)))
+
+  (add-hook 'lsp-completion-mode-hook #'my/java-capf-setup)
+  )
 
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -3592,26 +3605,6 @@ root."
   (dap-node-setup)
   )
 
-(use-package lsp-mode)
-(use-package lsp-java :after (lsp-mode)
-  :hook (java-ts-mode . lsp-deferred)
-  :custom
-  (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
-  :config
-  (defun my/java-capf-setup ()
-    (setq-local completion-at-point-functions
-                (list
-                 ;; LSP completion first
-                 (cape-capf-buster #'lsp-completion-at-point)
-                 ;; then add a few fallbacks
-                 #'cape-file
-                 #'cape-dabbrev))
-    (setq-local completion-at-point-functions
-              (remove #'forge-topic-completion-at-point
-                      completion-at-point-functions)))
-
-  (add-hook 'java-ts-mode-hook #'my/java-capf-setup)
-  )
 (use-package dap-java :after (lsp-java) :ensure nil)
 
 
