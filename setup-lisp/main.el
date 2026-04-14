@@ -3596,6 +3596,8 @@ root."
 (use-package lsp-java :after (lsp-mode)
   :hook (java-ts-mode . lsp-deferred)
   :custom
+  (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
+  :config
   (defun my/java-capf-setup ()
     (setq-local completion-at-point-functions
                 (list
