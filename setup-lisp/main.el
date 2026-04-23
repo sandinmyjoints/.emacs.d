@@ -3980,6 +3980,11 @@ questions.  Else use completion to select the tab to switch to."
         ))))
 
 
+;; Detect per-file indentation (tabs vs spaces, indent width).
+(use-package dtrt-indent
+  :diminish
+  :hook (java-ts-mode . dtrt-indent-mode))
+
 ;; tree-sitter (builtin)
 (use-package treesit
   :config
