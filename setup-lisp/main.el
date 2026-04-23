@@ -1445,6 +1445,7 @@ pasting into other programs."
   ;; (define-key projectile-mode-map (kbd "H-p") 'projectile-command-map)
   (setq projectile-completion-system 'default
         projectile-sort-order 'recently-active)
+  (add-to-list 'projectile-globally-ignored-file-suffixes ".class")
   (require 'setup-projectile))
 
 (use-package counsel-projectile
@@ -3536,7 +3537,14 @@ root."
   :hook (java-ts-mode . lsp-deferred)
   :custom
   (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
+  (lsp-java-progress-reports-enabled nil)
   :config
+  (add-hook 'java-ts-mode-hook
+            (lambda ()
+              (setq-local lsp-java-workspace-dir
+                          (expand-file-name ".lsp-workspace"
+                                            (lsp-workspace-root)))))
+
   (defun my/java-capf-setup ()
     ;; lsp-completion-mode adds lsp-completion-at-point to the front and
     ;; sets up the lsp-passthrough completion style it needs.  Don't
