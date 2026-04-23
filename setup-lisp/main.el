@@ -470,6 +470,7 @@
                 flycheck-temp-prefix ".flycheck"
                 flycheck-navigation-minimum-level 'error
                 flycheck-error-list-minimum-level 'info)
+  (add-hook 'flycheck-error-list-mode-hook #'visual-line-mode)
   (setq flycheck-eslint-args '("--no-color"))
 
 (defun flycheck-jump-in-buffer (buffer error)
