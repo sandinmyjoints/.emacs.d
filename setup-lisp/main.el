@@ -3438,52 +3438,19 @@ Interactively also sends a terminating newline."
   (add-hook 'vterm-copy-mode-hook #'toggle-vterm-copy-mode-cursor)
 
   (setq vterm-kill-buffer-on-exit t)
-  (push "C-M-o" vterm-keymap-exceptions)
-  (push "C-o" vterm-keymap-exceptions)
-  (push "C-u" vterm-keymap-exceptions)
-  ;; (push (kbd "C-<space>") vterm-keymap-exceptions)
-  (vterm--exclude-keys vterm-mode-map vterm-keymap-exceptions)
-  ;; hack: exclude will overwrite these, so they need to be re-defined. Would
-  ;; be better if vterm defined them in a defun.
-  ;; this may not be needed anymore -- need to try without it
-  (define-key vterm-mode-map [tab]                       #'vterm-send-tab)
-  (define-key vterm-mode-map (kbd "TAB")                 #'vterm-send-tab)
-  (define-key vterm-mode-map [backtab]                   #'vterm--self-insert)
-  (define-key vterm-mode-map [backspace]                 #'vterm-send-backspace)
-  (define-key vterm-mode-map (kbd "DEL")                 #'vterm-send-backspace)
-  (define-key vterm-mode-map [M-backspace]               #'vterm-send-meta-backspace)
-  (define-key vterm-mode-map (kbd "M-DEL")               #'vterm-send-meta-backspace)
-  (define-key vterm-mode-map [return]                    #'vterm-send-return)
-  (define-key vterm-mode-map (kbd "RET")                 #'vterm-send-return)
-  (define-key vterm-mode-map [left]                      #'vterm-send-left)
-  (define-key vterm-mode-map [right]                     #'vterm-send-right)
-  (define-key vterm-mode-map [up]                        #'vterm-send-up)
-  (define-key vterm-mode-map [down]                      #'vterm-send-down)
-  (define-key vterm-mode-map [prior]                     #'vterm-send-prior)
-  (define-key vterm-mode-map [next]                      #'vterm-send-next)
-  (define-key vterm-mode-map [home]                      #'vterm--self-insert)
-  (define-key vterm-mode-map [end]                       #'vterm--self-insert)
-  (define-key vterm-mode-map [escape]                    #'vterm--self-insert)
-  (define-key vterm-mode-map [remap yank]                #'vterm-yank)
-  (define-key vterm-mode-map [remap yank-pop]            #'vterm-yank-pop)
-  (define-key vterm-mode-map [remap mouse-yank-primary]  #'vterm-yank-primary)
-  (define-key vterm-mode-map (kbd "C-SPC")               #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-_")                 #'vterm-undo)
-  (define-key vterm-mode-map (kbd "M-.")                 #'vterm-send-meta-dot)
-  (define-key vterm-mode-map (kbd "M-,")                 #'vterm-send-meta-comma)
-  (define-key vterm-mode-map (kbd "C-c C-y")             #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-c C-c")             #'vterm-send-C-c)
-  (define-key vterm-mode-map (kbd "C-c C-l")             #'vterm-clear-scrollback)
-  (define-key vterm-mode-map [remap self-insert-command] #'vterm--self-insert)
-  (define-key vterm-mode-map (kbd "C-c C-t")             #'vterm-copy-mode)
 
-  (defvar wjb/tmux-in-vterm nil)
-  (make-variable-buffer-local 'wjb/tmux-in-vterm)
+  ;; Remove bindings we want Emacs to handle instead of sending to the terminal.
+  (define-key vterm-mode-map (kbd "C-M-o") nil)
+  (define-key vterm-mode-map (kbd "C-o") nil)
+  (define-key vterm-mode-map (kbd "C-u") nil)
+  (define-key vterm-mode-map (kbd "C-l") nil) ;; this was vterm-clear; will have to call that manually
 
-  (defun set-tmux-in-vterm (arg)
-    ;; (message (format "set-tmux-in-vterm: %s" arg))
-    (setq wjb/tmux-in-vterm (if (s-equals? arg "0") nil t)))
-  (push '("set-tmux-in-vterm" set-tmux-in-vterm) vterm-eval-cmds)
+  ;; Add bindings we want to go directly to the terminal.
+  (define-key vterm-mode-map (kbd "C-c C-c") #'vterm--self-insert)
+  (define-key vterm-mode-map (kbd "C-]") #'vterm--self-insert)
+
+  ;; Use C-q as a bypass, so that eg C-q C-o will go to claude.
+  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key)
 
   (defun wjb/vterm-maybe-send-C-v ()
     "Send C-v if tmux is on, otherwise don't send and do scroll-up-command instead."
@@ -3491,14 +3458,21 @@ Interactively also sends a terminating newline."
     (if wjb/tmux-in-vterm
         (call-interactively #'vterm-send-C-v)
       (call-interactively #'scroll-up-command)))
+  (define-key vterm-mode-map (kbd "C-v") #'wjb/vterm-maybe-send-C-v)
 
-  (define-key vterm-mode-map (kbd "C-v")             #'wjb/vterm-maybe-send-C-v)
+  ;; should not be necessary anymore
+  ;; (defun vterm-send-close-square-bracket ()
+  ;;   "Sends `C-]' to libvterm."
+  ;;   (interactive)
+  ;;   (vterm-send-key "]" nil nil t))
+  ;; (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket)
 
-  (defun vterm-send-close-square-bracket ()
-    "Sends `C-]' to libvterm."
-    (interactive)
-    (vterm-send-key "]" nil nil t))
-  (define-key vterm-mode-map (kbd "C-]") #'vterm-send-close-square-bracket))
+  (defvar-local wjb/tmux-in-vterm nil)
+  (defun set-tmux-in-vterm (arg)
+    ;; (message (format "set-tmux-in-vterm: %s" arg))
+    (setq wjb/tmux-in-vterm (if (s-equals? arg "0") nil t)))
+  (push '("set-tmux-in-vterm" set-tmux-in-vterm) vterm-eval-cmds)
+  )
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
@@ -3521,7 +3495,7 @@ root."
           (unless (require 'vterm nil :noerror)
             (error "Package 'vterm' not found"))
           (vterm buffer))))))
-(global-set-key (kbd "H-`") #'wjb/vterm-dwim)
+;; (global-set-key (kbd "H-`") #'wjb/vterm-dwim)
 
 
 ;; lsp
