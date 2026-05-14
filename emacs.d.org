@@ -2929,3 +2929,4 @@ Remove 'basic' from 'reporters' option. To match 'basic' reporter 100%, use conf
 * java
   - https://github.com/yveszoundi/eglot-java
   - Eclipse JDT LSP server installed in folder "/Users/wbert/.emacs.d/share/eclipse.jdt.ls".
+    - or /Users/wbert/.emacs.d/.cache/lsp/eclipse.jdt.ls
