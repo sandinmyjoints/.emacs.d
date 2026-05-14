@@ -4151,6 +4151,23 @@ is already narrowed."
   (setq claude-code-terminal-backend 'vterm) ;; has an issue with deleting the frame
   ;; see https://github.com/stevemolitor/claude-code.el/blob/becece683bcf60f7b150a87a30ef14885dcf8ce3/claude-code.el#L742
   ;; (setq claude-code-terminal-backend 'eat)
+  ;; (setq claude-code-start-hook nil)
+  (defun claude-code--clean-killed-text (fun beg end &rest args)
+    "Strip trailing whitespace per line and collapse padded lines in claude-code buffers."
+    (let ((result (apply fun beg end args)))
+      (if (and (string-prefix-p "*claude:" (buffer-name))
+               (bound-and-true-p vterm-copy-mode))
+          (progn
+            (replace-regexp-in-string " +\n" "\n" result))
+        result)))
+  (advice-add 'filter-buffer-substring :around #'claude-code--clean-killed-text)
+
+  (defvar-keymap claude-code-extra-map
+    "C-c C-t" #'claude-code-toggle-read-only-mode)
+  (define-minor-mode claude-code-extra-keys-mode
+    "Extra key bindings for Claude Code buffers."
+    :keymap claude-code-extra-map)
+  (add-hook 'claude-code-start-hook #'claude-code-extra-keys-mode)
   :bind-keymap
   ("C-c k" . claude-code-command-map)
   :bind
