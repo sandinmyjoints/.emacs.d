@@ -99,10 +99,21 @@
 ;;                                 :weight normal
 ;;                                 :width normal))
 
+;; check if a font is installed:
+;; (find-font (font-spec :family "Zapf Dingbats"))
+
 ;; small, light: medium
 ;; small, dark: light
 ;; large, light: medium
 ;; large, dark: medium
+
+;; important - tell emacs to use our fontset settings
+(setq use-default-font-for-symbols nil)
+
+;; add least preferred fonts first, most preferred last
+(set-fontset-font t 'symbol "STIX Two Math" nil 'prepend)
+(set-fontset-font t 'symbol "Zapf Dingbats" nil 'prepend)
+(set-fontset-font t 'symbol "Menlo" nil 'prepend)
 
 (defun wjb/font-deja ()
   "Has strong Unicode support. Works well with dark and light
@@ -672,6 +683,9 @@ OK on large screens."
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (provide 'appearance)
 
