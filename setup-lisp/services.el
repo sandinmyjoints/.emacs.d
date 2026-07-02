@@ -166,25 +166,26 @@
 
 (defun wjb/agent-buffer-name (proj-dir)
   "Return the Claude agent buffer name for PROJ-DIR."
-  (let ((path (abbreviate-file-name (file-name-as-directory proj-dir))))
+  (let ((path (abbreviate-file-name (file-truename (file-name-as-directory proj-dir)))))
     (format "*claude:%s:default*" path)))
 
 (defun wjb/switch-to-agent ()
   (interactive)
   (push-mark)
-  (let* ((proj-dir (projectile-project-root))
-         (buf-name (wjb/agent-buffer-name proj-dir))
-         (buf (get-buffer buf-name)))
-    (if buf
-        (switch-to-buffer buf)
-      (message "No agent buffer found: %s" buf-name))))
+  (wjb/switch-to-project-agent (projectile-project-root)))
 
 (defun wjb/switch-to-project-agent (proj-dir)
   (let* ((buf-name (wjb/agent-buffer-name proj-dir))
          (buf (get-buffer buf-name)))
     (if buf
         (switch-to-buffer buf)
-      (message "No agent buffer found: %s" buf-name))))
+      ;; No agent buffer yet: start Claude in PROJ-DIR and switch to it.
+      ;; `claude-code' derives its directory from `claude-code--directory',
+      ;; so override it (same technique as `claude-code-start-in-directory').
+      ;; The single prefix arg tells `claude-code' to switch to the new buffer.
+      (cl-letf (((symbol-function 'claude-code--directory)
+                 (lambda () proj-dir)))
+        (claude-code '(4))))))
 
 (defhydra wjb/projects/hydra/agent (:color blue :columns 3)
    "Agent in project"
