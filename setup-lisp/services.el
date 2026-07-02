@@ -162,11 +162,11 @@
 )
 (global-set-key (kbd "H-d") 'wjb/projects/hydra/shell/body)
 
-;; agent buffer name looks like *claude*:~/git/dcom-web/:default*
+;; agent buffer name looks like *claude*:~/git/dcom-web:default*
 
 (defun wjb/agent-buffer-name (proj-dir)
   "Return the Claude agent buffer name for PROJ-DIR."
-  (let ((path (abbreviate-file-name (file-truename (file-name-as-directory proj-dir)))))
+  (let ((path (abbreviate-file-name (directory-file-name (file-truename proj-dir)))))
     (format "*claude:%s:default*" path)))
 
 (defun wjb/switch-to-agent ()
