@@ -669,9 +669,11 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
   (eldoc-add-command 'smart-jump-back)
   (eldoc-add-command 'smart-jump-go)
 
-  ;; skip echo-area b/c using eldoc-box-hover-mode
+  ;; skip echo-area b/c using eldoc-box-hover-mode. keep
+  ;; eldoc-display-in-buffer: it maintains eldoc--doc-buffer (updated
+  ;; silently on idle, only pops a window when called interactively),
+  ;; which eldoc-box-help-at-point and eldoc-doc-buffer require.
   (remove-hook 'eldoc-display-functions #'eldoc-display-in-echo-area)
-  (remove-hook 'eldoc-display-functions #'eldoc-display-in-buffer)
 
   ;; eldoc-flycheck bridge. obviates flycheck-posframe.
   (defun my/eldoc-flycheck-errors (callback)
