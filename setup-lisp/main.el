@@ -881,10 +881,6 @@ pasting into other programs."
 
   (define-key org-mode-map (kbd "C-c m") #'org-export-to-clipboard-as-md)
 
-  ;; what do these do?
-  ;; (define-key global-map "\C-cl" 'org-store-link)
-  ;; (define-key global-map "\C-ca" 'org-agenda)
-
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
 
@@ -3505,22 +3501,37 @@ root."
 ;; (require 'setup-lsp)
 
 (use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+
   :config
+
   (setq lsp-completion-provider :none
-        lsp-enable-snippet nil
-        lsp-project-blacklist '("neodarwin" "neodarwin-worktree")))
+        lsp-enable-snippet t
+        lsp-inlay-hint-enable t
+        lsp-project-blacklist '("neodarwin" "neodarwin-worktree"))
+
+  ;; was lsp-lv-message
+  (setq lsp-signature-function #'lsp-signature-posframe)
+  (setq lsp-signature-posframe-params
+        (append lsp-signature-posframe-params
+                (list :override-parameters '((alpha-background . 80))))))
 
 (use-package lsp-java :after (lsp-mode)
   :hook (java-ts-mode . lsp-deferred)
   :custom
   (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
   (lsp-java-progress-reports-enabled nil)
+  (lsp-java-inlay-hints-parameter-names-enabled "all")
   :config
-  (add-hook 'java-ts-mode-hook
-            (lambda ()
-              (setq-local lsp-java-workspace-dir
-                          (expand-file-name ".lsp-workspace"
-                                            (lsp-workspace-root)))))
+  ;; Leave `lsp-java-workspace-dir' at its default (~/.emacs.d/workspace).
+  ;; The jdtls client is :multi-root, so one server holds all Java projects
+  ;; as workspace folders in a single Eclipse workspace/data dir. Pointing
+  ;; -data inside a project root (the old <project>/.lsp-workspace) made the
+  ;; data dir overlap the project, which fails the Maven import ("... overlaps
+  ;; the workspace location") and drops jdtls into invisible-project mode with
+  ;; no diagnostics. A per-project dir also can't isolate anything here: with
+  ;; one multi-root process there is only one -data dir regardless.
 
   (defun my/java-capf-setup ()
     ;; lsp-completion-mode adds lsp-completion-at-point to the front and
@@ -3542,7 +3553,14 @@ root."
   (setq lsp-ui-doc-enable nil)
   )
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package consult-lsp
+  :after (lsp-mode consult)
+  :bind (:map lsp-mode-map
+              ([remap xref-find-apropos] . consult-lsp-symbols)
+              ("C-c l s" . consult-lsp-file-symbols)
+              ("C-c l d" . consult-lsp-diagnostics)))
+
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode

@@ -251,6 +251,8 @@
      (cons 'projectile melpa)
 
      (cons 'company melpa)
+     (cons 'lsp-java melpa)
+     (cons 'consult-lsp melpa)
      ;; (cons 'company-restclient melpa)
      ;; (cons 'company-emoji melpa)
      ;; (cons 'company-nginx melpa)
