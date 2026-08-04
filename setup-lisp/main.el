@@ -3502,7 +3502,9 @@ root."
 
 (use-package lsp-mode
   :init
-  (setq lsp-keymap-prefix "C-c l")
+  ;; `C-c l' is bound to `lsp-transient' (below), not the nested
+  ;; `lsp-command-map'. nil stops lsp from binding the command map at all.
+  (setq lsp-keymap-prefix nil)
 
   :config
 
@@ -3555,10 +3557,55 @@ root."
 
 (use-package consult-lsp
   :after (lsp-mode consult)
+  ;; `consult-lsp-file-symbols' and `consult-lsp-diagnostics' live in
+  ;; `lsp-transient' (C-c l) now, so only the apropos remap is a direct key.
+  ;; C-c l s / C-c l d can't be bound here: C-c l is a command, not a prefix.
   :bind (:map lsp-mode-map
-              ([remap xref-find-apropos] . consult-lsp-symbols)
-              ("C-c l s" . consult-lsp-file-symbols)
-              ("C-c l d" . consult-lsp-diagnostics)))
+              ([remap xref-find-apropos] . consult-lsp-symbols)))
+
+;; Flat, discoverable replacement for the nested `lsp-command-map', bound to
+;; `C-c l'. The toggle row shows live [x]/[ ] state and stays open (:transient t).
+(with-eval-after-load 'lsp-mode
+  (require 'transient)
+  (transient-define-prefix lsp-transient ()
+    "LSP menu."
+    [["Find"
+      ("d" "definition"       lsp-find-definition)
+      ("D" "declaration"      lsp-find-declaration)
+      ("i" "implementation"   lsp-find-implementation)
+      ("y" "type def"         lsp-find-type-definition)
+      ("r" "references"       lsp-find-references)
+      ("s" "workspace sym"    consult-lsp-symbols)
+      ("m" "file symbols"     consult-lsp-file-symbols)]
+     ["Refactor"
+      ("R" "rename"           lsp-rename)
+      ("a" "code action"      lsp-execute-code-action)
+      ("o" "organize imports" lsp-organize-imports)]
+     ["Peek / Help"
+      ("j" "peek defs"        lsp-ui-peek-find-definitions)
+      ("J" "peek refs"        lsp-ui-peek-find-references)
+      ("e" "diagnostics"      consult-lsp-diagnostics)
+      ("h" "describe"         lsp-describe-thing-at-point)
+      ("g" "signature"        lsp-signature-activate)]
+     ["Session"
+      ("x" "restart"          lsp-workspace-restart)
+      ("X" "shutdown"         lsp-workspace-shutdown)
+      ("k" "describe session" lsp-describe-session)]]
+    ["Toggles"
+     :class transient-row
+     ("th" lsp-toggle-symbol-highlight :transient t
+      :description (lambda () (format "[%s] highlight"   (if lsp-enable-symbol-highlighting "x" " "))))
+     ("ts" lsp-toggle-signature-auto-activate :transient t
+      :description (lambda () (format "[%s] signature"   (if lsp-signature-auto-activate "x" " "))))
+     ("tf" lsp-toggle-on-type-formatting :transient t
+      :description (lambda () (format "[%s] on-type fmt" (if lsp-enable-on-type-formatting "x" " "))))
+     ("ti" lsp-toggle-trace-io :transient t
+      :description (lambda () (format "[%s] trace io"    (if lsp-log-io "x" " "))))
+     ("tl" lsp-lens-mode :transient t
+      :description (lambda () (format "[%s] lenses"      (if (bound-and-true-p lsp-lens-mode) "x" " "))))
+     ("tb" lsp-headerline-breadcrumb-mode :transient t
+      :description (lambda () (format "[%s] breadcrumb"  (if (bound-and-true-p lsp-headerline-breadcrumb-mode) "x" " "))))])
+  (define-key lsp-mode-map (kbd "C-c l") #'lsp-transient))
 
 ;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
@@ -3566,8 +3613,14 @@ root."
 (use-package dap-mode
   :after (lsp-mode)
   :config
+  ;; Exclude `expressions' to avoid the `dap-ui-expressions-refresh' timer
+  ;; erroring with (wrong-type-argument window-live-p nil) when its window
+  ;; isn't live. Must be set before `dap-auto-configure-mode'.
+  ;; Also exclude `controls': the floating buttons are a posframe (child frame),
+  ;; and refreshing it on the macOS NS build blanks the whole frame for a couple
+  ;; seconds on each click. Use `M-x dap-hydra' to step/continue instead.
+  (setq dap-auto-configure-features '(sessions locals breakpoints tooltip))
   (dap-auto-configure-mode)
-  ;; (dap-auto-configure-mode)
   (setq dap-print-io nil)
 
   ;; (dap-ui-mode -1)
@@ -3608,7 +3661,11 @@ root."
   (dap-node-setup)
   )
 
-(use-package dap-java :after (lsp-java) :ensure nil)
+(use-package dap-java :after (lsp-java) :ensure nil
+  :config
+  ;; Disable hot code replace. It fires on every JDT auto-build (as you type)
+  ;; and spams "There are no classes to redefine." when nothing changed.
+  (setq dap-java-hot-reload 'never))
 
 
 ;; visual-regexp
