@@ -176,7 +176,10 @@
 
 (defun wjb/switch-to-project-agent (proj-dir)
   (let* ((buf-name (wjb/agent-buffer-name proj-dir))
-         (buf (get-buffer buf-name)))
+         ;; The live buffer may carry a trailing slash on the dir; match either.
+         (buf (or (get-buffer buf-name)
+                  (get-buffer (replace-regexp-in-string
+                               ":default\\*\\'" "/:default*" buf-name)))))
     (if buf
         (switch-to-buffer buf)
       ;; No agent buffer yet: start Claude in PROJ-DIR and switch to it.
@@ -184,7 +187,7 @@
       ;; so override it (same technique as `claude-code-start-in-directory').
       ;; The single prefix arg tells `claude-code' to switch to the new buffer.
       (cl-letf (((symbol-function 'claude-code--directory)
-                 (lambda () proj-dir)))
+                 (lambda () (directory-file-name proj-dir))))
         (claude-code '(4))))))
 
 (defhydra wjb/projects/hydra/agent (:color blue :columns 3)
