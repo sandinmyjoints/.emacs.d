@@ -349,4 +349,6 @@ Also converts full stops to commas."
 (global-set-key (kbd "C-8") 'profiler-start)
 (global-set-key (kbd "C-9") 'profiler-report)
 
+(global-set-key (kbd "C-x c") 'claude-code-select-buffer)
+
 (provide 'key-bindings)
