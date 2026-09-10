@@ -102,4 +102,34 @@
       ;; magit-git-executable "/opt/homebrew/Cellar/git/2.45.2/bin/git"
 )
 
+(defun wjb/treemacs-follow-magit-repo (&optional frame-or-window)
+  "Put point in the treemacs window on the root of the viewed magit repo.
+When the selected window shows a `magit-status-mode' buffer whose
+repository is a treemacs project, move point in the treemacs window to
+that repository's root, without leaving the magit buffer.  Does nothing
+when treemacs is not visible.  Meant for `window-buffer-change-functions'
+and `window-selection-change-functions', whose default values pass the
+frame in which a window's buffer or the selected window changed.
+FRAME-OR-WINDOW is that frame, or a window when set as a window
+parameter."
+  (with-demoted-errors "wjb/treemacs-follow-magit-repo: %S"
+    (when (fboundp 'treemacs-get-local-window)
+      (let ((win (cond ((window-live-p frame-or-window) frame-or-window)
+                       ((framep frame-or-window) (frame-selected-window frame-or-window))
+                       (t (selected-window)))))
+        (when (and (window-live-p win)
+                   (eq (window-frame win) (selected-frame)))
+          (with-current-buffer (window-buffer win)
+            (when (derived-mode-p 'magit-status-mode)
+              (let* ((root (treemacs-canonical-path default-directory))
+                     (tw (treemacs-get-local-window))
+                     (project (and root (treemacs--find-project-for-path root))))
+                (when (and tw project (not (eq win tw))
+                           (string= (treemacs-project->path project) root))
+                  (with-selected-window tw
+                    (treemacs-goto-file-node root)))))))))))
+
+(add-hook 'window-buffer-change-functions #'wjb/treemacs-follow-magit-repo)
+(add-hook 'window-selection-change-functions #'wjb/treemacs-follow-magit-repo)
+
 (provide 'setup-magit)
