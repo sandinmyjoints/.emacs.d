@@ -3470,6 +3470,42 @@ Interactively also sends a terminating newline."
     ;; (message (format "set-tmux-in-vterm: %s" arg))
     (setq wjb/tmux-in-vterm (if (s-equals? arg "0") nil t)))
   (push '("set-tmux-in-vterm" set-tmux-in-vterm) vterm-eval-cmds)
+
+  (defun wjb/treemacs-follow-vterm-project (&optional frame-or-window)
+    "Move point in the treemacs side window to the project named by a vterm buffer.
+When the selected window shows a `vterm-mode' buffer named like
+\"*vterm PROJECT*\" and PROJECT is the name of a project in the current
+treemacs workspace, put point in the treemacs window on that project's
+root, without leaving the vterm buffer.  Does nothing when treemacs is
+not visible or the name matches no project.  Meant for
+`window-buffer-change-functions' and `window-selection-change-functions',
+whose default values pass the frame in which a window's buffer or the
+selected window changed."
+    (with-demoted-errors "wjb/treemacs-follow-vterm-project: %S"
+      (when (fboundp 'treemacs-get-local-window)
+        (let ((win (cond ((window-live-p frame-or-window) frame-or-window)
+                         ((framep frame-or-window) (frame-selected-window frame-or-window))
+                         (t (selected-window)))))
+          (when (and (window-live-p win)
+                     (eq (window-frame win) (selected-frame)))
+            (with-current-buffer (window-buffer win)
+              (when (derived-mode-p 'vterm-mode)
+                (let ((tw (treemacs-get-local-window))
+                      (bn (buffer-name)))
+                  (when (and tw (not (eq win tw))
+                             (string-match "\\`\\*vterm \\(.+?\\)\\*\\(?:<[0-9]+>\\)?\\'" bn))
+                    (let* ((name (match-string 1 bn))
+                           (project (seq-find
+                                     (lambda (p) (string= (treemacs-project->name p) name))
+                                     (treemacs-workspace->projects
+                                      (treemacs-current-workspace)))))
+                      (when project
+                        (with-selected-window tw
+                          (treemacs-goto-file-node
+                           (treemacs-project->path project))))))))))))))
+
+  (add-hook 'window-buffer-change-functions #'wjb/treemacs-follow-vterm-project)
+  (add-hook 'window-selection-change-functions #'wjb/treemacs-follow-vterm-project)
   )
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
