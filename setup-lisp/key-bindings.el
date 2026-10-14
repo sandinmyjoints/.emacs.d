@@ -46,6 +46,9 @@
 (global-unset-key (kbd "M-g g"))
 (global-unset-key (kbd "M-g M-g"))
 
+(global-set-key (kbd "C-<wheel-up>") #'ignore)
+(global-set-key (kbd "C-<wheel-down>") #'ignore)
+
 
 ;; navigation, editing, marking, killing
 
