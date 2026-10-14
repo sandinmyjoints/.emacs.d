@@ -3565,6 +3565,7 @@ root."
 ;; (require 'setup-lsp)
 
 (use-package lsp-mode
+  :hook ((json-mode json-ts-mode java-ts-mode) . lsp-deferred)
   :init
   ;; `C-c l' is bound to `lsp-transient' (below), not the nested
   ;; `lsp-command-map'. nil stops lsp from binding the command map at all.
@@ -3584,7 +3585,6 @@ root."
                 (list :override-parameters '((alpha-background . 80))))))
 
 (use-package lsp-java :after (lsp-mode)
-  :hook (java-ts-mode . lsp-deferred)
   :custom
   (lsp-java-completion-import-order ["com" "org" "java" "javax" ])
   (lsp-java-progress-reports-enabled nil)
