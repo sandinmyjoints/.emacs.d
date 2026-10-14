@@ -4151,7 +4151,7 @@ questions.  Else use completion to select the tab to switch to."
 (require 'setup-jtsx-mode)
 
 (use-package combobulate
-  ;; :disabled
+  :disabled
   :preface
   ;; (setq combobulate-key-prefix "C-c .")
   (setq combobulate-key-prefix "M-c") ;; or M-j
