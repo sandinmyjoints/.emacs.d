@@ -2264,8 +2264,10 @@ Insert .* between each char."
   ;; (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem")
   ;; (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
   )
-(setq gnutls-trustfiles '("/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/usr/ssl/certs/ca-bundle.crt" "/usr/local/share/certs/ca-root-nss.crt" "/etc/ssl/cert.pem" "/etc/certs/ca-certificates.crt"))
-(setq gnutls-trustfiles '("/usr/local/etc/openssl/cert.pem"))
+;; GnuTLS can't read the macOS Keychain. Homebrew's bundle includes Keychain
+;; roots such as Zscaler's; /etc/ssl/cert.pem has only Apple's standard roots.
+;; Refresh Homebrew's bundle with: brew postinstall ca-certificates.
+(setq gnutls-trustfiles '("/opt/homebrew/etc/ca-certificates/cert.pem" "/etc/ssl/cert.pem"))
 
 
 ;; Yasnippet.
