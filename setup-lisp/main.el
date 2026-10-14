@@ -2629,14 +2629,18 @@ Insert .* between each char."
 
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
+    (require 'dabbrev)
     (setq-local corfu-auto-delay 0.2)
+    (setq-local dabbrev-abbrev-char-regexp "\\sw\\|\\s_\\|[.@-]")
+    (setq-local dabbrev-abbrev-skip-leading-regexp "[.-]")
     (wjb/append-capfs
      #'cape-emoji
      #'cape-file
      (cape-capf-super
+      (cape-capf-predicate #'cape-dabbrev
+                           (lambda (cand) (not (string-match-p "[.@-]\\'" cand))))
       (cape-company-to-capf #'company-dabbrev-code-for-text)
-      #'cape-abbrev
-      #'cape-dabbrev)
+      #'cape-abbrev)
      ))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
   (add-hook 'git-commit-mode-hook #'wjb/cape-text-mode 90)
@@ -2683,6 +2687,26 @@ Insert .* between each char."
         company-dabbrev-code-other-buffers 'code
         company-dabbrev-code-time-limit 0.3
         company-dabbrev-code-everywhere t)
+
+  (defvar wjb/cape-dabbrev-excluded-modes
+    '(vterm-mode magit-process-mode compilation-mode so-long-mode treemacs-mode))
+
+  (defun wjb/cape-dabbrev-buffers ()
+    (let* ((cur (current-buffer))
+           (visible (mapcar #'window-buffer (window-list)))
+           (proj (project-current))
+           (others (if proj
+                       (project-buffers proj)
+                     (cdr (cape-same-mode-buffers)))))
+      (cons cur
+            (seq-remove
+             (lambda (buf)
+               (or (eq buf cur)
+                   (apply #'provided-mode-derived-p
+                          (buffer-local-value 'major-mode buf)
+                          wjb/cape-dabbrev-excluded-modes)))
+             (delete-dups (append visible others))))))
+  (setq cape-dabbrev-buffer-function #'wjb/cape-dabbrev-buffers)
 
   ;; Bridge company-only backends (e.g. tide) into CAPF if/when they load.
   (with-eval-after-load 'tide
