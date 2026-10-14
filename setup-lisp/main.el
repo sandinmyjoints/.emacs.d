@@ -3470,6 +3470,7 @@ Interactively also sends a terminating newline."
   (define-key vterm-mode-map (kbd "C-o") nil)
   (define-key vterm-mode-map (kbd "C-u") nil)
   (define-key vterm-mode-map (kbd "C-l") nil) ;; this was vterm-clear; will have to call that manually
+  (define-key vterm-mode-map (kbd "M-c") nil)
 
   ;; Add bindings we want to go directly to the terminal.
   (define-key vterm-mode-map (kbd "C-c C-c") #'vterm--self-insert)
