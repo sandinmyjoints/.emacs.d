@@ -2889,16 +2889,20 @@ If buffer is not visiting a file, do nothing."
 
 ;; Prettier.
 ;;
+(defun wjb/prettier-js-default-args ()
+  (setq-local prettier-js-args
+              '("--single-quote"
+                "--trailing-comma" "es5"
+                "--config-precedence" "prefer-file")))
+
 (use-package prettier-js
   :hook ((js-base-mode . prettier-js-mode)
-         (typescript-ts-base-mode . prettier-js-mode))
+         (typescript-ts-base-mode . prettier-js-mode)
+         (js-base-mode . wjb/prettier-js-default-args)
+         (typescript-ts-base-mode . wjb/prettier-js-default-args))
   :config
   (diminish 'prettier-js-mode)
-  (setq prettier-js-width-mode 'fill)
-  (setq-local prettier-js-args
-        '("--single-quote"
-          "--trailing-comma"
-          "es5")))
+  (setq prettier-js-width-mode 'fill))
 
 (use-package indium
   :disabled
