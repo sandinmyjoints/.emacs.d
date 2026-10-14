@@ -4310,6 +4310,69 @@ is already narrowed."
     "Extra key bindings for Claude Code buffers."
     :keymap claude-code-extra-map)
   (add-hook 'claude-code-start-hook #'claude-code-extra-keys-mode)
+
+  (defun wjb/claude-session-name-from-buffer (buffer-name)
+    "Derive a Claude session name from a Claude BUFFER-NAME."
+    (let ((dir (claude-code--extract-directory-from-buffer-name buffer-name))
+          (instance (claude-code--extract-instance-name-from-buffer-name buffer-name)))
+      (when dir
+        (format "%s:%s"
+                (file-name-nondirectory (directory-file-name dir))
+                (or instance "default")))))
+  (defun wjb/claude-code-add-session-name (args)
+    "Append --name derived from the buffer name to `claude-code--term-make' ARGS."
+    (pcase-let* ((`(,backend ,buffer-name ,program ,switches) args)
+                 (name (wjb/claude-session-name-from-buffer buffer-name)))
+      (if (or (null name)
+              (seq-some (lambda (s) (member s '("--resume" "-r" "--continue" "-c" "--name" "-n")))
+                        switches))
+          args
+        (list backend buffer-name program (append switches (list "--name" name))))))
+  (advice-add 'claude-code--term-make :filter-args #'wjb/claude-code-add-session-name)
+
+  (defvar-local wjb/claude-code-status nil
+    "Status of the Claude session in this buffer, set from Claude Code hooks.")
+
+  (defun wjb/claude-code-update-status (message)
+    "Set `wjb/claude-code-status' in the buffer named in hook MESSAGE."
+    (when-let* ((buf (get-buffer (or (plist-get message :buffer-name) ""))))
+      (let ((status
+             (pcase (plist-get message :type)
+               ((or 'user-prompt-submit 'post-tool-use 'post-tool-use-failure) 'busy)
+               ('pre-tool-use
+                (let* ((json (ignore-errors
+                               (json-parse-string (plist-get message :json-data)
+                                                  :object-type 'plist)))
+                       (tool (plist-get json :tool_name)))
+                  (if (member tool '("AskUserQuestion" "ExitPlanMode")) 'waiting 'busy)))
+               ('permission-request 'waiting)
+               ('stop 'done)
+               ('stop-failure 'error))))
+        (when status
+          (with-current-buffer buf
+            (setq wjb/claude-code-status status)))))
+    nil)
+  (add-hook 'claude-code-event-hook #'wjb/claude-code-update-status)
+
+  (defface wjb/claude-code-status-busy '((t :inherit warning))
+    "Face for the busy Claude status indicator.")
+  (defface wjb/claude-code-status-waiting '((t :inherit error))
+    "Face for the waiting Claude status indicator.")
+  (defface wjb/claude-code-status-done '((t :inherit success))
+    "Face for the done Claude status indicator.")
+  (defface wjb/claude-code-status-error '((t :inherit error :inverse-video t))
+    "Face for the error Claude status indicator.")
+
+  (defun wjb/claude-code-display-name-with-status (fun buffer)
+    "Prefix the display name FUN returns for BUFFER with its Claude status."
+    (let ((name (funcall fun buffer))
+          (status (buffer-local-value 'wjb/claude-code-status buffer)))
+      (if status
+          (concat (propertize (format "[%s]" status)
+                              'face (intern (format "wjb/claude-code-status-%s" status)))
+                  " " name)
+        name)))
+  (advice-add 'claude-code--buffer-display-name :around #'wjb/claude-code-display-name-with-status)
   :bind-keymap
   ("C-c k" . claude-code-command-map)
   :bind
