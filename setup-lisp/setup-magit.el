@@ -129,6 +129,29 @@ parameter."
                   (with-selected-window tw
                     (treemacs-goto-file-node root)))))))))))
 
+(defun wjb/forge-checkout-worktree-read-directory (pullreq)
+  "Like `forge-checkout-worktree-default-read-directory-function'.
+The default directory name is prefixed with the repository name of
+PULLREQ."
+  (pcase-let* (((eieio number head-ref) pullreq)
+               (repo-name (oref (forge-get-repository pullreq) name))
+               (branch (forge--pullreq-branch-internal pullreq))
+               (path (read-directory-name
+                      (format "Checkout #%s in new worktree: " number)
+                      (file-name-directory
+                       (directory-file-name default-directory))
+                      nil nil
+                      (if (string-match-p "\\`pr-[0-9]+\\'" branch)
+                          (format "%s-%s" repo-name number)
+                        (format "%s-%s-%s" repo-name number
+                                (string-replace "/" "-" head-ref))))))
+    (when (equal path "")
+      (user-error "The empty string isn't a valid path"))
+    path))
+
+(setq forge-checkout-worktree-read-directory-function
+      #'wjb/forge-checkout-worktree-read-directory)
+
 (add-hook 'window-buffer-change-functions #'wjb/treemacs-follow-magit-repo)
 (add-hook 'window-selection-change-functions #'wjb/treemacs-follow-magit-repo)
 
