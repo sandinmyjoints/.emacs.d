@@ -64,3 +64,6 @@
 [submodule "elisp/gptel"]
 	path = elisp/gptel
 	url = git@github.com:karthink/gptel.git
+[submodule "elisp/claude-code"]
+	path = elisp/claude-code
+	url = https://github.com/stevemolitor/claude-code.el

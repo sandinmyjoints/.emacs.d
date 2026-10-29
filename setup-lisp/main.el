@@ -4060,8 +4060,8 @@ is already narrowed."
 
 (use-package eat :ensure t)
 
-(use-package claude-code :ensure t
-  :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+(use-package claude-code
+  :load-path "elisp/claude-code"
   :config
   (setq claude-code-terminal-backend 'vterm) ;; has an issue with deleting the frame
   ;; see https://github.com/stevemolitor/claude-code.el/blob/becece683bcf60f7b150a87a30ef14885dcf8ce3/claude-code.el#L742
