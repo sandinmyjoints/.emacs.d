@@ -168,6 +168,7 @@
      ;; (cons 'olivetti melpa)
 
      (cons 'nerd-icons melpa)
+     (cons 'treemacs-nerd-icons melpa)
      (cons 'doom-themes melpa)
      (cons 'doom-modeline melpa)
      (cons 'ligature melpa)

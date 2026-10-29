@@ -572,6 +572,8 @@ OK on large screens."
   ;; (change-theme 'doom-peacock t) ;; brown/red/orangey
 
   ;; seems to require all-the-icons
+  (require 'treemacs-nerd-icons)
+  (setq doom-themes-treemacs-theme "nerd-icons")
   (doom-themes-treemacs-config)
   (advice-remove #'treemacs-select-window #'doom-themes-hide-fringes-maybe) ;; fix for an error I'm seeing
 
