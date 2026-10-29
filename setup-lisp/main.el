@@ -4189,6 +4189,7 @@ questions.  Else use completion to select the tab to switch to."
 (define-key endless/toggle-map "d" #'toggle-debug-on-error)
 (define-key endless/toggle-map "e" #'toggle-debug-on-error)
 (define-key endless/toggle-map "f" #'auto-fill-mode)
+(define-key endless/toggle-map "i" #'wjb/insert-date)
 (define-key endless/toggle-map "l" #'toggle-truncate-lines)
 (define-key endless/toggle-map "q" #'toggle-debug-on-quit)
 (define-key endless/toggle-map "t" #'treemacs-select-window)
