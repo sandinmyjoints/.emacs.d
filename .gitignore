@@ -6,7 +6,12 @@ org-clock-save.el
 .places
 session.*
 tramp
-elpa
+/elpa/archives/
+/elpa/gnupg/
+/elpa/*/build/
+/elpa/*/*.so
+/elpa/*/*.dylib
+/elpa/ghostel-*/ghostel-module.version
 emms
 *.elc
 .DS_Store
@@ -36,9 +41,10 @@ dall-e/
 /tree-sitter/
 recentf
 forge-database*
-local*
+/local*
 .aider*
 eglot-java-eclipse-jdt-cache/
 share/
 TAGS
 .chatgpt-shell.el
+!/elpa/*/.dir-locals.el
