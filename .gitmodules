@@ -19,24 +19,9 @@
 [submodule "elisp/es6-snippets"]
 	path = elisp/es6-snippets
 	url = git@github.com:CodyReichert/es6-snippets.git
-[submodule "elisp/flycheck-pos-tip"]
-	path = elisp/flycheck-pos-tip
-	url = git@github.com:sandinmyjoints/flycheck-pos-tip.git
-[submodule "elisp/gcmh"]
-	path = elisp/gcmh
-	url = https://gitlab.com/koral/gcmh.git
 [submodule "elisp/js-doc"]
 	path = elisp/js-doc
 	url = git@github.com:sandinmyjoints/js-doc.git
-[submodule "elisp/npm-mode"]
-	path = elisp/npm-mode
-	url = git@github.com:sandinmyjoints/npm-mode.git
-[submodule "elisp/org-static-blog"]
-	path = elisp/org-static-blog
-	url = git@github.com:sandinmyjoints/org-static-blog.git
-[submodule "elisp/svg-lib"]
-	path = elisp/svg-lib
-	url = git@github.com:rougier/svg-lib.git
 [submodule "elisp/web-mode"]
 	path = elisp/web-mode
 	url = git@github.com:sandinmyjoints/web-mode.git
@@ -52,18 +37,21 @@
 [submodule "elisp/org-pivotal"]
 	path = elisp/org-pivotal
 	url = git@github.com:sandinmyjoints/org-pivotal.git
-[submodule "elisp/svg-tag-mode"]
-	path = elisp/svg-tag-mode
-	url = git@github.com:rougier/svg-tag-mode.git
 [submodule "elisp/csvorg"]
 	path = elisp/csvorg
 	url = git@github.com:orgtre/csvorg.git
-[submodule "elisp/s3ed"]
-	path = elisp/s3ed
-	url = git@github.com:mattusifer/s3ed.git
-[submodule "elisp/gptel"]
-	path = elisp/gptel
-	url = git@github.com:karthink/gptel.git
 [submodule "elisp/claude-code"]
 	path = elisp/claude-code
 	url = https://github.com/stevemolitor/claude-code.el
+[submodule "elisp/ai-code-interface.el"]
+	path = elisp/ai-code-interface.el
+	url = git@github.com:sandinmyjoints/ai-code-interface.el.git
+[submodule "elisp/eldoc-mouse"]
+	path = elisp/eldoc-mouse
+	url = git@github.com:huangfeiyu/eldoc-mouse.git
+[submodule "elisp/kind-icon"]
+	path = elisp/kind-icon
+	url = git@github.com:jdtsmith/kind-icon.git
+[submodule "elisp/mediainfo-mode"]
+	path = elisp/mediainfo-mode
+	url = https://github.com/xFA25E/mediainfo-mode.git
