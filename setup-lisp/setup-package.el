@@ -135,6 +135,7 @@
      (cons 'yaml-mode melpa)
      (cons 'yaml-imenu melpa)
      (cons 'web-mode melpa-stable)
+     (cons 's3ed melpa)
      (cons 'nginx-mode melpa)
      (cons 'log4j-mode melpa)
      (cons 'pandoc-mode melpa)
@@ -219,6 +220,7 @@
      ;; (cons 'flycheck-status-emoji melpa)
      (cons 'flycheck-package melpa)
      (cons 'flycheck-inline melpa)
+     (cons 'flycheck-posframe melpa)
 
      (cons 'nvm melpa)
      (cons 'json-mode melpa)
@@ -277,6 +279,7 @@
 
      (cons 'eldoc-box melpa)
      (cons 'flycheck-eglot melpa)
+     (cons 'eglot-java melpa)
 
      ;; (cons 'helm-aws melpa) ;; using own fork.
      ;; (cons 'helm-projectile melpa)
@@ -337,6 +340,8 @@
      (cons 'chatgpt-shell melpa)
      (cons 'dall-e-shell melpa)
      (cons 'agent-shell melpa)
+     (cons 'gptel melpa)
+     (cons 'copilot-chat melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
