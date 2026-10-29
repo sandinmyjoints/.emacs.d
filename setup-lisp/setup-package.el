@@ -67,8 +67,8 @@
 
   (setq package-archives '())
 
-  (push gnu package-archives)
-  (push nongnu package-archives)
+  ;; (push gnu package-archives)
+  ;; (push nongnu package-archives)
   (push melpa package-archives)
   (push melpa-stable package-archives)
 
