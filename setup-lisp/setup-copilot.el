@@ -57,6 +57,7 @@ cleared, make sure the overlay doesn't come back too soon."
                               eshell-mode
                               term-mode
                               vterm-mode
+                              ghostel-mode
                               comint-mode
                               compilation-mode
                               debugger-mode

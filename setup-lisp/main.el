@@ -2691,7 +2691,7 @@ Insert .* between each char."
         company-dabbrev-code-everywhere t)
 
   (defvar wjb/cape-dabbrev-excluded-modes
-    '(vterm-mode magit-process-mode compilation-mode so-long-mode treemacs-mode))
+    '(vterm-mode ghostel-mode magit-process-mode compilation-mode so-long-mode treemacs-mode))
 
   (defun wjb/cape-dabbrev-buffers ()
     (let* ((cur (current-buffer))
@@ -3455,8 +3455,7 @@ Interactively also sends a terminating newline."
 ;; vterm
 
 (use-package vterm
-  :bind
-  ("H-`" . wjb/vterm-dwim)
+  :defer t
   :config
   (defun toggle-vterm-copy-mode-cursor ()
     (if vterm-copy-mode
@@ -3503,66 +3502,101 @@ Interactively also sends a terminating newline."
     ;; (message (format "set-tmux-in-vterm: %s" arg))
     (setq wjb/tmux-in-vterm (if (s-equals? arg "0") nil t)))
   (push '("set-tmux-in-vterm" set-tmux-in-vterm) vterm-eval-cmds)
-
-  (defun wjb/treemacs-follow-vterm-project (&optional frame-or-window)
-    "Move point in the treemacs side window to the project named by a vterm buffer.
-When the selected window shows a `vterm-mode' buffer named like
-\"*vterm PROJECT*\" and PROJECT is the name of a project in the current
-treemacs workspace, put point in the treemacs window on that project's
-root, without leaving the vterm buffer.  Does nothing when treemacs is
-not visible or the name matches no project.  Meant for
-`window-buffer-change-functions' and `window-selection-change-functions',
-whose default values pass the frame in which a window's buffer or the
-selected window changed."
-    (with-demoted-errors "wjb/treemacs-follow-vterm-project: %S"
-      (when (fboundp 'treemacs-get-local-window)
-        (let ((win (cond ((window-live-p frame-or-window) frame-or-window)
-                         ((framep frame-or-window) (frame-selected-window frame-or-window))
-                         (t (selected-window)))))
-          (when (and (window-live-p win)
-                     (eq (window-frame win) (selected-frame)))
-            (with-current-buffer (window-buffer win)
-              (when (derived-mode-p 'vterm-mode)
-                (let ((tw (treemacs-get-local-window))
-                      (bn (buffer-name)))
-                  (when (and tw (not (eq win tw))
-                             (string-match "\\`\\*vterm \\(.+?\\)\\*\\(?:<[0-9]+>\\)?\\'" bn))
-                    (let* ((name (match-string 1 bn))
-                           (project (seq-find
-                                     (lambda (p) (string= (treemacs-project->name p) name))
-                                     (treemacs-workspace->projects
-                                      (treemacs-current-workspace)))))
-                      (when project
-                        (with-selected-window tw
-                          (treemacs-goto-file-node
-                           (treemacs-project->path project))))))))))))))
-
-  (add-hook 'window-buffer-change-functions #'wjb/treemacs-follow-vterm-project)
-  (add-hook 'window-selection-change-functions #'wjb/treemacs-follow-vterm-project)
   )
 
 (add-hook 'vterm-mode-hook #'compilation-shell-minor-mode)
 
-(defun wjb/vterm-dwim (&optional argument)
-  "Invoke `vterm' according to context and current location.
 
-With a \\[universal-argument] prefix or if no project is found, force a new
-buffer to be created in place.
+;; ghostel
+(use-package ghostel
+  :defer t
+  :config
+  (customize-set-variable 'ghostel-buffer-name-function nil)
+  (customize-set-variable 'ghostel-keymap-exceptions
+                          (append '("C-M-o" "C-o" "C-l" "M-c" "C-q" "C-v")
+                                  ghostel-keymap-exceptions))
+  (keymap-set ghostel-mode-map "C-q" #'ghostel-send-next-key))
 
-If existing, pop to it. Otherwise create a new buffer with a unique name at the project
-root."
+
+;; terminal: set to 'vterm or 'ghostel.
+
+(defvar wjb/terminal 'ghostel)
+
+(defvar wjb/term-modes '(vterm-mode ghostel-mode))
+
+(defun wjb/term-buffer-name (name)
+  "Return the terminal buffer name for NAME under `wjb/terminal'."
+  (format "*%s %s*" wjb/terminal name))
+
+(defun wjb/term-open (name dir)
+  "Switch to the terminal buffer for NAME, or start one in DIR."
+  (let ((buffer (wjb/term-buffer-name name)))
+    (if (buffer-live-p (get-buffer buffer))
+        (switch-to-buffer buffer)
+      (let ((default-directory (file-name-as-directory dir)))
+        (pcase wjb/terminal
+          ('vterm (vterm buffer))
+          ('ghostel
+           (require 'ghostel)
+           (let ((ghostel-buffer-name buffer))
+             (ghostel))))))))
+
+(defun wjb/term-dwim (&optional argument)
+  "Open a terminal according to context and current location.
+
+With a \\[universal-argument] prefix or if no project is found, open the
+default terminal buffer in the current directory.
+
+If a terminal for the project exists, pop to it.  Otherwise create one at
+the project root."
   (interactive "P")
   (if (or argument (not (projectile-project-root)))
-      (vterm)
+      (pcase wjb/terminal
+        ('vterm (vterm))
+        ('ghostel (ghostel)))
     (let* ((project (projectile-acquire-root))
-           (buffer (format "*vterm %s*" (projectile-project-name project))))
+           (name (projectile-project-name project))
+           (buffer (wjb/term-buffer-name name)))
       (if (buffer-live-p (get-buffer buffer))
           (pop-to-buffer buffer)
-        (projectile-with-default-dir project
-          (unless (require 'vterm nil :noerror)
-            (error "Package 'vterm' not found"))
-          (vterm buffer))))))
-;; (global-set-key (kbd "H-`") #'wjb/vterm-dwim)
+        (wjb/term-open name project)))))
+(global-set-key (kbd "H-`") #'wjb/term-dwim)
+
+(defun wjb/treemacs-follow-term-project (&optional frame-or-window)
+  "Move point in the treemacs side window to the project named by a terminal buffer.
+When the selected window shows a buffer in one of `wjb/term-modes' named
+like \"*vterm PROJECT*\" or \"*ghostel PROJECT*\" and PROJECT is the name
+of a project in the current treemacs workspace, put point in the treemacs
+window on that project's root, without leaving the terminal buffer.  Does
+nothing when treemacs is not visible or the name matches no project.
+Meant for `window-buffer-change-functions' and
+`window-selection-change-functions', whose default values pass the frame
+in which a window's buffer or the selected window changed."
+  (with-demoted-errors "wjb/treemacs-follow-term-project: %S"
+    (when (fboundp 'treemacs-get-local-window)
+      (let ((win (cond ((window-live-p frame-or-window) frame-or-window)
+                       ((framep frame-or-window) (frame-selected-window frame-or-window))
+                       (t (selected-window)))))
+        (when (and (window-live-p win)
+                   (eq (window-frame win) (selected-frame)))
+          (with-current-buffer (window-buffer win)
+            (when (apply #'derived-mode-p wjb/term-modes)
+              (let ((tw (treemacs-get-local-window))
+                    (bn (buffer-name)))
+                (when (and tw (not (eq win tw))
+                           (string-match "\\`\\*\\(?:vterm\\|ghostel\\) \\(.+?\\)\\*\\(?:<[0-9]+>\\)?\\'" bn))
+                  (let* ((name (match-string 1 bn))
+                         (project (seq-find
+                                   (lambda (p) (string= (treemacs-project->name p) name))
+                                   (treemacs-workspace->projects
+                                    (treemacs-current-workspace)))))
+                    (when project
+                      (with-selected-window tw
+                        (treemacs-goto-file-node
+                         (treemacs-project->path project))))))))))))))
+
+(add-hook 'window-buffer-change-functions #'wjb/treemacs-follow-term-project)
+(add-hook 'window-selection-change-functions #'wjb/treemacs-follow-term-project)
 
 
 ;; lsp
@@ -4055,6 +4089,8 @@ questions.  Else use completion to select the tab to switch to."
   (global-display-fill-column-indicator-mode)
   (add-hook 'vterm-mode-hook (lambda ()
                                (display-fill-column-indicator-mode -1)))
+  (add-hook 'ghostel-mode-hook (lambda ()
+                                 (display-fill-column-indicator-mode -1)))
 
   ;; load theme and customize appearance
   (progn
