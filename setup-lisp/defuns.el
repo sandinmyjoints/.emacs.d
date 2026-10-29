@@ -367,20 +367,15 @@
 
 (defalias #'insert-date #'wjb/insert-date)
 
-(defun wjb/move-old-packages-to-tmp ()
-  "Move obsolete package versions to ~/tmp/old-emacs-stuff/.
-Obsolete versions are the ones `package-menu-mark-obsolete-for-deletion'
-would mark."
-  (interactive)
-  (require 'package)
-  (let ((dest (expand-file-name "~/tmp/old-emacs-stuff/"))
-        obsolete moved skipped)
-    (dolist (entry package-alist)
-      (dolist (desc (cdr entry))
-        (when (equal (package-desc-status desc) "obsolete")
-          (push (cons entry desc) obsolete))))
+(defvar wjb/old-packages-dir "~/tmp/old-emacs-stuff/")
+
+(defun wjb/--move-package-descs-to-tmp (pairs)
+  "Move each (ENTRY . DESC) in PAIRS to `wjb/old-packages-dir'.
+ENTRY is the cell of `package-alist' that holds DESC."
+  (let ((dest (file-name-as-directory (expand-file-name wjb/old-packages-dir)))
+        moved skipped)
     (make-directory dest t)
-    (pcase-dolist (`(,entry . ,desc) (nreverse obsolete))
+    (pcase-dolist (`(,entry . ,desc) pairs)
       (let* ((dir (directory-file-name (package-desc-dir desc)))
              (base (file-name-nondirectory dir))
              (target (expand-file-name base dest))
@@ -391,6 +386,8 @@ would mark."
           (when (file-exists-p signed)
             (rename-file signed (concat target ".signed") t))
           (setcdr entry (delq desc (cdr entry)))
+          (unless (cdr entry)
+            (setq package-alist (delq entry package-alist)))
           (push base moved))))
     (package--quickstart-maybe-refresh)
     (message "Moved %d to %s: %s%s"
@@ -401,6 +398,47 @@ would mark."
                          (length skipped) dest
                          (string-join (nreverse skipped) " "))
                ""))))
+
+(defun wjb/move-old-packages-to-tmp ()
+  "Move obsolete package versions to `wjb/old-packages-dir'.
+Obsolete versions are the ones `package-menu-mark-obsolete-for-deletion'
+would mark."
+  (interactive)
+  (require 'package)
+  (let (pairs)
+    (dolist (entry package-alist)
+      (dolist (desc (cdr entry))
+        (when (equal (package-desc-status desc) "obsolete")
+          (push (cons entry desc) pairs))))
+    (wjb/--move-package-descs-to-tmp (nreverse pairs))))
+
+(defun wjb/move-packages-to-tmp (names)
+  "Move all installed versions of packages NAMES to `wjb/old-packages-dir'.
+Remove the fully moved ones from `package-selected-packages'.  Refuse if
+an installed package outside NAMES requires one of NAMES."
+  (interactive
+   (list (progn
+           (require 'package)
+           (mapcar #'intern
+                   (completing-read-multiple
+                    "Packages: " (mapcar #'car package-alist) nil t)))))
+  (require 'package)
+  (dolist (entry package-alist)
+    (unless (memq (car entry) names)
+      (dolist (req (package-desc-reqs (cadr entry)))
+        (when (memq (car req) names)
+          (user-error "%s requires %s" (car entry) (car req))))))
+  (let (pairs)
+    (dolist (name names)
+      (let ((entry (or (assq name package-alist)
+                       (user-error "%s is not installed" name))))
+        (dolist (desc (cdr entry))
+          (push (cons entry desc) pairs))))
+    (wjb/--move-package-descs-to-tmp (nreverse pairs))
+    (package--save-selected-packages
+     (seq-remove (lambda (name)
+                   (and (memq name names) (not (assq name package-alist))))
+                 package-selected-packages))))
 
 (defun mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."
