@@ -339,6 +339,7 @@
      (cons 'shell-maker melpa)
      (cons 'chatgpt-shell melpa)
      (cons 'dall-e-shell melpa)
+     (cons 'acp melpa)
      (cons 'agent-shell melpa)
      (cons 'gptel melpa)
      (cons 'copilot-chat melpa)

@@ -4190,8 +4190,7 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   (with-eval-after-load 'prog-mode
     (define-key prog-mode-map (kbd "C-c C-a") #'ai-code-menu)))
 
-(use-package acp
-  :load-path "elisp/acp.el")
+(use-package acp)
 
 (use-package agent-shell
   :after (acp)
