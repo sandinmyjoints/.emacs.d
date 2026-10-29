@@ -111,12 +111,10 @@
 
      (cons 'pip-requirements melpa)
      (cons 'virtualenvwrapper melpa-stable)
-     ;; useful but both are kind of a pain:
+     ;; useful but kind of a pain:
      ;; (cons 'elpy elpy)
-     ;; (cons 'ein melpa)
 
      (cons 'magit melpa-stable)
-     (cons 'magit-popup melpa-stable)
      (cons 'ghub melpa-stable)
      (cons 'forge melpa-stable)
      ;; (cons 'git-modes melpa) ;; installs several packages; they don't get recognized as installed
@@ -165,7 +163,6 @@
      (cons 'centered-cursor-mode melpa)
      ;; (cons 'eyebrowse melpa)
      ;; (cons 'nameframe melpa)
-     ;; (cons 'olivetti melpa)
 
      (cons 'nerd-icons melpa)
      (cons 'treemacs-nerd-icons melpa)
@@ -203,14 +200,12 @@
      ;; TODO: add css-comb and web-beautify
      ;; (cons 'header2 nongnu)
      (cons 'date-at-point melpa)
-     (cons 'recompile-on-save melpa)
      (cons 'comment-dwim-2 melpa)
      ;; (cons 'aws-snippets melpa)
      (cons 'posframe melpa)
 
      (cons 'helpful melpa)
      ;; (cons 'discover-my-major melpa)
-     (cons 'elisp-demos melpa)
      (cons 'smart-dash melpa)
      (cons 'replace-from-region melpa)
      ;; (cons 'prodigy melpa)
@@ -229,7 +224,6 @@
      (cons 'js2-mode melpa)
      (cons 'rjsx-mode melpa)
      (cons 'jtsx melpa)
-     (cons 'indium melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
      ;; (cons 'js2-highlight-vars melpa)

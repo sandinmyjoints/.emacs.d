@@ -379,17 +379,6 @@
 ;; - markdown live preview
 ;; - email composing/editing
 ;;
-(use-package olivetti
-  :disabled
-  :config
-  (defun wjb/olivetti ()
-    "Turn on settings for writing prose."
-    (interactive)
-    (gfm-mode)
-    (olivetti-mode))
-
-  (setq-default olivetti-body-width 80)
-  (add-hook 'olivetti-mode-hook #'wjb/soft-wrap-text))
 
 
 ;; long lines and large files
@@ -737,10 +726,6 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
   (unbind-key (kbd "C-o") dired-mode-map)
   ;; (add-to-list 'dired-compress-files-alist '("\\.gz\\'" . "gzip -c %i > %o"))
 
-  ;; problem with dired-async is it doesn't update open buffers when files are moved
-  ;; (autoload 'dired-async-mode "dired-async.el" nil t)
-  ;; (dired-async-mode -1)
-
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
@@ -963,7 +948,6 @@ pasting into other programs."
      (shell . t)
      (python . t)
      (sql . t)
-     ;; (ein . t)
      (restclient . t))))
 
 (use-package ob
@@ -1412,15 +1396,6 @@ pasting into other programs."
 (use-package smart-dash
   :disabled
   :hook (python-mode . smart-dash-mode))
-
-(use-package ein
-  :after python
-  :disabled
-  :bind
-  (:map ein:notebooklist-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open))
-  (:map ein:notebook-mode-map
-        ("C-c C-g" . 'ein:notebooklist-open)))
 
 (use-package reformatter
   :config
@@ -2247,14 +2222,6 @@ pasting into other programs."
          ("C-r" . phi-search-backward))
   :config)
 
-(use-package elisp-demos
-  :disabled
-  :config
-  ;; this is for normal help:
-  ;; (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
-  ;; this is specific to helpful:
-  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
-
 (use-package google-this
   :disabled
   ;; C-c / n|SPC|l
@@ -2696,24 +2663,6 @@ If buffer is not visiting a file, do nothing."
   (setq prettier-js-width-mode 'fill)
   (add-to-list 'inhibit-message-regexps "\\`Applied prettier with args")
   (add-to-list 'set-message-functions #'inhibit-message))
-
-(use-package indium
-  :disabled
-  :commands (indium-interaction-mode indium-connect)
-  ;; :init
-  ;; because indium-interaction-mode is in some dir-locals files so it will be
-  ;; activated when those files load as part of the saved desktop.
-  ;; (autoload 'indium-interaction-mode "indium-interaction-mode" nil t)
-  :config
-  (add-hook 'js-mode-hook #'indium-interaction-mode)
-  (add-hook 'typescript-mode-hook #'indium-interaction-mode) ;; experimental
-  (add-hook 'typescript-ts-mode-hook #'indium-interaction-mode)
-
-  (setq indium-chrome-use-temporary-profile nil
-        indium-client-debug nil ;; t
-        ;; indium-chrome-executable (indium-chrome--default-executable)
-        indium-chrome-executable "/Applications/Google Chrome Beta Debugger.app/Contents/MacOS/Google Chrome Beta Debugger")
-  )
 
 (use-package js-comint
   :disabled
@@ -3208,19 +3157,6 @@ Interactively also sends a terminating newline."
 
 ;; (global-set-key (kbd "C-c <return>") 'compile)
 ;; (global-set-key (kbd "C-c C-<return>") 'recompile)
-
-;; To (temporarily) disable automatic recompilation turn off
-;; (global-recompile-on-save-mode -1).
-;;
-
-;; use M-x (reset-recompile-on-save).
-;;
-;; TODO: mesh this with --watch
-(use-package recompile-on-save
-  :disabled
-  :config
-  (recompile-on-save-advice compile)
-  (recompile-on-save-advice recompile))
 
 (use-package sane-term
   :disabled

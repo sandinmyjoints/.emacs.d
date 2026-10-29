@@ -641,7 +641,7 @@ an installed package outside NAMES requires one of NAMES."
     (fill-paragraph)
     (setq fill-column fill-column-stashed)))
 
-;; Journal command. Deprecated by wjb/olivetti.
+;; Journal command.
 (defun wjb/journal ()
   "Start journaling"
   (interactive)
