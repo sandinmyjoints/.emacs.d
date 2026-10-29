@@ -367,6 +367,41 @@
 
 (defalias #'insert-date #'wjb/insert-date)
 
+(defun wjb/move-old-packages-to-tmp ()
+  "Move obsolete package versions to ~/tmp/old-emacs-stuff/.
+Obsolete versions are the ones `package-menu-mark-obsolete-for-deletion'
+would mark."
+  (interactive)
+  (require 'package)
+  (let ((dest (expand-file-name "~/tmp/old-emacs-stuff/"))
+        obsolete moved skipped)
+    (dolist (entry package-alist)
+      (dolist (desc (cdr entry))
+        (when (equal (package-desc-status desc) "obsolete")
+          (push (cons entry desc) obsolete))))
+    (make-directory dest t)
+    (pcase-dolist (`(,entry . ,desc) (nreverse obsolete))
+      (let* ((dir (directory-file-name (package-desc-dir desc)))
+             (base (file-name-nondirectory dir))
+             (target (expand-file-name base dest))
+             (signed (concat dir ".signed")))
+        (if (file-exists-p target)
+            (push base skipped)
+          (rename-file dir target)
+          (when (file-exists-p signed)
+            (rename-file signed (concat target ".signed") t))
+          (setcdr entry (delq desc (cdr entry)))
+          (push base moved))))
+    (package--quickstart-maybe-refresh)
+    (message "Moved %d to %s: %s%s"
+             (length moved) dest
+             (string-join (nreverse moved) " ")
+             (if skipped
+                 (format "\nSkipped %d already in %s: %s"
+                         (length skipped) dest
+                         (string-join (nreverse skipped) " "))
+               ""))))
+
 (defun mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."
   (if list
