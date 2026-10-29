@@ -4185,6 +4185,14 @@ questions.  Else use completion to select the tab to switch to."
   (treesit-auto-install 'prompt)
   (treesit-auto-langs wjb/treesit-auto-langs)
   :config
+  (defvar wjb/treesit-auto-remap-cache nil)
+  (define-advice treesit-auto--build-major-mode-remap-alist (:around (orig) wjb/cache)
+    (unless wjb/treesit-auto-remap-cache
+      (setq wjb/treesit-auto-remap-cache
+            (let ((major-mode-remap-alist nil)) (funcall orig))))
+    (append major-mode-remap-alist wjb/treesit-auto-remap-cache))
+  (define-advice treesit-install-language-grammar (:after (&rest _) wjb/clear-remap-cache)
+    (setq wjb/treesit-auto-remap-cache nil))
   (treesit-auto-add-to-auto-mode-alist treesit-auto-langs)
   (global-treesit-auto-mode))
 
