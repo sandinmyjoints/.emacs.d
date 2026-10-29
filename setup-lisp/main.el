@@ -1244,6 +1244,9 @@ pasting into other programs."
   :config
   (setq github-review-fetch-top-level-and-review-comments t))
 
+(use-package git-modes
+  :defer t)
+
 (use-package gitignore-mode
   :mode ("\\.dockerignore\\'" "\\.aiderignore\\'" "global.gitignore" ".*gitignore\\'"))
 
@@ -2174,6 +2177,12 @@ pasting into other programs."
 
 (use-package dotenv-mode
   :mode "\\.env\\'")
+
+(use-package hcl-mode
+  :defer t)
+
+(use-package terraform-mode
+  :defer t)
 
 (use-package csv-mode
   :disabled
@@ -4267,7 +4276,6 @@ If BUFFER-NAME doesn't exist, signal MISSING-MESSAGE."
   ;; :bind ("C-x C-d" . consult-dir)
   )
 
-;; (use-package consult-eglot)
 (use-package consult-yasnippet)
 
 ;; Enable rich annotations using the Marginalia package

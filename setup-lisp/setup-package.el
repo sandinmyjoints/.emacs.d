@@ -95,9 +95,8 @@
                       (package-install name))))))
           packages))
 
-  ;; Install packages if they're missing.
-  (defun init--install-packages ()
-    (packages-install
+  (defvar wjb/packages
+    (list
      (cons 'modus-themes melpa) ;; someday on gnu
      (cons 'auto-compile melpa)
      (cons 'dash melpa-stable)
@@ -107,17 +106,22 @@
 
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'reveal-in-osx-finder melpa)
+     (cons 'osx-plist melpa)
      (cons 'envrc melpa)
+     (cons 'pinentry gnu)
+     (cons 'editorconfig melpa)
+     (cons 'dtrt-indent melpa)
 
      (cons 'pip-requirements melpa)
      (cons 'virtualenvwrapper melpa-stable)
-     ;; useful but kind of a pain:
-     ;; (cons 'elpy elpy)
+     (cons 'elpy melpa)
+     (cons 'rustic melpa)
 
      (cons 'magit melpa-stable)
      (cons 'ghub melpa-stable)
      (cons 'forge melpa-stable)
-     ;; (cons 'git-modes melpa) ;; installs several packages; they don't get recognized as installed
+     (cons 'transient melpa)
+     (cons 'git-modes nongnu)
      (cons 'browse-at-remote melpa)
      ;; (cons 'github-review melpa)
      (cons 'git-link melpa-stable)
@@ -129,21 +133,20 @@
      (cons 'dired-subtree melpa)
      (cons 'trashed melpa)
      (cons 'yaml-mode melpa)
+     (cons 'yaml-imenu melpa)
      (cons 'web-mode melpa-stable)
-     (cons 'less-css-mode melpa-stable)
      (cons 'nginx-mode melpa)
      (cons 'log4j-mode melpa)
      (cons 'pandoc-mode melpa)
      (cons 'dotenv-mode melpa)
+     (cons 'hcl-mode melpa)
+     (cons 'terraform-mode melpa)
      (cons 'csv-mode gnu)
 
      (cons 'treesit-auto melpa)
 
-     ;; It always thinks these two aren't installed even when they are, so
-     ;; disabling for now:
-     ;;
-     ;; (cons 'rainbow-mode gnu) ;; Emacs >=24 only
-     ;; (cons 'rainbow-delimiters melpa-stable)
+     (cons 'rainbow-mode gnu)
+     (cons 'rainbow-delimiters melpa)
 
      (cons 'paren-face melpa)
      (cons 'beacon melpa)
@@ -170,11 +173,8 @@
      (cons 'doom-modeline melpa)
      (cons 'ligature melpa)
 
-     ;; It always thinks these two aren't installed even when they are, so
-     ;; disabling for now:
-     ;;
-     ;; (cons 'all-the-icons melpa)
-     ;; (cons 'all-the-icons-dired melpa)
+     (cons 'all-the-icons melpa)
+     (cons 'all-the-icons-dired melpa)
 
      (cons 'which-key melpa)
      (cons 'which-key-posframe melpa)
@@ -191,18 +191,20 @@
      (cons 'sqlformat melpa) ;; requires sqlformat binary
      (cons 'urlenc melpa)
      (cons 'yasnippet melpa)
-     ;; (cons 'yafolding melpa)
+     (cons 'yafolding melpa)
+     (cons 'imenu-list melpa)
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      (cons 'mwim melpa)
      ;; (cons 'pivotal-tracker melpa)
      ;; (cons 'org-pivotal melpa) ;; using own fork
      ;; TODO: add css-comb and web-beautify
-     ;; (cons 'header2 nongnu)
+     (cons 'header2 melpa)
      (cons 'date-at-point melpa)
      (cons 'comment-dwim-2 melpa)
      ;; (cons 'aws-snippets melpa)
      (cons 'posframe melpa)
+     (cons 'mini-frame melpa)
 
      (cons 'helpful melpa)
      ;; (cons 'discover-my-major melpa)
@@ -219,6 +221,7 @@
      (cons 'flycheck-inline melpa)
 
      (cons 'nvm melpa)
+     (cons 'json-mode melpa)
      (cons 'json-reformat melpa)
      (cons 'json-snatcher melpa)
      (cons 'js2-mode melpa)
@@ -226,6 +229,7 @@
      (cons 'jtsx melpa)
      ;; (cons 'js-doc melpa) ;; using own fork.
      (cons 'js2-refactor melpa-stable)
+     (cons 'xref-js2 melpa)
      ;; (cons 'js2-highlight-vars melpa)
      (cons 'prettier-js melpa)
      ;; (cons 'discover-js2-refactor melpa)
@@ -246,7 +250,10 @@
      (cons 'projectile melpa)
 
      (cons 'company melpa)
+     (cons 'lsp-mode melpa)
+     (cons 'lsp-ui melpa)
      (cons 'lsp-java melpa)
+     (cons 'dap-mode melpa)
      (cons 'consult-lsp melpa)
      ;; (cons 'company-restclient melpa)
      ;; (cons 'company-emoji melpa)
@@ -260,6 +267,13 @@
      (cons 'corfu melpa)
      (cons 'cape melpa)
      (cons 'orderless melpa)
+     (cons 'vertico melpa)
+     (cons 'marginalia melpa)
+     (cons 'nerd-icons-completion melpa)
+     (cons 'consult melpa)
+     (cons 'consult-projectile melpa)
+     (cons 'consult-dir melpa)
+     (cons 'consult-yasnippet melpa)
 
      (cons 'eldoc-box melpa)
      (cons 'flycheck-eglot melpa)
@@ -277,6 +291,7 @@
      ;; (cons 'project-shells melpa)
 
      (cons 'treemacs melpa)
+     (cons 'treemacs-projectile melpa)
      ;; (cons 'treemacs-icons-dired melpa)
 
      (cons 'ob-sql-mode melpa)
@@ -296,6 +311,7 @@
 
      (cons 'paredit melpa)
      (cons 'paredit-everywhere melpa)
+     (cons 'smartparens melpa)
 
      (cons 'gruvbox-theme melpa)
      (cons 'nimbus-theme melpa)
@@ -303,7 +319,7 @@
 
      (cons 'bash-completion melpa)
 
-     ;; (cons 'adaptive-wrap gnu)
+     (cons 'adaptive-wrap gnu)
      (cons 'visual-fill-column melpa)
      (cons 'change-inner melpa)
 
@@ -311,11 +327,16 @@
      (cons 'pcsv melpa)
 
      ;; used by ai-code-interface
-     (cons 'claude-code melpa)
      ;; using eat b/c claude-code vterm code has to do some dance with
      ;; buffers/delete-window that causes an error for me
      (cons 'eat melpa)
      (cons 'ghostel melpa)
+     (cons 'vterm melpa)
+
+     (cons 'shell-maker melpa)
+     (cons 'chatgpt-shell melpa)
+     (cons 'dall-e-shell melpa)
+     (cons 'agent-shell melpa)
 
      ;; Untried, but consider:
      ;; (cons 'flycheck-color-mode-line melpa)
@@ -332,7 +353,6 @@
      ;; (cons 'equake melpa)
      ;; (cons 'electric-operator melpa)
      ;; (cons 'gh melpa)
-     ;; (cons 'smartparens melpa-stable)
      ;; (cons 'phi-search melpa)
      ;; (cons 'dashboard melpa)
      ;; (cons 'paradox melpa)
@@ -354,6 +374,15 @@
      ;; (cons 'emacsql-sqlite-module melpa-stable)
      ;; (cons 'perl6-mode melpa)
      ))
+
+  ;; Install packages if they're missing.
+  (defun init--install-packages ()
+    (apply #'packages-install wjb/packages))
+
+  (defun wjb/sync-selected-packages ()
+    "Set `package-selected-packages' to the names in `wjb/packages'."
+    (interactive)
+    (package--save-selected-packages (mapcar #'car wjb/packages)))
 
   (condition-case nil
       (init--install-packages)
