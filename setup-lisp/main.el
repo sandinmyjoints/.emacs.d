@@ -2904,7 +2904,9 @@ If buffer is not visiting a file, do nothing."
          (typescript-ts-base-mode . wjb/prettier-js-default-args))
   :config
   (diminish 'prettier-js-mode)
-  (setq prettier-js-width-mode 'fill))
+  (setq prettier-js-width-mode 'fill)
+  (add-to-list 'inhibit-message-regexps "\\`Applied prettier with args")
+  (add-to-list 'set-message-functions #'inhibit-message))
 
 (use-package indium
   :disabled
