@@ -199,6 +199,7 @@
      (cons 'mwim melpa)
      ;; (cons 'pivotal-tracker melpa)
      ;; (cons 'org-pivotal melpa) ;; using own fork
+     (cons 'a melpa) ;; org-pivotal requires this
      ;; TODO: add css-comb and web-beautify
      (cons 'header2 melpa)
      (cons 'date-at-point melpa)
@@ -215,6 +216,7 @@
 
      (cons 'know-your-http-well melpa)
      (cons 'restclient melpa)
+     (cons 'ob-restclient melpa)
 
      (cons 'flycheck melpa)
      ;; (cons 'flycheck-status-emoji melpa)
