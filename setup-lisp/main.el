@@ -362,11 +362,17 @@
               ("C-M-n" . forward-paragraph)
               ("C-M-p" . backward-paragraph))
   :config
+  ;; do I really want this?
   (add-hook 'text-mode-hook #'wjb/hard-wrap-text)
   (add-hook 'text-mode-hook #'goto-address-mode)
   (add-hook 'text-mode-hook
             (lambda ()
               (remove-hook 'completion-at-point-functions #'ispell-completion-at-point t)))
+  ;; (defun wjb/maybe-refill-mode ()
+  ;;   (when (or (eq major-mode 'text-mode)
+  ;;             (derived-mode-p 'markdown-mode 'markdown-ts-mode))
+  ;;     (refill-mode 1)))
+  ;; (add-hook 'text-mode-hook #'wjb/maybe-refill-mode t)
   )
 
 ;; TODO: Use a second frame for:
