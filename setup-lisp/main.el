@@ -1227,8 +1227,9 @@ pasting into other programs."
 
 ;; by the author of magit
 (use-package forge
-  ;; :disabled
   :after magit
+  :init
+  (setq forge-bug-reference-hooks '(forge-post-mode-hook git-commit-setup-hook magit-mode-hook))
   :config
   ;; HACK to get it to stop completing, see if that fixes hangs
   ;; (defun forge-topic-completion-at-point () nil)
