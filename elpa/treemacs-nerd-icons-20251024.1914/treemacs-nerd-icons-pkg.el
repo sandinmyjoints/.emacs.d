@@ -1,0 +1,12 @@
+;; -*- no-byte-compile: t; lexical-binding: nil -*-
+(define-package "treemacs-nerd-icons" "20251024.1914"
+  "Emacs Nerd Font Icons theme for treemacs."
+  '((emacs      "24.3")
+    (nerd-icons "0.0.1")
+    (treemacs   "0.0"))
+  :url "https://github.com/rainstormstudio/treemacs-nerd-icons"
+  :commit "0c5ddcb978da639f01ddb023febc40fc755171e5"
+  :revdesc "0c5ddcb978da"
+  :keywords '("lisp")
+  :authors '(("Hongyu Ding" . "rainstormstudio@yahoo.com"))
+  :maintainers '(("Hongyu Ding" . "rainstormstudio@yahoo.com")))

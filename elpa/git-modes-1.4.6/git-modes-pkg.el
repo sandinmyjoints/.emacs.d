@@ -1,0 +1,2 @@
+;; Generated package description from git-modes.el  -*- no-byte-compile: t -*-
+(define-package "git-modes" "1.4.6" "Major modes for editing Git configuration files" '((emacs "26.1") (compat "30.1")) :commit "7063d66857023e6c010cecac52de67c0baa77fb7" :authors '(("Sebastian Wiesner" . "lunaryorn@gmail.com") ("Rüdiger Sonderfeld" . "ruediger@c-plusplus.net") ("Jonas Bernoulli" . "emacs.git-modes@jonas.bernoulli.dev")) :maintainer '("Jonas Bernoulli" . "emacs.git-modes@jonas.bernoulli.dev") :keywords '("convenience" "vc" "git") :url "https://github.com/magit/git-modes")

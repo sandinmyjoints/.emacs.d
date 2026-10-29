@@ -1,0 +1,12 @@
+;; -*- no-byte-compile: t; lexical-binding: nil -*-
+(define-package "nerd-icons-completion" "20251029.2106"
+  "Add icons to completion candidates."
+  '((emacs      "25.1")
+    (nerd-icons "0.0.1")
+    (compat     "30"))
+  :url "https://github.com/rainstormstudio/nerd-icons-completion"
+  :commit "d09ea987ed3d2cc64137234f27851594050e2b64"
+  :revdesc "d09ea987ed3d"
+  :keywords '("lisp")
+  :authors '(("Hongyu Ding" . "rainstormstudio@yahoo.com"))
+  :maintainers '(("Hongyu Ding" . "rainstormstudio@yahoo.com")))
