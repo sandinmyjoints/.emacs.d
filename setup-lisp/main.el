@@ -721,7 +721,7 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
 (use-package all-the-icons-dired)
 
 (use-package dired
-  :commands (dired counsel-dired)
+  :commands (dired)
   :hook
   ((dired-mode . all-the-icons-dired-mode)
    (dired-mode . hl-line-mode))
@@ -744,7 +744,6 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
   ;; bsd ls vs. gls: this is written for bsd, but gls is probably
   ;; better
   ;;
-  (setq counsel-dired-listing-switches "-lahFG")
   (setq dired-listing-switches "-lahF"
         dired-dwim-target t
         dired-recursive-copies 'always
@@ -1453,17 +1452,6 @@ pasting into other programs."
   (add-to-list 'projectile-globally-ignored-file-suffixes ".class")
   (require 'setup-projectile))
 
-(use-package counsel-projectile
-  :after (counsel projectile)
-  :config
-  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-vc)
-  (counsel-projectile-mode))
-
-(use-package counsel-css
-  :after (css counsel)
-  :config
-  (add-hook 'css-mode-hook 'counsel-css-imenu-setup))
-
 
 ;; ibuffer.
 
@@ -1487,9 +1475,6 @@ pasting into other programs."
   (interactive)
   (imenu--menubar-select imenu--rescan-item))
 
-(use-package imenu-anywhere
-  :bind (("C-." . ivy-imenu-anywhere)))
-
 (use-package imenu-list
   :config
   (setq imenu-list-size 0.5)
@@ -1497,19 +1482,13 @@ pasting into other programs."
   )
 
 
-;; flx/amx/smex/prescient
+;; amx/smex
 
 ;; (use-package ido
 ;;   :disabled
 ;;   :config
 ;;   (require 'setup-ido))
 
-;; use flx b/c ivy uses it for sorting ivy--regex-fuzzy.
-;; disabling b/c it may prevent ivy (and others?) from using prescient.
-(use-package flx
-  :disabled)
-
-;; Use for ordering of commands in counsel-M-x.
 (use-package amx
   :disabled)
 
@@ -1524,56 +1503,7 @@ pasting into other programs."
   (smex-auto-update 10)
   (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
-;; I would expect prescient to remember history based on what I typed and then
-;; chose, but it doesn't seem to. For example, for counsel-M-x, I type "eval".
-;; "eval-defun" is top result. But I select "eval-region". "eval-region" is at
-;; the top when I hit M-x again, but when I type "eval", "eval-defun" is still
-;; the top result. It is not remembering that when I type "eval", I choose
-;; "eval-region".
-(use-package prescient
-  :disabled
-  :config
-  ;; (add-to-list 'ivy-sort-functions-alist '(counsel-projectile-sort-projects . ivy-prescient-sort-function))
-  ;; (setq ivy-prescient-sort-commands (butlast ivy-prescient-sort-commands))
-  (setq ivy-prescient-sort-commands '(:not swiper swiper-isearch ivy-switch-buffer forge-checkout-pullreq))
-  (prescient-persist-mode))
-
-(use-package ivy-prescient
-  :disabled
-  :after (counsel ivy)
-  :config
-  ;; if this is t, then ivy-prescient-re-builder is set as the default case in
-  ;; ivy-re-builders-alist, which requires spaces between tokens. So I
-  ;; disabled it.
-  (setq ivy-prescient-enable-filtering nil)
-  (ivy-prescient-mode))
-
 
-;; ivy/counsel/posframe
-
-;; counsel-switch-buffer and magit-status, when run in a dedicated window
-;; (dirtree), aren't useful. Switch to another (non-dedicated) window in such
-;; cases.
-
-(defun wjb/counsel-switch-buffer-other-window ()
-  "Switch to another buffer in another window.
-Display a preview of the selected ivy completion candidate buffer
-in the current window."
-  (interactive)
-  (ivy-read "Switch to buffer in other window: " 'internal-complete-buffer
-            :preselect (buffer-name (window-buffer (window-in-direction 'right)))
-            :action #'ivy--switch-buffer-other-window-action
-            :matcher #'ivy--switch-buffer-matcher
-            :caller 'counsel-switch-buffer-other-window
-            :unwind #'counsel--switch-buffer-unwind
-            :update-fn 'counsel--switch-buffer-update-fn))
-
-(defun wjb/smart-counsel-switch-buffer ()
-  (interactive)
-  (if (window-dedicated-p (get-buffer-window))
-      (call-interactively #'counsel-switch-buffer-other-window)
-    (call-interactively #'counsel-switch-buffer)))
-
 ;; switching/finding/opening/running things
 ;; - C-o = helm-mini -> buffers, recent files, bookmarks, more? (cf M-o)
 ;; - C-x b = switch buffer (among open buffers)
@@ -1583,121 +1513,6 @@ in the current window."
 ;; - M-x = commands to run
 ;; - C-c p f = find file in project
 ;; - C-x C-f = ido-find-file, which I like but it doesn't use posframe
-;; - H-0 f = counsel-find-file, which I would prefer to be more like ido-find-file.
-;;    - Enter on a dir should descend into it, not open the dir in dired. Have to hit TAB twice.
-;;      - good solution: https://github.com/abo-abo/swiper/wiki/ido-style-folder-navigation
-;;      - good solution: https://emacs.stackexchange.com/a/33706/2163 (using this one)
-;;      - possible solution: https://emacs.stackexchange.com/a/45937/2163
-;;      - other: https://github.com/abo-abo/swiper/issues/1333#issuecomment-436960474
-;;    - dired-do-rename and copy and other functions are also bad with counsel-find-file.
-;;    - https://github.com/jixiuf/ivy-dired-history
-(use-package ivy
-  :disabled
-  :diminish
-  :config
-  ;; when counsel-M-x is open, maybe others, then C-g calls
-  ;; minibuffer-keyboard-quit, by default. But I don't think I need what that
-  ;; does, I just need keyboard-escape-quit. So I'll try using that.
-  (define-key ivy-minibuffer-map "\C-g" 'keyboard-escape-quit)
-
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer) ;; Use C-M-j to call ivy-immediate-done to create new buffer
-  (global-set-key (kbd "C-x b") #'wjb/smart-counsel-switch-buffer) ;; giving this a try
-  (global-set-key (kbd "H-0 f") 'counsel-find-file)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
-  (global-set-key (kbd "C-h f") 'counsel-describe-function)
-  ;; list of commands to be replaced with ivy/counsel: https://github.com/syl20bnr/spacemacs/issues/10237
-  ;; (global-set-key (kbd "C-x d") 'ido-dired) ;
-  (global-set-key (kbd "C-x d") 'counsel-dired)
-  ;; (global-set-key (kbd "C-x C-w") 'ido-write-file) ;; TODO: want to replace this with counsel
-  ;; consider:
-  ;; (global-set-key (kbd "C-s") 'swiper)
-  ;; (global-set-key (kbd "C-x C-f") 'ido-find-file)
-  ;;
-  (setq ivy-height-alist '((counsel-evil-registers . 5)
-                           (counsel-yank-pop . 10)
-                           (counsel-git-log . 10)
-                           (counsel--generic . 12)
-                           (counsel-el . 12)))
-
-  (defun ivy--regex-fuzzy-ignore-space (str)
-    "Build a regex sequence from STR.
-Insert .* between each char."
-    (setq str (s-replace-all '((" " . "")) (ivy--trim-trailing-re str)))
-    (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
-        (prog1
-            (concat (match-string 1 str)
-                    (let ((lst (string-to-list (match-string 2 str))))
-                      (apply #'concat
-                             (cl-mapcar
-                              #'concat
-                              (cons "" (cdr (mapcar (lambda (c) (format "[^%c\n]*" c))
-                                                    lst)))
-                              (mapcar (lambda (x) (format "\\(%s\\)" (regexp-quote (char-to-string x))))
-                                      lst))))
-                    (match-string 3 str))
-          (setq ivy--subexps (length (match-string 2 str))))
-      str))
-  ;; (ivy--regex-fuzzy-ignore-space "a b")
-
-
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "%d/%d "
-        ivy-height 18
-        ivy-on-del-error-function 'ignore
-        ivy-format-function 'ivy-format-function-arrow
-        ivy-virtual-abbreviate 'abbreviate
-        ivy-magic-tilde nil
-        ivy-initial-inputs-alist nil
-
-        ;; references on ivy-re-builders-alist:
-        ;; - https://emacs.stackexchange.com/a/36748/2163
-        ;; - https://oremacs.com/2016/01/06/ivy-flx/
-        ;;
-        ;; Possible choices: ivy--regex, regexp-quote, ivy--regex-plus,
-        ;; ivy--regex-fuzzy, ivy--regex-ignore-order.
-        ;;
-        ;; * ivy--regex-ignore-order requires spaces between tokens.
-        ;;
-        ;; * ivy--regex-fuzzy does not, b/c it inserts .* between each
-        ;; character, but it's order-sensitive so doesn't handle typos/fat
-        ;; fingering. See also prescient. It's quite aggressive on matching,
-        ;; so on long lists like all unicode characters, it doesn't work well.
-        ;;
-        ;; * I think what I want is ivy--regex-fuzzy-ignore-space, that pretends
-        ;; spaces in input aren't there.
-
-        ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
-                                (swiper-isearch . ivy--regex-ignore-order)
-                                (counsel-projectile-switch-project . ivy--regex-ignore-order)
-                                (counsel-imenu . ivy--regex)
-                                (counsel-unicode-char . ivy--regex-ignore-order)
-                                ;; (ivy-switch-buffer . ivy--regex-fuzzy)
-                                ;; (counsel-M-x . ivy--regex-fuzzy)
-                                (t . ivy--regex-fuzzy-ignore-space)))
-  (ivy-mode 1))
-
-(use-package counsel
-  :disabled
-  :after (ivy)
-  ;; H-<space> would be better, but that goes to Alfred
-  ;; :bind (("C-," . counsel-imenu))
-  :config
-  (setq counsel-find-file-at-point t
-        counsel-preselect-current-file t
-        counsel-yank-pop-preselect-last t)
-
-  (ivy-configure 'counsel-M-x
-    :initial-input ""
-    :display-transformer-fn #'counsel-M-x-transformer)
-
-  ;; from https://emacs.stackexchange.com/a/33706/2163
-  (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
-        (alt  (where-is-internal #'ivy-alt-done ivy-minibuffer-map t)))
-    ;; TODO: Would like to do this for find-alternate-file as well, what map is active in that?
-    (define-key counsel-find-file-map done #'ivy-alt-done)
-    (define-key counsel-find-file-map alt  #'ivy-done)))
 
 (use-package posframe
   :disabled
@@ -1718,37 +1533,6 @@ Insert .* between each char."
                   :line-spacing 0.05
                   :font "Fira Code-15")))
       (or (plist-get info arg-name) value))))
-
-(use-package ivy-posframe
-  :disabled
-  :after ivy
-  :config
-  (defun posframe-poshandler-frame-above-center (info)
-    "A custom posframe position handler."
-    (cons (/ (- (plist-get info :parent-frame-width)
-                (plist-get info :posframe-width))
-             2)
-          (round (/ (- (plist-get info :parent-frame-height)
-                       (plist-get info :posframe-height))
-                    3))))
-
-  (defun ivy-posframe-display-at-frame-above-center (str)
-    (ivy-posframe--display str #'posframe-poshandler-frame-above-center))
-
-  (setq ivy-posframe-min-width 80
-        ivy-posframe-min-height 10
-        ivy-truncate-lines nil ;; ensures full path is shown in prompts
-        ;; ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
-        ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-above-center))
-        ;; for some reason this has to be changed to take effect
-        ivy-posframe-border-width 2
-        ivy-posframe-parameters
-        '((left-fringe . 4)
-          (right-fringe . 4)
-          (line-spacing . 0.05)
-          (alpha-background . 95)))
-
-  (ivy-posframe-mode 1))
 
 ;; uses hydra, hydra-posframe, so has to go after they've been defined
 ;; TODO(mine)
@@ -1867,7 +1651,6 @@ Insert .* between each char."
   ;;   (add-to-list 'semantic-symref-filepattern-alist '(sql-mode "*.sql"))
   ;;   (add-to-list 'semantic-symref-filepattern-alist '(org-mode "*.org")))
 
-  ;; (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-selector 'helm)
   (unbind-key "C-M-p" dumb-jump-mode-map)
   (setq dumb-jump-force-searcher 'rg)
@@ -3716,7 +3499,6 @@ in which a window's buffer or the selected window changed."
       :description (lambda () (format "[%s] breadcrumb"  (if (bound-and-true-p lsp-headerline-breadcrumb-mode) "x" " "))))])
   (define-key lsp-mode-map (kbd "C-c l") #'lsp-transient))
 
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode
