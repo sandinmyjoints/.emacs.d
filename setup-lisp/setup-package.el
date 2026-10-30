@@ -197,9 +197,6 @@
      (cons 'anzu melpa)
      (cons 'beginend melpa)
      (cons 'mwim melpa)
-     ;; (cons 'pivotal-tracker melpa)
-     ;; (cons 'org-pivotal melpa) ;; using own fork
-     (cons 'a melpa) ;; org-pivotal requires this
      ;; TODO: add css-comb and web-beautify
      (cons 'header2 melpa)
      (cons 'date-at-point melpa)

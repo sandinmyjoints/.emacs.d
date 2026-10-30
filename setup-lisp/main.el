@@ -176,7 +176,7 @@
   ;; TODO: only use these in modes where it makes sense. Org is not one of
   ;; them. From https://www.reddit.com/r/emacs/comments/e1uyvk/weekly_tipstricketc_thread/f93y0qg?utm_source=share&utm_medium=web2x
   ;;
-  ;; I use them in org-pivotal mode because they prevent hard-wrap newlines
+  ;; I used them in org-pivotal mode because they prevent hard-wrap newlines
   ;; from ending up breaking lines in odd places when the tickets are uploaded
   ;; to PT.
   ;;
@@ -1029,29 +1029,6 @@ pasting into other programs."
     (forward-line -1)
     (forward-line -1)
     (forward-line -1)))
-
-(use-package org-pivotal
-  :load-path "elisp/org-pivotal"
-  :config
-  (defun wjb/create-todo-for-story-id (story-id)
-    "Pull a given story and create an org TODO item for it."
-    (interactive "MID: ")
-    (funcall (-compose 'wjb/create-todo-for-story
-                       'org-pivotal-api--fetch-story)
-             "1967621" ;; engage
-             story-id))
-
-  (defun wjb/create-todo-for-story (story)
-    "Create a new todo item for STORY."
-    (progn
-      (call-interactively 'org-return-and-maybe-indent)
-      (let ((todo
-             (format "\n* TODO %s %s - %s"
-                     (s-capitalized-words (alist-get 'story_type story))
-                     (alist-get 'id story)
-                     (alist-get 'name story))))
-        (insert todo))))
-)
 
 
 ;; jira
@@ -2011,13 +1988,7 @@ pasting into other programs."
   (interactive)
   (setq auth-source-netrc-cache '())
 
-  (setq pivotal-api-token
-        (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
-
-        org-pivotal-api-token
-        (cadr (auth-source-user-and-password "api.pivotaltracker.com" "williambert"))
-
-        paradox-github-token
+  (setq paradox-github-token
         (cadr (auth-source-user-and-password "api.github.com" "sandinmyjoints^paradox"))))
 
 ;; TODO(emacs-mac): needed when not using emacs-mac

@@ -34,9 +34,6 @@
 [submodule "elisp/yasnippet-snippets"]
 	path = elisp/yasnippet-snippets
 	url = git@github.com:sandinmyjoints/yasnippet-snippets.git
-[submodule "elisp/org-pivotal"]
-	path = elisp/org-pivotal
-	url = git@github.com:sandinmyjoints/org-pivotal.git
 [submodule "elisp/csvorg"]
 	path = elisp/csvorg
 	url = git@github.com:orgtre/csvorg.git
