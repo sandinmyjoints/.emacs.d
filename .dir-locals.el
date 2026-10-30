@@ -3,5 +3,6 @@
 
 ((nil .
       ((tags-table-list . ())
-       (projectile-indexing-method . hybrid))
+       (projectile-indexing-method . hybrid)
+       (projectile-git-submodule-command . nil))
 ))

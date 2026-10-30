@@ -90,6 +90,7 @@
 ;; so better to use it via dir-locals. However, it keeps bugging me
 ;; about it being a risky variable...
 (setq projectile-git-command "fd . -0")
+(add-to-list 'safe-local-variable-values '(projectile-git-submodule-command))
 
 (defalias 'find-file-in-project 'projectile-find-file-dwim)
 ;;
