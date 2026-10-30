@@ -697,12 +697,6 @@ Returns FILEPATH unchanged if OLD-PREFIX is not a prefix of it."
   ;; these must be integers -- floats turn into zero
   (setq eldoc-box-max-pixel-width #'wjb/eldoc-box-width
         eldoc-box-max-pixel-height #'wjb/eldoc-box-height))
-
-(use-package eldoc-mouse
-  :disabled
-  :load-path "elisp/eldoc-mouse"
-  :hook (eglot-managed-mode . eldoc-mouse-mode))
-
 
 ;; dired
 (use-package all-the-icons

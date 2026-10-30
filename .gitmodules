@@ -43,9 +43,6 @@
 [submodule "elisp/ai-code-interface.el"]
 	path = elisp/ai-code-interface.el
 	url = git@github.com:sandinmyjoints/ai-code-interface.el.git
-[submodule "elisp/eldoc-mouse"]
-	path = elisp/eldoc-mouse
-	url = git@github.com:huangfeiyu/eldoc-mouse.git
 [submodule "elisp/kind-icon"]
 	path = elisp/kind-icon
 	url = git@github.com:jdtsmith/kind-icon.git
