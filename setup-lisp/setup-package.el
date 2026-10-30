@@ -78,10 +78,10 @@
   ;; (defvar elpy '("elpy" . "https://jorgenschaefer.github.io/packages/"))
   ;; (push elpy package-archives)
 
-  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
-               (file-exists-p "~/.emacs.d/elpa/archives/nongnu")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable"))
+  (unless (seq-every-p (lambda (archive)
+                         (file-exists-p (expand-file-name (concat "archives/" (car archive))
+                                                          package-user-dir)))
+                       package-archives)
     (package-refresh-contents)) ;; Network dependency.
 
   (defun packages-install (&rest packages)
