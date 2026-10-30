@@ -103,6 +103,7 @@
      (cons 's melpa-stable)
      (cons 'f melpa-stable)
      (cons 'ht melpa)
+     (cons 'gcmh melpa)
 
      (cons 'exec-path-from-shell melpa-stable)
      (cons 'reveal-in-osx-finder melpa)

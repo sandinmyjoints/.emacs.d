@@ -150,6 +150,11 @@
 
 (require 'setup-package)
 
+(use-package gcmh
+  :diminish
+  :config
+  (gcmh-mode 1))
+
 ;; Lists.
 (use-package dash)
 ;; Strings.

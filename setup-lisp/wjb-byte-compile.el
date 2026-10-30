@@ -36,13 +36,4 @@ clean buffer we're laxer about checking."
   (setq flycheck-idle-change-delay
         (if flycheck-current-errors 0.7 2.0)))
 
-;; Based on:
-;; - https://github.com/lewang/flx#gc-optimization
-;; - http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
-(defun my/minibuffer-setup-hook ()
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(defun my/minibuffer-exit-hook ()
-  (setq gc-cons-threshold wjb/gc-cons-threshold))
-
 (provide 'wjb-byte-compile)

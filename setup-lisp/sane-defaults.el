@@ -366,8 +366,6 @@
 (define-key isearch-mode-map [remap isearch-delete-char] #'isearch-del-char)
 
 (require 'wjb-byte-compile)
-(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
-(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 
 (setq message-log-max t
       suggest-key-bindings nil

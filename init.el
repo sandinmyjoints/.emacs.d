@@ -94,8 +94,6 @@
 
   )
 
-(defvar wjb/gc-cons-threshold (* 2 800000))
-(defvar wjb/gc-timer)
 (setq garbage-collection-messages nil
       load-prefer-newer t)
 
