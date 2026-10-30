@@ -2023,8 +2023,10 @@ pasting into other programs."
   (yas-global-mode))
 
 (use-package yasnippet-snippets
+  :load-path "elisp/yasnippet-snippets"
   :after yasnippet)
 (use-package js-react-redux-yasnippets
+  :load-path "elisp/js-react-redux-yasnippets"
   :after yasnippet)
 
 
@@ -4128,7 +4130,7 @@ is already narrowed."
   )
 
 (use-package ai-code
-  :load-path "elisp/ai-code-interface"
+  :load-path "elisp/ai-code-interface.el"
   :bind (("C-c a" . ai-code-menu))
   :config
   (setq ai-code-github-copilot-cli-program "copilot-sandbox"
