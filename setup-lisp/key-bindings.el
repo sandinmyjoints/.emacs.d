@@ -275,7 +275,7 @@ Also converts full stops to commas."
 ;; (define-key yas-minor-mode-map (kbd "TAB") yas-maybe-expand)
 
 (define-key wjb-map (kbd "/") #'hippie-expand)
-(define-key wjb-map (kbd "<tab>") #'company-complete)
+(define-key wjb-map (kbd "<tab>") #'completion-at-point)
 ;; (define-key wjb-map (kbd "0") #'wjb/switch-to-clock)
 (define-key wjb-map (kbd "W") #'widen)
 (define-key wjb-map (kbd "e n") 'compilation-next-error)
