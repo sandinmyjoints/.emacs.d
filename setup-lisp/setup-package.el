@@ -240,6 +240,7 @@
      (cons 'yarn-mode melpa)
      ;; (cons 'npm-mode melpa) ;; using own fork.
      ;; (cons 'jest-mode melpa) ;; using own fork.
+     (cons 'magit-popup melpa) ;; Used by elisp/emacs-jest.
 
      (cons 'markdown-mode melpa)
      (cons 'markdown-toc melpa)
