@@ -69,6 +69,7 @@
 (add-to-list 'auto-mode-alist '("\\neodarwin-site.erb\\'" . nginx-mode))
 
 (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.json5\\'" . jsonc-mode))
 
 ;; Clojure
 (autoload 'clojure-mode "clojure-mode")
