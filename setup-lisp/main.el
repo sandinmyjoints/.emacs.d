@@ -2708,6 +2708,138 @@ If buffer is not visiting a file, do nothing."
 ;; - in buffers as specified by dir-locals (js, jsx, etc):  run jest-minor-mode so that compile and recompile run jest, but not g
 ;; - in *jest* buffers: run jest-mode. compile and recompile run jest, and g is bound to recompile.
 ;; - in *grep* buffers: nothing jest. g re-runs grep.
+(defconst wjb/js-test-outline--describe-names
+  '("describe" "fdescribe" "xdescribe" "context" "suite"))
+
+(defconst wjb/js-test-outline--regexp
+  (rx symbol-start
+      (group (or "describe" "fdescribe" "xdescribe" "context" "suite"
+                 "it" "fit" "xit" "test" "xtest"))
+      (group (* "." (+ (any alpha))))
+      symbol-end
+      (* (any " \t\n"))))
+
+(defun wjb/js-test-outline--arg-text ()
+  "Return the text of the call argument at point, or nil if there is none."
+  (forward-comment (buffer-size))
+  (let ((start (point)))
+    (if (memq (char-after) '(?\' ?\" ?`))
+        (let (parts)
+          (while (memq (char-after) '(?\' ?\" ?`))
+            (let ((beg (point)))
+              (forward-sexp)
+              (push (buffer-substring-no-properties (1+ beg) (1- (point))) parts))
+            (forward-comment (buffer-size))
+            (when (eq (char-after) ?+)
+              (forward-char)
+              (forward-comment (buffer-size))))
+          (apply #'concat (nreverse parts)))
+      (while (and (not (eobp))
+                  (not (memq (char-after) '(?, ?\))))
+                  (let ((before (point)))
+                    (forward-sexp)
+                    (forward-comment (buffer-size))
+                    (> (point) before))))
+      (unless (= start (point))
+        (string-trim (buffer-substring-no-properties start (point)))))))
+
+(defun wjb/js-test-outline--parse-call (each)
+  "Parse the call arguments at point.
+If EACH, first skip the table argument of a `.each' call.  Return
+\(NAME . END), where END is the end of the call, or nil."
+  (condition-case nil
+      (progn
+        (when each
+          (forward-sexp)
+          (forward-comment (buffer-size)))
+        (when (eq (char-after) ?\()
+          (let* ((open (point))
+                 (name (progn (forward-char) (wjb/js-test-outline--arg-text))))
+            (when name
+              (goto-char open)
+              (cons (replace-regexp-in-string "[ \t\n]+" " " name)
+                    (condition-case nil
+                        (progn (forward-sexp) (point))
+                      (scan-error (point-max))))))))
+    (scan-error nil)))
+
+(defun wjb/js-test-outline--blocks ()
+  "Return the describe/it/test blocks of the current buffer, in order.
+Each block is a list (POS DEPTH DESCRIBE-P CALLEE NAME)."
+  (let ((forward-sexp-function nil)
+        blocks ends)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (while (re-search-forward wjb/js-test-outline--regexp nil t)
+          (let ((beg (match-beginning 0))
+                (base (match-string-no-properties 1))
+                (modifiers (match-string-no-properties 2)))
+            (unless (or (eq (char-before beg) ?.)
+                        (nth 8 (save-excursion (save-match-data (syntax-ppss beg)))))
+              (when-let* ((call (save-excursion
+                                  (wjb/js-test-outline--parse-call
+                                   (string-suffix-p ".each" modifiers)))))
+                (while (and ends (>= beg (car ends)))
+                  (pop ends))
+                (push (list beg (length ends)
+                            (member base wjb/js-test-outline--describe-names)
+                            (concat base modifiers)
+                            (car call))
+                      blocks)
+                (push (cdr call) ends)))))))
+    (nreverse blocks)))
+
+(defun wjb/js-test-outline--candidates ()
+  "Return `consult-location' candidates for the blocks of the current buffer."
+  (consult--forbid-minibuffer)
+  (let ((buffer (current-buffer)))
+    (mapcar
+     (pcase-lambda (`(,pos ,depth ,describe-p ,callee ,name))
+       (let ((line (line-number-at-pos pos)))
+         (consult--location-candidate
+          (concat (make-string (* 2 depth) ?\s)
+                  (propertize callee 'face (if describe-p
+                                               'font-lock-keyword-face
+                                             'font-lock-function-name-face))
+                  " " name)
+          (cons buffer pos) line line
+          'wjb/js-test-outline-depth depth)))
+     (wjb/js-test-outline--blocks))))
+
+(defun wjb/js-test-outline (&optional depth)
+  "Jump to a describe/it/test block in the current buffer.
+Blocks are indented by nesting.  With prefix argument DEPTH, start
+narrowed to blocks at most DEPTH levels deep; narrow later with the
+consult narrowing key followed by a digit."
+  (interactive
+   (list (and current-prefix-arg (prefix-numeric-value current-prefix-arg))))
+  (require 'consult)
+  (let* ((candidates (or (wjb/js-test-outline--candidates)
+                         (user-error "No describe/it/test blocks")))
+         (here (point))
+         (current (car (last (seq-filter
+                              (lambda (cand)
+                                (<= (cdar (get-text-property 0 'consult-location cand))
+                                    here))
+                              candidates)))))
+    (consult--read
+     candidates
+     :prompt "Go to test: "
+     :category 'consult-location
+     :sort nil
+     :require-match t
+     :default current
+     :lookup #'consult--lookup-location
+     :initial-narrow (and depth (+ ?0 (max 1 (min 9 depth))))
+     :narrow (list :predicate (lambda (cand)
+                                (< (get-text-property 0 'wjb/js-test-outline-depth cand)
+                                   (- consult--narrow ?0)))
+                   :keys (mapcar (lambda (c) (cons c (format "Depth %c" c)))
+                                 (number-sequence ?1 ?9)))
+     :state (consult--location-state candidates))))
+
 (use-package jest
   :after (js2-mode exec-path-from-shell)
   :hook ((js2-mode . jest-minor-mode)
@@ -2719,6 +2851,8 @@ If buffer is not visiting a file, do nothing."
          (typescript-mode . jest-minor-mode))
   :load-path "elisp/emacs-jest"
   :bind (
+         :map jest-minor-mode-map
+         ("C-c ," . wjb/js-test-outline)
          :map jest-mode-map
          ([remap compile] . jest-popup)
          ([remap recompile] . jest-repeat)
