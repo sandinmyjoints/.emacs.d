@@ -2524,7 +2524,9 @@ pasting into other programs."
 (use-package yafolding
   :config
   (add-hook 'prog-mode-hook #'yafolding-mode)
-  (add-hook 'nxml-mode-hook #'yafolding-mode))
+  (add-hook 'nxml-mode-hook #'yafolding-mode)
+  (add-hook 'yaml-mode-hook #'yafolding-mode)
+  (add-hook 'yaml-ts-mode-hook #'yafolding-mode))
 
 (use-package vimish-fold
   :disabled
