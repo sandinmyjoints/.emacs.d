@@ -2365,7 +2365,115 @@ pasting into other programs."
     (dolist (fn fns)
       (add-hook 'completion-at-point-functions fn 10 t)))
 
-  (require 'company-dabbrev-code-for-text "company-dabbrev-code-for-text")
+  (defvar wjb/code-symbols-modes '(prog-mode css-mode))
+  (defvar wjb/code-symbols-time-limit 0.3)
+
+  (defun wjb/code-symbols--buffers (include-current)
+    "Return open code buffers, starting with the current one if INCLUDE-CURRENT."
+    (let* ((cur (current-buffer))
+           (others (seq-filter
+                    (lambda (buf)
+                      (and (not (eq buf cur))
+                           (apply #'provided-mode-derived-p
+                                  (buffer-local-value 'major-mode buf)
+                                  wjb/code-symbols-modes)))
+                    (buffer-list))))
+      (if include-current (cons cur others) others)))
+
+  (defun wjb/code-symbols--search (regexp buffers)
+    "Return symbols matching REGEXP in BUFFERS."
+    (let ((case-fold-search t)
+          (deadline (+ (float-time) wjb/code-symbols-time-limit))
+          (seen (make-hash-table :test #'equal)))
+      (catch 'timeout
+        (dolist (buf buffers)
+          (with-current-buffer buf
+            (save-excursion
+              (save-restriction
+                (widen)
+                (goto-char (point-min))
+                (while (re-search-forward regexp nil t)
+                  (puthash (match-string-no-properties 0) t seen)
+                  (when (> (float-time) deadline)
+                    (throw 'timeout nil))))))))
+      (hash-table-keys seen)))
+
+  (defun wjb/code-symbols--capf (include-current)
+    "Complete the symbol at point from code buffers.
+Search the current buffer too if INCLUDE-CURRENT."
+    (when-let* ((bounds (bounds-of-thing-at-point 'symbol)))
+      (let* ((beg (car bounds))
+             (end (cdr bounds))
+             (prefix (buffer-substring-no-properties beg end))
+             (regexp (concat "\\_<" (regexp-quote prefix) "\\(?:\\sw\\|\\s_\\)+\\_>")))
+        (list beg end
+              (wjb/code-symbols--search regexp (wjb/code-symbols--buffers include-current))
+              :annotation-function (lambda (_) " Code")
+              :company-kind (lambda (_) 'text)
+              :exclusive 'no))))
+
+  (defun wjb/code-symbols-capf ()
+    "Complete the symbol at point from the current buffer and open code buffers."
+    (wjb/code-symbols--capf t))
+
+  (defun wjb/code-symbols-other-buffers-capf ()
+    "Complete the symbol at point from open code buffers other than the current one."
+    (wjb/code-symbols--capf nil))
+
+  (defun wjb/buffer-lines--list (buffers)
+    "Return unique trimmed non-blank lines of BUFFERS, skipping the line at point."
+    (let ((cur (current-buffer))
+          (pt (point))
+          (seen (make-hash-table :test #'equal))
+          lines)
+      (dolist (buf buffers)
+        (with-current-buffer buf
+          (save-excursion
+            (save-restriction
+              (widen)
+              (goto-char (point-min))
+              (while (not (eobp))
+                (let ((bol (pos-bol))
+                      (eol (pos-eol)))
+                  (unless (and (eq buf cur) (<= bol pt eol))
+                    (let ((line (string-trim (buffer-substring-no-properties bol eol))))
+                      (unless (or (string-empty-p line) (gethash line seen))
+                        (puthash line t seen)
+                        (push line lines)))))
+                (forward-line 1))))))
+      (nreverse lines)))
+
+  (defun wjb/buffer-lines--capf (buffers)
+    "Complete the current line, from its indentation to point, with lines from BUFFERS."
+    (let* ((end (point))
+           (beg (save-excursion
+                  (beginning-of-line)
+                  (skip-chars-forward " \t" end)
+                  (point))))
+      (when (< beg end)
+        (list beg end
+              (wjb/buffer-lines--list buffers)
+              :display-sort-function #'identity
+              :cycle-sort-function #'identity
+              :exclusive 'no))))
+
+  (defun wjb/complete-line ()
+    "Complete the current line with another line from this buffer."
+    (interactive)
+    (cape-interactive (lambda () (wjb/buffer-lines--capf (list (current-buffer))))))
+
+  (defun wjb/complete-line-same-mode ()
+    "Complete the current line with a line from any buffer in the same major mode."
+    (interactive)
+    (cape-interactive
+     (lambda ()
+       (wjb/buffer-lines--capf
+        (let ((mode major-mode))
+          (seq-filter (lambda (buf) (eq (buffer-local-value 'major-mode buf) mode))
+                      (buffer-list)))))))
+
+  (define-key wjb-map (kbd "l") #'wjb/complete-line-same-mode)
+  (define-key wjb-map (kbd "L") #'wjb/complete-line)
 
   ;; Text-ish modes (Org/Markdown already set some CAPFs; we append gently).
   (defun wjb/cape-text-mode ()
@@ -2379,7 +2487,7 @@ pasting into other programs."
      (cape-capf-super
       (cape-capf-predicate #'cape-dabbrev
                            (lambda (cand) (not (string-match-p "[.@-]\\'" cand))))
-      (cape-company-to-capf #'company-dabbrev-code-for-text)
+      #'wjb/code-symbols-other-buffers-capf
       #'cape-abbrev)
      ))
   (add-hook 'text-mode-hook #'wjb/cape-text-mode)
@@ -2392,29 +2500,13 @@ pasting into other programs."
     )
   (add-hook 'org-mode-hook #'wjb/cape-org-mode)
 
-  ;; this doesn't really replicate company-dabbrev-code. and the problem with
-  ;; using company-dabbrev-code is that it seems to activate company-mode in
-  ;; java files, which competes with cape. has something to do with lsp.
-
-  ;; (defun my-in-code-context-p (&rest _ignore)
-  ;;   "Non-nil if point is in code (not in string/comment)."
-  ;;   (let ((ppss (syntax-ppss)))
-  ;;     (and (not (nth 3 ppss))   ; string
-  ;;          (not (nth 4 ppss))))) ; comment
-
-  ;; (defalias 'my-cape-dabbrev-code
-  ;;   (cape-wrap-predicate #'cape-dabbrev #'my-in-code-context-p))
-
-  ;; (add-to-list 'completion-at-point-functions #'my-cape-dabbrev-code)
-
   ;; Programming modes: closer to previous company stacked backends.
   (defun wjb/cape-prog-mode ()
     (setq-local corfu-auto-delay 0.2)
     (wjb/append-capfs
      #'cape-keyword
-     #'cape-file)
-    (unless (derived-mode-p 'java-ts-mode)
-      (wjb/append-capfs (cape-company-to-capf #'company-dabbrev-code))))
+     #'cape-file
+     #'wjb/code-symbols-capf))
   (add-hook 'prog-mode-hook #'wjb/cape-prog-mode)
 
   ;; Match previous per-mode min prefix (company-minimum-prefix-length 3 in prog).
@@ -2423,11 +2515,6 @@ pasting into other programs."
   (add-hook 'prog-mode-hook #'wjb/set-corfu-minimum-prefix-length)
   (add-hook 'restclient-mode-hook #'wjb/set-corfu-minimum-prefix-length)
   :config
-  (setq company-dabbrev-code-ignore-case t
-        company-dabbrev-code-other-buffers 'code
-        company-dabbrev-code-time-limit 0.3
-        company-dabbrev-code-everywhere t)
-
   (defvar wjb/cape-dabbrev-excluded-modes
     '(vterm-mode ghostel-mode magit-process-mode compilation-mode so-long-mode treemacs-mode))
 
