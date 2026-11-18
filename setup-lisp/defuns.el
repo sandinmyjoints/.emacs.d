@@ -1047,8 +1047,8 @@ current buffer's, reload dir-locals."
   (let ((dir default-directory))
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer
-        (when (equal default-directory dir))
-        (wjb/reload-dir-locals-for-current-buffer)))))
+        (when (equal default-directory dir)
+          (wjb/reload-dir-locals-for-current-buffer))))))
 
 (global-set-key (kbd "H-r") #'wjb/reload-dir-locals-for-all-buffer-in-this-directory)
 
