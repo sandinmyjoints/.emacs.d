@@ -3533,8 +3533,17 @@ in which a window's buffer or the selected window changed."
 
 ;; (require 'setup-lsp)
 
+(defvar wjb/lsp-skip-files '("~/.claude.json"))
+
+(defun wjb/lsp-deferred-maybe ()
+  "Run `lsp-deferred' unless the buffer visits a file in `wjb/lsp-skip-files'."
+  (unless (and buffer-file-name
+               (member (file-truename buffer-file-name)
+                       (mapcar #'file-truename wjb/lsp-skip-files)))
+    (lsp-deferred)))
+
 (use-package lsp-mode
-  :hook ((json-mode json-ts-mode java-ts-mode) . lsp-deferred)
+  :hook ((json-mode json-ts-mode java-ts-mode) . wjb/lsp-deferred-maybe)
   :init
   ;; `C-c l' is bound to `lsp-transient' (below), not the nested
   ;; `lsp-command-map'. nil stops lsp from binding the command map at all.
